@@ -68,41 +68,7 @@ class WC_Gateway_TWINT extends WC_Payment_Gateway
 
         // Actions.
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
-
-//        add_action('admin_menu', array($this, 'registerMenuItem'));
     }
-
-
-//    public function registerMenuItem(): void
-//    {
-//        if (!current_user_can('manage_options')) {
-//            return;
-//        }
-//
-//        $this->page_hook_setting = add_menu_page(
-//            esc_html__('Twint Integration', 'twint-payment-integration'),
-//            esc_html__('Twint Integration', 'twint-payment-integration'),
-//            'manage_options',
-//            'twint-payment-integration-settings',
-//            [$this, 'accessSettingsMenuCallback'],
-//            '',
-//            '30.5'
-//        );
-//    }
-
-//    /**
-//     * @return void
-//     * @throws LoaderError
-//     * @throws RuntimeError
-//     * @throws SyntaxError
-//     */
-//    public function accessSettingsMenuCallback(): void
-//    {
-//        $templateArguments['admin_url'] = admin_url();
-//
-//        $settingsLayout = new SettingsLayoutViewAdapter($templateArguments);
-//        $settingsLayout->render();
-//    }
 
     /**
      * Initialise Gateway Settings Form Fields.
