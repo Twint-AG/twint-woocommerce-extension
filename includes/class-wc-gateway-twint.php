@@ -8,11 +8,6 @@
  */
 
 // Exit if accessed directly.
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
-use TWINT\Views\SettingsLayoutViewAdapter;
-
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -39,11 +34,6 @@ class WC_Gateway_TWINT extends WC_Payment_Gateway
     public $id = 'twint';
 
     /**
-     * @var string
-     */
-    private string $page_hook_setting;
-
-    /**
      * Constructor for the gateway.
      */
     public function __construct()
@@ -51,7 +41,15 @@ class WC_Gateway_TWINT extends WC_Payment_Gateway
         $this->icon = apply_filters('woocommerce_twint_gateway_icon', '');
         $this->has_fields = false;
         $this->supports = array(
+            'pre-orders',
             'products',
+            'subscriptions',
+            'subscription_cancellation',
+            'subscription_suspension',
+            'subscription_reactivation',
+            'subscription_amount_changes',
+            'subscription_date_changes',
+            'multiple_subscriptions'
         );
 
         $this->method_title = _x('TWINT Payment', 'TWINT payment method', 'woocommerce-gateway-twint');

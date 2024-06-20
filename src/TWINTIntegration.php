@@ -28,7 +28,6 @@ class TWINTIntegration
         add_action('admin_enqueue_scripts', [$this, 'enqueueScripts'], 20);
 
         add_action('admin_menu', [$this, 'registerMenuItem']);
-
     }
 
     /**
