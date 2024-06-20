@@ -1,0 +1,27 @@
+{
+  "name": "twint/woocommerce-gateway-twint",
+  "description": "TBD",
+  "version": "0.0.1",
+  "type": "wordpress-plugin",
+  "license": "GNU General Public License v3.0",
+  "autoload": {
+    "files": [
+      "src/App/Helpers/helpers.php"
+    ],
+    "psr-4": {
+      "TWINT\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "NFQ GROUP",
+      "email": "tuan.nguyenminh@nfq.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "twig/twig": "^1.0",
+    "guzzlehttp/guzzle": "^7.0",
+    "symfony/var-dumper": "^5.4"
+  }
+}

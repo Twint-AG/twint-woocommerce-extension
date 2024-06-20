@@ -1,0 +1,26 @@
+<table class="form-table" role="presentation">
+    <tbody>
+    {% for field in fields %}
+        <tr>
+            <th scope="row">
+                <label for="{{ field.name }}">
+                    {{ field.label }}
+                </label>
+            </th>
+            <td>
+                {% if field.type == 'text' or field.type == 'password' %}
+                    <input name="{{ field.name }}" type="{{ field.type }}" id="{{ field.name }}"
+                           aria-describedby="tagline-description"
+                           value="{{ field.value }}"
+                           placeholder="{{ field.placeholder }}"
+                           class="regular-text">
+                {% elseif field.type == 'file' %}
+                    <input name="{{ field.name }}" type="{{ field.type }}" id="{{ field.name }}"
+                           aria-describedby="tagline-description"
+                           class="regular-text">
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
