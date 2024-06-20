@@ -56,9 +56,7 @@ class WC_TWINT_Payments
      */
     public static function add_gateway(array $gateways): array
     {
-        if (current_user_can('manage_options')) {
-            $gateways[] = 'WC_Gateway_TWINT';
-        }
+        $gateways[] = 'WC_Gateway_TWINT';
         return $gateways;
     }
 

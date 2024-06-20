@@ -30,7 +30,7 @@ final class WC_Gateway_TWINT_Blocks_Support extends AbstractPaymentMethodType
     public function initialize(): void
     {
         $this->settings = get_option('woocommerce_twint_settings', []);
-        $gateways = WC()->payment_gateways->payment_gateways();
+        $gateways = WC()->payment_gateways()->payment_gateways();
         $this->gateway = $gateways[$this->name];
     }
 
