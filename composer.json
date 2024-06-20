@@ -19,9 +19,22 @@
     }
   ],
   "minimum-stability": "dev",
+  "prefer-stable": true,
   "require": {
+    "twint-ch/twint-sdk": "dev-develop",
     "twig/twig": "^1.0",
     "guzzlehttp/guzzle": "^7.0",
     "symfony/var-dumper": "^5.4"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://git.nfq.asia/twint-ag/php-sdk.git"
+    }
+  ],
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true
+    }
   }
 }

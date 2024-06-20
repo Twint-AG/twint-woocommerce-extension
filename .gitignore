@@ -12,11 +12,9 @@ sftp-config.json
 # Grunt
 /node_modules/
 /deploy/
-package-lock.json
 
 # Composer
 /vendor/
-composer.lock
 
 # Sass
 .sass-cache/
