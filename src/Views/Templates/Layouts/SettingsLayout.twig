@@ -8,7 +8,7 @@
             </div>
         {% endif %}
 
-        <form method="post" action="" novalidate="novalidate">
+        <form method="post" action="" novalidate="novalidate" enctype="multipart/form-data">
             <nav class="nav-tab-wrapper woo-nav-tab-wrapper">
                 {% for tab in tabs %}
                     <a href="{{ admin_url }}admin.php?page=twint-payment-integration-settings&tab={{ tab.key }}"
