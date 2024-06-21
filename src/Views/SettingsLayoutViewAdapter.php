@@ -14,7 +14,7 @@ class SettingsLayoutViewAdapter
     private \Twig\Environment $template;
     private array $data;
 
-    const GENERAL = 'general';
+    const CREDENTIALS = 'credentials';
     private CryptoHandler $encryptor;
 
     public function __construct($data = [])
@@ -24,6 +24,7 @@ class SettingsLayoutViewAdapter
         $this->data = $data;
         $this->encryptor = new CryptoHandler('twint');
     }
+
 
     /**
      * @throws SyntaxError
@@ -37,11 +38,17 @@ class SettingsLayoutViewAdapter
         /**
          * Tab data
          */
-        $defaultTab = self::GENERAL;
+        $defaultTab = self::CREDENTIALS;
         $activatedTab = $_GET['tab'] ?? $defaultTab;
         $dataCreation = [];
         if (isset($_POST['submit'])) {
             $dataCreation['merchant_id'] = $_POST['merchant_id'] ?? $this->data['merchant_id'];
+
+            if (!isValidUuid($dataCreation['merchant_id'])) {
+                $this->data['status'] = false;
+                $this->data['error_msg'] = 'Invalid Merchant ID. Must be a valid UUID.';
+                goto RETURN_VIEW;
+            }
 
             $password = $_POST['password'] ?? null;
             $this->data['status'] = true;
@@ -82,11 +89,12 @@ class SettingsLayoutViewAdapter
             // Other options setup here...
         }
 
+        RETURN_VIEW:
         $this->data['tabs'] = $this->getTabsConfig();
         $this->data['activated_tab'] = $activatedTab;
 
         switch ($activatedTab) {
-            case self::GENERAL:
+            case self::CREDENTIALS:
                 $this->data['fields'] = [
                     [
                         'name' => 'merchant_id',
@@ -97,18 +105,18 @@ class SettingsLayoutViewAdapter
                         'value' => $dataCreation['merchant_id'],
                     ],
                     [
-                        'name' => 'password',
-                        'label' => 'Password',
-                        'type' => 'password',
-                        'placeholder' => 'Password',
-                        'help_text' => '',
-                        'value' => '',
-                    ],
-                    [
                         'name' => 'certificate',
                         'label' => 'Certificate',
                         'type' => 'file',
                         'multiple' => false,
+                        'help_text' => '',
+                        'value' => '',
+                    ],
+                    [
+                        'name' => 'password',
+                        'label' => 'Certificate Password',
+                        'type' => 'password',
+                        'placeholder' => 'Password',
                         'help_text' => '',
                         'value' => '',
                     ],
@@ -133,8 +141,8 @@ class SettingsLayoutViewAdapter
     {
         return [
             [
-                'key' => self::GENERAL,
-                'title' => esc_html__('General', 'twint-payment-integration'),
+                'key' => self::CREDENTIALS,
+                'title' => esc_html__('Credentials', 'twint-payment-integration'),
             ],
         ];
     }
