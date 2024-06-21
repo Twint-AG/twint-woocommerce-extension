@@ -6,6 +6,10 @@
             <div class="notice notice-success is-dismissible">
                 <p>All settings have been saved.</p>
             </div>
+        {% elseif status is defined and status == false %}
+            <div class="notice notice-error is-dismissible">
+                <p>{{ error_msg }}</p>
+            </div>
         {% endif %}
 
         <form method="post" action="" novalidate="novalidate" enctype="multipart/form-data">

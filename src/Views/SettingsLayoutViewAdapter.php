@@ -44,8 +44,14 @@ class SettingsLayoutViewAdapter
             $dataCreation['merchant_id'] = $_POST['merchant_id'] ?? $this->data['merchant_id'];
 
             $password = $_POST['password'] ?? null;
+            $this->data['status'] = true;
 
-            if (!empty($_FILES['certificate'])) {
+            if (!empty($password) && empty($_FILES['certificate']['tmp_name'])) {
+                $this->data['status'] = false;
+                $this->data['error_msg'] = 'You need to provide P12 certificate file.';
+            }
+
+            if (!empty($_FILES['certificate']['tmp_name'])) {
                 $file = $_FILES['certificate'];
                 $content = file_get_contents($file['tmp_name']);
 
@@ -63,13 +69,15 @@ class SettingsLayoutViewAdapter
                         'merchant_id' => $dataCreation['merchant_id'],
                     ];
 
-                    update_option('plugin_twint_settings', serialize($validatedCertificate));
+                    update_option('plugin_twint_settings_certificate', $validatedCertificate['certificate']);
+                    update_option('plugin_twint_settings_merchant_id', $validatedCertificate['merchant_id']);
+                } else {
+                    $this->data['status'] = false;
+                    $this->data['error_msg'] = 'Invalid certificate or password.';
                 }
             }
         } else {
-            $validatedCertificate = get_option('plugin_twint_settings');
-            $validatedCertificate = unserialize($validatedCertificate);
-            $dataCreation['merchant_id'] = $validatedCertificate['merchant_id'];
+            $dataCreation['merchant_id'] = get_option('plugin_twint_settings_merchant_id');
 
             // Other options setup here...
         }
