@@ -7,6 +7,7 @@ use TWINT\Views\TwigTemplateEngine;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
+use WC_TWINT_Payments;
 
 defined('ABSPATH') || exit;
 
@@ -63,10 +64,12 @@ class TWINTIntegration
 
     public function enqueueScripts(): void
     {
+        wp_enqueue_script('js-woocommerce-gateway-twint', WC_TWINT_Payments::plugin_url() . '/assets/js/twint-payment-integration.js', ['jquery']);
     }
 
     public function enqueueStyles(): void
     {
+        wp_enqueue_style('css-woocommerce-gateway-twint', WC_TWINT_Payments::plugin_url() . '/assets/css/style.css');
     }
 
     public static function GET_WOOCOMMERCE_VERSION(): string
