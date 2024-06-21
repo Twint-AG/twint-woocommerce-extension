@@ -5,6 +5,9 @@ namespace TWINT\Views;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
+use Twint\Sdk\Certificate\Pkcs12Certificate;
+use TWINT\Utility\Twint\CertificateHandler;
+use TWINT\Utility\Twint\CryptoHandler;
 
 class SettingsLayoutViewAdapter
 {
@@ -12,12 +15,14 @@ class SettingsLayoutViewAdapter
     private array $data;
 
     const GENERAL = 'general';
+    private CryptoHandler $encryptor;
 
     public function __construct($data = [])
     {
         global $TWIG_TEMPLATE_ENGINE;
         $this->template = $TWIG_TEMPLATE_ENGINE;
         $this->data = $data;
+        $this->encryptor = new CryptoHandler('twint');
     }
 
     /**
@@ -34,14 +39,39 @@ class SettingsLayoutViewAdapter
          */
         $defaultTab = self::GENERAL;
         $activatedTab = $_GET['tab'] ?? $defaultTab;
+        $dataCreation = [];
         if (isset($_POST['submit'])) {
-            $dataCreation['merchant_id'] = isset($_POST['merchant_id'])
-                ? json_encode($_POST['merchant_id'])
-                : $this->data['merchant_id'];
+            $dataCreation['merchant_id'] = $_POST['merchant_id'] ?? $this->data['merchant_id'];
 
-            $dataCreation['password'] = isset($_POST['password'])
-                ? json_encode($_POST['password'])
-                : $this->data['password'];
+            $password = $_POST['password'] ?? null;
+
+            if (!empty($_FILES['certificate'])) {
+                $file = $_FILES['certificate'];
+                $content = file_get_contents($file['tmp_name']);
+
+                $extractor = new CertificateHandler();
+                $certificate = $extractor->read((string)$content, $password);
+
+                if ($certificate instanceof Pkcs12Certificate) {
+                    $validatedCertificate = [
+                        'certificate' => $this->encryptor->encrypt($certificate->content()),
+                        'passphrase' => $this->encryptor->encrypt($certificate->passphrase()),
+                    ];
+
+                    $validatedCertificate = [
+                        'certificate' => $this->encryptor->encrypt($validatedCertificate['certificate']),
+                        'merchant_id' => $dataCreation['merchant_id'],
+                    ];
+
+                    update_option('plugin_twint_settings', serialize($validatedCertificate));
+                }
+            }
+        } else {
+            $validatedCertificate = get_option('plugin_twint_settings');
+            $validatedCertificate = unserialize($validatedCertificate);
+            $dataCreation['merchant_id'] = $validatedCertificate['merchant_id'];
+
+            // Other options setup here...
         }
 
         $this->data['tabs'] = $this->getTabsConfig();
@@ -56,7 +86,7 @@ class SettingsLayoutViewAdapter
                         'placeholder' => 'Merchant ID',
                         'type' => 'text',
                         'help_text' => '',
-                        'value' => '',
+                        'value' => $dataCreation['merchant_id'],
                     ],
                     [
                         'name' => 'password',

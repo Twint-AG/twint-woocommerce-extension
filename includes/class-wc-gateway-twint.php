@@ -118,12 +118,16 @@ class WC_Gateway_TWINT extends WC_Payment_Gateway
      */
     public function process_payment($order_id): array
     {
-
         $payment_result = $this->get_option('result');
         $order = wc_get_order($order_id);
 
         if ('success' === $payment_result) {
             $order->payment_complete();
+
+            /**
+             * Need to reduce stock levels from Order
+             */
+            wc_reduce_stock_levels($order_id);
 
             // Remove cart
             WC()->cart->empty_cart();
