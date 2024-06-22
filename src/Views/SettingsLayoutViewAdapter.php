@@ -5,8 +5,8 @@ namespace TWINT\Views;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
-use TWINT\Factory\ClientBuilder;
 use Twint\Sdk\Certificate\Pkcs12Certificate;
+use TWINT\Services\SettingService;
 use TWINT\Utility\Twint\CertificateHandler;
 use TWINT\Utility\Twint\CryptoHandler;
 
@@ -23,9 +23,8 @@ class SettingsLayoutViewAdapter
         global $TWIG_TEMPLATE_ENGINE;
         $this->template = $TWIG_TEMPLATE_ENGINE;
         $this->data = $data;
-        $this->encryptor = new CryptoHandler('twint');
+        $this->encryptor = new CryptoHandler();
     }
-
 
     /**
      * @throws SyntaxError
@@ -72,15 +71,15 @@ class SettingsLayoutViewAdapter
                         'passphrase' => $this->encryptor->encrypt($certificate->passphrase()),
                     ];
 
-                    update_option('plugin_twint_settings_certificate', $validatedCertificate);
-                    update_option('plugin_twint_settings_merchant_id', $dataCreation['merchant_id']);
+                    update_option(SettingService::CERTIFICATE, $validatedCertificate);
+                    update_option(SettingService::MERCHANT_ID, $dataCreation['merchant_id']);
                 } else {
                     $this->data['status'] = false;
                     $this->data['error_msg'] = 'Invalid certificate or password.';
                 }
             }
         } else {
-            $dataCreation['merchant_id'] = get_option('plugin_twint_settings_merchant_id');
+            $dataCreation['merchant_id'] = get_option(SettingService::MERCHANT_ID);
 
             // Other options setup here...
         }

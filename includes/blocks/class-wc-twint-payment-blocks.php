@@ -1,6 +1,7 @@
 <?php
 
 use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
+use TWINT\Services\SettingService;
 
 /**
  * TWINT Payment Blocks integration
@@ -29,7 +30,7 @@ final class WC_Gateway_TWINT_Blocks_Support extends AbstractPaymentMethodType
      */
     public function initialize(): void
     {
-        $this->settings = get_option('woocommerce_twint_settings', []);
+        $this->settings = get_option(SettingService::KEY_PRIMARY_SETTING, []);
         $gateways = WC()->payment_gateways()->payment_gateways();
         $this->gateway = $gateways[$this->name];
     }
