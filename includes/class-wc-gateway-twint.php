@@ -73,28 +73,36 @@ class WC_Gateway_TWINT extends WC_Payment_Gateway
      */
     public function init_form_fields(): void
     {
-        $this->form_fields = array(
-            'enabled' => array(
+        $this->form_fields = [
+            'enabled' => [
                 'title' => __('Enable/Disable', 'woocommerce-gateway-twint'),
                 'type' => 'checkbox',
                 'label' => __('Enable TWINT Payment', 'woocommerce-gateway-twint'),
                 'default' => 'yes',
-            ),
-            'title' => array(
+            ],
+            'title' => [
                 'title' => __('Title', 'woocommerce-gateway-twint'),
                 'type' => 'text',
                 'description' => __('This controls the title which the user sees during checkout.', 'woocommerce-gateway-twint'),
                 'default' => _x('TWINT Payment', 'TWINT payment method', 'woocommerce-gateway-twint'),
                 'desc_tip' => true,
-            ),
-            'description' => array(
+            ],
+            'description' => [
                 'title' => __('Description', 'woocommerce-gateway-twint'),
                 'type' => 'textarea',
                 'description' => __('Payment method description that the customer will see on your checkout.', 'woocommerce-gateway-twint'),
                 'default' => __('TWINT Woocommerce Payment Method is a secure and user-friendly plugin that allows Swiss online merchants to accept payments via TWINT, a popular mobile payment solution in Switzerland.', 'woocommerce-gateway-twint'),
                 'desc_tip' => true,
-            ),
-            'result' => array(
+            ],
+            'testmode' => [
+                'title' => 'Test mode',
+                'label' => 'Enable Test Mode',
+                'type' => 'checkbox',
+                'description' => 'Place the payment gateway in test mode using Sandbox/Test mode.',
+                'default' => 'yes',
+                'desc_tip' => true,
+            ],
+            'result' => [
                 'title' => __('Payment result', 'woocommerce-gateway-twint'),
                 'desc' => __('Determine if order payments are successful when using this gateway.', 'woocommerce-gateway-twint'),
                 'id' => 'woo_twint_payment_result',
@@ -105,8 +113,8 @@ class WC_Gateway_TWINT extends WC_Payment_Gateway
                 ),
                 'default' => 'success',
                 'desc_tip' => true,
-            )
-        );
+            ],
+        ];
     }
 
     /**

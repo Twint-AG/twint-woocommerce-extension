@@ -15,9 +15,11 @@
                            placeholder="{{ field.placeholder }}"
                            class="regular-text">
                 {% elseif field.type == 'file' %}
-                    <input name="{{ field.name }}" type="{{ field.type }}" id="{{ field.name }}"
-                           aria-describedby="tagline-description"
-                           class="regular-text">
+                    <input id="{{ field.name }}"
+                           class="twint-file-upload"
+                           name="{{ field.name }}"
+                           type="{{ field.type }}"
+                           placeholder="Drag and drop file here" />
                 {% endif %}
             </td>
         </tr>
