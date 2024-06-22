@@ -4,12 +4,16 @@ namespace TWINT\Services;
 
 class SettingService
 {
+    const KEY_PRIMARY_SETTING = 'woocommerce_twint_settings';
+    const MERCHANT_ID = 'plugin_twint_settings_merchant_id';
+    const CERTIFICATE = 'plugin_twint_settings_certificate';
+
     /**
      * @return bool
      */
     public function isTestMode(): bool
     {
-        $settings = get_option('woocommerce_twint_settings');
+        $settings = get_option(self::KEY_PRIMARY_SETTING);
         return $settings['testmode'] === 'yes';
     }
 
@@ -18,7 +22,7 @@ class SettingService
      */
     public function getMerchantId(): ?string
     {
-        return get_option('plugin_twint_settings_merchant_id', null);
+        return get_option(self::MERCHANT_ID, null);
     }
 
     /**
@@ -26,6 +30,6 @@ class SettingService
      */
     public function getCertificate(): array
     {
-        return get_option('plugin_twint_settings_certificate', []);
+        return get_option(self::CERTIFICATE, []);
     }
 }
