@@ -19,7 +19,13 @@
                            class="twint-file-upload"
                            name="{{ field.name }}"
                            type="{{ field.type }}"
-                           placeholder="Drag and drop file here" />
+                           placeholder="Drag and drop file here"/>
+                {% endif %}
+
+                {% if field.help_text != '' %}
+                    <div style="margin-top: 5px;">
+                        <small class="text-small"><i>{{ field.help_text }}</i></small>
+                    </div>
                 {% endif %}
             </td>
         </tr>

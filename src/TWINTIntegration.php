@@ -2,12 +2,19 @@
 
 namespace TWINT;
 
+use TWINT\Abstract\ServiceProvider\DatabaseServiceProvider;
+use TWINT\Factory\ClientBuilder;
+use TWINT\MetaBox\TwintApiResponseMeta;
+use Twint\Sdk\Value\Money;
+use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
+use TWINT\Services\PaymentService;
 use TWINT\Views\SettingsLayoutViewAdapter;
 use TWINT\Views\TwigTemplateEngine;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use WC_TWINT_Payments;
+use Exception;
 
 defined('ABSPATH') || exit;
 
@@ -17,7 +24,15 @@ defined('ABSPATH') || exit;
  */
 class TWINTIntegration
 {
+    /**
+     * @var string
+     */
     protected string $page_hook_setting;
+
+    /**
+     * @var PaymentService
+     */
+    public PaymentService $paymentService;
 
     /**
      * Class constructor.
@@ -29,6 +44,51 @@ class TWINTIntegration
         add_action('admin_enqueue_scripts', [$this, 'enqueueScripts'], 20);
 
         add_action('admin_menu', [$this, 'registerMenuItem']);
+        add_action('woocommerce_order_status_processing', [$this, 'wooOrderStatusProcessing'], 10, 6);
+
+        add_filter('woocommerce_locate_template', [$this, 'wooPluginTemplate'], 10, 3);
+
+        new TwintApiResponseMeta();
+        $this->paymentService = new PaymentService();
+    }
+
+    public function wooPluginTemplate($template, $template_name, $template_path)
+    {
+        global $woocommerce;
+        $_template = $template;
+        if (!$template_path) {
+            $template_path = $woocommerce->template_url;
+        }
+
+        $plugin_path = WC_TWINT_Payments::plugin_abspath() . '/template/woocommerce/';
+
+        // Look within passed path within the theme - this is priority
+        $template = locate_template(
+            array(
+                $template_path . $template_name,
+                $template_name
+            )
+        );
+
+        if (!$template && file_exists($plugin_path . $template_name)) {
+            $template = $plugin_path . $template_name;
+        }
+
+        if (!$template) {
+            $template = $_template;
+        }
+
+        return $template;
+    }
+
+    public function wooOrderStatusProcessing($orderId): void
+    {
+        $order = wc_get_order($orderId);
+
+        if ($order->get_payment_method() === 'twint') {
+            $order->update_status('wc-pending');
+            $this->paymentService->createOrder($order);
+        }
     }
 
     /**
@@ -72,22 +132,41 @@ class TWINTIntegration
         wp_enqueue_style('css-woocommerce-gateway-twint', WC_TWINT_Payments::plugin_url() . '/assets/css/style.css');
     }
 
-    public static function GET_WOOCOMMERCE_VERSION(): string
-    {
-        if (!function_exists('get_plugins')) {
-            require_once(ABSPATH . 'wp-admin/includes/plugin.php');
-        }
-
-        $pluginFolder = get_plugins('/' . 'woocommerce');
-        $pluginFile = 'woocommerce.php';
-
-        return $pluginFolder[$pluginFile]['Version'] ?? 'NULL';
-    }
-
     public function adminPluginSettingsLink($links)
     {
         $settings_link = '<a href="' . esc_url('admin.php?page=twint-payment-integration-settings') . '">' . __('Settings', 'woocommerce-gateway-twint') . '</a>';
         array_unshift($links, $settings_link);
         return $links;
+    }
+
+    /**
+     * STATIC METHODS
+     */
+    public static function INSTALL(): void
+    {
+        self::CREATE_DB();
+    }
+
+    public static function UNINSTALL(): void
+    {
+        /**
+         * TODO:
+         * Do we need to remove the table when deactivating plugin.
+         */
+        global $wpdb;
+        global $table_prefix;
+        $tableName = $table_prefix . "twint_transactions_log";
+
+        $wpdb->query("DROP TABLE IF EXISTS " . $tableName);
+    }
+
+    public static function CREATE_DB(): void
+    {
+        $databaseServiceProvider = DatabaseServiceProvider::GET_INSTANCE();
+
+        $resultTransactionsLogTable = $databaseServiceProvider->checkSettingsTableExist('twint_transactions_log');
+        if (!$resultTransactionsLogTable) {
+            $databaseServiceProvider->createTwintTransactionsLogTable();
+        }
     }
 }

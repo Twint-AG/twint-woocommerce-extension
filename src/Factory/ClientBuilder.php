@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TWINT\Factory;
 
 use Soap\Engine\Transport;
+use SoapClient;
 use Throwable;
 use TWINT\Exception\InvalidConfigException;
 use Twint\Sdk\Certificate\CertificateContainer;

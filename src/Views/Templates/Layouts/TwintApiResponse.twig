@@ -1,0 +1,35 @@
+<table class="content-table">
+    <thead>
+    <tr>
+        <th>Order ID</th>
+        <th>API Method</th>
+        <th>Order Status</th>
+        <th>Created At</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in logs %}
+        <tr>
+            <td>{{ item.order_id }}</td>
+            <td>API</td>
+            <td>{{ item.order_status }}</td>
+            <td>{{ item.created_at|date('Y-m-d') }}</td>
+            <td>
+                <a href="#" class="button button-small button-primary js_view_details"
+                   data-record-id="{{ item.record_id }}">
+                    View Details
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+<div class="modal twint-modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Hello, I am a modal!</h2>
+    </div>
+</div>
