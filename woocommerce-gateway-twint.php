@@ -39,13 +39,16 @@ class WC_TWINT_Payments
         add_action('plugins_loaded', array(__CLASS__, 'includes'), 0);
 
         // Make the TWINT Payment gateway available to WC.
-        add_filter('woocommerce_payment_gateways', array(__CLASS__, 'add_gateway'));
+        add_filter('woocommerce_payment_gateways', array(__CLASS__, 'addGateway'));
 
         // Registers WooCommerce Blocks integration.
         add_action('woocommerce_blocks_loaded', array(__CLASS__, 'woocommerce_gateway_twint_woocommerce_block_support'));
 
         $instance = new \TWINT\TWINTIntegration();
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), array($instance, 'adminPluginSettingsLink'));
+
+        register_activation_hook(__FILE__, [\TWINT\TWINTIntegration::class, 'INSTALL']);
+        register_deactivation_hook(__FILE__, [\TWINT\TWINTIntegration::class, 'UNINSTALL']);
     }
 
     /**
@@ -54,7 +57,7 @@ class WC_TWINT_Payments
      * @param array $gateways
      * @return array
      */
-    public static function add_gateway(array $gateways): array
+    public static function addGateway(array $gateways): array
     {
         $gateways[] = 'WC_Gateway_TWINT';
         return $gateways;

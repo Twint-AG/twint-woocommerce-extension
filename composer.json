@@ -22,9 +22,9 @@
   "prefer-stable": true,
   "require": {
     "twint-ch/twint-sdk": "dev-develop",
-    "twig/twig": "^1.0",
     "guzzlehttp/guzzle": "^7.0",
-    "symfony/var-dumper": "^5.4"
+    "twig/twig": "^3.10",
+    "symfony/var-dumper": "^7.1"
   },
   "repositories": [
     {

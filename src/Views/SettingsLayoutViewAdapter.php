@@ -5,7 +5,13 @@ namespace TWINT\Views;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
+use TWINT\Factory\ClientBuilder;
 use Twint\Sdk\Certificate\Pkcs12Certificate;
+use Twint\Sdk\Value\Money;
+use Twint\Sdk\Value\OrderId;
+use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
+use Twint\Sdk\Value\Uuid;
+use TWINT\Services\PaymentService;
 use TWINT\Services\SettingService;
 use TWINT\Utility\Twint\CertificateHandler;
 use TWINT\Utility\Twint\CryptoHandler;
@@ -35,6 +41,18 @@ class SettingsLayoutViewAdapter
     {
         $template = $this->template->load('Layouts/SettingsLayout.twig');
 
+//        $orderId = 34;
+//        $order = wc_get_order($orderId);
+//        $paymentService = new PaymentService();
+//        $paymentService->createOrder($order);
+//        $twintApiResponse = json_decode($order->get_meta('twint_api_response'), true);
+//
+//        $client = new ClientBuilder();
+//        $client = $client->build();
+//        dd($client->flushInvocations()[0]->arguments());
+//
+//        $twintOrder = $client->monitorOrder(new OrderId(new Uuid($twintApiResponse['id'])));
+//        dd($twintOrder);
         /**
          * Tab data
          */
@@ -104,7 +122,7 @@ class SettingsLayoutViewAdapter
                         'label' => 'Certificate',
                         'type' => 'file',
                         'multiple' => false,
-                        'help_text' => '',
+                        'help_text' => 'Enter the certificate password for the TWINT merchant certificate.',
                         'value' => '',
                     ],
                     [
@@ -112,7 +130,7 @@ class SettingsLayoutViewAdapter
                         'label' => 'Certificate Password',
                         'type' => 'password',
                         'placeholder' => 'Password',
-                        'help_text' => '',
+                        'help_text' => 'Please enter the password for the certificate.',
                         'value' => '',
                     ],
                 ];

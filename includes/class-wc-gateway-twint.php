@@ -42,6 +42,7 @@ class WC_Gateway_TWINT extends WC_Payment_Gateway
         $this->has_fields = false;
         $this->supports = array(
             'pre-orders',
+            'refunds',
             'products',
             'subscriptions',
             'subscription_cancellation',
@@ -98,7 +99,7 @@ class WC_Gateway_TWINT extends WC_Payment_Gateway
                 'title' => 'Test mode',
                 'label' => 'Enable Test Mode',
                 'type' => 'checkbox',
-                'description' => 'Place the payment gateway in test mode using Sandbox/Test mode.',
+                'description' => 'Turning on test mode will use the TWINT PAT environment. PAT stands for Production Acceptance Test and allows you to test your TWINT integration on an environment closeley resembling the production environment without actually charging a TWINT account.',
                 'default' => 'yes',
                 'desc_tip' => true,
             ],
@@ -150,5 +151,27 @@ class WC_Gateway_TWINT extends WC_Payment_Gateway
             $order->update_status('failed', $message);
             throw new Exception($message);
         }
+    }
+
+    /**
+     * Process refund.
+     *
+     * If the gateway declares 'refunds' support, this will allow it to refund.
+     * a passed in amount.
+     *
+     * @param int $order_id Order ID.
+     * @param float|null $amount Refund amount.
+     * @param string $reason Refund reason.
+     * @return bool|\WP_Error True or false based on success, or a WP_Error object.
+     */
+    public function process_refund($order_id, $amount = null, $reason = '')
+    {
+        $order = wc_get_order($order_id);
+
+        if (!$this->can_refund_order($order)) {
+            return new WP_Error('error', __('Refund failed.', 'woocommerce'));
+        }
+
+        // TODO Implement refund feature
     }
 }
