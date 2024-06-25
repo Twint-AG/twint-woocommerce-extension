@@ -1,7 +1,7 @@
 <?php
 
 use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
-use TWINT\Woo\Services\SettingService;
+use Twint\Woo\Services\SettingService;
 
 /**
  * Twint Payment Blocks integration

@@ -18,7 +18,7 @@ use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\MerchantId;
 use Twint\Sdk\Value\Version;
 use Twint\Woo\Exception\InvalidConfigException;
-use TWINT\Woo\Services\SettingService;
+use Twint\Woo\Services\SettingService;
 use Twint\Woo\Utility\Twint\CryptoHandler;
 
 class ClientBuilder

@@ -5,7 +5,7 @@ namespace Twint\Woo\MetaBox;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
-use TWINT\Woo\Services\TransactionLogService;
+use Twint\Woo\Services\TransactionLogService;
 
 class TwintApiResponseMeta
 {

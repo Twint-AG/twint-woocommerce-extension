@@ -6,7 +6,7 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twint\Sdk\Certificate\Pkcs12Certificate;
-use TWINT\Woo\Services\SettingService;
+use Twint\Woo\Services\SettingService;
 use Twint\Woo\Utility\Twint\CertificateHandler;
 use Twint\Woo\Utility\Twint\CryptoHandler;
 
