@@ -2,7 +2,7 @@
 /**
  * Plugin Name: TBU - Twint Payment
  * Plugin URI: https://www.nfq-asia.com/
- * Description: TWINT Woocommerce Payment Method is a secure and user-friendly plugin that allows Swiss online merchants to accept payments via TWINT, a popular mobile payment solution in Switzerland.
+ * Description: Twint Woocommerce Payment Method is a secure and user-friendly plugin that allows Swiss online merchants to accept payments via Twint, a popular mobile payment solution in Switzerland.
  * Version: 0.0.1
  * Author: NFQ GROUP
  * Author URI: https://www.nfq-asia.com/
@@ -24,42 +24,42 @@ if (!defined('ABSPATH')) {
 require __DIR__ . '/vendor/autoload.php';
 
 /**
- * WC TWINT Payment gateway plugin class.
+ * WC Twint Payment gateway plugin class.
  *
- * @class WC_TWINT_Payments
+ * @class WC_Twint_Payments
  */
-class WC_TWINT_Payments
+class WC_Twint_Payments
 {
     /**
      * Plugin bootstrapping.
      */
     public static function init(): void
     {
-        // TWINT Payments gateway class.
+        // Twint Payments gateway class.
         add_action('plugins_loaded', array(__CLASS__, 'includes'), 0);
 
-        // Make the TWINT Payment gateway available to WC.
+        // Make the Twint Payment gateway available to WC.
         add_filter('woocommerce_payment_gateways', array(__CLASS__, 'addGateway'));
 
         // Registers WooCommerce Blocks integration.
         add_action('woocommerce_blocks_loaded', array(__CLASS__, 'woocommerce_gateway_twint_woocommerce_block_support'));
 
-        $instance = new \TWINT\TWINTIntegration();
+        $instance = new \Twint\Woo\TwintIntegration();
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), array($instance, 'adminPluginSettingsLink'));
 
-        register_activation_hook(__FILE__, [\TWINT\TWINTIntegration::class, 'INSTALL']);
-        register_deactivation_hook(__FILE__, [\TWINT\TWINTIntegration::class, 'UNINSTALL']);
+        register_activation_hook(__FILE__, [\Twint\Woo\TwintIntegration::class, 'INSTALL']);
+        register_deactivation_hook(__FILE__, [\Twint\Woo\TwintIntegration::class, 'UNINSTALL']);
     }
 
     /**
-     * Add the TWINT Payment gateway to the list of available gateways.
+     * Add the Twint Payment gateway to the list of available gateways.
      *
      * @param array $gateways
      * @return array
      */
     public static function addGateway(array $gateways): array
     {
-        $gateways[] = 'WC_Gateway_TWINT';
+        $gateways[] = 'WC_Gateway_Twint';
         return $gateways;
     }
 
@@ -91,7 +91,7 @@ class WC_TWINT_Payments
             return;
         }
 
-        // Make the WC_Gateway_TWINT class available.
+        // Make the WC_Gateway_Twint class available.
         if (class_exists('WC_Payment_Gateway')) {
             require_once 'includes/class-wc-gateway-twint.php';
         }
@@ -128,11 +128,32 @@ class WC_TWINT_Payments
             add_action(
                 'woocommerce_blocks_payment_method_type_registration',
                 function (Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry) {
-                    $payment_method_registry->register(new WC_Gateway_TWINT_Blocks_Support());
+                    $payment_method_registry->register(new WC_Gateway_Twint_Blocks_Support());
                 }
             );
         }
     }
 }
 
-WC_TWINT_Payments::init();
+//add_action('plugins_loaded', function () {
+//    if (!class_exists(\Automattic\WooCommerce\Packages::class)) {
+//        return;
+//    }
+//    // Dependencies are require for Woo admin screens.
+//    if (!empty($_GET['page']) && is_admin() && str_starts_with($_GET['page'], 'wc-')) {
+//        return;
+//    }
+//    $override = new class() extends \Automattic\WooCommerce\Packages {
+//        public function __construct()
+//        {
+//        }
+//
+//        public function remove_woocommerce_blocks(): void
+//        {
+//            unset(static::$packages['woocommerce-blocks']);
+//        }
+//    };
+//    $override->remove_woocommerce_blocks();
+//}, 6);
+
+WC_Twint_Payments::init();

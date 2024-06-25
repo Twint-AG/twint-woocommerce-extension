@@ -6,7 +6,7 @@ import {getSetting} from '@woocommerce/settings';
 const settings = getSetting('twint_data', {});
 
 const defaultLabel = __(
-    'TWINT Payment',
+    'Twint Payment',
     'woo-gutenberg-products-block'
 );
 
@@ -28,9 +28,9 @@ const Label = (props) => {
 };
 
 /**
- * TWINT payment method config object.
+ * Twint payment method config object.
  */
-const TWINT = {
+const Twint = {
     name: "twint",
     label: <Label/>,
     content: <Content/>,
@@ -42,4 +42,4 @@ const TWINT = {
     },
 };
 
-registerPaymentMethod(TWINT);
+registerPaymentMethod(Twint);

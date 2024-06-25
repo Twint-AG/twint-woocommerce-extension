@@ -1,22 +1,22 @@
 <?php
 
 use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
-use TWINT\Services\SettingService;
+use TWINT\Woo\Services\SettingService;
 
 /**
- * TWINT Payment Blocks integration
+ * Twint Payment Blocks integration
  *
  * @since 0.0.1
  */
-final class WC_Gateway_TWINT_Blocks_Support extends AbstractPaymentMethodType
+final class WC_Gateway_Twint_Blocks_Support extends AbstractPaymentMethodType
 {
 
     /**
      * The gateway instance.
      *
-     * @var WC_Gateway_TWINT
+     * @var WC_Gateway_Twint
      */
-    private WC_Gateway_TWINT $gateway;
+    private WC_Gateway_Twint $gateway;
 
     /**
      * Payment method name/id/slug.
@@ -53,14 +53,14 @@ final class WC_Gateway_TWINT_Blocks_Support extends AbstractPaymentMethodType
     public function get_payment_method_script_handles(): array
     {
         $script_path = '/assets/js/frontend/blocks.js';
-        $script_asset_path = WC_TWINT_Payments::plugin_abspath() . 'assets/js/frontend/blocks.asset.php';
+        $script_asset_path = WC_Twint_Payments::plugin_abspath() . 'assets/js/frontend/blocks.asset.php';
         $script_asset = file_exists($script_asset_path)
             ? require($script_asset_path)
             : array(
                 'dependencies' => [],
                 'version' => '0.0.1'
             );
-        $script_url = WC_TWINT_Payments::plugin_url() . $script_path;
+        $script_url = WC_Twint_Payments::plugin_url() . $script_path;
 
         wp_register_script(
             'wc-twint-payments-blocks',
@@ -71,7 +71,7 @@ final class WC_Gateway_TWINT_Blocks_Support extends AbstractPaymentMethodType
         );
 
         if (function_exists('wp_set_script_translations')) {
-            wp_set_script_translations('wc-twint-payments-blocks', 'woocommerce-gateway-twint', WC_TWINT_Payments::plugin_abspath() . 'languages/');
+            wp_set_script_translations('wc-twint-payments-blocks', 'woocommerce-gateway-twint', WC_Twint_Payments::plugin_abspath() . 'languages/');
         }
 
         return ['wc-twint-payments-blocks'];

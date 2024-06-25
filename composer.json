@@ -6,10 +6,10 @@
   "license": "GNU General Public License v3.0",
   "autoload": {
     "files": [
-      "src/App/Helpers/helpers.php"
+      "src/Woo/App/Helpers/helpers.php"
     ],
     "psr-4": {
-      "TWINT\\": "src/"
+      "Twint\\": "src/"
     }
   },
   "authors": [

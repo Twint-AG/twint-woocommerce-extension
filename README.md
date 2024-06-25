@@ -1,6 +1,6 @@
-# WooCommerce TWINT Payment Gateway
+# WooCommerce Twint Payment Gateway
 
-TWINT payment gateway for your WooCommerce development needs, with built-in support for subscriptions and the block-based checkout.
+Twint payment gateway for your WooCommerce development needs, with built-in support for subscriptions and the block-based checkout.
 
 ### Building instructions (DEV)
 
