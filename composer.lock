@@ -3530,7 +3530,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.nfq.asia/twint-ag/php-sdk.git",
-                "reference": "f34e0be7dfd571ff1ae14f760a0371250cd91639"
+                "reference": "9eb6e4c4642b60f07c71bf0e7cce094c5c2d7a84"
             },
             "require": {
                 "azjezz/psl": "^2.5.0",
@@ -3548,19 +3548,19 @@
             },
             "require-dev": {
                 "ext-xdebug": "*",
-                "laminas/laminas-code": "^4.13.0",
-                "php-soap/wsdl-reader": "^0.13.1",
+                "laminas/laminas-code": "^4.14.0",
+                "php-soap/wsdl-reader": "^0.16.0",
                 "php-standard-library/phpstan-extension": "^1.0",
                 "phpstan/phpstan": "^1.11.5",
                 "phpstan/phpstan-strict-rules": "^1.6.0",
-                "phpunit/phpunit": "^10.5.20",
+                "phpunit/phpunit": "^10.5.24",
                 "roave/better-reflection": "^6.25.0",
                 "slevomat/coding-standard": "^8.15.0",
                 "symfony/clock": "^6.4.8",
                 "symfony/dotenv": "^6.4.8",
                 "symfony/event-dispatcher": "^6.4.8",
                 "symfony/finder": "^6.4.8",
-                "symplify/easy-coding-standard": "^12.2.1",
+                "symplify/easy-coding-standard": "^12.3.0",
                 "wiremock-php/wiremock-php": "dev-cloud-support as 2.39.0"
             },
             "default-branch": true,
@@ -3591,7 +3591,7 @@
                 }
             ],
             "description": "The TWINT SDK for PHP",
-            "time": "2024-06-17T19:01:30+00:00"
+            "time": "2024-06-24T12:04:23+00:00"
         },
         {
             "name": "veewee/xml",
