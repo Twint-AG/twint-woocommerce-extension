@@ -7,7 +7,7 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twint\Woo\Abstract\ServiceProvider\DatabaseServiceProvider;
 use Twint\Woo\MetaBox\TwintApiResponseMeta;
-use TWINT\Woo\Services\PaymentService;
+use Twint\Woo\Services\PaymentService;
 use Twint\Woo\Templates\SettingsLayoutViewAdapter;
 use Twint\Woo\Templates\TwigTemplateEngine;
 use WC_Twint_Payments;
