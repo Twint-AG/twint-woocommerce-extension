@@ -32,11 +32,11 @@
                             'BCV TWINT' : 'bank-bcv',
                         } %}
 
-                        <div class="app-logos-container m-3 mb-2 text-center justify-content-center"
+                        <div class="app-logos-container m-3 text-center justify-content-center"
                              id="logo-container">
                             {% for payLink in payLinks.ios %}
                                 {% if payLink.name in prefinedApps|keys %}
-                                    <div class="text-center">
+                                    <div class="text-center item">
                                         <img class="bank-logo"
                                              src="{{ twint_asset('/images/' ~ prefinedApps[payLink.name] ~ '.png') }}"
                                              data-link="{{ payLink.link }}" alt=""/>

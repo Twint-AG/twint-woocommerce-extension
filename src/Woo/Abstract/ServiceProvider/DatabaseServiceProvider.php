@@ -62,6 +62,7 @@ class DatabaseServiceProvider extends AbstractServiceProvider
 			order_id INT UNSIGNED NOT NULL,
 			transaction_id INT UNSIGNED NOT NULL,
 			order_status varchar(191) NOT NULL default '',
+			soap_action varchar(191) NOT NULL default '',
 			api_method varchar(191) NOT NULL default '',
 			request longtext NOT NULL,
 			response longtext NOT NULL,

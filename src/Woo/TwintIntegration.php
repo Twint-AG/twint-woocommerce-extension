@@ -52,6 +52,8 @@ class TwintIntegration
         add_action('admin_menu', [$this, 'registerMenuItem']);
         add_action('woocommerce_order_status_processing', [$this, 'wooOrderStatusProcessing'], 10, 6);
 
+        add_action('woocommerce_order_status_changed', [$this, 'wooBeforeOrderStatusChange'], 10, 3);
+
         add_filter('woocommerce_locate_template', [$this, 'wooPluginTemplate'], 10, 3);
 
         add_action('woocommerce_after_add_to_cart_button', [$this, 'additionalSingleProductButton'], 20);
@@ -63,6 +65,17 @@ class TwintIntegration
 
         new TwintApiResponseMeta();
         $this->paymentService = new PaymentService();
+    }
+
+    public function wooBeforeOrderStatusChange(int $orderId, string $oldStatus, string $newStatus): void
+    {
+//        $order = wc_get_order($orderId);
+//        if ($order->get_payment_method() === 'twint') {
+//            if ($oldStatus !== $newStatus) {
+//                $order->set_status($oldStatus);
+//                $order->save();
+//            }
+//        }
     }
 
     public function changeWoocommerceThankyouOrderReceivedText($text, $order): string
@@ -260,11 +273,11 @@ class TwintIntegration
          * TODO:
          * Do we need to remove the table when deactivating plugin.
          */
-//        global $wpdb;
-//        global $table_prefix;
-//        $tableName = $table_prefix . "twint_transactions_log";
-//
-//        $wpdb->query("DROP TABLE IF EXISTS " . $tableName);
+        global $wpdb;
+        global $table_prefix;
+        $tableName = $table_prefix . "twint_transactions_log";
+
+        $wpdb->query("DROP TABLE IF EXISTS " . $tableName);
 
         $orderTwintPaymentPage = get_page_by_path(
             self::PAGE_TWINT_ORDER_PAYMENT_SLUG,

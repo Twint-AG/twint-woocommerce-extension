@@ -34,16 +34,17 @@ class TransactionLogService
         $soapMessages = $innovations[0]->messages();
         $soapRequests = [];
         $soapResponses = [];
-        $apiMethods = [];
+        $apiMethod = $innovations[0]->methodName() ?? ' ';
+        $soapActions = [];
         foreach ($soapMessages as $soapMessage) {
-            $apiMethods[] = $soapMessage->request()->action();
+            $soapActions[] = $soapMessage->request()->action();
             $soapRequests[] = $soapMessage->request()->body();
             $soapResponses[] = $soapMessage->response()->body();
         }
 
         $soapRequests = json_encode($soapRequests);
         $soapResponses = json_encode($soapResponses);
-        $apiMethods = json_encode($apiMethods);
+        $soapActions = json_encode($soapActions);
 
         global $wpdb;
         $wpdb->insert(
@@ -52,7 +53,8 @@ class TransactionLogService
                 'order_id' => $orderId,
                 'order_status' => $orderStatus,
                 'transaction_id' => $transactionId,
-                'api_method' => $apiMethods,
+                'api_method' => $apiMethod,
+                'soap_action' => $soapActions,
                 'request' => $request,
                 'response' => $response,
                 'soap_request' => $soapRequests,

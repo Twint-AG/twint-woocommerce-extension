@@ -97,7 +97,20 @@ section.twint-qr-code-section {
 }
 
 .twint-qr-container .separator {
-    align-items: center
+    align-items: center;
+}
+
+div#logo-container {
+    flex-direction: row;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding-left: 0;
+    margin: 30px 0;
+}
+
+div#logo-container .item {
+    flex: 0 0 33.3333%;
 }
 
 .twint-qr-container .separator::before, .twint-qr-container .separator::after {

@@ -3,6 +3,7 @@
     <tr>
         <th>Order ID</th>
         <th>API Method</th>
+        <th>SOAP Actions</th>
         <th>Order Status</th>
         <th>Created At</th>
         <th>Actions</th>
@@ -13,6 +14,7 @@
         <tr>
             <td>{{ item.order_id }}</td>
             <td>{{ item.api_method }}</td>
+            <td>{{ item.soap_action }}</td>
             <td>{{ item.order_status }}</td>
             <td>{{ item.created_at|date('Y-m-d') }}</td>
             <td>
@@ -25,7 +27,6 @@
     {% endfor %}
     </tbody>
 </table>
-
 
 <div class="modal twint-modal">
     <div class="modal-content">
