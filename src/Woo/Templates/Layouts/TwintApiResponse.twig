@@ -12,7 +12,7 @@
     {% for item in logs %}
         <tr>
             <td>{{ item.order_id }}</td>
-            <td>API</td>
+            <td>{{ item.api_method }}</td>
             <td>{{ item.order_status }}</td>
             <td>{{ item.created_at|date('Y-m-d') }}</td>
             <td>

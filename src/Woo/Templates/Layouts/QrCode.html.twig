@@ -1,0 +1,132 @@
+{% set isAndroid = false %}
+{% set isIosDevice = false %}
+{% set androidLink = '' %}
+{% if payLinks.android is defined %}
+    {% set isAndroid = true %}
+{% endif %}
+{% if payLinks.ios is defined %}
+    {% set isIosDevice = true %}
+{% endif %}
+{% if isAndroid and payLinks.android %}
+    {% set androidLink = payLinks.android %}
+{% endif %}
+<section class="twint-qr-code-section">
+    <div class="mb-3">
+        <div class="text-center" style=" width: 200px; margin: 0 auto;">
+            <img src="{{ twint_asset('/images/twint_logo.png') }}" alt="Twint Logo" class="qr-img">
+        </div>
+    </div>
+    <div class="twint-qr-container {{ isAndroid ? 'android' : '' }} {{ isIosDevice ? 'ios' : '' }} {{ not (isAndroid or isIosDevice) ? 'generic' : '' }}">
+
+        {% if payLinks['ios'] is defined and payLinks['ios'] is not null %}
+            <div class="mb-3 d-md-none">
+                <div class="row app-chooser-area">
+                    <div id="app-chooser-container" class="text-center bg-light">
+                        <div class="app-chooser-title my-4">{{ 'Choose your TWINT app'|__trans }}</div>
+                        {% set prefinedApps = {
+                            'UBS TWINT' : 'bank-ubs',
+                            'Raiffeisen TWINT' : 'bank-raiffeisen',
+                            'PostFinance TWINT' : 'bank-pf',
+                            'ZKB TWINT' :'bank-zkb',
+                            'Credit Suisse TWINT' : 'bank-cs',
+                            'BCV TWINT' : 'bank-bcv',
+                        } %}
+
+                        <div class="app-logos-container m-3 mb-2 text-center justify-content-center"
+                             id="logo-container">
+                            {% for payLink in payLinks.ios %}
+                                {% if payLink.name in prefinedApps|keys %}
+                                    <div class="text-center">
+                                        <img class="bank-logo"
+                                             src="{{ twint_asset('/images/' ~ prefinedApps[payLink.name] ~ '.png') }}"
+                                             data-link="{{ payLink.link }}" alt=""/>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <select class="text-align-last p-3 text-center rounded-0 border-0 text-secondary bg-white"
+                            id="app-chooser">
+                        <option value="">{{ "Other banks"|__trans }}</option>
+                        {% for payLink in payLinks.ios %}
+                            {% if payLink.name not in prefinedApps|keys %}
+                                <option value="{{ payLink.link }}">{{ payLink.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        {% elseif payLinks['android'] is defined and payLinks['android'] is not null %}
+            <div class="text-center row mt-3">
+                <a class="btn btn-primary android-button rounded py-2 px-3 border-0"
+                   href="javascript:window.location = '{{ payLinks.android }}'">
+                    {{ "Switch to the TWINT app now"|__trans }}
+                </a>
+            </div>
+
+            <div class="qr-code d-none d-md-none">
+                <div class="separator d-flex py-0 text-center my-3">{{ 'or'|__trans }}</div>
+            </div>
+            <div class="qr-code d-none flex d-md-none d-flex justify-content-center my-3">
+                <div class="col-9 text-center">{{ 'Enter this code in your TWINT app:'|__trans }}</div>
+            </div>
+
+            <div class="qr-token text-center mb-3">
+                <input id="qr-token" class="text-center bg-white" type="text" value="{{ pairingToken }}" disabled>
+            </div>
+
+            <div class="d-md-none text-center border-bottom py-4">
+                <button id="btn-copy-token" data-clipboard-action="copy" data-clipboard-target="#qr-token" class="text-center p-2 px-3 bg-white rounded text-secondary border-secondary border-1 ">{{ "Copy Code"|__trans }}</button>
+            </div>
+
+            {% if qrCode %}
+                <div class="text-center">
+                    <img src="{{ qrCode }}" alt="QR Code" class="qr-img img-fluid md-rounded">
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="qr-code-section d-flex gap-2" style="font-size: 16px;">
+                <div class="qr-code-box">
+                    <div class="text-center">
+                        <img src="{{ qrCode }}" alt="QR Code" class="qr-img">
+                    </div>
+                    <div class="qr-token text-center mb-3">
+                        <input id="qr-token" class="text-center bg-white" type="text" value="{{ pairingToken }}"
+                               disabled>
+                    </div>
+                </div>
+                <div class="qr-code-box order-information flex-column">
+                    <div class="order-price bg-white p-3 h-50 md-rounded d-flex justify-content-center align-items-center">
+                <span class="value text-white bg-black fw-semibold px-4 py-2">
+                    {{ currency }} {{ amount }}
+                </span>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="qr-code-instructions d-flex justify-content-center p-4">
+            <div class="d-flex flex-column align-items-center">
+                <div class="d-flex justify-content-center">
+                    <img class="guide-icon"
+                         src="{{ twint_asset('/images/icon-scan.svg') }}" alt="scan"/>
+                </div>
+                <div class="text-center mt-4">
+                    {{ 'Scan this QR Code with your TWINT app to complete the checkout.'|__trans }}
+                </div>
+            </div>
+            <div class="d-flex flex-column align-items-center">
+                <div class="d-flex justify-content-center">
+                    <img class="guide-icon"
+                         src="{{ twint_asset('/images/icon-contact.svg') }}"
+                         alt="scan"/>
+                </div>
+                <div class="text-center mt-4">
+                    {{ 'Select a shipping address and complete the purchase in the app.'|__trans }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

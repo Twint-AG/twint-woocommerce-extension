@@ -32,6 +32,17 @@ class TwigTemplateEngine extends AbstractServiceProvider
         $this->twigInstance = new Environment($this->loader, [
 //            'cache' => '/path/to/compilation_cache',
         ]);
+
+        $filter = new \Twig\TwigFilter('__trans', function ($string) {
+            return esc_html(__($string, 'woocommerce-gateway-twint'));
+        });
+
+        $twintAssetFunc = new \Twig\TwigFunction('twint_asset', function ($path) {
+            return twint_assets($path);
+        });
+
+        $this->twigInstance->addFunction($twintAssetFunc);
+        $this->twigInstance->addFilter($filter);
     }
 
     public static function INSTANCE($args = []): Environment

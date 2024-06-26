@@ -2,6 +2,8 @@
 
 namespace Twint\Woo;
 
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
@@ -32,23 +34,99 @@ class TwintIntegration
     public PaymentService $paymentService;
 
     /**
+     * @var \Twig\Environment
+     */
+    private \Twig\Environment $template;
+
+    /**
      * Class constructor.
      */
     public function __construct()
     {
         $GLOBALS['TWIG_TEMPLATE_ENGINE'] = TwigTemplateEngine::INSTANCE();
+        $this->template = $GLOBALS['TWIG_TEMPLATE_ENGINE'];
         add_action('admin_enqueue_scripts', [$this, 'enqueueStyles'], 19);
+        add_action('wp_enqueue_scripts', [$this, 'wpEnqueueScriptsFrontend'], 19);
         add_action('admin_enqueue_scripts', [$this, 'enqueueScripts'], 20);
 
         add_action('admin_menu', [$this, 'registerMenuItem']);
         add_action('woocommerce_order_status_processing', [$this, 'wooOrderStatusProcessing'], 10, 6);
 
         add_filter('woocommerce_locate_template', [$this, 'wooPluginTemplate'], 10, 3);
-        
+
+        add_action('woocommerce_after_add_to_cart_button', [$this, 'additionalSingleProductButton'], 20);
+
+        add_action('woocommerce_before_thankyou', [$this, 'additionalWoocommerceBeforeThankyou'], 20);
+        add_filter('woocommerce_thankyou_order_received_text', [$this, 'changeWoocommerceThankyouOrderReceivedText'], 10, 2);
+
         add_shortcode('shortcode_order_twint_payment', [$this, 'shortcodeOrderTwintPayment']);
 
         new TwintApiResponseMeta();
         $this->paymentService = new PaymentService();
+    }
+
+    public function changeWoocommerceThankyouOrderReceivedText($text, $order): string
+    {
+        if ($order->get_payment_method() !== 'twint') {
+            return esc_html(__('Thank you. Your order has been received. Please take a look and use TWINT app to pay your order.', 'woocommerce-gateway-twint'));
+        }
+
+        return $text;
+    }
+
+    /**
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
+    public function additionalWoocommerceBeforeThankyou(int $orderId): void
+    {
+        $order = wc_get_order($orderId);
+        $template = $this->template->load('Layouts/QrCode.html.twig');
+        $twintApiResponse = json_decode($order->get_meta('twint_api_response'), true);
+        $data = [];
+        $payLinks = $this->paymentService->getPayLinks($pairingToken ?? '');
+        if ($twintApiResponse) {
+            $options = new QROptions(
+                [
+                    'eccLevel' => QRCode::ECC_L,
+                    'outputType' => QRCode::OUTPUT_MARKUP_SVG,
+                    'version' => 5,
+                ]
+            );
+            $pairingToken = (string)($twintApiResponse['pairingToken'] ?? '');
+            $qrcode = (new QRCode($options))->render($pairingToken);
+
+            $data = [
+                'qrCode' => $qrcode,
+                'pairingToken' => $pairingToken,
+                'amount' => $order->get_total(),
+                'currency' => $order->get_currency(),
+                'payLinks' => $payLinks,
+            ];
+        }
+
+        echo $template->render($data);
+    }
+
+    public function wpEnqueueScriptsFrontend(): void
+    {
+        wp_enqueue_script('js-woocommerce-gateway-twint-frontend', twint_assets('/js/twint_frontend.js'));
+
+        wp_enqueue_style('css-woocommerce-gateway-twint-frontend-core', WC_Twint_Payments::plugin_url() . '/assets/css/core.css');
+        wp_enqueue_style('css-woocommerce-gateway-twint-frontend', WC_Twint_Payments::plugin_url() . '/assets/css/frontend_twint.css');
+    }
+
+    public function additionalSingleProductButton(): void
+    {
+        global $product;
+
+        $name = esc_html("TWINT Express Checkout", "woocommerce"); // <== Here set button name
+        $class = 'button alt';
+        $style = 'display: inline-block; margin-top: 12px;';
+
+        // Output
+        echo '<br><a rel="no-follow" href="#" class="' . $class . '" style="' . $style . '">' . $name . '</a>';
     }
 
     public function shortcodeOrderTwintPayment(): void
