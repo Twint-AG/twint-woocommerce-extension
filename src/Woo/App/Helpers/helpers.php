@@ -19,3 +19,15 @@ if (!function_exists('isValidUuid')) {
         return true;
     }
 }
+
+if (!function_exists('twint_assets')) {
+    function twint_assets(string $asset = null): ?string
+    {
+        $localPath = WC_Twint_Payments::plugin_url() . '/assets';
+        if (empty($asset)) {
+            return '';
+        }
+
+        return $localPath . $asset;
+    }
+}
