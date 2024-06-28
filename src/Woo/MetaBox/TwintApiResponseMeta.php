@@ -49,9 +49,11 @@ class TwintApiResponseMeta
 
         $transactionLogService = new TransactionLogService();
         $logs = $transactionLogService->getLogTransactions($order->get_id());
+        $nonce = wp_create_nonce('get_log_transaction_details');
 
         echo $template->render([
             'logs' => $logs,
+            'nonce' => $nonce,
         ]);
     }
 }

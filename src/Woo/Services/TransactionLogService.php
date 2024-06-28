@@ -51,7 +51,7 @@ class TransactionLogService
             self::getTableName(),
             [
                 'order_id' => $orderId,
-                'order_status' => $orderStatus,
+                'order_status' => wc_get_order_status_name($orderStatus),
                 'transaction_id' => $transactionId,
                 'api_method' => $apiMethod,
                 'soap_action' => $soapActions,
@@ -80,5 +80,13 @@ class TransactionLogService
         }
 
         return $ret;
+    }
+
+    public function getLogTransactionDetails(int $recordId): array
+    {
+        global $wpdb;
+        $result = $wpdb->get_results("SELECT * from `" . self::getTableName() . "` WHERE record_id = $recordId;");
+
+        return (array)$result[0];
     }
 }

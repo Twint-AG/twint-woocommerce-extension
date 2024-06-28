@@ -310,6 +310,31 @@
     --bs-gradient: none
 }
 
+.badge {
+    display: inline-block;
+    padding: .35em .65em;
+    font-size: .95em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+}
+
+.bg-primary {
+    background-color: #007cba !important;
+}
+
+.bg-secondary {
+    background-color: #6c757d !important;
+}
+
+.bg-info {
+    background-color: #0dcaf0 !important;
+}
+
 .border-bottom {
     border-bottom: 1px solid hsla(0, 0%, 7%, .11);
 }

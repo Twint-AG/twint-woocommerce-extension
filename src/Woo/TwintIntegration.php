@@ -8,6 +8,7 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twint\Woo\Abstract\ServiceProvider\DatabaseServiceProvider;
+use Twint\Woo\App\API\TwintApiWordpressAjax;
 use Twint\Woo\MetaBox\TwintApiResponseMeta;
 use Twint\Woo\Services\PaymentService;
 use Twint\Woo\Templates\SettingsLayoutViewAdapter;
@@ -22,7 +23,6 @@ defined('ABSPATH') || exit;
  */
 class TwintIntegration
 {
-    public const PAGE_TWINT_ORDER_PAYMENT_SLUG = 'twint-order-payment';
     /**
      * @var string
      */
@@ -50,9 +50,9 @@ class TwintIntegration
         add_action('admin_enqueue_scripts', [$this, 'enqueueScripts'], 20);
 
         add_action('admin_menu', [$this, 'registerMenuItem']);
-        add_action('woocommerce_order_status_processing', [$this, 'wooOrderStatusProcessing'], 10, 6);
+        add_action('woocommerce_checkout_order_created', [$this, 'woocommerceCheckoutOrderCreated']);
 
-        add_action('woocommerce_order_status_changed', [$this, 'wooBeforeOrderStatusChange'], 10, 3);
+        add_filter('woocommerce_before_save_order_items', [$this, 'wooBeforeOrderUpdateChange'], 10, 2);
 
         add_filter('woocommerce_locate_template', [$this, 'wooPluginTemplate'], 10, 3);
 
@@ -64,18 +64,34 @@ class TwintIntegration
         add_shortcode('shortcode_order_twint_payment', [$this, 'shortcodeOrderTwintPayment']);
 
         new TwintApiResponseMeta();
+        new TwintApiWordpressAjax();
         $this->paymentService = new PaymentService();
     }
 
-    public function wooBeforeOrderStatusChange(int $orderId, string $oldStatus, string $newStatus): void
+    public function wooBeforeOrderUpdateChange($orderId, $items): void
     {
-//        $order = wc_get_order($orderId);
-//        if ($order->get_payment_method() === 'twint') {
-//            if ($oldStatus !== $newStatus) {
-//                $order->set_status($oldStatus);
-//                $order->save();
-//            }
-//        }
+        $order = wc_get_order($orderId);
+        if ($order->get_payment_method() !== 'twint') {
+            return;
+        }
+
+        $oldStatus = $items['original_post_status'];
+        $newStatus = $items['order_status'];
+
+        if (in_array($oldStatus, ['wc-pending', 'pending']) && $oldStatus !== $newStatus) {
+            /**
+             * Save order note for admin to know that why the order's status can not be changed.
+             */
+            $note = __(
+                'The order status can not be change from <strong>' . wc_get_order_status_name($oldStatus) . '</strong> to <strong>' . wc_get_order_status_name($newStatus) . '</strong>, because this order has not been paid by the customer.',
+                'woocommerce-gateway-twint'
+            );
+            $order->add_order_note( $note );
+
+            $_POST['order_status'] = 'wc-pending';
+            $_POST['post_status'] = 'wc-pending';
+            $_POST['original_post_status'] = 'wc-pending';
+        }
     }
 
     public function changeWoocommerceThankyouOrderReceivedText($text, $order): string
@@ -125,6 +141,9 @@ class TwintIntegration
     public function wpEnqueueScriptsFrontend(): void
     {
         wp_enqueue_script('js-woocommerce-gateway-twint-frontend', twint_assets('/js/twint_frontend.js'));
+        wp_localize_script('js-woocommerce-gateway-twint-frontend', 'twint_api', [
+            'admin_url' => admin_url('admin-ajax.php')
+        ]);
 
         wp_enqueue_style('css-woocommerce-gateway-twint-frontend-core', WC_Twint_Payments::plugin_url() . '/assets/css/core.css');
         wp_enqueue_style('css-woocommerce-gateway-twint-frontend', WC_Twint_Payments::plugin_url() . '/assets/css/frontend_twint.css');
@@ -176,12 +195,11 @@ class TwintIntegration
         return $template;
     }
 
-    public function wooOrderStatusProcessing($orderId): void
+    public function woocommerceCheckoutOrderCreated($orderId): void
     {
         $order = wc_get_order($orderId);
 
         if ($order->get_payment_method() === 'twint') {
-            $order->update_status('wc-pending');
             $this->paymentService->createOrder($order);
         }
     }
@@ -224,6 +242,7 @@ class TwintIntegration
 
     public function enqueueStyles(): void
     {
+        wp_enqueue_style('css-woocommerce-gateway-twint-frontend-core', WC_Twint_Payments::plugin_url() . '/assets/css/core.css');
         wp_enqueue_style('css-woocommerce-gateway-twint', WC_Twint_Payments::plugin_url() . '/assets/css/style.css');
     }
 
@@ -240,31 +259,6 @@ class TwintIntegration
     public static function INSTALL(): void
     {
         self::CREATE_DB();
-
-        self::CREATE_PAYMENT_QR_PAGE();
-    }
-
-    public static function CREATE_PAYMENT_QR_PAGE(): void
-    {
-        $orderTwintPaymentPage = array(
-            'post_type' => 'page',
-            'post_title' => 'Twint Order Payment',
-            'post_content' => '[shortcode_order_twint_payment]',
-            'post_status' => 'publish',
-            'post_author' => get_current_user_id(),
-            'post_name' => self::PAGE_TWINT_ORDER_PAYMENT_SLUG,
-        );
-
-        if (!get_page_by_path(self::PAGE_TWINT_ORDER_PAYMENT_SLUG, OBJECT, 'page')) {
-            $orderTwintPaymentPageId = wp_insert_post($orderTwintPaymentPage);
-            wc_get_logger()->info(
-                'wc_twint_order_payment_page',
-                [
-                    'id' => $orderTwintPaymentPageId,
-                    'data' => $orderTwintPaymentPage,
-                ]
-            );
-        }
     }
 
     public static function UNINSTALL(): void
@@ -278,15 +272,6 @@ class TwintIntegration
         $tableName = $table_prefix . "twint_transactions_log";
 
         $wpdb->query("DROP TABLE IF EXISTS " . $tableName);
-
-        $orderTwintPaymentPage = get_page_by_path(
-            self::PAGE_TWINT_ORDER_PAYMENT_SLUG,
-            OBJECT,
-            'page'
-        );
-        if ($orderTwintPaymentPage) {
-            wp_delete_post($orderTwintPaymentPage->ID, true);
-        }
     }
 
     public static function CREATE_DB(): void

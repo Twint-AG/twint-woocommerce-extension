@@ -41,7 +41,21 @@ class TwigTemplateEngine extends AbstractServiceProvider
             return twint_assets($path);
         });
 
+        $twigJsonDecodeFunc = new \Twig\TwigFunction('twint_json_decode', function ($string) {
+            return json_decode($string);
+        });
+
+        $twigXMLBeautyFunc = new \Twig\TwigFunction('twint_xml_beauty', function ($xml) {
+            $dom = new \DOMDocument('1.0');
+            $dom->preserveWhiteSpace = true;
+            $dom->formatOutput = true;
+            $dom->loadXML($xml);
+            return $dom->saveXML();
+        });
+
         $this->twigInstance->addFunction($twintAssetFunc);
+        $this->twigInstance->addFunction($twigJsonDecodeFunc);
+        $this->twigInstance->addFunction($twigXMLBeautyFunc);
         $this->twigInstance->addFilter($filter);
     }
 
