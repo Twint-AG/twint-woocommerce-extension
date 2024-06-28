@@ -48,7 +48,7 @@ class TwintApiWordpressAjax
 
     public function pleaseLogin(): void
     {
-        echo 'You must log in to like';
+        echo 'You must login to do next actions';
         die();
     }
 }
