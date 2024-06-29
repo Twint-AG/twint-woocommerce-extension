@@ -86,7 +86,7 @@ class TwintIntegration
                 'The order status can not be change from <strong>' . wc_get_order_status_name($oldStatus) . '</strong> to <strong>' . wc_get_order_status_name($newStatus) . '</strong>, because this order has not been paid by the customer.',
                 'woocommerce-gateway-twint'
             );
-            $order->add_order_note( $note );
+            $order->add_order_note($note);
 
             $_POST['order_status'] = 'wc-pending';
             $_POST['post_status'] = 'wc-pending';
@@ -168,16 +168,17 @@ class TwintIntegration
         wp_enqueue_style('css-woocommerce-gateway-twint-frontend', WC_Twint_Payments::plugin_url() . '/assets/css/frontend_twint.css');
     }
 
+    /**
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
     public function additionalSingleProductButton(): void
     {
         global $product;
 
-        $name = esc_html("TWINT Express Checkout", "woocommerce"); // <== Here set button name
-        $class = 'button alt';
-        $style = 'display: inline-block; margin-top: 12px;';
-
-        // Output
-        echo '<br><a rel="no-follow" href="#" class="' . $class . '" style="' . $style . '">' . $name . '</a>';
+        $template = $this->template->load('Layouts/components/button.html.twig');
+        echo $template->render();
     }
 
     public function shortcodeOrderTwintPayment(): void
