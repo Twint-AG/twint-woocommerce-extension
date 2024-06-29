@@ -1,0 +1,57 @@
+<table class="content-table">
+    <thead>
+    <tr>
+        <th>Order ID</th>
+        <th>API Method</th>
+        <th>Order Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{ order_id }}</td>
+        <td><span class="badge bg-primary">{{ api_method }}</span></td>
+        <td>{{ order_status }}</td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="components-surface components-card woocommerce-store-alerts is-alert-update" style="margin: 20px 0;">
+    <div class="">
+        <div class="components-flex components-card__header components-card-header">
+            <h2 class="components-truncate components-text" style="padding-left: 0;">
+                Request / Response
+            </h2>
+
+            <div id="request">
+                <label for="request">Request</label>
+                <textarea cols="30" rows="6" id="request" disabled>{{ request }}</textarea>
+            </div>
+            <div id="response">
+                <label for="response">Response</label>
+                <textarea cols="30" rows="6" id="request" disabled>{{ response }}</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+{% set soapActions = twint_json_decode(soap_action) %}
+{% set soapResponses = twint_json_decode(soap_response) %}
+{% for index,request in twint_json_decode(soap_request) %}
+    <div class="components-surface components-card woocommerce-store-alerts is-alert-update" style="margin: 20px 0;">
+        <div class="">
+            <div class="components-flex components-card__header components-card-header">
+                <h2 class="components-truncate components-text" style="padding-left: 0;">
+                    {{ soapActions[index] }}
+                </h2>
+
+                <div id="request">
+                    <label for="request">Request</label>
+                    <textarea cols="30" rows="6" id="request" disabled>{{ twint_xml_beauty(request) }}</textarea>
+                </div>
+                <div id="response">
+                    <label for="response">Response</label>
+                    <textarea cols="30" rows="6" id="request" disabled>{{ twint_xml_beauty(soapResponses[index]) }}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}

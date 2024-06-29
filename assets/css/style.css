@@ -5,6 +5,17 @@
     --clr-light: #fff;
 }
 
+#modal-content-details textarea {
+    width: 100%;
+    background: #efefef;
+    color: #646970;
+    padding: 20px;
+}
+
+.components-truncate.components-text {
+    font-size: 1.3em !important;
+}
+
 .plugin-setting-list li {
     position: relative;
     padding-left: 30px;
@@ -203,31 +214,47 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
-    padding: 2rem 2.5rem;
     width: 30em;
     border-radius: 0.5rem;
+    height: 80%;
+    overflow: auto;
 }
 .close-button {
     float: right;
-    width: 1.5rem;
     font-size: 1.2em;
     line-height: 1;
-    padding: 0 .2em .15em;
     text-align: center;
     cursor: pointer;
     border-radius: 0.25rem;
-    background-color: var(--clr-neutral);
-    color: var(--clr-dark);
+    background-color: #2271b1;
     transition: color 0.12s ease-in-out;
+    color: #fff;
+    padding: 5px;
 }
 .close-button:hover {
-    color: var(--clr-main);
+    color: #fff;
 }
 .show-modal {
     opacity: 1;
     visibility: visible;
     transform: scale(1.0);
     transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+    z-index: 999999;
+}
+
+.twint-modal .modal-body {
+    padding: 30px;
+}
+
+.twint-modal .modal-footer {
+    position: sticky;
+    bottom: 0;
+    padding: 10px;
+    background: #efefef;
+    border-top: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: right;
 }
 
 /* End Modals ------------------------------*/

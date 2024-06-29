@@ -67,6 +67,8 @@ class WC_Gateway_Twint extends WC_Payment_Gateway
 
         // Actions.
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
+
+        add_filter('woocommerce_payment_complete_order_status', [$this, 'setCompleteOrderStatus'], 10, 3);
     }
 
     /**
@@ -151,6 +153,36 @@ class WC_Gateway_Twint extends WC_Payment_Gateway
             $order->update_status('failed', $message);
             throw new Exception($message);
         }
+    }
+
+    /**
+     * Set up the status initial for the order first created.
+     * @since 0.0.1
+     *
+     * @param $status
+     * @param $orderId
+     * @param $order
+     * @return string
+     */
+    public function setCompleteOrderStatus($status, $orderId, $order): string
+    {
+        if ($order && 'twint' === $order->get_payment_method()) {
+            // TODO use config or database option for this.
+            $status = 'wc-pending';
+        }
+
+        return $status;
+    }
+
+    /**
+     * Set up the status of the order after order got paid.
+     * @since 0.0.1
+     *
+     * @return string
+     */
+    public static function getOrderStatusAfterPaid(): string
+    {
+        return apply_filters('woocommerce_twint_order_status_paid', 'processing');
     }
 
     /**

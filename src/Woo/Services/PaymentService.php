@@ -11,6 +11,7 @@ use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Uuid;
 use Twint\Woo\Exception\PaymentException;
 use Twint\Woo\Factory\ClientBuilder;
+use WC_Gateway_Twint;
 use WC_Order;
 use function Psl\Type\string;
 
@@ -70,7 +71,7 @@ class PaymentService
             $transactionLogService = new TransactionLogService();
             $transactionLogService->writeObjectLog(
                 $order->get_id(),
-                $order->get_status(),
+                wc_get_order_status_name($order->get_status()),
                 $order->get_transaction_id(),
                 $innovations
             );
@@ -88,28 +89,16 @@ class PaymentService
                 throw new \Exception('Missing currency for this order:' . $order->get_id() . PHP_EOL);
             }
 
-            $referenceId = $order->get_id();
-            if ($order->get_transaction_id()) {
-                $referenceId = $order->get_transaction_id();
-            }
-
             $twintApiResponse = json_decode($order->get_meta('twint_api_response'), true);
             if (empty($twintApiResponse) || empty($twintApiResponse['id'])) {
                 throw new \Exception('Missing Twint response for this order:' . $order->get_id() . PHP_EOL);
             }
 
             $twintOrder = $this->client->build()->monitorOrder(new OrderId(new Uuid($twintApiResponse['id'])));
-            $transactionId = $order->get_transaction_id();
-            if ($transactionId === null) {
-                throw new \Exception('Missing transaction id for this order:' . $referenceId . PHP_EOL);
-            }
 
             if ($twintOrder->status()->equals(OrderStatus::SUCCESS())) {
                 // TODO handle update paid payment order
-                return $this->client->build()->confirmOrder(
-                    new OrderId(new Uuid($twintApiResponse['id'])),
-                    new Money($currency, $order->get_total())
-                );
+                $order->update_status(WC_Gateway_Twint::getOrderStatusAfterPaid());
             } elseif ($twintOrder->status()->equals(OrderStatus::FAILURE())) {
                 // TODO Handle cancel order
             }
@@ -120,7 +109,14 @@ class PaymentService
                 'An error occurred during the communication with API gateway' . PHP_EOL . $e->getMessage()
             );
         } finally {
-            // TODO handle logger
+            $innovations = $this->client->build()->flushInvocations();
+            $transactionLogService = new TransactionLogService();
+            $transactionLogService->writeObjectLog(
+                $order->get_id(),
+                wc_get_order_status_name($order->get_status()),
+                $order->get_transaction_id(),
+                $innovations
+            );
         }
     }
 

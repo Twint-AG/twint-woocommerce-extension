@@ -100,16 +100,40 @@ jQuery(document).ready(function ($) {
     jQuery(document).on('click', '.js_view_details', function (evt) {
         evt.preventDefault();
 
+        const $this = $(this);
+        const recordId = $this.attr('data-record-id');
+        const nonce = $this.attr('data-nonce');
         const $modal = $('.twint-modal');
         if ($modal.hasClass('show-modal')) {
             $modal.removeClass('show-modal');
         } else {
-            $modal.addClass('show-modal');
+
+            // call ajax here
+            jQuery.ajax({
+                url: woocommerce_admin_meta_boxes.ajax_url,
+                data: {
+                    action: 'get_log_transaction_details',
+                    record_id: recordId,
+                    nonce: nonce,
+                },
+                success: function(response) {
+                    $('#modal-content-details').html(JSON.parse(response));
+                    $modal.addClass('show-modal');
+                }
+            });
+
         }
     });
 
     $(document).on('click', '.close-button', function (evt) {
         const $modal = $('.twint-modal');
         $modal.removeClass('show-modal');
-    })
+    });
+
+    document.onkeydown = function (evt) {
+        if (evt.keyCode === 27) {
+            // Escape key pressed
+            const $modal = $('.twint-modal');
+            $modal.removeClass('show-modal');        }
+    };
 });

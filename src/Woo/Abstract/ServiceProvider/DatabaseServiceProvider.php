@@ -67,11 +67,10 @@ class DatabaseServiceProvider extends AbstractServiceProvider
 			request longtext NOT NULL,
 			response longtext NOT NULL,
 			soap_request longtext NOT NULL,
-			soap_resquest longtext NOT NULL,
 			soap_response longtext NOT NULL,
 			exception_text longtext NOT NULL,
-			created_at INT(11) UNSIGNED DEFAULT '0',
-			updated_at INT(11) UNSIGNED DEFAULT '0',
+			created_at DATETIME,
+			updated_at DATETIME,
 			PRIMARY KEY (record_id)
         ) $charset_collate;";
 
