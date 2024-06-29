@@ -114,25 +114,44 @@ class TwintIntegration
         $template = $this->template->load('Layouts/QrCode.html.twig');
         $twintApiResponse = json_decode($order->get_meta('twint_api_response'), true);
         $data = [];
-        $payLinks = $this->paymentService->getPayLinks($pairingToken ?? '');
+        $nonce = wp_create_nonce('twint_check_order_status');
         if ($twintApiResponse) {
-            $options = new QROptions(
-                [
-                    'eccLevel' => QRCode::ECC_L,
-                    'outputType' => QRCode::OUTPUT_MARKUP_SVG,
-                    'version' => 5,
-                ]
-            );
-            $pairingToken = (string)($twintApiResponse['pairingToken'] ?? '');
-            $qrcode = (new QRCode($options))->render($pairingToken);
 
-            $data = [
-                'qrCode' => $qrcode,
-                'pairingToken' => $pairingToken,
-                'amount' => $order->get_total(),
-                'currency' => $order->get_currency(),
-                'payLinks' => $payLinks,
-            ];
+            if (!empty($_GET['twint_order_paid'])) {
+                $isOrderPaid = true;
+            } else {
+                if ($order->get_status() === \WC_Gateway_Twint::getOrderStatusAfterPaid()) {
+                    $isOrderPaid = true;
+                } else {
+                    $isOrderPaid = false;
+                }
+            }
+
+            $data = array_merge($data, [
+                'isOrderPaid' => $isOrderPaid,
+                'nonce' => $nonce,
+            ]);
+
+            if (!$isOrderPaid) {
+                $payLinks = $this->paymentService->getPayLinks($pairingToken ?? '');
+                $options = new QROptions(
+                    [
+                        'eccLevel' => QRCode::ECC_L,
+                        'outputType' => QRCode::OUTPUT_MARKUP_SVG,
+                        'version' => 5,
+                    ]
+                );
+                $pairingToken = (string)($twintApiResponse['pairingToken'] ?? '');
+                $qrcode = (new QRCode($options))->render($pairingToken);
+
+                $data = array_merge($data, [
+                    'qrCode' => $qrcode,
+                    'pairingToken' => $pairingToken,
+                    'amount' => $order->get_total(),
+                    'currency' => $order->get_currency(),
+                    'payLinks' => $payLinks,
+                ]);
+            }
         }
 
         echo $template->render($data);

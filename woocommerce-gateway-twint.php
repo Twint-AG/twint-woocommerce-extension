@@ -135,25 +135,4 @@ class WC_Twint_Payments
     }
 }
 
-//add_action('plugins_loaded', function () {
-//    if (!class_exists(\Automattic\WooCommerce\Packages::class)) {
-//        return;
-//    }
-//    // Dependencies are require for Woo admin screens.
-//    if (!empty($_GET['page']) && is_admin() && str_starts_with($_GET['page'], 'wc-')) {
-//        return;
-//    }
-//    $override = new class() extends \Automattic\WooCommerce\Packages {
-//        public function __construct()
-//        {
-//        }
-//
-//        public function remove_woocommerce_blocks(): void
-//        {
-//            unset(static::$packages['woocommerce-blocks']);
-//        }
-//    };
-//    $override->remove_woocommerce_blocks();
-//}, 6);
-
 WC_Twint_Payments::init();

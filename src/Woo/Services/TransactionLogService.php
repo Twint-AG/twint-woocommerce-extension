@@ -46,23 +46,38 @@ class TransactionLogService
         $soapResponses = json_encode($soapResponses);
         $soapActions = json_encode($soapActions);
 
+        if (!$this->checkDuplicatedTransactionLogInLastTime($orderId)) {
+            global $wpdb;
+            $wpdb->insert(
+                self::getTableName(),
+                [
+                    'order_id' => $orderId,
+                    'order_status' => wc_get_order_status_name($orderStatus),
+                    'transaction_id' => $transactionId,
+                    'api_method' => $apiMethod,
+                    'soap_action' => $soapActions,
+                    'request' => $request,
+                    'response' => $response,
+                    'soap_request' => $soapRequests,
+                    'soap_response' => $soapResponses,
+                    'exception_text' => $exception,
+                    'created_at' => date("Y-m-d H:i:s"),
+                ],
+            );
+        }
+    }
+
+    public function checkDuplicatedTransactionLogInLastTime($orderId): bool
+    {
+        // Last time calculated by minutes
+        $lastTime = get_option('twint_transaction_log_last_time', 1);
+        $time = strtotime("-{$lastTime} minutes");
+        $time = date('Y-m-d H:i:s', $time);
+        $currentTime = date('Y-m-d H:i:s');
         global $wpdb;
-        $wpdb->insert(
-            self::getTableName(),
-            [
-                'order_id' => $orderId,
-                'order_status' => wc_get_order_status_name($orderStatus),
-                'transaction_id' => $transactionId,
-                'api_method' => $apiMethod,
-                'soap_action' => $soapActions,
-                'request' => $request,
-                'response' => $response,
-                'soap_request' => $soapRequests,
-                'soap_response' => $soapResponses,
-                'exception_text' => $exception,
-                'created_at' => time(),
-            ],
-        );
+        $sql = "SELECT record_id FROM wp_twint_transactions_log WHERE order_id = " . $orderId . " AND created_at BETWEEN '" . $time . "' AND '" . $currentTime . "'";
+        $result = $wpdb->get_results($sql);
+        return !empty($result);
     }
 
     /**

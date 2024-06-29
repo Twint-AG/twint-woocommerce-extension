@@ -2,9 +2,11 @@
 
 namespace TWINT\Woo\App\API;
 
+use JetBrains\PhpStorm\NoReturn;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
+use Twint\Woo\Services\PaymentService;
 use Twint\Woo\Services\TransactionLogService;
 
 class TwintApiWordpressAjax
@@ -18,14 +20,44 @@ class TwintApiWordpressAjax
         $this->template = $TWIG_TEMPLATE_ENGINE;
         add_action('wp_ajax_get_log_transaction_details', [$this, 'getLogTransactionDetails']);
         add_action('wp_ajax_nopriv_get_log_transaction_details', [$this, 'pleaseLogin']);
+
+        add_action('wp_ajax_twint_check_order_status', [$this, 'checkOrderStatus']);
+        add_action('wp_ajax_nopriv_twint_check_order_status', [$this, 'pleaseLogin']);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function checkOrderStatus(): void
+    {
+        if (!wp_verify_nonce($_REQUEST['nonce'], 'twint_check_order_status')) {
+            exit('The WP Nonce is invalid, please check again!');
+        }
+
+        $order = wc_get_order($_REQUEST['orderId']);
+        if (!$order) {
+            exit('The order does not exist.');
+        }
+
+        $paymentService = new PaymentService();
+        $paymentService->checkOrderStatus($order);
+
+        echo json_encode([
+            'success' => true,
+            'isOrderPaid' => $order->get_status() === \WC_Gateway_Twint::getOrderStatusAfterPaid(),
+            'status' => $order->get_status(),
+        ]);
+
+        die();
     }
 
     /**
      * @throws SyntaxError
      * @throws RuntimeError
      * @throws LoaderError
+     *
      */
-    public function getLogTransactionDetails()
+    public function getLogTransactionDetails(): void
     {
         if (!wp_verify_nonce($_REQUEST['nonce'], 'get_log_transaction_details')) {
             exit('The WP Nonce is invalid, please check again!');

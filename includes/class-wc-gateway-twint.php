@@ -175,6 +175,17 @@ class WC_Gateway_Twint extends WC_Payment_Gateway
     }
 
     /**
+     * Set up the status of the order after order got paid.
+     * @since 0.0.1
+     *
+     * @return string
+     */
+    public static function getOrderStatusAfterPaid(): string
+    {
+        return apply_filters('woocommerce_twint_order_status_paid', 'processing');
+    }
+
+    /**
      * Process refund.
      *
      * If the gateway declares 'refunds' support, this will allow it to refund.
