@@ -71,7 +71,7 @@ class PaymentService
             $transactionLogService = new TransactionLogService();
             $transactionLogService->writeObjectLog(
                 $order->get_id(),
-                wc_get_order_status_name($order->get_status()),
+                $order->get_status(),
                 $order->get_transaction_id(),
                 $innovations
             );

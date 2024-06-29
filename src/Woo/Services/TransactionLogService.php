@@ -46,28 +46,27 @@ class TransactionLogService
         $soapResponses = json_encode($soapResponses);
         $soapActions = json_encode($soapActions);
 
-        if (!$this->checkDuplicatedTransactionLogInLastTime($orderId)) {
+        $data = [
+            'order_id' => $orderId,
+            'order_status' => $orderStatus,
+            'transaction_id' => $transactionId,
+            'api_method' => $apiMethod,
+            'soap_action' => $soapActions,
+            'request' => $request,
+            'response' => $response,
+            'soap_request' => $soapRequests,
+            'soap_response' => $soapResponses,
+            'exception_text' => $exception,
+            'created_at' => date("Y-m-d H:i:s"),
+        ];
+
+        if (!$this->checkDuplicatedTransactionLogInLastTime($data)) {
             global $wpdb;
-            $wpdb->insert(
-                self::getTableName(),
-                [
-                    'order_id' => $orderId,
-                    'order_status' => wc_get_order_status_name($orderStatus),
-                    'transaction_id' => $transactionId,
-                    'api_method' => $apiMethod,
-                    'soap_action' => $soapActions,
-                    'request' => $request,
-                    'response' => $response,
-                    'soap_request' => $soapRequests,
-                    'soap_response' => $soapResponses,
-                    'exception_text' => $exception,
-                    'created_at' => date("Y-m-d H:i:s"),
-                ],
-            );
+            $wpdb->insert(self::getTableName(), $data);
         }
     }
 
-    public function checkDuplicatedTransactionLogInLastTime($orderId): bool
+    public function checkDuplicatedTransactionLogInLastTime(array $record): bool
     {
         // Last time calculated by minutes
         $lastTime = get_option('twint_transaction_log_last_time', 1);
@@ -75,7 +74,11 @@ class TransactionLogService
         $time = date('Y-m-d H:i:s', $time);
         $currentTime = date('Y-m-d H:i:s');
         global $wpdb;
-        $sql = "SELECT record_id FROM wp_twint_transactions_log WHERE order_id = " . $orderId . " AND created_at BETWEEN '" . $time . "' AND '" . $currentTime . "'";
+        $sql = "SELECT record_id FROM " . self::getTableName() . " 
+                WHERE order_id = " . $record['order_id'] . " 
+                AND api_method = '" . $record['api_method'] . "' 
+                AND order_status = '" . $record['order_status'] . "'
+                AND created_at BETWEEN '" . $time . "' AND '" . $currentTime . "'";
         $result = $wpdb->get_results($sql);
         return !empty($result);
     }
