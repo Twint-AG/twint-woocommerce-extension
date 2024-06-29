@@ -1,0 +1,42 @@
+<table class="form-table" role="presentation">
+    <tbody>
+    {% for field in fields %}
+        <tr>
+            <th scope="row" style="width: 400px;">
+                <label for="{{ field.name }}">
+                    {{ field.label }}
+                </label>
+            </th>
+            <td>
+                {% if field.type == 'text' or field.type == 'password' %}
+                    <input name="{{ field.name }}" type="{{ field.type }}" id="{{ field.name }}"
+                           aria-describedby="tagline-description"
+                           value="{{ field.value }}"
+                           placeholder="{{ field.placeholder }}"
+                           class="regular-text">
+                {% elseif field.type == 'file' %}
+                    <input id="{{ field.name }}"
+                           class="twint-file-upload"
+                           name="{{ field.name }}"
+                           type="{{ field.type }}"
+                           placeholder="{{ field.placeholder }}"/>
+                {% elseif field.type == 'checkbox' %}
+                    <input id="{{ field.name }}"
+                           name="{{ field.name }}"
+                            {% if field.isChecked == 'yes' %}
+                                checked
+                            {% endif %}
+                           type="{{ field.type }}"
+                    >
+                {% endif %}
+
+                {% if field.help_text != '' %}
+                    <div style="margin-top: 5px;">
+                        <small class="text-small"><i>{{ field.help_text }}</i></small>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

@@ -16,6 +16,7 @@ class SettingsLayoutViewAdapter
     private array $data;
 
     const CREDENTIALS = 'credentials';
+    const CHECKOUT_OPTIONS = 'checkout_options';
     private CryptoHandler $encryptor;
 
     public function __construct($data = [])
@@ -42,42 +43,51 @@ class SettingsLayoutViewAdapter
         $activatedTab = $_GET['tab'] ?? $defaultTab;
         $dataCreation = [];
         if (isset($_POST['submit'])) {
-            $dataCreation['merchant_id'] = $_POST['merchant_id'] ?? $this->data['merchant_id'];
+            if ($activatedTab === self::CREDENTIALS) {
+                $dataCreation['merchant_id'] = $_POST['merchant_id'] ?? $this->data['merchant_id'];
 
-            if (!isValidUuid($dataCreation['merchant_id'])) {
-                $this->data['status'] = false;
-                $this->data['error_msg'] = 'Invalid Merchant ID. Must be a valid UUID.';
-                goto RETURN_VIEW;
-            }
-
-            $password = $_POST['password'] ?? null;
-            $this->data['status'] = true;
-
-            if (!empty($password) && empty($_FILES['certificate']['tmp_name'])) {
-                $this->data['status'] = false;
-                $this->data['error_msg'] = 'You need to provide P12 certificate file.';
-            }
-
-            if (!empty($_FILES['certificate']['tmp_name'])) {
-                $file = $_FILES['certificate'];
-                $content = file_get_contents($file['tmp_name']);
-
-                $extractor = new CertificateHandler();
-                $certificate = $extractor->read((string)$content, $password);
-
-                if ($certificate instanceof Pkcs12Certificate) {
-                    $validatedCertificate = [
-                        'certificate' => $this->encryptor->encrypt($certificate->content()),
-                        'passphrase' => $this->encryptor->encrypt($certificate->passphrase()),
-                    ];
-
-                    update_option(SettingService::CERTIFICATE, $validatedCertificate);
-                    update_option(SettingService::MERCHANT_ID, $dataCreation['merchant_id']);
-                } else {
+                if (!isValidUuid($dataCreation['merchant_id'])) {
                     $this->data['status'] = false;
-                    $this->data['error_msg'] = 'Invalid certificate or password.';
+                    $this->data['error_msg'] = __('Invalid Merchant ID. Must be a valid UUID.', 'woocommerce-gateway-twint');
+                    goto RETURN_VIEW;
                 }
+
+                $password = $_POST['password'] ?? null;
+                $this->data['status'] = true;
+
+                if (!empty($password) && empty($_FILES['certificate']['tmp_name'])) {
+                    $this->data['status'] = false;
+                    $this->data['error_msg'] = __('You need to provide P12 certificate file.', 'woocommerce-gateway-twint');
+                }
+
+                if (!empty($_FILES['certificate']['tmp_name'])) {
+                    $file = $_FILES['certificate'];
+                    $content = file_get_contents($file['tmp_name']);
+
+                    $extractor = new CertificateHandler();
+                    $certificate = $extractor->read((string)$content, $password);
+
+                    if ($certificate instanceof Pkcs12Certificate) {
+                        $validatedCertificate = [
+                            'certificate' => $this->encryptor->encrypt($certificate->content()),
+                            'passphrase' => $this->encryptor->encrypt($certificate->passphrase()),
+                        ];
+
+                        update_option(SettingService::CERTIFICATE, $validatedCertificate);
+                        update_option(SettingService::MERCHANT_ID, $dataCreation['merchant_id']);
+                    } else {
+                        $this->data['status'] = false;
+                        $this->data['error_msg'] = __('Invalid certificate or password.', 'woocommerce-gateway-twint');
+                    }
+                }
+            } elseif ($activatedTab === self::CHECKOUT_OPTIONS) {
+                $checkoutSingle = (isset($_POST[SettingService::EXPRESS_CHECKOUT_SINGLE]) && $_POST[SettingService::EXPRESS_CHECKOUT_SINGLE] === 'on')
+                    ? 'yes'
+                    : 'no';
+                $dataCreation[SettingService::EXPRESS_CHECKOUT_SINGLE] = $checkoutSingle;
+                update_option(SettingService::EXPRESS_CHECKOUT_SINGLE, $checkoutSingle);
             }
+
         } else {
             $dataCreation['merchant_id'] = get_option(SettingService::MERCHANT_ID);
 
@@ -93,8 +103,8 @@ class SettingsLayoutViewAdapter
                 $this->data['fields'] = [
                     [
                         'name' => 'merchant_id',
-                        'label' => 'Merchant ID',
-                        'placeholder' => 'Merchant ID',
+                        'label' => __('Merchant ID', 'woocommerce-gateway-twint'),
+                        'placeholder' => __('Merchant ID', 'woocommerce-gateway-twint'),
                         'type' => 'text',
                         'help_text' => '',
                         'value' => $dataCreation['merchant_id'],
@@ -104,20 +114,37 @@ class SettingsLayoutViewAdapter
                         'label' => 'Certificate',
                         'type' => 'file',
                         'multiple' => false,
-                        'help_text' => 'Enter the certificate password for the Twint merchant certificate.',
+                        'placeholder' => __('Drag and drop file here', 'woocommerce-gateway-twint'),
+                        'help_text' => __('Enter the certificate password for the Twint merchant certificate.', 'woocommerce-gateway-twint'),
                         'value' => '',
                     ],
                     [
                         'name' => 'password',
-                        'label' => 'Certificate Password',
+                        'label' => __('Certificate Password', 'woocommerce-gateway-twint'),
                         'type' => 'password',
-                        'placeholder' => 'Password',
-                        'help_text' => 'Please enter the password for the certificate.',
+                        'placeholder' => __('Password', 'woocommerce-gateway-twint'),
+                        'help_text' => __('Please enter the password for the certificate.', 'woocommerce-gateway-twint'),
                         'value' => '',
                     ],
                 ];
                 $tabContent = $this->template
                     ->load('Layouts/partials/tab-content-pages/GeneralSetting.twig')
+                    ->render($this->data);
+                break;
+            case self::CHECKOUT_OPTIONS:
+                $this->data['fields'] = [
+                    [
+                        'name' => SETTINGService::EXPRESS_CHECKOUT_SINGLE,
+                        'label' => __('Checkout the whole current cart (PLP and PDP page)', 'woocommerce-gateway-twint'),
+                        'type' => 'checkbox',
+                        'placeholder' => '',
+                        'help_text' => '',
+                        'isChecked' => SettingService::getCheckoutSingle(),
+                    ],
+                ];
+
+                $tabContent = $this->template
+                    ->load('Layouts/partials/tab-content-pages/checkout_options.html.twig')
                     ->render($this->data);
                 break;
             default:
@@ -137,7 +164,11 @@ class SettingsLayoutViewAdapter
         return [
             [
                 'key' => self::CREDENTIALS,
-                'title' => esc_html__('Credentials', 'twint-payment-integration'),
+                'title' => esc_html__('Credentials', 'woocommerce-gateway-twint'),
+            ],
+            [
+                'key' => self::CHECKOUT_OPTIONS,
+                'title' => esc_html__('Checkout options', 'woocommerce-gateway-twint'),
             ],
         ];
     }
