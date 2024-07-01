@@ -9,7 +9,7 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twint\Woo\Abstract\ServiceProvider\DatabaseServiceProvider;
 use Twint\Woo\App\API\TwintApiWordpressAjax;
-use Twint\Woo\CronJob\BaseTwintCronJob;
+use Twint\Woo\CronJob\TwintCancelOrderExpiredCronJob;
 use Twint\Woo\MetaBox\TwintApiResponseMeta;
 use Twint\Woo\Services\PaymentService;
 use Twint\Woo\Templates\SettingsLayoutViewAdapter;
@@ -63,46 +63,10 @@ class TwintIntegration
 
         add_shortcode('shortcode_order_twint_payment', [$this, 'shortcodeOrderTwintPayment']);
 
-        add_action('twint_cancel_expired_orders', [$this, 'twintCancelExpiredOrders']);
-
         new TwintApiResponseMeta();
         new TwintApiWordpressAjax();
-        new BaseTwintCronJob();
+        new TwintCancelOrderExpiredCronJob();
         $this->paymentService = new PaymentService();
-    }
-
-    public static function INIT_CRONJOB(): void
-    {
-        if (!wp_next_scheduled('twint_cancel_expired_orders')) {
-            wp_schedule_event(time(), 'twint10minutes', 'twint_cancel_expired_orders');
-        }
-    }
-
-    public function twintCancelExpiredOrders()
-    {
-        // Get pending orders within X minutes (configurable in admin setting)
-        $onlyPickOrderFromMinutes = get_option('only_pick_order_from_minutes', 30);
-        $time = strtotime("-{$onlyPickOrderFromMinutes} minutes");
-        $time = date('Y-m-d H:i:s', $time);
-        $currentTime = date('Y-m-d H:i:s');
-        $pendingOrders = wc_get_orders([
-            'type' => 'shop_order',
-            'limit' => -1,
-            'payment_method' => 'twint',
-            'status' => [
-                'wc-pending',
-            ],
-            'date_before' => $currentTime,
-            'date_after' => $time,
-        ]);
-
-        wc_get_logger()->info(
-            'cronjob_twint_cancel_expired_orders',
-            [
-                1,
-                2,
-            ]
-        );
     }
 
     public function wooBeforeOrderUpdateChange($orderId, $items): void
@@ -314,7 +278,7 @@ class TwintIntegration
     {
         self::CREATE_DB();
 
-        self::INIT_CRONJOB();
+        TwintCancelOrderExpiredCronJob::INIT_CRONJOB();
     }
 
     public static function UNINSTALL(): void
