@@ -9,6 +9,7 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twint\Woo\Abstract\ServiceProvider\DatabaseServiceProvider;
 use Twint\Woo\App\API\TwintApiWordpressAjax;
+use Twint\Woo\CronJob\BaseTwintCronJob;
 use Twint\Woo\MetaBox\TwintApiResponseMeta;
 use Twint\Woo\Services\PaymentService;
 use Twint\Woo\Templates\SettingsLayoutViewAdapter;
@@ -59,13 +60,49 @@ class TwintIntegration
         add_action('woocommerce_after_add_to_cart_button', [$this, 'additionalSingleProductButton'], 20);
 
         add_action('woocommerce_before_thankyou', [$this, 'additionalWoocommerceBeforeThankyou'], 20);
-        add_filter('woocommerce_thankyou_order_received_text', [$this, 'changeWoocommerceThankyouOrderReceivedText'], 10, 2);
 
         add_shortcode('shortcode_order_twint_payment', [$this, 'shortcodeOrderTwintPayment']);
 
+        add_action('twint_cancel_expired_orders', [$this, 'twintCancelExpiredOrders']);
+
         new TwintApiResponseMeta();
         new TwintApiWordpressAjax();
+        new BaseTwintCronJob();
         $this->paymentService = new PaymentService();
+    }
+
+    public static function INIT_CRONJOB(): void
+    {
+        if (!wp_next_scheduled('twint_cancel_expired_orders')) {
+            wp_schedule_event(time(), 'twint10minutes', 'twint_cancel_expired_orders');
+        }
+    }
+
+    public function twintCancelExpiredOrders()
+    {
+        // Get pending orders within X minutes (configurable in admin setting)
+        $onlyPickOrderFromMinutes = get_option('only_pick_order_from_minutes', 30);
+        $time = strtotime("-{$onlyPickOrderFromMinutes} minutes");
+        $time = date('Y-m-d H:i:s', $time);
+        $currentTime = date('Y-m-d H:i:s');
+        $pendingOrders = wc_get_orders([
+            'type' => 'shop_order',
+            'limit' => -1,
+            'payment_method' => 'twint',
+            'status' => [
+                'wc-pending',
+            ],
+            'date_before' => $currentTime,
+            'date_after' => $time,
+        ]);
+
+        wc_get_logger()->info(
+            'cronjob_twint_cancel_expired_orders',
+            [
+                1,
+                2,
+            ]
+        );
     }
 
     public function wooBeforeOrderUpdateChange($orderId, $items): void
@@ -94,15 +131,6 @@ class TwintIntegration
         }
     }
 
-    public function changeWoocommerceThankyouOrderReceivedText($text, $order): string
-    {
-        if ($order->get_payment_method() !== 'twint') {
-            return esc_html(__('Thank you. Your order has been received. Please take a look and use TWINT app to pay your order.', 'woocommerce-gateway-twint'));
-        }
-
-        return $text;
-    }
-
     /**
      * @throws SyntaxError
      * @throws RuntimeError
@@ -127,8 +155,14 @@ class TwintIntegration
                 }
             }
 
+            $isOrderCancelled = false;
+            if (!empty($_GET['twint_order_cancelled']) && filter_var($_GET['twint_order_cancelled'], FILTER_VALIDATE_BOOLEAN)) {
+                $isOrderCancelled = true;
+            }
+
             $data = array_merge($data, [
                 'isOrderPaid' => $isOrderPaid,
+                'isOrderCancelled' => $isOrderCancelled,
                 'nonce' => $nonce,
             ]);
 
@@ -279,6 +313,8 @@ class TwintIntegration
     public static function INSTALL(): void
     {
         self::CREATE_DB();
+
+        self::INIT_CRONJOB();
     }
 
     public static function UNINSTALL(): void
@@ -287,11 +323,11 @@ class TwintIntegration
          * TODO:
          * Do we need to remove the table when deactivating plugin.
          */
-        global $wpdb;
-        global $table_prefix;
-        $tableName = $table_prefix . "twint_transactions_log";
-
-        $wpdb->query("DROP TABLE IF EXISTS " . $tableName);
+//        global $wpdb;
+//        global $table_prefix;
+//        $tableName = $table_prefix . "twint_transactions_log";
+//
+//        $wpdb->query("DROP TABLE IF EXISTS " . $tableName);
     }
 
     public static function CREATE_DB(): void
