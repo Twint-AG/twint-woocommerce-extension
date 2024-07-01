@@ -1,6 +1,6 @@
 let urlParams = new URLSearchParams(window.location.search);
 jQuery(document).ready(function ($) {
-    if (!urlParams.get('twint_order_paid') && urlParams.get('order-received')) {
+    if (!urlParams.get('twint_order_paid') && !urlParams.get('twint_order_cancelled') && urlParams.get('order-received')) {
         const checkOrderStatusInterval = setInterval(checkOrderStatusHandler, 5000)
         console.log(checkOrderStatusInterval);
     }
@@ -25,6 +25,9 @@ function checkOrderStatusHandler() {
                     window.location.href = `${currentURL}&twint_order_paid=true`;
                 } else {
                     console.log(response);
+                    if (response.status === 'cancelled') {
+                        let currentURL = window.location.href;
+                        window.location.href = `${currentURL}&twint_order_cancelled=true`;                    }
                 }
             }
         }, 5000);

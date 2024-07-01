@@ -101,6 +101,8 @@ class PaymentService
                 $order->update_status(WC_Gateway_Twint::getOrderStatusAfterPaid());
             } elseif ($twintOrder->status()->equals(OrderStatus::FAILURE())) {
                 // TODO Handle cancel order
+                $msgNote = __('The order has bene cancelled.', 'woocommerce-gateway-twint');
+                $order->update_status('cancelled', $msgNote);
             }
             return $twintOrder;
         } catch (\Exception $e) {
@@ -113,7 +115,7 @@ class PaymentService
             $transactionLogService = new TransactionLogService();
             $transactionLogService->writeObjectLog(
                 $order->get_id(),
-                wc_get_order_status_name($order->get_status()),
+                $order->get_status(),
                 $order->get_transaction_id(),
                 $innovations
             );

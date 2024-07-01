@@ -116,7 +116,7 @@ jQuery(document).ready(function ($) {
                     record_id: recordId,
                     nonce: nonce,
                 },
-                success: function(response) {
+                success: function (response) {
                     $('#modal-content-details').html(JSON.parse(response));
                     $modal.addClass('show-modal');
                 }
@@ -134,6 +134,7 @@ jQuery(document).ready(function ($) {
         if (evt.keyCode === 27) {
             // Escape key pressed
             const $modal = $('.twint-modal');
-            $modal.removeClass('show-modal');        }
+            $modal.removeClass('show-modal');
+        }
     };
 });
