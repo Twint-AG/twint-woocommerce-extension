@@ -8,6 +8,7 @@ class SettingService
     const MERCHANT_ID = 'plugin_twint_settings_merchant_id';
     const CERTIFICATE = 'plugin_twint_settings_certificate';
     const EXPRESS_CHECKOUT_SINGLE = 'plugin_twint_express_checkout_single';
+    const MINUTES_PENDING_WAIT = 'only_pick_order_from_minutes';
 
     /**
      * @return bool
@@ -37,5 +38,10 @@ class SettingService
     public static function getCheckoutSingle()
     {
         return get_option(self::EXPRESS_CHECKOUT_SINGLE);
+    }
+
+    public static function getMinutesPendingWait()
+    {
+        return get_option(self::MINUTES_PENDING_WAIT, 30);
     }
 }

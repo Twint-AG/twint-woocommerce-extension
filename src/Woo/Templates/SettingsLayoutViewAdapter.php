@@ -17,6 +17,7 @@ class SettingsLayoutViewAdapter
 
     const CREDENTIALS = 'credentials';
     const CHECKOUT_OPTIONS = 'checkout_options';
+    const ADVANCED_OPTIONS = 'advanced_options';
     private CryptoHandler $encryptor;
 
     public function __construct($data = [])
@@ -35,6 +36,32 @@ class SettingsLayoutViewAdapter
     public function render(): void
     {
         $template = $this->template->load('Layouts/SettingsLayout.twig');
+//
+//        $dataStore = \WC_Data_Store::load('shipping-zone');
+//        $rawZones = $dataStore->get_zones();
+//        $zones = [];
+//        foreach ($rawZones as $rawZone) {
+//            $zones[] = new \WC_Shipping_Zone($rawZone);
+//        }
+//
+//        foreach ($zones as $zone) {
+//            $zoneShippingMethods = $zone->get_shipping_methods();
+//            if (count($zoneShippingMethods)) {
+//                foreach ($zoneShippingMethods as $index => $method) {
+//                    $method_title = $method->get_method_title();
+//                    $method_user_title = $method->get_title();
+//                    $method_rate_id = $method->get_rate_id();
+//                    printf(
+//                        '<li>%s (%s): <strong>%s</strong></li>%s',
+//                        $method_user_title,
+//                        $method_title,
+//                        $method_rate_id,
+//                        "\n"
+//                    );
+//                }
+//            }
+//        }
+//        dd(2);
 
         /**
          * Tab data
@@ -86,6 +113,9 @@ class SettingsLayoutViewAdapter
                     : 'no';
                 $dataCreation[SettingService::EXPRESS_CHECKOUT_SINGLE] = $checkoutSingle;
                 update_option(SettingService::EXPRESS_CHECKOUT_SINGLE, $checkoutSingle);
+            } elseif ($activatedTab === self::ADVANCED_OPTIONS) {
+                $minutes = $_POST[SettingService::MINUTES_PENDING_WAIT] ?? 30;
+                update_option(SettingService::MINUTES_PENDING_WAIT, $minutes);
             }
 
         } else {
@@ -147,6 +177,22 @@ class SettingsLayoutViewAdapter
                     ->load('Layouts/partials/tab-content-pages/checkout_options.html.twig')
                     ->render($this->data);
                 break;
+            case self::ADVANCED_OPTIONS:
+                $this->data['fields'] = [
+                    [
+                        'name' => SETTINGService::MINUTES_PENDING_WAIT,
+                        'label' => __('Minutes before Pending order is expired.', 'woocommerce-gateway-twint'),
+                        'type' => 'number',
+                        'placeholder' => 'Minutes',
+                        'help_text' => __('After X minutes, then Pending order status would be changed to Cancelled.', 'woocommerce-gateway-twint'),
+                        'value' => SettingService::getMinutesPendingWait(),
+                    ],
+                ];
+
+                $tabContent = $this->template
+                    ->load('Layouts/partials/tab-content-pages/advanced_options.html.twig')
+                    ->render($this->data);
+                break;
             default:
                 $tabContent = '';
         }
@@ -169,6 +215,10 @@ class SettingsLayoutViewAdapter
             [
                 'key' => self::CHECKOUT_OPTIONS,
                 'title' => esc_html__('Checkout options', 'woocommerce-gateway-twint'),
+            ],
+            [
+                'key' => self::ADVANCED_OPTIONS,
+                'title' => esc_html__('Advanced options', 'woocommerce-gateway-twint'),
             ],
         ];
     }

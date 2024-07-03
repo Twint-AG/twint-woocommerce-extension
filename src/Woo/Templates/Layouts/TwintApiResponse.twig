@@ -20,7 +20,7 @@
                 {% endfor %}
             </td>
             <td>{{ item.order_status }}</td>
-            <td>{{ item.created_at|date('Y-m-d') }}</td>
+            <td>{{ item.created_at|date('Y-m-d H:i:s') }}</td>
             <td>
                 <a href="#" class="button button-small button-primary js_view_details"
                    data-nonce="{{ nonce }}"

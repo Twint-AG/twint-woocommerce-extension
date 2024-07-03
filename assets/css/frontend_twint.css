@@ -26,7 +26,9 @@
 .twint-button .twint-button_icon_block {
     border-radius: 4px;
     margin-right: 6px;
-    padding: 4px
+    padding: 4px;
+    display: flex;
+    align-items: center;
 }
 
 [data-bs-theme="dark"] .twint-button .twint-button_icon_block {

@@ -62,6 +62,7 @@ class PaymentService
             $order->save();
 
         } catch (\Exception $e) {
+            wc_get_logger()->error('An error occurred during the communication with external payment gateway' . PHP_EOL . $e->getMessage());
             throw PaymentException::asyncProcessInterrupted(
                 $order->get_transaction_id(),
                 'An error occurred during the communication with external payment gateway' . PHP_EOL . $e->getMessage()

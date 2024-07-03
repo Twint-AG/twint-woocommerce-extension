@@ -1,8 +1,11 @@
 let urlParams = new URLSearchParams(window.location.search);
 jQuery(document).ready(function ($) {
-    if (!urlParams.get('twint_order_paid') && !urlParams.get('twint_order_cancelled') && urlParams.get('order-received')) {
-        const checkOrderStatusInterval = setInterval(checkOrderStatusHandler, 5000)
-        console.log(checkOrderStatusInterval);
+    const nonce = jQuery('input[name="twint_wp_nonce"]').val();
+    if (nonce !== undefined && nonce !== '') {
+        if (!urlParams.get('twint_order_paid') && !urlParams.get('twint_order_cancelled') && urlParams.get('order-received')) {
+            const checkOrderStatusInterval = setInterval(checkOrderStatusHandler, 5000)
+            console.log(checkOrderStatusInterval);
+        }
     }
 });
 
@@ -10,6 +13,9 @@ function checkOrderStatusHandler() {
     if (!urlParams.get('twint_order_paid') && urlParams.get('order-received')) {
         // TODO Check Status of the order
         const nonce = jQuery('input[name="twint_wp_nonce"]').val();
+        if (nonce === undefined || nonce === '') {
+            return;
+        }
 
         jQuery.ajax({
             url: woocommerce_params.ajax_url,
