@@ -51,7 +51,18 @@ class TwintIntegration
         add_action('admin_enqueue_scripts', [$this, 'enqueueScripts'], 20);
 
         add_action('admin_menu', [$this, 'registerMenuItem']);
+
+        /**
+         * @support Classic Checkout
+         * Would be triggered after order created with CLASSIC Checkout
+         */
         add_action('woocommerce_checkout_order_created', [$this, 'woocommerceCheckoutOrderCreated']);
+
+        /**
+         * @support Block Checkout
+         * Would be triggered after order created with BLOCK Checkout
+         */
+        add_action('woocommerce_store_api_checkout_order_processed', [$this, 'woocommerceCheckoutOrderCreated']);
 
         add_filter('woocommerce_before_save_order_items', [$this, 'wooBeforeOrderUpdateChange'], 10, 2);
 
@@ -60,8 +71,6 @@ class TwintIntegration
         add_action('woocommerce_after_add_to_cart_button', [$this, 'additionalSingleProductButton'], 20);
 
         add_action('woocommerce_before_thankyou', [$this, 'additionalWoocommerceBeforeThankyou'], 20);
-
-        add_shortcode('shortcode_order_twint_payment', [$this, 'shortcodeOrderTwintPayment']);
 
         new TwintApiResponseMeta();
         new TwintApiWordpressAjax();
@@ -100,9 +109,17 @@ class TwintIntegration
      * @throws RuntimeError
      * @throws LoaderError
      */
-    public function additionalWoocommerceBeforeThankyou(int $orderId): void
+    public function additionalWoocommerceBeforeThankyou(\WC_Order|int $order): void
     {
-        $order = wc_get_order($orderId);
+        if (is_int($order)) {
+            $orderId = $order;
+            $order = wc_get_order($orderId);
+        }
+
+        if ($order->get_payment_method() !== 'twint') {
+            return;
+        }
+
         $template = $this->template->load('Layouts/QrCode.html.twig');
         $twintApiResponse = json_decode($order->get_meta('twint_api_response'), true);
         $data = [];
@@ -177,11 +194,6 @@ class TwintIntegration
 
         $template = $this->template->load('Layouts/components/button.html.twig');
         echo $template->render();
-    }
-
-    public function shortcodeOrderTwintPayment(): void
-    {
-        wc_get_template('payment/twint/payment.php');
     }
 
     public function wooPluginTemplate($template, $template_name, $template_path)
@@ -292,6 +304,8 @@ class TwintIntegration
 //        $tableName = $table_prefix . "twint_transactions_log";
 //
 //        $wpdb->query("DROP TABLE IF EXISTS " . $tableName);
+
+        TwintCancelOrderExpiredCronJob::REMOVE_CRONJOB();
     }
 
     public static function CREATE_DB(): void

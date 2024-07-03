@@ -2,20 +2,29 @@
 
 namespace TWINT\Woo\CronJob;
 
+use Twint\Woo\Services\SettingService;
+
 class TwintCancelOrderExpiredCronJob
 {
+    public const HOOK_NAME = 'twint_cancel_expired_orders';
+
     public function __construct()
     {
         add_filter('cron_schedules', [$this, 'wpCronSchedules']);
 
-        add_action('twint_cancel_expired_orders', [$this, 'twintCancelExpiredOrders']);
+        add_action(self::HOOK_NAME, [$this, 'twintCancelExpiredOrders']);
     }
 
     public static function INIT_CRONJOB(): void
     {
-        if (!wp_next_scheduled('twint_cancel_expired_orders')) {
-            wp_schedule_event(time(), 'twint15minutes', 'twint_cancel_expired_orders');
+        if (!wp_next_scheduled(self::HOOK_NAME)) {
+            wp_schedule_event(time(), 'twint15minutes', self::HOOK_NAME);
         }
+    }
+
+    public static function REMOVE_CRONJOB(): void
+    {
+        wp_clear_scheduled_hook(self::HOOK_NAME);
     }
 
     public function wpCronSchedules($schedules)
@@ -39,7 +48,7 @@ class TwintCancelOrderExpiredCronJob
             ]
         );
         // Get pending orders within X minutes (configurable in admin setting)
-        $onlyPickOrderFromMinutes = get_option('only_pick_order_from_minutes', 30);
+        $onlyPickOrderFromMinutes = get_option(SettingService::MINUTES_PENDING_WAIT, 30);
         $time = strtotime("-{$onlyPickOrderFromMinutes} minutes");
         $time = date('Y-m-d H:i:s', $time);
         $pendingOrders = wc_get_orders([
