@@ -7,7 +7,32 @@ jQuery(document).ready(function ($) {
             console.log(checkOrderStatusInterval);
         }
     }
+
+    $(document).on('click', '.bank-logo', function (evt) {
+        evt.preventDefault();
+        const $this = $(this);
+        const link = $this.attr('data-link');
+
+        if (link) {
+            try {
+                window.location.replace(link);
+
+                const checkLocation = setInterval(() => {
+                    if (window.location.href !== link) {
+                        showMobileQrCode();
+                    }
+                    clearInterval(checkLocation);
+                }, 2 * 1000);
+            } catch (e) {
+                showMobileQrCode();
+            }
+        }
+    });
 });
+
+function showMobileQrCode() {
+    jQuery('.qr-code').removeClass('d-none');
+}
 
 function checkOrderStatusHandler() {
     if (!urlParams.get('twint_order_paid') && urlParams.get('order-received')) {
@@ -33,7 +58,8 @@ function checkOrderStatusHandler() {
                     console.log(response);
                     if (response.status === 'cancelled') {
                         let currentURL = window.location.href;
-                        window.location.href = `${currentURL}&twint_order_cancelled=true`;                    }
+                        window.location.href = `${currentURL}&twint_order_cancelled=true`;
+                    }
                 }
             }
         }, 5000);

@@ -148,7 +148,8 @@ class TwintIntegration
             ]);
 
             if (!$isOrderPaid) {
-                $payLinks = $this->paymentService->getPayLinks($pairingToken ?? '');
+                $pairingToken = (string)($twintApiResponse['pairingToken'] ?? '');
+                $payLinks = $this->paymentService->getPayLinks($pairingToken);
                 $options = new QROptions(
                     [
                         'eccLevel' => QRCode::ECC_L,
@@ -156,7 +157,6 @@ class TwintIntegration
                         'version' => 5,
                     ]
                 );
-                $pairingToken = (string)($twintApiResponse['pairingToken'] ?? '');
                 $qrcode = (new QRCode($options))->render($pairingToken);
 
                 $data = array_merge($data, [
