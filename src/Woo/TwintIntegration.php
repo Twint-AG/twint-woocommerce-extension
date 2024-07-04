@@ -122,7 +122,9 @@ class TwintIntegration
 
         $template = $this->template->load('Layouts/QrCode.html.twig');
         $twintApiResponse = json_decode($order->get_meta('twint_api_response'), true);
-        $data = [];
+        $data = [
+            'orderId' => $order->get_id(),
+        ];
         $nonce = wp_create_nonce('twint_check_order_status');
         if ($twintApiResponse) {
 
@@ -174,7 +176,10 @@ class TwintIntegration
 
     public function wpEnqueueScriptsFrontend(): void
     {
-        wp_enqueue_script('js-woocommerce-gateway-twint-frontend', twint_assets('/js/twint_frontend.js'));
+        wp_enqueue_script('js-woocommerce-gateway-twint-frontend', twint_assets('/js/frontend/frontstore.js'));
+        wp_enqueue_script('js-woocommerce-gateway-DeviceSwitcher', twint_assets('/js/DeviceSwitcher.js'));
+        wp_enqueue_script('js-woocommerce-gateway-PaymentStatusRefresh', twint_assets('/js/PaymentStatusRefresh.js'));
+
         wp_localize_script('js-woocommerce-gateway-twint-frontend', 'twint_api', [
             'admin_url' => admin_url('admin-ajax.php')
         ]);
@@ -267,7 +272,7 @@ class TwintIntegration
 
     public function enqueueScripts(): void
     {
-        wp_enqueue_script('js-woocommerce-gateway-twint', WC_Twint_Payments::plugin_url() . '/assets/js/twint-payment-integration.js', ['jquery']);
+        wp_enqueue_script('js-woocommerce-gateway-twint', WC_Twint_Payments::plugin_url() . '/assets/js/TwintPaymentIntegration.js', ['jquery']);
     }
 
     public function enqueueStyles(): void
