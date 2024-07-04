@@ -8,30 +8,48 @@ jQuery(document).ready(function ($) {
         }
     }
 
+    const $twintContainer = jQuery('#twint-qr-container');
+
+    const isAndroid = $twintContainer.attr('data-is-android-device');
+    const isIos = $twintContainer.attr('data-is-ios-device');
+
+    if (isAndroid) {
+        let link = $twintContainer.attr('data-android-link');
+        openAppBank(link);
+    }
+
+    if (isIos) {
+        console.log('IOS');
+    }
+
     $(document).on('click', '.bank-logo', function (evt) {
         evt.preventDefault();
         const $this = $(this);
         const link = $this.attr('data-link');
 
-        if (link) {
-            try {
-                window.location.replace(link);
-
-                const checkLocation = setInterval(() => {
-                    if (window.location.href !== link) {
-                        showMobileQrCode();
-                    }
-                    clearInterval(checkLocation);
-                }, 2 * 1000);
-            } catch (e) {
-                showMobileQrCode();
-            }
-        }
+        openAppBank(link);
     });
 });
 
 function showMobileQrCode() {
     jQuery('.qr-code').removeClass('d-none');
+}
+
+function openAppBank(link) {
+    if (link) {
+        try {
+            window.location.replace(link);
+
+            const checkLocation = setInterval(() => {
+                if (window.location.href !== link) {
+                    showMobileQrCode();
+                }
+                clearInterval(checkLocation);
+            }, 2 * 1000);
+        } catch (e) {
+            this.showMobileQrCode();
+        }
+    }
 }
 
 function checkOrderStatusHandler() {
