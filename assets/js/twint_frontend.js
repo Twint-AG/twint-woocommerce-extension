@@ -1,12 +1,12 @@
 let urlParams = new URLSearchParams(window.location.search);
 jQuery(document).ready(function ($) {
-    const nonce = jQuery('input[name="twint_wp_nonce"]').val();
-    if (nonce !== undefined && nonce !== '') {
-        if (!urlParams.get('twint_order_paid') && !urlParams.get('twint_order_cancelled') && urlParams.get('order-received')) {
-            const checkOrderStatusInterval = setInterval(checkOrderStatusHandler, 5000)
-            console.log(checkOrderStatusInterval);
-        }
-    }
+    // const nonce = jQuery('input[name="twint_wp_nonce"]').val();
+    // if (nonce !== undefined && nonce !== '') {
+    //     if (!urlParams.get('twint_order_paid') && !urlParams.get('twint_order_cancelled') && urlParams.get('order-received')) {
+    //         const checkOrderStatusInterval = setInterval(checkOrderStatusHandler, 5000)
+    //         console.log(checkOrderStatusInterval);
+    //     }
+    // }
 
     const $twintContainer = jQuery('#twint-qr-container');
 
@@ -28,6 +28,22 @@ jQuery(document).ready(function ($) {
         const link = $this.attr('data-link');
 
         openAppBank(link);
+    });
+
+    $(document).on('click', '#btn-copy-token', function (evt) {
+        evt.preventDefault();
+
+        const $this = jQuery(this);
+        const $target = $this.attr('data-clipboard-target');
+        copyToClipboard($target);
+        const btnText = $this.text();
+
+        // Change text and revert it back after 3s
+        $this.html('<span style="color: green;">Copied!</span>');
+        setTimeout(() => {
+            $this.html(btnText);
+        }, 3000);
+
     });
 });
 
@@ -82,4 +98,12 @@ function checkOrderStatusHandler() {
             }
         }, 5000);
     }
+}
+
+function copyToClipboard(element) {
+    let $temp = jQuery("<input>");
+    jQuery("body").append($temp);
+    $temp.val(jQuery(element).val()).select();
+    document.execCommand("copy");
+    $temp.remove();
 }
