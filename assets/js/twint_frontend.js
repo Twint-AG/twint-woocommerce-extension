@@ -1,12 +1,12 @@
 let urlParams = new URLSearchParams(window.location.search);
 jQuery(document).ready(function ($) {
-    // const nonce = jQuery('input[name="twint_wp_nonce"]').val();
-    // if (nonce !== undefined && nonce !== '') {
-    //     if (!urlParams.get('twint_order_paid') && !urlParams.get('twint_order_cancelled') && urlParams.get('order-received')) {
-    //         const checkOrderStatusInterval = setInterval(checkOrderStatusHandler, 5000)
-    //         console.log(checkOrderStatusInterval);
-    //     }
-    // }
+    const nonce = jQuery('input[name="twint_wp_nonce"]').val();
+    if (nonce !== undefined && nonce !== '') {
+        if (!urlParams.get('twint_order_paid') && !urlParams.get('twint_order_cancelled') && urlParams.get('order-received')) {
+            const checkOrderStatusInterval = setInterval(checkOrderStatusHandler, 5000)
+            console.log(checkOrderStatusInterval);
+        }
+    }
 
     const $twintContainer = jQuery('#twint-qr-container');
 
