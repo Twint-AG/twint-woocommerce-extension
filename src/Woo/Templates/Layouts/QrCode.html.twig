@@ -92,6 +92,29 @@
                         </select>
                     </div>
                 </div>
+
+                <div class="qr-code d-none d-md-none">
+                    <div class="separator d-flex py-0 text-center my-3">{{ 'or'|__trans }}</div>
+                    <div class="qr-code flex d-flex justify-content-center my-3">
+                        <div class="col-9 text-center">{{ 'Enter this code in your TWINT app:'|__trans }}</div>
+                    </div>
+
+                    <div class="qr-token text-center mb-3">
+                        <input id="qr-token" class="text-center bg-white" type="text" value="{{ pairingToken }}"
+                               disabled>
+                    </div>
+
+                    <div class="d-md-none text-center border-bottom py-4">
+                        <button id="btn-copy-token" data-clipboard-action="copy" data-clipboard-target="#qr-token"
+                                class="text-center p-2 px-3 bg-white rounded text-secondary border-secondary border-1 ">{{ "Copy Code"|__trans }}</button>
+                    </div>
+
+                    {% if qrCode %}
+                        <div class="text-center">
+                            <img src="{{ qrCode }}" alt="QR Code" class="qr-img img-fluid md-rounded">
+                        </div>
+                    {% endif %}
+                </div>
             {% elseif payLinks['android'] is defined and payLinks['android'] is not null %}
                 <div class="text-center row mt-3">
                     <a class="btn btn-primary android-button rounded py-2 px-3 border-0"
@@ -102,25 +125,26 @@
 
                 <div class="qr-code d-none d-md-none">
                     <div class="separator d-flex py-0 text-center my-3">{{ 'or'|__trans }}</div>
-                </div>
-                <div class="qr-code d-none flex d-md-none d-flex justify-content-center my-3">
-                    <div class="col-9 text-center">{{ 'Enter this code in your TWINT app:'|__trans }}</div>
-                </div>
-
-                <div class="qr-token text-center mb-3">
-                    <input id="qr-token" class="text-center bg-white" type="text" value="{{ pairingToken }}" disabled>
-                </div>
-
-                <div class="d-md-none text-center border-bottom py-4">
-                    <button id="btn-copy-token" data-clipboard-action="copy" data-clipboard-target="#qr-token"
-                            class="text-center p-2 px-3 bg-white rounded text-secondary border-secondary border-1 ">{{ "Copy Code"|__trans }}</button>
-                </div>
-
-                {% if qrCode %}
-                    <div class="text-center">
-                        <img src="{{ qrCode }}" alt="QR Code" class="qr-img img-fluid md-rounded">
+                    <div class="qr-code flex d-flex justify-content-center my-3">
+                        <div class="col-9 text-center">{{ 'Enter this code in your TWINT app:'|__trans }}</div>
                     </div>
-                {% endif %}
+
+                    <div class="qr-token text-center mb-3">
+                        <input id="qr-token" class="text-center bg-white" type="text" value="{{ pairingToken }}"
+                               disabled>
+                    </div>
+
+                    <div class="d-md-none text-center border-bottom py-4">
+                        <button id="btn-copy-token" data-clipboard-action="copy" data-clipboard-target="#qr-token"
+                                class="text-center p-2 px-3 bg-white rounded text-secondary border-secondary border-1 ">{{ "Copy Code"|__trans }}</button>
+                    </div>
+
+                    {% if qrCode %}
+                        <div class="text-center">
+                            <img src="{{ qrCode }}" alt="QR Code" class="qr-img img-fluid md-rounded">
+                        </div>
+                    {% endif %}
+                </div>
             {% else %}
                 <div class="qr-code-section d-flex gap-2" style="font-size: 16px;">
                     <div class="qr-code-box">
