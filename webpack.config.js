@@ -29,6 +29,10 @@ module.exports = {
     ...defaultConfig,
     entry: {
         'frontend/blocks': '/resources/js/frontend/index.js',
+        'frontend/frontstore': '/resources/js/frontstore/CopyToken.js',
+        'TwintPaymentIntegration': '/resources/js/frontstore/TwintPaymentIntegration.js',
+        'DeviceSwitcher': '/resources/js/frontstore/DeviceSwitcher.js',
+        'PaymentStatusRefresh': '/resources/js/frontstore/PaymentStatusRefresh.js',
     },
     output: {
         path: path.resolve(__dirname, 'assets/js'),

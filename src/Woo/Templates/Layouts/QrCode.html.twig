@@ -57,8 +57,9 @@
              data-is-android-device="{{ isAndroid }}"
              data-is-ios-device="{{ isIosDevice }}"
              data-android-link="{{ payLinks.android }}"
+             data-order-id="{{ orderId }}"
         >
-            <input type="hidden" name="twint_wp_nonce" value="{{ nonce }}">
+            <input type="hidden" name="twint_wp_nonce" value="{{ nonce }}" id="twint_wp_nonce">
 
             {% if payLinks['ios'] is defined and payLinks['ios'] is not null %}
                 {% include 'Layouts/partials/qr-code/qr_ios.html.twig' %}
