@@ -29,6 +29,22 @@ jQuery(document).ready(function ($) {
 
         openAppBank(link);
     });
+
+    $(document).on('click', '#btn-copy-token', function (evt) {
+        evt.preventDefault();
+
+        const $this = jQuery(this);
+        const $target = $this.attr('data-clipboard-target');
+        copyToClipboard($target);
+        const btnText = $this.text();
+
+        // Change text and revert it back after 3s
+        $this.html('<span style="color: green;">Copied!</span>');
+        setTimeout(() => {
+            $this.html(btnText);
+        }, 3000);
+
+    });
 });
 
 function showMobileQrCode() {
@@ -82,4 +98,12 @@ function checkOrderStatusHandler() {
             }
         }, 5000);
     }
+}
+
+function copyToClipboard(element) {
+    let $temp = jQuery("<input>");
+    jQuery("body").append($temp);
+    $temp.val(jQuery(element).val()).select();
+    document.execCommand("copy");
+    $temp.remove();
 }
