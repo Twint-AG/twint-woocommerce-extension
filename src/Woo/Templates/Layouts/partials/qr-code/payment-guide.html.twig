@@ -1,25 +1,11 @@
-<div class="d-flex justify-content-center">
-    <div class="col-12 col-md-6 mb-4">
-        <div class="d-flex flex-column align-items-center">
-            <div class="d-flex justify-content-center">
-                <img class="guide-icon"
-                     src="#" alt="scan"/>
-            </div>
-            <div class="text-center mt-4">
-                Scan this QR Code with your TWINT app to complete the checkout.
-            </div>
+<div class="qr-code-instructions d-flex justify-content-center p-4">
+    <div class="d-flex flex-column align-items-center">
+        <div class="d-flex justify-content-center">
+            <img class="guide-icon"
+                 src="{{ twint_asset('/images/icon-scan.svg') }}" alt="scan"/>
         </div>
-    </div>
-    <div class="col-12 col-md-6">
-        <div class="d-flex flex-column align-items-center">
-            <div class="d-flex justify-content-center">
-                <img class="guide-icon"
-                     src="#"
-                     alt="scan"/>
-            </div>
-            <div class="text-center mt-4">
-                Select a shipping address and complete the purchase in the app.
-            </div>
+        <div class="text-center mt-4">
+            {{ 'Scan this QR Code with your TWINT app to complete the checkout.'|__trans }}
         </div>
     </div>
 </div>

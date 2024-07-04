@@ -128,6 +128,7 @@ section.twint-qr-code-section {
 
 .twint-qr-container a.btn {
     text-decoration: none !important;
+    width: 100%;
 }
 
 .twint-qr-container {

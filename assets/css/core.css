@@ -680,7 +680,8 @@
     border: var(--bs-btn-border-width) solid var(--bs-btn-border-color);
     border-radius: var(--bs-btn-border-radius);
     background-color: var(--bs-btn-bg);
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    box-sizing: border-box;
 }
 
 .btn:hover {
@@ -1381,7 +1382,8 @@
 }
 
 .alert-has-icon .alert-content-container {
-    padding-left: 1rem
+    padding-left: 1rem;
+    font-size: 1.125rem;
 }
 
 .alert-list {
@@ -1801,7 +1803,8 @@
     --bs-btn-disabled-color: #bcc1c7;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap
+    white-space: nowrap;
+    box-sizing: border-box;
 }
 
 .btn:hover {
