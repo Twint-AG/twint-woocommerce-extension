@@ -1,2 +1,2 @@
-# woo-extension
+# WooCommerce Twint Payment Gateway
 
