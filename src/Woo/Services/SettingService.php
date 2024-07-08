@@ -9,6 +9,7 @@ class SettingService
     const CERTIFICATE = 'plugin_twint_settings_certificate';
     const EXPRESS_CHECKOUT_SINGLE = 'plugin_twint_express_checkout_single';
     const MINUTES_PENDING_WAIT = 'only_pick_order_from_minutes';
+    const REMOVE_DB_TABLE_WHEN_DISABLING_PLUGIN = '_twint_auto_remove_db_table_when_disabling';
 
     /**
      * @return bool
@@ -43,5 +44,10 @@ class SettingService
     public static function getMinutesPendingWait()
     {
         return get_option(self::MINUTES_PENDING_WAIT, 30);
+    }
+
+    public static function getAutoRemoveDBTableWhenDisabling()
+    {
+        return get_option(self::REMOVE_DB_TABLE_WHEN_DISABLING_PLUGIN, 'no');
     }
 }

@@ -116,6 +116,11 @@ class SettingsLayoutViewAdapter
             } elseif ($activatedTab === self::ADVANCED_OPTIONS) {
                 $minutes = $_POST[SettingService::MINUTES_PENDING_WAIT] ?? 30;
                 update_option(SettingService::MINUTES_PENDING_WAIT, $minutes);
+
+                $removeDbTables =  (isset($_POST[SettingService::REMOVE_DB_TABLE_WHEN_DISABLING_PLUGIN]) && $_POST[SettingService::REMOVE_DB_TABLE_WHEN_DISABLING_PLUGIN] === 'on')
+                    ? 'yes'
+                    : 'no';
+                update_option(SettingService::REMOVE_DB_TABLE_WHEN_DISABLING_PLUGIN, $removeDbTables);
             }
 
         } else {
@@ -186,6 +191,14 @@ class SettingsLayoutViewAdapter
                         'placeholder' => 'Minutes',
                         'help_text' => __('After X minutes, then Pending order status would be changed to Cancelled.', 'woocommerce-gateway-twint'),
                         'value' => SettingService::getMinutesPendingWait(),
+                    ],
+                    [
+                        'name' => SETTINGService::REMOVE_DB_TABLE_WHEN_DISABLING_PLUGIN,
+                        'label' => __('Remove all DB tables from the plugin when deactivating?', 'woocommerce-gateway-twint'),
+                        'type' => 'checkbox',
+                        'placeholder' => '',
+                        'help_text' => '',
+                        'isChecked' => SettingService::getAutoRemoveDBTableWhenDisabling(),
                     ],
                 ];
 
