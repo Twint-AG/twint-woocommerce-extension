@@ -194,7 +194,7 @@ class SettingsLayoutViewAdapter
                     ],
                     [
                         'name' => SETTINGService::REMOVE_DB_TABLE_WHEN_DISABLING_PLUGIN,
-                        'label' => __('Do we need to remove all DB tables when deactivating plugin?', 'woocommerce-gateway-twint'),
+                        'label' => __('Remove all DB tables from the plugin when deactivating?', 'woocommerce-gateway-twint'),
                         'type' => 'checkbox',
                         'placeholder' => '',
                         'help_text' => '',
