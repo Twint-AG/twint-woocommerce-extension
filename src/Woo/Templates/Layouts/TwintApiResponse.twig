@@ -1,0 +1,48 @@
+<table class="content-table">
+    <thead>
+    <tr>
+        <th>Order ID</th>
+        <th>API Method</th>
+        <th>SOAP Actions</th>
+        <th>Order Status</th>
+        <th>Created At</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in logs %}
+        <tr>
+            <td>{{ item.order_id }}</td>
+            <td><span class="badge bg-primary">{{ item.api_method }}</span></td>
+            <td>
+                {% for action in twint_json_decode(item.soap_action) %}
+                    <span class="badge bg-primary">{{ action }}</span>
+                {% endfor %}
+            </td>
+            <td>{{ item.order_status }}</td>
+            <td>{{ item.created_at|date('Y-m-d H:i:s') }}</td>
+            <td>
+                <a href="#" class="button button-small button-primary js_view_details"
+                   data-nonce="{{ nonce }}"
+                   data-record-id="{{ item.record_id }}">
+                    View Details
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="modal twint-modal">
+    <div class="modal-content" style="width: 70%;">
+        <div class="modal-body">
+            <span class="close-button">&times;</span>
+            <h3>{{ 'TWINT Transaction log'|__trans }}</h3>
+            <div id="modal-content-details"></div>
+        </div>
+
+        <div class="modal-footer">
+            <a href="#" class="button button-small button-primary close-button">Close</a>
+        </div>
+    </div>
+</div>

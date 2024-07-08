@@ -1,0 +1,38 @@
+{% block PHPComponents %}
+    <div class="wrap">
+        <h1>Twint Integration Settings</h1>
+
+        {% if status == true %}
+            <div class="notice notice-success is-dismissible">
+                <p>All settings have been saved.</p>
+            </div>
+        {% elseif status is defined and status == false %}
+            <div class="notice notice-error is-dismissible">
+                <p>{{ error_msg }}</p>
+            </div>
+        {% endif %}
+
+        <form method="post" action="" novalidate="novalidate" enctype="multipart/form-data">
+            <nav class="nav-tab-wrapper woo-nav-tab-wrapper">
+                {% for tab in tabs %}
+                    <a href="{{ admin_url }}admin.php?page=twint-payment-integration-settings&tab={{ tab.key }}"
+                       class="nav-tab nav-tab {% if activated_tab == tab.key %} nav-tab-active {% endif %}">
+                        {{ tab.title }}
+                    </a>
+                {% endfor %}
+            </nav>
+
+            <div class="tab-content">
+                {{ tabContent|raw }}
+            </div>
+
+            <p class="submit">
+                <input type="submit"
+                       name="submit"
+                       id="submit"
+                       class="button button-primary"
+                       value="Save Changes">
+            </p>
+        </form>
+    </div>
+{% endblock %}

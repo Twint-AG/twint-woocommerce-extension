@@ -1,0 +1,62 @@
+<div class="mb-3 d-md-none">
+    <div class="row app-chooser-area">
+        <div id="app-chooser-container" class="text-center bg-light">
+            <div class="app-chooser-title my-4">{{ 'Choose your TWINT app'|__trans }}</div>
+            {% set prefinedApps = {
+                'UBS TWINT' : 'bank-ubs',
+                'Raiffeisen TWINT' : 'bank-raiffeisen',
+                'PostFinance TWINT' : 'bank-pf',
+                'ZKB TWINT' :'bank-zkb',
+                'Credit Suisse TWINT' : 'bank-cs',
+                'BCV TWINT' : 'bank-bcv',
+            } %}
+
+            <div class="app-logos-container m-3 text-center justify-content-center"
+                 id="logo-container">
+                {% for payLink in payLinks.ios %}
+                    {% if payLink.name in prefinedApps|keys %}
+                        <div class="text-center item">
+                            <img class="bank-logo"
+                                 src="{{ twint_asset('/images/' ~ prefinedApps[payLink.name] ~ '.png') }}"
+                                 data-link="{{ payLink.link }}" alt=""/>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="text-center custom-select">
+        <select class="text-align-last p-3 text-center rounded-0 border-0 text-secondary bg-white"
+                id="app-chooser">
+            <option value="">{{ "Other banks"|__trans }}</option>
+            {% for payLink in payLinks.ios %}
+                {% if payLink.name not in prefinedApps|keys %}
+                    <option value="{{ payLink.link }}">{{ payLink.name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<div class="qr-code d-none d-md-none">
+    <div class="separator d-flex py-0 text-center my-3">{{ 'or'|__trans }}</div>
+    <div class="qr-code flex d-flex justify-content-center my-3">
+        <div class="col-9 text-center">{{ 'Enter this code in your TWINT app:'|__trans }}</div>
+    </div>
+
+    <div class="qr-token text-center mb-3">
+        <input id="qr-token" class="text-center bg-white" type="text" value="{{ pairingToken }}"
+               disabled>
+    </div>
+
+    <div class="d-md-none text-center border-bottom py-4">
+        <button id="btn-copy-token" data-clipboard-action="copy" data-clipboard-target="#qr-token"
+                class="text-center p-2 px-3 bg-white rounded text-secondary border-secondary border-1 ">{{ "Copy Code"|__trans }}</button>
+    </div>
+
+    {% if qrCode %}
+        <div class="text-center">
+            <img src="{{ qrCode }}" alt="QR Code" class="qr-img img-fluid md-rounded">
+        </div>
+    {% endif %}
+</div>
