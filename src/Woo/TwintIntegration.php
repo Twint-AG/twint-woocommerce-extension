@@ -12,6 +12,7 @@ use Twint\Woo\App\API\TwintApiWordpressAjax;
 use Twint\Woo\CronJob\TwintCancelOrderExpiredCronJob;
 use Twint\Woo\MetaBox\TwintApiResponseMeta;
 use Twint\Woo\Services\PaymentService;
+use Twint\Woo\Services\SettingService;
 use Twint\Woo\Templates\SettingsLayoutViewAdapter;
 use Twint\Woo\Templates\TwigTemplateEngine;
 use WC_Twint_Payments;
@@ -301,14 +302,15 @@ class TwintIntegration
     public static function UNINSTALL(): void
     {
         /**
-         * TODO:
-         * Do we need to remove the table when deactivating plugin.
+         * Do we need to remove the table when deactivating plugin?
          */
-//        global $wpdb;
-//        global $table_prefix;
-//        $tableName = $table_prefix . "twint_transactions_log";
-//
-//        $wpdb->query("DROP TABLE IF EXISTS " . $tableName);
+        if (SettingService::getAutoRemoveDBTableWhenDisabling() === 'yes') {
+            global $wpdb;
+            global $table_prefix;
+            $tableName = $table_prefix . "twint_transactions_log";
+
+            $wpdb->query("DROP TABLE IF EXISTS " . $tableName);
+        }
 
         TwintCancelOrderExpiredCronJob::REMOVE_CRONJOB();
     }
