@@ -19,50 +19,54 @@ class TransactionLogService
         array  $innovations
     ): void
     {
-        if ($innovations === []) {
-            return;
-        }
+        try {
+            if ($innovations === []) {
+                return;
+            }
 
-        $request = json_encode($innovations[0]->arguments());
-        $exception = $innovations[0]->exception() ?? '';
+            $request = json_encode($innovations[0]->arguments());
+            $exception = $innovations[0]->exception() ?? '';
 
-        if ($exception instanceof ApiFailure) {
-            $exception = $exception->getMessage();
-        }
+            if ($exception instanceof ApiFailure) {
+                $exception = $exception->getMessage();
+            }
 
-        $response = json_encode($innovations[0]->returnValue());
-        $soapMessages = $innovations[0]->messages();
-        $soapRequests = [];
-        $soapResponses = [];
-        $apiMethod = $innovations[0]->methodName() ?? ' ';
-        $soapActions = [];
-        foreach ($soapMessages as $soapMessage) {
-            $soapActions[] = $soapMessage->request()->action();
-            $soapRequests[] = $soapMessage->request()->body();
-            $soapResponses[] = $soapMessage->response()->body();
-        }
+            $response = json_encode($innovations[0]->returnValue());
+            $soapMessages = $innovations[0]->messages();
+            $soapRequests = [];
+            $soapResponses = [];
+            $apiMethod = $innovations[0]->methodName() ?? ' ';
+            $soapActions = [];
+            foreach ($soapMessages as $soapMessage) {
+                $soapActions[] = $soapMessage->request()->action();
+                $soapRequests[] = $soapMessage->request()->body();
+                $soapResponses[] = $soapMessage->response()->body();
+            }
 
-        $soapRequests = json_encode($soapRequests);
-        $soapResponses = json_encode($soapResponses);
-        $soapActions = json_encode($soapActions);
+            $soapRequests = json_encode($soapRequests);
+            $soapResponses = json_encode($soapResponses);
+            $soapActions = json_encode($soapActions);
 
-        $data = [
-            'order_id' => $orderId,
-            'order_status' => $orderStatus,
-            'transaction_id' => $transactionId,
-            'api_method' => $apiMethod,
-            'soap_action' => $soapActions,
-            'request' => $request,
-            'response' => $response,
-            'soap_request' => $soapRequests,
-            'soap_response' => $soapResponses,
-            'exception_text' => $exception,
-            'created_at' => date("Y-m-d H:i:s"),
-        ];
+            $data = [
+                'order_id' => $orderId,
+                'order_status' => $orderStatus,
+                'transaction_id' => $transactionId,
+                'api_method' => $apiMethod,
+                'soap_action' => $soapActions,
+                'request' => $request,
+                'response' => $response,
+                'soap_request' => $soapRequests,
+                'soap_response' => $soapResponses,
+                'exception_text' => $exception,
+                'created_at' => date("Y-m-d H:i:s"),
+            ];
 
-        if (!$this->checkDuplicatedTransactionLogInLastTime($data)) {
-            global $wpdb;
-            $wpdb->insert(self::getTableName(), $data);
+            if (!$this->checkDuplicatedTransactionLogInLastTime($data)) {
+                global $wpdb;
+                $wpdb->insert(self::getTableName(), $data);
+            }
+        } catch (\Exception $exception) {
+            wc_get_logger()->error('error_log_transaction' . PHP_EOL . $exception->getMessage());
         }
     }
 

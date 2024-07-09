@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                         let currentURL = window.location.href;
                         window.location.href = `${currentURL}&twint_order_cancelled=true`;
                     } else if (response.isOrderPaid === false) {
-                        setInterval(this.checkOrderRegularStatus.bind(this), this.options.interval * 1000);
+                        setTimeout(this.checkOrderRegularStatus.bind(this), this.options.interval * 1000);
                     }
                 }).catch(error => {
                     console.log(error);
