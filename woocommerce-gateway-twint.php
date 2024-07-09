@@ -43,6 +43,7 @@ class WC_Twint_Payments
 
         // Registers WooCommerce Blocks integration.
         add_action('woocommerce_blocks_loaded', array(__CLASS__, 'woocommerce_gateway_twint_woocommerce_block_support'));
+        add_action('admin_notices', array(__CLASS__, 'woocommerceAddAdminNoticesIfNotSetupCorrectly'));
 
         $instance = new \Twint\Woo\TwintIntegration();
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), array($instance, 'adminPluginSettingsLink'));
@@ -81,10 +82,39 @@ class WC_Twint_Payments
         );
     }
 
+    public static function woocommerceAddAdminNoticesIfNotSetupCorrectly()
+    {
+        $settings = new \Twint\Woo\Services\SettingService();
+        $msg = '<h3>TWINT Payment</h3>';
+        $merchantId = $settings->getMerchantId();
+        $needShowNotice = false;
+        if (empty($merchantId)) {
+            $needShowNotice = true;
+            $msg .= 'The Merchant ID is not set up. Please check again';
+        } else {
+            $certificate = $settings->getCertificate();
+            if (empty($certificate)) {
+                $needShowNotice = true;
+                $msg .= 'The Certificate is not set up. Please check again';
+            }
+        }
+
+        if ($needShowNotice) {
+            $settingsLink = '<a href="' . esc_url('admin.php?page=twint-payment-integration-settings') . '">' . __('Settings', 'woocommerce-gateway-twint') . '</a>';
+            $msg .= '. Please click ' . $settingsLink . ' to finish it before doing anything with TWIN Payment.';
+            wp_admin_notice($msg,
+                [
+                    'type' => 'error'
+                ]
+            );
+        }
+    }
+
     /**
      * Plugin includes.
      */
-    public static function includes(): void
+    public
+    static function includes(): void
     {
         // Check for active plugins.
         if (!self::isPluginActivated('woocommerce/woocommerce.php')) {
@@ -102,7 +132,8 @@ class WC_Twint_Payments
      *
      * @return string
      */
-    public static function plugin_url(): string
+    public
+    static function plugin_url(): string
     {
         return untrailingslashit(plugins_url('/', __FILE__));
     }
@@ -112,7 +143,8 @@ class WC_Twint_Payments
      *
      * @return string
      */
-    public static function plugin_abspath(): string
+    public
+    static function plugin_abspath(): string
     {
         return trailingslashit(plugin_dir_path(__FILE__));
     }
@@ -121,7 +153,8 @@ class WC_Twint_Payments
      * Registers WooCommerce Blocks integration.
      *
      */
-    public static function woocommerce_gateway_twint_woocommerce_block_support(): void
+    public
+    static function woocommerce_gateway_twint_woocommerce_block_support(): void
     {
         if (class_exists('Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType')) {
             require_once 'includes/blocks/class-wc-twint-payment-blocks.php';
