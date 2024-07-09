@@ -102,7 +102,7 @@ class WC_Gateway_Twint extends WC_Payment_Gateway
                 'label' => 'Enable Test Mode',
                 'type' => 'checkbox',
                 'description' => 'Turning on test mode will use the Twint PAT environment. PAT stands for Production Acceptance Test and allows you to test your Twint integration on an environment closeley resembling the production environment without actually charging a Twint account.',
-                'default' => 'yes',
+                'default' => 'no',
                 'desc_tip' => true,
             ],
             'result' => [
@@ -182,6 +182,7 @@ class WC_Gateway_Twint extends WC_Payment_Gateway
      */
     public static function getOrderStatusAfterPaid(): string
     {
+        // TODO use config or database option for this.
         return apply_filters('woocommerce_twint_order_status_paid', 'processing');
     }
 
@@ -196,12 +197,12 @@ class WC_Gateway_Twint extends WC_Payment_Gateway
      * @param string $reason Refund reason.
      * @return bool|\WP_Error True or false based on success, or a WP_Error object.
      */
-    public function process_refund($order_id, $amount = null, $reason = '')
+    public function process_refund($order_id, $amount = null, $reason = ''): bool|\WP_Error
     {
         $order = wc_get_order($order_id);
 
         if (!$this->can_refund_order($order)) {
-            return new WP_Error('error', __('Refund failed.', 'woocommerce'));
+            return new WP_Error('error', __('Refund failed.', 'woocommerce-gateway-twint'));
         }
 
         // TODO Implement refund feature
