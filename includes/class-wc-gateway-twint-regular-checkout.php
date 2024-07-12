@@ -88,11 +88,13 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
                 'type' => 'safe_text',
                 'description' => __('This controls the title which the user sees during checkout.', 'woocommerce-gateway-twint'),
                 'desc_tip' => true,
+                'default' => __('TWINT', 'woocommerce-gateway-twint'),
             ],
             'description' => [
                 'title' => __('Description', 'woocommerce-gateway-twint'),
                 'type' => 'textarea',
                 'description' => __('This controls the description which the user sees during checkout.', 'woocommerce-gateway-twint'),
+                'default' => __('Regular Checkout Payment Plugin supported by TWINT', 'woocommerce-gateway-twint'),
             ],
         ];
     }
