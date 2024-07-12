@@ -100,6 +100,8 @@ class TwintApiWordpressAjax
             echo $result;
 
             die();
+        } else {
+            update_option(SettingService::MERCHANT_ID, $_POST[SettingService::MERCHANT_ID]);
         }
 
         try {
@@ -152,11 +154,11 @@ class TwintApiWordpressAjax
                     ];
 
                     update_option($certificateKey, $validatedCertificate);
-                    update_option(SettingService::MERCHANT_ID, $_POST[SettingService::MERCHANT_ID]);
 
                     update_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG, 'yes');
                 } else {
                     $response['status'] = false;
+                    $response['flag_credentials'] = false;
                     $response['message'] = __('Invalid certificate or password.', 'woocommerce-gateway-twint');
                     update_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG, 'no');
                 }

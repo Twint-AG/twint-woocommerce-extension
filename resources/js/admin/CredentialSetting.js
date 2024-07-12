@@ -77,16 +77,34 @@ document.addEventListener("DOMContentLoaded", function (event) {
             this.$noticeError = document.querySelector(this.options.noticeError);
         }
 
-        showNoticeSuccess(msg) {
+        showNoticeSuccess(msg = null) {
             this.$noticeSuccess.classList.remove('d-none');
+
+            setTimeout(() => {
+                this.hideNoticeSuccess();
+            }, 4000);
         }
 
         hideNoticeSuccess() {
             this.$noticeSuccess.classList.add('d-none');
         }
 
+        appendHtml(el, msg) {
+            let div = document.createElement('div'); //container to append to
+            div.innerHTML = msg;
+            el.innerHTML = '';
+            el.appendChild(div.children[0]);
+        }
+
         showNoticeError(msg) {
+            const html = `<p>${msg}</p>`;
+            this.appendHtml(this.$noticeError, html);
+
             this.$noticeError.classList.remove('d-none');
+
+            setTimeout(() => {
+                this.hideNoticeError();
+            }, 4000);
         }
 
         hideNoticeError() {
@@ -141,11 +159,21 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
             axios.post(this.options.adminUrl, formData).then(response => {
                 console.log(response.data);
-                this.showNoticeSuccess(response.data.message);
+                const {status} = response.data;
+                console.log(status);
+                if (status === true) {
+                    this.showNoticeSuccess(response.data.message);
 
-                setTimeout(() => {
-                    this.hideNoticeSuccess();
-                }, 3000);
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                } else {
+                    const {flag_credentials} = response.data;
+                    if (flag_credentials === false) {
+                        const {message} = response.data;
+                        this.showNoticeError(message);
+                    }
+                }
             }).catch(error => {
                 console.log(error);
             });
