@@ -20,6 +20,7 @@ fi
 # Install Twint woocommerce plugin
 mkdir -p $PLUGIN_FOLDER/woocommerce-gateway-twint
 git clone -b $TWINT_BRANCH --single-branch https://$GITLAB_USERNAME:$GITLAB_TOKEN@git.nfq.asia/twint-ag/woo-extension.git woocommerce-gateway-twint
+rm -rf woocommerce-gateway-twint/infra
 cp -rf woocommerce-gateway-twint/. $PLUGIN_FOLDER/woocommerce-gateway-twint
 rm -r woocommerce-gateway-twint
 cd $PLUGIN_FOLDER/woocommerce-gateway-twint && rm composer.lock && composer install --no-interaction --ignore-platform-req=ext-xsl
