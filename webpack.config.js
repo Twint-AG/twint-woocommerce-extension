@@ -33,6 +33,8 @@ module.exports = {
         'TwintPaymentIntegration': '/resources/js/frontstore/TwintPaymentIntegration.js',
         'DeviceSwitcher': '/resources/js/frontstore/DeviceSwitcher.js',
         'PaymentStatusRefresh': '/resources/js/frontstore/PaymentStatusRefresh.js',
+        // Admin
+        'CredentialSetting': '/resources/js/admin/CredentialSetting.js',
     },
     output: {
         path: path.resolve(__dirname, 'assets/js'),

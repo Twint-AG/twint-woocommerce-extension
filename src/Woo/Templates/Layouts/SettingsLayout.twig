@@ -1,16 +1,13 @@
 {% block PHPComponents %}
     <div class="wrap">
-        <h1>Twint Integration Settings</h1>
+        <h1>Twint Settings</h1>
 
-        {% if status == true %}
-            <div class="notice notice-success is-dismissible">
-                <p>All settings have been saved.</p>
-            </div>
-        {% elseif status is defined and status == false %}
-            <div class="notice notice-error is-dismissible">
-                <p>{{ error_msg }}</p>
-            </div>
-        {% endif %}
+        <div id="notice-admin-success" class="d-none notice notice-success">
+            <p>All settings have been saved.</p>
+        </div>
+        <div id="notice-admin-error" class="d-none notice notice-error is-dismissible">
+            <p></p>
+        </div>
 
         <form method="post" action="" novalidate="novalidate" enctype="multipart/form-data">
             <nav class="nav-tab-wrapper woo-nav-tab-wrapper">
@@ -23,16 +20,21 @@
             </nav>
 
             <div class="tab-content">
+                {% if nonce is defined and nonce is not null %}
+                    <input type="hidden" name="nonce" id="twint_wp_nonce" value="{{ nonce }}">
+                {% endif %}
                 {{ tabContent|raw }}
             </div>
 
-            <p class="submit">
-                <input type="submit"
-                       name="submit"
-                       id="submit"
-                       class="button button-primary"
-                       value="Save Changes">
-            </p>
+            {% if allowSaveChanges == true %}
+                <p class="submit">
+                    <input type="submit"
+                           name="submit"
+                           id="submit"
+                           class="button button-primary"
+                           value="Save Changes">
+                </p>
+            {% endif %}
         </form>
     </div>
 {% endblock %}

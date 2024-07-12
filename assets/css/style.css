@@ -55,6 +55,10 @@
     border: 1px #878787 dashed;
 }
 
+.kwt-file__drop-area.has-error {
+    border-color: red !important;
+}
+
 .kwt-file__drop-area.is-active {
     background-color: #d1def0;
 }

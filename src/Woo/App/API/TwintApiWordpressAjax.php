@@ -6,8 +6,13 @@ use JetBrains\PhpStorm\NoReturn;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
+use Twint\Sdk\Certificate\Pkcs12Certificate;
+use Twint\Woo\Includes\Admin\Settings\Tabs\Credential;
 use Twint\Woo\Services\PaymentService;
+use Twint\Woo\Services\SettingService;
 use Twint\Woo\Services\TransactionLogService;
+use Twint\Woo\Utility\Twint\CertificateHandler;
+use Twint\Woo\Utility\Twint\CryptoHandler;
 
 class TwintApiWordpressAjax
 {
@@ -20,6 +25,8 @@ class TwintApiWordpressAjax
         $this->template = $TWIG_TEMPLATE_ENGINE;
         add_action('wp_ajax_get_log_transaction_details', [$this, 'getLogTransactionDetails']);
         add_action('wp_ajax_nopriv_get_log_transaction_details', [$this, 'pleaseLogin']);
+        add_action('wp_ajax_store_twint_settings', [$this, 'storeTwintSettings']);
+        add_action('wp_ajax_nopriv_store_twint_settings', [$this, 'pleaseLogin']);
 
         add_action('wp_ajax_twint_check_order_status', [$this, 'checkOrderStatus']);
         add_action('wp_ajax_nopriv_twint_check_order_status', [$this, 'pleaseLogin']);
@@ -44,7 +51,7 @@ class TwintApiWordpressAjax
 
         echo json_encode([
             'success' => true,
-            'isOrderPaid' => $order->get_status() === \WC_Gateway_Twint::getOrderStatusAfterPaid(),
+            'isOrderPaid' => $order->get_status() === \WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterPaid(),
             'status' => $order->get_status(),
         ]);
 
@@ -75,6 +82,94 @@ class TwintApiWordpressAjax
             header("Location: " . $_SERVER["HTTP_REFERER"]);
         }
 
+        die();
+    }
+
+    public function storeTwintSettings(): void
+    {
+        if (!wp_verify_nonce($_REQUEST['nonce'], 'store_twint_settings')) {
+            exit('The WP Nonce is invalid, please check again!');
+        }
+
+        $response = [];
+        if (!isValidUuid($_POST[SettingService::MERCHANT_ID])) {
+            $response['status'] = false;
+            $response['message'] = __('Invalid Merchant ID. Merchant ID needs to be a UUIDv4.', 'woocommerce-gateway-twint');
+
+            $result = json_encode($response);
+            echo $result;
+
+            die();
+        }
+
+        try {
+            /**
+             * Test mode
+             */
+            $value = $_POST[SettingService::TESTMODE] === 'on' ? 'yes' : 'no';
+            update_option(SettingService::TESTMODE, $value);
+        } catch (\Exception $exception) {
+            wc_get_logger()->error("Error when saving setting " . PHP_EOL . $exception->getMessage());
+        }
+
+        $response['status'] = true;
+        $response['message'] = __('Settings have been saved successfully.', 'woocommerce-gateway-twint');
+
+        try {
+
+            $encryptor = new CryptoHandler();
+
+            $pwdKey = SettingService::CERTIFICATE_PASSWORD;
+            if ($_POST[$pwdKey] === 'null') {
+                $_POST[$pwdKey] = null;
+            }
+            $certificateKey = SettingService::CERTIFICATE;
+            if ($_POST[$certificateKey] === 'null') {
+                $_POST[$certificateKey] = null;
+            }
+
+            /**
+             * Handle validation certificate
+             */
+            $password = $_POST[$pwdKey] ?? '';
+
+            if (!empty($password) && empty($_FILES[$certificateKey]['tmp_name'])) {
+                $response['status'] = false;
+                $response['message'] = __('You need to provide P12 certificate file.', 'woocommerce-gateway-twint');
+            }
+
+            if (!empty($_FILES[$certificateKey]['tmp_name'])) {
+                $file = $_FILES[$certificateKey];
+                $content = file_get_contents($file['tmp_name']);
+
+                $extractor = new CertificateHandler();
+                $certificate = $extractor->read((string)$content, $password);
+
+                if ($certificate instanceof Pkcs12Certificate) {
+                    $validatedCertificate = [
+                        'certificate' => $encryptor->encrypt($certificate->content()),
+                        'passphrase' => $encryptor->encrypt($certificate->passphrase()),
+                    ];
+
+                    update_option($certificateKey, $validatedCertificate);
+                    update_option(SettingService::MERCHANT_ID, $_POST[SettingService::MERCHANT_ID]);
+
+                    update_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG, 'yes');
+                } else {
+                    $response['status'] = false;
+                    $response['message'] = __('Invalid certificate or password.', 'woocommerce-gateway-twint');
+                    update_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG, 'no');
+                }
+            }
+        } catch (\Exception $exception) {
+            wc_get_logger()->error("Error when saving setting " . PHP_EOL . $exception->getMessage());
+
+            $response['status'] = false;
+            $response['message'] = $exception->getMessage();
+        }
+
+        $result = json_encode($response);
+        echo $result;
         die();
     }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * WC_Gateway_Twint class
+ * WC_Gateway_Twint_Regular_Checkout class
  *
  * @author   NFQ Group <tuan.nguyenminh@nfq.com>
  * @package  WooCommerce Twint Payment Gateway
@@ -13,12 +13,12 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Twint WC_Gateway_Twint.
+ * Twint WC_Gateway_Twint_Regular_Checkout.
  *
- * @class    WC_Gateway_Twint
- * @version  1.0.7
+ * @class WC_Gateway_Twint_Regular_Checkout
+ * @version  0.0.1
  */
-class WC_Gateway_Twint extends WC_Payment_Gateway
+class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
 {
     /**
      * Payment gateway instructions.
@@ -31,14 +31,14 @@ class WC_Gateway_Twint extends WC_Payment_Gateway
      * @var string
      *
      */
-    public $id = 'twint';
+    public $id = 'twint_regular';
 
     /**
      * Constructor for the gateway.
      */
     public function __construct()
     {
-        $this->icon = apply_filters('woocommerce_twint_gateway_icon', '');
+        $this->icon = apply_filters('woocommerce_twint_gateway_regular_icon', '');
         $this->has_fields = false;
         $this->supports = array(
             'pre-orders',
@@ -53,8 +53,8 @@ class WC_Gateway_Twint extends WC_Payment_Gateway
             'multiple_subscriptions'
         );
 
-        $this->method_title = _x('Twint Payment', 'Twint payment method', 'woocommerce-gateway-twint');
-        $this->method_description = __('Allows Twint payment.', 'woocommerce-gateway-twint');
+        $this->method_title = __('TWINT - Regular Checkout | TBU - Twint Payment', 'woocommerce-gateway-twint');
+        $this->method_description = __('Allows TWINT - Regular Checkout', 'woocommerce-gateway-twint');
 
         // Load the settings.
         $this->init_form_fields();
@@ -80,42 +80,19 @@ class WC_Gateway_Twint extends WC_Payment_Gateway
             'enabled' => [
                 'title' => __('Enable/Disable', 'woocommerce-gateway-twint'),
                 'type' => 'checkbox',
-                'label' => __('Enable Twint Payment', 'woocommerce-gateway-twint'),
+                'label' => __('Enable Twint Regular Checkout', 'woocommerce-gateway-twint'),
                 'default' => 'yes',
             ],
             'title' => [
                 'title' => __('Title', 'woocommerce-gateway-twint'),
-                'type' => 'text',
+                'type' => 'safe_text',
                 'description' => __('This controls the title which the user sees during checkout.', 'woocommerce-gateway-twint'),
-                'default' => _x('Twint Payment', 'Twint payment method', 'woocommerce-gateway-twint'),
                 'desc_tip' => true,
             ],
             'description' => [
                 'title' => __('Description', 'woocommerce-gateway-twint'),
                 'type' => 'textarea',
-                'description' => __('Payment method description that the customer will see on your checkout.', 'woocommerce-gateway-twint'),
-                'default' => __('Twint Woocommerce Payment Method is a secure and user-friendly plugin that allows Swiss online merchants to accept payments via Twint, a popular mobile payment solution in Switzerland.', 'woocommerce-gateway-twint'),
-                'desc_tip' => true,
-            ],
-            'testmode' => [
-                'title' => 'Test mode',
-                'label' => 'Enable Test Mode',
-                'type' => 'checkbox',
-                'description' => 'Turning on test mode will use the Twint PAT environment. PAT stands for Production Acceptance Test and allows you to test your Twint integration on an environment closeley resembling the production environment without actually charging a Twint account.',
-                'default' => 'no',
-                'desc_tip' => true,
-            ],
-            'result' => [
-                'title' => __('Payment result', 'woocommerce-gateway-twint'),
-                'desc' => __('Determine if order payments are successful when using this gateway.', 'woocommerce-gateway-twint'),
-                'id' => 'woo_twint_payment_result',
-                'type' => 'select',
-                'options' => array(
-                    'success' => __('Success', 'woocommerce-gateway-twint'),
-                    'failure' => __('Failure', 'woocommerce-gateway-twint'),
-                ),
-                'default' => 'success',
-                'desc_tip' => true,
+                'description' => __('This controls the description which the user sees during checkout.', 'woocommerce-gateway-twint'),
             ],
         ];
     }
@@ -149,7 +126,7 @@ class WC_Gateway_Twint extends WC_Payment_Gateway
                 'redirect' => $this->get_return_url($order)
             );
         } else {
-            $message = __('Order payment failed. To make a successful payment using Twint Payment, please review the gateway settings.', 'woocommerce-gateway-twint');
+            $message = __('Order payment failed. To make a successful payment using TWINT Regular Checkout payment, please review the gateway settings.', 'woocommerce-gateway-twint');
             $order->update_status('failed', $message);
             throw new Exception($message);
         }
@@ -157,16 +134,16 @@ class WC_Gateway_Twint extends WC_Payment_Gateway
 
     /**
      * Set up the status initial for the order first created.
-     * @since 0.0.1
-     *
      * @param $status
      * @param $orderId
      * @param $order
      * @return string
+     * @since 0.0.1
+     *
      */
     public function setCompleteOrderStatus($status, $orderId, $order): string
     {
-        if ($order && 'twint' === $order->get_payment_method()) {
+        if ($order && $this->id === $order->get_payment_method()) {
             // TODO use config or database option for this.
             $status = 'wc-pending';
         }
@@ -176,9 +153,9 @@ class WC_Gateway_Twint extends WC_Payment_Gateway
 
     /**
      * Set up the status of the order after order got paid.
+     * @return string
      * @since 0.0.1
      *
-     * @return string
      */
     public static function getOrderStatusAfterPaid(): string
     {

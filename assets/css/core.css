@@ -650,6 +650,74 @@
     }
 }
 
+
+.twint-button {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 6px;
+    width: fit-content;
+    height: 50px;
+    background-color: #262626;
+    text-decoration: none;
+}
+
+.twint-button:disabled {
+    background-color: #9E9E9E
+}
+
+[data-bs-theme="dark"] .twint-button {
+    background-color: #ffffff
+}
+
+[data-bs-theme="dark"] .twint-button:disabled {
+    background-color: #CCCCCC
+}
+
+.twint-button .twint-button_icon_block {
+    border-radius: 4px;
+    margin-right: 6px;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+}
+
+[data-bs-theme="dark"] .twint-button .twint-button_icon_block {
+    background-color: #262626
+}
+
+[data-bs-theme="dark"] .twint-button .twint-button_icon_block :disabled {
+    background-color: #9E9E9E
+}
+
+.twint-button:disabled .twint-button_icon_block {
+    background-color: #9E9E9E
+}
+
+.twint-button .twint-button_icon {
+    width: 35px;
+    height: 35px
+}
+
+.twint-button .twint-button_label {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 19px;
+    letter-spacing: 0.43px;
+    text-align: center;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+[data-bs-theme="dark"] .twint-button .twint-button_label {
+    color: #262626
+}
+
 .btn {
     --bs-btn-padding-x: 12px;
     --bs-btn-padding-y: 2px;
@@ -1812,4 +1880,67 @@
     text-decoration: none;
     background-color: var(--bs-btn-hover-bg);
     border-color: var(--bs-btn-hover-border-color)
+}
+
+/*START NOTIFY BOX*/
+.notify-box.notify-info {
+    border-color: #76bdff;
+    color: #1d2327;
+    background: #e4f5ff;
+}
+
+.notify-box.notify-warning {
+    border-color: #fe9a9a;
+    color: #1d2327;
+    background: #ffd6d6;
+}
+
+.notify-box.notify-success {
+    border-color: #16af16;
+    color: #16af16;
+    background: #e7ffe7;
+}
+
+.notify-box {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    max-width: 900px;
+    background: #f9f9f9;
+    font-size: 14px;
+    text-wrap: wrap;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box; /* Firefox, other Gecko */
+    box-sizing: border-box; /* Opera/IE 8+ */
+}
+
+/*ENDS NOTIFY BOX*/
+input.has-error,
+input:focus.has-error {
+    border-color: #ff9393;
+}
+
+.twint-table-setting input[type=checkbox]:focus,
+.twint-table-setting input[type=color]:focus,
+.twint-table-setting input[type=date]:focus,
+.twint-table-setting input[type=datetime-local]:focus,
+.twint-table-setting input[type=datetime]:focus,
+.twint-table-setting input[type=email]:focus,
+.twint-table-setting input[type=month]:focus,
+.twint-table-setting input[type=number]:focus,
+.twint-table-setting input[type=password]:focus,
+.twint-table-setting input[type=radio]:focus,
+.twint-table-setting input[type=search]:focus,
+.twint-table-setting input[type=tel]:focus,
+.twint-table-setting input[type=text]:focus,
+.twint-table-setting input[type=time]:focus,
+.twint-table-setting input[type=url]:focus,
+.twint-table-setting input[type=week]:focus,
+.twint-table-setting select:focus,
+.twint-table-setting textarea:focus {
+    border-color: none;
+    box-shadow: none;
+    outline: none;
 }
