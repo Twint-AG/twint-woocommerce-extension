@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 deleteCertificateSelector: 'kwt-file__delete',
                 passwordSelector: '#plugin_twint_settings_certificate_password',
                 uploadNewCertificateSelector: '#upload-new-certificate',
-                btnSelector: '#submit',
+                btnSelector: '#js_twint_button_save',
                 noticeSuccess: '#notice-admin-success',
                 noticeError: '#notice-admin-error',
             };
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
 
         showNoticeSuccess(msg = null) {
-            this.$noticeSuccess.classList.remove('d-none');
+            this.$noticeSuccess?.classList?.remove('d-none');
 
             setTimeout(() => {
                 this.hideNoticeSuccess();
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
 
         hideNoticeSuccess() {
-            this.$noticeSuccess.classList.add('d-none');
+            this.$noticeSuccess?.classList?.add('d-none');
         }
 
         appendHtml(el, msg) {
@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             const html = `<p>${msg}</p>`;
             this.appendHtml(this.$noticeError, html);
 
-            this.$noticeError.classList.remove('d-none');
+            this.$noticeError?.classList?.remove('d-none');
 
             setTimeout(() => {
                 this.hideNoticeError();
@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
 
         hideNoticeError() {
-            this.$noticeError.classList.add('d-none');
+            this.$noticeError?.classList?.add('d-none');
         }
 
         uploadNewCertificate() {
@@ -128,8 +128,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         resetErrorNotice() {
             jQuery('.kwt-file__drop-area').removeClass('has-error');
-            this.passwordInput.classList.remove('has-error');
-            this.merchantIdInput.classList.remove('has-error');
+            this.passwordInput?.classList?.remove('has-error');
+            this.merchantIdInput?.classList?.remove('has-error');
         }
 
         onClick(evt) {
@@ -191,19 +191,19 @@ document.addEventListener("DOMContentLoaded", function (event) {
             const isValidUUIDv4 = this.isValidUUIDv4(merchantId);
             this.state.plugin_twint_settings_merchant_id = merchantId;
             if (!isValidUUIDv4) {
-                e.target.classList.add('has-error');
+                e.target?.classList?.add('has-error');
                 return;
             }
 
-            e.target.classList.remove('has-error');
+            e.target?.classList?.remove('has-error');
         }
 
         onChangeCertificateFile(e) {
             const uploadedFile = e.target.files[0];
             if (uploadedFile.type !== 'application/x-pkcs12') {
-                e.target.parentNode.classList.add('has-error');
+                e.target.parentNode?.classList?.add('has-error');
             } else {
-                e.target.parentNode.classList.remove('has-error');
+                e.target.parentNode?.classList?.remove('has-error');
             }
 
             this.state.plugin_twint_settings_certificate = uploadedFile;
@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             const {plugin_twint_settings_certificate, plugin_twint_settings_certificate_password} = this.state;
 
             const addErrorToPasswordInput = () => {
-                this.passwordInput.classList.add('has-error');
+                this.passwordInput?.classList?.add('has-error');
                 return false;
             };
 
@@ -249,12 +249,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         checkMerchantIdField() {
             if (!this.isValidUUIDv4(this.state.plugin_twint_settings_merchant_id)) {
-                this.merchantIdInput.classList.add('has-error');
+                this.merchantIdInput?.classList?.add('has-error');
                 return false;
             }
 
             if (this.state.plugin_twint_settings_merchant_id === null) {
-                this.merchantIdInput.classList.add('has-error');
+                this.merchantIdInput?.classList?.add('has-error');
                 return false;
             }
 
@@ -271,7 +271,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             const passwordIsEmpty = plugin_twint_settings_certificate_password?.length === 0;
 
             const addErrorToDropArea = () => jQuery('.kwt-file__drop-area').addClass('has-error');
-            const addErrorToPasswordInput = () => this.passwordInput.classList.add('has-error');
+            const addErrorToPasswordInput = () => this.passwordInput?.classList?.add('has-error');
 
             if (plugin_twint_settings_certificate_password?.length > 0 && certificateIsNull) {
                 addErrorToDropArea();
