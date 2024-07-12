@@ -38,12 +38,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
             const originalText = this.btnOriginalText();
 
             this.button.innerHTML = 'Copied!';
-            this.button.classList.add('copied');
+            this.button?.classList?.add('copied');
             this.input.disabled = true;
 
             setTimeout(() => {
                 this.button.innerHTML = originalText;
-                this.button.classList.remove('copied');
+                this.button?.classList?.remove('copied');
             }, 2000);
         }
 

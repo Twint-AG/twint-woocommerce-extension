@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         showMobileQrCode() {
             this.$qrCode.forEach((object) => {
-                object.classList.remove('d-none');
+                object?.classList?.remove('d-none');
             });
         }
     }
