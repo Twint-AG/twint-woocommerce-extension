@@ -24,19 +24,20 @@ class RegularCheckout extends TabItem
         return [];
     }
 
-    /**
-     * @throws SyntaxError
-     * @throws RuntimeError
-     * @throws LoaderError
-     */
+    public static function directLink(): string
+    {
+        $params = [
+            'page' => 'wc-settings',
+            'tab' => 'checkout',
+            'section' => 'twint_regular',
+        ];
+
+        return add_query_arg($params, admin_url('admin.php'));
+    }
+
     public static function getContents(array $data = []): string
     {
-        global $TWIG_TEMPLATE_ENGINE;
-        $template = $TWIG_TEMPLATE_ENGINE;
-
-        return $template
-            ->load('Layouts/partials/tab-content-pages/regular_checkout.twig')
-            ->render($data);
+        return '';
     }
 
     public static function allowSaveChanges(): bool

@@ -12,6 +12,7 @@ use Twint\Woo\Services\PaymentService;
 use Twint\Woo\Services\SettingService;
 use Twint\Woo\Services\TransactionLogService;
 use Twint\Woo\Utility\Twint\CertificateHandler;
+use Twint\Woo\Utility\Twint\CredentialValidator;
 use Twint\Woo\Utility\Twint\CryptoHandler;
 
 class TwintApiWordpressAjax
@@ -153,9 +154,23 @@ class TwintApiWordpressAjax
                         'passphrase' => $encryptor->encrypt($certificate->passphrase()),
                     ];
 
-                    update_option($certificateKey, $validatedCertificate);
+                    // Call SDK to check system [testMode, certificate, merchantId]
+                    $isValidTwintConfiguration = (new CredentialValidator())->validate(
+                        $validatedCertificate,
+                        get_option(SettingService::MERCHANT_ID),
+                        get_option(SettingService::TESTMODE) === 'yes'
+                    );
 
-                    update_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG, 'yes');
+                    if ($isValidTwintConfiguration) {
+                        update_option($certificateKey, $validatedCertificate);
+                        update_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG, 'yes');
+                    } else {
+                        $response['status'] = false;
+                        $response['flag_credentials'] = false;
+                        $response['message'] = __('Please check again. Your Certificate file, merchant ID or Certificate password is incorrect.', 'woocommerce-gateway-twint');
+                        update_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG, 'no');
+                    }
+
                 } else {
                     $response['status'] = false;
                     $response['flag_credentials'] = false;

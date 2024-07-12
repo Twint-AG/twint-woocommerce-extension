@@ -10,10 +10,17 @@
         <form method="post" action="" novalidate="novalidate" enctype="multipart/form-data">
             <nav class="nav-tab-wrapper woo-nav-tab-wrapper">
                 {% for tab in tabs %}
-                    <a href="{{ admin_url }}admin.php?page=twint-payment-integration-settings&tab={{ tab.key }}"
-                       class="nav-tab nav-tab {% if activated_tab == tab.key %} nav-tab-active {% endif %}">
-                        {{ tab.title }}
-                    </a>
+                    {% if tab.directLink is defined and tab.directLink is not null %}
+                        <a href="{{ tab.directLink }}"
+                           class="nav-tab nav-tab {% if activated_tab == tab.key %} nav-tab-active {% endif %}">
+                            {{ tab.title }}
+                        </a>
+                    {% else %}
+                        <a href="{{ admin_url }}admin.php?page=twint-payment-integration-settings&tab={{ tab.key }}"
+                           class="nav-tab nav-tab {% if activated_tab == tab.key %} nav-tab-active {% endif %}">
+                            {{ tab.title }}
+                        </a>
+                    {% endif %}
                 {% endfor %}
             </nav>
 
@@ -22,17 +29,18 @@
                     <input type="hidden" name="nonce" id="twint_wp_nonce" value="{{ nonce }}">
                 {% endif %}
                 {{ tabContent|raw }}
+
+                {% if allowSaveChanges == true %}
+                    <p class="submit">
+                        <input type="submit"
+                               name="submit"
+                               id="js_twint_button_save"
+                               class="button button-primary js_twint_button_save"
+                               value="Save Changes">
+                    </p>
+                {% endif %}
             </div>
 
-            {% if allowSaveChanges == true %}
-                <p class="submit">
-                    <input type="submit"
-                           name="submit"
-                           id="js_twint_button_save"
-                           class="button button-primary js_twint_button_save"
-                           value="Save Changes">
-                </p>
-            {% endif %}
         </form>
     </div>
 {% endblock %}
