@@ -8,22 +8,22 @@ use Twint\Woo\Services\SettingService;
  *
  * @since 0.0.1
  */
-final class WC_Gateway_Twint_Blocks_Support extends AbstractPaymentMethodType
+final class WC_Gateway_Twint_Regular_Checkout_Blocks_Support extends AbstractPaymentMethodType
 {
 
     /**
      * The gateway instance.
      *
-     * @var WC_Gateway_Twint
+     * @var WC_Gateway_Twint_Regular_Checkout
      */
-    private WC_Gateway_Twint $gateway;
+    private WC_Gateway_Twint_Regular_Checkout $gateway;
 
     /**
      * Payment method name/id/slug.
      *
      * @var string
      */
-    protected $name = 'twint';
+    protected $name = 'twint_regular';
 
     /**
      * Initializes the payment method type.
@@ -32,7 +32,9 @@ final class WC_Gateway_Twint_Blocks_Support extends AbstractPaymentMethodType
     {
         $this->settings = get_option(SettingService::KEY_PRIMARY_SETTING, []);
         $gateways = WC()->payment_gateways()->payment_gateways();
-        $this->gateway = $gateways[$this->name];
+        if (isset($gateways[$this->name])) {
+            $this->gateway = $gateways[$this->name];
+        }
     }
 
     /**
@@ -42,7 +44,11 @@ final class WC_Gateway_Twint_Blocks_Support extends AbstractPaymentMethodType
      */
     public function is_active(): bool
     {
-        return $this->gateway->is_available();
+        if (!empty($this->gateway)) {
+            return $this->gateway->is_available();
+        }
+
+        return false;
     }
 
     /**

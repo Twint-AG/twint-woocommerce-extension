@@ -41,6 +41,10 @@ class TwigTemplateEngine extends AbstractServiceProvider
             return twint_assets($path);
         });
 
+        $getOptionFunc = new \Twig\TwigFunction('get_option', function (string $key, string $default = null) {
+            return get_option($key, $default);
+        });
+
         $twigJsonDecodeFunc = new \Twig\TwigFunction('twint_json_decode', function ($string) {
             return json_decode($string);
         });
@@ -55,6 +59,7 @@ class TwigTemplateEngine extends AbstractServiceProvider
 
         $this->twigInstance->addFunction($twintAssetFunc);
         $this->twigInstance->addFunction($twigJsonDecodeFunc);
+        $this->twigInstance->addFunction($getOptionFunc);
         $this->twigInstance->addFunction($twigXMLBeautyFunc);
         $this->twigInstance->addFilter($filter);
     }

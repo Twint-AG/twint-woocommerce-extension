@@ -60,7 +60,15 @@ class WC_Twint_Payments
      */
     public static function addGateway(array $gateways): array
     {
-        $gateways[] = 'WC_Gateway_Twint';
+        /**
+         * Insert Twint Regular Checkout payment method into the woo payment methods
+         */
+        $gateways[] = 'WC_Gateway_Twint_Regular_Checkout';
+
+        /**
+         * Insert Twint Express Checkout payment method into the woo payment methods
+         */
+        $gateways[] = 'WC_Gateway_Twint_Express_Checkout';
         return $gateways;
     }
 
@@ -84,47 +92,47 @@ class WC_Twint_Payments
 
     public static function woocommerceAddAdminNoticesIfNotSetupCorrectly()
     {
-        $settings = new \Twint\Woo\Services\SettingService();
-        $msg = '<h3>TWINT Payment</h3>';
-        $merchantId = $settings->getMerchantId();
-        $needShowNotice = false;
-        if (empty($merchantId)) {
-            $needShowNotice = true;
-            $msg .= 'The Merchant ID is not set up. Please check again';
-        } else {
-            $certificate = $settings->getCertificate();
-            if (empty($certificate)) {
-                $needShowNotice = true;
-                $msg .= 'The Certificate is not set up. Please check again';
-            }
-        }
-
-        if ($needShowNotice) {
-            $settingsLink = '<a href="' . esc_url('admin.php?page=twint-payment-integration-settings') . '">' . __('Settings', 'woocommerce-gateway-twint') . '</a>';
-            $msg .= '. Please click ' . $settingsLink . ' to finish it before doing anything with TWIN Payment.';
-            wp_admin_notice($msg,
-                [
-                    'type' => 'error'
-                ]
-            );
-        }
+//        $settings = new \Twint\Woo\Services\SettingService();
+//        $msg = '<h3>TWINT Payment</h3>';
+//        $merchantId = $settings->getMerchantId();
+//        $needShowNotice = false;
+//        if (empty($merchantId)) {
+//            $needShowNotice = true;
+//            $msg .= 'The Merchant ID is not set up. Please check again';
+//        } else {
+//            $certificate = $settings->getCertificate();
+//            if (empty($certificate)) {
+//                $needShowNotice = true;
+//                $msg .= 'The Certificate is not set up. Please check again';
+//            }
+//        }
+//
+//        if ($needShowNotice) {
+//            $settingsLink = '<a href="' . esc_url('admin.php?page=twint-payment-integration-settings') . '">' . __('Settings', 'woocommerce-gateway-twint') . '</a>';
+//            $msg .= '. Please click ' . $settingsLink . ' to finish it before doing anything with TWIN Payment.';
+//            wp_admin_notice($msg,
+//                [
+//                    'type' => 'error'
+//                ]
+//            );
+//        }
     }
 
     /**
      * Plugin includes.
      */
-    public
-    static function includes(): void
+    public static function includes(): void
     {
         // Check for active plugins.
         if (!self::isPluginActivated('woocommerce/woocommerce.php')) {
             return;
         }
 
-        // Make the WC_Gateway_Twint class available.
-        if (class_exists('WC_Payment_Gateway')) {
-            require_once 'includes/class-wc-gateway-twint.php';
-        }
+        // Make the WC_Gateway_Twint_Regular_Checkout class available.
+        require_once 'includes/class-wc-gateway-twint-regular-checkout.php';
+
+        // Make the WC_Gateway_Twint_Express_Checkout class available.
+        require_once 'includes/class-wc-gateway-twint-express-checkout.php';
     }
 
     /**
@@ -161,7 +169,7 @@ class WC_Twint_Payments
             add_action(
                 'woocommerce_blocks_payment_method_type_registration',
                 function (Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry) {
-                    $payment_method_registry->register(new WC_Gateway_Twint_Blocks_Support());
+                    $payment_method_registry->register(new WC_Gateway_Twint_Regular_Checkout_Blocks_Support());
                 }
             );
         }

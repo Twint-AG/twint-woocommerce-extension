@@ -46,12 +46,13 @@ select {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px;
+    padding: 8px 20px;
     border: none;
     border-radius: 6px;
-    width: 100%;
+    width: fit-content;
     height: 50px;
-    background-color: #262626
+    background-color: #262626;
+    text-decoration: none;
 }
 
 .twint-button:disabled {

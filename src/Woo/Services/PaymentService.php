@@ -11,7 +11,7 @@ use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Uuid;
 use Twint\Woo\Exception\PaymentException;
 use Twint\Woo\Factory\ClientBuilder;
-use WC_Gateway_Twint;
+use WC_Gateway_Twint_Regular_Checkout;
 use WC_Order;
 use function Psl\Type\string;
 
@@ -99,7 +99,7 @@ class PaymentService
 
             if ($twintOrder->status()->equals(OrderStatus::SUCCESS())) {
                 // TODO handle update paid payment order
-                $order->update_status(WC_Gateway_Twint::getOrderStatusAfterPaid());
+                $order->update_status(WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterPaid());
             } elseif ($twintOrder->status()->equals(OrderStatus::FAILURE())) {
                 // TODO Handle cancel order
                 $msgNote = __('The order has bene cancelled.', 'woocommerce-gateway-twint');

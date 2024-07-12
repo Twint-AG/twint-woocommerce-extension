@@ -132,7 +132,7 @@ class TwintIntegration
             if (!empty($_GET['twint_order_paid'])) {
                 $isOrderPaid = true;
             } else {
-                if ($order->get_status() === \WC_Gateway_Twint::getOrderStatusAfterPaid()) {
+                if ($order->get_status() === \WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterPaid()) {
                     $isOrderPaid = true;
                 } else {
                     $isOrderPaid = false;
@@ -261,8 +261,8 @@ class TwintIntegration
         }
 
         $this->page_hook_setting = add_menu_page(
-            esc_html__('Twint Integration', 'twint-payment-integration'),
-            esc_html__('Twint Integration', 'twint-payment-integration'),
+            esc_html__('TWINT Settings', 'twint-payment-integration'),
+            esc_html__('TWINT Settings', 'twint-payment-integration'),
             'manage_options',
             'twint-payment-integration-settings',
             [$this, 'accessSettingsMenuCallback'],
@@ -273,6 +273,11 @@ class TwintIntegration
 
     public function enqueueScripts(): void
     {
+        wp_enqueue_script('js-woocommerce-gateway-twint-CredentialSetting', WC_Twint_Payments::plugin_url() . '/assets/js/CredentialSetting.js', ['jquery']);
+
+        wp_localize_script('js-woocommerce-gateway-twint-CredentialSetting', 'twint_api', [
+            'admin_url' => admin_url('admin-ajax.php')
+        ]);
         wp_enqueue_script('js-woocommerce-gateway-twint', WC_Twint_Payments::plugin_url() . '/assets/js/TwintPaymentIntegration.js', ['jquery']);
     }
 

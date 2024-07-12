@@ -3,13 +3,14 @@ import {registerPaymentMethod} from '@woocommerce/blocks-registry';
 import {decodeEntities} from '@wordpress/html-entities';
 import {getSetting} from '@woocommerce/settings';
 
-const settings = getSetting('twint_data', {});
+const settings = getSetting('twint_regular_data', {});
 
 const defaultLabel = __(
     'Twint Payment',
     'woo-gutenberg-products-block'
 );
 
+console.log(settings);
 const label = decodeEntities(settings.title) || defaultLabel;
 /**
  * Content component
@@ -31,7 +32,7 @@ const Label = (props) => {
  * Twint payment method config object.
  */
 const Twint = {
-    name: "twint",
+    name: "twint_regular",
     label: <Label/>,
     content: <Content/>,
     edit: <Content/>,

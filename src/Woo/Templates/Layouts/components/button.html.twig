@@ -2,7 +2,7 @@
     <span class="twint-button_icon_block">
         <img class="twint-button_icon"
              src="{{ twint_asset('/images/express.svg') }}"
-             alt="{{ 'Express Checkout'|__trans }}">
+             alt="{{ get_option('twint_express_checkout_label', 'TWINT Express Checkout') }}">
     </span>
-    <span class="twint-button_label">{{ 'TWINT Express Checkout'|__trans }}</span>
+    <span class="twint-button_label">{{ get_option('twint_express_checkout_label', 'TWINT Express Checkout') }}</span>
 </a>

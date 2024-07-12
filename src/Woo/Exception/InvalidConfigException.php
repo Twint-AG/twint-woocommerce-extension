@@ -19,6 +19,8 @@ class InvalidConfigException extends RuntimeException
 
     public const ERROR_UNDEFINED = 'Undefined error';
 
+    public const ERROR_INVALID_PASSPHRASE = 'Invalid passphrase';
+
     public function __construct(string $message = 'Plugin Invalid configuration', int $code = 0, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
