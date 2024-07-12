@@ -66,10 +66,12 @@ class SettingsLayoutViewAdapter
             [
                 'key' => RegularCheckout::getKey(),
                 'title' => RegularCheckout::getLabel(),
+                'directLink' => RegularCheckout::directLink(),
             ],
             [
                 'key' => ExpressCheckout::getKey(),
                 'title' => ExpressCheckout::getLabel(),
+                'directLink' => ExpressCheckout::directLink(),
             ],
         ];
     }

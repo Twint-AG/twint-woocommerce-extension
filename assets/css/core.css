@@ -1944,3 +1944,11 @@ input:focus.has-error {
     box-shadow: none;
     outline: none;
 }
+
+.tab-content {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px 30px;
+    margin: 10px 0;
+    background: #fdfdfd;
+}
