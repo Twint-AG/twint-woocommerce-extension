@@ -54,7 +54,7 @@ class TwintCancelOrderExpiredCronJob
         $pendingOrders = wc_get_orders([
             'type' => 'shop_order',
             'limit' => -1,
-            'payment_method' => 'twint',
+            'payment_method' => 'twint_regular',
             'status' => [
                 'wc-pending',
             ],

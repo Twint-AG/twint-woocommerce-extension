@@ -41,7 +41,7 @@ class TwintApiResponseMeta
         $order = wc_get_order($post->ID);
 
         $paymentMethod = $order->get_payment_method();
-        if ($paymentMethod !== 'twint') {
+        if ($paymentMethod !== 'twint_regular') {
             return;
         }
 
