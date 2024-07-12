@@ -18,7 +18,7 @@
     <tbody>
     {% set needDisplayCertificateUpload = flag_credentials == 'yes' %}
     {% for field in fields %}
-        <tr class="{{ field.name }}{% if field.name == 'plugin_twint_settings_certificate' or field.name == 'plugin_twint_settings_certificate_password' and needDisplayCertificateUpload %} d-none showing {% endif %}">
+        <tr class="{{ field.name }}{% if field.name in ['plugin_twint_settings_certificate', 'plugin_twint_settings_certificate_password'] and needDisplayCertificateUpload %} d-none showing {% endif %}">
             <th scope="row">
                 <label for="{{ field.name }}">
                     {{ field.label }}
