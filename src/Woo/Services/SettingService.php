@@ -19,8 +19,7 @@ class SettingService
      */
     public function isTestMode(): bool
     {
-        $settings = get_option(self::TESTMODE);
-        return $settings['testmode'] === 'yes';
+        return get_option(self::TESTMODE) === 'yes';
     }
 
     /**

@@ -108,10 +108,8 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
      */
     public function process_payment($order_id): array
     {
-        $payment_result = $this->get_option('result');
         $order = wc_get_order($order_id);
-
-        if ('success' === $payment_result) {
+        try {
             $order->payment_complete();
 
             /**
@@ -127,11 +125,14 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
                 'result' => 'success',
                 'redirect' => $this->get_return_url($order)
             );
-        } else {
-            $message = __('Order payment failed. To make a successful payment using TWINT Regular Checkout payment, please review the gateway settings.', 'woocommerce-gateway-twint');
-            $order->update_status('failed', $message);
-            throw new Exception($message);
+        } catch (\Exception $exception) {
+            wc_get_logger()->error("Error when processing the payment for order " . PHP_EOL . $exception->getMessage(), [
+                'orderID' => $order->get_id(),
+                'paymentMethod' => $order->get_payment_method(),
+            ]);
         }
+
+        return [];
     }
 
     /**
@@ -145,7 +146,7 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
      */
     public function setCompleteOrderStatus($status, $orderId, $order): string
     {
-        if ($order && $this->id === $order->get_payment_method()) {
+        if ($order && 'twint_regular' === $order->get_payment_method()) {
             // TODO use config or database option for this.
             $status = 'wc-pending';
         }

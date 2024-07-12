@@ -82,7 +82,7 @@ class TwintIntegration
     public function wooBeforeOrderUpdateChange($orderId, $items): void
     {
         $order = wc_get_order($orderId);
-        if ($order->get_payment_method() !== 'twint') {
+        if ($order->get_payment_method() !== 'twint_regular') {
             return;
         }
 
@@ -117,7 +117,7 @@ class TwintIntegration
             $order = wc_get_order($orderId);
         }
 
-        if ($order->get_payment_method() !== 'twint') {
+        if ($order->get_payment_method() !== 'twint_regular') {
             return;
         }
 
@@ -235,7 +235,7 @@ class TwintIntegration
     {
         $order = wc_get_order($orderId);
 
-        if ($order->get_payment_method() === 'twint') {
+        if ($order->get_payment_method() === 'twint_regular') {
             $this->paymentService->createOrder($order);
         }
     }
