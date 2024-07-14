@@ -50,17 +50,6 @@ class WC_Twint_Payments
 
         register_activation_hook(__FILE__, [\Twint\Woo\TwintIntegration::class, 'INSTALL']);
         register_deactivation_hook(__FILE__, [\Twint\Woo\TwintIntegration::class, 'UNINSTALL']);
-
-        add_filter('init', [__CLASS__, 'localizationInit']);
-    }
-
-    public static function localizationInit(): void
-    {
-//        $loaded = load_plugin_textdomain(
-//            'woocommerce-gateway-twint',
-//            false,
-//            dirname(plugin_basename(__FILE__)) . '/i18n/languages/'
-//        );
     }
 
     /**
