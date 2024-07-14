@@ -73,7 +73,7 @@
                               placeholder="{{ field.placeholder }}">{% if field.need_populate == true %}{{ get_option(field.name) }}{% endif %}</textarea>
                 {% elseif field.type == 'checkbox' %}
                     <fieldset>
-                        <legend class="screen-reader-text"><span>Enable/Disable</span></legend>
+                        <legend class="screen-reader-text"><span>{{ field.label }}</span></legend>
                         <label for="woocommerce_cod_enabled">
                             <input class=""
                                    type="checkbox"

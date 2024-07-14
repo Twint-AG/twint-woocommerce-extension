@@ -115,10 +115,10 @@ class WC_Gateway_Twint_Express_Checkout extends WC_Payment_Gateway
         ob_start();
 
         $options = [
-            'cart' => 'Cart',
-            'mini-cart' => 'Mini Cart',
-            'product-details-page' => 'Product Details Page',
-            'single-product' => 'Single Product',
+            'cart' => __('Cart', 'woocommerce-gateway-twint'),
+            'mini-cart' => __('Mini Cart', 'woocommerce-gateway-twint'),
+            'product-details-page' => __('Product Details Page', 'woocommerce-gateway-twint'),
+            'single-product' => __('Single Product', 'woocommerce-gateway-twint'),
         ];
 
         ?>

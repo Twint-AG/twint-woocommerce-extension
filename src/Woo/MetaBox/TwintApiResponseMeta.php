@@ -23,7 +23,7 @@ class TwintApiResponseMeta
     {
         add_meta_box(
             'woocommerce-order-twint-api-response',
-            __('Twint API Response', 'woocommerce'),
+            __('TWINT API Response', 'woocommerce-gateway-twint'),
             [$this, 'addCustomTwintApiResponseContent'],
             'shop_order',
             'normal',

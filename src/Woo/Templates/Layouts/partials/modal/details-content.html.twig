@@ -1,9 +1,9 @@
 <table class="content-table">
     <thead>
     <tr>
-        <th>Order ID</th>
-        <th>API Method</th>
-        <th>Order Status</th>
+        <th>{{ 'Order ID'|__trans }}</th>
+        <th>{{ 'API Method'|__trans }}</th>
+        <th>{{ 'Order Status'|__trans }}</th>
     </tr>
     </thead>
     <tbody>
@@ -19,15 +19,15 @@
     <div class="">
         <div class="components-flex components-card__header components-card-header">
             <h2 class="components-truncate components-text" style="padding-left: 0;">
-                Request / Response
+                {{ 'Request'|__trans }} / {{ 'Response'|__trans }}
             </h2>
 
             <div id="request">
-                <label for="request">Request</label>
+                <label for="request">{{ 'Request'|__trans }}</label>
                 <textarea cols="30" rows="6" id="request" disabled>{{ request }}</textarea>
             </div>
             <div id="response">
-                <label for="response">Response</label>
+                <label for="response">{{ 'Reponse'|__trans }}</label>
                 <textarea cols="30" rows="6" id="request" disabled>{{ response }}</textarea>
             </div>
         </div>
@@ -44,11 +44,11 @@
                 </h2>
 
                 <div id="request">
-                    <label for="request">Request</label>
+                    <label for="request">{{ 'Request'|__trans }}</label>
                     <textarea cols="30" rows="6" id="request" disabled>{{ twint_xml_beauty(request) }}</textarea>
                 </div>
                 <div id="response">
-                    <label for="response">Response</label>
+                    <label for="response">{{ 'Response'|__trans }}</label>
                     <textarea cols="30" rows="6" id="request" disabled>{{ twint_xml_beauty(soapResponses[index]) }}</textarea>
                 </div>
             </div>
