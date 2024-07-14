@@ -1,12 +1,12 @@
 <table class="content-table">
     <thead>
     <tr>
-        <th>Order ID</th>
-        <th>API Method</th>
-        <th>SOAP Actions</th>
-        <th>Order Status</th>
-        <th>Created At</th>
-        <th>Actions</th>
+        <th>{{ 'Order ID'|__trans }}</th>
+        <th>{{ 'API Method'|__trans }}</th>
+        <th>{{ 'SOAP Actions'|__trans }}</th>
+        <th>{{ 'Order Status'|__trans }}</th>
+        <th>{{ 'Created At'|__trans }}</th>
+        <th>{{ 'Actions'|__trans }}</th>
     </tr>
     </thead>
     <tbody>
@@ -25,7 +25,7 @@
                 <a href="#" class="button button-small button-primary js_view_details"
                    data-nonce="{{ nonce }}"
                    data-record-id="{{ item.record_id }}">
-                    View Details
+                    {{ 'View Details'|__trans }}
                 </a>
             </td>
         </tr>
@@ -42,7 +42,7 @@
         </div>
 
         <div class="modal-footer">
-            <a href="#" class="button button-small button-primary close-button">Close</a>
+            <a href="#" class="button button-small button-primary close-button">{{ 'Close'|__trans }}</a>
         </div>
     </div>
 </div>

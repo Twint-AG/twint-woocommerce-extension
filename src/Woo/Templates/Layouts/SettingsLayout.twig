@@ -1,9 +1,9 @@
 {% block PHPComponents %}
     <div class="wrap">
-        <h1>Twint Settings</h1>
+        <h1>{{ 'TWINT Settings'|__trans }}</h1>
 
         <div id="notice-admin-success" class="d-none notice notice-success">
-            <p>All settings have been saved.</p>
+            <p>{{ 'All settings have been saved.'|__trans }}</p>
         </div>
         <div id="notice-admin-error" class="d-none notice notice-error is-dismissible"></div>
 
@@ -36,7 +36,7 @@
                                name="submit"
                                id="js_twint_button_save"
                                class="button button-primary js_twint_button_save"
-                               value="Save Changes">
+                               value="{{ 'Save changes'|__trans }}">
                     </p>
                 {% endif %}
             </div>

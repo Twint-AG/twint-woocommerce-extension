@@ -261,8 +261,8 @@ class TwintIntegration
         }
 
         $this->page_hook_setting = add_menu_page(
-            esc_html__('TWINT Settings', 'twint-payment-integration'),
-            esc_html__('TWINT Settings', 'twint-payment-integration'),
+            __('TWINT Settings', 'woocommerce-gateway-twint'),
+            __('TWINT Settings', 'woocommerce-gateway-twint'),
             'manage_options',
             'twint-payment-integration-settings',
             [$this, 'accessSettingsMenuCallback'],
@@ -302,6 +302,13 @@ class TwintIntegration
         self::CREATE_DB();
 
         TwintCancelOrderExpiredCronJob::INIT_CRONJOB();
+
+        $pluginLanguagesPath = \WC_Twint_Payments::plugin_abspath() . 'i18n/languages/';
+        $wpLangPluginPath = WP_CONTENT_DIR . '/languages/plugins/';
+        $pluginLanguagesDirectory = array_diff(scandir($pluginLanguagesPath), ['..', '.']);
+        foreach ($pluginLanguagesDirectory as $language) {
+            \Psl\Filesystem\copy($pluginLanguagesPath . $language, $wpLangPluginPath . $language, true);
+        }
     }
 
     public static function UNINSTALL(): void
