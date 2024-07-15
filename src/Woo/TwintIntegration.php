@@ -266,7 +266,7 @@ class TwintIntegration
             'manage_options',
             'twint-payment-integration-settings',
             [$this, 'accessSettingsMenuCallback'],
-            '',
+            twint_assets('/images/twint_icon.svg'),
             '30.5'
         );
     }
