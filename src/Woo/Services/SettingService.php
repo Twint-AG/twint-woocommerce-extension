@@ -31,11 +31,11 @@ class SettingService
     }
 
     /**
-     * @return array
+     * @return ?array
      */
-    public function getCertificate(): array
+    public function getCertificate(): ?array
     {
-        return get_option(self::CERTIFICATE, []);
+        return get_option(self::CERTIFICATE, null);
     }
 
     public static function getCheckoutSingle()

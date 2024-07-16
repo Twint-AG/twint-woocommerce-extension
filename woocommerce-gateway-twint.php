@@ -43,13 +43,33 @@ class WC_Twint_Payments
 
         // Registers WooCommerce Blocks integration.
         add_action('woocommerce_blocks_loaded', array(__CLASS__, 'woocommerce_gateway_twint_woocommerce_block_support'));
-        add_action('admin_notices', array(__CLASS__, 'woocommerceAddAdminNoticesIfNotSetupCorrectly'));
 
         $instance = new \Twint\Woo\TwintIntegration();
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), array($instance, 'adminPluginSettingsLink'));
 
         register_activation_hook(__FILE__, [\Twint\Woo\TwintIntegration::class, 'INSTALL']);
         register_deactivation_hook(__FILE__, [\Twint\Woo\TwintIntegration::class, 'UNINSTALL']);
+
+        add_action('init', [__CLASS__, 'createCustomWooCommerceStatus']);
+        add_filter('wc_order_statuses', [__CLASS__, 'addCustomWooCommerceStatusToList']);
+    }
+
+    public static function createCustomWooCommerceStatus(): void
+    {
+        register_post_status(
+            \WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterPartiallyRefunded(),
+            [
+                'label' => __('Refunded (partially)', 'woocommerce-gateway-twint'),
+                'public' => true,
+                'show_in_admin_status_list' => true,
+            ]
+        );
+    }
+
+    public static function addCustomWooCommerceStatusToList($orderStatuses): array
+    {
+        $orderStatuses[\WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterPartiallyRefunded()] = __('Refunded (partially)', 'woocommerce-gateway-twint');
+        return $orderStatuses;
     }
 
     /**
@@ -88,34 +108,6 @@ class WC_Twint_Payments
                 (is_multisite() && array_key_exists($plugin, (array)get_site_option('active_sitewide_plugins', array())))
             )
         );
-    }
-
-    public static function woocommerceAddAdminNoticesIfNotSetupCorrectly()
-    {
-//        $settings = new \Twint\Woo\Services\SettingService();
-//        $msg = '<h3>TWINT Payment</h3>';
-//        $merchantId = $settings->getMerchantId();
-//        $needShowNotice = false;
-//        if (empty($merchantId)) {
-//            $needShowNotice = true;
-//            $msg .= 'The Merchant ID is not set up. Please check again';
-//        } else {
-//            $certificate = $settings->getCertificate();
-//            if (empty($certificate)) {
-//                $needShowNotice = true;
-//                $msg .= 'The Certificate is not set up. Please check again';
-//            }
-//        }
-//
-//        if ($needShowNotice) {
-//            $settingsLink = '<a href="' . esc_url('admin.php?page=twint-payment-integration-settings') . '">' . __('Settings', 'woocommerce-gateway-twint') . '</a>';
-//            $msg .= '. Please click ' . $settingsLink . ' to finish it before doing anything with TWIN Payment.';
-//            wp_admin_notice($msg,
-//                [
-//                    'type' => 'error'
-//                ]
-//            );
-//        }
     }
 
     /**

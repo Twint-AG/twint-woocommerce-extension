@@ -7,7 +7,7 @@
         </div>
         <div id="notice-admin-error" class="d-none notice notice-error is-dismissible"></div>
 
-        <form method="post" action="" novalidate="novalidate" enctype="multipart/form-data">
+        <form method="post" action="" novalidate="novalidate" enctype="multipart/form-data" autocomplete="off">
             <nav class="nav-tab-wrapper woo-nav-tab-wrapper">
                 {% for tab in tabs %}
                     {% if tab.directLink is defined and tab.directLink is not null %}
@@ -32,11 +32,9 @@
 
                 {% if allowSaveChanges == true %}
                     <p class="submit">
-                        <input type="submit"
-                               name="submit"
-                               id="js_twint_button_save"
-                               class="button button-primary js_twint_button_save"
-                               value="{{ 'Save changes'|__trans }}">
+                        <button type="submit" id="js_twint_button_save" class="button button-primary">
+                            <span class="button-text">{{ 'Save changes'|__trans }}</span>
+                        </button>
                     </p>
                 {% endif %}
             </div>

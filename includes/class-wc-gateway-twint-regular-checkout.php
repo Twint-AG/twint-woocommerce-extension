@@ -53,7 +53,7 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
             'multiple_subscriptions'
         );
 
-        $this->method_title = __('TWINT - Regular Checkout | TBU - Twint Payment', 'woocommerce-gateway-twint');
+        $this->method_title = __('TWINT - Regular Checkout', 'woocommerce-gateway-twint');
         $this->method_description = __('Allows TWINT - Regular Checkout', 'woocommerce-gateway-twint');
 
         // Load the settings.
@@ -163,7 +163,18 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
     public static function getOrderStatusAfterPaid(): string
     {
         // TODO use config or database option for this.
-        return apply_filters('woocommerce_twint_order_status_paid', 'processing');
+        return apply_filters('woocommerce_twint_order_status_paid', 'wc-processing');
+    }
+
+    /**
+     * Set up the status of the order after order got paid.
+     * @return string
+     * @since 0.0.1
+     *
+     */
+    public static function getOrderStatusAfterPartiallyRefunded(): string
+    {
+        return apply_filters('woocommerce_twint_order_status_partially_refunded', 'wc-refunded-partially');
     }
 
     /**
@@ -185,6 +196,11 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
             return new WP_Error('error', __('Refund failed.', 'woocommerce-gateway-twint'));
         }
 
-        // TODO Implement refund feature
+        $result = (new \Twint\Woo\Services\PaymentService())->reverseOrder($order, $amount);
+        if (!$result) {
+            return new WP_Error('error', __('Refund failed.', 'woocommerce-gateway-twint'));
+        }
+
+        return true;
     }
 }

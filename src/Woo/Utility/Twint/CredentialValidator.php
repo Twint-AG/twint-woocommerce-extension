@@ -25,11 +25,11 @@ class CredentialValidator implements CredentialValidatorInterface
         $this->crypto = new CryptoHandler();
     }
 
-    public function validate(array $certificate, string $merchantId, bool $testMode): bool
+    public function validate(?array $certificate, string $merchantId, bool $testMode): bool
     {
         try {
-            $cert = $this->crypto->decrypt($certificate['certificate']);
-            $passphrase = $this->crypto->decrypt($certificate['passphrase']);
+            $cert = $this->crypto->decrypt($certificate['certificate'] ?? '');
+            $passphrase = $this->crypto->decrypt($certificate['passphrase'] ?? '');
 
             if ($passphrase === '' || $cert === '') {
                 return false;
