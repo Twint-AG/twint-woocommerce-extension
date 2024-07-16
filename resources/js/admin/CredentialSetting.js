@@ -150,9 +150,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
         showNoticeSuccess(msg = null) {
             this.$noticeSuccess?.classList?.remove('d-none');
 
-            setTimeout(() => {
-                this.hideNoticeSuccess();
-            }, 4000);
+            // setTimeout(() => {
+            //     this.hideNoticeSuccess();
+            // }, 4000);
         }
 
         hideNoticeSuccess() {
