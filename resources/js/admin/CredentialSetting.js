@@ -1,7 +1,7 @@
 import axios from "axios";
 
 document.addEventListener("DOMContentLoaded", function (event) {
-    class CredentialSetting {
+    class CredentialsSetting {
         constructor() {
             this.state = {
                 plugin_twint_test_mode: false,
@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 plugin_twint_settings_certificate: null,
                 plugin_twint_settings_certificate_password: null,
                 openUploadCertificateArea: false,
-                showNotifyValidCredential: false,
+                showNotifyValidCredentials: false,
             };
 
             this.options = {
@@ -375,5 +375,5 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
     }
 
-    new CredentialSetting().init();
+    new CredentialsSetting().init();
 });
