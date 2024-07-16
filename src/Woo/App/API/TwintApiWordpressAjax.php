@@ -92,6 +92,7 @@ class TwintApiWordpressAjax
             exit('The WP Nonce is invalid, please check again!');
         }
 
+        $certificateResult = [];
         $response = [];
         if (!isValidUuid($_POST[SettingService::MERCHANT_ID])) {
             $response['status'] = false;
@@ -102,19 +103,10 @@ class TwintApiWordpressAjax
 
             die();
         } else {
-            update_option(SettingService::MERCHANT_ID, $_POST[SettingService::MERCHANT_ID]);
+            $merchantId = $_POST[SettingService::MERCHANT_ID];
         }
 
-        try {
-            /**
-             * Test mode
-             */
-            $value = $_POST[SettingService::TESTMODE] === 'on' ? 'yes' : 'no';
-            update_option(SettingService::TESTMODE, $value);
-        } catch (\Exception $exception) {
-            wc_get_logger()->error("Error when saving setting " . PHP_EOL . $exception->getMessage());
-        }
-
+        $testMode = $_POST[SettingService::TESTMODE] === 'on' ? 'yes' : 'no';
 
         try {
 
@@ -148,14 +140,12 @@ class TwintApiWordpressAjax
                 $extractor = new CertificateHandler();
                 $certificate = $extractor->read((string)$content, $password);
 
-                $validatedCertificate = [];
                 if ($certificate instanceof Pkcs12Certificate) {
-                    $validatedCertificate = [
+                    $certificateResult = [
                         'certificate' => $encryptor->encrypt($certificate->content()),
                         'passphrase' => $encryptor->encrypt($certificate->passphrase()),
                     ];
 
-                    update_option(SettingService::CERTIFICATE, $validatedCertificate);
                 } else {
                     $response['status'] = false;
                     $response['flag_credentials'] = false;
@@ -164,7 +154,7 @@ class TwintApiWordpressAjax
                 }
 
                 // Call SDK to check system [testMode, certificate, merchantId]
-                $response = $this->checkConfiguration($validatedCertificate);
+                $response = $this->checkConfiguration($testMode, $merchantId, $certificateResult);
                 $alreadyCheckedSystemCertificate = true;
             }
 
@@ -173,7 +163,7 @@ class TwintApiWordpressAjax
                 if (is_null($certificateCheck)) {
                     $certificateCheck = [];
                 }
-                $response = $this->checkConfiguration($certificateCheck);
+                $response = $this->checkConfiguration($testMode, $merchantId, $certificateCheck);
             }
 
         } catch (\Exception $exception) {
@@ -194,14 +184,14 @@ class TwintApiWordpressAjax
         die();
     }
 
-    public function checkConfiguration(array $certificate): array
+    public function checkConfiguration($testMode, $merchantId, array $certificate): array
     {
         $response = [];
         $certificateKey = SettingService::CERTIFICATE;
         $isValidTwintConfiguration = (new CredentialValidator())->validate(
             $certificate,
-            get_option(SettingService::MERCHANT_ID),
-            get_option(SettingService::TESTMODE) === 'yes'
+            $merchantId,
+            $testMode
         );
 
         if ($isValidTwintConfiguration) {
@@ -209,14 +199,14 @@ class TwintApiWordpressAjax
             $response['message'] = __('Settings have been saved successfully.', 'woocommerce-gateway-twint');
             update_option($certificateKey, $certificate);
             update_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG, 'yes');
+            update_option(SettingService::TESTMODE, $testMode);
+            update_option(SettingService::MERCHANT_ID, $merchantId);
         } else {
             $response['status'] = false;
             $response['flag_credentials'] = false;
 
             $response['error_level'] = 'error';
             $response['message'] = __('Please check again. Your Certificate file, merchant ID or Certificate password is incorrect.', 'woocommerce-gateway-twint');;
-            update_option($certificateKey, []);
-            update_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG, 'no');
         }
 
         return $response;
