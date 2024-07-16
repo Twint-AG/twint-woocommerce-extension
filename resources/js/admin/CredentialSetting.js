@@ -103,6 +103,36 @@ document.addEventListener("DOMContentLoaded", function (event) {
             }
         }
 
+        toggleLoadingButton() {
+            if (this.button?.classList?.contains('button-loading')) {
+                this.button?.classList?.remove('button-loading')
+            } else {
+                this.button?.classList?.add('button-loading')
+            }
+        }
+
+        hideUploadCertificateArea() {
+            const $certificate = jQuery('tr.plugin_twint_settings_certificate');
+            $certificate.addClass('d-none');
+
+            const $certificatePassword = jQuery('tr.plugin_twint_settings_certificate_password');
+            $certificatePassword.addClass('d-none');
+
+            this.closeUploadNewCertificateButton?.classList?.add('d-none');
+            this.uploadNewCertificateButton?.classList?.remove('d-none');
+        }
+
+        showUploadCertificateArea() {
+            const $certificate = jQuery('tr.plugin_twint_settings_certificate');
+            $certificate.removeClass('d-none');
+
+            const $certificatePassword = jQuery('tr.plugin_twint_settings_certificate_password');
+            $certificatePassword.removeClass('d-none');
+
+            this.closeUploadNewCertificateButton?.classList?.remove('d-none');
+            this.uploadNewCertificateButton?.classList?.add('d-none');
+        }
+
         uploadNewCertificate() {
             this.toggleCertificateArea();
 
@@ -157,21 +187,29 @@ document.addEventListener("DOMContentLoaded", function (event) {
             this.merchantIdInput?.classList?.remove('has-error');
         }
 
+        // On submit the form
         onClick(evt) {
             evt.preventDefault();
+            this.toggleLoadingButton();
             const formData = new FormData();
 
             this.resetErrorNotice();
 
             if (!this.checkMerchantIdField()) {
+                this.toggleLoadingButton();
+
                 return;
             }
 
             if (!this.checkCertificateFileField()) {
+                this.toggleLoadingButton();
+
                 return;
             }
 
             if (!this.checkCertificatePasswordField()) {
+                this.toggleLoadingButton();
+
                 return;
             }
 
@@ -185,12 +223,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
             axios.post(this.options.adminUrl, formData).then(response => {
                 console.log(response.data);
                 const {status} = response.data;
-                console.log(status);
                 if (status === true) {
                     this.showNoticeSuccess(response.data.message);
 
                     this.configNoticeError?.classList?.add('d-none');
                     this.configNoticeSuccess?.classList?.remove('d-none');
+                    this.hideUploadCertificateArea();
+                    this.hideNoticeError();
                     setTimeout(() => {
                         location.reload();
                     }, 1000);
@@ -202,8 +241,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
                         this.configNoticeError?.classList?.remove('d-none');
                         this.configNoticeSuccess?.classList?.add('d-none');
+                        this.showUploadCertificateArea();
                     }
                 }
+                this.toggleLoadingButton();
             }).catch(error => {
                 console.log(error);
             });

@@ -124,28 +124,39 @@ class PaymentService
     }
 
     /**
-     * @throws PaymentException
+     * @param WC_Order $order
+     * @param float|int $amount
+     * @return Order|null
      */
-    public function reverseOrder(WC_Order $order): ?Order
+    public function reverseOrder(WC_Order $order, float|int $amount): ?Order
     {
         $orderTransactionId = $order->get_transaction_id();
         try {
             $twintApiResponse = json_decode($order->get_meta('twint_api_response'), true);
             if (!empty($twintApiResponse) && !empty($twintApiResponse['id'])) {
-                $orderTransactionId = $order->get_transaction_id();
                 $currency = $order->get_currency();
-                if ($orderTransactionId && !empty($currency) && $order->get_total() > 0) {
+                if (!empty($currency) && $amount > 0) {
                     $client = $this->client->build();
-                    $twintOrder = $client->monitorOrder(new OrderId(new Uuid($twintApiResponse['id'])));
+
+                    $twintOrder = $client->monitorOrder(
+                        new OrderId(new Uuid($twintApiResponse['id']))
+                    );
+
                     if ($twintOrder->status()->equals(OrderStatus::SUCCESS())) {
+                        $reversalIndex = $this->getReversalIndex($order->get_id());
+                        $reversalId = 'R-' . $twintOrder->id()->__toString() . '-' . $reversalIndex;
                         $twintOrder = $client->reverseOrder(
-                            new UnfiledMerchantTransactionReference('R-' . $twintApiResponse['id']),
-                            new OrderId(new Uuid($twintApiResponse['id'])),
-                            new Money($currency, $order->get_total())
+                            new UnfiledMerchantTransactionReference($reversalId),
+                            $twintOrder->id(),
+                            new Money($currency, $amount)
                         );
-                        // TODO Handle refund
+
+                        if ($this->needUpdateStatusAfterRefunded($order, $amount)) {
+                            $this->updateStatusAfterRefunded($order, $amount);
+                        }
+
+                        return $twintOrder;
                     }
-                    return $twintOrder;
                 }
             }
             return null;
@@ -155,7 +166,14 @@ class PaymentService
                 'An error occurred during the communication with API gateway' . PHP_EOL . $e->getMessage()
             );
         } finally {
-            // TODO handle logger
+            $innovations = $this->client->build()->flushInvocations();
+            $transactionLogService = new TransactionLogService();
+            $transactionLogService->writeObjectLog(
+                $order->get_id(),
+                $order->get_status(),
+                $order->get_transaction_id(),
+                $innovations
+            );
         }
     }
 
@@ -182,5 +200,27 @@ class PaymentService
             return $payLinks;
         }
         return $payLinks;
+    }
+
+    public function getReversalIndex(string $orderId): int
+    {
+        // Get latest Increment ID and return it.
+
+        // TODO update-me
+        return 1;
+    }
+
+    public function needUpdateStatusAfterRefunded(WC_Order $order, float|int $amount): bool
+    {
+        return true;
+    }
+
+    public function updateStatusAfterRefunded(WC_Order $order, float|int $amount): bool
+    {
+        if ($order->get_total() > $amount) {
+            return $order->update_status(WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterPartiallyRefunded());
+        }
+
+        return $order->update_status('wc-refunded');
     }
 }

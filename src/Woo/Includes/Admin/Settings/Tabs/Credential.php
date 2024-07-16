@@ -5,11 +5,8 @@ namespace Twint\Woo\Includes\Admin\Settings\Tabs;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
-use Twint\Sdk\Certificate\Pkcs12Certificate;
 use Twint\Woo\Abstract\Core\Setting\TabItem;
 use Twint\Woo\Services\SettingService;
-use Twint\Woo\Utility\Twint\CertificateHandler;
-use Twint\Woo\Utility\Twint\CryptoHandler;
 
 class Credential extends TabItem
 {
@@ -20,7 +17,7 @@ class Credential extends TabItem
 
     public static function getLabel(): string
     {
-        return __('Credential', 'woocommerce-gateway-twint');
+        return __('Credentials', 'woocommerce-gateway-twint');
     }
 
     public static function fields(): array

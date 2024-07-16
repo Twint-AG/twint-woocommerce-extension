@@ -1,15 +1,14 @@
 <table class="form-table twint-table-setting" role="presentation">
     <tbody>
-    {% set needHideCertificateUpload = flag_credentials == 'yes' %}
     {% set isShowedTheButtonUploadNewCert = false %}
     {% for field in fields %}
         {% if isShowedTheButtonUploadNewCert == false %}
-            {% if field.name == 'plugin_twint_settings_certificate' and needHideCertificateUpload == true %}
+            {% if field.name == 'plugin_twint_settings_certificate' %}
                 {% set isShowedTheButtonUploadNewCert = true %}
                 <tr class="">
                     <th></th>
                     <td>
-                        <div class="notify-box notify-success {% if flag_credentials == 'no' %} d-none {% endif %}"
+                        <div class="notify-box notify-success {% if needHideCertificateUpload == false %} d-none {% endif %}"
                              style="max-width: 25em;"
                              id="notice_success_configuration_settings"
                         >
@@ -32,9 +31,8 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="notify-box notify-warning {% if flag_credentials == 'yes' %} d-none {% endif %}"
-                             id="notice_error_configuration_settings"
-                        >
+                        <div class="notify-box notify-warning {% if showNoticeCertificate == false %} d-none {% endif %}"
+                             style="max-width: 25em;" id="notice_error_configuration_settings">
                             <div class="notify-box__content">
                                 {{ 'The configurations are loaded but encryption fails. Please check again.'|__trans }}
                             </div>
@@ -43,7 +41,7 @@
                 </tr>
             {% endif %}
         {% endif %}
-        <tr class="{{ field.name }}{% if field.name in ['plugin_twint_settings_certificate', 'plugin_twint_settings_certificate_password'] and needHideCertificateUpload %} d-none {% endif %}">
+        <tr class="{{ field.name }}{% if field.name in ['plugin_twint_settings_certificate', 'plugin_twint_settings_certificate_password'] and needHideCertificateUpload == true %} d-none {% endif %}">
             <th scope="row">
                 <label for="{{ field.name }}">
                     {{ field.label }}

@@ -10,6 +10,7 @@ use Twint\Woo\Includes\Admin\Settings\Tabs\Credential;
 use Twint\Woo\Includes\Admin\Settings\Tabs\ExpressCheckout;
 use Twint\Woo\Includes\Admin\Settings\Tabs\RegularCheckout;
 use Twint\Woo\Services\SettingService;
+use Twint\Woo\Utility\Twint\CredentialValidator;
 
 class SettingsLayoutViewAdapter
 {
@@ -42,8 +43,13 @@ class SettingsLayoutViewAdapter
         $this->data['tabs'] = $this->getTabsConfig();
         $this->data['activated_tab'] = $settingTabClassOriginal;
         if ($settingTabClassOriginal === Credential::getKey()) {
-            $this->data['flag_credentials'] = get_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG);
+            $flagValidatedCredentialsConfig = get_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG);
+            $this->data['flag_credentials'] = $flagValidatedCredentialsConfig;
+            $this->data['needHideCertificateUpload'] = $flagValidatedCredentialsConfig === 'yes';
+            $this->data['status'] = $this->checkInvalidCredentialsOrNot();
+            $this->data['showNoticeCertificate'] = $this->shouldShowNoticeCertificate();
         }
+
         $this->data['allowSaveChanges'] = $settingTabClass::allowSaveChanges();
         $this->data['fields'] = $settingTabClass::fields();
         $this->data['nonce'] = wp_create_nonce('store_twint_settings');
@@ -74,5 +80,37 @@ class SettingsLayoutViewAdapter
                 'directLink' => ExpressCheckout::directLink(),
             ],
         ];
+    }
+
+    public function shouldShowNoticeCertificate(): bool
+    {
+        $setting = new SettingService();
+        $testMode = get_option(SettingService::TESTMODE, null);
+        $certificate = $setting->getCertificate();
+
+        if (empty($certificate) && empty($testMode)) {
+            // empty all configs as first installed.
+            return false;
+        }
+
+        if (empty($certificate)) {
+            return true;
+        }
+
+        if (empty($testMode)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function checkInvalidCredentialsOrNot(): bool
+    {
+        $certificateCheck = (new SettingService())->getCertificate();
+        return (new CredentialValidator())->validate(
+            $certificateCheck,
+            get_option(SettingService::MERCHANT_ID),
+            get_option(SettingService::TESTMODE) === 'yes'
+        );
     }
 }
