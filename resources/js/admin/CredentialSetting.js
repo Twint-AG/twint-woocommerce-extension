@@ -117,6 +117,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
             const $certificatePassword = jQuery('tr.plugin_twint_settings_certificate_password');
             $certificatePassword.addClass('d-none');
+
+            this.closeUploadNewCertificateButton?.classList?.add('d-none');
+            this.uploadNewCertificateButton?.classList?.remove('d-none');
         }
 
         showUploadCertificateArea() {
@@ -125,6 +128,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
             const $certificatePassword = jQuery('tr.plugin_twint_settings_certificate_password');
             $certificatePassword.removeClass('d-none');
+
+            this.closeUploadNewCertificateButton?.classList?.remove('d-none');
+            this.uploadNewCertificateButton?.classList?.add('d-none');
         }
 
         uploadNewCertificate() {
@@ -181,6 +187,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             this.merchantIdInput?.classList?.remove('has-error');
         }
 
+        // On submit the form
         onClick(evt) {
             evt.preventDefault();
             this.toggleLoadingButton();
