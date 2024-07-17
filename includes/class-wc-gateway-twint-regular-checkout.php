@@ -8,6 +8,8 @@
  */
 
 // Exit if accessed directly.
+use Twint\Woo\Services\SettingService;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -81,7 +83,7 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
                 'title' => __('Enable/Disable', 'woocommerce-gateway-twint'),
                 'type' => 'checkbox',
                 'label' => __('Enable Twint Regular Checkout', 'woocommerce-gateway-twint'),
-                'default' => 'yes',
+                'default' => SettingService::YES,
             ],
             'title' => [
                 'title' => __('Title', 'woocommerce-gateway-twint'),

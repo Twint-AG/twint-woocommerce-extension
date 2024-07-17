@@ -13,13 +13,15 @@ class SettingService
     const REMOVE_DB_TABLE_WHEN_DISABLING_PLUGIN = '_twint_auto_remove_db_table_when_disabling';
     const FLAG_VALIDATED_CREDENTIAL_CONFIG = 'plugin_twint_credential_settings_flag_validated';
     const TESTMODE = 'plugin_twint_test_mode';
+    const YES = 'yes';
+    const NO = 'no';
 
     /**
      * @return bool
      */
     public function isTestMode(): bool
     {
-        return get_option(self::TESTMODE) === 'yes';
+        return get_option(self::TESTMODE) === self::YES;
     }
 
     /**
@@ -50,6 +52,6 @@ class SettingService
 
     public static function getAutoRemoveDBTableWhenDisabling()
     {
-        return get_option(self::REMOVE_DB_TABLE_WHEN_DISABLING_PLUGIN, 'no');
+        return get_option(self::REMOVE_DB_TABLE_WHEN_DISABLING_PLUGIN, self::NO);
     }
 }
