@@ -1,24 +1,24 @@
 <?php
 
-namespace TWINT\Woo\CronJob;
+namespace Twint\Woo\CronJob;
 
 use Twint\Woo\Services\SettingService;
 
 class TwintCancelOrderExpiredCronJob
 {
-    public const HOOK_NAME = 'twint_cancel_expired_orders';
+    public const HOOK_NAME = 'twint_order_handler';
 
     public function __construct()
     {
         add_filter('cron_schedules', [$this, 'wpCronSchedules']);
 
-        add_action(self::HOOK_NAME, [$this, 'twintCancelExpiredOrders']);
+        add_action(self::HOOK_NAME, [$this, 'run']);
     }
 
     public static function INIT_CRONJOB(): void
     {
         if (!wp_next_scheduled(self::HOOK_NAME)) {
-            wp_schedule_event(time(), 'twint15minutes', self::HOOK_NAME);
+            wp_schedule_event(time(), 'twint1minute', self::HOOK_NAME);
         }
     }
 
@@ -29,17 +29,18 @@ class TwintCancelOrderExpiredCronJob
 
     public function wpCronSchedules($schedules)
     {
-        if (!isset($schedules['twint15minutes'])) {
-            $schedules['twint15minutes'] = [
-                'interval' => 15 * 60,
-                'display' => __('Once every 15 minutes'),
+        if (!isset($schedules['twint1minute'])) {
+            $minutes = 1;
+            $schedules['twint1minute'] = [
+                'interval' => $minutes * 60,
+                'display' => __('Once every 1 minute'),
             ];
         }
 
         return $schedules;
     }
 
-    public function twintCancelExpiredOrders(): void
+    public function run(): void
     {
         wc_get_logger()->info(
             'twintCronJobRunning',

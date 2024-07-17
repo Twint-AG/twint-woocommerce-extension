@@ -108,10 +108,25 @@ select {
 }
 
 .qr-code-box {
-    border: 1px solid hsla(0, 0%, 7%, .11);
-    border-radius: 3px;
+    /* border: 1px solid hsla(0, 0%, 7%, .11); */
+    border-radius: 12px;
     width: 100%;
     background: rgb(255 255 255) !important;
+}
+
+.qr-code-section > div {
+    flex: 1 1 0;
+}
+
+.right-side-info.parent {
+    display: flex;
+    flex-direction: column;
+}
+
+.right-side-info .child {
+    flex: 1;
+    display: flex;
+    align-items: center;
 }
 
 #btn-copy-token {
@@ -123,7 +138,7 @@ section.twint-qr-code-section {
     border: 1px solid hsla(0, 0%, 7%, .11);
     margin-bottom: 10px;
     padding: 20px;
-    background-color: hsl(0deg 0% 84.23% / 11%);
+    background-color: #F5F5F5;
 }
 
 .twint-qr-container a.btn {
@@ -334,6 +349,7 @@ div#logo-container .item {
 
 .twint-qr-container .qr-img {
     width: 300px;
+    border-radius: 12px;
 }
 
 .twint-qr-container #qr-token {
@@ -345,6 +361,14 @@ div#logo-container .item {
     border: none;
     opacity: 1;
     width: 95%;
+}
+
+.text-black {
+    color: black !important;
+}
+
+.qr-code-instructions {
+    margin-top: 40px;
 }
 
 .twint-qr-container .amount {
@@ -363,7 +387,8 @@ div#logo-container .item {
 }
 
 .twint-qr-container .md-rounded {
-    border-radius: 0.5rem;
+    border-radius: 12px;
+    height: 100%;
 }
 
 @media (max-width: 768px) {
