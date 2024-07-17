@@ -66,7 +66,7 @@
             {% elseif payLinks['android'] is defined and payLinks['android'] is not null %}
                 {% include 'Layouts/partials/qr-code/qr_android.html.twig' %}
             {% else %}
-                <div class="qr-code-section d-flex gap-2" style="font-size: 16px;">
+                <div class="qr-code-section d-flex gap-4" style="font-size: 16px;">
                     <div class="qr-code-box">
                         <div class="text-center">
                             <img src="{{ qrCode }}" alt="QR Code" class="qr-img">
@@ -76,9 +76,16 @@
                                    disabled>
                         </div>
                     </div>
-                    <div class="qr-code-box order-information flex-column">
-                        <div class="order-price bg-white p-3 h-50 md-rounded d-flex justify-content-center align-items-center">
-                            <span class="value text-white bg-black fw-semibold px-4 py-2">{{ currency }} {{ amount }}</span>
+                    <div class="right-side-info parent gap-4">
+                        <div class="qr-code-box child order-information flex-column">
+                            <div class="order-price bg-white p-3 h-50 md-rounded d-flex justify-content-center align-items-center">
+                                <span class="value text-white bg-black fw-semibold px-4 py-2">{{ currency }} {{ amount }}</span>
+                            </div>
+                        </div>
+                        <div class="qr-code-box child order-information flex-column">
+                            <div class="order-price bg-white text-black p-3 h-50 md-rounded d-flex justify-content-center align-items-center">
+                                {{ get_bloginfo('name') }}
+                            </div>
                         </div>
                     </div>
                 </div>

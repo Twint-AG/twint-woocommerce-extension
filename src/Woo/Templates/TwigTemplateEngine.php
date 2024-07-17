@@ -49,6 +49,10 @@ class TwigTemplateEngine extends AbstractServiceProvider
             return json_decode($string);
         });
 
+        $twigGetBlogInfoFunc = new \Twig\TwigFunction('get_bloginfo', function ($key) {
+            return get_bloginfo($key);
+        });
+
         $twigXMLBeautyFunc = new \Twig\TwigFunction('twint_xml_beauty', function ($xml) {
             $dom = new \DOMDocument('1.0');
             $dom->preserveWhiteSpace = true;
@@ -61,6 +65,7 @@ class TwigTemplateEngine extends AbstractServiceProvider
         $this->twigInstance->addFunction($twigJsonDecodeFunc);
         $this->twigInstance->addFunction($getOptionFunc);
         $this->twigInstance->addFunction($twigXMLBeautyFunc);
+        $this->twigInstance->addFunction($twigGetBlogInfoFunc);
         $this->twigInstance->addFilter($filter);
     }
 
