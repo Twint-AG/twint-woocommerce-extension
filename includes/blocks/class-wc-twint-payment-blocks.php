@@ -32,7 +32,9 @@ final class WC_Gateway_Twint_Regular_Checkout_Blocks_Support extends AbstractPay
     {
         $this->settings = get_option(SettingService::KEY_PRIMARY_SETTING, []);
         $gateways = WC()->payment_gateways()->payment_gateways();
-        if (isset($gateways[$this->name])) {
+
+        $flagValidatedCredentials = get_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG);
+        if (isset($gateways[$this->name]) && 'yes' === $flagValidatedCredentials) {
             $this->gateway = $gateways[$this->name];
         }
     }
