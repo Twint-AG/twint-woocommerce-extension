@@ -45,7 +45,7 @@ class SettingsLayoutViewAdapter
         if ($settingTabClassOriginal === Credential::getKey()) {
             $flagValidatedCredentialsConfig = get_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG);
             $this->data['flag_credentials'] = $flagValidatedCredentialsConfig;
-            $this->data['needHideCertificateUpload'] = $flagValidatedCredentialsConfig === 'yes';
+            $this->data['needHideCertificateUpload'] = $flagValidatedCredentialsConfig === SettingService::YES;
             $this->data['status'] = $this->checkInvalidCredentialsOrNot();
         }
 
@@ -87,7 +87,7 @@ class SettingsLayoutViewAdapter
         return (new CredentialValidator())->validate(
             $certificateCheck,
             get_option(SettingService::MERCHANT_ID),
-            get_option(SettingService::TESTMODE) === 'yes'
+            get_option(SettingService::TESTMODE) === SettingService::YES
         );
     }
 }

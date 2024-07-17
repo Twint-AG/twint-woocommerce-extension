@@ -106,7 +106,7 @@ class TwintApiWordpressAjax
             $merchantId = $_POST[SettingService::MERCHANT_ID];
         }
 
-        $testMode = $_POST[SettingService::TESTMODE] === 'on' ? 'yes' : 'no';
+        $testMode = $_POST[SettingService::TESTMODE] === 'on' ? SettingService::YES : 'no';
 
         try {
 
@@ -198,7 +198,7 @@ class TwintApiWordpressAjax
             $response['status'] = true;
             $response['message'] = __('Settings have been saved successfully.', 'woocommerce-gateway-twint');
             update_option($certificateKey, $certificate);
-            update_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG, 'yes');
+            update_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG, SettingService::YES);
             update_option(SettingService::TESTMODE, $testMode);
             update_option(SettingService::MERCHANT_ID, $merchantId);
         } else {
