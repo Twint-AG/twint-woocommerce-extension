@@ -106,7 +106,7 @@ class TwintApiWordpressAjax
             $merchantId = $_POST[SettingService::MERCHANT_ID];
         }
 
-        $testMode = $_POST[SettingService::TESTMODE] === 'on' ? SettingService::YES : 'no';
+        $testMode = $_POST[SettingService::TESTMODE] === 'on' ? SettingService::YES : SettingService::NO;
 
         try {
 

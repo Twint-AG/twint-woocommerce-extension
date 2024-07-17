@@ -87,7 +87,7 @@ class Credential extends TabItem
             /**
              * Test mode
              */
-            $value = $_POST[$key] === 'on' ? SettingService::YES : 'no';
+            $value = $_POST[$key] === 'on' ? SettingService::YES : SettingService::NO;
             update_option($key, $value);
 
             return true;
