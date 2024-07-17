@@ -47,7 +47,6 @@ class SettingsLayoutViewAdapter
             $this->data['flag_credentials'] = $flagValidatedCredentialsConfig;
             $this->data['needHideCertificateUpload'] = $flagValidatedCredentialsConfig === 'yes';
             $this->data['status'] = $this->checkInvalidCredentialsOrNot();
-            $this->data['showNoticeCertificate'] = $this->shouldShowNoticeCertificate();
         }
 
         $this->data['allowSaveChanges'] = $settingTabClass::allowSaveChanges();
@@ -80,28 +79,6 @@ class SettingsLayoutViewAdapter
                 'directLink' => ExpressCheckout::directLink(),
             ],
         ];
-    }
-
-    public function shouldShowNoticeCertificate(): bool
-    {
-        $setting = new SettingService();
-        $testMode = get_option(SettingService::TESTMODE, null);
-        $certificate = $setting->getCertificate();
-
-        if (empty($certificate) && empty($testMode)) {
-            // empty all configs as first installed.
-            return false;
-        }
-
-        if (empty($certificate)) {
-            return true;
-        }
-
-        if (empty($testMode)) {
-            return true;
-        }
-
-        return false;
     }
 
     public function checkInvalidCredentialsOrNot(): bool

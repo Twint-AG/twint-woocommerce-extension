@@ -148,7 +148,7 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
     {
         if ($order && 'twint_regular' === $order->get_payment_method()) {
             // TODO use config or database option for this.
-            $status = 'wc-pending';
+            $status = 'pending';
         }
 
         return $status;
@@ -163,7 +163,7 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
     public static function getOrderStatusAfterPaid(): string
     {
         // TODO use config or database option for this.
-        return apply_filters('woocommerce_twint_order_status_paid', 'wc-processing');
+        return apply_filters('woocommerce_twint_order_status_paid', 'processing');
     }
 
     /**
@@ -174,7 +174,7 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
      */
     public static function getOrderStatusAfterPartiallyRefunded(): string
     {
-        return apply_filters('woocommerce_twint_order_status_partially_refunded', 'wc-refunded-partially');
+        return apply_filters('woocommerce_twint_order_status_partially_refunded', 'refunded-partially');
     }
 
     /**
