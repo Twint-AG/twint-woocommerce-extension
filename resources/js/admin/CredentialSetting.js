@@ -149,10 +149,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         showNoticeSuccess(msg = null) {
             this.$noticeSuccess?.classList?.remove('d-none');
-
-            // setTimeout(() => {
-            //     this.hideNoticeSuccess();
-            // }, 4000);
         }
 
         hideNoticeSuccess() {
@@ -171,10 +167,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
             this.appendHtml(this.$noticeError, html);
 
             this.$noticeError?.classList?.remove('d-none');
-
-            // setTimeout(() => {
-            //     this.hideNoticeError();
-            // }, 8000);
         }
 
         hideNoticeError() {
@@ -185,7 +177,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
             jQuery('.kwt-file__drop-area').removeClass('has-error');
             this.passwordInput?.classList?.remove('has-error');
             this.merchantIdInput?.classList?.remove('has-error');
-            this.$noticeError?.classList?.add('d-none');
+            this.hideNoticeSuccess();
+            this.hideNoticeError();
         }
 
         // On submit the form
