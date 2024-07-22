@@ -33,6 +33,7 @@ module.exports = {
         'TwintPaymentIntegration': '/resources/js/frontstore/TwintPaymentIntegration.js',
         'DeviceSwitcher': '/resources/js/frontstore/DeviceSwitcher.js',
         'PaymentStatusRefresh': '/resources/js/frontstore/PaymentStatusRefresh.js',
+        'ModalQR': '/resources/js/frontstore/ModalQR.js',
         // Admin
         'CredentialSetting': '/resources/js/admin/CredentialSetting.js',
     },

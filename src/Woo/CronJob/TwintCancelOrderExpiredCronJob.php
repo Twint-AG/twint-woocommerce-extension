@@ -42,36 +42,36 @@ class TwintCancelOrderExpiredCronJob
 
     public function run(): void
     {
-        wc_get_logger()->info(
-            'twintCronJobRunning',
-            [
-                'Running twint cancel expired orders',
-            ]
-        );
-        // Get pending orders within X minutes (configurable in admin setting)
-        $onlyPickOrderFromMinutes = get_option(SettingService::MINUTES_PENDING_WAIT, 30);
-        $time = strtotime("-{$onlyPickOrderFromMinutes} minutes");
-        $time = date('Y-m-d H:i:s', $time);
-        $pendingOrders = wc_get_orders([
-            'type' => 'shop_order',
-            'limit' => -1,
-            'payment_method' => 'twint_regular',
-            'status' => [
-                'wc-pending',
-            ],
-            'date_before' => $time,
-        ]);
-
-        foreach ($pendingOrders as $order) {
-            $msgNote = __('The order has been cancelled due to expired after ' . $onlyPickOrderFromMinutes . ' minutes.', 'woocommerce-gateway-twint');
-            $order->update_status('cancelled', $msgNote);
-        }
-
-        wc_get_logger()->info(
-            'twintCronJobDone',
-            [
-                'There are ' . count($pendingOrders) . ' pending orders has run.',
-            ]
-        );
+//        wc_get_logger()->info(
+//            'twintCronJobRunning',
+//            [
+//                'Running twint cancel expired orders',
+//            ]
+//        );
+//        // Get pending orders within X minutes (configurable in admin setting)
+//        $onlyPickOrderFromMinutes = get_option(SettingService::MINUTES_PENDING_WAIT, 30);
+//        $time = strtotime("-{$onlyPickOrderFromMinutes} minutes");
+//        $time = date('Y-m-d H:i:s', $time);
+//        $pendingOrders = wc_get_orders([
+//            'type' => 'shop_order',
+//            'limit' => -1,
+//            'payment_method' => 'twint_regular',
+//            'status' => [
+//                'wc-pending',
+//            ],
+//            'date_before' => $time,
+//        ]);
+//
+//        foreach ($pendingOrders as $order) {
+//            $msgNote = __('The order has been cancelled due to expired after ' . $onlyPickOrderFromMinutes . ' minutes.', 'woocommerce-gateway-twint');
+//            $order->update_status('cancelled', $msgNote);
+//        }
+//
+//        wc_get_logger()->info(
+//            'twintCronJobDone',
+//            [
+//                'There are ' . count($pendingOrders) . ' pending orders has run.',
+//            ]
+//        );
     }
 }

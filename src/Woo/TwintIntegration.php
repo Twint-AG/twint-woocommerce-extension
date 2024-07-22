@@ -73,35 +73,46 @@ class TwintIntegration
 
         add_action('woocommerce_before_thankyou', [$this, 'additionalWoocommerceBeforeThankyou'], 20);
 
+        add_action('template_redirect', [$this, 'woo_custom_redirect_after_purchase']);
+
         new TwintApiResponseMeta();
         new TwintApiWordpressAjax();
         new TwintCancelOrderExpiredCronJob();
         $this->paymentService = new PaymentService();
     }
 
+    public function woo_custom_redirect_after_purchase()
+    {
+//        global $wp;
+//        if ( is_checkout() && !empty( $wp->query_vars['order-received'] ) ) {
+////            wp_redirect( 'http://localhost:8888/woocommerce/custom-thank-you/' );
+////            dd(1);
+//            exit;
+//        }
+    }
+
     public function wooBeforeOrderUpdateChange($orderId, $items): void
     {
         $order = wc_get_order($orderId);
-        if ($order->get_payment_method() !== 'twint_regular') {
-            return;
-        }
+        if ($order->get_payment_method() === 'twint_regular') {
 
-        $oldStatus = $items['original_post_status'];
-        $newStatus = $items['order_status'];
+            $oldStatus = $items['original_post_status'];
+            $newStatus = $items['order_status'];
 
-        if (in_array($oldStatus, ['wc-pending', 'pending']) && $oldStatus !== $newStatus) {
-            /**
-             * Save order note for admin to know that why the order's status can not be changed.
-             */
-            $note = __(
-                'The order status can not be change from <strong>' . wc_get_order_status_name($oldStatus) . '</strong> to <strong>' . wc_get_order_status_name($newStatus) . '</strong>, because this order has not been paid by the customer.',
-                'woocommerce-gateway-twint'
-            );
-            $order->add_order_note($note);
+            if (in_array($oldStatus, ['wc-pending', 'pending']) && $oldStatus !== $newStatus) {
+                /**
+                 * Save order note for admin to know that why the order's status can not be changed.
+                 */
+                $note = __(
+                    'The order status can not be change from <strong>' . wc_get_order_status_name($oldStatus) . '</strong> to <strong>' . wc_get_order_status_name($newStatus) . '</strong>, because this order has not been paid by the customer.',
+                    'woocommerce-gateway-twint'
+                );
+                $order->add_order_note($note);
 
-            $_POST['order_status'] = 'wc-pending';
-            $_POST['post_status'] = 'wc-pending';
-            $_POST['original_post_status'] = 'wc-pending';
+                $_POST['order_status'] = 'wc-pending';
+                $_POST['post_status'] = 'wc-pending';
+                $_POST['original_post_status'] = 'wc-pending';
+            }
         }
     }
 
@@ -139,7 +150,7 @@ class TwintIntegration
                 }
             }
 
-            $isOrderCancelled = false;
+            $isOrderCancelled = $order->get_status() === \WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterCancelled();
             if (!empty($_GET['twint_order_cancelled']) && filter_var($_GET['twint_order_cancelled'], FILTER_VALIDATE_BOOLEAN)) {
                 $isOrderCancelled = true;
             }
@@ -180,6 +191,7 @@ class TwintIntegration
         wp_enqueue_script('js-woocommerce-gateway-twint-frontend', twint_assets('/js/frontend/frontstore.js'));
         wp_enqueue_script('js-woocommerce-gateway-DeviceSwitcher', twint_assets('/js/DeviceSwitcher.js'));
         wp_enqueue_script('js-woocommerce-gateway-PaymentStatusRefresh', twint_assets('/js/PaymentStatusRefresh.js'));
+        wp_enqueue_script('js-woocommerce-gateway-ModalQR', twint_assets('/js/ModalQR.js'));
 
         wp_localize_script('js-woocommerce-gateway-twint-frontend', 'twint_api', [
             'admin_url' => admin_url('admin-ajax.php')

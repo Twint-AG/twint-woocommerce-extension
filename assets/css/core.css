@@ -650,6 +650,13 @@
     }
 }
 
+.text-white {
+    color: #fff0f0 !important;
+}
+
+.text-decoration-none {
+    text-decoration: none;
+}
 
 .twint-button {
     margin-top: 5px;
@@ -1511,7 +1518,7 @@
 }
 
 .p-0 {
-    padding: 0 !important
+    /* padding: 0 !important; */
 }
 
 .p-1 {
@@ -1527,7 +1534,7 @@
 }
 
 .p-4 {
-    padding: 1.5rem !important
+    /* padding: 1.5rem !important; */
 }
 
 .p-5 {
@@ -1719,7 +1726,7 @@
 }
 
 .gap-1 {
-    gap: 0.25rem !important
+    /* gap: 0.25rem !important; */
 }
 
 .gap-2 {
@@ -1731,7 +1738,7 @@
 }
 
 .gap-4 {
-    gap: 1.5rem !important
+    /* gap: 1.5rem !important; */
 }
 
 .gap-5 {

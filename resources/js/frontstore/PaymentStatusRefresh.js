@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 adminUrl: woocommerce_params.ajax_url,
                 urlParams: new URLSearchParams(window.location.search),
                 nonceValue: null,
-                containerSelector: '#twint-qr-container',
+                containerSelector: '#qr-modal-content',
                 pairingHash: null,
                 interval: 5, // seconds
                 expressCheckout: false,
@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
             this.options.nonceValue = document.querySelector('input#twint_wp_nonce').value;
             this.options.orderId = this.$container.getAttribute('data-order-id');
+            console.log(this.options.orderId);
 
             if (!this.options.expressCheckout) {
                 this.checkOrderRegularStatus();

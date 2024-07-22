@@ -2,7 +2,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
     class DeviceSwitcher {
         constructor() {
             this.options = {
-                pageSelector: '.twint-qr-container',
+                // pageSelector: '.twint-qr-container',
+                pageSelector: '#qr-modal-content',
                 appSelector: '#logo-container',
                 qrCodeSelector: ".qr-code",
                 appLinkSelector: "#app-chooser",
