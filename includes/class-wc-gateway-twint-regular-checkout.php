@@ -149,11 +149,15 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
     public function setCompleteOrderStatus($status, $orderId, $order): string
     {
         if ($order && 'twint_regular' === $order->get_payment_method()) {
-            // TODO use config or database option for this.
             $status = 'pending';
         }
 
         return $status;
+    }
+
+    public static function getOrderStatusAfterCancelled()
+    {
+        return apply_filters('woocommerce_twint_order_status_cancelled', 'cancelled');
     }
 
     /**
@@ -164,7 +168,6 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
      */
     public static function getOrderStatusAfterPaid(): string
     {
-        // TODO use config or database option for this.
         return apply_filters('woocommerce_twint_order_status_paid', 'processing');
     }
 

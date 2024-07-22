@@ -1,15 +1,182 @@
+{% set prefinedApps = {
+    'UBS TWINT' : 'bank-ubs',
+    'Raiffeisen TWINT' : 'bank-raiffeisen',
+    'PostFinance TWINT' : 'bank-pf',
+    'ZKB TWINT' :'bank-zkb',
+    'Credit Suisse TWINT' : 'bank-cs',
+    'BCV TWINT' : 'bank-bcv',
+} %}
+{% set isAndroid = false %}
+{% set isIosDevice = false %}
+{% set androidLink = '' %}
+{% if payLinks.android is defined %}
+    {% set isAndroid = true %}
+{% endif %}
+{% if payLinks.ios is defined %}
+    {% set isIosDevice = true %}
+{% endif %}
+{% if isAndroid and payLinks.android %}
+    {% set androidLink = payLinks.android %}
+{% endif %}
+{% if isOrderPaid is defined and isOrderPaid != true %}
+<aside role="dialog" class="text-16 modal-popup twint-modal-slide modal-slide _inner-scroll _show"
+       aria-describedby="modal-content-13" data-role="modal" data-type="popup" tabindex="0" style="z-index: 902;">
+    <div data-role="focusable-start" tabindex="0"></div>
+    <div class="modal-inner-wrap twint" data-role="focusable-scope">
+        <header class="twint-modal-header sticky top-0 flex justify-between items-center bg-white">
+            <button id="twint-close" data-role="closeBtn" type="button">
+                <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1.40001 12.8078L0.692261 12.1L6.29226 6.50001L0.692261 0.900011L1.40001 0.192261L7.00001 5.79226L12.6 0.192261L13.3078 0.900011L7.70776 6.50001L13.3078 12.1L12.6 12.8078L7.00001 7.20776L1.40001 12.8078Z"
+                          fill="#1C1B1F"></path>
+                </svg>
+                <span>{{ 'Cancel checkout'|__trans }}</span>
+            </button>
+            <img class="twint-logo hidden md:block mr-4"
+                 src="{{ twint_asset('/images/twint_logo.png') }}"
+                 alt="TWINT Logo">
+        </header>
+        <div class="twint-modal-content twint-qr-container p-0 md:p-4"
+             id="twint-qr-container"
+             data-role="content">
+            <div class=""></div>
+            <div id="qr-modal-content" class="text-20" style=""
+                 data-mobile="{{ isAndroid or isIosDevice }}"
+                 data-is-android-device="{{ isAndroid }}"
+                 data-is-ios-device="{{ isIosDevice }}"
+                 data-android-link="{{ payLinks.android }}"
+                 data-order-id="{{ orderId }}"
+            >
+                <input type="hidden" name="twint_wp_nonce" value="{{ nonce }}" id="twint_wp_nonce">
+                <div class="flex flex-col md:flex-row gap-4 bg-gray-100">
+                    <!-- Left Column -->
+                    <div class="qr-code d-none d-lg-block md:flex flex flex-1 order-1 md:order-none bg-white p-4 md:rounded-lg items-center justify-center">
+                        <div data-twint-copy-token=""
+                             class="md:flex flex flex-col text-center md:flex-col-reverse ">
+                            <div class="qr-token text-center my-4 md:mt-6">
+                                <input id="qr-token" class="bg-white" type="text" value="{{ pairingToken }}"
+                                       disabled="disabled">
+                            </div>
+
+                            <div class="md:hidden text-center mt-4">
+                                <button id="btn-copy-token"
+                                        data-clipboard-action="copy"
+                                        data-clipboard-target="#qr-token"
+                                        class="p-4 px-6 !bg-white rounded-lg border-black">
+                                    {{ 'Copy code'|__trans }}
+                                </button>
+                            </div>
+
+                            <div class="flex text-center items-center justify-center" id="qrcode"
+                                 title="{{ pairingToken }}">
+                                <img src="{{ qrCode }}"
+                                     style="display: block;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="flex-1 order-0 md:order-1 flex flex-col gap-1 md:gap-4">
+                        <!-- First Div -->
+                        <div class="flex flex-1 bg-white p-4 md:rounded-lg items-center justify-center">
+                            <span id="twint-amount"
+                                  class="text-center text-35 inline-block p-4 px-6 text-white bg-black font-semibold">{{ currency }} {{ amount }}</span>
+                        </div>
+                        <!-- Second Div -->
+                        <div class="flex flex-1 bg-white p-4 md:rounded-lg items-center justify-center">
+                            {{ get_bloginfo('name') }}
+                        </div>
+
+                        <div class="app-selector md:hidden">
+                            {% if payLinks['ios'] is defined and payLinks['ios'] is not null %}
+                                <div id="twint-ios-container">
+                                    <div class="my-6 text-center">{{ 'Select your TWINT app:'|__trans }}</div>
+
+                                    <div class="twint-app-container w-3/4 mx-auto justify-center max-w-screen-md mx-auto grid grid-cols-3 gap-4">
+                                        {% for payLink in payLinks.ios %}
+                                            {% if payLink.name in prefinedApps|keys %}
+                                                <img class="bank-logo shadow-2xl w-64 h-64 mx-auto"
+                                                     src="{{ twint_asset('/images/' ~ prefinedApps[payLink.name] ~ '.png') }}"
+                                                     data-link="{{ payLink.link }}"
+                                                     alt="{{ prefinedApps[payLink.name] }}"/>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+
+                                    <select id="app-chooser"
+                                            class="twint-select h-55 block my-4 w-full p-4 bg-white text-center appearance-none border-none focus:outline-none focus:ring-0">
+                                        <option value="">{{ "Other banks"|__trans }}</option>
+                                        {% for payLink in payLinks.ios %}
+                                            {% if payLink.name not in prefinedApps|keys %}
+                                                <option value="{{ payLink.link }}">{{ payLink.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            {% elseif payLinks['android'] is defined and payLinks['android'] is not null %}
+                                <div class="text-center mt-4 px-4" id="twint-android-area">
+                                    <a id="twint-android-button"
+                                       class="text-decoration-none block mb-1 bg-black text-white font-bold p-4 rounded-lg text-center hover:bg-gray-800 focus:outline-none focus:ring-gray-600 focus:ring-opacity-75 hover:text-white hover:no-underline"
+                                       href="#">
+                                        {{ 'Switch to TWINT app now'|__trans }}
+                                    </a>
+                                </div>
+                            {% endif %}
+
+                            <div class="qr-code d-none md:flex text-center md:hidden">
+                                <div class="flex items-center justify-center mx-4">
+                                    <div class="flex-grow border-b-0 border-t border-solid border-gray-300"></div>
+                                    <span class="mx-4 text-black">{{ 'or'|__trans }}</span>
+                                    <div class="flex-grow border-b-0 border-t border-solid border-gray-300"></div>
+                                </div>
+
+                                <div class="row qr-code my-3">
+                                    <div class="col-9 text-center">{{ 'Enter this code in your TWINT app:'|__trans }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="qr-code d-none d-lg-block container mx-auto mt-4 text-16">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div id="twint-guide-app" class="flex flex-col items-center p-4">
+                            <div class="flex justify-center">
+                                <img class="w-55 h-55"
+                                     src="{{ twint_asset('/images/icon-twint.svg') }}"
+                                     alt="app">
+                            </div>
+                            <div class="text-center mt-4">{{ 'Open your TWINT app on your smartphone.'|__trans }}</div>
+                        </div>
+                        <div class="flex flex-col items-center p-4">
+                            <div class="flex justify-center">
+                                <img class="w-55 h-55"
+                                     src="{{ twint_asset('/images/icon-scan.svg') }}"
+                                     alt="scan">
+                            </div>
+                            <div class="text-center mt-4">
+                                {{ 'Scan this QR Code with your TWINT app to complete the checkout.'|__trans }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div data-role="focusable-end" tabindex="0"></div>
+</aside>
+{% endif %}
+
 {% if isOrderPaid is defined and isOrderPaid == true %}
     <div class="flashbags">
         <div role="alert" class="alert alert-success alert-has-icon">
-            <span class="icon icon-checkmark-circle">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24"
-                     height="24" viewBox="0 0 24 24">
-                    <defs>
-                        <path d="M24 12c0 6.6274-5.3726 12-12 12S0 18.6274 0 12 5.3726 0 12 0s12 5.3726 12 12zM12 2C6.4772 2 2 6.4772 2 12s4.4772 10 10 10 10-4.4772 10-10S17.5228 2 12 2zM7.7071 12.2929 10 14.5858l6.2929-6.293c.3905-.3904 1.0237-.3904 1.4142 0 .3905.3906.3905 1.0238 0 1.4143l-7 7c-.3905.3905-1.0237.3905-1.4142 0l-3-3c-.3905-.3905-.3905-1.0237 0-1.4142.3905-.3905 1.0237-.3905 1.4142 0z"
-                              id="icons-default-checkmark-circle"></path>
-                    </defs>
-                    <use xlink:href="#icons-default-checkmark-circle" fill="#758CA3" fill-rule="evenodd"></use></svg>
-            </span>
+        <span class="icon icon-checkmark-circle">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24"
+                 height="24" viewBox="0 0 24 24">
+                <defs>
+                    <path d="M24 12c0 6.6274-5.3726 12-12 12S0 18.6274 0 12 5.3726 0 12 0s12 5.3726 12 12zM12 2C6.4772 2 2 6.4772 2 12s4.4772 10 10 10 10-4.4772 10-10S17.5228 2 12 2zM7.7071 12.2929 10 14.5858l6.2929-6.293c.3905-.3904 1.0237-.3904 1.4142 0 .3905.3906.3905 1.0238 0 1.4143l-7 7c-.3905.3905-1.0237.3905-1.4142 0l-3-3c-.3905-.3905-.3905-1.0237 0-1.4142.3905-.3905 1.0237-.3905 1.4142 0z"
+                          id="icons-default-checkmark-circle"></path>
+                </defs>
+                <use xlink:href="#icons-default-checkmark-circle" fill="#758CA3" fill-rule="evenodd"></use></svg>
+        </span>
             <div class="alert-content-container">
                 <div class="alert-content">
                     {{ 'Your payment was successful'|__trans }}
@@ -20,11 +187,12 @@
 {% elseif isOrderCancelled is defined and isOrderCancelled == true %}
     <div class="flashbags">
         <div role="alert" class="alert alert-danger alert-has-icon">
-            <span class="icon icon-checkmark-circle">
-                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 30 30">
-                    <path d="M 7 4 C 6.744125 4 6.4879687 4.0974687 6.2929688 4.2929688 L 4.2929688 6.2929688 C 3.9019687 6.6839688 3.9019687 7.3170313 4.2929688 7.7070312 L 11.585938 15 L 4.2929688 22.292969 C 3.9019687 22.683969 3.9019687 23.317031 4.2929688 23.707031 L 6.2929688 25.707031 C 6.6839688 26.098031 7.3170313 26.098031 7.7070312 25.707031 L 15 18.414062 L 22.292969 25.707031 C 22.682969 26.098031 23.317031 26.098031 23.707031 25.707031 L 25.707031 23.707031 C 26.098031 23.316031 26.098031 22.682969 25.707031 22.292969 L 18.414062 15 L 25.707031 7.7070312 C 26.098031 7.3170312 26.098031 6.6829688 25.707031 6.2929688 L 23.707031 4.2929688 C 23.316031 3.9019687 22.682969 3.9019687 22.292969 4.2929688 L 15 11.585938 L 7.7070312 4.2929688 C 7.5115312 4.0974687 7.255875 4 7 4 z"></path>
-                </svg>
-            </span>
+        <span class="icon icon-checkmark-circle">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100"
+                 viewBox="0 0 30 30">
+                <path d="M 7 4 C 6.744125 4 6.4879687 4.0974687 6.2929688 4.2929688 L 4.2929688 6.2929688 C 3.9019687 6.6839688 3.9019687 7.3170313 4.2929688 7.7070312 L 11.585938 15 L 4.2929688 22.292969 C 3.9019687 22.683969 3.9019687 23.317031 4.2929688 23.707031 L 6.2929688 25.707031 C 6.6839688 26.098031 7.3170313 26.098031 7.7070312 25.707031 L 15 18.414062 L 22.292969 25.707031 C 22.682969 26.098031 23.317031 26.098031 23.707031 25.707031 L 25.707031 23.707031 C 26.098031 23.316031 26.098031 22.682969 25.707031 22.292969 L 18.414062 15 L 25.707031 7.7070312 C 26.098031 7.3170312 26.098031 6.6829688 25.707031 6.2929688 L 23.707031 4.2929688 C 23.316031 3.9019687 22.682969 3.9019687 22.292969 4.2929688 L 15 11.585938 L 7.7070312 4.2929688 C 7.5115312 4.0974687 7.255875 4 7 4 z"></path>
+            </svg>
+        </span>
             <div class="alert-content-container">
                 <div class="alert-content">
                     {{ 'Your order was cancelled.'|__trans }}
@@ -32,66 +200,4 @@
             </div>
         </div>
     </div>
-{% else %}
-    {% set isAndroid = false %}
-    {% set isIosDevice = false %}
-    {% set androidLink = '' %}
-    {% if payLinks.android is defined %}
-        {% set isAndroid = true %}
-    {% endif %}
-    {% if payLinks.ios is defined %}
-        {% set isIosDevice = true %}
-    {% endif %}
-    {% if isAndroid and payLinks.android %}
-        {% set androidLink = payLinks.android %}
-    {% endif %}
-    <section class="twint-qr-code-section">
-        <div class="mb-3">
-            <div class="text-center" style=" width: 200px; margin: 0 auto;">
-                <img src="{{ twint_asset('/images/twint_logo.png') }}" alt="Twint Logo" class="qr-img">
-            </div>
-        </div>
-        <div class="twint-qr-container {{ isAndroid ? 'android' : '' }} {{ isIosDevice ? 'ios' : '' }} {{ not (isAndroid or isIosDevice) ? 'generic' : '' }}"
-             id="twint-qr-container"
-             data-mobile="{{ isAndroid or isIosDevice }}"
-             data-is-android-device="{{ isAndroid }}"
-             data-is-ios-device="{{ isIosDevice }}"
-             data-android-link="{{ payLinks.android }}"
-             data-order-id="{{ orderId }}"
-        >
-            <input type="hidden" name="twint_wp_nonce" value="{{ nonce }}" id="twint_wp_nonce">
-
-            {% if payLinks['ios'] is defined and payLinks['ios'] is not null %}
-                {% include 'Layouts/partials/qr-code/qr_ios.html.twig' %}
-            {% elseif payLinks['android'] is defined and payLinks['android'] is not null %}
-                {% include 'Layouts/partials/qr-code/qr_android.html.twig' %}
-            {% else %}
-                <div class="qr-code-section d-flex gap-4" style="font-size: 16px;">
-                    <div class="qr-code-box">
-                        <div class="text-center">
-                            <img src="{{ qrCode }}" alt="QR Code" class="qr-img">
-                        </div>
-                        <div class="qr-token text-center mb-3">
-                            <input id="qr-token" class="text-center bg-white" type="text" value="{{ pairingToken }}"
-                                   disabled>
-                        </div>
-                    </div>
-                    <div class="right-side-info parent gap-4">
-                        <div class="qr-code-box child order-information flex-column">
-                            <div class="order-price bg-white p-3 h-50 md-rounded d-flex justify-content-center align-items-center">
-                                <span class="value text-white bg-black fw-semibold px-4 py-2">{{ currency }} {{ amount }}</span>
-                            </div>
-                        </div>
-                        <div class="qr-code-box child order-information flex-column">
-                            <div class="order-price bg-white text-black p-3 h-50 md-rounded d-flex justify-content-center align-items-center">
-                                {{ get_bloginfo('name') }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-
-            {% include 'Layouts/partials/qr-code/payment-guide.html.twig' %}
-        </div>
-    </section>
 {% endif %}

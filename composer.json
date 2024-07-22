@@ -21,7 +21,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "twint-ch/twint-sdk": "dev-develop",
+    "twint-ag/sdk": "dev-develop",
     "guzzlehttp/guzzle": "^7.0",
     "twig/twig": "^3.10",
     "symfony/var-dumper": "^7.1",
@@ -30,7 +30,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://git.nfq.asia/twint-ag/php-sdk.git"
+      "url": "https://git.nfq.asia/twint-ag/sdk"
     }
   ],
   "config": {
