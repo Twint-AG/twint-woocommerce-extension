@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: TBU - Twint Payment
+ * Plugin Name: WooCommerce Twint Payment
  * Plugin URI: https://www.nfq-asia.com/
  * Description: Twint Woocommerce Payment Method is a secure and user-friendly plugin that allows Swiss online merchants to accept payments via Twint, a popular mobile payment solution in Switzerland.
  * Version: 0.0.1
