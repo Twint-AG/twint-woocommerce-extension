@@ -176,7 +176,7 @@ class TwintIntegration
                 $data = array_merge($data, [
                     'qrCode' => $qrcode,
                     'pairingToken' => $pairingToken,
-                    'amount' => $order->get_total(),
+                    'amount' => number_format($order->get_total(), 2, '.', ''),
                     'currency' => $order->get_currency(),
                     'payLinks' => $payLinks,
                 ]);

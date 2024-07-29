@@ -1,3 +1,10 @@
+{#{% if status is defined and status == false %}#}
+{#    <div class="notify-box notify-warning" style="max-width: 25em;">#}
+{#        <div class="notify-box__content">#}
+{#            {{ 'The certificate is loaded but encryption fails. Please check again.'|__trans }}#}
+{#        </div>#}
+{#    </div>#}
+{#{% endif %}#}
 <table class="form-table twint-table-setting" role="presentation">
     <tbody>
     {% set isShowedTheButtonUploadNewCert = false %}

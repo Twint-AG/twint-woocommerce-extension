@@ -106,8 +106,6 @@ class TwintApiWordpressAjax
             $merchantId = $_POST[SettingService::MERCHANT_ID];
         }
 
-        $testMode = $_POST[SettingService::TESTMODE] === 'on' ? SettingService::YES : SettingService::NO;
-
         try {
 
             $encryptor = new CryptoHandler();
@@ -125,12 +123,16 @@ class TwintApiWordpressAjax
              * Handle validation certificate
              */
             $password = $_POST[$pwdKey] ?? '';
+            $response['error_type'] = null;
 
             if (!empty($password) && empty($_FILES[$certificateKey]['tmp_name'])) {
                 $response['status'] = false;
                 $response['error_level'] = 'error';
                 $response['message'] = __('You need to provide P12 certificate file.', 'woocommerce-gateway-twint');
+                $response['error_type'] = 'upload_cert';
             }
+
+            $testMode = $_POST[SettingService::TESTMODE] === 'on' ? SettingService::YES : SettingService::NO;
 
             $alreadyCheckedSystemCertificate = false;
             if (!empty($_FILES[$certificateKey]['tmp_name'])) {
@@ -151,10 +153,11 @@ class TwintApiWordpressAjax
                     $response['flag_credentials'] = false;
                     $response['error_level'] = 'error';
                     $response['message'] = __('Invalid certificate or password.', 'woocommerce-gateway-twint');
+                    $response['error_type'] = 'upload_cert';
                 }
 
                 // Call SDK to check system [testMode, certificate, merchantId]
-                $response = $this->checkConfiguration($testMode, $merchantId, $certificateResult);
+                $response = $this->checkConfiguration($testMode === SettingService::YES, $merchantId, $certificateResult);
                 $alreadyCheckedSystemCertificate = true;
             }
 
@@ -163,7 +166,7 @@ class TwintApiWordpressAjax
                 if (is_null($certificateCheck)) {
                     $certificateCheck = [];
                 }
-                $response = $this->checkConfiguration($testMode, $merchantId, $certificateCheck);
+                $response = $this->checkConfiguration($testMode === SettingService::YES, $merchantId, $certificateCheck);
             }
 
         } catch (\Exception $exception) {
@@ -199,13 +202,14 @@ class TwintApiWordpressAjax
             $response['message'] = __('Settings have been saved successfully.', 'woocommerce-gateway-twint');
             update_option($certificateKey, $certificate);
             update_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG, SettingService::YES);
-            update_option(SettingService::TESTMODE, $testMode);
+            update_option(SettingService::TESTMODE, $testMode ? 'yes' : 'no');
             update_option(SettingService::MERCHANT_ID, $merchantId);
         } else {
             $response['status'] = false;
             $response['flag_credentials'] = false;
 
             $response['error_level'] = 'error';
+            $response['error_type'] = 'validate_credentials';
             $response['message'] = __('Please check again. Your Certificate file, merchant ID or Certificate password is incorrect.', 'woocommerce-gateway-twint');;
         }
 
