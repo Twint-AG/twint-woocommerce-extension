@@ -75,29 +75,6 @@ class Credential extends TabItem
             ->render($data);
     }
 
-    public static function store(): array
-    {
-        self::handleTestMode();
-    }
-
-    public static function handleTestMode(): bool
-    {
-        $key = SettingService::TESTMODE;
-        try {
-            /**
-             * Test mode
-             */
-            $value = $_POST[$key] === 'on' ? SettingService::YES : SettingService::NO;
-            update_option($key, $value);
-
-            return true;
-        } catch (\Exception $exception) {
-            wc_get_logger()->error("Error when saving setting key `{$key}` " . PHP_EOL . $exception->getMessage());
-        }
-
-        return false;
-    }
-
     public static function allowSaveChanges(): bool
     {
         return true;
