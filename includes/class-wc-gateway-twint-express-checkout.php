@@ -221,7 +221,7 @@ class WC_Gateway_Twint_Express_Checkout extends WC_Payment_Gateway
     {
         if ($order && $this->id === $order->get_payment_method()) {
             // TODO use config or database option for this.
-            $status = 'wc-pending';
+            $status = 'pending';
         }
 
         return $status;

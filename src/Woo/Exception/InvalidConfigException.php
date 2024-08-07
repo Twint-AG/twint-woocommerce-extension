@@ -9,7 +9,7 @@ use Throwable;
 
 class InvalidConfigException extends RuntimeException
 {
-    public const ERROR_INVALID_MERCHANT_ID = 'Invalid merchant id';
+    public const ERROR_INVALID_STORE_UUID = 'Invalid store uuid';
 
     public const ERROR_INVALID_CERTIFICATE = 'Invalid certificate';
 

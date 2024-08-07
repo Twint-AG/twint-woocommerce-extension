@@ -5,7 +5,7 @@ namespace Twint\Woo\Services;
 class SettingService
 {
     const KEY_PRIMARY_SETTING = 'woocommerce_twint_regular_settings';
-    const MERCHANT_ID = 'plugin_twint_settings_merchant_id';
+    const STORE_UUID = 'plugin_twint_settings_store_uuid';
     const CERTIFICATE = 'plugin_twint_settings_certificate';
     const CERTIFICATE_PASSWORD = 'plugin_twint_settings_certificate_password';
     const EXPRESS_CHECKOUT_SINGLE = 'plugin_twint_express_checkout_single';
@@ -15,6 +15,7 @@ class SettingService
     const TESTMODE = 'plugin_twint_test_mode';
     const YES = 'yes';
     const NO = 'no';
+    const PLATFORM = 'WooCommerce';
 
     /**
      * @return bool
@@ -27,9 +28,9 @@ class SettingService
     /**
      * @return string|null
      */
-    public function getMerchantId(): ?string
+    public function getStoreUuid(): ?string
     {
-        return get_option(self::MERCHANT_ID, null);
+        return get_option(self::STORE_UUID, null);
     }
 
     /**

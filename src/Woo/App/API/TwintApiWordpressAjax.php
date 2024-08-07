@@ -94,16 +94,16 @@ class TwintApiWordpressAjax
 
         $certificateResult = [];
         $response = [];
-        if (!isValidUuid($_POST[SettingService::MERCHANT_ID])) {
+        if (!isValidUuid($_POST[SettingService::STORE_UUID])) {
             $response['status'] = false;
-            $response['message'] = __('Invalid Merchant ID. Merchant ID needs to be a UUIDv4.', 'woocommerce-gateway-twint');
+            $response['message'] = __('Invalid Store Uuid. Store Uuid needs to be a UUIDv4.', 'woocommerce-gateway-twint');
 
             $result = json_encode($response);
             echo $result;
 
             die();
         } else {
-            $merchantId = $_POST[SettingService::MERCHANT_ID];
+            $storeUuid = $_POST[SettingService::STORE_UUID];
         }
 
         try {
@@ -156,8 +156,8 @@ class TwintApiWordpressAjax
                     $response['error_type'] = 'upload_cert';
                 }
 
-                // Call SDK to check system [testMode, certificate, merchantId]
-                $response = $this->checkConfiguration($testMode === SettingService::YES, $merchantId, $certificateResult);
+                // Call SDK to check system [testMode, certificate, storeUuid]
+                $response = $this->checkConfiguration($testMode === SettingService::YES, $storeUuid, $certificateResult);
                 $alreadyCheckedSystemCertificate = true;
             }
 
@@ -166,7 +166,7 @@ class TwintApiWordpressAjax
                 if (is_null($certificateCheck)) {
                     $certificateCheck = [];
                 }
-                $response = $this->checkConfiguration($testMode === SettingService::YES, $merchantId, $certificateCheck);
+                $response = $this->checkConfiguration($testMode === SettingService::YES, $storeUuid, $certificateCheck);
             }
 
         } catch (\Exception $exception) {
@@ -187,13 +187,13 @@ class TwintApiWordpressAjax
         die();
     }
 
-    public function checkConfiguration($testMode, $merchantId, array $certificate): array
+    public function checkConfiguration($testMode, string $storeUuid, array $certificate): array
     {
         $response = [];
         $certificateKey = SettingService::CERTIFICATE;
         $isValidTwintConfiguration = (new CredentialValidator())->validate(
             $certificate,
-            $merchantId,
+            $storeUuid,
             $testMode
         );
 
@@ -203,7 +203,7 @@ class TwintApiWordpressAjax
             update_option($certificateKey, $certificate);
             update_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG, SettingService::YES);
             update_option(SettingService::TESTMODE, $testMode ? 'yes' : 'no');
-            update_option(SettingService::MERCHANT_ID, $merchantId);
+            update_option(SettingService::STORE_UUID, $storeUuid);
         } else {
             $response['status'] = false;
             $response['flag_credentials'] = false;

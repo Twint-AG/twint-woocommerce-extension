@@ -21,11 +21,11 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "twint-ag/sdk": "dev-develop",
+    "twint-ag/sdk": "^1.0",
     "guzzlehttp/guzzle": "^7.0",
     "twig/twig": "^3.10",
-    "symfony/var-dumper": "^7.1",
-    "chillerlan/php-qrcode": "^5.0"
+    "chillerlan/php-qrcode": "^5.0",
+    "symfony/var-dumper": "^6.4"
   },
   "repositories": [
     {

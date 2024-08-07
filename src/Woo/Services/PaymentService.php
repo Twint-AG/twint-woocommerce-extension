@@ -152,7 +152,7 @@ class PaymentService
                         );
 
                         if ($this->needUpdateStatusAfterRefunded($order, $amount)) {
-                            $this->updateStatusAfterRefunded($order, $amount);
+                            $this->updateStatusAfterRefunded($order);
                         }
 
                         return $twintOrder;
@@ -215,10 +215,11 @@ class PaymentService
         return true;
     }
 
-    public function updateStatusAfterRefunded(WC_Order $order, float|int $amount): bool
+    public function updateStatusAfterRefunded(WC_Order $order): bool
     {
-        if ($order->get_total() > $amount) {
-            return $order->update_status(WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterPartiallyRefunded());
+        $remainingAmountRefunded = (float)$order->get_remaining_refund_amount();
+        if ($remainingAmountRefunded > 0) {
+            return $order->update_status(\WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterPartiallyRefunded());
         }
 
         return $order->update_status('wc-refunded');

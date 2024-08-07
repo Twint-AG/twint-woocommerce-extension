@@ -8,10 +8,13 @@ use Exception;
 use Twint\Sdk\Certificate\CertificateContainer;
 use Twint\Sdk\Certificate\Pkcs12Certificate;
 use Twint\Sdk\Client;
+use Twint\Sdk\Exception\SdkError;
 use Twint\Sdk\Io\InMemoryStream;
 use Twint\Sdk\Value\Environment;
-use Twint\Sdk\Value\MerchantId;
+use Twint\Sdk\Value\PrefixedCashRegisterId;
+use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\Version;
+use Twint\Woo\Services\SettingService;
 
 class CredentialValidator implements CredentialValidatorInterface
 {
@@ -25,7 +28,13 @@ class CredentialValidator implements CredentialValidatorInterface
         $this->crypto = new CryptoHandler();
     }
 
-    public function validate(?array $certificate, string $merchantId, bool $testMode): bool
+    /**
+     * @param array|null $certificate
+     * @param string $storeUuid
+     * @param bool $testMode
+     * @return bool
+     */
+    public function validate(?array $certificate, string $storeUuid, bool $testMode): bool
     {
         try {
             $cert = $this->crypto->decrypt($certificate['certificate'] ?? '');
@@ -37,12 +46,12 @@ class CredentialValidator implements CredentialValidatorInterface
 
             $client = new Client(
                 CertificateContainer::fromPkcs12(new Pkcs12Certificate(new InMemoryStream($cert), $passphrase)),
-                MerchantId::fromString($merchantId),
+                new PrefixedCashRegisterId(StoreUuid::fromString($storeUuid), SettingService::PLATFORM),
                 Version::latest(),
                 $testMode ? Environment::TESTING() : Environment::PRODUCTION(),
             );
             $status = $client->checkSystemStatus();
-        } catch (Exception $e) {
+        } catch (Exception|SdkError $e) {
             return false;
         }
 
