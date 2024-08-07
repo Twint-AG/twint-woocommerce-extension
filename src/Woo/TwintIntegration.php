@@ -93,27 +93,29 @@ class TwintIntegration
 
     public function wooBeforeOrderUpdateChange($orderId, $items): void
     {
-        $order = wc_get_order($orderId);
-        if ($order->get_payment_method() === 'twint_regular') {
-
-            $oldStatus = $items['original_post_status'];
-            $newStatus = $items['order_status'];
-
-            if (in_array($oldStatus, ['wc-pending', 'pending']) && $oldStatus !== $newStatus) {
-                /**
-                 * Save order note for admin to know that why the order's status can not be changed.
-                 */
-                $note = __(
-                    'The order status can not be change from <strong>' . wc_get_order_status_name($oldStatus) . '</strong> to <strong>' . wc_get_order_status_name($newStatus) . '</strong>, because this order has not been paid by the customer.',
-                    'woocommerce-gateway-twint'
-                );
-                $order->add_order_note($note);
-
-                $_POST['order_status'] = 'wc-pending';
-                $_POST['post_status'] = 'wc-pending';
-                $_POST['original_post_status'] = 'wc-pending';
-            }
-        }
+//        $order = wc_get_order($orderId);
+//        if ($order->get_payment_method() === 'twint_regular') {
+//
+//            $oldStatus = $items['original_post_status'];
+//            $newStatus = $items['order_status'];
+//
+//            if (in_array($oldStatus, ['wc-pending', 'pending']) && $oldStatus !== $newStatus) {
+//                if ($newStatus !== 'refunded-partially') {
+//                    /**
+//                     * Save order note for admin to know that why the order's status can not be changed.
+//                     */
+//                    $note = __(
+//                        'The order status can not be changed from <strong>' . wc_get_order_status_name($oldStatus) . '</strong> to <strong>' . wc_get_order_status_name($newStatus) . '</strong>, because this order has not been paid by the customer.',
+//                        'woocommerce-gateway-twint'
+//                    );
+//                    $order->add_order_note($note);
+//
+//                    $_POST['order_status'] = 'wc-pending';
+//                    $_POST['post_status'] = 'wc-pending';
+//                    $_POST['original_post_status'] = 'wc-pending';
+//                }
+//            }
+//        }
     }
 
     /**

@@ -61,6 +61,7 @@ class WC_Twint_Payments
             [
                 'label' => __('Refunded (partially)', 'woocommerce-gateway-twint'),
                 'public' => true,
+                'show_in_admin_all_list' => true,
                 'show_in_admin_status_list' => true,
             ]
         );

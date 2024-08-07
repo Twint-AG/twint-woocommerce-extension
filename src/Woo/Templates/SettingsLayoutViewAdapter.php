@@ -86,7 +86,7 @@ class SettingsLayoutViewAdapter
         $certificateCheck = (new SettingService())->getCertificate();
         return (new CredentialValidator())->validate(
             $certificateCheck,
-            get_option(SettingService::MERCHANT_ID),
+            get_option(SettingService::STORE_UUID),
             get_option(SettingService::TESTMODE) === SettingService::YES
         );
     }

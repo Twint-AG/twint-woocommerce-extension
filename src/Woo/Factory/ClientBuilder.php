@@ -15,7 +15,8 @@ use Twint\Sdk\InvocationRecorder\Soap\MessageRecorder;
 use Twint\Sdk\InvocationRecorder\Soap\RecordingTransport;
 use Twint\Sdk\Io\InMemoryStream;
 use Twint\Sdk\Value\Environment;
-use Twint\Sdk\Value\MerchantId;
+use Twint\Sdk\Value\PrefixedCashRegisterId;
+use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\Version;
 use Twint\Woo\Exception\InvalidConfigException;
 use Twint\Woo\Services\SettingService;
@@ -48,9 +49,9 @@ class ClientBuilder
         }
 
         $environment = $this->setting->isTestMode() ? Environment::TESTING() : Environment::PRODUCTION();
-        $merchantId = $this->setting->getMerchantId();
-        if (empty($merchantId)) {
-            throw new InvalidConfigException(InvalidConfigException::ERROR_INVALID_MERCHANT_ID);
+        $storeUuid = $this->setting->getStoreUuid();
+        if (empty($storeUuid)) {
+            throw new InvalidConfigException(InvalidConfigException::ERROR_INVALID_STORE_UUID);
         }
 
         $certificate = $this->setting->getCertificate();
@@ -70,7 +71,7 @@ class ClientBuilder
             $client = new InvocationRecordingClient(
                 new Client(
                     CertificateContainer::fromPkcs12(new Pkcs12Certificate(new InMemoryStream($cert), $passphrase)),
-                    MerchantId::fromString($merchantId),
+                    new PrefixedCashRegisterId(StoreUuid::fromString($storeUuid), SettingService::PLATFORM),
                     new Version($version),
                     $environment,
                     soapEngineFactory: new DefaultSoapEngineFactory(

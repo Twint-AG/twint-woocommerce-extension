@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         constructor() {
             this.state = {
                 plugin_twint_test_mode: false,
-                plugin_twint_settings_merchant_id: null,
+                plugin_twint_settings_store_uuid: null,
                 plugin_twint_settings_certificate: null,
                 plugin_twint_settings_certificate_password: null,
                 openUploadCertificateArea: false,
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             this.options = {
                 adminUrl: twint_api.admin_url,
                 testModeSelector: '#plugin_twint_test_mode',
-                merchantIdSelector: '#plugin_twint_settings_merchant_id',
+                storeUuidSelector: '#plugin_twint_settings_store_uuid',
                 certificateFileSelector: 'twint-file-upload',
                 deleteCertificateSelector: 'kwt-file__delete',
                 passwordSelector: '#plugin_twint_settings_certificate_password',
@@ -30,10 +30,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
 
         init() {
-            this.merchantIdInput = document.querySelector(this.options.merchantIdSelector);
-            if (this.merchantIdInput) {
-                this.state.plugin_twint_settings_merchant_id = this.merchantIdInput.value;
-                this.merchantIdInput.addEventListener('input', this.onChangeMerchantId.bind(this));
+            this.storeUuidInput = document.querySelector(this.options.storeUuidSelector);
+            if (this.storeUuidInput) {
+                this.state.plugin_twint_settings_store_uuid = this.storeUuidInput.value;
+                this.storeUuidInput.addEventListener('input', this.onChangeStoreUuid.bind(this));
             }
 
             this.button = document.querySelector(this.options.btnSelector);
@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         resetErrorNotice() {
             jQuery('.kwt-file__drop-area').removeClass('has-error');
             this.passwordInput?.classList?.remove('has-error');
-            this.merchantIdInput?.classList?.remove('has-error');
+            this.storeUuidInput?.classList?.remove('has-error');
             this.hideNoticeSuccess();
             this.hideNoticeError();
         }
@@ -189,7 +189,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
             this.resetErrorNotice();
 
-            if (!this.checkMerchantIdField()) {
+            if (!this.checkStoreUuidField()) {
                 this.toggleLoadingButton();
 
                 return;
@@ -208,7 +208,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             }
 
             formData.append('action', 'store_twint_settings')
-            formData.append('plugin_twint_settings_merchant_id', this.state.plugin_twint_settings_merchant_id);
+            formData.append('plugin_twint_settings_store_uuid', this.state.plugin_twint_settings_store_uuid);
             formData.append('plugin_twint_test_mode', this.state.plugin_twint_test_mode);
             formData.append('plugin_twint_settings_certificate', this.state.plugin_twint_settings_certificate);
             formData.append('plugin_twint_settings_certificate_password', this.state.plugin_twint_settings_certificate_password);
@@ -249,12 +249,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
             this.state.plugin_twint_test_mode = e.target.checked ? 'on' : '';
         }
 
-        onChangeMerchantId(e) {
-            const merchantId = e.target.value;
+        onChangeStoreUuid(e) {
+            const storeUuid = e.target.value;
 
             // Checkout Valid or not UUIDv4
-            const isValidUUIDv4 = this.isValidUUIDv4(merchantId);
-            this.state.plugin_twint_settings_merchant_id = merchantId;
+            const isValidUUIDv4 = this.isValidUUIDv4(storeUuid);
+            this.state.plugin_twint_settings_store_uuid = storeUuid;
             if (!isValidUUIDv4) {
                 e.target?.classList?.add('has-error');
                 return;
@@ -312,14 +312,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
             return true;
         }
 
-        checkMerchantIdField() {
-            if (!this.isValidUUIDv4(this.state.plugin_twint_settings_merchant_id)) {
-                this.merchantIdInput?.classList?.add('has-error');
+        checkStoreUuidField() {
+            if (!this.isValidUUIDv4(this.state.plugin_twint_settings_store_uuid)) {
+                this.storeUuidInput?.classList?.add('has-error');
                 return false;
             }
 
-            if (this.state.plugin_twint_settings_merchant_id === null) {
-                this.merchantIdInput?.classList?.add('has-error');
+            if (this.state.plugin_twint_settings_store_uuid === null) {
+                this.storeUuidInput?.classList?.add('has-error');
                 return false;
             }
 

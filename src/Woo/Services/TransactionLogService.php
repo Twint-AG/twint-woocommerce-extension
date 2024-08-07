@@ -35,7 +35,7 @@ class TransactionLogService
             $soapMessages = $innovations[0]->messages();
             $soapRequests = [];
             $soapResponses = [];
-            $apiMethod = $innovations[0]->methodName() ?? ' ';
+            $apiMethod = $innovations[0]->methodName() ?? 'unknown';
             $soapActions = [];
             foreach ($soapMessages as $soapMessage) {
                 $soapActions[] = $soapMessage->request()->action();
@@ -61,7 +61,7 @@ class TransactionLogService
                 'created_at' => date("Y-m-d H:i:s"),
             ];
 
-            if (!$this->checkDuplicatedTransactionLogInLastTime($data)) {
+            if (!$this->checkDuplicatedTransactionLog($data)) {
                 global $wpdb;
                 $wpdb->insert(self::getTableName(), $data);
             }
@@ -70,19 +70,13 @@ class TransactionLogService
         }
     }
 
-    public function checkDuplicatedTransactionLogInLastTime(array $record): bool
+    public function checkDuplicatedTransactionLog(array $record): bool
     {
-        // Last time calculated by minutes
-        $lastTime = get_option('twint_transaction_log_last_time', 1);
-        $time = strtotime("-{$lastTime} minutes");
-        $time = date('Y-m-d H:i:s', $time);
-        $currentTime = date('Y-m-d H:i:s');
         global $wpdb;
         $sql = "SELECT record_id FROM " . self::getTableName() . " 
                 WHERE order_id = " . $record['order_id'] . " 
                 AND api_method = '" . $record['api_method'] . "' 
-                AND order_status = '" . $record['order_status'] . "'
-                AND created_at BETWEEN '" . $time . "' AND '" . $currentTime . "'";
+                AND order_status = '" . $record['order_status'] . "'";
         $result = $wpdb->get_results($sql);
         return !empty($result);
     }

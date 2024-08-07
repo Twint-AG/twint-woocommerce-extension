@@ -31,8 +31,8 @@ class Credential extends TabItem
                 'need_populate' => true,
             ],
             [
-                'name' => SettingService::MERCHANT_ID,
-                'label' => __('Merchant ID', 'woocommerce-gateway-twint'),
+                'name' => SettingService::STORE_UUID,
+                'label' => __('Store UUID', 'woocommerce-gateway-twint'),
                 'placeholder' => __('xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx', 'woocommerce-gateway-twint'),
                 'type' => 'text',
                 'help_text' => '',
