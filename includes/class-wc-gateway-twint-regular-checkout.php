@@ -179,7 +179,7 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
      */
     public static function getOrderStatusAfterPartiallyRefunded(): string
     {
-        return 'wc-refunded-partially';
+        return 'wc-refunded-partial';
     }
 
     /**
