@@ -72,6 +72,14 @@ class TransactionLogService
 
     public function checkDuplicatedTransactionLog(array $record): bool
     {
+        if ($record['order_status'] === 'refunded-partial') {
+            return false;
+        }
+
+        if ($record['order_status'] === 'refunded') {
+            return false;
+        }
+
         global $wpdb;
         $sql = "SELECT record_id FROM " . self::getTableName() . " 
                 WHERE order_id = " . $record['order_id'] . " 

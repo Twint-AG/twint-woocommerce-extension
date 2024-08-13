@@ -59,6 +59,7 @@ class PaymentService
                 'twint_api_response',
                 json_encode($twintApiArray)
             );
+
             $order->save();
 
         } catch (\Exception $e) {
@@ -219,7 +220,7 @@ class PaymentService
     {
         $remainingAmountRefunded = (float)$order->get_remaining_refund_amount();
         if ($remainingAmountRefunded > 0) {
-            return $order->update_status(\WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterPartiallyRefunded());
+            return $order->update_status('wc-refunded-partial');
         }
 
         return $order->update_status('wc-refunded');
