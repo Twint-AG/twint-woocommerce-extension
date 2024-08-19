@@ -52,6 +52,19 @@ class WC_Twint_Payments
 
         add_action('init', [__CLASS__, 'createCustomWooCommerceStatus']);
         add_filter('wc_order_statuses', [__CLASS__, 'addCustomWooCommerceStatusToList']);
+
+        add_action( 'woocommerce_order_refunded', [__CLASS__, 'custom_order_status_after_refund'], 20, 2 );
+    }
+
+    public static function custom_order_status_after_refund( $order_id, $refund_id ): void
+    {
+        $order = wc_get_order( $order_id );
+
+        // Check if the refund was processed by your custom gateway
+        if ( $order->get_payment_method() === 'twint_regular' ) {
+            // Change the order status
+            $order->update_status( 'refunded-partial', __( 'Order status changed to *refunded-partial* after refund.', 'woocommerce' ) );
+        }
     }
 
     public static function createCustomWooCommerceStatus(): void

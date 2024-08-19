@@ -201,6 +201,8 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
             return false;
         }
 
+        $order->update_status('refunded-partial');
+
         if (!$this->can_refund_order($order)) {
             return new WP_Error('error', __('Refund failed.', 'woocommerce-gateway-twint'));
         }
@@ -209,6 +211,11 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
         if (!$result) {
             return new WP_Error('error', __('Refund failed.', 'woocommerce-gateway-twint'));
         }
+
+        // Schedule a delayed status change to "custom-one"
+        add_action('woocommerce_order_refunded', function () use ($order) {
+            $order->update_status('refunded-partial', __('Order status changed to custom-one after refund.', 'woocommerce'));
+        }, 10, 1);
 
         return true;
     }
