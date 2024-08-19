@@ -1,6 +1,7 @@
 FROM wordpress:6.5.5-php8.3-fpm
 
 ARG TWINT_BRANCH=master
+ENV TWINT_BRANCH=$TWINT_BRANCH
 
 # Install packages
 RUN apt-get update && apt-get install -y nginx git unzip vim
