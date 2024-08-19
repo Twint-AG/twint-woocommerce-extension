@@ -214,7 +214,12 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
 
         // Schedule a delayed status change to "custom-one"
         add_action('woocommerce_order_refunded', function () use ($order) {
-            $order->update_status('refunded-partial', __('Order status changed to custom-one after refund.', 'woocommerce'));
+            $remainingAmountRefunded = (float)$order->get_remaining_refund_amount();
+            if ($remainingAmountRefunded > 0) {
+                return $order->update_status('wc-refunded-partial');
+            }
+
+            return $order->update_status('wc-refunded');
         }, 10, 1);
 
         return true;
