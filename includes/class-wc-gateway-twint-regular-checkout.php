@@ -195,7 +195,7 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
      */
     public function process_refund($order_id, $amount = null, $reason = ''): bool|\WP_Error
     {
-        $order = wc_get_order($order_id);
+        $order = new WC_Order($order_id);
 
         if (!$this->can_refund_order($order)) {
             return new WP_Error('error', __('Refund failed.', 'woocommerce-gateway-twint'));
