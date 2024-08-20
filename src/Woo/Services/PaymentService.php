@@ -206,9 +206,15 @@ class PaymentService
     public function getReversalIndex(string $orderId): int
     {
         // Get latest Increment ID and return it.
+        $query_args = [
+            'fields' => 'id=>parent',
+            'post_type' => 'shop_order_refund',
+            'post_status' => 'any',
+            'posts_per_page' => -1,
+        ];
 
-        // TODO update-me
-        return 1;
+        $refunds = array_keys(get_posts($query_args));
+        return intval($refunds[0]);
     }
 
     public function needUpdateStatusAfterRefunded(WC_Order $order, float|int $amount): bool
