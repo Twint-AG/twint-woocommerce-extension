@@ -1,6 +1,17 @@
 {
-  "name": "twint/woocommerce-gateway-twint",
-  "description": "TBD",
+  "name": "twint-ag/twint-shopware-plugin",
+  "description": "TWINT payment plugin for Shopware 6",
+  "keywords": [
+    "twint",
+    "twint.ch",
+    "switzerland",
+    "checkout",
+    "express checkout",
+    "payment",
+    "wordpress",
+    "woocommerce",
+    "woocommerce-extension"
+  ],
   "version": "0.0.1",
   "type": "wordpress-plugin",
   "license": "GNU General Public License v3.0",
@@ -14,8 +25,10 @@
   },
   "authors": [
     {
-      "name": "NFQ GROUP",
-      "email": "tuan.nguyenminh@nfq.com"
+      "name": "TWINT",
+      "email": "plugin@twint.ch",
+      "role": "Maintainer",
+      "homepage": "https://www.twint.ch/"
     }
   ],
   "minimum-stability": "dev",

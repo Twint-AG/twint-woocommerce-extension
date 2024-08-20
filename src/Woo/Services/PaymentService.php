@@ -126,10 +126,10 @@ class PaymentService
 
     /**
      * @param WC_Order $order
-     * @param float|int $amount
+     * @param float $amount
      * @return Order|null
      */
-    public function reverseOrder(WC_Order $order, float|int $amount): ?Order
+    public function reverseOrder(WC_Order $order, float $amount): ?Order
     {
         $orderTransactionId = $order->get_transaction_id();
         try {
