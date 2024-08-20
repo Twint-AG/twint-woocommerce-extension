@@ -191,7 +191,7 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
      * @param int $order_id Order ID.
      * @param float|null $amount Refund amount.
      * @param string $reason Refund reason.
-     * @return bool|\WP_Error True or false based on success, or a WP_Error object.
+     * @return bool|WP_Error True or false based on success, or a WP_Error object.
      */
     public function process_refund($order_id, $amount = null, $reason = ''): bool|\WP_Error
     {
@@ -201,6 +201,7 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
             return false;
         }
 
+        $amount = floatval($amount);
         $order->update_status('refunded-partial');
 
         if (!$this->can_refund_order($order)) {
