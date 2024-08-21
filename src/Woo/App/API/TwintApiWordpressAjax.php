@@ -76,14 +76,8 @@ class TwintApiWordpressAjax
 
         $result = $template->render($data);
 
-        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            $result = json_encode($result);
-            echo $result;
-        } else {
-            header("Location: " . $_SERVER["HTTP_REFERER"]);
-        }
-
-        die();
+        $result = json_encode($result);
+        echo $result;
     }
 
     public function storeTwintSettings(): void

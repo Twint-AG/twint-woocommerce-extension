@@ -67,8 +67,8 @@ class WC_Gateway_Twint_Express_Checkout extends WC_Payment_Gateway
             'multiple_subscriptions'
         );
 
-        $this->method_title = __('TWINT - Express Checkout', 'woocommerce-gateway-twint');
-        $this->method_description = __('Allows TWINT - Express Checkout', 'woocommerce-gateway-twint');
+        $this->method_title = __('TWINT Express Checkout', 'woocommerce-gateway-twint');
+        $this->method_description = __('Allows TWINT Express Checkout', 'woocommerce-gateway-twint');
 
         // Load the settings.
         $this->init_form_fields();
@@ -106,9 +106,9 @@ class WC_Gateway_Twint_Express_Checkout extends WC_Payment_Gateway
             'display_options' => [
                 'type' => 'display_options',
             ],
-            'button_express_checkout' => [
-                'type' => 'button_express_checkout',
-            ],
+//            'button_express_checkout' => [
+//                'type' => 'button_express_checkout',
+//            ],
         ];
     }
 
