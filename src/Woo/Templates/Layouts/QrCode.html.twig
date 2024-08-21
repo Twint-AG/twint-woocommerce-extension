@@ -38,7 +38,6 @@
             <div class="twint-modal-content twint-qr-container p-0 md:p-4"
                  id="twint-qr-container"
                  data-role="content">
-                <div class=""></div>
                 <div id="qr-modal-content" class="text-20" style=""
                      data-mobile="{{ isAndroid or isIosDevice }}"
                      data-is-android-device="{{ isAndroid }}"
@@ -137,7 +136,8 @@
                     </div>
 
                     <div class="qr-code d-none d-lg-block container mx-auto mt-4 text-16">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1">
+{#                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">#}
                             <div id="twint-guide-app" class="flex flex-col items-center p-4 d-none">
                                 <div class="flex justify-center">
                                     <img class="w-55 h-55"
