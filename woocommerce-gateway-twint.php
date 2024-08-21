@@ -98,6 +98,11 @@ class WC_Twint_Payments
      */
     public static function addGateway(array $gateways): array
     {
+        $currency = get_woocommerce_currency();
+        if ($currency !== 'CHF') {
+            return $gateways;
+        }
+
         /**
          * Insert Twint Regular Checkout payment method into the woo payment methods
          */
