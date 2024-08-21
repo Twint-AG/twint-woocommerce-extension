@@ -212,8 +212,8 @@ class TwintIntegration
     {
         global $product;
 
-        $template = $this->template->load('Layouts/components/button.html.twig');
-        echo $template->render();
+//        $template = $this->template->load('Layouts/components/button.html.twig');
+//        echo $template->render();
     }
 
     public function wooPluginTemplate($template, $template_name, $template_path)
