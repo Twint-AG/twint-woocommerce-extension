@@ -96,7 +96,6 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
                 'title' => __('Description', 'woocommerce-gateway-twint'),
                 'type' => 'textarea',
                 'description' => __('This controls the description which the user sees during checkout.', 'woocommerce-gateway-twint'),
-                'default' => __('Regular Checkout Payment Plugin supported by TWINT', 'woocommerce-gateway-twint'),
             ],
         ];
     }
@@ -112,6 +111,13 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
     {
         $order = wc_get_order($order_id);
         try {
+            $currency = get_woocommerce_currency();
+            if ($currency !== 'CHF') {
+                return [
+                    'result' => 'error',
+                ];
+            }
+
             $order->payment_complete();
 
             /**
