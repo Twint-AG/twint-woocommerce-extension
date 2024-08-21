@@ -6,7 +6,7 @@ import {getSetting} from '@woocommerce/settings';
 const settings = getSetting('twint_regular_data', {});
 
 const defaultLabel = __(
-    'Twint Payment',
+    'TWINT',
     'woo-gutenberg-products-block'
 );
 
