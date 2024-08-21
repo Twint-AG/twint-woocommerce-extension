@@ -78,6 +78,7 @@ class TwintApiWordpressAjax
 
         $result = json_encode($result);
         echo $result;
+        die();
     }
 
     public function storeTwintSettings(): void
