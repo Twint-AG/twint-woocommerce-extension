@@ -2,9 +2,6 @@
 
 namespace Twint\Woo\Includes\Admin\Settings\Tabs;
 
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 use Twint\Woo\Abstract\Core\Setting\TabItem;
 
 class RegularCheckout extends TabItem
@@ -16,7 +13,7 @@ class RegularCheckout extends TabItem
 
     public static function getLabel(): string
     {
-        return __('Regular Checkout', 'woocommerce-gateway-twint');
+        return __('TWINT Checkout', 'woocommerce-gateway-twint');
     }
 
     public static function fields(): array

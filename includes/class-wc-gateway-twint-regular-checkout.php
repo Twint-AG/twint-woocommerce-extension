@@ -55,8 +55,8 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
             'multiple_subscriptions'
         );
 
-        $this->method_title = __('TWINT - Regular Checkout', 'woocommerce-gateway-twint');
-        $this->method_description = __('Allows TWINT - Regular Checkout', 'woocommerce-gateway-twint');
+        $this->method_title = __('TWINT Checkout', 'woocommerce-gateway-twint');
+        $this->method_description = __('Allows TWINT Checkout', 'woocommerce-gateway-twint');
 
         // Load the settings.
         $this->init_form_fields();
@@ -82,20 +82,8 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
             'enabled' => [
                 'title' => __('Enable/Disable', 'woocommerce-gateway-twint'),
                 'type' => 'checkbox',
-                'label' => __('Enable Twint Regular Checkout', 'woocommerce-gateway-twint'),
+                'label' => __('Enable TWINT Checkout', 'woocommerce-gateway-twint'),
                 'default' => SettingService::YES,
-            ],
-            'title' => [
-                'title' => __('Title', 'woocommerce-gateway-twint'),
-                'type' => 'safe_text',
-                'description' => __('This controls the title which the user sees during checkout.', 'woocommerce-gateway-twint'),
-                'desc_tip' => true,
-                'default' => __('TWINT', 'woocommerce-gateway-twint'),
-            ],
-            'description' => [
-                'title' => __('Description', 'woocommerce-gateway-twint'),
-                'type' => 'textarea',
-                'description' => __('This controls the description which the user sees during checkout.', 'woocommerce-gateway-twint'),
             ],
         ];
     }
