@@ -117,6 +117,7 @@ jQuery(document).ready(function ($) {
                     nonce: nonce,
                 },
                 success: function (response) {
+                    console.log(response);
                     $('#modal-content-details').html(JSON.parse(response));
                     $modal.addClass('show-modal');
                 }
