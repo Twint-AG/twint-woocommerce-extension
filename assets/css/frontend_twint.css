@@ -573,6 +573,17 @@ body._has-modal {
     transition: visibility 0s .3s, opacity .3s ease
 }
 
+.modal-popup::after {
+    /* content: ""; */
+    background: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+}
+
 .modal-slide._show, .modal-popup._show {
     visibility: visible;
     opacity: 1;
@@ -808,7 +819,14 @@ body._has-modal {
 }
 
 .modal-popup {
-    pointer-events: none
+    content: "";
+    background: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
 }
 
 .modal-popup .modal-title {
@@ -1014,7 +1032,6 @@ section.twint-qr-code-section {
 
 .twint-qr-container {
     font-size: 21px;
-    margin: 0 auto;
 }
 
 .twint-qr-container .order-price {
