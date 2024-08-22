@@ -205,7 +205,7 @@ class TwintApiWordpressAjax
 
             $response['error_level'] = 'error';
             $response['error_type'] = 'validate_credentials';
-            $response['message'] = __('Please check again. Your Certificate file, merchant ID or Certificate password is incorrect.', 'woocommerce-gateway-twint');;
+            $response['message'] = __('Please check again. Your Certificate file, the Mode, StoreUuid or Certificate password is incorrect.', 'woocommerce-gateway-twint');;
         }
 
         return $response;
