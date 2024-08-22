@@ -221,7 +221,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
                     this.showNoticeSuccess(response.data.message);
 
                     this.configNoticeError?.classList?.add('d-none');
-                    this.configNoticeSuccess?.classList?.remove('d-none');
+
+                    this.configNoticeError?.classList?.remove('d-none');
+                    if (this.state.plugin_twint_settings_certificate !== null) {
+                        this.configNoticeSuccess?.classList?.remove('d-none');
+                    }
                     this.hideUploadCertificateArea();
                     this.hideNoticeError();
                     setTimeout(() => {
@@ -234,8 +238,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
                         this.showNoticeError(message);
 
                         this.configNoticeError?.classList?.remove('d-none');
-                        this.configNoticeSuccess?.classList?.add('d-none');
-                        this.showUploadCertificateArea();
+                        console.log(this.state.plugin_twint_settings_certificate);
+                        if (this.state.plugin_twint_settings_certificate !== null) {
+                            this.configNoticeSuccess?.classList?.remove('d-none');
+                            this.showUploadCertificateArea();
+                        }
                     }
                 }
                 this.toggleLoadingButton();
