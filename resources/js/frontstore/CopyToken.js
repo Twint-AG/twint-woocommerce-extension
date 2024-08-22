@@ -44,6 +44,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
             setTimeout(() => {
                 this.button.innerHTML = originalText;
                 this.button?.classList?.remove('copied');
+
+                this.button.innerHTML = originalText;
+                this.input.disabled = false;
             }, 2000);
         }
 
