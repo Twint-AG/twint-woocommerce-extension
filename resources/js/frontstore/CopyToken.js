@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             this.button.innerHTML = 'Copied!';
             this.button?.classList?.add('copied');
             this.input.disabled = true;
+            this.button.setAttribute('disabled', '');
 
             setTimeout(() => {
                 this.button.innerHTML = originalText;
@@ -47,6 +48,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                 this.button.innerHTML = originalText;
                 this.input.disabled = false;
+                this.button.removeAttribute('disabled');
             }, 2000);
         }
 
