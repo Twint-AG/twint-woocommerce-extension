@@ -32,6 +32,18 @@ class SettingsLayoutViewAdapter
     public function render(): void
     {
         $template = $this->template->load('Layouts/SettingsLayout.twig');
+        // Get latest Increment ID and return it.
+        $orderId = 277;
+        $query_args = [
+            'fields' => 'id=>parent',
+            'post_type' => 'shop_order_refund',
+            'post_status' => 'any',
+            'posts_per_page' => -1,
+            'post_parent' => $orderId
+        ];
+
+        $refunds = array_keys(get_posts($query_args));
+        dd($refunds);
 
         /**
          * Tab data

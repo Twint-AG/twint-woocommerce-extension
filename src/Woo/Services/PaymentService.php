@@ -69,13 +69,13 @@ class PaymentService
                 'An error occurred during the communication with external payment gateway' . PHP_EOL . $e->getMessage()
             );
         } finally {
-            $innovations = $client->flushInvocations();
+            $invocations = $client->flushInvocations();
             $transactionLogService = new TransactionLogService();
             $transactionLogService->writeObjectLog(
                 $order->get_id(),
                 $order->get_status(),
                 $order->get_transaction_id(),
-                $innovations
+                $invocations
             );
         }
     }
@@ -113,13 +113,13 @@ class PaymentService
                 'An error occurred during the communication with API gateway' . PHP_EOL . $e->getMessage()
             );
         } finally {
-            $innovations = $this->client->build()->flushInvocations();
+            $invocations = $this->client->build()->flushInvocations();
             $transactionLogService = new TransactionLogService();
             $transactionLogService->writeObjectLog(
                 $order->get_id(),
                 $order->get_status(),
                 $order->get_transaction_id(),
-                $innovations
+                $invocations
             );
         }
     }
@@ -132,32 +132,35 @@ class PaymentService
     public function reverseOrder(WC_Order $order, float $amount): ?Order
     {
         $orderTransactionId = $order->get_transaction_id();
+        $transactionLogService = new TransactionLogService();
+        $client = $this->client->build();
+
         try {
             $twintApiResponse = json_decode($order->get_meta('twint_api_response'), true);
             if (!empty($twintApiResponse) && !empty($twintApiResponse['id'])) {
                 $currency = $order->get_currency();
                 if (!empty($currency) && $amount > 0) {
-                    $client = $this->client->build();
-
-                    $twintOrder = $client->monitorOrder(
-                        new OrderId(new Uuid($twintApiResponse['id']))
+                    $invocations = $client->flushInvocations();
+                    $transactionLogService->writeReverseOrderObjectLog(
+                        $order->get_id(),
+                        $order->get_status(),
+                        $order->get_transaction_id(),
+                        $invocations
                     );
 
-                    if ($twintOrder->status()->equals(OrderStatus::SUCCESS())) {
-                        $reversalIndex = $this->getReversalIndex($order->get_id());
-                        $reversalId = 'R-' . $twintOrder->id()->__toString() . '-' . $reversalIndex;
-                        $twintOrder = $client->reverseOrder(
-                            new UnfiledMerchantTransactionReference($reversalId),
-                            $twintOrder->id(),
-                            new Money($currency, $amount)
-                        );
+                    $reversalIndex = $this->getReversalIndex($order->get_id());
+                    $reversalId = 'R-' . $twintApiResponse['id'] . '-' . $reversalIndex;
+                    $twintOrder = $client->reverseOrder(
+                        new UnfiledMerchantTransactionReference($reversalId),
+                        new OrderId(new Uuid($twintApiResponse['id'])),
+                        new Money($currency, $amount)
+                    );
 
-                        if ($this->needUpdateStatusAfterRefunded($order, $amount)) {
-                            $this->updateStatusAfterRefunded($order);
-                        }
-
-                        return $twintOrder;
+                    if ($this->needUpdateStatusAfterRefunded($order, $amount)) {
+                        $this->updateStatusAfterRefunded($order);
                     }
+
+                    return $twintOrder;
                 }
             }
             return null;
@@ -167,13 +170,12 @@ class PaymentService
                 'An error occurred during the communication with API gateway' . PHP_EOL . $e->getMessage()
             );
         } finally {
-            $innovations = $this->client->build()->flushInvocations();
-            $transactionLogService = new TransactionLogService();
-            $transactionLogService->writeObjectLog(
+            $invocations = $client->flushInvocations();
+            $transactionLogService->writeReverseOrderObjectLog(
                 $order->get_id(),
                 $order->get_status(),
                 $order->get_transaction_id(),
-                $innovations
+                $invocations
             );
         }
     }
@@ -211,6 +213,7 @@ class PaymentService
             'post_type' => 'shop_order_refund',
             'post_status' => 'any',
             'posts_per_page' => -1,
+            'post_parent' => $orderId,
         ];
 
         $refunds = array_keys(get_posts($query_args));

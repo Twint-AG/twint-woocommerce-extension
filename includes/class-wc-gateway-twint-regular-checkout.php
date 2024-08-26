@@ -43,19 +43,12 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
         $this->icon = apply_filters('woocommerce_twint_gateway_regular_icon', '');
         $this->has_fields = false;
         $this->supports = array(
-            'pre-orders',
             'refunds',
             'products',
-            'subscriptions',
-            'subscription_cancellation',
-            'subscription_suspension',
-            'subscription_reactivation',
-            'subscription_amount_changes',
-            'subscription_date_changes',
-            'multiple_subscriptions'
         );
 
         $this->method_title = __('TWINT Checkout', 'woocommerce-gateway-twint');
+        $this->title = __('TWINT', 'woocommerce-gateway-twint');
         $this->method_description = __('Allows TWINT Checkout', 'woocommerce-gateway-twint');
 
         // Load the settings.
@@ -189,11 +182,7 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
      */
     public function process_refund($order_id, $amount = null, $reason = ''): bool|\WP_Error
     {
-        $order = new WC_Order($order_id);
-
-        if (!is_a($order, WC_Order::class)) {
-            return false;
-        }
+        $order = wc_get_order($order_id);
 
         $amount = floatval($amount);
         $order->update_status('refunded-partial');
