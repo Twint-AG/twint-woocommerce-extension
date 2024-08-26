@@ -16,26 +16,26 @@ class TransactionLogService
         string $orderId,
         string $orderStatus,
         string $transactionId,
-        array  $innovations
+        array  $invocations
     ): void
     {
         try {
-            if ($innovations === []) {
+            if ($invocations === []) {
                 return;
             }
 
-            $request = json_encode($innovations[0]->arguments());
-            $exception = $innovations[0]->exception() ?? '';
+            $request = json_encode($invocations[0]->arguments());
+            $exception = $invocations[0]->exception() ?? '';
 
             if ($exception instanceof ApiFailure) {
                 $exception = $exception->getMessage();
             }
 
-            $response = json_encode($innovations[0]->returnValue());
-            $soapMessages = $innovations[0]->messages();
+            $response = json_encode($invocations[0]->returnValue());
+            $soapMessages = $invocations[0]->messages();
             $soapRequests = [];
             $soapResponses = [];
-            $apiMethod = $innovations[0]->methodName() ?? 'unknown';
+            $apiMethod = $invocations[0]->methodName() ?? 'unknown';
             $soapActions = [];
             foreach ($soapMessages as $soapMessage) {
                 $soapActions[] = $soapMessage->request()->action();
@@ -70,16 +70,63 @@ class TransactionLogService
         }
     }
 
+    public function writeReverseOrderObjectLog(
+        string $orderId,
+        string $orderStatus,
+        string $transactionId,
+        array  $invocations
+    ): void
+    {
+        try {
+            if ($invocations === []) {
+                return;
+            }
+
+            $request = json_encode($invocations[0]->arguments());
+            $exception = $invocations[0]->exception() ?? '';
+
+            if ($exception instanceof ApiFailure) {
+                $exception = $exception->getMessage();
+            }
+            $apiMethod = $invocations[0]->methodName() ?? 'unknown';
+            $response = json_encode($invocations[0]->returnValue());
+            $soapMessages = $invocations[0]->messages();
+            $soapRequests = [];
+            $soapResponses = [];
+            $soapActions = [];
+            foreach ($soapMessages as $soapMessage) {
+                $soapActions[] = $soapMessage->request()->action();
+                $soapRequests[] = $soapMessage->request()->body();
+                $soapResponses[] = $soapMessage->response()->body();
+            }
+
+            $soapRequests = json_encode($soapRequests);
+            $soapResponses = json_encode($soapResponses);
+            $soapActions = json_encode($soapActions);
+
+            $data = [
+                'order_id' => $orderId,
+                'order_status' => $orderStatus,
+                'transaction_id' => $transactionId,
+                'api_method' => $apiMethod,
+                'soap_action' => $soapActions,
+                'request' => $request,
+                'response' => $response,
+                'soap_request' => $soapRequests,
+                'soap_response' => $soapResponses,
+                'exception_text' => $exception,
+                'created_at' => date("Y-m-d H:i:s"),
+            ];
+
+            global $wpdb;
+            $wpdb->insert(self::getTableName(), $data);
+        } catch (\Exception $exception) {
+            wc_get_logger()->error('error_log_transaction' . PHP_EOL . $exception->getMessage());
+        }
+    }
+
     public function checkDuplicatedTransactionLog(array $record): bool
     {
-        if ($record['order_status'] === 'refunded-partial') {
-            return false;
-        }
-
-        if ($record['order_status'] === 'refunded') {
-            return false;
-        }
-
         global $wpdb;
         $sql = "SELECT record_id FROM " . self::getTableName() . " 
                 WHERE order_id = " . $record['order_id'] . " 
