@@ -192,6 +192,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             if (!this.checkStoreUuidField()) {
                 this.toggleLoadingButton();
 
+                console.log('hrererer');
                 return;
             }
 
@@ -320,6 +321,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
 
         checkStoreUuidField() {
+            console.log(this.state.plugin_twint_settings_store_uuid);
             if (!this.isValidUUIDv4(this.state.plugin_twint_settings_store_uuid)) {
                 this.storeUuidInput?.classList?.add('has-error');
                 return false;

@@ -2,9 +2,8 @@
 /**
  * WC_Gateway_Twint_Regular_Checkout class
  *
- * @author   NFQ Group <tuan.nguyenminh@nfq.com>
  * @package  WooCommerce Twint Payment Gateway
- * @since    0.0.1
+ * @since    1.0.0
  */
 
 // Exit if accessed directly.
@@ -18,10 +17,11 @@ if (!defined('ABSPATH')) {
  * Twint WC_Gateway_Twint_Regular_Checkout.
  *
  * @class WC_Gateway_Twint_Regular_Checkout
- * @version  0.0.1
+ * @version  1.0.0
  */
 class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
 {
+    const UNIQUE_PAYMENT_ID = 'twint_regular';
     /**
      * Payment gateway instructions.
      * @var string
@@ -33,7 +33,14 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
      * @var string
      *
      */
-    public $id = 'twint_regular';
+    public $id = self::UNIQUE_PAYMENT_ID;
+
+    public static array $amount_supported = ['CHF'];
+
+    public static function getId(): string
+    {
+        return self::UNIQUE_PAYMENT_ID;
+    }
 
     /**
      * Constructor for the gateway.
@@ -58,7 +65,6 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
         // Define user set variables.
         $this->title = $this->get_option('title');
         $this->description = $this->get_option('description');
-        $this->instructions = $this->get_option('instructions', $this->description);
 
         // Actions.
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
@@ -78,6 +84,13 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
                 'label' => __('Enable TWINT Checkout', 'woocommerce-gateway-twint'),
                 'default' => SettingService::YES,
             ],
+            'title' => [
+                'title' => __('Title', 'woocommerce-gateway-twint'),
+                'type' => 'safe_text',
+                'description' => __('This controls the title which the user sees during checkout.', 'woocommerce-gateway-twint'),
+                'desc_tip' => true,
+                'default' => __('TWINT', 'woocommerce-gateway-twint'),
+            ],
         ];
     }
 
@@ -93,7 +106,7 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
         $order = wc_get_order($order_id);
         try {
             $currency = get_woocommerce_currency();
-            if ($currency !== 'CHF') {
+            if (!in_array($currency, static::$amount_supported)) {
                 return [
                     'result' => 'error',
                 ];
@@ -107,11 +120,13 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
             wc_reduce_stock_levels($order_id);
 
             // Remove cart
-            WC()->cart->empty_cart();
+//            WC()->cart->empty_cart();
 
             // Return thankyou redirect
             return array(
                 'result' => 'success',
+//                'redirect' => false,
+//                'message' => __('Payment successful.', 'woocommerce-gateway-twint'),
                 'redirect' => $this->get_return_url($order)
             );
         } catch (\Exception $exception) {
@@ -130,7 +145,7 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
      * @param $orderId
      * @param $order
      * @return string
-     * @since 0.0.1
+     * @since 1.0.0
      *
      */
     public function setCompleteOrderStatus($status, $orderId, $order): string
@@ -150,7 +165,7 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
     /**
      * Set up the status of the order after order got paid.
      * @return string
-     * @since 0.0.1
+     * @since 1.0.0
      *
      */
     public static function getOrderStatusAfterPaid(): string
@@ -161,12 +176,12 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
     /**
      * Set up the status of the order after order got paid.
      * @return string
-     * @since 0.0.1
+     * @since 1.0.0
      *
      */
     public static function getOrderStatusAfterPartiallyRefunded(): string
     {
-        return 'wc-refunded-partial';
+        return apply_filters('woocommerce_twint_order_status_after_partially_refunded', 'wc-refunded-partial');
     }
 
     /**
@@ -179,26 +194,19 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
      * @param float|null $amount Refund amount.
      * @param string $reason Refund reason.
      * @return bool|WP_Error True or false based on success, or a WP_Error object.
+     * @throws Throwable
      */
     public function process_refund($order_id, $amount = null, $reason = ''): bool|\WP_Error
     {
         $order = wc_get_order($order_id);
 
-        $amount = floatval($amount);
-        $order->update_status('refunded-partial');
-
         if (!$this->can_refund_order($order)) {
-            return new WP_Error('error', __('Refund failed.', 'woocommerce-gateway-twint'));
-        }
-
-        $result = (new \Twint\Woo\Services\PaymentService())->reverseOrder($order, $amount);
-        if (!$result) {
             return new WP_Error('error', __('Refund failed.', 'woocommerce-gateway-twint'));
         }
 
         // Schedule a delayed status change to "custom-one"
         add_action('woocommerce_order_refunded', function () use ($order) {
-            $remainingAmountRefunded = (float)$order->get_remaining_refund_amount();
+            $remainingAmountRefunded = $order->get_remaining_refund_amount();
             if ($remainingAmountRefunded > 0) {
                 return $order->update_status('wc-refunded-partial');
             }

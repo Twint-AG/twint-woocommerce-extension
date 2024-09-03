@@ -11,9 +11,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 nonceValue: null,
                 containerSelector: '#qr-modal-content',
                 pairingHash: null,
-                interval: 5, // seconds
+                interval: 3, // seconds
                 expressCheckout: false,
-                orderId: -1,
+                pairingId: -1,
             };
         }
 
@@ -26,8 +26,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
             }
 
             this.options.nonceValue = document.querySelector('input#twint_wp_nonce').value;
-            this.options.orderId = this.$container.getAttribute('data-order-id');
-            console.log(this.options.orderId);
+            this.options.pairingId = this.$container.getAttribute('data-pairing-id');
+            console.log(this.options.pairingId);
 
             if (!this.options.expressCheckout) {
                 this.checkOrderRegularStatus();
@@ -53,14 +53,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
             // TODO Implement check that this call reaches to the limit or not
 
-            if (this.options.orderId !== -1) {
+            if (this.options.pairingId !== -1) {
                 let formData = new FormData();
-                formData.append('action', 'twint_check_order_status');
-                formData.append('orderId', parseInt(this.options.orderId));
+                formData.append('action', 'twint_check_pairing_status');
+                formData.append('pairingId', this.options.pairingId);
                 formData.append('nonce', this.options.nonceValue);
                 axios.post(this.options.adminUrl, formData).then(response => {
                     response = response.data;
-                    console.log(response);
                     if (response.success === true && response.isOrderPaid === true) {
                         let currentURL = window.location.href;
                         window.location.href = `${currentURL}&twint_order_paid=true`;

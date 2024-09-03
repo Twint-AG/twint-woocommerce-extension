@@ -3,26 +3,21 @@
 namespace Twint\Woo;
 
 use chillerlan\QRCode\QRCode;
-use chillerlan\QRCode\QROptions;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
-use Twint\Woo\Abstract\ServiceProvider\DatabaseServiceProvider;
+use Twint\Woo\App\API\ApiService;
 use Twint\Woo\App\API\TwintApiWordpressAjax;
 use Twint\Woo\CronJob\TwintCancelOrderExpiredCronJob;
 use Twint\Woo\MetaBox\TwintApiResponseMeta;
+use Twint\Woo\Migrations\CreateTwintPairingTable;
+use Twint\Woo\Migrations\CreateTwintTransactionLogTable;
+use Twint\Woo\Services\PairingService;
 use Twint\Woo\Services\PaymentService;
 use Twint\Woo\Services\SettingService;
+use Twint\Woo\Templates\QrCodeViewAdapter;
 use Twint\Woo\Templates\SettingsLayoutViewAdapter;
-use Twint\Woo\Templates\TwigTemplateEngine;
 use WC_Twint_Payments;
 
 defined('ABSPATH') || exit;
 
-/**
- * @author Jimmy
- * @version 0.0.1
- */
 class TwintIntegration
 {
     /**
@@ -36,17 +31,20 @@ class TwintIntegration
     public PaymentService $paymentService;
 
     /**
-     * @var \Twig\Environment
+     * @var PairingService
      */
-    private \Twig\Environment $template;
+    private PairingService $pairingService;
+
+    /**
+     * @var ApiService
+     */
+    private ApiService $apiService;
 
     /**
      * Class constructor.
      */
     public function __construct()
     {
-        $GLOBALS['TWIG_TEMPLATE_ENGINE'] = TwigTemplateEngine::INSTANCE();
-        $this->template = $GLOBALS['TWIG_TEMPLATE_ENGINE'];
         add_action('admin_enqueue_scripts', [$this, 'enqueueStyles'], 19);
         add_action('wp_enqueue_scripts', [$this, 'wpEnqueueScriptsFrontend'], 19);
         add_action('admin_enqueue_scripts', [$this, 'enqueueScripts'], 20);
@@ -73,22 +71,46 @@ class TwintIntegration
 
         add_action('woocommerce_before_thankyou', [$this, 'additionalWoocommerceBeforeThankyou'], 20);
 
-        add_action('template_redirect', [$this, 'woo_custom_redirect_after_purchase']);
+        add_action('woocommerce_refund_created', [$this, 'refundCreatedHandler'], 10);
 
         new TwintApiResponseMeta();
         new TwintApiWordpressAjax();
         new TwintCancelOrderExpiredCronJob();
         $this->paymentService = new PaymentService();
+        $this->pairingService = new PairingService();
+        $this->apiService = new ApiService();
     }
 
-    public function woo_custom_redirect_after_purchase()
+    /**
+     * @throws \Throwable
+     */
+    public function refundCreatedHandler($refundId): void
     {
-//        global $wp;
-//        if ( is_checkout() && !empty( $wp->query_vars['order-received'] ) ) {
-////            wp_redirect( 'http://localhost:8888/woocommerce/custom-thank-you/' );
-////            dd(1);
-//            exit;
-//        }
+        $refund = wc_get_order($refundId);
+        $order = wc_get_order($refund->get_parent_id());
+        $amount = $refund->get_amount();
+
+        $apiResponse = $this->paymentService->reverseOrder($order, $amount, $refundId);
+
+        // Check if the refund was processed by your custom gateway
+        if ($order->get_payment_method() === \WC_Gateway_Twint_Regular_Checkout::getId()) {
+            $remainingAmountRefunded = $order->get_remaining_refund_amount();
+            if ($remainingAmountRefunded > 0) {
+                $status = \WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterPartiallyRefunded();
+            } else {
+                $status = 'wc-refunded';
+            }
+
+            $order->update_status($status);
+        }
+
+        $pairing = $this->pairingService->findByWooOrderId($order->get_id());
+        $log['pairing_id'] = $pairing->getId();
+        $log['order_id'] = $order->get_id();
+        $log['order_status'] = $order->get_status();
+        $log['transaction_id'] = $order->get_transaction_id();
+        $log = array_merge($log, $apiResponse->getLog());
+        $this->apiService->saveLog($log);
     }
 
     public function wooBeforeOrderUpdateChange($orderId, $items): void
@@ -118,11 +140,6 @@ class TwintIntegration
 //        }
     }
 
-    /**
-     * @throws SyntaxError
-     * @throws RuntimeError
-     * @throws LoaderError
-     */
     public function additionalWoocommerceBeforeThankyou(\WC_Order|int $order): void
     {
         if (is_int($order)) {
@@ -130,62 +147,12 @@ class TwintIntegration
             $order = wc_get_order($orderId);
         }
 
-        if ($order->get_payment_method() !== 'twint_regular') {
+        if ($order->get_payment_method() !== \WC_Gateway_Twint_Regular_Checkout::getId()) {
             return;
         }
 
-        $template = $this->template->load('Layouts/QrCode.html.twig');
-        $twintApiResponse = json_decode($order->get_meta('twint_api_response'), true);
-        $data = [
-            'orderId' => $order->get_id(),
-        ];
-        $nonce = wp_create_nonce('twint_check_order_status');
-        if ($twintApiResponse) {
-
-            if (!empty($_GET['twint_order_paid'])) {
-                $isOrderPaid = true;
-            } else {
-                if ($order->get_status() === \WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterPaid()) {
-                    $isOrderPaid = true;
-                } else {
-                    $isOrderPaid = false;
-                }
-            }
-
-            $isOrderCancelled = $order->get_status() === \WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterCancelled();
-            if (!empty($_GET['twint_order_cancelled']) && filter_var($_GET['twint_order_cancelled'], FILTER_VALIDATE_BOOLEAN)) {
-                $isOrderCancelled = true;
-            }
-
-            $data = array_merge($data, [
-                'isOrderPaid' => $isOrderPaid,
-                'isOrderCancelled' => $isOrderCancelled,
-                'nonce' => $nonce,
-            ]);
-
-            if (!$isOrderPaid) {
-                $pairingToken = (string)($twintApiResponse['pairingToken'] ?? '');
-                $payLinks = $this->paymentService->getPayLinks($pairingToken);
-                $options = new QROptions(
-                    [
-                        'eccLevel' => QRCode::ECC_L,
-                        'outputType' => QRCode::OUTPUT_MARKUP_SVG,
-                        'version' => 5,
-                    ]
-                );
-                $qrcode = (new QRCode($options))->render($pairingToken);
-
-                $data = array_merge($data, [
-                    'qrCode' => $qrcode,
-                    'pairingToken' => $pairingToken,
-                    'amount' => number_format($order->get_total(), 2, '.', ''),
-                    'currency' => $order->get_currency(),
-                    'payLinks' => $payLinks,
-                ]);
-            }
-        }
-
-        echo $template->render($data);
+        $template = new QrCodeViewAdapter($order);
+        $template->render();
     }
 
     public function wpEnqueueScriptsFrontend(): void
@@ -203,17 +170,10 @@ class TwintIntegration
         wp_enqueue_style('css-woocommerce-gateway-twint-frontend', WC_Twint_Payments::plugin_url() . '/assets/css/frontend_twint.css');
     }
 
-    /**
-     * @throws SyntaxError
-     * @throws RuntimeError
-     * @throws LoaderError
-     */
     public function additionalSingleProductButton(): void
     {
         global $product;
-
-//        $template = $this->template->load('Layouts/components/button.html.twig');
-//        echo $template->render();
+        // TODO display Express Checkout
     }
 
     public function wooPluginTemplate($template, $template_name, $template_path)
@@ -245,20 +205,22 @@ class TwintIntegration
         return $template;
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function woocommerceCheckoutOrderCreated($orderId): void
     {
         $order = wc_get_order($orderId);
 
-        if ($order->get_payment_method() === 'twint_regular') {
-            $this->paymentService->createOrder($order);
+        if ($order->get_payment_method() === \WC_Gateway_Twint_Regular_Checkout::getId()) {
+            $apiResponse = $this->paymentService->createOrder($order);
+
+            $res = $this->pairingService->create($apiResponse, $order);
         }
     }
 
     /**
      * @return void
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     public function accessSettingsMenuCallback(): void
     {
@@ -308,14 +270,11 @@ class TwintIntegration
         return $links;
     }
 
-    /**
-     * STATIC METHODS
-     */
-    public static function INSTALL(): void
+    public static function install(): void
     {
-        self::CREATE_DB();
+        self::createDatabase();
 
-        TwintCancelOrderExpiredCronJob::INIT_CRONJOB();
+        TwintCancelOrderExpiredCronJob::initCronjob();
 
         $pluginLanguagesPath = \WC_Twint_Payments::plugin_abspath() . 'i18n/languages/';
         $wpLangPluginPath = WP_CONTENT_DIR . '/languages/plugins/';
@@ -323,31 +282,31 @@ class TwintIntegration
         foreach ($pluginLanguagesDirectory as $language) {
             \Psl\Filesystem\copy($pluginLanguagesPath . $language, $wpLangPluginPath . $language, true);
         }
+
+        // Init setting for payment gateway
+        $initData = [
+            'enabled' => 'yes',
+            'title' => 'TWINT',
+        ];
+        update_option('woocommerce_twint_regular_settings', $initData);
     }
 
-    public static function UNINSTALL(): void
+    public static function uninstall(): void
     {
         /**
          * Do we need to remove the table when deactivating plugin?
          */
         if (SettingService::getAutoRemoveDBTableWhenDisabling() === 'yes') {
-            global $wpdb;
-            global $table_prefix;
-            $tableName = $table_prefix . "twint_transactions_log";
-
-            $wpdb->query("DROP TABLE IF EXISTS " . $tableName);
+            CreateTwintTransactionLogTable::down();
+            CreateTwintPairingTable::down();
         }
 
-        TwintCancelOrderExpiredCronJob::REMOVE_CRONJOB();
+        TwintCancelOrderExpiredCronJob::removeCronjob();
     }
 
-    public static function CREATE_DB(): void
+    public static function createDatabase(): void
     {
-        $databaseServiceProvider = DatabaseServiceProvider::GET_INSTANCE();
-
-        $resultTransactionsLogTable = $databaseServiceProvider->checkSettingsTableExist('twint_transactions_log');
-        if (!$resultTransactionsLogTable) {
-            $databaseServiceProvider->createTwintTransactionsLogTable();
-        }
+        CreateTwintTransactionLogTable::up();
+        CreateTwintPairingTable::up();
     }
 }

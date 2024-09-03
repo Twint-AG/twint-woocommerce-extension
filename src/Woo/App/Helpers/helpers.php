@@ -2,6 +2,16 @@
 
 // Helper function goes here
 
+if (!function_exists('xmlBeautiful')) {
+    function xmlBeautiful($xml): bool|string
+    {
+        $dom = new \DOMDocument('1.0');
+        $dom->preserveWhiteSpace = true;
+        $dom->formatOutput = true;
+        $dom->loadXML($xml);
+        return $dom->saveXML();
+    }
+}
 
 if (!function_exists('isValidUuid')) {
     /**

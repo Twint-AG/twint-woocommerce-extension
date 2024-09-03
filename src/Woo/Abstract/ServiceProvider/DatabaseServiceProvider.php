@@ -5,6 +5,7 @@ namespace Twint\Woo\Abstract\ServiceProvider;
 class DatabaseServiceProvider extends AbstractServiceProvider
 {
     const DATABASE_SERVICE_PROVIDER = 'databaseServiceProvider';
+    const DATABASE_TRIGGER_STATE_ERROR_CODE = '45000';
 
     public function __construct($args = [])
     {
@@ -40,41 +41,33 @@ class DatabaseServiceProvider extends AbstractServiceProvider
             ->load();
     }
 
-    /**
-     * @param string $tableName
-     * @return bool
-     */
-    public function checkSettingsTableExist(string $tableName): bool
-    {
-        global $wpdb;
-        global $table_prefix;
-        return $wpdb->query("SHOW TABLES LIKE '" . $table_prefix . $tableName . "';");
-    }
-
-    public function createTwintTransactionsLogTable(): void
-    {
-        global $wpdb;
-        $charset_collate = $wpdb->get_charset_collate();
-
-        global $table_prefix;
-        $sql = "CREATE TABLE IF NOT EXISTS " . $table_prefix . "twint_transactions_log (
-            record_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-			order_id INT UNSIGNED NOT NULL,
-			transaction_id INT UNSIGNED NOT NULL,
-			order_status varchar(191) NOT NULL default '',
-			soap_action varchar(191) NOT NULL default '',
-			api_method varchar(191) NOT NULL default '',
-			request longtext NOT NULL,
-			response longtext NOT NULL,
-			soap_request longtext NOT NULL,
-			soap_response longtext NOT NULL,
-			exception_text longtext NOT NULL,
-			created_at DATETIME,
-			updated_at DATETIME,
-			PRIMARY KEY (record_id)
-        ) $charset_collate;";
-
-        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-        dbDelta($sql);
-    }
+//    public function createTwintPairingTable(): void
+//    {
+////        $table = $table_prefix . 'twint_pairing';
+////        $view = $table_prefix . 'twint_pairing_view';
+////        $dropViewIfExists = "DROP VIEW IF EXISTS {$view};";
+////        $createView = "CREATE VIEW {$view} AS
+////            SELECT {$table}.*,
+////            (UNIX_TIMESTAMP() - UNIX_TIMESTAMP({$table}.checked_at)) AS checked_ago
+////        FROM {$table};";
+//
+//        $createTrigger = "
+//            CREATE TRIGGER before_update_twint_pairing BEFORE UPDATE ON {$table} FOR EACH ROW BEGIN
+//                DECLARE changed_columns INT;
+//                IF OLD.version <> NEW.version THEN
+//                    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Version conflict detected. Update aborted.';
+//                END IF;
+//                SET changed_columns = 0;
+//                IF NEW.status <> OLD.status THEN
+//                    SET changed_columns = changed_columns + 1;
+//                END IF;
+//                IF changed_columns > 0 THEN
+//                    SET NEW.version = OLD.version + 1;
+//                END IF
+//            END;";
+//
+////        $wpdb->query($dropViewIfExists);
+////        $wpdb->query($createView);
+////        $res = mysqli_multi_query($wpdb->dbh, $createTrigger);
+//    }
 }

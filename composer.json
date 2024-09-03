@@ -6,13 +6,14 @@
     "twint.ch",
     "switzerland",
     "checkout",
+    "regular checkout",
     "express checkout",
     "payment",
     "wordpress",
     "woocommerce",
     "woocommerce-extension"
   ],
-  "version": "0.0.1",
+  "version": "1.0.0",
   "type": "wordpress-plugin",
   "license": "GNU General Public License v3.0",
   "autoload": {
@@ -36,7 +37,6 @@
   "require": {
     "twint-ag/sdk": "^1.0",
     "guzzlehttp/guzzle": "^7.0",
-    "twig/twig": "^3.10",
     "chillerlan/php-qrcode": "^5.0",
     "symfony/var-dumper": "^6.4",
     "ext-xsl": "*"

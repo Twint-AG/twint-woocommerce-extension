@@ -6,7 +6,7 @@ use Twint\Woo\Services\SettingService;
 /**
  * Twint Payment Blocks integration
  *
- * @since 0.0.1
+ * @since 1.0.0
  */
 final class WC_Gateway_Twint_Regular_Checkout_Blocks_Support extends AbstractPaymentMethodType
 {
@@ -66,7 +66,7 @@ final class WC_Gateway_Twint_Regular_Checkout_Blocks_Support extends AbstractPay
             ? require($script_asset_path)
             : array(
                 'dependencies' => [],
-                'version' => '0.0.1'
+                'version' => '1.0.0'
             );
         $script_url = WC_Twint_Payments::plugin_url() . $script_path;
 
@@ -93,7 +93,7 @@ final class WC_Gateway_Twint_Regular_Checkout_Blocks_Support extends AbstractPay
     public function get_payment_method_data(): array
     {
         return [
-            'title' => $this->get_setting('title'),
+            'title' => !empty($this->get_setting('title')) ? $this->get_setting('title') : 'TWINT',
             'description' => $this->get_setting('description'),
             'supports' => array_filter($this->gateway->supports, [$this->gateway, 'supports'])
         ];
