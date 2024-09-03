@@ -2,10 +2,6 @@
 
 namespace Twint\Woo\Templates;
 
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
-
 use Twint\Woo\Includes\Admin\Settings\Tabs\Credential;
 use Twint\Woo\Includes\Admin\Settings\Tabs\ExpressCheckout;
 use Twint\Woo\Includes\Admin\Settings\Tabs\RegularCheckout;
@@ -14,25 +10,15 @@ use Twint\Woo\Utility\Twint\CredentialValidator;
 
 class SettingsLayoutViewAdapter
 {
-    private \Twig\Environment $template;
     private array $data;
 
     public function __construct($data = [])
     {
-        global $TWIG_TEMPLATE_ENGINE;
-        $this->template = $TWIG_TEMPLATE_ENGINE;
         $this->data = $data;
     }
 
-    /**
-     * @throws SyntaxError
-     * @throws RuntimeError
-     * @throws LoaderError
-     */
     public function render(): void
     {
-        $template = $this->template->load('Layouts/SettingsLayout.twig');
-
         /**
          * Tab data
          */
@@ -40,8 +26,7 @@ class SettingsLayoutViewAdapter
         $settingTabClassOriginal = $_GET['tab'] ?? $defaultTabClass;
 
         $settingTabClass = str_replace('_', '\\', $settingTabClassOriginal);
-        $this->data['tabs'] = $this->getTabsConfig();
-        $this->data['activated_tab'] = $settingTabClassOriginal;
+        $tabs = $this->getTabsConfig();
         if ($settingTabClassOriginal === Credential::getKey()) {
             $flagValidatedCredentialsConfig = get_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG);
             $this->data['flag_credentials'] = $flagValidatedCredentialsConfig;
@@ -49,12 +34,56 @@ class SettingsLayoutViewAdapter
             $this->data['status'] = $this->checkInvalidCredentialsOrNot();
         }
 
-        $this->data['allowSaveChanges'] = $settingTabClass::allowSaveChanges();
+        $allowSaveChanges = $settingTabClass::allowSaveChanges();
         $this->data['fields'] = $settingTabClass::fields();
-        $this->data['nonce'] = wp_create_nonce('store_twint_settings');
-        $this->data['tabContent'] = $settingTabClass::getContents($this->data);
+        $nonce = wp_create_nonce('store_twint_settings');
+        $tabContent = $settingTabClass::getContents($this->data);
 
-        echo $template->render($this->data);
+        ?> <div class="wrap">
+            <h1><?php echo __('TWINT Settings', 'woocommerce-gateway-twint') ?></h1>
+
+            <div id="notice-admin-success" class="d-none notice notice-success">
+                <p><?php echo __('All settings have been saved.', 'woocommerce-gateway-twint') ?></p>
+            </div>
+            <div id="notice-admin-error" class="d-none notice notice-error is-dismissible"></div>
+
+            <form method="post" action="" novalidate="novalidate" enctype="multipart/form-data" autocomplete="off">
+                <nav class="nav-tab-wrapper woo-nav-tab-wrapper">
+                    <?php foreach ($tabs as $tab): ?>
+                        <?php if (!empty($tab['directLink'])): ?>
+                            <a href="<?php echo $tab['directLink'] ?>"
+                               class="nav-tab nav-tab <?php echo $settingTabClass === $tab['key'] ? 'nav-tab-active' : '' ?>">
+                                <?php echo $tab['title']; ?>
+                            </a>
+                        <?php else: ?>
+                            <a href="<?php echo admin_url(); ?>admin.php?page=twint-payment-integration-settings&tab=<?php echo $tab['key'] ?>"
+                               class="nav-tab nav-tab">
+                                <?php echo $tab['title']; ?>
+                            </a>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </nav>
+
+                <div class="tab-content">
+                    <?php if (!empty($nonce)): ?>
+                    <?php endif; ?>
+                    <input type="hidden" name="nonce" id="twint_wp_nonce" value="<?php echo $nonce; ?>">
+                    <!--CONTENT-->
+                    <?php echo $tabContent; ?>
+
+                    <?php if ($allowSaveChanges): ?>
+                    <p class="submit">
+                        <button type="submit" id="js_twint_button_save" class="button button-primary">
+                            <span class="button-text">
+                                <?php echo __('Save changes', 'woocommerce-gateway-twint') ?></span>
+                        </button>
+                    </p>
+                    <?php endif; ?>
+                </div>
+
+            </form>
+        </div>
+        <?php
     }
 
     /**

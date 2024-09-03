@@ -15,14 +15,14 @@ class TwintCancelOrderExpiredCronJob
         add_action(self::HOOK_NAME, [$this, 'run']);
     }
 
-    public static function INIT_CRONJOB(): void
+    public static function initCronjob(): void
     {
         if (!wp_next_scheduled(self::HOOK_NAME)) {
             wp_schedule_event(time(), 'twint1minute', self::HOOK_NAME);
         }
     }
 
-    public static function REMOVE_CRONJOB(): void
+    public static function removeCronjob(): void
     {
         wp_clear_scheduled_hook(self::HOOK_NAME);
     }

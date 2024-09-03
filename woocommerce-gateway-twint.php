@@ -3,7 +3,7 @@
  * Plugin Name: WooCommerce Twint Payment
  * Plugin URI: https://www.nfq-asia.com/
  * Description: Twint Woocommerce Payment Method is a secure and user-friendly plugin that allows Swiss online merchants to accept payments via Twint, a popular mobile payment solution in Switzerland.
- * Version: 0.0.1
+ * Version: 1.0.0
  * Author: NFQ GROUP
  * Author URI: https://www.nfq-asia.com/
  * Developer:NFQ GROUP
@@ -42,33 +42,16 @@ class WC_Twint_Payments
         add_filter('woocommerce_payment_gateways', array(__CLASS__, 'addGateway'));
 
         // Registers WooCommerce Blocks integration.
-        add_action('woocommerce_blocks_loaded', array(__CLASS__, 'woocommerce_gateway_twint_woocommerce_block_support'));
+        add_action('woocommerce_blocks_loaded', array(__CLASS__, 'wooGatewayTwintBlockSupport'));
 
         $instance = new \Twint\Woo\TwintIntegration();
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), array($instance, 'adminPluginSettingsLink'));
 
-        register_activation_hook(__FILE__, [\Twint\Woo\TwintIntegration::class, 'INSTALL']);
-        register_deactivation_hook(__FILE__, [\Twint\Woo\TwintIntegration::class, 'UNINSTALL']);
+        register_activation_hook(__FILE__, [\Twint\Woo\TwintIntegration::class, 'install']);
+        register_deactivation_hook(__FILE__, [\Twint\Woo\TwintIntegration::class, 'uninstall']);
 
         add_action('init', [__CLASS__, 'createCustomWooCommerceStatus']);
         add_filter('wc_order_statuses', [__CLASS__, 'addCustomWooCommerceStatusToList']);
-
-        add_action('woocommerce_order_refunded', [__CLASS__, 'custom_order_status_after_refund'], 20, 2);
-    }
-
-    public static function custom_order_status_after_refund($order_id, $refund_id): void
-    {
-        $order = wc_get_order($order_id);
-
-        // Check if the refund was processed by your custom gateway
-        if ($order->get_payment_method() === 'twint_regular') {
-            $remainingAmountRefunded = (float)$order->get_remaining_refund_amount();
-            if ($remainingAmountRefunded > 0) {
-                $order->update_status('wc-refunded-partial');
-            } else {
-                $order->update_status('wc-refunded');
-            }
-        }
     }
 
     public static function createCustomWooCommerceStatus(): void
@@ -106,12 +89,13 @@ class WC_Twint_Payments
         /**
          * Insert Twint Regular Checkout payment method into the woo payment methods
          */
-        $gateways[] = 'WC_Gateway_Twint_Regular_Checkout';
+        $gateways[] = WC_Gateway_Twint_Regular_Checkout::class;
 
         /**
          * Insert Twint Express Checkout payment method into the woo payment methods
          */
-        $gateways[] = 'WC_Gateway_Twint_Express_Checkout';
+//        $gateways[] = WC_Gateway_Twint_Express_Checkout::class;
+
         return $gateways;
     }
 
@@ -120,8 +104,8 @@ class WC_Twint_Payments
      *
      * @param string $plugin Plugin Name.
      * @return  bool
-     * @version 0.0.1
-     * @since  0.0.1
+     * @version 1.0.0
+     * @since  1.0.0
      */
     public static function isPluginActivated(string $plugin): bool
     {
@@ -177,7 +161,7 @@ class WC_Twint_Payments
      *
      */
     public
-    static function woocommerce_gateway_twint_woocommerce_block_support(): void
+    static function wooGatewayTwintBlockSupport(): void
     {
         if (class_exists('Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType')) {
             require_once 'includes/blocks/class-wc-twint-payment-blocks.php';

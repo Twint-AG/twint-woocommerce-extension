@@ -1,14 +1,9 @@
 <?php
 
-namespace TWINT\Woo\App\API;
+namespace Twint\Woo\App\API;
 
-use JetBrains\PhpStorm\NoReturn;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 use Twint\Sdk\Certificate\Pkcs12Certificate;
-use Twint\Woo\Includes\Admin\Settings\Tabs\Credential;
-use Twint\Woo\Services\PaymentService;
+use Twint\Woo\Services\PairingService;
 use Twint\Woo\Services\SettingService;
 use Twint\Woo\Services\TransactionLogService;
 use Twint\Woo\Utility\Twint\CertificateHandler;
@@ -17,54 +12,49 @@ use Twint\Woo\Utility\Twint\CryptoHandler;
 
 class TwintApiWordpressAjax
 {
-
-    private \Twig\Environment $template;
+    private PairingService $pairingService;
 
     public function __construct()
     {
-        global $TWIG_TEMPLATE_ENGINE;
-        $this->template = $TWIG_TEMPLATE_ENGINE;
         add_action('wp_ajax_get_log_transaction_details', [$this, 'getLogTransactionDetails']);
         add_action('wp_ajax_nopriv_get_log_transaction_details', [$this, 'pleaseLogin']);
         add_action('wp_ajax_store_twint_settings', [$this, 'storeTwintSettings']);
         add_action('wp_ajax_nopriv_store_twint_settings', [$this, 'pleaseLogin']);
 
-        add_action('wp_ajax_twint_check_order_status', [$this, 'checkOrderStatus']);
-        add_action('wp_ajax_nopriv_twint_check_order_status', [$this, 'pleaseLogin']);
+        add_action('wp_ajax_twint_check_pairing_status', [$this, 'monitorPairing']);
+        add_action('wp_ajax_nopriv_twint_check_pairing_status', [$this, 'pleaseLogin']);
+        
+        $this->pairingService = new PairingService();
     }
 
     /**
-     * @throws \Exception
+     * @return void
+     * @throws \Throwable
      */
-    public function checkOrderStatus(): void
+    public function monitorPairing(): void
     {
-        if (!wp_verify_nonce($_REQUEST['nonce'], 'twint_check_order_status')) {
+        if (!wp_verify_nonce($_REQUEST['nonce'], 'twint_check_pairing_status')) {
             exit('The WP Nonce is invalid, please check again!');
         }
 
-        $order = wc_get_order($_REQUEST['orderId']);
-        if (!$order) {
-            exit('The order does not exist.');
+        $pairingId = $_REQUEST['pairingId'];
+        $pairing = $this->pairingService->findById($pairingId);
+        if (!$pairing) {
+            exit('The pairing for the the order does not exist.');
         }
 
-        $paymentService = new PaymentService();
-        $paymentService->checkOrderStatus($order);
+        wc_get_logger()->info("[TWINT] - Checking pairing [{$pairingId}]...");
+        $this->pairingService->monitor($pairing);
 
         echo json_encode([
             'success' => true,
-            'isOrderPaid' => $order->get_status() === \WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterPaid(),
-            'status' => $order->get_status(),
+            'isOrderPaid' => $pairing->isFinished(),
+            'status' => $pairing->getStatus(),
         ]);
 
         die();
     }
 
-    /**
-     * @throws SyntaxError
-     * @throws RuntimeError
-     * @throws LoaderError
-     *
-     */
     public function getLogTransactionDetails(): void
     {
         if (!wp_verify_nonce($_REQUEST['nonce'], 'get_log_transaction_details')) {
@@ -72,12 +62,70 @@ class TwintApiWordpressAjax
         }
         $transactionLogService = new TransactionLogService();
         $data = $transactionLogService->getLogTransactionDetails($_REQUEST['record_id']);
-        $template = $this->template->load('Layouts/partials/modal/details-content.html.twig');
 
-        $result = $template->render($data);
+        $soapActions = json_decode($data['soap_action'], true);
+        $soapResponses = json_decode($data['soap_response'], true);
+        ob_start();
+        ?>
+        <table class="content-table">
+            <thead>
+            <tr>
+                <th><?php echo __('Order ID', 'woocommerce-gateway-twint'); ?></th>
+                <th><?php echo __('API Method', 'woocommerce-gateway-twint'); ?></th>
+                <th><?php echo __('Order Status', 'woocommerce-gateway-twint'); ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><?php echo $data['order_id']; ?></td>
+                <td><span class="badge bg-primary"><?php echo $data['api_method']; ?></span></td>
+                <td><?php echo $data['order_status']; ?></td>
+            </tr>
+            </tbody>
+        </table>
 
-        $result = json_encode($result);
-        echo $result;
+        <div class="components-surface components-card woocommerce-store-alerts is-alert-update" style="margin: 20px 0;">
+            <div class="">
+                <div class="components-flex components-card__header components-card-header">
+                    <h2 class="components-truncate components-text" style="padding-left: 0;">
+                        <?php echo __('Request', 'woocommerce-gateway-twint') . ' ' . __('Response', 'woocommerce-gateway-twint'); ?>
+                    </h2>
+
+                    <div id="request">
+                        <label for="request"><?php echo __('Request', 'woocommerce-gateway-twint'); ?></label>
+                        <textarea cols="30" rows="6" id="request" disabled><?php echo $data['request']; ?></textarea>
+                    </div>
+                    <div id="response">
+                        <label for="request"><?php echo __('Response', 'woocommerce-gateway-twint'); ?></label>
+                        <textarea cols="30" rows="6" id="request" disabled><?php echo $data['response']; ?></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php foreach (json_decode($data['soap_request']) as $index => $request): ?>
+            <div class="components-surface components-card woocommerce-store-alerts is-alert-update" style="margin: 20px 0;">
+                <div class="">
+                    <div class="components-flex components-card__header components-card-header">
+                        <h2 class="components-truncate components-text" style="padding-left: 0;">
+                            <?php echo $soapActions[$index]; ?>
+                        </h2>
+
+                        <div id="request">
+                            <label for="request"><?php echo __('Request', 'woocommerce-gateway-twint'); ?></label>
+                            <textarea cols="30" rows="6" id="request" disabled><?php echo xmlBeautiful($request); ?></textarea>
+                        </div>
+                        <div id="response">
+                            <label for="response"><?php echo __('Response', 'woocommerce-gateway-twint'); ?></label>
+                            <textarea cols="30" rows="6" id="request" disabled><?php echo xmlBeautiful($soapResponses[$index]); ?></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach;
+        $result = ob_get_contents();
+        ob_end_clean();
+
+        echo json_encode($result);
         die();
     }
 

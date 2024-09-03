@@ -4,7 +4,7 @@
  *
  * @author   NFQ Group <tuan.nguyenminh@nfq.com>
  * @package  WooCommerce Twint Payment Gateway
- * @since    0.0.1
+ * @since    1.0.0
  */
 
 // Exit if accessed directly.
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
  * Twint WC_Gateway_Twint_Express_Checkout.
  *
  * @class WC_Gateway_Twint_Express_Checkout
- * @version  0.0.1
+ * @version  1.0.0
  */
 class WC_Gateway_Twint_Express_Checkout extends WC_Payment_Gateway
 {
@@ -214,7 +214,7 @@ class WC_Gateway_Twint_Express_Checkout extends WC_Payment_Gateway
      * @param $orderId
      * @param $order
      * @return string
-     * @since 0.0.1
+     * @since 1.0.0
      *
      */
     public function setCompleteOrderStatus($status, $orderId, $order): string
@@ -230,7 +230,7 @@ class WC_Gateway_Twint_Express_Checkout extends WC_Payment_Gateway
     /**
      * Set up the status of the order after order got paid.
      * @return string
-     * @since 0.0.1
+     * @since 1.0.0
      *
      */
     public static function getOrderStatusAfterPaid(): string
