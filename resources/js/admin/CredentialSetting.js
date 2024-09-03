@@ -192,7 +192,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
             if (!this.checkStoreUuidField()) {
                 this.toggleLoadingButton();
 
-                console.log('hrererer');
                 return;
             }
 
