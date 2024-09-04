@@ -5,6 +5,8 @@ import {getSetting} from '@woocommerce/settings';
 import {useEffect, useState} from "@wordpress/element";
 import axios from "axios";
 
+import TwintLogo from './../../../assets/images/twint_logo.png';
+import IconScan from '../../../assets/images/icon-scan.svg';
 const settings = getSetting('twint_regular_data', {});
 
 const defaultLabel = __(
@@ -132,7 +134,7 @@ const ModalTwintPayment = (
                         <span>{__('Cancel checkout', 'woocommerce-gateway-twint')}</span>
                     </button>
                     <img className="twint-logo hidden md:block mr-4"
-                         src="http://localhost/wp-content/plugins/woocommerce-gateway-twint/assets/images/twint_logo.png"
+                         src={TwintLogo}
                          alt="TWINT Logo"/>
                 </header>
                 <div className="twint-modal-content twint-qr-container p-0 md:p-4" id="twint-qr-container">
@@ -215,7 +217,7 @@ const ModalTwintPayment = (
                                 <div className="flex flex-col items-center p-4">
                                     <div className="flex justify-center">
                                         <img className="w-55 h-55"
-                                             src="http://localhost/wp-content/plugins/woocommerce-gateway-twint/assets/images/icon-scan.svg"
+                                             src={IconScan}
                                              alt="scan"/>
                                     </div>
                                     <div className="text-center mt-4">
