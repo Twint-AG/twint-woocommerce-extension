@@ -605,7 +605,7 @@ body._has-modal {
 
 .modal-slide {
     left: 44px;
-    z-index: 900
+    z-index: 900 !important;
 }
 
 .modal-slide._show .modal-inner-wrap {

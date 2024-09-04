@@ -2,7 +2,6 @@
 
 namespace Twint\Woo\Templates;
 
-use chillerlan\QRCode\QRCode;
 use Twint\Woo\Services\PairingService;
 use Twint\Woo\Services\PaymentService;
 

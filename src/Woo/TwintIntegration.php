@@ -12,7 +12,7 @@ use Twint\Woo\Migrations\CreateTwintTransactionLogTable;
 use Twint\Woo\Services\PairingService;
 use Twint\Woo\Services\PaymentService;
 use Twint\Woo\Services\SettingService;
-use Twint\Woo\Templates\QrCodeViewAdapter;
+use Twint\Woo\Templates\BeforeThankYouBoxViewAdapter;
 use Twint\Woo\Templates\SettingsLayoutViewAdapter;
 use WC_Twint_Payments;
 
@@ -151,7 +151,7 @@ class TwintIntegration
             return;
         }
 
-        $template = new QrCodeViewAdapter($order);
+        $template = new BeforeThankYouBoxViewAdapter($order);
         $template->render();
     }
 
