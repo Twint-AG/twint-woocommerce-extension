@@ -22,8 +22,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             this.modal?.classList?.remove('_show');
 
             console.log('closed');
-
-            // TODO Cancel the order
         }
     }
 

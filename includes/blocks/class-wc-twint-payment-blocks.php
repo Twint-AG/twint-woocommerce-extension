@@ -93,6 +93,7 @@ final class WC_Gateway_Twint_Regular_Checkout_Blocks_Support extends AbstractPay
     public function get_payment_method_data(): array
     {
         return [
+            'id' => \WC_Gateway_Twint_Regular_Checkout::getId(),
             'title' => !empty($this->get_setting('title')) ? $this->get_setting('title') : 'TWINT',
             'description' => $this->get_setting('description'),
             'supports' => array_filter($this->gateway->supports, [$this->gateway, 'supports'])

@@ -133,6 +133,17 @@ class PairingService
         ]);
     }
 
+    public function updateCheckedAt(Pairing $pairing, ApiResponse $response): \mysqli_result|bool|int|null
+    {
+        global $wpdb;
+
+        return $wpdb->update($pairing->getTableName(), [
+            'checked_at' => date('Y-m-d H:i:s'),
+        ], [
+            'id' => $pairing->getId(),
+        ]);
+    }
+
     public function loadInProcessPairings(): array
     {
         global $wpdb;

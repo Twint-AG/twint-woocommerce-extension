@@ -220,6 +220,11 @@ class Pairing
         return $this->status === OrderStatus::FAILURE;
     }
 
+    public function isOrderProcessing(): bool
+    {
+        return (bool) $this->isOrdering;
+    }
+
     public function load(array $data): self
     {
         $this->setId($data['id']);

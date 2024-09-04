@@ -7,6 +7,8 @@
  */
 
 // Exit if accessed directly.
+use chillerlan\QRCode\QRCode;
+use Twint\Woo\Services\PairingService;
 use Twint\Woo\Services\SettingService;
 
 if (!defined('ABSPATH')) {
@@ -120,15 +122,28 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
             wc_reduce_stock_levels($order_id);
 
             // Remove cart
+            // TODO Think about this cart
 //            WC()->cart->empty_cart();
 
-            // Return thankyou redirect
-            return array(
+            $pairing = (new PairingService())->findByWooOrderId($order_id);
+            $qrcode = (new QRCode())->render($pairing->getToken());
+
+            return [
                 'result' => 'success',
-//                'redirect' => false,
-//                'message' => __('Payment successful.', 'woocommerce-gateway-twint'),
-                'redirect' => $this->get_return_url($order)
-            );
+                'redirect' => false,
+                'thankyou_url' => $this->get_return_url($order),
+                'pairingId' => $pairing->getId(),
+                'pairingToken' => $pairing->getToken(),
+                'currency' => $order->get_currency(),
+                'nonce' => wp_create_nonce('twint_check_pairing_status'),
+                'qrcode' => $qrcode,
+                'amount' => number_format(
+                    $order->get_total(),
+                    get_option('woocommerce_price_num_decimals'),
+                    get_option('woocommerce_price_decimal_sep'),
+                    get_option('woocommerce_price_thousand_sep')
+                ),
+            ];
         } catch (\Exception $exception) {
             wc_get_logger()->error("Error when processing the payment for order " . PHP_EOL . $exception->getMessage(), [
                 'orderID' => $order->get_id(),
