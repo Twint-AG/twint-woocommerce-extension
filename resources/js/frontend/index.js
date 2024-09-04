@@ -45,6 +45,7 @@ const ModalTwintPayment = (
     const [pairingToken, setPairingToken] = React.useState(null);
     const [qrCode, setQrCode] = React.useState('');
     const [interval, setInterval] = React.useState(3); // seconds
+    const [shopName, setShopName] = React.useState('');
     const [adminUrl, setAdminUrl] = React.useState(woocommerce_params.ajax_url);
     const [nonce, setNonce] = React.useState(null);
     const [isOpenModal, setIsOpenModal] = React.useState(false);
@@ -95,7 +96,8 @@ const ModalTwintPayment = (
                 setPairingToken(paymentDetails['pairingToken']);
                 setQrCode(paymentDetails['qrcode']);
                 setNonce(paymentDetails['nonce']);
-                setThankyouUrl(paymentDetails['thankyou_url']);
+                setThankyouUrl(paymentDetails['thankyouUrl']);
+                setShopName(paymentDetails['shopName']);
 
                 const priceFormat = `${paymentDetails['currency']} ${paymentDetails['amount']}`;
                 setPrice(priceFormat);
@@ -183,7 +185,7 @@ const ModalTwintPayment = (
                                         </span>
                                 </div>
                                 <div className="flex flex-1 bg-white p-4 md:rounded-lg items-center justify-center">
-                                    TWINT
+                                    {shopName}
                                 </div>
 
                                 <div className="app-selector md:hidden">
