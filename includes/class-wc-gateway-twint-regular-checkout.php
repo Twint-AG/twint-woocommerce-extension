@@ -131,12 +131,13 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
             return [
                 'result' => 'success',
                 'redirect' => false,
-                'thankyou_url' => $this->get_return_url($order),
+                'thankyouUrl' => $this->get_return_url($order),
                 'pairingId' => $pairing->getId(),
                 'pairingToken' => $pairing->getToken(),
                 'currency' => $order->get_currency(),
                 'nonce' => wp_create_nonce('twint_check_pairing_status'),
                 'qrcode' => $qrcode,
+                'shopName' => get_bloginfo('name'),
                 'amount' => number_format(
                     $order->get_total(),
                     get_option('woocommerce_price_num_decimals'),
