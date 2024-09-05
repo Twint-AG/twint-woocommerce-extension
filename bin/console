@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+<?php
+require __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../../../wp-load.php';
+
+use Symfony\Component\Console\Application;
+use Twint\Command\TwintPollCommand;
+
+$application = new Application();
+try {
+    $application->add(new TwintPollCommand());
+    $application->run();
+} catch (Exception $e) {
+    throw $e;
+}

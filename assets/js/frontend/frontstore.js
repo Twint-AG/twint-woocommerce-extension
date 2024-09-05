@@ -1,1 +1,769 @@
-(()=>{var t={182:t=>{t.exports=function t(e,n,i){function o(s,c){if(!n[s]){if(!e[s]){if(r)return r(s,!0);var a=new Error("Cannot find module '"+s+"'");throw a.code="MODULE_NOT_FOUND",a}var l=n[s]={exports:{}};e[s][0].call(l.exports,(function(t){return o(e[s][1][t]||t)}),l,l.exports,t,e,n,i)}return n[s].exports}for(var r=void 0,s=0;s<i.length;s++)o(i[s]);return o}({1:[function(t,e,n){var i=t("closest"),o=t("component-event"),r=["focus","blur"];n.bind=function(t,e,n,s,c){return-1!==r.indexOf(n)&&(c=!0),o.bind(t,n,(function(n){var o=n.target||n.srcElement;n.delegateTarget=i(o,e,!0,t),n.delegateTarget&&s.call(t,n)}),c)},n.unbind=function(t,e,n,i){-1!==r.indexOf(e)&&(i=!0),o.unbind(t,e,n,i)}},{closest:2,"component-event":4}],2:[function(t,e,n){var i=t("matches-selector");e.exports=function(t,e,n){for(var o=n?t:t.parentNode;o&&o!==document;){if(i(o,e))return o;o=o.parentNode}}},{"matches-selector":3}],3:[function(t,e,n){var i=Element.prototype,o=i.matchesSelector||i.webkitMatchesSelector||i.mozMatchesSelector||i.msMatchesSelector||i.oMatchesSelector;e.exports=function(t,e){if(o)return o.call(t,e);for(var n=t.parentNode.querySelectorAll(e),i=0;i<n.length;++i)if(n[i]==t)return!0;return!1}},{}],4:[function(t,e,n){var i=window.addEventListener?"addEventListener":"attachEvent",o=window.removeEventListener?"removeEventListener":"detachEvent",r="addEventListener"!==i?"on":"";n.bind=function(t,e,n,o){return t[i](r+e,n,o||!1),n},n.unbind=function(t,e,n,i){return t[o](r+e,n,i||!1),n}},{}],5:[function(t,e,n){function i(){}i.prototype={on:function(t,e,n){var i=this.e||(this.e={});return(i[t]||(i[t]=[])).push({fn:e,ctx:n}),this},once:function(t,e,n){var i=this,o=function(){i.off(t,o),e.apply(n,arguments)};return this.on(t,o,n)},emit:function(t){for(var e=[].slice.call(arguments,1),n=((this.e||(this.e={}))[t]||[]).slice(),i=0,o=n.length;i<o;i++)n[i].fn.apply(n[i].ctx,e);return this},off:function(t,e){var n=this.e||(this.e={}),i=n[t],o=[];if(i&&e)for(var r=0,s=i.length;r<s;r++)i[r].fn!==e&&o.push(i[r]);return o.length?n[t]=o:delete n[t],this}},e.exports=i},{}],6:[function(t,e,n){"use strict";n.__esModule=!0;var i=function(){function t(t,e){for(var n=0;n<e.length;n++){var i=e[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(t,i.key,i)}}return function(e,n,i){return n&&t(e.prototype,n),i&&t(e,i),e}}();var o=function(){function t(e){(function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")})(this,t),this.resolveOptions(e),this.initSelection()}return t.prototype.resolveOptions=function(){var t=arguments.length<=0||void 0===arguments[0]?{}:arguments[0];this.action=t.action,this.emitter=t.emitter,this.target=t.target,this.text=t.text,this.trigger=t.trigger,this.selectedText=""},t.prototype.initSelection=function(){if(this.text&&this.target)throw new Error('Multiple attributes declared, use either "target" or "text"');if(this.text)this.selectFake();else{if(!this.target)throw new Error('Missing required attributes, use either "target" or "text"');this.selectTarget()}},t.prototype.selectFake=function(){var t=this;this.removeFake(),this.fakeHandler=document.body.addEventListener("click",(function(){return t.removeFake()})),this.fakeElem=document.createElement("textarea"),this.fakeElem.style.position="absolute",this.fakeElem.style.left="-9999px",this.fakeElem.style.top=document.body.scrollTop+"px",this.fakeElem.setAttribute("readonly",""),this.fakeElem.value=this.text,this.selectedText=this.text,document.body.appendChild(this.fakeElem),this.fakeElem.select(),this.copyText()},t.prototype.removeFake=function(){this.fakeHandler&&(document.body.removeEventListener("click"),this.fakeHandler=null),this.fakeElem&&(document.body.removeChild(this.fakeElem),this.fakeElem=null)},t.prototype.selectTarget=function(){if("INPUT"===this.target.nodeName||"TEXTAREA"===this.target.nodeName)this.target.select(),this.selectedText=this.target.value;else{var t=document.createRange(),e=window.getSelection();t.selectNodeContents(this.target),e.addRange(t),this.selectedText=e.toString()}this.copyText()},t.prototype.copyText=function(){var t=void 0;try{t=document.execCommand(this.action)}catch(e){t=!1}this.handleResult(t)},t.prototype.handleResult=function(t){t?this.emitter.emit("success",{action:this.action,text:this.selectedText,trigger:this.trigger,clearSelection:this.clearSelection.bind(this)}):this.emitter.emit("error",{action:this.action,trigger:this.trigger,clearSelection:this.clearSelection.bind(this)})},t.prototype.clearSelection=function(){this.target&&this.target.blur(),window.getSelection().removeAllRanges()},t.prototype.destroy=function(){this.removeFake()},i(t,[{key:"action",set:function(){var t=arguments.length<=0||void 0===arguments[0]?"copy":arguments[0];if(this._action=t,"copy"!==this._action&&"cut"!==this._action)throw new Error('Invalid "action" value, use either "copy" or "cut"')},get:function(){return this._action}},{key:"target",set:function(t){if(void 0!==t){if(!t||"object"!=typeof t||1!==t.nodeType)throw new Error('Invalid "target" value, use a valid Element');this._target=t}},get:function(){return this._target}}]),t}();n.default=o,e.exports=n.default},{}],7:[function(t,e,n){"use strict";function i(t){return t&&t.__esModule?t:{default:t}}n.__esModule=!0;var o=i(t("./clipboard-action")),r=i(t("delegate-events")),s=function(t){function e(n,i){(function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")})(this,e),t.call(this),this.resolveOptions(i),this.delegateClick(n)}return function(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function, not "+typeof e);t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),e&&(Object.setPrototypeOf?Object.setPrototypeOf(t,e):t.__proto__=e)}(e,t),e.prototype.resolveOptions=function(){var t=arguments.length<=0||void 0===arguments[0]?{}:arguments[0];this.action="function"==typeof t.action?t.action:this.defaultAction,this.target="function"==typeof t.target?t.target:this.defaultTarget,this.text="function"==typeof t.text?t.text:this.defaultText},e.prototype.delegateClick=function(t){var e=this;this.binding=r.default.bind(document.body,t,"click",(function(t){return e.onClick(t)}))},e.prototype.undelegateClick=function(){r.default.unbind(document.body,"click",this.binding)},e.prototype.onClick=function(t){this.clipboardAction&&(this.clipboardAction=null),this.clipboardAction=new o.default({action:this.action(t.delegateTarget),target:this.target(t.delegateTarget),text:this.text(t.delegateTarget),trigger:t.delegateTarget,emitter:this})},e.prototype.defaultAction=function(t){return c("action",t)},e.prototype.defaultTarget=function(t){var e=c("target",t);if(e)return document.querySelector(e)},e.prototype.defaultText=function(t){return c("text",t)},e.prototype.destroy=function(){this.undelegateClick(),this.clipboardAction&&(this.clipboardAction.destroy(),this.clipboardAction=null)},e}(i(t("tiny-emitter")).default);function c(t,e){var n="data-clipboard-"+t;if(e.hasAttribute(n))return e.getAttribute(n)}n.default=s,e.exports=n.default},{"./clipboard-action":6,"delegate-events":1,"tiny-emitter":5}]},{},[7])(7)}},e={};function n(i){var o=e[i];if(void 0!==o)return o.exports;var r=e[i]={exports:{}};return t[i](r,r.exports,n),r.exports}n.n=t=>{var e=t&&t.__esModule?()=>t.default:()=>t;return n.d(e,{a:e}),e},n.d=(t,e)=>{for(var i in e)n.o(e,i)&&!n.o(t,i)&&Object.defineProperty(t,i,{enumerable:!0,get:e[i]})},n.o=(t,e)=>Object.prototype.hasOwnProperty.call(t,e),(()=>{"use strict";var t=n(182),e=n.n(t);document.addEventListener("DOMContentLoaded",(function(t){(new class{constructor(){this.options={selector:"#btn-copy-token",target:"#qr-token"}}init(){this.input=document.querySelector(this.options.target),this.button=document.querySelector(this.options.selector),this.button&&(this.button.addEventListener("click",this.onClick.bind(this)),this.clipboard=new(e())(this.options.selector),this.clipboard.on("success",this.onCopied.bind(this)),this.clipboard.on("error",this.onError.bind(this)))}btnOriginalText(){return this.button.textContent}onClick(t){t.preventDefault(),this.input.disabled=!1}onCopied(t){t.clearSelection();const e=this.btnOriginalText();this.button.innerHTML="Copied!",this.button?.classList?.add("copied"),this.input.disabled=!0,this.button.setAttribute("disabled",""),setTimeout((()=>{this.button.innerHTML=e,this.button?.classList?.remove("copied"),this.button.innerHTML=e,this.input.disabled=!1,this.button.removeAttribute("disabled")}),2e3)}onError(t){console.error("Action:",t.action),console.error("Trigger:",t.trigger)}}).init()}))})()})();
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./resources/js/frontstore/librabries/clipboard.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/frontstore/librabries/clipboard.js ***!
+  \*********************************************************/
+/***/ ((module) => {
+
+(function (f) {
+  if (true) {
+    module.exports = f();
+  } else { var g; }
+})(function () {
+  var define, module, exports;
+  return function e(t, n, r) {
+    function s(o, u) {
+      if (!n[o]) {
+        if (!t[o]) {
+          var a = undefined;
+          if (!u && a) return require(o, !0);
+          if (i) return i(o, !0);
+          var f = new Error("Cannot find module '" + o + "'");
+          throw f.code = "MODULE_NOT_FOUND", f;
+        }
+        var l = n[o] = {
+          exports: {}
+        };
+        t[o][0].call(l.exports, function (e) {
+          var n = t[o][1][e];
+          return s(n ? n : e);
+        }, l, l.exports, e, t, n, r);
+      }
+      return n[o].exports;
+    }
+    var i = undefined;
+    for (var o = 0; o < r.length; o++) s(r[o]);
+    return s;
+  }({
+    1: [function (require, module, exports) {
+      /**
+       * Module dependencies.
+       */
+
+      var closest = require('closest'),
+        event = require('component-event');
+
+      /**
+       * Delegate event `type` to `selector`
+       * and invoke `fn(e)`. A callback function
+       * is returned which may be passed to `.unbind()`.
+       *
+       * @param {Element} el
+       * @param {String} selector
+       * @param {String} type
+       * @param {Function} fn
+       * @param {Boolean} capture
+       * @return {Function}
+       * @api public
+       */
+
+      // Some events don't bubble, so we want to bind to the capture phase instead
+      // when delegating.
+      var forceCaptureEvents = ['focus', 'blur'];
+      exports.bind = function (el, selector, type, fn, capture) {
+        if (forceCaptureEvents.indexOf(type) !== -1) capture = true;
+        return event.bind(el, type, function (e) {
+          var target = e.target || e.srcElement;
+          e.delegateTarget = closest(target, selector, true, el);
+          if (e.delegateTarget) fn.call(el, e);
+        }, capture);
+      };
+
+      /**
+       * Unbind event `type`'s callback `fn`.
+       *
+       * @param {Element} el
+       * @param {String} type
+       * @param {Function} fn
+       * @param {Boolean} capture
+       * @api public
+       */
+
+      exports.unbind = function (el, type, fn, capture) {
+        if (forceCaptureEvents.indexOf(type) !== -1) capture = true;
+        event.unbind(el, type, fn, capture);
+      };
+    }, {
+      "closest": 2,
+      "component-event": 4
+    }],
+    2: [function (require, module, exports) {
+      var matches = require('matches-selector');
+      module.exports = function (element, selector, checkYoSelf) {
+        var parent = checkYoSelf ? element : element.parentNode;
+        while (parent && parent !== document) {
+          if (matches(parent, selector)) return parent;
+          parent = parent.parentNode;
+        }
+      };
+    }, {
+      "matches-selector": 3
+    }],
+    3: [function (require, module, exports) {
+      /**
+       * Element prototype.
+       */
+
+      var proto = Element.prototype;
+
+      /**
+       * Vendor function.
+       */
+
+      var vendor = proto.matchesSelector || proto.webkitMatchesSelector || proto.mozMatchesSelector || proto.msMatchesSelector || proto.oMatchesSelector;
+
+      /**
+       * Expose `match()`.
+       */
+
+      module.exports = match;
+
+      /**
+       * Match `el` to `selector`.
+       *
+       * @param {Element} el
+       * @param {String} selector
+       * @return {Boolean}
+       * @api public
+       */
+
+      function match(el, selector) {
+        if (vendor) return vendor.call(el, selector);
+        var nodes = el.parentNode.querySelectorAll(selector);
+        for (var i = 0; i < nodes.length; ++i) {
+          if (nodes[i] == el) return true;
+        }
+        return false;
+      }
+    }, {}],
+    4: [function (require, module, exports) {
+      var bind = window.addEventListener ? 'addEventListener' : 'attachEvent',
+        unbind = window.removeEventListener ? 'removeEventListener' : 'detachEvent',
+        prefix = bind !== 'addEventListener' ? 'on' : '';
+
+      /**
+       * Bind `el` event `type` to `fn`.
+       *
+       * @param {Element} el
+       * @param {String} type
+       * @param {Function} fn
+       * @param {Boolean} capture
+       * @return {Function}
+       * @api public
+       */
+
+      exports.bind = function (el, type, fn, capture) {
+        el[bind](prefix + type, fn, capture || false);
+        return fn;
+      };
+
+      /**
+       * Unbind `el` event `type`'s callback `fn`.
+       *
+       * @param {Element} el
+       * @param {String} type
+       * @param {Function} fn
+       * @param {Boolean} capture
+       * @return {Function}
+       * @api public
+       */
+
+      exports.unbind = function (el, type, fn, capture) {
+        el[unbind](prefix + type, fn, capture || false);
+        return fn;
+      };
+    }, {}],
+    5: [function (require, module, exports) {
+      function E() {
+        // Keep this empty so it's easier to inherit from
+        // (via https://github.com/lipsmack from https://github.com/scottcorgan/tiny-emitter/issues/3)
+      }
+      E.prototype = {
+        on: function (name, callback, ctx) {
+          var e = this.e || (this.e = {});
+          (e[name] || (e[name] = [])).push({
+            fn: callback,
+            ctx: ctx
+          });
+          return this;
+        },
+        once: function (name, callback, ctx) {
+          var self = this;
+          var fn = function () {
+            self.off(name, fn);
+            callback.apply(ctx, arguments);
+          };
+          return this.on(name, fn, ctx);
+        },
+        emit: function (name) {
+          var data = [].slice.call(arguments, 1);
+          var evtArr = ((this.e || (this.e = {}))[name] || []).slice();
+          var i = 0;
+          var len = evtArr.length;
+          for (i; i < len; i++) {
+            evtArr[i].fn.apply(evtArr[i].ctx, data);
+          }
+          return this;
+        },
+        off: function (name, callback) {
+          var e = this.e || (this.e = {});
+          var evts = e[name];
+          var liveEvents = [];
+          if (evts && callback) {
+            for (var i = 0, len = evts.length; i < len; i++) {
+              if (evts[i].fn !== callback) liveEvents.push(evts[i]);
+            }
+          }
+
+          // Remove event from queue to prevent memory leak
+          // Suggested by https://github.com/lazd
+          // Ref: https://github.com/scottcorgan/tiny-emitter/commit/c6ebfaa9bc973b33d110a84a307742b7cf94c953#commitcomment-5024910
+
+          liveEvents.length ? e[name] = liveEvents : delete e[name];
+          return this;
+        }
+      };
+      module.exports = E;
+    }, {}],
+    6: [function (require, module, exports) {
+      /**
+       * Inner class which performs selection from either `text` or `target`
+       * properties and then executes copy or cut operations.
+       */
+      'use strict';
+
+      exports.__esModule = true;
+      var _createClass = function () {
+        function defineProperties(target, props) {
+          for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ('value' in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, descriptor.key, descriptor);
+          }
+        }
+        return function (Constructor, protoProps, staticProps) {
+          if (protoProps) defineProperties(Constructor.prototype, protoProps);
+          if (staticProps) defineProperties(Constructor, staticProps);
+          return Constructor;
+        };
+      }();
+      function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+          throw new TypeError('Cannot call a class as a function');
+        }
+      }
+      var ClipboardAction = function () {
+        /**
+         * @param {Object} options
+         */
+
+        function ClipboardAction(options) {
+          _classCallCheck(this, ClipboardAction);
+          this.resolveOptions(options);
+          this.initSelection();
+        }
+
+        /**
+         * Defines base properties passed from constructor.
+         * @param {Object} options
+         */
+
+        ClipboardAction.prototype.resolveOptions = function resolveOptions() {
+          var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+          this.action = options.action;
+          this.emitter = options.emitter;
+          this.target = options.target;
+          this.text = options.text;
+          this.trigger = options.trigger;
+          this.selectedText = '';
+        };
+
+        /**
+         * Decides which selection strategy is going to be applied based
+         * on the existence of `text` and `target` properties.
+         */
+
+        ClipboardAction.prototype.initSelection = function initSelection() {
+          if (this.text && this.target) {
+            throw new Error('Multiple attributes declared, use either "target" or "text"');
+          } else if (this.text) {
+            this.selectFake();
+          } else if (this.target) {
+            this.selectTarget();
+          } else {
+            throw new Error('Missing required attributes, use either "target" or "text"');
+          }
+        };
+
+        /**
+         * Creates a fake textarea element, sets its value from `text` property,
+         * and makes a selection on it.
+         */
+
+        ClipboardAction.prototype.selectFake = function selectFake() {
+          var _this = this;
+          this.removeFake();
+          this.fakeHandler = document.body.addEventListener('click', function () {
+            return _this.removeFake();
+          });
+          this.fakeElem = document.createElement('textarea');
+          this.fakeElem.style.position = 'absolute';
+          this.fakeElem.style.left = '-9999px';
+          this.fakeElem.style.top = document.body.scrollTop + 'px';
+          this.fakeElem.setAttribute('readonly', '');
+          this.fakeElem.value = this.text;
+          this.selectedText = this.text;
+          document.body.appendChild(this.fakeElem);
+          this.fakeElem.select();
+          this.copyText();
+        };
+
+        /**
+         * Only removes the fake element after another click event, that way
+         * an user can hit `Ctrl+C` to copy because selection still exists.
+         */
+
+        ClipboardAction.prototype.removeFake = function removeFake() {
+          if (this.fakeHandler) {
+            document.body.removeEventListener('click');
+            this.fakeHandler = null;
+          }
+          if (this.fakeElem) {
+            document.body.removeChild(this.fakeElem);
+            this.fakeElem = null;
+          }
+        };
+
+        /**
+         * Selects the content from element passed on `target` property.
+         */
+
+        ClipboardAction.prototype.selectTarget = function selectTarget() {
+          if (this.target.nodeName === 'INPUT' || this.target.nodeName === 'TEXTAREA') {
+            this.target.select();
+            this.selectedText = this.target.value;
+          } else {
+            var range = document.createRange();
+            var selection = window.getSelection();
+            range.selectNodeContents(this.target);
+            selection.addRange(range);
+            this.selectedText = selection.toString();
+          }
+          this.copyText();
+        };
+
+        /**
+         * Executes the copy operation based on the current selection.
+         */
+
+        ClipboardAction.prototype.copyText = function copyText() {
+          var succeeded = undefined;
+          try {
+            succeeded = document.execCommand(this.action);
+          } catch (err) {
+            succeeded = false;
+          }
+          this.handleResult(succeeded);
+        };
+
+        /**
+         * Fires an event based on the copy operation result.
+         * @param {Boolean} succeeded
+         */
+
+        ClipboardAction.prototype.handleResult = function handleResult(succeeded) {
+          if (succeeded) {
+            this.emitter.emit('success', {
+              action: this.action,
+              text: this.selectedText,
+              trigger: this.trigger,
+              clearSelection: this.clearSelection.bind(this)
+            });
+          } else {
+            this.emitter.emit('error', {
+              action: this.action,
+              trigger: this.trigger,
+              clearSelection: this.clearSelection.bind(this)
+            });
+          }
+        };
+
+        /**
+         * Removes current selection and focus from `target` element.
+         */
+
+        ClipboardAction.prototype.clearSelection = function clearSelection() {
+          if (this.target) {
+            this.target.blur();
+          }
+          window.getSelection().removeAllRanges();
+        };
+
+        /**
+         * Sets the `action` to be performed which can be either 'copy' or 'cut'.
+         * @param {String} action
+         */
+
+        /**
+         * Destroy lifecycle.
+         */
+
+        ClipboardAction.prototype.destroy = function destroy() {
+          this.removeFake();
+        };
+        _createClass(ClipboardAction, [{
+          key: 'action',
+          set: function set() {
+            var action = arguments.length <= 0 || arguments[0] === undefined ? 'copy' : arguments[0];
+            this._action = action;
+            if (this._action !== 'copy' && this._action !== 'cut') {
+              throw new Error('Invalid "action" value, use either "copy" or "cut"');
+            }
+          },
+          /**
+           * Gets the `action` property.
+           * @return {String}
+           */
+          get: function get() {
+            return this._action;
+          }
+
+          /**
+           * Sets the `target` property using an element
+           * that will be have its content copied.
+           * @param {Element} target
+           */
+        }, {
+          key: 'target',
+          set: function set(target) {
+            if (target !== undefined) {
+              if (target && typeof target === 'object' && target.nodeType === 1) {
+                this._target = target;
+              } else {
+                throw new Error('Invalid "target" value, use a valid Element');
+              }
+            }
+          },
+          /**
+           * Gets the `target` property.
+           * @return {String|HTMLElement}
+           */
+          get: function get() {
+            return this._target;
+          }
+        }]);
+        return ClipboardAction;
+      }();
+      exports['default'] = ClipboardAction;
+      module.exports = exports['default'];
+    }, {}],
+    7: [function (require, module, exports) {
+      'use strict';
+
+      exports.__esModule = true;
+      function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+          'default': obj
+        };
+      }
+      function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+          throw new TypeError('Cannot call a class as a function');
+        }
+      }
+      function _inherits(subClass, superClass) {
+        if (typeof superClass !== 'function' && superClass !== null) {
+          throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);
+        }
+        subClass.prototype = Object.create(superClass && superClass.prototype, {
+          constructor: {
+            value: subClass,
+            enumerable: false,
+            writable: true,
+            configurable: true
+          }
+        });
+        if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+      }
+      var _clipboardAction = require('./clipboard-action');
+      var _clipboardAction2 = _interopRequireDefault(_clipboardAction);
+      var _delegateEvents = require('delegate-events');
+      var _delegateEvents2 = _interopRequireDefault(_delegateEvents);
+      var _tinyEmitter = require('tiny-emitter');
+      var _tinyEmitter2 = _interopRequireDefault(_tinyEmitter);
+
+      /**
+       * Base class which takes a selector, delegates a click event to it,
+       * and instantiates a new `ClipboardAction` on each click.
+       */
+
+      var Clipboard = function (_Emitter) {
+        _inherits(Clipboard, _Emitter);
+
+        /**
+         * @param {String} selector
+         * @param {Object} options
+         */
+
+        function Clipboard(selector, options) {
+          _classCallCheck(this, Clipboard);
+          _Emitter.call(this);
+          this.resolveOptions(options);
+          this.delegateClick(selector);
+        }
+
+        /**
+         * Helper function to retrieve attribute value.
+         * @param {String} suffix
+         * @param {Element} element
+         */
+
+        /**
+         * Defines if attributes would be resolved using internal setter functions
+         * or custom functions that were passed in the constructor.
+         * @param {Object} options
+         */
+
+        Clipboard.prototype.resolveOptions = function resolveOptions() {
+          var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+          this.action = typeof options.action === 'function' ? options.action : this.defaultAction;
+          this.target = typeof options.target === 'function' ? options.target : this.defaultTarget;
+          this.text = typeof options.text === 'function' ? options.text : this.defaultText;
+        };
+
+        /**
+         * Delegates a click event on the passed selector.
+         * @param {String} selector
+         */
+
+        Clipboard.prototype.delegateClick = function delegateClick(selector) {
+          var _this = this;
+          this.binding = _delegateEvents2['default'].bind(document.body, selector, 'click', function (e) {
+            return _this.onClick(e);
+          });
+        };
+
+        /**
+         * Undelegates a click event on body.
+         * @param {String} selector
+         */
+
+        Clipboard.prototype.undelegateClick = function undelegateClick() {
+          _delegateEvents2['default'].unbind(document.body, 'click', this.binding);
+        };
+
+        /**
+         * Defines a new `ClipboardAction` on each click event.
+         * @param {Event} e
+         */
+
+        Clipboard.prototype.onClick = function onClick(e) {
+          if (this.clipboardAction) {
+            this.clipboardAction = null;
+          }
+          this.clipboardAction = new _clipboardAction2['default']({
+            action: this.action(e.delegateTarget),
+            target: this.target(e.delegateTarget),
+            text: this.text(e.delegateTarget),
+            trigger: e.delegateTarget,
+            emitter: this
+          });
+        };
+
+        /**
+         * Default `action` lookup function.
+         * @param {Element} trigger
+         */
+
+        Clipboard.prototype.defaultAction = function defaultAction(trigger) {
+          return getAttributeValue('action', trigger);
+        };
+
+        /**
+         * Default `target` lookup function.
+         * @param {Element} trigger
+         */
+
+        Clipboard.prototype.defaultTarget = function defaultTarget(trigger) {
+          var selector = getAttributeValue('target', trigger);
+          if (selector) {
+            return document.querySelector(selector);
+          }
+        };
+
+        /**
+         * Default `text` lookup function.
+         * @param {Element} trigger
+         */
+
+        Clipboard.prototype.defaultText = function defaultText(trigger) {
+          return getAttributeValue('text', trigger);
+        };
+
+        /**
+         * Destroy lifecycle.
+         */
+
+        Clipboard.prototype.destroy = function destroy() {
+          this.undelegateClick();
+          if (this.clipboardAction) {
+            this.clipboardAction.destroy();
+            this.clipboardAction = null;
+          }
+        };
+        return Clipboard;
+      }(_tinyEmitter2['default']);
+      function getAttributeValue(suffix, element) {
+        var attribute = 'data-clipboard-' + suffix;
+        if (!element.hasAttribute(attribute)) {
+          return;
+        }
+        return element.getAttribute(attribute);
+      }
+      exports['default'] = Clipboard;
+      module.exports = exports['default'];
+    }, {
+      "./clipboard-action": 6,
+      "delegate-events": 1,
+      "tiny-emitter": 5
+    }]
+  }, {}, [7])(7);
+});
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+(() => {
+"use strict";
+/*!**********************************************!*\
+  !*** ./resources/js/frontstore/CopyToken.js ***!
+  \**********************************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _librabries_clipboard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./librabries/clipboard */ "./resources/js/frontstore/librabries/clipboard.js");
+/* harmony import */ var _librabries_clipboard__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_librabries_clipboard__WEBPACK_IMPORTED_MODULE_0__);
+
+document.addEventListener("DOMContentLoaded", function (event) {
+  class CopyToken {
+    constructor() {
+      this.options = {
+        selector: '#btn-copy-token',
+        target: '#qr-token'
+      };
+    }
+    init() {
+      this.input = document.querySelector(this.options.target);
+      this.button = document.querySelector(this.options.selector);
+      if (this.button) {
+        this.button.addEventListener('click', this.onClick.bind(this));
+        this.clipboard = new (_librabries_clipboard__WEBPACK_IMPORTED_MODULE_0___default())(this.options.selector);
+        this.clipboard.on('success', this.onCopied.bind(this));
+        this.clipboard.on('error', this.onError.bind(this));
+      }
+    }
+    btnOriginalText() {
+      return this.button.textContent;
+    }
+    onClick(event) {
+      event.preventDefault();
+      this.input.disabled = false;
+    }
+    onCopied(e) {
+      e.clearSelection();
+      const originalText = this.btnOriginalText();
+      this.button.innerHTML = 'Copied!';
+      this.button?.classList?.add('copied');
+      this.input.disabled = true;
+      this.button.setAttribute('disabled', '');
+      setTimeout(() => {
+        this.button.innerHTML = originalText;
+        this.button?.classList?.remove('copied');
+        this.button.innerHTML = originalText;
+        this.input.disabled = false;
+        this.button.removeAttribute('disabled');
+      }, 2000);
+    }
+    onError(e) {
+      console.error('Action:', e.action);
+      console.error('Trigger:', e.trigger);
+    }
+  }
+  new CopyToken().init();
+});
+})();
+
+/******/ })()
+;
+//# sourceMappingURL=frontstore.js.map

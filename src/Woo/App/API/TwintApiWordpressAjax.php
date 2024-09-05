@@ -2,7 +2,10 @@
 
 namespace Twint\Woo\App\API;
 
+use Symfony\Component\Process\Process;
+use Twint\Command\TwintPollCommand;
 use Twint\Sdk\Certificate\Pkcs12Certificate;
+use Twint\Woo\App\Model\Pairing;
 use Twint\Woo\Services\PairingService;
 use Twint\Woo\Services\SettingService;
 use Twint\Woo\Services\TransactionLogService;
@@ -14,6 +17,8 @@ class TwintApiWordpressAjax
 {
     private PairingService $pairingService;
 
+    private const TIME_WINDOW_SECONDS = 10; // 10 seconds
+
     public function __construct()
     {
         add_action('wp_ajax_get_log_transaction_details', [$this, 'getLogTransactionDetails']);
@@ -23,7 +28,7 @@ class TwintApiWordpressAjax
 
         add_action('wp_ajax_twint_check_pairing_status', [$this, 'monitorPairing']);
         add_action('wp_ajax_nopriv_twint_check_pairing_status', [$this, 'pleaseLogin']);
-        
+
         $this->pairingService = new PairingService();
     }
 
@@ -43,8 +48,21 @@ class TwintApiWordpressAjax
             exit('The pairing for the the order does not exist.');
         }
 
-        wc_get_logger()->info("[TWINT] - Checking pairing [{$pairingId}]...");
-        $this->pairingService->monitor($pairing);
+        if (!$pairing->isFinished() && !$this->isRunning($pairing)) {
+            wc_get_logger()->info("[TWINT] - Checking pairing [{$pairingId}]...");
+
+            $process = new Process([
+                'php',
+                \WC_Twint_Payments::plugin_abspath() . 'bin/console',
+                TwintPollCommand::COMMAND,
+                $pairingId,
+            ]);
+            $process->setOptions([
+                'create_new_console' => true,
+            ]);
+            $process->disableOutput();
+            $process->start();
+        }
 
         echo json_encode([
             'success' => true,
@@ -53,6 +71,11 @@ class TwintApiWordpressAjax
         ]);
 
         die();
+    }
+
+    protected function isRunning(Pairing $pairing): bool
+    {
+        return $pairing->getCheckedAt() && $pairing->getCheckedAgo() < self::TIME_WINDOW_SECONDS;
     }
 
     public function getLogTransactionDetails(): void
@@ -84,7 +107,8 @@ class TwintApiWordpressAjax
             </tbody>
         </table>
 
-        <div class="components-surface components-card woocommerce-store-alerts is-alert-update" style="margin: 20px 0;">
+        <div class="components-surface components-card woocommerce-store-alerts is-alert-update"
+             style="margin: 20px 0;">
             <div class="">
                 <div class="components-flex components-card__header components-card-header">
                     <h2 class="components-truncate components-text" style="padding-left: 0;">
@@ -103,25 +127,28 @@ class TwintApiWordpressAjax
             </div>
         </div>
         <?php foreach (json_decode($data['soap_request']) as $index => $request): ?>
-            <div class="components-surface components-card woocommerce-store-alerts is-alert-update" style="margin: 20px 0;">
-                <div class="">
-                    <div class="components-flex components-card__header components-card-header">
-                        <h2 class="components-truncate components-text" style="padding-left: 0;">
-                            <?php echo $soapActions[$index]; ?>
-                        </h2>
+        <div class="components-surface components-card woocommerce-store-alerts is-alert-update"
+             style="margin: 20px 0;">
+            <div class="">
+                <div class="components-flex components-card__header components-card-header">
+                    <h2 class="components-truncate components-text" style="padding-left: 0;">
+                        <?php echo $soapActions[$index]; ?>
+                    </h2>
 
-                        <div id="request">
-                            <label for="request"><?php echo __('Request', 'woocommerce-gateway-twint'); ?></label>
-                            <textarea cols="30" rows="6" id="request" disabled><?php echo xmlBeautiful($request); ?></textarea>
-                        </div>
-                        <div id="response">
-                            <label for="response"><?php echo __('Response', 'woocommerce-gateway-twint'); ?></label>
-                            <textarea cols="30" rows="6" id="request" disabled><?php echo xmlBeautiful($soapResponses[$index]); ?></textarea>
-                        </div>
+                    <div id="request">
+                        <label for="request"><?php echo __('Request', 'woocommerce-gateway-twint'); ?></label>
+                        <textarea cols="30" rows="6" id="request"
+                                  disabled><?php echo xmlBeautiful($request); ?></textarea>
+                    </div>
+                    <div id="response">
+                        <label for="response"><?php echo __('Response', 'woocommerce-gateway-twint'); ?></label>
+                        <textarea cols="30" rows="6" id="request"
+                                  disabled><?php echo xmlBeautiful($soapResponses[$index]); ?></textarea>
                     </div>
                 </div>
             </div>
-        <?php endforeach;
+        </div>
+    <?php endforeach;
         $result = ob_get_contents();
         ob_end_clean();
 

@@ -25,7 +25,7 @@ final class CreateTwintPairingTable
             transaction_status VARCHAR(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
             pairing_status VARCHAR(255) NULL,
             is_ordering INT UNSIGNED NOT NULL DEFAULT 0,
-            checked_at DATETIME(3) NULL,
+            checked_at DATETIME(3) NULL DEFAULT NULL,
             version INT UNSIGNED NOT NULL DEFAULT 1,
             created_at DATETIME(3) NOT NULL,
             updated_at DATETIME(3) NULL,

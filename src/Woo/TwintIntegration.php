@@ -213,9 +213,11 @@ class TwintIntegration
         $order = wc_get_order($orderId);
 
         if ($order->get_payment_method() === \WC_Gateway_Twint_Regular_Checkout::getId()) {
-            $apiResponse = $this->paymentService->createOrder($order);
-
-            $res = $this->pairingService->create($apiResponse, $order);
+            $pairing = $this->pairingService->findByWooOrderId($order->get_id());
+            if (!$pairing) {
+                $apiResponse = $this->paymentService->createOrder($order);
+                $res = $this->pairingService->create($apiResponse, $order);
+            }
         }
     }
 

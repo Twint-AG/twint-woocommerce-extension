@@ -5,6 +5,7 @@ namespace Twint\Woo\Templates;
 use Twint\Woo\Includes\Admin\Settings\Tabs\Credential;
 use Twint\Woo\Includes\Admin\Settings\Tabs\ExpressCheckout;
 use Twint\Woo\Includes\Admin\Settings\Tabs\RegularCheckout;
+use Twint\Woo\Services\PairingService;
 use Twint\Woo\Services\SettingService;
 use Twint\Woo\Utility\Twint\CredentialValidator;
 
@@ -19,6 +20,9 @@ class SettingsLayoutViewAdapter
 
     public function render(): void
     {
+        $pairingId = '3a3af5a4-2b46-46f5-b49f-bf0307c9c8ce';
+        dd((new PairingService())->findById($pairingId));
+
         /**
          * Tab data
          */
@@ -39,7 +43,8 @@ class SettingsLayoutViewAdapter
         $nonce = wp_create_nonce('store_twint_settings');
         $tabContent = $settingTabClass::getContents($this->data);
 
-        ?> <div class="wrap">
+        ?>
+        <div class="wrap">
             <h1><?php echo __('TWINT Settings', 'woocommerce-gateway-twint') ?></h1>
 
             <div id="notice-admin-success" class="d-none notice notice-success">
@@ -72,12 +77,12 @@ class SettingsLayoutViewAdapter
                     <?php echo $tabContent; ?>
 
                     <?php if ($allowSaveChanges): ?>
-                    <p class="submit">
-                        <button type="submit" id="js_twint_button_save" class="button button-primary">
+                        <p class="submit">
+                            <button type="submit" id="js_twint_button_save" class="button button-primary">
                             <span class="button-text">
                                 <?php echo __('Save changes', 'woocommerce-gateway-twint') ?></span>
-                        </button>
-                    </p>
+                            </button>
+                        </p>
                     <?php endif; ?>
                 </div>
 

@@ -20,7 +20,8 @@ class Pairing
     protected string $transactionStatus;
     protected string $pairingStatus;
     protected int $isOrdering = 0;
-    protected string $checkedAt;
+    protected ?string $checkedAt;
+    protected ?int $checkedAgo;
     protected int $version = 1;
     protected string $createdAt;
     protected string $updatedAt;
@@ -157,12 +158,12 @@ class Pairing
         return $this;
     }
 
-    public function getCheckedAt(): string
+    public function getCheckedAt(): ?string
     {
-        return $this->checkedAt ?? date("Y-m-d H:i:s");
+        return $this->checkedAt ?? null;
     }
 
-    public function setCheckedAt(string $checkedAt): self
+    public function setCheckedAt(?string $checkedAt): self
     {
         $this->checkedAt = $checkedAt;
         return $this;
@@ -225,6 +226,17 @@ class Pairing
         return (bool) $this->isOrdering;
     }
 
+    public function getCheckedAgo(): ?int
+    {
+        return $this->checkedAgo ?? 0;
+    }
+
+    public function setCheckedAgo(?int $checkedAgo): self
+    {
+        $this->checkedAgo = $checkedAgo;
+        return $this;
+    }
+
     public function load(array $data): self
     {
         $this->setId($data['id']);
@@ -239,6 +251,7 @@ class Pairing
         $this->setIsOrdering($data['is_ordering'] ?? 0);
         $this->setCheckedAt($data['checked_at']);
         $this->setCreatedAt($data['created_at']);
+        $this->setCheckedAgo($data['checked_ago']);
         $this->setUpdatedAt($data['updated_at']);
         $this->setVersion($data['version']);
 
