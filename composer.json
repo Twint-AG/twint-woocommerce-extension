@@ -38,8 +38,12 @@
     "twint-ag/sdk": "^1.0",
     "guzzlehttp/guzzle": "^7.0",
     "chillerlan/php-qrcode": "^5.0",
-    "symfony/var-dumper": "^6.4",
-    "ext-xsl": "*"
+    "ext-xsl": "*",
+    "symfony/console": "^7.1",
+    "symfony/process": "^7.1"
+  },
+  "require-dev": {
+    "symfony/var-dumper": "^6.4"
   },
   "repositories": [
     {

@@ -2,19 +2,19 @@ import {__} from '@wordpress/i18n';
 import {registerPaymentMethod} from '@woocommerce/blocks-registry';
 import {decodeEntities} from '@wordpress/html-entities';
 import {getSetting} from '@woocommerce/settings';
-import {useEffect, useState} from "@wordpress/element";
+import {useEffect} from "@wordpress/element";
 import axios from "axios";
 
 import TwintLogo from './../../../assets/images/twint_logo.png';
 import IconScan from '../../../assets/images/icon-scan.svg';
+
 const settings = getSetting('twint_regular_data', {});
 
 const defaultLabel = __(
     'TWINT',
-    'woo-gutenberg-products-block'
+    'woocommerce-gateway-twint'
 );
 
-console.log(settings);
 const label = decodeEntities(settings.title) || defaultLabel;
 
 /**
@@ -43,10 +43,23 @@ const ModalTwintPayment = (
         shippingData,
         isEditing,
     }) => {
+    /**
+     * State for Check pairing...
+     */
+    const POLL_LIMIT = 500;
+    const [checking, setChecking] = React.useState(false);
+    const [countCheck, setCountCheck] = React.useState(0);
+    const [startedAt, setStartedAt] = React.useState(null);
+    const [timeOutId, setTimeOutId] = React.useState(null);
+
+    /**
+     * State for Pairing...
+     */
     const [pairingId, setPairingId] = React.useState('');
+    const [isExpress, setIsExpress] = React.useState(false);
     const [pairingToken, setPairingToken] = React.useState(null);
     const [qrCode, setQrCode] = React.useState('');
-    const [interval, setInterval] = React.useState(3); // seconds
+    const [interval, setInterval] = React.useState(0);
     const [shopName, setShopName] = React.useState('');
     const [adminUrl, setAdminUrl] = React.useState(woocommerce_params.ajax_url);
     const [nonce, setNonce] = React.useState(null);
@@ -56,13 +69,66 @@ const ModalTwintPayment = (
 
     const onCloseModal = () => {
         setIsOpenModal(false);
+        clearTimeout(timeOutId);
         if (onClose) {
             onClose();
         }
     }
 
-    const checkOrderRegularStatus = () => {
+    const reachLimit = () => {
+        if (checking || countCheck > POLL_LIMIT) {
+            return true;
+        }
+
+        setCountCheck(countCheck + 1);
+        setChecking(true);
+
+        return false;
+    }
+
+    const getInterval = () => {
+        if (startedAt === null) {
+            setStartedAt(new Date());
+        }
+
+        let now = new Date();
+        const seconds = Math.floor((now - startedAt) / 1000);
+
+        let currentInterval = 2000; // Default to the first interval
+
+        // express
+        let stages = {
+            0: 2000,
+            600: 10000, //10 min
+            3600: 0 // 1 hour
+        }
+
+        //regular
+        if (!isExpress) {
+            stages = {
+                0: 2000,
+                300: 10000, //5 min
+                3600: 0 // 1 hour
+            }
+        }
+
+        for (const [second, interval] of Object.entries(stages)) {
+            if (seconds >= parseInt(second)) {
+                currentInterval = interval;
+            } else {
+                break;
+            }
+        }
+
+        return currentInterval;
+    }
+
+    const checkRegularCheckoutStatus = () => {
         if (nonce === null) {
+            return;
+        }
+
+        if (reachLimit()) {
             return;
         }
 
@@ -75,11 +141,12 @@ const ModalTwintPayment = (
                 response = response.data;
                 console.log(response);
                 if (response.success === true && response.isOrderPaid === true) {
+                    setStartedAt(null);
                     location.href = `${thankyouUrl}&twint_order_paid=true`;
                 } else if (response.status === 'cancelled') {
                     location.href = `${thankyouUrl}&twint_order_cancelled=true`;
                 } else if (response.isOrderPaid === false) {
-                    setTimeout(checkOrderRegularStatus, interval * 1000);
+                    setTimeout(checkRegularCheckoutStatus, 3000);
                 }
             }).catch(error => {
                 console.log(error);
@@ -114,8 +181,8 @@ const ModalTwintPayment = (
     ]);
 
     useEffect(() => {
-        checkOrderRegularStatus();
-    }, [nonce, pairingId]);
+        checkRegularCheckoutStatus();
+    }, [nonce, pairingId, startedAt]);
 
     return <>
         <aside role="dialog"

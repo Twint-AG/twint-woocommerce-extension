@@ -89,11 +89,15 @@ class PairingService
         $order = wc_get_order($pairing->getWcOrderId());
 
         if (!$org->isSuccess() && $tOrder->isSuccessful()) {
-            $order->update_status(\WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterPaid());
+            $status = \WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterPaid();
+            wc_get_logger()->info("[TWINT] - Mark Order {$order->get_id()} and Pairing {$pairing->getId()} as {$status}");
+            $order->update_status($status);
         }
 
         if (!$org->isFailed() && $tOrder->isFailure()) {
-            $order->update_status(\WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterCancelled());
+            $status = \WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterCancelled();
+            wc_get_logger()->info("[TWINT] - Mark Order {$order->get_id()} and Pairing {$pairing->getId()} as {$status}");
+            $order->update_status($status);
         }
 
         $this->updateLog($apiResponse->getLog(), $pairing, $order);
@@ -133,22 +137,20 @@ class PairingService
         ]);
     }
 
-    public function updateCheckedAt(Pairing $pairing, ApiResponse $response): \mysqli_result|bool|int|null
+    public function updateCheckedAt(Pairing $pairing): \mysqli_result|bool|int|null
     {
         global $wpdb;
+        $table = $pairing->getTableName();
+        $pairingId = $pairing->getId();
 
-        return $wpdb->update($pairing->getTableName(), [
-            'checked_at' => date('Y-m-d H:i:s'),
-        ], [
-            'id' => $pairing->getId(),
-        ]);
+        return $wpdb->query("UPDATE {$table} SET checked_at = NOW() WHERE id = '{$pairingId}';");
     }
 
     public function loadInProcessPairings(): array
     {
         global $wpdb;
         $table = Pairing::getTableName();
-        $results = $wpdb->get_results("SELECT * FROM {$table} WHERE status IN ('PAIRING_IN_PROGRESS', 'IN_PROGRESS') ORDER BY created_at ASC");
+        $results = $wpdb->get_results("SELECT *, (UNIX_TIMESTAMP() - UNIX_TIMESTAMP(checked_at)) AS checked_ago FROM {$table} WHERE status IN ('PAIRING_IN_PROGRESS', 'IN_PROGRESS') ORDER BY created_at ASC");
         $pairings = [];
         foreach ($results as $result) {
             $instance = new Pairing();
@@ -163,7 +165,7 @@ class PairingService
     {
         global $wpdb;
         $table = Pairing::getTableName();
-        $result = $wpdb->get_results("SELECT * FROM {$table} WHERE wc_order_id = {$orderId} LIMIT 1");
+        $result = $wpdb->get_results("SELECT *, (UNIX_TIMESTAMP() - UNIX_TIMESTAMP(checked_at)) AS checked_ago FROM {$table} WHERE wc_order_id = {$orderId} LIMIT 1");
         if (empty($result)) {
             return null;
         }
@@ -176,7 +178,7 @@ class PairingService
     {
         global $wpdb;
         $table = Pairing::getTableName();
-        $result = $wpdb->get_results("SELECT * FROM {$table} WHERE id = '{$pairingId}' LIMIT 1");
+        $result = $wpdb->get_results("SELECT *, (UNIX_TIMESTAMP() - UNIX_TIMESTAMP(checked_at)) AS checked_ago FROM {$table} WHERE id = '{$pairingId}' LIMIT 1");
         if (empty($result)) {
             return null;
         }
