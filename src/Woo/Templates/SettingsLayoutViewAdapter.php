@@ -5,7 +5,6 @@ namespace Twint\Woo\Templates;
 use Twint\Woo\Includes\Admin\Settings\Tabs\Credential;
 use Twint\Woo\Includes\Admin\Settings\Tabs\ExpressCheckout;
 use Twint\Woo\Includes\Admin\Settings\Tabs\RegularCheckout;
-use Twint\Woo\Services\PairingService;
 use Twint\Woo\Services\SettingService;
 use Twint\Woo\Utility\Twint\CredentialValidator;
 
@@ -20,9 +19,6 @@ class SettingsLayoutViewAdapter
 
     public function render(): void
     {
-        $pairingId = '3a3af5a4-2b46-46f5-b49f-bf0307c9c8ce';
-        dd((new PairingService())->findById($pairingId));
-
         /**
          * Tab data
          */

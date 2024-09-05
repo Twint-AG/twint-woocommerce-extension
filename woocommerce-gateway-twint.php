@@ -23,6 +23,8 @@ if (!defined('ABSPATH')) {
 }
 require __DIR__ . '/vendor/autoload.php';
 
+require_once __DIR__ . '/libraries/action-scheduler/action-scheduler.php';
+
 /**
  * WC Twint Payment gateway plugin class.
  *
