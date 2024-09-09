@@ -24,7 +24,7 @@ COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Copy Plugins
-COPY wordpress65/. /usr/src/wordpress
+COPY wordpress/. /usr/src/wordpress
 RUN curl -k -L --output ${WOO_VERSION}.zip https://downloads.wordpress.org/plugin/${WOO_VERSION}.zip && \
     unzip ${WOO_VERSION}.zip -d /usr/src/wordpress/wp-content/plugins && \
     rm ${WOO_VERSION}.zip
