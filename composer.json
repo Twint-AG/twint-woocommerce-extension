@@ -39,8 +39,8 @@
     "guzzlehttp/guzzle": "^7.0",
     "chillerlan/php-qrcode": "^5.0",
     "ext-xsl": "*",
-    "symfony/console": "^7.1",
-    "symfony/process": "^7.1"
+    "symfony/console": "*",
+    "symfony/process": "*"
   },
   "require-dev": {
     "symfony/var-dumper": "^6.4"
