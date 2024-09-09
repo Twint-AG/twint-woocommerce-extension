@@ -27,7 +27,7 @@ RUN chmod +x /usr/local/bin/entrypoint.sh update-plugins.sh
 # Copy Plugins
 COPY wordpress/. /usr/src/wordpress
 RUN curl -k -L --output ${WOO_VERSION}.zip https://downloads.wordpress.org/plugin/${WOO_VERSION}.zip && \
-    unzip ${WOO_VERSION}.zip -d /usr/src/wordpress/wp-content/plugins \
+    unzip ${WOO_VERSION}.zip -d /usr/src/wordpress/wp-content/plugins && \
     rm ${WOO_VERSION}.zip
 COPY woocommerce-gateway-twint /usr/src/wordpress/wp-content/plugins/woocommerce-gateway-twint
 
