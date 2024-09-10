@@ -1,0 +1,38 @@
+services:
+  
+  wordpress:
+    container_name: wp59
+    build:
+      context: ./local
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 80:80
+    extra_hosts:
+      - "oldest.wordpress.local:127.0.0.1"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: exampleuser
+      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_NAME: exampledb
+    volumes:
+      - .:/var/www/html
+      - ./../../:/var/www/html/wp-content/plugins/twint-woocommerce-extension
+      - ./local/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+  
+  db:
+    container_name: db-wp59
+    image: mysql:8.0
+    restart: always
+    ports:
+      - 3359:3306
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - db59:/var/lib/mysql
+
+volumes:
+  db59:
