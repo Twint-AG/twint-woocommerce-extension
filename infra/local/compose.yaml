@@ -1,0 +1,76 @@
+services:
+  
+  nginx:
+    container_name: wp-proxy
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/proxy.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - latest_wp
+      - oldest_wp
+  
+  latest_wp:
+    container_name: wp-latest
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - mysql
+    extra_hosts:
+      - "latest.wordpress.local:127.0.0.1"
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: exampleuser
+      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_NAME: exampledb
+    volumes:
+      - ./../latest:/var/www/html
+      - ./../../:/var/www/html/wp-content/plugins/twint-woocommerce-extension
+      - vendor:/var/www/html/wp-content/plugins/twint-woocommerce-extension/vendor
+      - ./docker/latest.conf:/etc/apache2/sites-enabled/000-default.conf
+      - /var/www/html/wp-content/plugins/twint-woocommerce-extension/infra
+  
+  oldest_wp:
+    container_name: wp-oldest
+    build:
+      context: ./docker
+      dockerfile: Dockerfile59
+    restart: always
+    depends_on:
+      - mysql
+    extra_hosts:
+      - "oldest.wordpress.local:127.0.0.1"
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: rootpass
+      WORDPRESS_DB_NAME: wpoldest
+    volumes:
+      - ./../oldest:/var/www/html
+      - ./../../:/var/www/html/wp-content/plugins/twint-woocommerce-extension
+      - vendorsecond:/var/www/html/wp-content/plugins/twint-woocommerce-extension/vendor
+      - ./docker/oldest.conf:/etc/apache2/sites-enabled/000-default.conf
+      - /var/www/html/wp-content/plugins/twint-woocommerce-extension/infra
+  
+  mysql:
+    container_name: wp-db
+    image: mysql:latest
+    platform: linux/arm64
+    restart: always
+    ports:
+      - 3366:3306
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_ROOT_PASSWORD: rootpass
+    volumes:
+      - wp:/var/lib/mysql
+
+volumes:
+  wp:
+  vendor:
+  vendorsecond:
