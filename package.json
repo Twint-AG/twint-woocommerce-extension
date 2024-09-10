@@ -26,5 +26,9 @@
 		"@wordpress/html-entities": "^4.1.0",
 		"@wordpress/i18n": "^5.1.0",
 		"axios": "^1.7.2"
+	},
+	"engines": {
+		"node": ">=20.0.0",
+		"npm": ">=10.0.0"
 	}
 }
