@@ -23,10 +23,10 @@
 
 .twint header {
     border-bottom: 1px solid rgba(0, 0, 0, .25);
-    padding-bottom: 1.2rem;
+    padding-bottom: 0.5rem;
     padding-left: 0 !important;
     padding-right: 0 !important;
-    padding-top: 1.2rem
+    padding-top: 0.5rem
 }
 
 .twint-logo {
@@ -674,7 +674,7 @@ body._has-modal {
 }
 
 .modal-popup .modal-inner-wrap {
-    margin: 5rem auto;
+    margin: 3rem auto;
     width: 75%;
     display: -webkit-flex;
     display: -ms-flexbox;

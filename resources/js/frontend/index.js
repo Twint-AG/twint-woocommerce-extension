@@ -218,7 +218,7 @@ const ModalTwintPayment = (
                                 className="qr-code d-none d-lg-block md:flex flex flex-1 order-1 md:order-none bg-white md:rounded-lg items-center justify-center">
                                 <div data-twint-copy-token=""
                                      className="md:flex flex flex-col text-center md:flex-col-reverse ">
-                                    <div className="qr-token text-center my-4 md:mt-6">
+                                    <div className="qr-token text-center">
                                         <input id="qr-token"
                                                className="bg-white"
                                                type="text"
@@ -281,7 +281,7 @@ const ModalTwintPayment = (
 
                         <div className="qr-code d-none d-lg-block container mx-auto mt-4 text-16">
                             <div className="grid grid-cols-1">
-                                <div className="flex flex-col items-center p-4">
+                                <div className="flex flex-col items-center">
                                     <div className="flex justify-center">
                                         <img className="w-55 h-55"
                                              src={IconScan}

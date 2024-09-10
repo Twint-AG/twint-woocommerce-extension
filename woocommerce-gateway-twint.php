@@ -18,6 +18,10 @@
  */
 
 // Exit if accessed directly.
+use Automattic\WooCommerce\Utilities\FeaturesUtil;
+use Automattic\WooCommerce\Utilities\OrderUtil;
+use Twint\Woo\TwintIntegration;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -46,20 +50,27 @@ class WC_Twint_Payments
         // Registers WooCommerce Blocks integration.
         add_action('woocommerce_blocks_loaded', array(__CLASS__, 'wooGatewayTwintBlockSupport'));
 
-        $instance = new \Twint\Woo\TwintIntegration();
+        $instance = new TwintIntegration();
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), array($instance, 'adminPluginSettingsLink'));
 
-        register_activation_hook(__FILE__, [\Twint\Woo\TwintIntegration::class, 'install']);
-        register_deactivation_hook(__FILE__, [\Twint\Woo\TwintIntegration::class, 'uninstall']);
+        register_activation_hook(__FILE__, [TwintIntegration::class, 'install']);
+        register_deactivation_hook(__FILE__, [TwintIntegration::class, 'uninstall']);
 
         add_action('init', [__CLASS__, 'createCustomWooCommerceStatus']);
         add_filter('wc_order_statuses', [__CLASS__, 'addCustomWooCommerceStatusToList']);
+
+        // Declare compatibility with WooCommerce HPOS
+        add_action( 'before_woocommerce_init', function() {
+            if ( class_exists( OrderUtil::class ) ) {
+                FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+            }
+        });
     }
 
     public static function createCustomWooCommerceStatus(): void
     {
         register_post_status(
-            \WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterPartiallyRefunded(),
+            WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterPartiallyRefunded(),
             [
                 'label' => __('Refunded (partially)', 'woocommerce-gateway-twint'),
                 'public' => true,
@@ -71,7 +82,7 @@ class WC_Twint_Payments
 
     public static function addCustomWooCommerceStatusToList($orderStatuses): array
     {
-        $orderStatuses[\WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterPartiallyRefunded()] = __('Refunded (partially)', 'woocommerce-gateway-twint');
+        $orderStatuses[WC_Gateway_Twint_Regular_Checkout::getOrderStatusAfterPartiallyRefunded()] = __('Refunded (partially)', 'woocommerce-gateway-twint');
         return $orderStatuses;
     }
 
@@ -141,8 +152,7 @@ class WC_Twint_Payments
      *
      * @return string
      */
-    public
-    static function plugin_url(): string
+    public static function plugin_url(): string
     {
         return untrailingslashit(plugins_url('/', __FILE__));
     }
@@ -152,8 +162,7 @@ class WC_Twint_Payments
      *
      * @return string
      */
-    public
-    static function plugin_abspath(): string
+    public static function plugin_abspath(): string
     {
         return trailingslashit(plugin_dir_path(__FILE__));
     }
@@ -162,8 +171,7 @@ class WC_Twint_Payments
      * Registers WooCommerce Blocks integration.
      *
      */
-    public
-    static function wooGatewayTwintBlockSupport(): void
+    public static function wooGatewayTwintBlockSupport(): void
     {
         if (class_exists('Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType')) {
             require_once 'includes/blocks/class-wc-twint-payment-blocks.php';

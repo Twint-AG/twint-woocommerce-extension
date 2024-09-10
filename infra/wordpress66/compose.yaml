@@ -1,0 +1,36 @@
+services:
+  
+  wordpress:
+    container_name: wp66
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 80:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: exampleuser
+      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_NAME: exampledb
+    volumes:
+      - .:/var/www/html
+      - ./../../:/var/www/html/wp-content/plugins/twint-woocommerce-extension
+      - ./docker/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+  
+  db:
+    container_name: db-wp66
+    image: mysql:8.0
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - db:/var/lib/mysql
+
+volumes:
+  db:
