@@ -27,8 +27,6 @@ if (!defined('ABSPATH')) {
 }
 require __DIR__ . '/vendor/autoload.php';
 
-require_once __DIR__ . '/libraries/action-scheduler/action-scheduler.php';
-
 /**
  * WC Twint Payment gateway plugin class.
  *
@@ -60,9 +58,9 @@ class WC_Twint_Payments
         add_filter('wc_order_statuses', [__CLASS__, 'addCustomWooCommerceStatusToList']);
 
         // Declare compatibility with WooCommerce HPOS
-        add_action( 'before_woocommerce_init', function() {
-            if ( class_exists( OrderUtil::class ) ) {
-                FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+        add_action('before_woocommerce_init', function () {
+            if (class_exists(OrderUtil::class)) {
+                FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
             }
         });
     }
