@@ -8,6 +8,8 @@ services:
     restart: always
     ports:
       - 80:80
+    extra_hosts:
+      - "wordpress.local:127.0.0.1"
     environment:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: exampleuser
