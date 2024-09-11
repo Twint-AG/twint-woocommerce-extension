@@ -186,11 +186,12 @@ const ModalTwintPayment = (
 
     return <>
         <aside role="dialog"
-               className={`text-16 modal-popup twint-modal-slide modal-slide _inner-scroll ${isOpenModal ? '_show' : ''}`}
+               className={`text-16 fixed inset-0 top-0 left-0 hidden items-center justify-center w-screen h-screen z-50 overflow-y-auto twint-modal ${isOpenModal ? '_show' : ''}`}
         >
-            <div className="modal-inner-wrap twint">
-                <header className="twint-modal-header sticky top-0 flex justify-between items-center bg-white">
-                    <button id="twint-close"
+            <div className="fixed inset-0 bg-black opacity-50"></div>
+            <div className="modal-inner-wrap twint md:rounded-lg shadow-lg w-screen h-screen p-6 z-10 md:max-h-[95vh] overflow-y-auto">
+                <header className="twint-modal-header sticky top-0 flex justify-between items-center bg-white md:rounded-t-lg py-2 px-4">
+                    <button id="twint-close" className={`focus:border-none focus:outline-none`}
                             onClick={onCloseModal}
                             type="button">
                         <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -198,7 +199,7 @@ const ModalTwintPayment = (
                                 d="M1.40001 12.8078L0.692261 12.1L6.29226 6.50001L0.692261 0.900011L1.40001 0.192261L7.00001 5.79226L12.6 0.192261L13.3078 0.900011L7.70776 6.50001L13.3078 12.1L12.6 12.8078L7.00001 7.20776L1.40001 12.8078Z"
                                 fill="#1C1B1F"></path>
                         </svg>
-                        <span>{__('Cancel checkout', 'woocommerce-gateway-twint')}</span>
+                        <span className={`ml-2`}>{__('Cancel checkout', 'woocommerce-gateway-twint')}</span>
                     </button>
                     <img className="twint-logo hidden md:block mr-4"
                          src={TwintLogo}
@@ -215,7 +216,7 @@ const ModalTwintPayment = (
                         <input type="hidden" name="twint_wp_nonce" value={nonce} id="twint_wp_nonce"/>
                         <div className="flex flex-col md:flex-row gap-4 bg-gray-100">
                             <div
-                                className="qr-code d-none d-lg-block md:flex flex flex-1 order-1 md:order-none bg-white md:rounded-lg items-center justify-center">
+                                className="qr-code md:flex flex flex-1 order-1 md:order-none bg-white md:rounded-lg items-center justify-center">
                                 <div data-twint-copy-token=""
                                      className="md:flex flex flex-col text-center md:flex-col-reverse ">
                                     <div className="qr-token text-center">
@@ -249,7 +250,7 @@ const ModalTwintPayment = (
                             <div className="flex-1 order-0 md:order-1 flex flex-col gap-1 md:gap-4">
                                 <div className="flex flex-1 bg-white p-4 md:rounded-lg items-center justify-center">
                                         <span id="twint-amount"
-                                              className="text-center text-35 inline-block p-4 px-6 text-white bg-black font-semibold">
+                                              className="text-center text-35 inline-block p-3 px-6 text-white bg-black font-semibold">
                                             {price}
                                         </span>
                                 </div>
@@ -258,7 +259,7 @@ const ModalTwintPayment = (
                                 </div>
 
                                 <div className="app-selector md:hidden">
-                                    <div className="qr-code d-none md:flex text-center md:hidden">
+                                    <div className="qr-code hidden md:flex text-center md:hidden">
                                         <div className="flex items-center justify-center mx-4">
                                             <div
                                                 className="flex-grow border-b-0 border-t border-solid border-gray-300"></div>
@@ -279,7 +280,7 @@ const ModalTwintPayment = (
                             </div>
                         </div>
 
-                        <div className="qr-code d-none d-lg-block container mx-auto mt-4 text-16">
+                        <div className="qr-code container mx-auto mt-4 text-16">
                             <div className="grid grid-cols-1">
                                 <div className="flex flex-col items-center">
                                     <div className="flex justify-center">

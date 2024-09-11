@@ -35,10 +35,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
 
         reachLimit() {
-            if (this.checking || this.count > 10) {
-                return true;
-            }
-
             this.count++;
             this.checking = true;
 

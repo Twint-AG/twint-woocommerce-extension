@@ -1,0 +1,48 @@
+@tailwind utilities;
+
+// Variables
+$clr-main: #d75b4c;
+$clr-dark: #333;
+$clr-neutral: #ddd;
+$clr-light: #fff;
+$clr-primary: #1d3557;
+$clr-success: #3cb371;
+$clr-info: #007cba;
+
+.components-truncate.components-text {
+  font-size: 1.3em !important;
+}
+
+.plugin-setting-list {
+  li {
+    position: relative;
+    padding-left: 30px;
+    font-size: 16px;
+    color: #000000;
+    list-style-type: none;
+    margin-bottom: 15px;
+
+    &:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='icon icon-tabler icon-tabler-check' width='24' height='24' viewBox='0 0 24 24' stroke-width='2' stroke='%23ffffff' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath stroke='none' d='M0 0h24v24H0z' fill='none'%3E%3C/path%3E%3Cpath d='M5 12l5 5l10 -10'%3E%3C/path%3E%3C/svg%3E");
+      background-size: 14px;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-color: $clr-success;
+      border-radius: 100%;
+    }
+  }
+}
+
+@import './menu.scss';
+@import './table.scss';
+@import './modal.scss';
+@import './certificate.scss';
+
+
+
+

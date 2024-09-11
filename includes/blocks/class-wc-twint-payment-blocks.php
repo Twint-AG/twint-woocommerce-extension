@@ -60,7 +60,7 @@ final class WC_Gateway_Twint_Regular_Checkout_Blocks_Support extends AbstractPay
      */
     public function get_payment_method_script_handles(): array
     {
-        $script_path = '/assets/js/frontend/blocks.js';
+        $script_path = '/dist/frontend/blocks.js';
         $script_asset_path = WC_Twint_Payments::plugin_abspath() . 'assets/js/frontend/blocks.asset.php';
         $script_asset = file_exists($script_asset_path)
             ? require($script_asset_path)

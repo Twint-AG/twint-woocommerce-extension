@@ -157,17 +157,16 @@ class TwintIntegration
 
     public function wpEnqueueScriptsFrontend(): void
     {
-        wp_enqueue_script('js-woocommerce-gateway-twint-frontend', twint_assets('/js/frontend/frontstore.js'));
-        wp_enqueue_script('js-woocommerce-gateway-DeviceSwitcher', twint_assets('/js/DeviceSwitcher.js'));
-        wp_enqueue_script('js-woocommerce-gateway-PaymentStatusRefresh', twint_assets('/js/PaymentStatusRefresh.js'));
-        wp_enqueue_script('js-woocommerce-gateway-ModalQR', twint_assets('/js/ModalQR.js'));
+        wp_enqueue_script('js-woocommerce-gateway-twint-frontend', twint_dist('/frontend/frontstore.js'));
+        wp_enqueue_script('js-woocommerce-gateway-DeviceSwitcher', twint_dist('/DeviceSwitcher.js'));
+        wp_enqueue_script('js-woocommerce-gateway-PaymentStatusRefresh', twint_dist('/PaymentStatusRefresh.js'));
+        wp_enqueue_script('js-woocommerce-gateway-ModalQR', twint_dist('/ModalQR.js'));
 
         wp_localize_script('js-woocommerce-gateway-twint-frontend', 'twint_api', [
             'admin_url' => admin_url('admin-ajax.php')
         ]);
 
-        wp_enqueue_style('css-woocommerce-gateway-twint-frontend-core', WC_Twint_Payments::plugin_url() . '/assets/css/core.css');
-        wp_enqueue_style('css-woocommerce-gateway-twint-frontend', WC_Twint_Payments::plugin_url() . '/assets/css/frontend_twint.css');
+        wp_enqueue_style('css-woocommerce-gateway-twint-frontend', twint_dist('/frontend.css'));
     }
 
     public function additionalSingleProductButton(): void
@@ -251,18 +250,17 @@ class TwintIntegration
 
     public function enqueueScripts(): void
     {
-        wp_enqueue_script('js-woocommerce-gateway-twint-CredentialSetting', WC_Twint_Payments::plugin_url() . '/assets/js/CredentialSetting.js', ['jquery']);
+        wp_enqueue_script('js-woocommerce-gateway-twint-CredentialSetting', WC_Twint_Payments::plugin_url() . '/dist/CredentialSetting.js', ['jquery']);
 
         wp_localize_script('js-woocommerce-gateway-twint-CredentialSetting', 'twint_api', [
             'admin_url' => admin_url('admin-ajax.php')
         ]);
-        wp_enqueue_script('js-woocommerce-gateway-twint', WC_Twint_Payments::plugin_url() . '/assets/js/TwintPaymentIntegration.js', ['jquery']);
+        wp_enqueue_script('js-woocommerce-gateway-twint', WC_Twint_Payments::plugin_url() . '/dist/TwintPaymentIntegration.js', ['jquery']);
     }
 
     public function enqueueStyles(): void
     {
-        wp_enqueue_style('css-woocommerce-gateway-twint-frontend-core', WC_Twint_Payments::plugin_url() . '/assets/css/core.css');
-        wp_enqueue_style('css-woocommerce-gateway-twint', WC_Twint_Payments::plugin_url() . '/assets/css/style.css');
+        wp_enqueue_style('css-woocommerce-gateway-twint', WC_Twint_Payments::plugin_url() . '/dist/admin.css');
     }
 
     public function adminPluginSettingsLink($links)

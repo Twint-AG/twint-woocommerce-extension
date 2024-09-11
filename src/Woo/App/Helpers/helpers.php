@@ -41,3 +41,15 @@ if (!function_exists('twint_assets')) {
         return $localPath . $asset;
     }
 }
+
+if (!function_exists('twint_dist')) {
+    function twint_dist(string $asset = null): ?string
+    {
+        $localPath = WC_Twint_Payments::plugin_url() . '/dist';
+        if (empty($asset)) {
+            return '';
+        }
+
+        return $localPath . $asset;
+    }
+}

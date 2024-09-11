@@ -90,16 +90,16 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         toggleCertificateArea() {
             const $certificate = jQuery('tr.plugin_twint_settings_certificate');
-            if ($certificate.hasClass('d-none')) {
-                $certificate.removeClass('d-none');
+            if ($certificate.hasClass('hidden')) {
+                $certificate.removeClass('hidden');
             } else {
-                $certificate.addClass('d-none');
+                $certificate.addClass('hidden');
             }
             const $certificatePassword = jQuery('tr.plugin_twint_settings_certificate_password');
-            if ($certificatePassword.hasClass('d-none')) {
-                $certificatePassword.removeClass('d-none');
+            if ($certificatePassword.hasClass('hidden')) {
+                $certificatePassword.removeClass('hidden');
             } else {
-                $certificatePassword.addClass('d-none');
+                $certificatePassword.addClass('hidden');
             }
         }
 
@@ -113,46 +113,46 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         hideUploadCertificateArea() {
             const $certificate = jQuery('tr.plugin_twint_settings_certificate');
-            $certificate.addClass('d-none');
+            $certificate.addClass('hidden');
 
             const $certificatePassword = jQuery('tr.plugin_twint_settings_certificate_password');
-            $certificatePassword.addClass('d-none');
+            $certificatePassword.addClass('hidden');
 
-            this.closeUploadNewCertificateButton?.classList?.add('d-none');
-            this.uploadNewCertificateButton?.classList?.remove('d-none');
+            this.closeUploadNewCertificateButton?.classList?.add('hidden');
+            this.uploadNewCertificateButton?.classList?.remove('hidden');
         }
 
         showUploadCertificateArea() {
             const $certificate = jQuery('tr.plugin_twint_settings_certificate');
-            $certificate.removeClass('d-none');
+            $certificate.removeClass('hidden');
 
             const $certificatePassword = jQuery('tr.plugin_twint_settings_certificate_password');
-            $certificatePassword.removeClass('d-none');
+            $certificatePassword.removeClass('hidden');
 
-            this.closeUploadNewCertificateButton?.classList?.remove('d-none');
-            this.uploadNewCertificateButton?.classList?.add('d-none');
+            this.closeUploadNewCertificateButton?.classList?.remove('hidden');
+            this.uploadNewCertificateButton?.classList?.add('hidden');
         }
 
         uploadNewCertificate() {
             this.toggleCertificateArea();
 
-            this.uploadNewCertificateButton?.classList?.add('d-none');
-            this.closeUploadNewCertificateButton?.classList?.remove('d-none');
+            this.uploadNewCertificateButton?.classList?.add('hidden');
+            this.closeUploadNewCertificateButton?.classList?.remove('hidden');
         }
 
         closeUploadNewCertBtn() {
             this.toggleCertificateArea();
 
-            this.closeUploadNewCertificateButton?.classList?.add('d-none');
-            this.uploadNewCertificateButton?.classList?.remove('d-none');
+            this.closeUploadNewCertificateButton?.classList?.add('hidden');
+            this.uploadNewCertificateButton?.classList?.remove('hidden');
         }
 
         showNoticeSuccess(msg = null) {
-            this.$noticeSuccess?.classList?.remove('d-none');
+            this.$noticeSuccess?.classList?.remove('hidden');
         }
 
         hideNoticeSuccess() {
-            this.$noticeSuccess?.classList?.add('d-none');
+            this.$noticeSuccess?.classList?.add('hidden');
         }
 
         appendHtml(el, msg) {
@@ -166,11 +166,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
             const html = `<p>${msg}</p>`;
             this.appendHtml(this.$noticeError, html);
 
-            this.$noticeError?.classList?.remove('d-none');
+            this.$noticeError?.classList?.remove('hidden');
         }
 
         hideNoticeError() {
-            this.$noticeError?.classList?.add('d-none');
+            this.$noticeError?.classList?.add('hidden');
         }
 
         resetErrorNotice() {
@@ -220,11 +220,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 if (status === true) {
                     this.showNoticeSuccess(response.data.message);
 
-                    this.configNoticeError?.classList?.add('d-none');
+                    this.configNoticeError?.classList?.add('hidden');
 
-                    this.configNoticeError?.classList?.remove('d-none');
+                    this.configNoticeError?.classList?.remove('hidden');
                     if (this.state.plugin_twint_settings_certificate !== null) {
-                        this.configNoticeSuccess?.classList?.remove('d-none');
+                        this.configNoticeSuccess?.classList?.remove('hidden');
                     }
                     this.hideUploadCertificateArea();
                     this.hideNoticeError();
@@ -237,10 +237,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
                         const {message} = response.data;
                         this.showNoticeError(message);
 
-                        this.configNoticeError?.classList?.remove('d-none');
+                        this.configNoticeError?.classList?.remove('hidden');
                         console.log(this.state.plugin_twint_settings_certificate);
                         if (this.state.plugin_twint_settings_certificate !== null) {
-                            this.configNoticeSuccess?.classList?.remove('d-none');
+                            this.configNoticeSuccess?.classList?.remove('hidden');
                             this.showUploadCertificateArea();
                         }
                     }

@@ -1,0 +1,112 @@
+.twint {
+  &.modal-inner-wrap {
+    background-color: rgb(243 244 246);
+    padding: 0 !important;
+
+    @media (min-width: 1024px) {
+      & {
+        width: 800px;
+      }
+    }
+  }
+
+  header {
+    border-bottom: solid 1px rgba(0, 0, 0, 0.25);
+  }
+
+  &-logo {
+    width: 139px;
+    height: 53px;
+  }
+
+  #twint-close {
+    border: none;
+    background-color: inherit;
+    color: #262626;
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
+    font-weight: 400;
+    box-shadow: none !important;
+
+    span {
+      display: inline-block;
+      box-shadow: none !important;
+    }
+
+    &:hover, &:focus {
+      background-color: inherit;
+      border: none;
+      color: #262626;
+      font-weight: 400;
+    }
+  }
+
+  &-modal-slide {
+    left: 0 !important;
+  }
+
+  #qr-token {
+    text-align: center;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 41px;
+    letter-spacing: 4px;
+    color: black;
+    border: none;
+    opacity: 1;
+    text-transform: uppercase;
+  }
+
+  #twint-copy {
+    color: #262626;
+
+    &.copied {
+      color: rgb(34 197 94 / var(--tw-text-opacity));
+    }
+  }
+
+  &-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTYgMTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTE0Ljg3NSAxLjU2MjVMOCA4LjQzNzVMMS4xMjUgMS41NjI1IiBzdHJva2U9IiMyNjI2MjYiIHN0cm9rZS13aWR0aD0iMiIvPjwvc3ZnPg==');
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+    text-align-last: center;
+  }
+}
+
+.twint-mobile{
+  #qrcode{
+    display: none;
+  }
+
+  @media (orientation: landscape) {
+    display: flex;
+    justify-content: center;
+
+    & > * {
+      width: 50%;
+      max-width: 100vh;
+    }
+  }
+}
+
+.twint-modal:has(.twint-mobile){
+  width: 100%;
+  height: 100%;
+  margin: 0 !important;
+  max-height: 100% !important;
+  overflow-y: scroll !important;
+
+  .twint-logo{
+    display: none;
+  }
+
+  #twint-close > span{
+    order: 9999;
+    margin-left: 1em;
+  }
+}

@@ -74,7 +74,7 @@ class Credential extends TabItem
                         <tr class="">
                             <th></th>
                             <td>
-                                <div class="notify-box notify-success <?php echo $data['needHideCertificateUpload'] === false ? 'd-none' : '' ?>"
+                                <div class="notify-box notify-success <?php echo $data['needHideCertificateUpload'] === false ? 'hidden' : '' ?>"
                                      style="max-width: 25em;"
                                      id="notice_success_configuration_settings">
                                     <div class="notify-box__content">
@@ -89,7 +89,7 @@ class Credential extends TabItem
 
                                         <a href="javascript:void(0)"
                                            id="close-new-certificate"
-                                           class="d-none"
+                                           class="hidden"
                                            style="margin-top: 7px;">
                                             <?php echo __('Close', 'woocommerce-gateway-twint') ?>
                                         </a>
@@ -99,7 +99,7 @@ class Credential extends TabItem
                         </tr>
                     <?php endif; ?>
                 <?php endif; ?>
-                <tr class="<?php echo $field['name']; ?> <?php echo (in_array($field['name'], ['plugin_twint_settings_certificate', 'plugin_twint_settings_certificate_password']) and $data['needHideCertificateUpload']) ? 'd-none' : '' ?>">
+                <tr class="<?php echo $field['name']; ?> <?php echo (in_array($field['name'], ['plugin_twint_settings_certificate', 'plugin_twint_settings_certificate_password']) and $data['needHideCertificateUpload']) ? 'hidden' : '' ?>">
                     <th scope="row">
                         <label for="<?php echo $field['name']; ?>">
                             <?php echo $field['label']; ?>
@@ -149,7 +149,7 @@ class Credential extends TabItem
 
                         <?php if ($field['help_text'] !== ''): ?>
                         <div style="margin-top: 5px;">
-                            <small class="text-small"><i><?php echo $field['help_text']; ?></i></small>
+                            <small class="text-sm"><i><?php echo $field['help_text']; ?></i></small>
                         </div>
                         <?php endif; ?>
                     </td>

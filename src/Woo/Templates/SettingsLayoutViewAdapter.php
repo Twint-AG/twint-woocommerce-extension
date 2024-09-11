@@ -43,10 +43,10 @@ class SettingsLayoutViewAdapter
         <div class="wrap">
             <h1><?php echo __('TWINT Settings', 'woocommerce-gateway-twint') ?></h1>
 
-            <div id="notice-admin-success" class="d-none notice notice-success">
+            <div id="notice-admin-success" class="hidden notice notice-success">
                 <p><?php echo __('All settings have been saved.', 'woocommerce-gateway-twint') ?></p>
             </div>
-            <div id="notice-admin-error" class="d-none notice notice-error is-dismissible"></div>
+            <div id="notice-admin-error" class="hidden notice notice-error is-dismissible"></div>
 
             <form method="post" action="" novalidate="novalidate" enctype="multipart/form-data" autocomplete="off">
                 <nav class="nav-tab-wrapper woo-nav-tab-wrapper">
