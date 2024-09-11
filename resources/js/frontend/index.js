@@ -189,7 +189,7 @@ const ModalTwintPayment = (
                className={`text-16 fixed inset-0 top-0 left-0 hidden items-center justify-center w-screen h-screen z-50 overflow-y-auto twint-modal ${isOpenModal ? '_show' : ''}`}
         >
             <div className="fixed inset-0 bg-black opacity-50"></div>
-            <div className="modal-inner-wrap twint md:rounded-lg shadow-lg w-screen h-screen p-6 z-10 md:max-h-[95vh] overflow-y-auto">
+            <div className="modal-inner-wrap twint md:rounded-lg shadow-lg w-screen h-screen md:h-auto p-6 z-10 md:max-h-[95vh] overflow-y-auto">
                 <header className="twint-modal-header sticky top-0 flex justify-between items-center bg-white md:rounded-t-lg py-2 px-4">
                     <button id="twint-close" className={`focus:border-none focus:outline-none`}
                             onClick={onCloseModal}
@@ -201,25 +201,20 @@ const ModalTwintPayment = (
                         </svg>
                         <span className={`ml-2`}>{__('Cancel checkout', 'woocommerce-gateway-twint')}</span>
                     </button>
-                    <img className="twint-logo hidden md:block mr-4"
+                    <img className="twint-logo hidden md:block"
                          src={TwintLogo}
                          alt="TWINT Logo"/>
                 </header>
                 <div className="twint-modal-content twint-qr-container p-0 md:p-4" id="twint-qr-container">
                     <div id="qr-modal-content"
-                         className="text-20"
-                         data-mobile=""
-                         data-is-android-device=""
-                         data-is-ios-device=""
-                         data-android-link="Warning: Undefined array key "
-                         data-pairing-id={pairingId}>
+                         className="text-20">
                         <input type="hidden" name="twint_wp_nonce" value={nonce} id="twint_wp_nonce"/>
                         <div className="flex flex-col md:flex-row gap-4 bg-gray-100">
+
                             <div
                                 className="qr-code md:flex flex flex-1 order-1 md:order-none bg-white md:rounded-lg items-center justify-center">
-                                <div data-twint-copy-token=""
-                                     className="md:flex flex flex-col text-center md:flex-col-reverse ">
-                                    <div className="qr-token text-center">
+                                <div className="md:flex flex flex-col text-center md:flex-col-reverse ">
+                                    <div className="qr-token text-center my-3">
                                         <input id="qr-token"
                                                className="bg-white"
                                                type="text"
@@ -228,7 +223,7 @@ const ModalTwintPayment = (
                                         />
                                     </div>
 
-                                    <div className="md:hidden text-center mt-4">
+                                    <div className="md:hidden text-center my-4">
                                         <button id="btn-copy-token"
                                                 data-clipboard-action="copy"
                                                 data-clipboard-target="#qr-token"
@@ -237,7 +232,7 @@ const ModalTwintPayment = (
                                         </button>
                                     </div>
 
-                                    <div className="flex text-center items-center justify-center"
+                                    <div className="hidden md:flex text-center items-center justify-center"
                                          id="qrcode"
                                          title={pairingToken}>
                                         <img
@@ -250,7 +245,7 @@ const ModalTwintPayment = (
                             <div className="flex-1 order-0 md:order-1 flex flex-col gap-1 md:gap-4">
                                 <div className="flex flex-1 bg-white p-4 md:rounded-lg items-center justify-center">
                                         <span id="twint-amount"
-                                              className="text-center text-35 inline-block p-3 px-6 text-white bg-black font-semibold">
+                                              className="text-center text-30 inline-block p-3 px-6 text-white bg-black font-semibold">
                                             {price}
                                         </span>
                                 </div>
@@ -259,7 +254,254 @@ const ModalTwintPayment = (
                                 </div>
 
                                 <div className="app-selector md:hidden">
-                                    <div className="qr-code hidden md:flex text-center md:hidden">
+                                    {/* Android */}
+                                    <div className="text-center mt-4 px-4">
+                                        <a id="twint-addroid-button" className="no-underline block mb-1 bg-black text-white font-bold p-4 rounded-lg text-center hover:bg-gray-800 focus:outline-none focus:ring-gray-600 focus:ring-opacity-75
+                            hover:text-white hover:no-underline
+                        "
+                                           data-href="javascript:window.location = intent://payment#Intent;action=ch.twint.action.TWINT_PAYMENT;scheme=twint;S.code=--TOKEN--;S.startingOrigin=EXTERNAL_WEB_BROWSER;S.browser_fallback_url=;end"
+                                           href="javascript:window.location = 'intent://payment#Intent;action=ch.twint.action.TWINT_PAYMENT;scheme=twint;S.code=FUAY86ZVW;S.startingOrigin=EXTERNAL_WEB_BROWSER;S.browser_fallback_url=;end'">
+                                            Switch to TWINT app now
+                                        </a>
+                                    </div>
+
+                                    {/*Ios*/}
+                                    <div id="twint-ios-container">
+                                        <div className="my-6 text-center">
+                                            Choose your TWINT app:
+                                        </div>
+
+                                        <div
+                                          className="twint-app-container w-3/4 mx-auto justify-center max-w-screen-md mx-auto grid grid-cols-3 gap-4">
+                                            <img
+                                              src="https://twint-magento247.dev.nfq-asia.com/static/version1726028513/frontend/Magento/luma/en_US/Twint_Magento/images/apps/bank-bcv.png"
+                                              className="shadow-2xl w-64 h-64 rounded-2xl mx-auto"
+                                              data-link="twint-issuer5://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}"
+                                              alt="BCV TWINT"/>
+                                                <img
+                                              src="https://twint-magento247.dev.nfq-asia.com/static/version1726028513/frontend/Magento/luma/en_US/Twint_Magento/images/apps/bank-cs.png"
+                                              className="shadow-2xl w-64 h-64 rounded-2xl mx-auto"
+                                              data-link="twint-issuer4://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}"
+                                              alt="Credit Suisse TWINT"/>
+                                                    <img
+                                              src="https://twint-magento247.dev.nfq-asia.com/static/version1726028513/frontend/Magento/luma/en_US/Twint_Magento/images/apps/bank-pf.png"
+                                              className="shadow-2xl w-64 h-64 rounded-2xl mx-auto"
+                                              data-link="twint-issuer7://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}"
+                                              alt="PostFinance TWINT"/>
+                                                        <img
+                                              src="https://twint-magento247.dev.nfq-asia.com/static/version1726028513/frontend/Magento/luma/en_US/Twint_Magento/images/apps/bank-raiffeisen.png"
+                                              className="shadow-2xl w-64 h-64 rounded-2xl mx-auto"
+                                              data-link="twint-issuer6://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}"
+                                              alt="Raiffeisen TWINT" />
+                                                            <img
+                                              src="https://twint-magento247.dev.nfq-asia.com/static/version1726028513/frontend/Magento/luma/en_US/Twint_Magento/images/apps/bank-ubs.png"
+                                              className="shadow-2xl w-64 h-64 rounded-2xl mx-auto"
+                                              data-link="twint-issuer2://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}"
+                                              alt="UBS TWINT" />
+                                        </div>
+
+                                        <select
+                                          className="twint-select h-55 block my-4 w-full p-4 bg-white text-center appearance-none border-none focus:outline-none focus:ring-0">
+                                            <option>Other banks</option>
+                                            <option
+                                              value="twint-issuer56://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">ABS
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer41://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">acrevis
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer25://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">AEK
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer30://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">AKB
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer42://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">Alpha
+                                                RHEINTAL Bank TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer12://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">AppKB
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer33://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">Baloise
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer36://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">BancaStato
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer40://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">Bank
+                                                Avera TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer48://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">Bank
+                                                BSU TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer52://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">Bank
+                                                EKI TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer53://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">Bank
+                                                Gantrisch TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer43://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">Bank
+                                                Thalwil TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer51://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">Bank
+                                                WIR TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer46://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">Banque
+                                                du Leman TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer16://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">BCF
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer10://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">BCGE
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer17://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">BCJ
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer18://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">BCN
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer13://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">BCVs
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer23://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">BEKB
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer44://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">Bernerland
+                                                Bank TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer26://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">BLKB
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer49://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">BSD
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer37://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">CA
+                                                next bank TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer45://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">Coop
+                                                Finance+ TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer15://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">GKB
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer22://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">GLKB
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer47://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">GRB
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer38://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">LLB
+                                                Schweiz TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer32://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">LUKB
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer21://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">Migros
+                                                Bank TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer29://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">NKB
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer8://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">OKB
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer28://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">Radicant
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer55://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">Regiobank
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer57://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">Saanen
+                                                Bank TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer14://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">SGKB
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer24://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">SHKB
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer54://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">SLF
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer27://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">Swissquote
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer31://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">SZKB
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer19://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">TKB
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer1://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">TWINT
+                                                – andere Banken &amp; Prepaid
+                                            </option>
+                                            <option
+                                              value="twint-issuer34://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">UKB
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer20://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">Valiant
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer39://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">VZ
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer35://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">yuh
+                                                TWINT
+                                            </option>
+                                            <option
+                                              value="twint-issuer9://applinks/?al_applink_data={&quot;app_action_type&quot;:&quot;TWINT_PAYMENT&quot;,&quot;extras&quot;: {&quot;code&quot;: &quot;--TOKEN--&quot;,},&quot;referer_app_link&quot;: {&quot;target_url&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;, &quot;app_name&quot;: &quot;EXTERNAL_WEB_BROWSER&quot;}, &quot;version&quot;: &quot;6.0&quot;}">ZugerKB
+                                                TWINT
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div className="qr-code text-center md:hidden">
                                         <div className="flex items-center justify-center mx-4">
                                             <div
                                                 className="flex-grow border-b-0 border-t border-solid border-gray-300"></div>
@@ -280,9 +522,9 @@ const ModalTwintPayment = (
                             </div>
                         </div>
 
-                        <div className="qr-code container mx-auto mt-4 text-16">
+                        <div className="qr-code container mx-auto mt-4 text-16 p-4">
                             <div className="grid grid-cols-1">
-                                <div className="flex flex-col items-center">
+                                <div className="hidden md:flex flex-col items-center">
                                     <div className="flex justify-center">
                                         <img className="w-55 h-55"
                                              src={IconScan}

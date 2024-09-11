@@ -1,7 +1,7 @@
 .twint {
   &.modal-inner-wrap {
+    @apply p-0;
     background-color: rgb(243 244 246);
-    padding: 0 !important;
 
     @media (min-width: 1024px) {
       & {
@@ -20,14 +20,7 @@
   }
 
   #twint-close {
-    border: none;
-    background-color: inherit;
-    color: #262626;
-    display: flex;
-    align-items: center;
-    vertical-align: middle;
-    font-weight: 400;
-    box-shadow: none !important;
+    @apply border-none bg-inherit text-[#262626] flex items-center align-middle font-normal shadow-none;
 
     span {
       display: inline-block;
@@ -35,10 +28,9 @@
     }
 
     &:hover, &:focus {
-      background-color: inherit;
-      border: none;
       color: #262626;
-      font-weight: 400;
+
+      @apply border-0 font-normal bg-inherit;
     }
   }
 
@@ -47,62 +39,45 @@
   }
 
   #qr-token {
-    text-align: center;
-    font-weight: 600;
-    font-size: 30px;
-    line-height: 41px;
-    letter-spacing: 4px;
-    color: black;
-    border: none;
-    opacity: 1;
-    text-transform: uppercase;
+    @apply text-center font-semibold text-[30px] leading-[41px] tracking-[4px] text-black border-none opacity-100 uppercase;
   }
 
-  #twint-copy {
+  #btn-copy-token {
+    @apply border;
     color: #262626;
 
     &.copied {
-      color: rgb(34 197 94 / var(--tw-text-opacity));
+      @apply text-green-500;
     }
   }
 
   &-select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    @apply appearance-none bg-no-repeat text-center;
     background-image: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTYgMTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTE0Ljg3NSAxLjU2MjVMOCA4LjQzNzVMMS4xMjUgMS41NjI1IiBzdHJva2U9IiMyNjI2MjYiIHN0cm9rZS13aWR0aD0iMiIvPjwvc3ZnPg==');
-    background-repeat: no-repeat;
     background-position: right 1rem center;
     background-size: 1em;
-    text-align-last: center;
   }
 }
 
 .twint-mobile{
   #qrcode{
-    display: none;
+    @apply hidden;
   }
 
   @media (orientation: landscape) {
-    display: flex;
-    justify-content: center;
+    @apply flex justify-center;
 
     & > * {
-      width: 50%;
-      max-width: 100vh;
+      @apply w-1/2 max-w-full;
     }
   }
 }
 
 .twint-modal:has(.twint-mobile){
-  width: 100%;
-  height: 100%;
-  margin: 0 !important;
-  max-height: 100% !important;
-  overflow-y: scroll !important;
+  @apply w-full h-full m-0 max-h-full overflow-y-scroll;
 
   .twint-logo{
-    display: none;
+    @apply hidden;
   }
 
   #twint-close > span{
