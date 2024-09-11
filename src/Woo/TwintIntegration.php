@@ -2,11 +2,10 @@
 
 namespace Twint\Woo;
 
-use chillerlan\QRCode\QRCode;
 use Twint\Woo\App\API\ApiService;
 use Twint\Woo\App\API\TwintApiWordpressAjax;
 use Twint\Woo\CronJob\TwintCancelOrderExpiredCronJob;
-use Twint\Woo\MetaBox\TwintApiResponseMeta;
+use Twint\Woo\MetaBox\TransactionLogMeta;
 use Twint\Woo\Migrations\CreateTwintPairingTable;
 use Twint\Woo\Migrations\CreateTwintTransactionLogTable;
 use Twint\Woo\Services\PairingService;
@@ -73,7 +72,7 @@ class TwintIntegration
 
         add_action('woocommerce_refund_created', [$this, 'refundCreatedHandler'], 10);
 
-        new TwintApiResponseMeta();
+        new TransactionLogMeta();
         new TwintApiWordpressAjax();
         new TwintCancelOrderExpiredCronJob();
         $this->paymentService = new PaymentService();

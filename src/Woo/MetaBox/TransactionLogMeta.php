@@ -4,7 +4,7 @@ namespace Twint\Woo\MetaBox;
 
 use Twint\Woo\Services\TransactionLogService;
 
-class TwintApiResponseMeta
+class TransactionLogMeta
 {
 
     public function __construct()
@@ -15,10 +15,10 @@ class TwintApiResponseMeta
     public function addShopOrderMetaBoxesTwintApiResponse(): void
     {
         add_meta_box(
-            'woocommerce-order-twint-api-response',
+            'woocommerce-order-twint-transaction-log',
             __('Transaction logs', 'woocommerce-gateway-twint'),
             [$this, 'addCustomTwintApiResponseContent'],
-            'shop_order',
+            '',
             'normal',
             'core'
         );
