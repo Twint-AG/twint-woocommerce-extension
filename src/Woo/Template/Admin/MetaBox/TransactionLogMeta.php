@@ -5,7 +5,7 @@ namespace Twint\Woo\Template\Admin\MetaBox;
 use Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Twint\Woo\Repository\TransactionRepository;
+use Twint\TwintPayment;
 
 class TransactionLogMeta
 {
@@ -41,8 +41,9 @@ class TransactionLogMeta
     {
         $order = wc_get_order($post->ID);
 
-        $transactionLogService = new TransactionRepository();
-        $logs = $transactionLogService->getLogTransactions($order->get_id());
+        $repository = TwintPayment::c('transaction.repository');
+        $logs = $repository->getLogTransactions($order->get_id());
+
         $nonce = wp_create_nonce('get_log_transaction_details');
         ?>
         <table class="content-table">

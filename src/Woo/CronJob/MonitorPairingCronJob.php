@@ -3,12 +3,15 @@
 namespace Twint\Woo\CronJob;
 
 use Twint\Woo\Service\SettingService;
+use WC_Logger_Interface;
 
 class MonitorPairingCronJob
 {
     public const HOOK_NAME = 'twint_order_handler';
 
-    public function __construct()
+    public function __construct(
+        private readonly WC_Logger_Interface $logger
+    )
     {
         add_filter('cron_schedules', [$this, 'wpCronSchedules']);
 
@@ -42,7 +45,7 @@ class MonitorPairingCronJob
 
     public function run(): void
     {
-        wc_get_logger()->info(
+        $this->logger->info(
             'twintCronJobRunning',
             [
                 'Running twint cancel expired orders',
@@ -67,7 +70,7 @@ class MonitorPairingCronJob
             $order->update_status('cancelled', $msgNote);
         }
 
-        wc_get_logger()->info(
+        $this->logger->info(
             'twintCronJobDone',
             [
                 'There are ' . count($pendingOrders) . ' pending orders has run.',

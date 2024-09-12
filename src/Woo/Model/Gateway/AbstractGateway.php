@@ -3,6 +3,8 @@
 namespace Twint\Woo\Model\Gateway;
 
 use Throwable;
+use Twint\TwintPayment;
+use WC_Logger_Interface;
 use WC_Payment_Gateway;
 use WP_Error;
 
@@ -12,11 +14,18 @@ abstract class AbstractGateway extends WC_Payment_Gateway
 
     const SUPPORTED_CURRENCY = 'CHF';
 
+    protected WC_Logger_Interface $logger;
+
     /**
      * Payment gateway instructions.
      * @var string
      */
     protected string $instructions;
+
+    public function __construct()
+    {
+        $this->logger = TwintPayment::c('logger');
+    }
 
     public static function getId(): string
     {

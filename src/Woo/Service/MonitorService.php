@@ -6,12 +6,14 @@ use Exception;
 use Throwable;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
+use WC_Logger_Interface;
 
 class MonitorService
 {
     public function __construct(
-        private readonly PairingRepository $repository = new PairingRepository(),
-        private readonly PairingService    $pairingService = new PairingService()
+        private readonly PairingRepository   $repository,
+        private readonly PairingService      $pairingService,
+        private readonly WC_Logger_Interface $logger
     )
     {
     }
@@ -30,7 +32,7 @@ class MonitorService
                 $this->monitor($pairing);
             } catch (Throwable $e) {
                 // Silent error to allow process handle next Pairings
-                wc_get_logger()->error("TWINT cli error: {$pairing->getId()} {$pairing->getToken()} {$e->getMessage()}");
+                $this->logger->error("TWINT cli error: {$pairing->getId()} {$pairing->getToken()} {$e->getMessage()}");
             }
         }
     }

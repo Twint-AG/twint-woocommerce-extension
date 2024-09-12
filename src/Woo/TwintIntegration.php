@@ -4,9 +4,6 @@ namespace Twint\Woo;
 
 use Throwable;
 use Twint\TwintPayment;
-use Twint\Woo\Api\Admin\GetTransactionLogAction;
-use Twint\Woo\Api\Admin\StoreConfigurationAction;
-use Twint\Woo\Api\Frontend\PairingMonitoringAction;
 use Twint\Woo\CronJob\MonitorPairingCronJob;
 use Twint\Woo\Migration\CreateTwintPairingTable;
 use Twint\Woo\Migration\CreateTwintTransactionLogTable;
@@ -19,6 +16,7 @@ use Twint\Woo\Service\SettingService;
 use Twint\Woo\Template\Admin\MetaBox\TransactionLogMeta;
 use Twint\Woo\Template\Admin\SettingsLayoutViewAdapter;
 use Twint\Woo\Template\BeforeThankYouBoxViewAdapter;
+use WC_Order;
 use function Psl\Filesystem\copy;
 
 class TwintIntegration
@@ -32,10 +30,10 @@ class TwintIntegration
      * Class constructor.
      */
     public function __construct(
-        private readonly PaymentService    $paymentService = new PaymentService(),
-        private readonly PairingService    $pairingService = new PairingService(),
-        private readonly ApiService        $api = new ApiService(),
-        private readonly PairingRepository $pairingRepository = new PairingRepository(),
+        private readonly PaymentService    $paymentService,
+        private readonly PairingService    $pairingService,
+        private readonly ApiService        $api,
+        private readonly PairingRepository $pairingRepository,
     )
     {
         add_action('admin_enqueue_scripts', [$this, 'enqueueStyles'], 19);
@@ -67,7 +65,7 @@ class TwintIntegration
         add_action('woocommerce_refund_created', [$this, 'refundCreatedHandler'], 10);
 
         new TransactionLogMeta();
-        new MonitorPairingCronJob();
+//        new MonitorPairingCronJob();
 
         $this->registerApiActions();
     }
@@ -75,11 +73,11 @@ class TwintIntegration
     private function registerApiActions(): void
     {
         // Admin
-        new GetTransactionLogAction();
-        new StoreConfigurationAction();
+        TwintPayment::c('get_transaction_log.action');
+        TwintPayment::c('store_configuration.action');
 
         //Frontend
-        new PairingMonitoringAction();
+        TwintPayment::c('monitor_pairing.action');
     }
 
     public static function install(): void
@@ -158,7 +156,7 @@ class TwintIntegration
     {
     }
 
-    public function additionalWoocommerceBeforeThankyou(\WC_Order|int $order): void
+    public function additionalWoocommerceBeforeThankyou(WC_Order|int $order): void
     {
         if (is_int($order)) {
             $orderId = $order;
@@ -169,7 +167,7 @@ class TwintIntegration
             return;
         }
 
-        $template = new BeforeThankYouBoxViewAdapter($order);
+        $template = new BeforeThankYouBoxViewAdapter($order, TwintPayment::c('pairing.repository'));
         $template->render();
     }
 
@@ -243,10 +241,14 @@ class TwintIntegration
      */
     public function accessSettingsMenuCallback(): void
     {
-        $templateArguments['admin_url'] = admin_url();
+        $args['admin_url'] = admin_url();
 
-        $settingsLayout = new SettingsLayoutViewAdapter($templateArguments);
-        $settingsLayout->render();
+        $adapter = new SettingsLayoutViewAdapter(
+            TwintPayment::c('setting.service'),
+            TwintPayment::c('credentials.validator'),
+            $args);
+
+        $adapter->render();
     }
 
     public function registerMenuItem(): void
@@ -278,7 +280,7 @@ class TwintIntegration
 
     public function enqueueStyles(): void
     {
-        wp_enqueue_style('css-woocommerce-gateway-twint', TwintPayment::dist( '/admin.css'));
+        wp_enqueue_style('css-woocommerce-gateway-twint', TwintPayment::dist('/admin.css'));
     }
 
     public function adminPluginSettingsLink($links)

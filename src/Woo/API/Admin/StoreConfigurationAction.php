@@ -2,17 +2,25 @@
 
 namespace Twint\Woo\Api\Admin;
 
+use Exception;
 use Twint\Sdk\Certificate\Pkcs12Certificate;
 use Twint\Woo\Api\BaseAction;
 use Twint\Woo\Helper\StringHelper;
 use Twint\Woo\Service\SettingService;
 use Twint\Woo\Utility\CertificateHandler;
-use Twint\Woo\Utility\CredentialValidator;
+use Twint\Woo\Utility\CredentialsValidator;
 use Twint\Woo\Utility\CryptoHandler;
+use WC_Logger_Interface;
 
 class StoreConfigurationAction extends BaseAction
 {
-    public function __construct()
+    public function __construct(
+        private readonly CryptoHandler        $encryptor,
+        private readonly CredentialsValidator $validator,
+        private readonly WC_Logger_Interface  $logger,
+        private readonly SettingService  $settingService,
+        private readonly CertificateHandler  $certificateHandler,
+    )
     {
         add_action('wp_ajax_store_twint_settings', [$this, 'storeTwintSettings']);
         add_action('wp_ajax_nopriv_store_twint_settings', [$this, 'requireLogin']);
@@ -39,9 +47,6 @@ class StoreConfigurationAction extends BaseAction
         }
 
         try {
-
-            $encryptor = new CryptoHandler();
-
             $pwdKey = SettingService::CERTIFICATE_PASSWORD;
             if ($_POST[$pwdKey] === 'null') {
                 $_POST[$pwdKey] = null;
@@ -71,13 +76,12 @@ class StoreConfigurationAction extends BaseAction
                 $file = $_FILES[$certificateKey];
                 $content = file_get_contents($file['tmp_name']);
 
-                $extractor = new CertificateHandler();
-                $certificate = $extractor->read((string)$content, $password);
+                $certificate = $this->certificateHandler->read((string)$content, $password);
 
                 if ($certificate instanceof Pkcs12Certificate) {
                     $certificateResult = [
-                        'certificate' => $encryptor->encrypt($certificate->content()),
-                        'passphrase' => $encryptor->encrypt($certificate->passphrase()),
+                        'certificate' => $this->encryptor->encrypt($certificate->content()),
+                        'passphrase' => $this->encryptor->encrypt($certificate->passphrase()),
                     ];
 
                 } else {
@@ -94,15 +98,15 @@ class StoreConfigurationAction extends BaseAction
             }
 
             if (!$alreadyCheckedSystemCertificate) {
-                $certificateCheck = (new SettingService())->getCertificate();
+                $certificateCheck = $this->settingService->getCertificate();
                 if (is_null($certificateCheck)) {
                     $certificateCheck = [];
                 }
                 $response = $this->checkConfiguration($testMode === SettingService::YES, $storeUuid, $certificateCheck);
             }
 
-        } catch (\Exception $exception) {
-            wc_get_logger()->error("Error when saving setting " . PHP_EOL . $exception->getMessage());
+        } catch (Exception $exception) {
+            $this->logger->error("Error when saving setting " . PHP_EOL . $exception->getMessage());
             $response['status'] = false;
             $response['error_level'] = 'error';
             $response['message'] = $exception->getMessage();
@@ -117,7 +121,7 @@ class StoreConfigurationAction extends BaseAction
     {
         $response = [];
         $certificateKey = SettingService::CERTIFICATE;
-        $isValidTwintConfiguration = (new CredentialValidator())->validate(
+        $isValidTwintConfiguration = $this->validator->validate(
             $certificate,
             $storeUuid,
             $testMode
@@ -136,7 +140,7 @@ class StoreConfigurationAction extends BaseAction
 
             $response['error_level'] = 'error';
             $response['error_type'] = 'validate_credentials';
-            $response['message'] = __('Please check again. Your Certificate file, the Test / Production Mode, Store UUID or Certificate password is incorrect.', 'woocommerce-gateway-twint');;
+            $response['message'] = __('Please check again. Your Certificate file, the Test / Production Mode, Store UUID or Certificate password is incorrect.', 'woocommerce-gateway-twint');
         }
 
         return $response;

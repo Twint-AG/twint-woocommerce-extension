@@ -8,7 +8,9 @@ use XmlHelper;
 
 class GetTransactionLogAction extends BaseAction
 {
-    public function __construct()
+    public function __construct(
+            private readonly TransactionRepository $repository
+    )
     {
         add_action('wp_ajax_get_log_transaction_details', [$this, 'getLogTransactionDetails']);
         add_action('wp_ajax_nopriv_get_log_transaction_details', [$this, 'requireLogin']);
@@ -20,8 +22,7 @@ class GetTransactionLogAction extends BaseAction
             exit('The WP Nonce is invalid, please check again!');
         }
 
-        $repository = new TransactionRepository();
-        $data = $repository->getLogTransactionDetails($_REQUEST['record_id']);
+        $data = $this->repository->getLogTransactionDetails($_REQUEST['record_id']);
 
         $soapActions = json_decode($data['soap_action'], true);
         $soapResponses = json_decode($data['soap_response'], true);

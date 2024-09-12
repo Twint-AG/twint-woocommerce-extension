@@ -9,18 +9,19 @@ use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Uuid;
-use Twint\Woo\Exception\PaymentException;
 use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Model\ApiResponse;
 use Twint\Woo\Repository\PairingRepository;
+use WC_Logger_Interface;
 use WC_Order;
 
 class PaymentService
 {
     public function __construct(
-        private readonly ClientBuilder     $builder = new ClientBuilder(),
-        private readonly ApiService        $api = new ApiService(),
-        private readonly PairingRepository $repository = new PairingRepository(),
+        private readonly ClientBuilder       $builder,
+        private readonly ApiService          $api,
+        private readonly PairingRepository   $repository,
+        private readonly WC_Logger_Interface $logger
     )
     {
     }
@@ -53,7 +54,7 @@ class PaymentService
             });
 
         } catch (Exception $e) {
-            wc_get_logger()->error('An error occurred during the communication with external payment gateway' . PHP_EOL . $e->getMessage());
+            $this->logger->error('An error occurred during the communication with external payment gateway' . PHP_EOL . $e->getMessage());
             throw $e;
         }
     }
@@ -83,7 +84,7 @@ class PaymentService
                 }
             }
         } catch (Exception $e) {
-            wc_get_logger()->error('An error occurred during the communication with external payment gateway' . PHP_EOL . $e->getMessage());
+            $this->logger->error('An error occurred during the communication with external payment gateway' . PHP_EOL . $e->getMessage());
 
             throw $e;
         }

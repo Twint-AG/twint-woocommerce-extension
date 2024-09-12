@@ -10,9 +10,17 @@ use Twint\Sdk\InvocationRecorder\InvocationRecordingClient;
 use Twint\Sdk\InvocationRecorder\Value\Invocation;
 use Twint\Woo\Model\ApiResponse;
 use Twint\Woo\Repository\TransactionRepository;
+use WC_Logger_Interface;
+use const PHP_EOL;
 
 class ApiService
 {
+    public function __construct(
+        private readonly WC_Logger_Interface $logger
+    )
+    {
+    }
+
     /**
      * @param callable|null $buildLogCallback A callback function to build the log. It should accept two parameters.
      * @throws Throwable
@@ -22,7 +30,7 @@ class ApiService
         try {
             $returnValue = $client->{$method}(...$args);
         } catch (Throwable $e) {
-            wc_get_logger()->error('TWINT - API error: ' . \PHP_EOL . $e->getMessage());
+            $this->logger->error('TWINT - API error: ' . PHP_EOL . $e->getMessage());
             throw $e;
         } finally {
             $invocations = $client->flushInvocations();
@@ -73,7 +81,7 @@ class ApiService
             global $wpdb;
             $wpdb->insert(TransactionRepository::getTableName(), $log);
         } catch (Throwable $exception) {
-            wc_get_logger()->error("TWINT - Error when saving setting " . PHP_EOL . $exception->getMessage());
+            $this->logger->error("TWINT - Error when saving setting " . PHP_EOL . $exception->getMessage());
         }
 
         return $log;

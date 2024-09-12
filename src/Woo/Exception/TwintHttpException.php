@@ -2,7 +2,12 @@
 
 namespace Twint\Woo\Exception;
 
-abstract class TwintHttpException extends \Twint\Woo\Exception\HttpException implements TwintException
+use Generator;
+use Throwable;
+use WP_Http;
+use function is_array;
+
+abstract class TwintHttpException extends HttpException implements TwintException
 {
     /**
      * @var array<string, mixed>
@@ -15,7 +20,7 @@ abstract class TwintHttpException extends \Twint\Woo\Exception\HttpException imp
     public function __construct(
         string      $message,
         array       $parameters = [],
-        ?\Throwable $e = null
+        ?Throwable $e = null
     )
     {
         $this->parameters = $parameters;
@@ -32,7 +37,7 @@ abstract class TwintHttpException extends \Twint\Woo\Exception\HttpException imp
         $regex = [];
 
         foreach ($parameters as $key => $value) {
-            if (\is_array($value)) {
+            if (is_array($value)) {
                 continue;
             }
 
@@ -45,10 +50,10 @@ abstract class TwintHttpException extends \Twint\Woo\Exception\HttpException imp
 
     public function getStatusCode(): int
     {
-        return \WP_Http::INTERNAL_SERVER_ERROR;
+        return WP_Http::INTERNAL_SERVER_ERROR;
     }
 
-    public function getErrors(bool $withTrace = false): \Generator
+    public function getErrors(bool $withTrace = false): Generator
     {
         yield $this->getCommonErrorData($withTrace);
     }

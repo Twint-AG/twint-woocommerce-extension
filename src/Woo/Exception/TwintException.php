@@ -2,7 +2,9 @@
 
 namespace Twint\Woo\Exception;
 
-interface TwintException extends \Throwable
+use Throwable;
+
+interface TwintException extends Throwable
 {
     public function getErrorCode(): string;
 

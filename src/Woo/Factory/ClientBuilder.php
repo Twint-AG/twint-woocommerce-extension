@@ -24,22 +24,13 @@ use Twint\Woo\Utility\CryptoHandler;
 
 class ClientBuilder
 {
-    public static $instance;
+    static private InvocationRecordingClient $instance;
 
-    /**
-     * @var CryptoHandler
-     */
-    private CryptoHandler $crypto;
-
-    /**
-     * @var SettingService
-     */
-    private SettingService $setting;
-
-    public function __construct()
+    public function __construct(
+        private readonly CryptoHandler  $crypto,
+        private readonly SettingService $setting,
+    )
     {
-        $this->crypto = new CryptoHandler();
-        $this->setting = new SettingService();
     }
 
     public function build(int $version = Version::LATEST): InvocationRecordingClient

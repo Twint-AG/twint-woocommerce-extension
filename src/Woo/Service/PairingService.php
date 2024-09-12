@@ -14,17 +14,17 @@ use Twint\Woo\Model\ApiResponse;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Provider\DatabaseServiceProvider;
+use WC_Logger_Interface;
 use WC_Order;
 
 class PairingService
 {
-    private ClientBuilder $client;
-    private ApiService $apiService;
-
-    public function __construct()
+    public function __construct(
+        private readonly ClientBuilder       $builder,
+        private readonly ApiService          $apiService,
+        private readonly WC_Logger_Interface $logger
+    )
     {
-        $this->client = new ClientBuilder();
-        $this->apiService = new ApiService();
     }
 
     public function create(ApiResponse $response, WC_Order $order): Pairing
@@ -58,7 +58,7 @@ class PairingService
 
         $org = clone $pairing;
 
-        $client = $this->client->build();
+        $client = $this->builder->build();
         $apiResponse = $this->apiService->call($client, 'monitorOrder', [
             new OrderId(new Uuid($pairing->getId()))
         ], false);
@@ -77,7 +77,7 @@ class PairingService
                     throw $e;
                 }
 
-                wc_get_logger()->info(
+                $this->logger->info(
                     "[TWINT] - Update pairing is locked {$pairing->getId()} {$pairing->getVersion()} {$pairing->getStatus()}"
                 );
 
@@ -94,13 +94,13 @@ class PairingService
 
         if (!$org->isSuccess() && $tOrder->isSuccessful()) {
             $status = RegularCheckoutGateway::getOrderStatusAfterPaid();
-            wc_get_logger()->info("[TWINT] - Mark Order {$order->get_id()} and Pairing {$pairing->getId()} as {$status}");
+            $this->logger->info("[TWINT] - Mark Order {$order->get_id()} and Pairing {$pairing->getId()} as {$status}");
             $order->update_status($status);
         }
 
         if (!$org->isFailed() && $tOrder->isFailure()) {
             $status = RegularCheckoutGateway::getOrderStatusAfterCancelled();
-            wc_get_logger()->info("[TWINT] - Mark Order {$order->get_id()} and Pairing {$pairing->getId()} as {$status}");
+            $this->logger->info("[TWINT] - Mark Order {$order->get_id()} and Pairing {$pairing->getId()} as {$status}");
             $order->update_status($status);
         }
 

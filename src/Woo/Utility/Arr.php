@@ -2,6 +2,12 @@
 
 namespace Twint\Woo\Utility;
 
+use ArrayAccess;
+use ArrayObject;
+use Exception;
+use RecursiveArrayIterator;
+use RecursiveIteratorIterator;
+
 class Arr
 {
     /**
@@ -38,7 +44,7 @@ class Arr
      * @param string|null $index
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public static function pluck(array $array, $columns, ?string $index = null): array
     {
@@ -63,7 +69,7 @@ class Arr
                 $index_key = Data::walk($index, $item);
 
                 if (array_key_exists($index_key, $list)) {
-                    throw new \Exception('Array key must be unique for Arr::pluck with index.');
+                    throw new Exception('Array key must be unique for Arr::pluck with index.');
                 }
 
                 $list[$index_key] = $item_value;
@@ -139,7 +145,7 @@ class Arr
      * @param bool $unique
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public static function indexBy(string $index, array $array, $unique = true): array
     {
@@ -147,7 +153,7 @@ class Arr
 
         foreach ($array as $item) {
             if (!is_array($item) || ($unique && array_key_exists($item[$index], $indexed_list))) {
-                throw new \Exception('Array list required and array key must be unique for Arr::indexBy.');
+                throw new Exception('Array list required and array key must be unique for Arr::indexBy.');
             }
 
             $indexed_list[$item[$index]] = $item;
@@ -209,7 +215,7 @@ class Arr
      */
     public static function meld(array $array): array
     {
-        $iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($array));
+        $iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($array));
         $result = [];
         foreach ($iterator as $value) {
             $keys = [];
@@ -228,7 +234,7 @@ class Arr
      *
      * Strictly get a value from an array using dot notation without wilds (*).
      *
-     * @param array|\ArrayAccess $array Array to search.
+     * @param array|ArrayAccess $array Array to search.
      * @param string|array $needle Value to check in dot notation, or an array of string values.
      * @param mixed $default Fallback if value is null.
      */
@@ -252,7 +258,7 @@ class Arr
      *
      * Strictly check if dot notation without wilds (*) index exists.
      *
-     * @param array|\ArrayAccess $array Array to search.
+     * @param array|ArrayAccess $array Array to search.
      * @param string|array $needle Value to check in dot notation, or an array of string values.
      */
     public static function has($array, $needle)
@@ -267,7 +273,7 @@ class Arr
             foreach ($search as $index) {
                 if (is_array($array) && array_key_exists($index, $array)) {
                     $array = $array[$index];
-                } elseif ($array instanceof \ArrayAccess && $array->offsetExists($index)) {
+                } elseif ($array instanceof ArrayAccess && $array->offsetExists($index)) {
                     $array = $array[$index];
                 } else {
                     return false;
@@ -323,7 +329,7 @@ class Arr
      * Used to format fields
      *
      * @param string|array $dots
-     * @param array|\ArrayObject $arr
+     * @param array|ArrayObject $arr
      * @param string|callable $callback
      *
      * @return array|null
@@ -387,7 +393,7 @@ class Arr
      */
     public static function isAccessible($var): bool
     {
-        return is_array($var) || $var instanceof \ArrayAccess;
+        return is_array($var) || $var instanceof ArrayAccess;
     }
 
     /**
@@ -442,7 +448,7 @@ class Arr
     /**
      * Exists
      *
-     * @param \ArrayAccess|array $array
+     * @param ArrayAccess|array $array
      * @param string|int $key
      * @return bool
      */
@@ -452,7 +458,7 @@ class Arr
             $key = (string)$key;
         }
 
-        if ($array instanceof \ArrayAccess) {
+        if ($array instanceof ArrayAccess) {
             return $array->offsetExists($key);
         }
 
@@ -462,7 +468,7 @@ class Arr
     /**
      * Last Item
      *
-     * @param array|\ArrayObject $array
+     * @param array|ArrayObject $array
      * @return mixed|null
      */
     public static function last($array, $callback = null, $default = null)
@@ -473,7 +479,7 @@ class Arr
     /**
      * First Item
      *
-     * @param array|\ArrayObject $array
+     * @param array|ArrayObject $array
      * @return mixed|null
      */
     public static function first($array, $callback = null, $default = null)

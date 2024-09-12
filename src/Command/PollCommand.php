@@ -12,6 +12,7 @@ use Throwable;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Service\MonitorService;
+use WC_Logger_Interface;
 
 #[AsCommand(name: 'twint:poll')]
 class PollCommand extends Command
@@ -19,8 +20,9 @@ class PollCommand extends Command
     const COMMAND = 'twint:poll';
 
     public function __construct(
-        private readonly PairingRepository $repository = new PairingRepository(),
-        private readonly MonitorService $monitor = new MonitorService(),
+        private readonly PairingRepository $repository,
+        private readonly MonitorService $monitor,
+        private readonly WC_Logger_Interface $logger
     )
     {
         parent::__construct();
@@ -46,7 +48,7 @@ class PollCommand extends Command
 
         while (!$pairing->isFinished()) {
             $output->writeln("<info>Checking count: {$count}</info>");
-            wc_get_logger()->info("[TWINT] - monitoring: {$pairingId}: {$pairing->getVersion()}");
+            $this->logger->info("[TWINT] - monitoring: {$pairingId}: {$pairing->getVersion()}");
             $this->repository->updateCheckedAt($pairing);
 
             $this->monitor->monitor($pairing);

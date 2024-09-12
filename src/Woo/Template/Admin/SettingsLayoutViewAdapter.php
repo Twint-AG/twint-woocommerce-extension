@@ -6,11 +6,14 @@ use Twint\Woo\Service\SettingService;
 use Twint\Woo\Template\Admin\Setting\Tab\Credentials;
 use Twint\Woo\Template\Admin\Setting\Tab\ExpressCheckout;
 use Twint\Woo\Template\Admin\Setting\Tab\RegularCheckout;
-use Twint\Woo\Utility\CredentialValidator;
+use Twint\Woo\Utility\CredentialsValidator;
 
 class SettingsLayoutViewAdapter
 {
-    public function __construct(private array $data = [])
+    public function __construct(
+        private readonly SettingService       $settingService,
+        private readonly CredentialsValidator $validator,
+        private array                         $data = [])
     {
     }
 
@@ -120,9 +123,9 @@ class SettingsLayoutViewAdapter
 
     public function checkInvalidCredentialsOrNot(): bool
     {
-        $certificateCheck = (new SettingService())->getCertificate();
+        $certificateCheck = $this->settingService->getCertificate();
 
-        return (new CredentialValidator())->validate(
+        return $this->validator->validate(
             $certificateCheck,
             get_option(SettingService::STORE_UUID),
             get_option(SettingService::TEST_MODE) === SettingService::YES

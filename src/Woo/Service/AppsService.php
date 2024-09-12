@@ -9,7 +9,7 @@ use function Psl\Type\string;
 class AppsService
 {
     public function __construct(
-        private readonly ClientBuilder $builder = new ClientBuilder()
+        private readonly ClientBuilder $builder
     )
     {
     }

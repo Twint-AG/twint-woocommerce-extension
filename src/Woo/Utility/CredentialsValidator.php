@@ -16,16 +16,12 @@ use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\Version;
 use Twint\Woo\Service\SettingService;
 
-class CredentialValidator implements CredentialValidatorInterface
+class CredentialsValidator implements CredentialValidatorInterface
 {
-    /**
-     * @var CryptoHandler
-     */
-    private CryptoHandler $crypto;
-
-    public function __construct()
+    public function __construct(
+        private readonly CryptoHandler $crypto
+    )
     {
-        $this->crypto = new CryptoHandler();
     }
 
     /**

@@ -10,7 +10,7 @@ class BeforeThankYouBoxViewAdapter
 {
     public function __construct(
         private readonly WC_Order          $order,
-        private readonly PairingRepository $pairingRepository = new PairingRepository(),
+        private readonly PairingRepository $pairingRepository,
     )
     {
     }

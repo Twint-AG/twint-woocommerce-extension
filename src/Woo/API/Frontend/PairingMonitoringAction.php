@@ -9,13 +9,15 @@ use Twint\TwintPayment;
 use Twint\Woo\Api\BaseAction;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
+use WC_Logger_Interface;
 
 class PairingMonitoringAction extends BaseAction
 {
     private const TIME_WINDOW_SECONDS = 10; // 10 seconds
 
     public function __construct(
-        private readonly PairingRepository $pairingRepository = new PairingRepository(),
+        private readonly PairingRepository   $pairingRepository,
+        private readonly WC_Logger_Interface $logger
     )
     {
         add_action('wp_ajax_nopriv_twint_check_pairing_status', [$this, 'requireLogin']);
@@ -39,7 +41,7 @@ class PairingMonitoringAction extends BaseAction
         }
 
         if (!$pairing->isFinished() && !$this->isRunning($pairing)) {
-            wc_get_logger()->info("[TWINT] - Checking pairing [{$pairingId}]...");
+            $this->logger->info("[TWINT] - Checking pairing [{$pairingId}]...");
 
             $process = new Process([
                 'php',
