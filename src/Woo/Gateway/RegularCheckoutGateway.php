@@ -5,10 +5,8 @@ namespace Twint\Woo\Gateway;
 // Exit if accessed directly.
 use chillerlan\QRCode\QRCode;
 use Exception;
-use Throwable;
-use Twint\Woo\Services\PairingService;
-use Twint\Woo\Services\SettingService;
-use WP_Error;
+use Twint\Woo\Service\PairingService;
+use Twint\Woo\Service\SettingService;
 
 
 class RegularCheckoutGateway extends AbstractGateway

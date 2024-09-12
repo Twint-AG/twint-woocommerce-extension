@@ -3,7 +3,7 @@
 namespace Twint\Woo\Gateway;
 
 use Twint\TwintPayment;
-use Twint\Woo\Services\SettingService;
+use Twint\Woo\Service\SettingService;
 use WP_Error;
 
 class ExpressCheckoutGateway extends AbstractGateway
@@ -84,6 +84,18 @@ class ExpressCheckoutGateway extends AbstractGateway
                 'type' => 'display_options',
             ]
         ];
+    }
+
+    /**
+     * Set up the status of the order after order got paid.
+     * @return string
+     * @since 1.0.0
+     *
+     */
+    public static function getOrderStatusAfterPaid(): string
+    {
+        // TODO use config or database option for this.
+        return apply_filters('woocommerce_twint_order_status_paid', 'processing');
     }
 
     public function generate_display_options_html(): string
@@ -199,18 +211,6 @@ class ExpressCheckoutGateway extends AbstractGateway
         }
 
         return $status;
-    }
-
-    /**
-     * Set up the status of the order after order got paid.
-     * @return string
-     * @since 1.0.0
-     *
-     */
-    public static function getOrderStatusAfterPaid(): string
-    {
-        // TODO use config or database option for this.
-        return apply_filters('woocommerce_twint_order_status_paid', 'processing');
     }
 
     /**

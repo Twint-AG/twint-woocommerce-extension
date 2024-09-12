@@ -1,5 +1,7 @@
 <?php
-class XmlHelper {
+
+class XmlHelper
+{
     public static function format($xml): bool|string
     {
         $dom = new DOMDocument('1.0');

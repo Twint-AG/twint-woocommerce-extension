@@ -23,24 +23,6 @@ abstract class AbstractGateway extends WC_Payment_Gateway
         return static::UNIQUE_PAYMENT_ID;
     }
 
-    /**
-     * Set up the status initial for the order first created.
-     * @param $status
-     * @param $orderId
-     * @param $order
-     * @return string
-     * @since 1.0.0
-     *
-     */
-    public function setCompleteOrderStatus($status, $orderId, $order): string
-    {
-        if ($order && static::UNIQUE_PAYMENT_ID === $order->get_payment_method()) {
-            $status = 'pending';
-        }
-
-        return $status;
-    }
-
     public static function getOrderStatusAfterCancelled()
     {
         return apply_filters('woocommerce_twint_order_status_cancelled', 'cancelled');
@@ -66,6 +48,24 @@ abstract class AbstractGateway extends WC_Payment_Gateway
     public static function getOrderStatusAfterPartiallyRefunded(): string
     {
         return apply_filters('woocommerce_twint_order_status_after_partially_refunded', 'wc-refunded-partial');
+    }
+
+    /**
+     * Set up the status initial for the order first created.
+     * @param $status
+     * @param $orderId
+     * @param $order
+     * @return string
+     * @since 1.0.0
+     *
+     */
+    public function setCompleteOrderStatus($status, $orderId, $order): string
+    {
+        if ($order && static::UNIQUE_PAYMENT_ID === $order->get_payment_method()) {
+            $status = 'pending';
+        }
+
+        return $status;
     }
 
     /**

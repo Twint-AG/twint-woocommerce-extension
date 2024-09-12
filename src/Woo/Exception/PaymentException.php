@@ -2,8 +2,10 @@
 
 namespace Twint\Woo\Exception;
 
+use Throwable;
 use Twint\Woo\Abstract\Core\Exception\HttpException;
 use WP_Http;
+use const PHP_EOL;
 
 class PaymentException extends HttpException
 {
@@ -30,12 +32,12 @@ class PaymentException extends HttpException
     final public const PAYMENT_VALIDATE_PREPARED_ERROR = 'CHECKOUT__VALIDATE_PREPARED_PAYMENT_ERROR';
     final public const PAYMENT_METHOD_DUPLICATE_TECHNICAL_NAME = 'CHECKOUT__DUPLICATE_PAYMENT_METHOD_TECHNICAL_NAME';
 
-    public static function asyncFinalizeInterrupted(string $orderTransactionId, string $errorMessage, ?\Throwable $e = null): self
+    public static function asyncFinalizeInterrupted(string $orderTransactionId, string $errorMessage, ?Throwable $e = null): self
     {
         return new self(
             WP_Http::BAD_REQUEST,
             self::PAYMENT_ASYNC_FINALIZE_INTERRUPTED,
-            'The asynchronous payment finalize was interrupted due to the following error:' . \PHP_EOL . '{{ errorMessage }}',
+            'The asynchronous payment finalize was interrupted due to the following error:' . PHP_EOL . '{{ errorMessage }}',
             [
                 'errorMessage' => $errorMessage,
                 'orderTransactionId' => $orderTransactionId,
@@ -44,12 +46,12 @@ class PaymentException extends HttpException
         );
     }
 
-    public static function asyncProcessInterrupted(string $orderTransactionId, string $errorMessage, ?\Throwable $e = null): self
+    public static function asyncProcessInterrupted(string $orderTransactionId, string $errorMessage, ?Throwable $e = null): self
     {
         return new self(
             WP_Http::BAD_REQUEST,
             self::PAYMENT_ASYNC_PROCESS_INTERRUPTED,
-            'The asynchronous payment process was interrupted due to the following error:' . \PHP_EOL . '{{ errorMessage }}',
+            'The asynchronous payment process was interrupted due to the following error:' . PHP_EOL . '{{ errorMessage }}',
             [
                 'errorMessage' => $errorMessage,
                 'orderTransactionId' => $orderTransactionId,
@@ -58,12 +60,12 @@ class PaymentException extends HttpException
         );
     }
 
-    public static function syncProcessInterrupted(string $orderTransactionId, string $errorMessage, ?\Throwable $e = null): self
+    public static function syncProcessInterrupted(string $orderTransactionId, string $errorMessage, ?Throwable $e = null): self
     {
         return new self(
             WP_Http::BAD_REQUEST,
             self::PAYMENT_SYNC_PROCESS_INTERRUPTED,
-            'The synchronous payment process was interrupted due to the following error:' . \PHP_EOL . '{{ errorMessage }}',
+            'The synchronous payment process was interrupted due to the following error:' . PHP_EOL . '{{ errorMessage }}',
             [
                 'errorMessage' => $errorMessage,
                 'orderTransactionId' => $orderTransactionId,
@@ -72,12 +74,12 @@ class PaymentException extends HttpException
         );
     }
 
-    public static function capturePreparedException(string $orderTransactionId, string $errorMessage, ?\Throwable $e = null): self
+    public static function capturePreparedException(string $orderTransactionId, string $errorMessage, ?Throwable $e = null): self
     {
         return new self(
             WP_Http::BAD_REQUEST,
             self::PAYMENT_CAPTURE_PREPARED_ERROR,
-            'The capture process of the prepared payment was interrupted due to the following error:' . \PHP_EOL . '{{ errorMessage }}',
+            'The capture process of the prepared payment was interrupted due to the following error:' . PHP_EOL . '{{ errorMessage }}',
             [
                 'errorMessage' => $errorMessage,
                 'orderTransactionId' => $orderTransactionId,
@@ -86,7 +88,7 @@ class PaymentException extends HttpException
         );
     }
 
-    public static function customerCanceled(string $orderTransactionId, string $additionalInformation, ?\Throwable $e = null): self
+    public static function customerCanceled(string $orderTransactionId, string $additionalInformation, ?Throwable $e = null): self
     {
         return new self(
             WP_Http::BAD_REQUEST,
@@ -100,7 +102,7 @@ class PaymentException extends HttpException
         );
     }
 
-    public static function invalidOrder(string $orderId, ?\Throwable $e = null): self
+    public static function invalidOrder(string $orderId, ?Throwable $e = null): self
     {
         return new self(
             WP_Http::NOT_FOUND,
@@ -111,7 +113,7 @@ class PaymentException extends HttpException
         );
     }
 
-    public static function refundInvalidTransition(string $refundId, string $stateName, ?\Throwable $e = null): self
+    public static function refundInvalidTransition(string $refundId, string $stateName, ?Throwable $e = null): self
     {
         return new self(
             WP_Http::BAD_REQUEST,
@@ -122,7 +124,7 @@ class PaymentException extends HttpException
         );
     }
 
-    public static function invalidToken(string $token, ?\Throwable $e = null): self
+    public static function invalidToken(string $token, ?Throwable $e = null): self
     {
         return new self(
             WP_Http::BAD_REQUEST,
@@ -133,7 +135,7 @@ class PaymentException extends HttpException
         );
     }
 
-    public static function invalidTransaction(string $transactionId, ?\Throwable $e = null): self
+    public static function invalidTransaction(string $transactionId, ?Throwable $e = null): self
     {
         return new self(
             WP_Http::BAD_REQUEST,
@@ -144,7 +146,7 @@ class PaymentException extends HttpException
         );
     }
 
-    public static function pluginPaymentMethodDeleteRestriction(?\Throwable $e = null): self
+    public static function pluginPaymentMethodDeleteRestriction(?Throwable $e = null): self
     {
         return new self(
             WP_Http::BAD_REQUEST,
@@ -155,12 +157,12 @@ class PaymentException extends HttpException
         );
     }
 
-    public static function refundInterrupted(string $refundId, string $errorMessage, ?\Throwable $e = null): self
+    public static function refundInterrupted(string $refundId, string $errorMessage, ?Throwable $e = null): self
     {
         return new self(
             WP_Http::BAD_REQUEST,
             self::PAYMENT_REFUND_PROCESS_INTERRUPTED,
-            'The refund process was interrupted due to the following error:' . \PHP_EOL . '{{ errorMessage }}',
+            'The refund process was interrupted due to the following error:' . PHP_EOL . '{{ errorMessage }}',
             [
                 'refundId' => $refundId,
                 'errorMessage' => $errorMessage,
@@ -169,12 +171,12 @@ class PaymentException extends HttpException
         );
     }
 
-    public static function recurringInterrupted(string $transactionId, string $errorMessage, ?\Throwable $e = null): self
+    public static function recurringInterrupted(string $transactionId, string $errorMessage, ?Throwable $e = null): self
     {
         return new self(
             WP_Http::BAD_REQUEST,
             self::PAYMENT_RECURRING_PROCESS_INTERRUPTED,
-            'The recurring capture process was interrupted due to the following error:' . \PHP_EOL . '{{ errorMessage }}',
+            'The recurring capture process was interrupted due to the following error:' . PHP_EOL . '{{ errorMessage }}',
             [
                 'orderTransactionId' => $transactionId,
                 'errorMessage' => $errorMessage,
@@ -183,7 +185,7 @@ class PaymentException extends HttpException
         );
     }
 
-    public static function tokenExpired(string $token, ?\Throwable $e = null): self
+    public static function tokenExpired(string $token, ?Throwable $e = null): self
     {
         return new self(
             WP_Http::BAD_REQUEST,
@@ -196,7 +198,7 @@ class PaymentException extends HttpException
         );
     }
 
-    public static function tokenInvalidated(string $token, ?\Throwable $e = null): self
+    public static function tokenInvalidated(string $token, ?Throwable $e = null): self
     {
         return new self(
             WP_Http::BAD_REQUEST,
@@ -209,7 +211,7 @@ class PaymentException extends HttpException
         );
     }
 
-    public static function unknownPaymentMethodById(string $paymentMethodId, ?\Throwable $e = null): self
+    public static function unknownPaymentMethodById(string $paymentMethodId, ?Throwable $e = null): self
     {
         return new self(
             WP_Http::BAD_REQUEST,
@@ -220,7 +222,7 @@ class PaymentException extends HttpException
         );
     }
 
-    public static function unknownPaymentMethodByHandlerIdentifier(string $paymentMethodId, ?\Throwable $e = null): self
+    public static function unknownPaymentMethodByHandlerIdentifier(string $paymentMethodId, ?Throwable $e = null): self
     {
         return new self(
             WP_Http::BAD_REQUEST,
@@ -231,7 +233,7 @@ class PaymentException extends HttpException
         );
     }
 
-    public static function unknownRefund(string $refundId, ?\Throwable $e = null): self
+    public static function unknownRefund(string $refundId, ?Throwable $e = null): self
     {
         return new self(
             WP_Http::BAD_REQUEST,
@@ -242,7 +244,7 @@ class PaymentException extends HttpException
         );
     }
 
-    public static function unknownRefundHandler(string $refundId, ?\Throwable $e = null): self
+    public static function unknownRefundHandler(string $refundId, ?Throwable $e = null): self
     {
         return new self(
             WP_Http::BAD_REQUEST,
@@ -253,12 +255,12 @@ class PaymentException extends HttpException
         );
     }
 
-    public static function validatePreparedPaymentInterrupted(string $errorMessage, ?\Throwable $e = null): self
+    public static function validatePreparedPaymentInterrupted(string $errorMessage, ?Throwable $e = null): self
     {
         return new self(
             WP_Http::BAD_REQUEST,
             self::PAYMENT_VALIDATE_PREPARED_ERROR,
-            'The validation process of the prepared payment was interrupted due to the following error:' . \PHP_EOL . '{{ errorMessage }}',
+            'The validation process of the prepared payment was interrupted due to the following error:' . PHP_EOL . '{{ errorMessage }}',
             ['errorMessage' => $errorMessage],
             $e
         );

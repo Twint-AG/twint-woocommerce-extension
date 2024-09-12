@@ -9,16 +9,6 @@ class Str
     public const LATIN1 = 'ISO-8859-1';
 
     /**
-     * @param string $str
-     *
-     * @return false|string
-     */
-    public static function uppercaseWords(string $str)
-    {
-        return mb_convert_case($str, MB_CASE_TITLE, static::UTF8);
-    }
-
-    /**
      * HTML class names helper
      *
      * @param string $defaults
@@ -35,20 +25,6 @@ class Str
         $defaults = !is_array($defaults) ? $defaults : '';
 
         return $defaults . ' ' . $result;
-    }
-
-    /**
-     * Quiet
-     *
-     * Is null or is blank after trim.
-     *
-     * @param string|null $string
-     *
-     * @return bool
-     */
-    public static function quiet(?string $string): bool
-    {
-        return !isset($string) || (trim($string) === '');
     }
 
     /**
@@ -305,6 +281,16 @@ class Str
     }
 
     /**
+     * @param string $str
+     *
+     * @return false|string
+     */
+    public static function uppercaseWords(string $str)
+    {
+        return mb_convert_case($str, MB_CASE_TITLE, static::UTF8);
+    }
+
+    /**
      * Limit Length
      *
      * @param string $string
@@ -399,6 +385,20 @@ class Str
     {
         $encoding = $encoding ?? mb_internal_encoding();
         return !static::quiet($encoding) ? $encoding : static::UTF8;
+    }
+
+    /**
+     * Quiet
+     *
+     * Is null or is blank after trim.
+     *
+     * @param string|null $string
+     *
+     * @return bool
+     */
+    public static function quiet(?string $string): bool
+    {
+        return !isset($string) || (trim($string) === '');
     }
 
     /**

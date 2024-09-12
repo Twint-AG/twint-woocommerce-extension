@@ -2,14 +2,14 @@
 
 namespace Twint;
 
+use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
 use Automattic\WooCommerce\Utilities\OrderUtil;
 use Twint\Woo\Gateway\ExpressCheckoutGateway;
 use Twint\Woo\Gateway\RegularCheckoutGateway;
-use Twint\Woo\Method\ExpressCheckout;
-use Twint\Woo\Method\RegularCheckout;
+use Twint\Woo\Model\Method\ExpressCheckout;
+use Twint\Woo\Model\Method\RegularCheckout;
 use Twint\Woo\TwintIntegration;
-use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
 
 class TwintPayment
 {
@@ -183,5 +183,17 @@ class TwintPayment
         // Return the full asset path
         return $localPath . $fileName;
     }
+}
+
+//Global functions to use in twig files
+
+function twint_asset(string $asset): ?string
+{
+    return TwintPayment::assets($asset);
+}
+
+function twint_dist(string $file): ?string
+{
+    return TwintPayment::dist($file);
 }
 

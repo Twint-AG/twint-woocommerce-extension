@@ -19,8 +19,8 @@ use Twint\Sdk\Value\PrefixedCashRegisterId;
 use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\Version;
 use Twint\Woo\Exception\InvalidConfigException;
-use Twint\Woo\Services\SettingService;
-use Twint\Woo\Utility\Twint\CryptoHandler;
+use Twint\Woo\Service\SettingService;
+use Twint\Woo\Utility\CryptoHandler;
 
 class ClientBuilder
 {
@@ -36,7 +36,8 @@ class ClientBuilder
      */
     private SettingService $setting;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->crypto = new CryptoHandler();
         $this->setting = new SettingService();
     }
@@ -75,7 +76,7 @@ class ClientBuilder
                     new Version($version),
                     $environment,
                     soapEngineFactory: new DefaultSoapEngineFactory(
-                        wrapTransport: static fn (Transport $transport) => new RecordingTransport(
+                        wrapTransport: static fn(Transport $transport) => new RecordingTransport(
                             $transport,
                             $messageRecorder
                         )

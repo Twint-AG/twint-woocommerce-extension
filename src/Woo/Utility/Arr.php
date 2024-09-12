@@ -31,24 +31,6 @@ class Arr
     }
 
     /**
-     * @param array $array
-     * @param string|array $columns
-     *
-     * @return array
-     */
-    public static function only(array $array, $columns): array
-    {
-        $values = [];
-        $columns = (array)$columns;
-
-        foreach ($columns as $column) {
-            $values[$column] = Data::walk($column, $array) ?? null;
-        }
-
-        return static::meldExpand($values);
-    }
-
-    /**
      * Pluck Value(s) and/or Index Them
      *
      * @param array $array
@@ -91,6 +73,48 @@ class Arr
         }
 
         return $list;
+    }
+
+    /**
+     * @param array $array
+     * @param string|array $columns
+     *
+     * @return array
+     */
+    public static function only(array $array, $columns): array
+    {
+        $values = [];
+        $columns = (array)$columns;
+
+        foreach ($columns as $column) {
+            $values[$column] = Data::walk($column, $array) ?? null;
+        }
+
+        return static::meldExpand($values);
+    }
+
+    /**
+     * Dots Meld Expand
+     *
+     * Expand a dots melded array into a multi-dimensional array.
+     *
+     * @param array $array dots melded array to expand
+     *
+     * @return array
+     */
+    public static function meldExpand(array $array): array
+    {
+        $expand = [];
+        foreach ($array as $dots => $value) {
+            $traverse = explode('.', $dots);
+            $set = &$expand;
+            foreach ($traverse as $key) {
+                $set = &$set[$key];
+            }
+            $set = $value;
+        }
+
+        return $expand;
     }
 
     /**
@@ -197,30 +221,6 @@ class Arr
         }
 
         return $result;
-    }
-
-    /**
-     * Dots Meld Expand
-     *
-     * Expand a dots melded array into a multi-dimensional array.
-     *
-     * @param array $array dots melded array to expand
-     *
-     * @return array
-     */
-    public static function meldExpand(array $array): array
-    {
-        $expand = [];
-        foreach ($array as $dots => $value) {
-            $traverse = explode('.', $dots);
-            $set = &$expand;
-            foreach ($traverse as $key) {
-                $set = &$set[$key];
-            }
-            $set = $value;
-        }
-
-        return $expand;
     }
 
     /**
@@ -357,18 +357,6 @@ class Arr
     }
 
     /**
-     * Is Array Sequential
-     *
-     * @param array $array The array being evaluated.
-     * @return bool
-     */
-    public static function isSequential(array $array): bool
-    {
-        if ([] === $array) return false;
-        return array_keys($array) === range(0, count($array) - 1);
-    }
-
-    /**
      * Is Array Associative
      *
      * @param array $array The array being evaluated.
@@ -378,6 +366,18 @@ class Arr
     {
         if ([] === $array) return false;
         return !static::isSequential($array);
+    }
+
+    /**
+     * Is Array Sequential
+     *
+     * @param array $array The array being evaluated.
+     * @return bool
+     */
+    public static function isSequential(array $array): bool
+    {
+        if ([] === $array) return false;
+        return array_keys($array) === range(0, count($array) - 1);
     }
 
     /**
@@ -460,6 +460,17 @@ class Arr
     }
 
     /**
+     * Last Item
+     *
+     * @param array|\ArrayObject $array
+     * @return mixed|null
+     */
+    public static function last($array, $callback = null, $default = null)
+    {
+        return static::first(array_reverse((array)$array, true), $callback, $default);
+    }
+
+    /**
      * First Item
      *
      * @param array|\ArrayObject $array
@@ -480,16 +491,5 @@ class Arr
         }
 
         return $default;
-    }
-
-    /**
-     * Last Item
-     *
-     * @param array|\ArrayObject $array
-     * @return mixed|null
-     */
-    public static function last($array, $callback = null, $default = null)
-    {
-        return static::first(array_reverse((array)$array, true), $callback, $default);
     }
 }

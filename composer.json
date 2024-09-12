@@ -42,7 +42,9 @@
     "ext-xsl": "*",
     "symfony/console": "*",
     "symfony/process": "*",
-    "ext-dom": "*"
+    "ext-dom": "*",
+    "ext-mysqli": "*",
+    "ext-openssl": "*"
   },
   "require-dev": {
     "symfony/var-dumper": "^6.4"
