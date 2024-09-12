@@ -18,7 +18,7 @@ use WC_Order;
 class PaymentService
 {
     public function __construct(
-        private readonly ClientBuilder     $client = new ClientBuilder(),
+        private readonly ClientBuilder     $builder = new ClientBuilder(),
         private readonly ApiService        $api = new ApiService(),
         private readonly PairingRepository $repository = new PairingRepository(),
     )
@@ -32,7 +32,8 @@ class PaymentService
      */
     public function createOrder(WC_Order $order): ApiResponse
     {
-        $client = $this->client->build();
+        $client = $this->builder->build();
+
         try {
             $currency = $order->get_currency();
             $orderNumber = $order->get_order_number();
@@ -53,10 +54,7 @@ class PaymentService
 
         } catch (Exception $e) {
             wc_get_logger()->error('An error occurred during the communication with external payment gateway' . PHP_EOL . $e->getMessage());
-            throw PaymentException::asyncProcessInterrupted(
-                $order->get_transaction_id(),
-                'An error occurred during the communication with external payment gateway' . PHP_EOL . $e->getMessage()
-            );
+            throw $e;
         }
     }
 
@@ -69,8 +67,7 @@ class PaymentService
      */
     public function reverseOrder(WC_Order $order, float $amount, int $wcRefundId): ?ApiResponse
     {
-        $orderTransactionId = $order->get_transaction_id();
-        $client = $this->client->build();
+        $client = $this->builder->build();
 
         try {
             $pairing = $this->repository->findByWooOrderId($order->get_id());
@@ -86,10 +83,9 @@ class PaymentService
                 }
             }
         } catch (Exception $e) {
-            throw PaymentException::asyncProcessInterrupted(
-                $orderTransactionId,
-                'An error occurred during the communication with API gateway' . PHP_EOL . $e->getMessage()
-            );
+            wc_get_logger()->error('An error occurred during the communication with external payment gateway' . PHP_EOL . $e->getMessage());
+
+            throw $e;
         }
 
         return null;

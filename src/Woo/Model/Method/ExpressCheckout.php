@@ -2,7 +2,7 @@
 
 namespace Twint\Woo\Model\Method;
 
-use Twint\Woo\Gateway\ExpressCheckoutGateway;
+use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
 
 /**
  * Twint Payment Blocks integration

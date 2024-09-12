@@ -2,7 +2,7 @@
 
 namespace Twint\Woo\Template;
 
-use Twint\Woo\Gateway\RegularCheckoutGateway;
+use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 use Twint\Woo\Repository\PairingRepository;
 use WC_Order;
 

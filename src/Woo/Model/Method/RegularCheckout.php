@@ -2,7 +2,7 @@
 
 namespace Twint\Woo\Model\Method;
 
-use Twint\Woo\Gateway\RegularCheckoutGateway;
+use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 
 /**
  *

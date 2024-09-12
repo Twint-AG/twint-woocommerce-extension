@@ -4,7 +4,7 @@ namespace Twint\Woo\Model\Method;
 
 use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
 use Twint\TwintPayment;
-use Twint\Woo\Gateway\AbstractGateway;
+use Twint\Woo\Model\Gateway\AbstractGateway;
 use Twint\Woo\Service\SettingService;
 
 abstract class AbstractMethod extends AbstractPaymentMethodType
@@ -22,8 +22,8 @@ abstract class AbstractMethod extends AbstractPaymentMethodType
         $this->settings = get_option(SettingService::KEY_PRIMARY_SETTING, []);
         $gateways = WC()->payment_gateways()->payment_gateways();
 
-        $flagValidatedCredentials = get_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG);
-        if (isset($gateways[$this->name]) && SettingService::YES === $flagValidatedCredentials) {
+        $validated = get_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG);
+        if (isset($gateways[$this->name]) && SettingService::YES === $validated) {
             $this->gateway = $gateways[$this->name];
         }
     }
@@ -53,7 +53,7 @@ abstract class AbstractMethod extends AbstractPaymentMethodType
                 'version' => '1.0.0'
             ];
 
-        $scriptUrl = TwintPayment::plugin_url() . $scriptPath;
+        $scriptUrl = TwintPayment::pluginUrl() . $scriptPath;
 
         wp_register_script(
             'wc-twint-payments-blocks',

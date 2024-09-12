@@ -1,6 +1,6 @@
 <?php
 
-namespace Twint\Woo\Gateway;
+namespace Twint\Woo\Model\Gateway;
 
 use Throwable;
 use WC_Payment_Gateway;

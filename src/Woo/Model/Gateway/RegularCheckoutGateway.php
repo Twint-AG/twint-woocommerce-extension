@@ -1,11 +1,10 @@
 <?php
 
-namespace Twint\Woo\Gateway;
+namespace Twint\Woo\Model\Gateway;
 
-// Exit if accessed directly.
 use chillerlan\QRCode\QRCode;
 use Exception;
-use Twint\Woo\Service\PairingService;
+use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Service\SettingService;
 
 
@@ -79,9 +78,10 @@ class RegularCheckoutGateway extends AbstractGateway
         $order = wc_get_order($order_id);
         try {
             $currency = get_woocommerce_currency();
-            if ($currency === static::SUPPORTED_CURRENCY) {
+
+            if ($currency !== static::SUPPORTED_CURRENCY) {
                 return [
-                    'result' => 'error',
+                    'result' => "Payment method only support for " .static::SUPPORTED_CURRENCY
                 ];
             }
 
@@ -96,7 +96,7 @@ class RegularCheckoutGateway extends AbstractGateway
             // TODO Think about this cart
 //            WC()->cart->empty_cart();
 
-            $pairing = (new PairingService())->findByWooOrderId($order_id);
+            $pairing = (new PairingRepository())->findByWooOrderId($order_id);
             $qrcode = (new QRCode())->render($pairing->getToken());
 
             return [
@@ -116,13 +116,14 @@ class RegularCheckoutGateway extends AbstractGateway
                     get_option('woocommerce_price_thousand_sep')
                 ),
             ];
-        } catch (Exception $exception) {
-            wc_get_logger()->error("Error when processing the payment for order " . PHP_EOL . $exception->getMessage(), [
+        } catch (Exception $e) {
+            dd($e);
+            wc_get_logger()->error("Error when processing the payment for order " . PHP_EOL . $e->getMessage(), [
                 'orderID' => $order->get_id(),
                 'paymentMethod' => $order->get_payment_method(),
             ]);
-        }
 
-        return [];
+            throw $e;
+        }
     }
 }
