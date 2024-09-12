@@ -1,51 +1,28 @@
 <?php
-/**
- * WC_Gateway_Twint_Express_Checkout class
- *
- * @author   NFQ Group <tuan.nguyenminh@nfq.com>
- * @package  WooCommerce Twint Payment Gateway
- * @since    1.0.0
- */
 
-// Exit if accessed directly.
+namespace Twint\Woo\Gateway;
+
+use Twint\TwintPayment;
 use Twint\Woo\Services\SettingService;
+use WP_Error;
 
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-/**
- * Twint WC_Gateway_Twint_Express_Checkout.
- *
- * @class WC_Gateway_Twint_Express_Checkout
- * @version  1.0.0
- */
-class WC_Gateway_Twint_Express_Checkout extends WC_Payment_Gateway
+class ExpressCheckoutGateway extends AbstractGateway
 {
-    /**
-     * Payment gateway instructions.
-     * @var string
-     */
-    protected string $instructions;
+    const UNIQUE_PAYMENT_ID = 'twint_express';
 
-    /**
-     * Unique id for the gateway.
-     * @var string
-     *
-     */
-    public $id = 'twint_express';
+    public $id = self::UNIQUE_PAYMENT_ID;
 
     /**
      * Button Express checkout label
      * @var string
      */
-    public $express_checkout_btn;
+    public $button;
 
     /**
      * Determine the places to display the Express Checkout Button
      * @var array
      */
-    public array $display_options;
+    public array $displayOptions;
 
     /**
      * Constructor for the gateway.
@@ -54,7 +31,7 @@ class WC_Gateway_Twint_Express_Checkout extends WC_Payment_Gateway
     {
         $this->icon = apply_filters('woocommerce_twint_gateway_express_icon', '');
         $this->has_fields = false;
-        $this->supports = array(
+        $this->supports = [
             'pre-orders',
             'refunds',
             'products',
@@ -65,7 +42,7 @@ class WC_Gateway_Twint_Express_Checkout extends WC_Payment_Gateway
             'subscription_amount_changes',
             'subscription_date_changes',
             'multiple_subscriptions'
-        );
+        ];
 
         $this->method_title = __('TWINT Express Checkout', 'woocommerce-gateway-twint');
         $this->method_description = __('Allows TWINT Express Checkout', 'woocommerce-gateway-twint');
@@ -79,14 +56,14 @@ class WC_Gateway_Twint_Express_Checkout extends WC_Payment_Gateway
         $this->instructions = $this->get_option('instructions', $this->description);
 
         // Express Checkout Button label
-        $this->express_checkout_btn = get_option('twint_express_checkout_label', 'TWINT Express Checkout');
+        $this->button = get_option('twint_express_checkout_label', 'TWINT Express Checkout');
 
         // Display Options
-        $this->display_options = get_option('twint_express_checkout_display_options', []);
+        $this->displayOptions = get_option('twint_express_checkout_display_options', []);
 
         // Actions.
-        add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
-        add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'saveExpressCheckoutButtonLabelAndDisplayOptions'));
+        add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
+        add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'saveExpressCheckoutButtonLabelAndDisplayOptions']);
 
         add_filter('woocommerce_payment_complete_order_status', [$this, 'setCompleteOrderStatus'], 10, 3);
     }
@@ -105,10 +82,7 @@ class WC_Gateway_Twint_Express_Checkout extends WC_Payment_Gateway
             ],
             'display_options' => [
                 'type' => 'display_options',
-            ],
-//            'button_express_checkout' => [
-//                'type' => 'button_express_checkout',
-//            ],
+            ]
         ];
     }
 
@@ -135,16 +109,16 @@ class WC_Gateway_Twint_Express_Checkout extends WC_Payment_Gateway
                     <select name="display_options[]" multiple id="display_options" class="select2">
                         <?php foreach ($options as $key => $option) { ?>
                             <option value="<?php echo $key; ?>"
-                                <?php echo in_array($key, $this->display_options) ? 'selected' : '' ?>>
+                                <?php echo in_array($key, $this->displayOptions) ? 'selected' : '' ?>>
                                 <?php echo $option; ?>
                             </option>
                         <?php } ?>
                     </select>
                 </div>
                 <script type="text/javascript">
-                    jQuery(function () {
-                        jQuery('select.select2').select2();
-                    });
+                  jQuery(function () {
+                    jQuery('select.select2').select2();
+                  });
                 </script>
             </td>
         </tr>
@@ -163,30 +137,30 @@ class WC_Gateway_Twint_Express_Checkout extends WC_Payment_Gateway
             </th>
             <td class="forminp" id="button_express_checkout_label">
                 <div class="wc_input_table_wrapper">
-                    <input type="text" name="twint_button_label" value="<?php echo $this->express_checkout_btn; ?>">
+                    <input type="text" name="twint_button_label" value="<?php echo $this->button; ?>">
                     <div class="preview-btn" style="margin-top: 15px; font-size: 14px; font-weight: bold">
                         <?php echo __('Button Preview', 'woocommerce-gateway-twint') ?>
                     </div>
                     <a href="javascript:void(0)" class="twint-button">
                         <span class="twint-button_icon_block">
                             <img class="twint-button_icon"
-                                 src="<?php echo twint_assets('/images/express.svg') ?>">
+                                 src="<?= TwintPayment::assets('/images/express.svg') ?>">
                         </span>
-                        <span class="twint-button_label"><?php echo $this->express_checkout_btn; ?></span>
+                        <span class="twint-button_label"><?php echo $this->button; ?></span>
                     </a>
                 </div>
                 <script type="text/javascript">
-                    jQuery(function () {
-                        jQuery('input[name="twint_button_label"]').on('change input', function () {
-                            const $this = jQuery(this);
-                            const $btn = jQuery('a.twint-button');
-                            const btnLabel = $this.val();
+                  jQuery(function () {
+                    jQuery('input[name="twint_button_label"]').on('change input', function () {
+                      const $this = jQuery(this);
+                      const $btn = jQuery('a.twint-button');
+                      const btnLabel = $this.val();
 
-                            $btn.find('span.twint-button_label').text(btnLabel);
+                      $btn.find('span.twint-button_label').text(btnLabel);
 
-                            return false;
-                        });
+                      return false;
                     });
+                  });
                 </script>
             </td>
         </tr>
@@ -248,9 +222,9 @@ class WC_Gateway_Twint_Express_Checkout extends WC_Payment_Gateway
      * @param int $order_id Order ID.
      * @param float|null $amount Refund amount.
      * @param string $reason Refund reason.
-     * @return bool|\WP_Error True or false based on success, or a WP_Error object.
+     * @return bool|WP_Error True or false based on success, or a WP_Error object.
      */
-    public function process_refund($order_id, $amount = null, $reason = ''): bool|\WP_Error
+    public function process_refund($order_id, $amount = null, $reason = ''): bool|WP_Error
     {
         $order = wc_get_order($order_id);
 

@@ -1,33 +1,21 @@
 <?php
 
+namespace Twint\Woo\Method;
+
 use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
+use Twint\TwintPayment;
+use Twint\Woo\Gateway\AbstractGateway;
 use Twint\Woo\Services\SettingService;
 
-/**
- * Twint Payment Blocks integration
- *
- * @since 1.0.0
- */
-final class WC_Gateway_Twint_Regular_Checkout_Blocks_Support extends AbstractPaymentMethodType
-{
-
+abstract class AbstractMethod extends AbstractPaymentMethodType{
     /**
      * The gateway instance.
      *
-     * @var WC_Gateway_Twint_Regular_Checkout
+     * @var AbstractGateway
      */
-    private WC_Gateway_Twint_Regular_Checkout $gateway;
 
-    /**
-     * Payment method name/id/slug.
-     *
-     * @var string
-     */
-    protected $name = 'twint_regular';
+    protected AbstractGateway $gateway;
 
-    /**
-     * Initializes the payment method type.
-     */
     public function initialize(): void
     {
         $this->settings = get_option(SettingService::KEY_PRIMARY_SETTING, []);
@@ -53,33 +41,29 @@ final class WC_Gateway_Twint_Regular_Checkout_Blocks_Support extends AbstractPay
         return false;
     }
 
-    /**
-     * Returns an array of scripts/handles to be registered for this payment method.
-     *
-     * @return array
-     */
     public function get_payment_method_script_handles(): array
     {
-        $script_path = '/dist/frontend/blocks.js';
-        $script_asset_path = WC_Twint_Payments::plugin_abspath() . 'assets/js/frontend/blocks.asset.php';
-        $script_asset = file_exists($script_asset_path)
-            ? require($script_asset_path)
-            : array(
+        $scriptPath = '/dist/frontend/blocks.js';
+        $scriptAssetPath = TwintPayment::abspath() . 'assets/js/frontend/blocks.asset.php';
+        $scriptAsset = file_exists($scriptAssetPath)
+            ? require($scriptAssetPath)
+            : [
                 'dependencies' => [],
                 'version' => '1.0.0'
-            );
-        $script_url = WC_Twint_Payments::plugin_url() . $script_path;
+            ];
+
+        $scriptUrl = TwintPayment::plugin_url() . $scriptPath;
 
         wp_register_script(
             'wc-twint-payments-blocks',
-            $script_url,
-            $script_asset['dependencies'],
-            $script_asset['version'],
+            $scriptUrl,
+            $scriptAsset['dependencies'],
+            $scriptAsset['version'],
             true
         );
 
         if (function_exists('wp_set_script_translations')) {
-            wp_set_script_translations('wc-twint-payments-blocks', 'woocommerce-gateway-twint', WC_Twint_Payments::plugin_abspath() . 'languages/');
+            wp_set_script_translations('wc-twint-payments-blocks', 'woocommerce-gateway-twint', TwintPayment::abspath() . 'languages/');
         }
 
         return ['wc-twint-payments-blocks'];
@@ -93,7 +77,7 @@ final class WC_Gateway_Twint_Regular_Checkout_Blocks_Support extends AbstractPay
     public function get_payment_method_data(): array
     {
         return [
-            'id' => \WC_Gateway_Twint_Regular_Checkout::getId(),
+            'id' => $this->name,
             'title' => !empty($this->get_setting('title')) ? $this->get_setting('title') : 'TWINT',
             'description' => $this->get_setting('description'),
             'supports' => array_filter($this->gateway->supports, [$this->gateway, 'supports'])

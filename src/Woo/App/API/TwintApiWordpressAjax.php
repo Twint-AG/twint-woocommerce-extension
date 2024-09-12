@@ -53,7 +53,7 @@ class TwintApiWordpressAjax
 
             $process = new Process([
                 'php',
-                \WC_Twint_Payments::plugin_abspath() . 'bin/console',
+                \TwintPayment::plugin_abspath() . 'bin/console',
                 TwintPollCommand::COMMAND,
                 $pairingId,
             ]);

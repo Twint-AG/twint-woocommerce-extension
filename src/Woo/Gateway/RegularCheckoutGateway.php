@@ -1,48 +1,21 @@
 <?php
-/**
- * WC_Gateway_Twint_Regular_Checkout class
- *
- * @package  WooCommerce Twint Payment Gateway
- * @since    1.0.0
- */
+
+namespace Twint\Woo\Gateway;
 
 // Exit if accessed directly.
 use chillerlan\QRCode\QRCode;
+use Exception;
+use Throwable;
 use Twint\Woo\Services\PairingService;
 use Twint\Woo\Services\SettingService;
+use WP_Error;
 
-if (!defined('ABSPATH')) {
-    exit;
-}
 
-/**
- * Twint WC_Gateway_Twint_Regular_Checkout.
- *
- * @class WC_Gateway_Twint_Regular_Checkout
- * @version  1.0.0
- */
-class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
+class RegularCheckoutGateway extends AbstractGateway
 {
     const UNIQUE_PAYMENT_ID = 'twint_regular';
-    /**
-     * Payment gateway instructions.
-     * @var string
-     */
-    protected string $instructions;
 
-    /**
-     * Unique id for the gateway.
-     * @var string
-     *
-     */
     public $id = self::UNIQUE_PAYMENT_ID;
-
-    public static array $amount_supported = ['CHF'];
-
-    public static function getId(): string
-    {
-        return self::UNIQUE_PAYMENT_ID;
-    }
 
     /**
      * Constructor for the gateway.
@@ -51,10 +24,10 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
     {
         $this->icon = apply_filters('woocommerce_twint_gateway_regular_icon', '');
         $this->has_fields = false;
-        $this->supports = array(
+        $this->supports = [
             'refunds',
             'products',
-        );
+        ];
 
         $this->method_title = __('TWINT Checkout', 'woocommerce-gateway-twint');
         $this->title = __('TWINT', 'woocommerce-gateway-twint');
@@ -69,7 +42,7 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
         $this->description = $this->get_option('description');
 
         // Actions.
-        add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
+        add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
 
         add_filter('woocommerce_payment_complete_order_status', [$this, 'setCompleteOrderStatus'], 10, 3);
     }
@@ -108,7 +81,7 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
         $order = wc_get_order($order_id);
         try {
             $currency = get_woocommerce_currency();
-            if (!in_array($currency, static::$amount_supported)) {
+            if ($currency === static::SUPPORTED_CURRENCY) {
                 return [
                     'result' => 'error',
                 ];
@@ -145,7 +118,7 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
                     get_option('woocommerce_price_thousand_sep')
                 ),
             ];
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             wc_get_logger()->error("Error when processing the payment for order " . PHP_EOL . $exception->getMessage(), [
                 'orderID' => $order->get_id(),
                 'paymentMethod' => $order->get_payment_method(),
@@ -153,83 +126,5 @@ class WC_Gateway_Twint_Regular_Checkout extends WC_Payment_Gateway
         }
 
         return [];
-    }
-
-    /**
-     * Set up the status initial for the order first created.
-     * @param $status
-     * @param $orderId
-     * @param $order
-     * @return string
-     * @since 1.0.0
-     *
-     */
-    public function setCompleteOrderStatus($status, $orderId, $order): string
-    {
-        if ($order && 'twint_regular' === $order->get_payment_method()) {
-            $status = 'pending';
-        }
-
-        return $status;
-    }
-
-    public static function getOrderStatusAfterCancelled()
-    {
-        return apply_filters('woocommerce_twint_order_status_cancelled', 'cancelled');
-    }
-
-    /**
-     * Set up the status of the order after order got paid.
-     * @return string
-     * @since 1.0.0
-     *
-     */
-    public static function getOrderStatusAfterPaid(): string
-    {
-        return apply_filters('woocommerce_twint_order_status_paid', 'processing');
-    }
-
-    /**
-     * Set up the status of the order after order got paid.
-     * @return string
-     * @since 1.0.0
-     *
-     */
-    public static function getOrderStatusAfterPartiallyRefunded(): string
-    {
-        return apply_filters('woocommerce_twint_order_status_after_partially_refunded', 'wc-refunded-partial');
-    }
-
-    /**
-     * Process refund.
-     *
-     * If the gateway declares 'refunds' support, this will allow it to refund.
-     * a passed in amount.
-     *
-     * @param int $order_id Order ID.
-     * @param float|null $amount Refund amount.
-     * @param string $reason Refund reason.
-     * @return bool|WP_Error True or false based on success, or a WP_Error object.
-     * @throws Throwable
-     */
-    public function process_refund($order_id, $amount = null, $reason = ''): bool|\WP_Error
-    {
-        $order = wc_get_order($order_id);
-
-        if (!$this->can_refund_order($order)) {
-            return new WP_Error('error', __('Refund failed.', 'woocommerce-gateway-twint'));
-        }
-
-        // Schedule a delayed status change to "custom-one"
-        add_action('woocommerce_order_refunded', function () use ($order) {
-            $remainingAmountRefunded = $order->get_remaining_refund_amount();
-            if ($remainingAmountRefunded > 0) {
-                return $order->update_status('wc-refunded-partial');
-            }
-
-            return $order->update_status('wc-refunded');
-        }, 10, 1);
-
-        return true;
     }
 }

@@ -18,7 +18,7 @@
   "license": "GNU General Public License v3.0",
   "autoload": {
     "files": [
-      "src/Woo/App/Helpers/helpers.php"
+      "src/TwinPayment.php"
     ],
     "psr-4": {
       "Twint\\": "src/"
@@ -35,12 +35,14 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
+    "php": ">=8.1",
     "twint-ag/sdk": "^1.0",
     "guzzlehttp/guzzle": "^7.0",
     "chillerlan/php-qrcode": "^5.0",
     "ext-xsl": "*",
     "symfony/console": "*",
-    "symfony/process": "*"
+    "symfony/process": "*",
+    "ext-dom": "*"
   },
   "require-dev": {
     "symfony/var-dumper": "^6.4"
@@ -53,7 +55,8 @@
   ],
   "config": {
     "allow-plugins": {
-      "php-http/discovery": true
+      "php-http/discovery": true,
+      "composer/installers": false
     }
   }
 }

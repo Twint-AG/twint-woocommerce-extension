@@ -2,9 +2,11 @@
 
 namespace Twint\Woo;
 
+use Twint\TwintPayment;
 use Twint\Woo\App\API\ApiService;
 use Twint\Woo\App\API\TwintApiWordpressAjax;
 use Twint\Woo\CronJob\TwintCancelOrderExpiredCronJob;
+use Twint\Woo\Gateway\RegularCheckoutGateway;
 use Twint\Woo\MetaBox\TransactionLogMeta;
 use Twint\Woo\Migrations\CreateTwintPairingTable;
 use Twint\Woo\Migrations\CreateTwintTransactionLogTable;
@@ -13,7 +15,6 @@ use Twint\Woo\Services\PaymentService;
 use Twint\Woo\Services\SettingService;
 use Twint\Woo\Templates\BeforeThankYouBoxViewAdapter;
 use Twint\Woo\Templates\SettingsLayoutViewAdapter;
-use WC_Twint_Payments;
 
 defined('ABSPATH') || exit;
 
@@ -182,7 +183,7 @@ class TwintIntegration
             $template_path = $woocommerce->template_url;
         }
 
-        $plugin_path = WC_Twint_Payments::plugin_abspath() . '/template/woocommerce/';
+        $plugin_path = TwintPayment::abspath() . '/template/woocommerce/';
 
         // Look within passed path within the theme - this is priority
         $template = locate_template(
@@ -210,7 +211,7 @@ class TwintIntegration
     {
         $order = wc_get_order($orderId);
 
-        if ($order->get_payment_method() === \WC_Gateway_Twint_Regular_Checkout::getId()) {
+        if ($order->get_payment_method() === RegularCheckoutGateway::getId()) {
             $pairing = $this->pairingService->findByWooOrderId($order->get_id());
             if (!$pairing) {
                 $apiResponse = $this->paymentService->createOrder($order);
@@ -242,24 +243,24 @@ class TwintIntegration
             'manage_options',
             'twint-payment-integration-settings',
             [$this, 'accessSettingsMenuCallback'],
-            twint_assets('/images/twint_icon.svg'),
+            TwintPayment::assets('/images/twint_icon.svg'),
             '30.5'
         );
     }
 
     public function enqueueScripts(): void
     {
-        wp_enqueue_script('js-woocommerce-gateway-twint-CredentialSetting', WC_Twint_Payments::plugin_url() . '/dist/CredentialSetting.js', ['jquery']);
+        wp_enqueue_script('js-woocommerce-gateway-twint-CredentialSetting', TwintPayment::plugin_url() . '/dist/CredentialSetting.js', ['jquery']);
 
         wp_localize_script('js-woocommerce-gateway-twint-CredentialSetting', 'twint_api', [
             'admin_url' => admin_url('admin-ajax.php')
         ]);
-        wp_enqueue_script('js-woocommerce-gateway-twint', WC_Twint_Payments::plugin_url() . '/dist/TwintPaymentIntegration.js', ['jquery']);
+        wp_enqueue_script('js-woocommerce-gateway-twint', TwintPayment::plugin_url() . '/dist/TwintPaymentIntegration.js', ['jquery']);
     }
 
     public function enqueueStyles(): void
     {
-        wp_enqueue_style('css-woocommerce-gateway-twint', WC_Twint_Payments::plugin_url() . '/dist/admin.css');
+        wp_enqueue_style('css-woocommerce-gateway-twint', TwintPayment::plugin_url() . '/dist/admin.css');
     }
 
     public function adminPluginSettingsLink($links)
@@ -275,7 +276,7 @@ class TwintIntegration
 
         TwintCancelOrderExpiredCronJob::initCronjob();
 
-        $pluginLanguagesPath = \WC_Twint_Payments::plugin_abspath() . 'i18n/languages/';
+        $pluginLanguagesPath = TwintPayment::abspath() . 'i18n/languages/';
         $wpLangPluginPath = WP_CONTENT_DIR . '/languages/plugins/';
         $pluginLanguagesDirectory = array_diff(scandir($pluginLanguagesPath), ['..', '.']);
         foreach ($pluginLanguagesDirectory as $language) {
