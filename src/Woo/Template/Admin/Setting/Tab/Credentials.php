@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Template\Admin\Setting\Tab;
 
 use Twint\Woo\Service\SettingService;
@@ -57,113 +59,138 @@ class Credentials extends TabItem
 
     public static function getContents(array $data = []): string
     {
-        ob_start();
-        $isShowedTheButtonUploadNewCert = false;
-        ?>
-        <table class="form-table twint-table-setting" role="presentation">
-            <tbody>
-            <?php foreach ($data['fields'] as $field): ?>
-                <?php if ($isShowedTheButtonUploadNewCert === false): ?>
-                    <?php if ($field['name'] === 'plugin_twint_settings_certificate'): ?>
-                        <?php $isShowedTheButtonUploadNewCert = true; ?>
+        $showButton = false;
 
-                        <tr class="">
+        $getField = static function ($field) {
+            $html = '';
+
+            if ($field['type'] === 'text' || $field['type'] === 'password') {
+                $value = ($field['need_populate']) ? 'value="' . get_option($field['name']) . '"' : '';
+
+                return '<input name="' . $field['type'] . '" type="' . $field['type'] . '"
+                       id="' . $field['name'] . '"
+                       aria-describedby="tagline-description"
+                        ' . $value . '
+                       placeholder="' . $field['placeholder'] . '"
+                       class="regular-text"/>';
+            }
+
+            if ($field['type'] === 'file') {
+                return '<input class="twint-file-upload"
+                           name="' . $field['name'] . '"
+                           type="' . $field['type'] . '"
+                           placeholder="' . $field['placeholder']
+                    . '"/>';
+            }
+
+            if ($field['type'] === 'textarea') {
+                return '<textarea id="' . $field['name'] . '"
+                      name="' . $field['name'] . '"
+                      rows="' . $field['rows'] . '"
+                      type="' . $field['type'] . '"
+                      class="regular-text twint-field"
+                      placeholder="' . $field['placeholder'] . '">'
+                    . ($field['need_populate'] === true ? get_option($field['name']) : '') .
+                    '</textarea>';
+            }
+
+            if ($field['type'] === 'checkbox') {
+                $checked = ($field['need_populate'] === true && get_option(
+                    $field['name']
+                ) === 'yes') ? ' checked ' : '';
+                return '
+                    <fieldset>
+                        <legend class="screen-reader-text"><span>' . $field['label'] . '</span></legend>
+                        <label for="woocommerce_cod_enabled">
+                            <input class=""
+                                   type="checkbox"
+                                   name="' . $field['name'] . '"
+                                   id="' . $field['name'] . '"' . $checked . ' />
+                            ' . $field['label'] . '
+                        </label>
+                    </fieldset>';
+            }
+
+            if ($field['type'] === 'checkbox') {
+                $checked = ($field['need_populate'] === true && get_option(
+                    $field['name']
+                ) === 'yes') ? ' checked ' : '';
+                return '
+                <fieldset>
+                    <legend class="screen-reader-text"><span>' . $field['label'] . '</span></legend>
+                    <label for="woocommerce_cod_enabled">
+                        <input class=""
+                               type="checkbox"
+                               name="' . $field['name'] . '"
+                               id="' . $field['name'] . '"' . $checked . ' />
+                    ' . $field['label'] . '
+                    </label>
+                </fieldset>';
+            }
+
+            return $html;
+        };
+
+        $getFields = static function () use ($data, $showButton, $getField) {
+            $html = '';
+            foreach ($data['fields'] as $field) {
+                if (!$showButton && $field['name'] === 'plugin_twint_settings_certificate') {
+                    $showButton = true;
+                    $html .= '<tr class="">
                             <th></th>
                             <td>
-                                <div class="notify-box notify-success <?php echo $data['needHideCertificateUpload'] === false ? 'hidden' : '' ?>"
+                                <div class="notify-box notify-success ' . ($data['needHideCertificateUpload'] === false ? 'hidden' : '') . '"
                                      style="max-width: 25em;"
                                      id="notice_success_configuration_settings">
                                     <div class="notify-box__content">
                                         <div style="margin-bottom: 10px;">
-                                            <?php echo __('Certificate encrypted and stored.', 'woocommerce-gateway-twint') ?>
+                                            ' . __('Certificate encrypted and stored . ', 'woocommerce - gateway - twint') . '
                                         </div>
 
-                                        <a href="javascript:void(0)" id="upload-new-certificate"
-                                           style="margin-top: 7px;">
-                                            <?php echo __('Upload new certificate', 'woocommerce-gateway-twint') ?>
+                                        <a href="javascript:void(0)" id="upload-new-certificate" style="margin-top: 7px;">
+                                            ' . __('Upload new certificate', 'woocommerce - gateway - twint') . '
                                         </a>
 
-                                        <a href="javascript:void(0)"
-                                           id="close-new-certificate"
-                                           class="hidden"
-                                           style="margin-top: 7px;">
-                                            <?php echo __('Close', 'woocommerce-gateway-twint') ?>
+                                        <a href="javascript:void(0)" id="close-new-certificate" class="hidden" style="margin-top: 7px;">
+                                            ' . __('Close', 'woocommerce - gateway - twint') . '
                                         </a>
                                     </div>
                                 </div>
                             </td>
-                        </tr>
-                    <?php endif; ?>
-                <?php endif; ?>
-                <tr class="<?php echo $field['name']; ?> <?php echo (in_array(
+                        </tr>';
+                }
+
+                $class = (in_array(
                     $field['name'],
                     ['plugin_twint_settings_certificate', 'plugin_twint_settings_certificate_password'],
                     true
-                ) && $data['needHideCertificateUpload']) ? 'hidden' : '' ?>">
+                ) && $data['needHideCertificateUpload']) ? 'hidden' : '';
+
+                $helpText = ($field['help_text'] !== '') ? '<div style="margin-top: 5px;">
+                                 <small class="text-sm"><i>' . $field['help_text'] . '</i></small>
+                              </div>' : '';
+
+                $html .= '
+                <tr class="' . $field['name'] . ' ' . $class . '">
                     <th scope="row">
-                        <label for="<?php echo $field['name']; ?>">
-                            <?php echo $field['label']; ?>
-                        </label>
+                        <label for="' . $field['name'] . '">' . $field['label'] . '</label>
                     </th>
                     <td>
-                        <?php if ($field['type'] === 'text' || $field['type'] === 'password'): ?>
-                            <input name="<?php echo $field['type']; ?>" type="<?php echo $field['type']; ?>"
-                                   id="<?php echo $field['name']; ?>"
-                                   aria-describedby="tagline-description"
-                                <?php if ($field['need_populate'] === true): ?>
-                                    value="<?php echo get_option($field['name']); ?>"
-                                <?php endif; ?>
-                                   placeholder="<?php echo $field['placeholder']; ?>"
-                                   class="regular-text"/>
-                        <?php elseif ($field['type'] === 'file'): ?>
-                            <input class="twint-file-upload"
-                                   name="<?php echo $field['name']; ?>"
-                                   type="<?php echo $field['type']; ?>"
-                                   placeholder="<?php echo $field['placeholder']; ?>"/>
-
-                        <?php elseif ($field['type'] === 'textarea'): ?>
-                            <textarea id="<?php echo $field['name']; ?>"
-                                      name="<?php echo $field['name']; ?>"
-                                      rows="<?php echo $field['rows']; ?>"
-                                      type="<?php echo $field['type']; ?>"
-                                      class="regular-text twint-field"
-                                      placeholder="<?php echo $field['placeholder']; ?>"><?php echo $field['need_populate'] === true ? get_option($field['name']) : ''; ?></textarea>
-                        <?php elseif ($field['type'] === 'checkbox'): ?>
-                            <fieldset>
-                                <legend class="screen-reader-text"><span><?php echo $field['label']; ?></span></legend>
-                                <label for="woocommerce_cod_enabled">
-                                    <input class=""
-                                           type="checkbox"
-                                           name="<?php echo $field['name']; ?>"
-                                           id="<?php echo $field['name']; ?>"
-                                        <?php if ($field['need_populate'] === true): ?>
-                                            <?php if (get_option($field['name']) === 'yes'): ?>
-                                                checked
-                                            <?php endif; ?>
-                                        <?php endif; ?>
-                                    />
-                                    <?php echo $field['label']; ?>
-                                </label>
-                            </fieldset>
-                        <?php endif; ?>
-
-
-                        <?php if ($field['help_text'] !== ''): ?>
-                            <div style="margin-top: 5px;">
-                                <small class="text-sm"><i><?php echo $field['help_text']; ?></i></small>
-                            </div>
-                        <?php endif; ?>
+                        ' . $getField($field) . $helpText . '
                     </td>
-                </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
-        <?php
+                </tr>';
+            }
 
-                                                        $content = ob_get_contents();
-        ob_end_clean();
+            return $html;
+        };
 
-        return $content;
+        return '
+            <table class="form-table twint-table-setting" role="presentation">
+                <tbody>
+                    ' . $getFields() . '
+                </tbody>
+            </table>
+        ';
     }
 
     public static function allowSaveChanges(): bool

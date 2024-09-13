@@ -41,7 +41,7 @@ class PaymentService
 
             return $this->api->call($client, 'startOrder', [
                 new UnfiledMerchantTransactionReference($orderNumber),
-                new Money($currency, $order->get_total()),
+                new Money($currency, (float) $order->get_total()),
             ], true, static function (array $log, mixed $return) use ($order) {
                 if ($return instanceof Order) {
                     $log['pairing_id'] = $return->id()->__toString();

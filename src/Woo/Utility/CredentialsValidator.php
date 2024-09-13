@@ -15,7 +15,6 @@ use Twint\Sdk\Value\PrefixedCashRegisterId;
 use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\Version;
 use Twint\Woo\Constant\TwintConstant;
-use Twint\Woo\Service\SettingService;
 
 class CredentialsValidator implements CredentialValidatorInterface
 {

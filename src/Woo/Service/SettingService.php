@@ -26,7 +26,6 @@ class SettingService
 
     public const NO = 'no';
 
-
     public static function getAutoRemoveDBTableWhenDisabling()
     {
         return get_option(self::REMOVE_DB_TABLE_WHEN_DISABLING_PLUGIN, self::NO);
@@ -52,7 +51,8 @@ class SettingService
         return get_option(self::FLAG_VALIDATED_CREDENTIAL_CONFIG) === self::YES;
     }
 
-    public function getScreens():array{
+    public function getScreens(): array
+    {
         return get_option(TwintConstant::CONFIG_EXPRESS_SCREENS);
     }
 }

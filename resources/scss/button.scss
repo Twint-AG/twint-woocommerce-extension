@@ -82,4 +82,8 @@ $border-radius: 6px;
   *:has(> &.express) {
     container-type: inline-size;
   }
+
+  *:has(+ &.express){
+    margin-bottom: 0 !important;
+  }
 }

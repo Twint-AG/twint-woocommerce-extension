@@ -123,9 +123,7 @@ function twint_services()
 
         // Express Checkout
         'express.button' => static function (ContainerInterface $container) {
-            return new ExpressButton(
-                $container->get('setting.service')
-            );
+            return new ExpressButton($container->get('setting.service'));
         },
     ];
 }

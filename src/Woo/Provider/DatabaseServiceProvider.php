@@ -10,9 +10,8 @@ class DatabaseServiceProvider extends AbstractServiceProvider
 
     public const DATABASE_TRIGGER_STATE_ERROR_CODE = 45000;
 
-    public function __construct($args = [])
+    public function __construct()
     {
-        parent::__construct($args);
     }
 
     public static function GET_INSTANCE()

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Twint\Woo\CronJob;
 
 use Twint\Woo\Constant\TwintConstant;
-use Twint\Woo\Service\SettingService;
 use WC_Logger_Interface;
 
 class MonitorPairingCronJob
