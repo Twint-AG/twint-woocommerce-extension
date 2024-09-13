@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Woo\CronJob;
 
+use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Service\SettingService;
 use WC_Logger_Interface;
 
@@ -48,7 +49,7 @@ class MonitorPairingCronJob
     {
         $this->logger->info('twintCronJobRunning', ['Running twint cancel expired orders']);
         // Get pending orders within X minutes (configurable in admin setting)
-        $onlyPickOrderFromMinutes = get_option(SettingService::MINUTES_PENDING_WAIT, 30);
+        $onlyPickOrderFromMinutes = get_option(TwintConstant::MINUTES_PENDING_WAIT, 30);
         $time = strtotime("-{$onlyPickOrderFromMinutes} minutes");
         $time = date('Y-m-d H:i:s', $time);
         $pendingOrders = wc_get_orders([

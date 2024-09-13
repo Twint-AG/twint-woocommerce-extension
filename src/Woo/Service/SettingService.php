@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Service;
 
+use Twint\Woo\Constant\TwintConstant;
+
 class SettingService
 {
     public const KEY_PRIMARY_SETTING = 'woocommerce_twint_regular_settings';
@@ -13,8 +15,6 @@ class SettingService
     public const CERTIFICATE = 'plugin_twint_settings_certificate';
 
     public const CERTIFICATE_PASSWORD = 'plugin_twint_settings_certificate_password';
-
-    public const MINUTES_PENDING_WAIT = 'only_pick_order_from_minutes';
 
     public const REMOVE_DB_TABLE_WHEN_DISABLING_PLUGIN = '_twint_auto_remove_db_table_when_disabling';
 
@@ -26,7 +26,6 @@ class SettingService
 
     public const NO = 'no';
 
-    public const PLATFORM = 'WooCommerce';
 
     public static function getAutoRemoveDBTableWhenDisabling()
     {
@@ -46,5 +45,14 @@ class SettingService
     public function getCertificate(): ?array
     {
         return get_option(self::CERTIFICATE, null);
+    }
+
+    public function isValidated(): bool
+    {
+        return get_option(self::FLAG_VALIDATED_CREDENTIAL_CONFIG) === self::YES;
+    }
+
+    public function getScreens():array{
+        return get_option(TwintConstant::CONFIG_EXPRESS_SCREENS);
     }
 }

@@ -12,15 +12,9 @@ $padding: 10px;
 $border-radius: 6px;
 
 .twint-button {
-  align-items: center;
+  @apply w-full cursor-pointer items-center justify-center border-none rounded-md  flex p-2.5 text-white;
   background-color: $button-bg-color !important;
-  border: none !important;
-  border-radius: $border-radius;
-  color: $text-color !important;
-  display: flex !important;
   height: 50px;
-  justify-content: center;
-  padding: $padding;
   transition: background-color .3s ease;
 
   &:disabled {
@@ -35,6 +29,7 @@ $border-radius: 6px;
     border-radius: 4px;
     margin-right: 6px;
     padding: 4px;
+    height: 35px;
 
     &:disabled {
       background-color: $button-bg-color-disabled;
@@ -62,23 +57,29 @@ $border-radius: 6px;
     }
   }
 
-  span {
-    color: $text-color !important;
-    font-size: $font-size;
-    font-weight: $font-weight;
-    letter-spacing: $letter-spacing;
-    line-height: $line-height;
-    overflow: hidden;
+  .twint-label {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 19px;
+    letter-spacing: 0.43px;
     text-align: center;
-    text-overflow: ellipsis;
+    color: #ffffff !important;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:before {
+      content: "TWINT ";
+
+      @container (width < 258px) {
+        & {
+          content: none;
+        }
+      }
+    }
   }
-}
 
-:has(+ .twint-button) {
-  margin-bottom: 0 !important;
-}
-
-.actions-secondary:has(.twint-button) {
-  @apply w-full;
+  *:has(> &.express) {
+    container-type: inline-size;
+  }
 }

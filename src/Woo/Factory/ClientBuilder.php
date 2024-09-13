@@ -18,6 +18,7 @@ use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\PrefixedCashRegisterId;
 use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\Version;
+use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Exception\InvalidConfigException;
 use Twint\Woo\Service\SettingService;
 use Twint\Woo\Utility\CryptoHandler;
@@ -62,7 +63,7 @@ class ClientBuilder
             $client = new InvocationRecordingClient(
                 new Client(
                     CertificateContainer::fromPkcs12(new Pkcs12Certificate(new InMemoryStream($cert), $passphrase)),
-                    new PrefixedCashRegisterId(StoreUuid::fromString($storeUuid), SettingService::PLATFORM),
+                    new PrefixedCashRegisterId(StoreUuid::fromString($storeUuid), TwintConstant::PLATFORM),
                     new Version($version),
                     $environment,
                     soapEngineFactory: new DefaultSoapEngineFactory(

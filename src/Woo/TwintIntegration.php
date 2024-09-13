@@ -54,8 +54,6 @@ class TwintIntegration
 
         add_filter('woocommerce_locate_template', [$this, 'wooPluginTemplate'], 10, 3);
 
-        add_action('woocommerce_after_add_to_cart_button', [$this, 'additionalSingleProductButton'], 20);
-
         add_action('woocommerce_before_thankyou', [$this, 'additionalWoocommerceBeforeThankyou'], 20);
 
         add_action('woocommerce_refund_created', [$this, 'refundCreatedHandler'], 10);
@@ -179,12 +177,6 @@ class TwintIntegration
         ]);
 
         wp_enqueue_style('css-woocommerce-gateway-twint-frontend', Plugin::dist('/frontend.css'));
-    }
-
-    public function additionalSingleProductButton(): void
-    {
-        global $product;
-        // TODO display Express Checkout
     }
 
     public function wooPluginTemplate($template, $template_name, $template_path)

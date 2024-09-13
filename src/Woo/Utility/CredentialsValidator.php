@@ -14,6 +14,7 @@ use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\PrefixedCashRegisterId;
 use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\Version;
+use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Service\SettingService;
 
 class CredentialsValidator implements CredentialValidatorInterface
@@ -35,7 +36,7 @@ class CredentialsValidator implements CredentialValidatorInterface
 
             $client = new Client(
                 CertificateContainer::fromPkcs12(new Pkcs12Certificate(new InMemoryStream($cert), $passphrase)),
-                new PrefixedCashRegisterId(StoreUuid::fromString($storeUuid), SettingService::PLATFORM),
+                new PrefixedCashRegisterId(StoreUuid::fromString($storeUuid), TwintConstant::PLATFORM),
                 Version::latest(),
                 $testMode ? Environment::TESTING() : Environment::PRODUCTION(),
             );

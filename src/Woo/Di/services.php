@@ -9,6 +9,7 @@ use Twint\Woo\Api\Frontend\PairingMonitoringAction;
 use Twint\Woo\Container\ContainerInterface;
 use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Logger\NullLogger;
+use Twint\Woo\Model\Button\ExpressButton;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Repository\TransactionRepository;
 use Twint\Woo\Service\ApiService;
@@ -118,6 +119,13 @@ function twint_services()
         },
         'monitor_pairing.action' => static function (ContainerInterface $container) {
             return new PairingMonitoringAction($container->get('pairing.repository'), $container->get('logger'));
+        },
+
+        // Express Checkout
+        'express.button' => static function (ContainerInterface $container) {
+            return new ExpressButton(
+                $container->get('setting.service')
+            );
         },
     ];
 }

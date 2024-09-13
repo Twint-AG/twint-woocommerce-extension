@@ -112,6 +112,8 @@ class Plugin
             'plugin_action_links_' . plugin_basename((new self())->pluginFile()),
             [$instance, 'adminPluginSettingsLink']
         );
+
+        self::di('express.button');
     }
 
     /**

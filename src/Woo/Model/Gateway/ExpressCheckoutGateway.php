@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Woo\Model\Gateway;
 
 use Twint\Plugin;
+use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Service\SettingService;
 use WP_Error;
 
@@ -65,7 +66,7 @@ class ExpressCheckoutGateway extends AbstractGateway
         $this->button = get_option('twint_express_checkout_label', 'TWINT Express Checkout');
 
         // Display Options
-        $this->displayOptions = get_option('twint_express_checkout_display_options', []);
+        $this->displayOptions = get_option(TwintConstant::CONFIG_EXPRESS_SCREENS, []);
 
         // Actions.
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
@@ -97,7 +98,7 @@ class ExpressCheckoutGateway extends AbstractGateway
                 'title' => __('Enable/Disable', 'woocommerce-gateway-twint'),
                 'type' => 'checkbox',
                 'label' => __('Enable TWINT Express Checkout', 'woocommerce-gateway-twint'),
-                'default' => SettingService::YES,
+                'default' => SettingService::NO,
             ],
             'display_options' => [
                 'type' => 'display_options',
@@ -109,10 +110,10 @@ class ExpressCheckoutGateway extends AbstractGateway
     {
         $getOptions = function () {
             $options = [
-                'cart' => __('Cart', 'woocommerce-gateway-twint'),
-                'mini-cart' => __('Mini Cart', 'woocommerce-gateway-twint'),
-                'product-details-page' => __('Product Details Page', 'woocommerce-gateway-twint'),
-                'single-product' => __('Single Product', 'woocommerce-gateway-twint'),
+                TwintConstant::CONFIG_SCREEN_CART => __('Cart', 'woocommerce-gateway-twint'),
+                TwintConstant::CONFIG_SCREEN_CART_FLYOUT => __('Mini Cart', 'woocommerce-gateway-twint'),
+                TwintConstant::CONFIG_SCREEN_PDP => __('Product Detail Page', 'woocommerce-gateway-twint'),
+                TwintConstant::CONFIG_SCREEN_PLP => __('Product Listing Page', 'woocommerce-gateway-twint'),
             ];
 
             $html = '';
@@ -126,6 +127,8 @@ class ExpressCheckoutGateway extends AbstractGateway
                     esc_html($option) // Use esc_html to escape the display text
                 );
             }
+
+            return $html;
         };
 
         return '<tr valign="top">
