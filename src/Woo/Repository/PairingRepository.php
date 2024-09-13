@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Repository;
 
 use Twint\Woo\Model\Pairing;
@@ -19,11 +21,13 @@ class PairingRepository
     {
         global $wpdb;
         $table = Pairing::getTableName();
-        $results = $wpdb->get_results("SELECT *, (UNIX_TIMESTAMP() - UNIX_TIMESTAMP(checked_at)) AS checked_ago FROM {$table} WHERE status IN ('PAIRING_IN_PROGRESS', 'IN_PROGRESS') ORDER BY created_at ASC");
+        $results = $wpdb->get_results(
+            "SELECT *, (UNIX_TIMESTAMP() - UNIX_TIMESTAMP(checked_at)) AS checked_ago FROM {$table} WHERE status IN ('PAIRING_IN_PROGRESS', 'IN_PROGRESS') ORDER BY created_at ASC"
+        );
         $pairings = [];
         foreach ($results as $result) {
             $instance = new Pairing();
-            $result = (array)$result;
+            $result = (array) $result;
             $pairings[] = $instance->load($result);
         }
 
@@ -34,25 +38,29 @@ class PairingRepository
     {
         global $wpdb;
         $table = Pairing::getTableName();
-        $result = $wpdb->get_results("SELECT *, (UNIX_TIMESTAMP() - UNIX_TIMESTAMP(checked_at)) AS checked_ago FROM {$table} WHERE wc_order_id = {$orderId} LIMIT 1");
+        $result = $wpdb->get_results(
+            "SELECT *, (UNIX_TIMESTAMP() - UNIX_TIMESTAMP(checked_at)) AS checked_ago FROM {$table} WHERE wc_order_id = {$orderId} LIMIT 1"
+        );
         if (empty($result)) {
             return null;
         }
 
         $instance = new Pairing();
-        return $instance->load((array)reset($result));
+        return $instance->load((array) reset($result));
     }
 
     public function findById(mixed $pairingId): ?Pairing
     {
         global $wpdb;
         $table = Pairing::getTableName();
-        $result = $wpdb->get_results("SELECT *, (UNIX_TIMESTAMP() - UNIX_TIMESTAMP(checked_at)) AS checked_ago FROM {$table} WHERE id = '{$pairingId}' LIMIT 1");
+        $result = $wpdb->get_results(
+            "SELECT *, (UNIX_TIMESTAMP() - UNIX_TIMESTAMP(checked_at)) AS checked_ago FROM {$table} WHERE id = '{$pairingId}' LIMIT 1"
+        );
         if (empty($result)) {
             return null;
         }
 
         $instance = new Pairing();
-        return $instance->load((array)reset($result)) ?? null;
+        return $instance->load((array) reset($result)) ?? null;
     }
 }

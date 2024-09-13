@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Model\Method;
 
 use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
@@ -17,5 +19,4 @@ final class ExpressCheckout extends AbstractMethod
      * @var string
      */
     protected $name = ExpressCheckoutGateway::UNIQUE_PAYMENT_ID;
-
 }

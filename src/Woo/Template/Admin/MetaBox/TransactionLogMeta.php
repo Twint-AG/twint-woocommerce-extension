@@ -5,11 +5,10 @@ namespace Twint\Woo\Template\Admin\MetaBox;
 use Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Twint\TwintPayment;
+use Twint\Plugin;
 
 class TransactionLogMeta
 {
-
     public function __construct()
     {
         add_action('add_meta_boxes', [$this, 'addShopOrderMetaBoxesTwintApiResponse']);
@@ -21,10 +20,10 @@ class TransactionLogMeta
      */
     public function addShopOrderMetaBoxesTwintApiResponse(): void
     {
-
         // Support latest / oldest (none-blocks and blocks)
         $screen = class_exists('\Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController')
-        && wc_get_container()->get(CustomOrdersTableController::class)->custom_orders_table_usage_is_enabled()
+        && wc_get_container()
+            ->get(CustomOrdersTableController::class)->custom_orders_table_usage_is_enabled()
             ? wc_get_page_screen_id('shop-order')
             : 'shop_order';
         add_meta_box(
@@ -41,7 +40,7 @@ class TransactionLogMeta
     {
         $order = wc_get_order($post->ID);
 
-        $repository = TwintPayment::c('transaction.repository');
+        $repository = Plugin::di('transaction.repository');
         $logs = $repository->getLogTransactions($order->get_id());
 
         $nonce = wp_create_nonce('get_log_transaction_details');

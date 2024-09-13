@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Provider;
 
 abstract class AbstractServiceProvider
@@ -20,7 +22,9 @@ abstract class AbstractServiceProvider
     public function registerToServiceContainer(string $name = '', $instance = null): void
     {
         if (!empty($name) && !empty($instance) && !array_key_exists($name, self::$container)) {
-            self::$container[] = [$name => $instance];
+            self::$container[] = [
+                $name => $instance,
+            ];
         }
     }
 

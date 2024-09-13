@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Migration;
 
 final class CreateTwintTransactionLogTable
@@ -28,7 +30,7 @@ final class CreateTwintTransactionLogTable
 			created_at DATETIME,
 			updated_at DATETIME,
 			PRIMARY KEY (record_id)
-        ) $charset_collate;";
+        ) {$charset_collate};";
 
         $wpdb->query($sql);
     }

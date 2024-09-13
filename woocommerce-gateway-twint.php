@@ -24,6 +24,6 @@ if (!defined('ABSPATH')) {
 
 require __DIR__ . '/vendor/autoload.php';
 
-use Twint\TwintPayment;
+use Twint\Plugin;
 
-TwintPayment::init();
+Plugin::init();

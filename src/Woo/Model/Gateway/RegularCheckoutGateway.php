@@ -1,17 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Model\Gateway;
 
 use chillerlan\QRCode\QRCode;
 use Exception;
-use Twint\TwintPayment;
-use Twint\Woo\Repository\PairingRepository;
+use Twint\Plugin;
 use Twint\Woo\Service\SettingService;
-
 
 class RegularCheckoutGateway extends AbstractGateway
 {
-    const UNIQUE_PAYMENT_ID = 'twint_regular';
+    public const UNIQUE_PAYMENT_ID = 'twint_regular';
 
     public $id = self::UNIQUE_PAYMENT_ID;
 
@@ -24,10 +24,7 @@ class RegularCheckoutGateway extends AbstractGateway
 
         $this->icon = apply_filters('woocommerce_twint_gateway_regular_icon', '');
         $this->has_fields = false;
-        $this->supports = [
-            'refunds',
-            'products',
-        ];
+        $this->supports = ['refunds', 'products'];
 
         $this->method_title = __('TWINT Checkout', 'woocommerce-gateway-twint');
         $this->title = __('TWINT', 'woocommerce-gateway-twint');
@@ -73,7 +70,6 @@ class RegularCheckoutGateway extends AbstractGateway
      * Process the payment and return the result.
      *
      * @param int $order_id
-     * @return array
      * @throws Exception
      */
     public function process_payment($order_id): array
@@ -84,7 +80,7 @@ class RegularCheckoutGateway extends AbstractGateway
 
             if ($currency !== static::SUPPORTED_CURRENCY) {
                 return [
-                    'result' => "Payment method only support for " . static::SUPPORTED_CURRENCY
+                    'result' => 'Payment method only support for ' . static::SUPPORTED_CURRENCY,
                 ];
             }
 
@@ -97,9 +93,9 @@ class RegularCheckoutGateway extends AbstractGateway
 
             // Remove cart
             // TODO Think about this cart
-//            WC()->cart->empty_cart();
+            //            WC()->cart->empty_cart();
 
-            $pairing = TwintPayment::c('pairing.repository')->findByWooOrderId($order_id);
+            $pairing = Plugin::di('pairing.repository')->findByWooOrderId($order_id);
             $qrcode = (new QRCode())->render($pairing->getToken());
 
             return [
@@ -113,14 +109,14 @@ class RegularCheckoutGateway extends AbstractGateway
                 'qrcode' => $qrcode,
                 'shopName' => get_bloginfo('name'),
                 'amount' => number_format(
-                    $order->get_total(),
-                    get_option('woocommerce_price_num_decimals'),
+                    (int) $order->get_total(),
+                    (int) get_option('woocommerce_price_num_decimals'),
                     get_option('woocommerce_price_decimal_sep'),
                     get_option('woocommerce_price_thousand_sep')
                 ),
             ];
         } catch (Exception $e) {
-            $this->logger->error("Error when processing the payment for order " . PHP_EOL . $e->getMessage(), [
+            $this->logger->error('Error when processing the payment for order ' . PHP_EOL . $e->getMessage(), [
                 'orderID' => $order->get_id(),
                 'paymentMethod' => $order->get_payment_method(),
             ]);

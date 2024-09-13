@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Api\Admin;
 
 use Exception;
@@ -15,13 +17,12 @@ use WC_Logger_Interface;
 class StoreConfigurationAction extends BaseAction
 {
     public function __construct(
-        private readonly CryptoHandler        $encryptor,
+        private readonly CryptoHandler $encryptor,
         private readonly CredentialsValidator $validator,
-        private readonly WC_Logger_Interface  $logger,
-        private readonly SettingService  $settingService,
-        private readonly CertificateHandler  $certificateHandler,
-    )
-    {
+        private readonly WC_Logger_Interface $logger,
+        private readonly SettingService $settingService,
+        private readonly CertificateHandler $certificateHandler,
+    ) {
         add_action('wp_ajax_store_twint_settings', [$this, 'storeTwintSettings']);
         add_action('wp_ajax_nopriv_store_twint_settings', [$this, 'requireLogin']);
     }
@@ -42,9 +43,9 @@ class StoreConfigurationAction extends BaseAction
             echo $result;
 
             die();
-        } else {
-            $storeUuid = $_POST[SettingService::STORE_UUID];
         }
+        $storeUuid = $_POST[SettingService::STORE_UUID];
+
 
         try {
             $pwdKey = SettingService::CERTIFICATE_PASSWORD;
@@ -76,14 +77,13 @@ class StoreConfigurationAction extends BaseAction
                 $file = $_FILES[$certificateKey];
                 $content = file_get_contents($file['tmp_name']);
 
-                $certificate = $this->certificateHandler->read((string)$content, $password);
+                $certificate = $this->certificateHandler->read((string) $content, $password);
 
                 if ($certificate instanceof Pkcs12Certificate) {
                     $certificateResult = [
                         'certificate' => $this->encryptor->encrypt($certificate->content()),
                         'passphrase' => $this->encryptor->encrypt($certificate->passphrase()),
                     ];
-
                 } else {
                     $response['status'] = false;
                     $response['flag_credentials'] = false;
@@ -93,20 +93,23 @@ class StoreConfigurationAction extends BaseAction
                 }
 
                 // Call SDK to check system [testMode, certificate, storeUuid]
-                $response = $this->checkConfiguration($testMode === SettingService::YES, $storeUuid, $certificateResult);
+                $response = $this->checkConfiguration(
+                    $testMode === SettingService::YES,
+                    $storeUuid,
+                    $certificateResult
+                );
                 $alreadyCheckedSystemCertificate = true;
             }
 
             if (!$alreadyCheckedSystemCertificate) {
                 $certificateCheck = $this->settingService->getCertificate();
-                if (is_null($certificateCheck)) {
+                if ($certificateCheck === null) {
                     $certificateCheck = [];
                 }
                 $response = $this->checkConfiguration($testMode === SettingService::YES, $storeUuid, $certificateCheck);
             }
-
         } catch (Exception $exception) {
-            $this->logger->error("Error when saving setting " . PHP_EOL . $exception->getMessage());
+            $this->logger->error('Error when saving setting ' . PHP_EOL . $exception->getMessage());
             $response['status'] = false;
             $response['error_level'] = 'error';
             $response['message'] = $exception->getMessage();
@@ -121,11 +124,7 @@ class StoreConfigurationAction extends BaseAction
     {
         $response = [];
         $certificateKey = SettingService::CERTIFICATE;
-        $isValidTwintConfiguration = $this->validator->validate(
-            $certificate,
-            $storeUuid,
-            $testMode
-        );
+        $isValidTwintConfiguration = $this->validator->validate($certificate, $storeUuid, $testMode);
 
         if ($isValidTwintConfiguration) {
             $response['status'] = true;
@@ -145,5 +144,4 @@ class StoreConfigurationAction extends BaseAction
 
         return $response;
     }
-
 }

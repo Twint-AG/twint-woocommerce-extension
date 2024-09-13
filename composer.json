@@ -18,7 +18,7 @@
   "license": "GNU General Public License v3.0",
   "autoload": {
     "files": [
-      "src/TwinPayment.php"
+      "src/Plugin.php"
     ],
     "psr-4": {
       "Twint\\": "src/"
@@ -47,7 +47,9 @@
     "ext-openssl": "*"
   },
   "require-dev": {
-    "symfony/var-dumper": "^7.1"
+    "symfony/var-dumper": "^7.1",
+    "symplify/easy-coding-standard": "^12.1",
+    "slevomat/coding-standard": "^8.15"
   },
   "repositories": [
     {
@@ -58,7 +60,8 @@
   "config": {
     "allow-plugins": {
       "php-http/discovery": true,
-      "composer/installers": false
+      "composer/installers": false,
+      "dealerdirect/phpcodesniffer-composer-installer": true
     }
   }
 }

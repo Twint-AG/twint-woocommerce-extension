@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Template\Admin\Setting\Tab;
 
 use Twint\Woo\Template\Admin\Setting\TabItem;
@@ -41,5 +43,4 @@ class RegularCheckout extends TabItem
     {
         return false;
     }
-
 }

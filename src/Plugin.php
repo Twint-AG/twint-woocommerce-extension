@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint;
 
 use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
 use Automattic\WooCommerce\Utilities\OrderUtil;
-use Twint\Woo\Container\Container;
+use Twint\Woo\Container\ContainerFactory;
 use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 use Twint\Woo\Model\Method\ExpressCheckout;
@@ -13,7 +15,7 @@ use Twint\Woo\Model\Method\RegularCheckout;
 use Twint\Woo\TwintIntegration;
 use WC_Payment_Gateway;
 
-class TwintPayment
+class Plugin
 {
     /**
      * Plugin bootstrapping.
@@ -29,28 +31,23 @@ class TwintPayment
         // Registers WooCommerce Blocks integration.
         add_action('woocommerce_blocks_loaded', [self::class, 'registerCheckoutBlocks']);
 
-        register_activation_hook((new TwintPayment)->pluginFile(), [TwintIntegration::class, 'install']);
-        register_deactivation_hook((new TwintPayment)->pluginFile(), [TwintIntegration::class, 'uninstall']);
+        register_activation_hook((new self())->pluginFile(), [TwintIntegration::class, 'install']);
+        register_deactivation_hook((new self())->pluginFile(), [TwintIntegration::class, 'uninstall']);
 
         add_action('init', [self::class, 'createCustomWooCommerceStatus']);
         add_filter('wc_order_statuses', [self::class, 'addCustomWooCommerceStatusToList']);
 
         // Declare compatibility with WooCommerce HPOS
-        add_action('before_woocommerce_init',static function () {
+        add_action('before_woocommerce_init', static function () {
             if (class_exists(OrderUtil::class)) {
-                FeaturesUtil::declare_compatibility('custom_order_tables', (new TwintPayment)->pluginFile());
+                FeaturesUtil::declare_compatibility('custom_order_tables', (new Plugin())->pluginFile());
             }
         });
     }
 
-    public static function c(string $container): mixed
+    public static function di(string $container): mixed
     {
-        return Container::instance()->get($container);
-    }
-
-    protected function pluginFile(): string
-    {
-        return __DIR__.'/../woocommerce-gateway-twint.php';
+        return ContainerFactory::instance()->get($container);
     }
 
     public static function createCustomWooCommerceStatus(): void
@@ -74,9 +71,6 @@ class TwintPayment
 
     /**
      * Add the Twint Payment gateway to the list of available gateways.
-     *
-     * @param array $gateways
-     * @return array
      */
     public static function addPaymentGateways(array $gateways): array
     {
@@ -94,10 +88,6 @@ class TwintPayment
         return $gateways;
     }
 
-    /**
-     * @param string $plugin
-     * @return bool
-     */
     public static function isPluginActivated(string $plugin): bool
     {
         if (!function_exists('is_plugin_active')) {
@@ -113,44 +103,42 @@ class TwintPayment
     public static function loaded(): void
     {
         // Check for active plugins.
-        if (!self::isPluginActivated('woocommerce/woocommerce.php') || !class_exists( WC_Payment_Gateway::class )) {
+        if (!self::isPluginActivated('woocommerce/woocommerce.php') || !class_exists(WC_Payment_Gateway::class)) {
             exit;
         }
 
-        $instance = self::c('twint.integration');
-        add_filter('plugin_action_links_' . plugin_basename((new TwintPayment)->pluginFile()), [$instance, 'adminPluginSettingsLink']);
+        $instance = self::di('twint.integration');
+        add_filter(
+            'plugin_action_links_' . plugin_basename((new self())->pluginFile()),
+            [$instance, 'adminPluginSettingsLink']
+        );
     }
 
     /**
      * Plugin url.
-     *
-     * @return string
      */
     public static function pluginUrl(): string
     {
-        return untrailingslashit(plugins_url('/', (new TwintPayment)->pluginFile()));
+        return untrailingslashit(plugins_url('/', (new self())->pluginFile()));
     }
 
     /**
      * Plugin url.
-     *
-     * @return string
      */
     public static function abspath(): string
     {
-        return trailingslashit(plugin_dir_path((new TwintPayment)->pluginFile()));
+        return trailingslashit(plugin_dir_path((new self())->pluginFile()));
     }
 
     /**
      * Registers WooCommerce Blocks integration.
-     *
      */
     public static function registerCheckoutBlocks(): void
     {
         if (class_exists(PaymentMethodRegistry::class)) {
             add_action(
                 'woocommerce_blocks_payment_method_type_registration',
-                function (PaymentMethodRegistry $payment_method_registry) {
+                static function (PaymentMethodRegistry $payment_method_registry) {
                     $payment_method_registry->register(new ExpressCheckout());
                     $payment_method_registry->register(new RegularCheckout());
                 }
@@ -181,17 +169,9 @@ class TwintPayment
         // Return the full asset path
         return $localPath . $fileName;
     }
+
+    protected function pluginFile(): string
+    {
+        return __DIR__ . '/../woocommerce-gateway-twint.php';
+    }
 }
-
-//Global functions to use in twig files
-
-function twint_asset(string $asset): ?string
-{
-    return TwintPayment::assets($asset);
-}
-
-function twint_dist(string $file): ?string
-{
-    return TwintPayment::dist($file);
-}
-

@@ -10,14 +10,15 @@ use RuntimeException;
 class CryptoHandler
 {
     public const CIPHERING = 'AES-128-CBC';
+
     private string $key = 'twint';
 
     /**
      * Encrypts the given data using OpenSSL.
      *
      * @param string $data The data to be encrypted.
-     * @return string The encrypted data, base64 encoded.
      * @throws InvalidArgumentException If the encryption fails.
+     * @return string The encrypted data, base64 encoded.
      */
     public function encrypt(string $data): string
     {
@@ -48,8 +49,8 @@ class CryptoHandler
      * Decrypts the given encoded data.
      *
      * @param string $encodedData The encoded data to be decrypted.
-     * @return string The decrypted data.
      * @throws InvalidArgumentException If the input data is invalid or cannot be decrypted.
+     * @return string The decrypted data.
      */
     public function decrypt(string $encodedData): string
     {
@@ -117,8 +118,8 @@ class CryptoHandler
      * Decodes a base64-encoded hexadecimal string into its original string representation.
      *
      * @param string $encodedData The base64-encoded hexadecimal string to be decoded.
-     * @return string The original string representation of the encoded data.
      * @throws InvalidArgumentException If the input data is not a valid base64-encoded hexadecimal string.
+     * @return string The original string representation of the encoded data.
      */
     public function unHash(string $encodedData): string
     {

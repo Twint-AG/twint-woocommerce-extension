@@ -20,16 +20,9 @@ class CredentialsValidator implements CredentialValidatorInterface
 {
     public function __construct(
         private readonly CryptoHandler $crypto
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param array|null $certificate
-     * @param string $storeUuid
-     * @param bool $testMode
-     * @return bool
-     */
     public function validate(?array $certificate, string $storeUuid, bool $testMode): bool
     {
         try {

@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo;
 
 use Throwable;
-use Twint\TwintPayment;
+use Twint\Plugin;
 use Twint\Woo\CronJob\MonitorPairingCronJob;
 use Twint\Woo\Migration\CreateTwintPairingTable;
 use Twint\Woo\Migration\CreateTwintTransactionLogTable;
@@ -21,21 +23,14 @@ use function Psl\Filesystem\copy;
 
 class TwintIntegration
 {
-    /**
-     * @var string
-     */
     protected string $pageHookSetting;
 
-    /**
-     * Class constructor.
-     */
     public function __construct(
-        private readonly PaymentService    $paymentService,
-        private readonly PairingService    $pairingService,
-        private readonly ApiService        $api,
+        private readonly PaymentService $paymentService,
+        private readonly PairingService $pairingService,
+        private readonly ApiService $api,
         private readonly PairingRepository $pairingRepository,
-    )
-    {
+    ) {
         add_action('admin_enqueue_scripts', [$this, 'enqueueStyles'], 19);
         add_action('wp_enqueue_scripts', [$this, 'wpEnqueueScriptsFrontend'], 19);
         add_action('admin_enqueue_scripts', [$this, 'enqueueScripts'], 20);
@@ -65,19 +60,9 @@ class TwintIntegration
         add_action('woocommerce_refund_created', [$this, 'refundCreatedHandler'], 10);
 
         new TransactionLogMeta();
-//        new MonitorPairingCronJob();
+        //        new MonitorPairingCronJob();
 
         $this->registerApiActions();
-    }
-
-    private function registerApiActions(): void
-    {
-        // Admin
-        TwintPayment::c('get_transaction_log.action');
-        TwintPayment::c('store_configuration.action');
-
-        //Frontend
-        TwintPayment::c('monitor_pairing.action');
     }
 
     public static function install(): void
@@ -86,7 +71,7 @@ class TwintIntegration
 
         MonitorPairingCronJob::initCronjob();
 
-        $pluginLanguagesPath = TwintPayment::abspath() . 'i18n/languages/';
+        $pluginLanguagesPath = Plugin::abspath() . 'i18n/languages/';
         $wpLangPluginPath = WP_CONTENT_DIR . '/languages/plugins/';
         $pluginLanguagesDirectory = array_diff(scandir($pluginLanguagesPath), ['..', '.']);
         foreach ($pluginLanguagesDirectory as $language) {
@@ -118,6 +103,16 @@ class TwintIntegration
         }
 
         MonitorPairingCronJob::removeCronjob();
+    }
+
+    private function registerApiActions(): void
+    {
+        // Admin
+        Plugin::di('get_transaction_log.action');
+        Plugin::di('store_configuration.action');
+
+        //Frontend
+        Plugin::di('monitor_pairing.action');
     }
 
     /**
@@ -167,22 +162,22 @@ class TwintIntegration
             return;
         }
 
-        $template = new BeforeThankYouBoxViewAdapter($order, TwintPayment::c('pairing.repository'));
+        $template = new BeforeThankYouBoxViewAdapter($order, Plugin::di('pairing.repository'));
         $template->render();
     }
 
     public function wpEnqueueScriptsFrontend(): void
     {
-        wp_enqueue_script('js-woocommerce-gateway-twint-frontend', TwintPayment::dist('/frontend/frontstore.js'));
-        wp_enqueue_script('js-woocommerce-gateway-DeviceSwitcher', TwintPayment::dist('/DeviceSwitcher.js'));
-        wp_enqueue_script('js-woocommerce-gateway-PaymentStatusRefresh', TwintPayment::dist('/PaymentStatusRefresh.js'));
-        wp_enqueue_script('js-woocommerce-gateway-ModalQR', TwintPayment::dist('/ModalQR.js'));
+        wp_enqueue_script('js-woocommerce-gateway-twint-frontend', Plugin::dist('/frontend/frontstore.js'));
+        wp_enqueue_script('js-woocommerce-gateway-DeviceSwitcher', Plugin::dist('/DeviceSwitcher.js'));
+        wp_enqueue_script('js-woocommerce-gateway-PaymentStatusRefresh', Plugin::dist('/PaymentStatusRefresh.js'));
+        wp_enqueue_script('js-woocommerce-gateway-ModalQR', Plugin::dist('/ModalQR.js'));
 
         wp_localize_script('js-woocommerce-gateway-twint-frontend', 'twint_api', [
-            'admin_url' => admin_url('admin-ajax.php')
+            'admin_url' => admin_url('admin-ajax.php'),
         ]);
 
-        wp_enqueue_style('css-woocommerce-gateway-twint-frontend', TwintPayment::dist('/frontend.css'));
+        wp_enqueue_style('css-woocommerce-gateway-twint-frontend', Plugin::dist('/frontend.css'));
     }
 
     public function additionalSingleProductButton(): void
@@ -199,15 +194,10 @@ class TwintIntegration
             $template_path = $woocommerce->template_url;
         }
 
-        $plugin_path = TwintPayment::abspath() . '/template/woocommerce/';
+        $plugin_path = Plugin::abspath() . '/template/woocommerce/';
 
         // Look within passed path within the theme - this is priority
-        $template = locate_template(
-            array(
-                $template_path . $template_name,
-                $template_name
-            )
-        );
+        $template = locate_template([$template_path . $template_name, $template_name]);
 
         if (!$template && file_exists($plugin_path . $template_name)) {
             $template = $plugin_path . $template_name;
@@ -236,17 +226,15 @@ class TwintIntegration
         }
     }
 
-    /**
-     * @return void
-     */
     public function accessSettingsMenuCallback(): void
     {
         $args['admin_url'] = admin_url();
 
         $adapter = new SettingsLayoutViewAdapter(
-            TwintPayment::c('setting.service'),
-            TwintPayment::c('credentials.validator'),
-            $args);
+            Plugin::di('setting.service'),
+            Plugin::di('credentials.validator'),
+            $args
+        );
 
         $adapter->render();
     }
@@ -263,24 +251,28 @@ class TwintIntegration
             'manage_options',
             'twint-payment-integration-settings',
             [$this, 'accessSettingsMenuCallback'],
-            TwintPayment::assets('/images/twint_icon.svg'),
+            Plugin::assets('/images/twint_icon.svg'),
             '30.5'
         );
     }
 
     public function enqueueScripts(): void
     {
-        wp_enqueue_script('js-woocommerce-gateway-twint-CredentialSetting', TwintPayment::dist('/CredentialSetting.js'), ['jquery']);
+        wp_enqueue_script(
+            'js-woocommerce-gateway-twint-CredentialSetting',
+            Plugin::dist('/CredentialSetting.js'),
+            ['jquery']
+        );
 
         wp_localize_script('js-woocommerce-gateway-twint-CredentialSetting', 'twint_api', [
-            'admin_url' => admin_url('admin-ajax.php')
+            'admin_url' => admin_url('admin-ajax.php'),
         ]);
-        wp_enqueue_script('js-woocommerce-gateway-twint', TwintPayment::dist('/TwintPaymentIntegration.js'), ['jquery']);
+        wp_enqueue_script('js-woocommerce-gateway-twint', Plugin::dist('/TwintPaymentIntegration.js'), ['jquery']);
     }
 
     public function enqueueStyles(): void
     {
-        wp_enqueue_style('css-woocommerce-gateway-twint', TwintPayment::dist('/admin.css'));
+        wp_enqueue_style('css-woocommerce-gateway-twint', Plugin::dist('/admin.css'));
     }
 
     public function adminPluginSettingsLink($links)

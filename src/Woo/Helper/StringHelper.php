@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Helper;
 
 class StringHelper
@@ -8,7 +10,7 @@ class StringHelper
      * Check if a given string is a valid UUID
      *
      * @param string $uuid The string to check
-     * @return  boolean
+     * @return boolean
      */
     public static function isValidUuid(string $uuid): bool
     {

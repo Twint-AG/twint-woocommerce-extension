@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Template;
 
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
@@ -9,10 +11,9 @@ use WC_Order;
 class BeforeThankYouBoxViewAdapter
 {
     public function __construct(
-        private readonly WC_Order          $order,
+        private readonly WC_Order $order,
         private readonly PairingRepository $pairingRepository,
-    )
-    {
+    ) {
     }
 
     public function render(): void
@@ -23,7 +24,10 @@ class BeforeThankYouBoxViewAdapter
         }
 
         $paid = !empty($_GET['twint_order_paid']) || $this->order->get_status() === RegularCheckoutGateway::getOrderStatusAfterPaid();
-        $cancelled = !empty($_GET['twint_order_cancelled']) && filter_var($_GET['twint_order_cancelled'], FILTER_VALIDATE_BOOLEAN) || $this->order->get_status() === RegularCheckoutGateway::getOrderStatusAfterCancelled();
+        $cancelled = !empty($_GET['twint_order_cancelled']) && filter_var(
+            $_GET['twint_order_cancelled'],
+            FILTER_VALIDATE_BOOLEAN
+        ) || $this->order->get_status() === RegularCheckoutGateway::getOrderStatusAfterCancelled();
 
         if ($paid) {
             echo $this->getPaidHtml();

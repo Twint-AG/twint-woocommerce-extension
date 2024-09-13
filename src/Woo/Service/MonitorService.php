@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Service;
 
 use Exception;
@@ -11,11 +13,10 @@ use WC_Logger_Interface;
 class MonitorService
 {
     public function __construct(
-        private readonly PairingRepository   $repository,
-        private readonly PairingService      $pairingService,
+        private readonly PairingRepository $repository,
+        private readonly PairingService $pairingService,
         private readonly WC_Logger_Interface $logger
-    )
-    {
+    ) {
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Service;
 
 use Exception;
@@ -18,17 +20,14 @@ use WC_Order;
 class PaymentService
 {
     public function __construct(
-        private readonly ClientBuilder       $builder,
-        private readonly ApiService          $api,
-        private readonly PairingRepository   $repository,
+        private readonly ClientBuilder $builder,
+        private readonly ApiService $api,
+        private readonly PairingRepository $repository,
         private readonly WC_Logger_Interface $logger
-    )
-    {
+    ) {
     }
 
     /**
-     * @param WC_Order $order
-     * @return ApiResponse
      * @throws Throwable
      */
     public function createOrder(WC_Order $order): ApiResponse
@@ -52,18 +51,15 @@ class PaymentService
 
                 return $log;
             });
-
         } catch (Exception $e) {
-            $this->logger->error('An error occurred during the communication with external payment gateway' . PHP_EOL . $e->getMessage());
+            $this->logger->error(
+                'An error occurred during the communication with external payment gateway' . PHP_EOL . $e->getMessage()
+            );
             throw $e;
         }
     }
 
     /**
-     * @param WC_Order $order
-     * @param float $amount
-     * @param int $wcRefundId
-     * @return ApiResponse|null
      * @throws Throwable
      */
     public function reverseOrder(WC_Order $order, float $amount, int $wcRefundId): ?ApiResponse
@@ -79,12 +75,14 @@ class PaymentService
                     return $this->api->call($client, 'reverseOrder', [
                         new UnfiledMerchantTransactionReference($reversalId),
                         new OrderId(new Uuid($pairing->getId())),
-                        new Money($currency, $amount)
+                        new Money($currency, $amount),
                     ], false);
                 }
             }
         } catch (Exception $e) {
-            $this->logger->error('An error occurred during the communication with external payment gateway' . PHP_EOL . $e->getMessage());
+            $this->logger->error(
+                'An error occurred during the communication with external payment gateway' . PHP_EOL . $e->getMessage()
+            );
 
             throw $e;
         }

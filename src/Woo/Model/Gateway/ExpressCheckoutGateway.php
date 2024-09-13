@@ -2,13 +2,13 @@
 
 namespace Twint\Woo\Model\Gateway;
 
-use Twint\TwintPayment;
+use Twint\Plugin;
 use Twint\Woo\Service\SettingService;
 use WP_Error;
 
 class ExpressCheckoutGateway extends AbstractGateway
 {
-    const UNIQUE_PAYMENT_ID = 'twint_express';
+    public const UNIQUE_PAYMENT_ID = 'twint_express';
 
     public $id = self::UNIQUE_PAYMENT_ID;
 
@@ -20,7 +20,6 @@ class ExpressCheckoutGateway extends AbstractGateway
 
     /**
      * Determine the places to display the Express Checkout Button
-     * @var array
      */
     public array $displayOptions;
 
@@ -41,7 +40,7 @@ class ExpressCheckoutGateway extends AbstractGateway
             'subscription_reactivation',
             'subscription_amount_changes',
             'subscription_date_changes',
-            'multiple_subscriptions'
+            'multiple_subscriptions',
         ];
 
         $this->method_title = __('TWINT Express Checkout', 'woocommerce-gateway-twint');
@@ -63,9 +62,22 @@ class ExpressCheckoutGateway extends AbstractGateway
 
         // Actions.
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
-        add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'saveExpressCheckoutButtonLabelAndDisplayOptions']);
+        add_action(
+            'woocommerce_update_options_payment_gateways_' . $this->id,
+            [$this, 'saveExpressCheckoutButtonLabelAndDisplayOptions']
+        );
 
         add_filter('woocommerce_payment_complete_order_status', [$this, 'setCompleteOrderStatus'], 10, 3);
+    }
+
+    /**
+     * Set up the status of the order after order got paid.
+     * @since 1.0.0
+     */
+    public static function getOrderStatusAfterPaid(): string
+    {
+        // TODO use config or database option for this.
+        return apply_filters('woocommerce_twint_order_status_paid', 'processing');
     }
 
     /**
@@ -82,20 +94,8 @@ class ExpressCheckoutGateway extends AbstractGateway
             ],
             'display_options' => [
                 'type' => 'display_options',
-            ]
+            ],
         ];
-    }
-
-    /**
-     * Set up the status of the order after order got paid.
-     * @return string
-     * @since 1.0.0
-     *
-     */
-    public static function getOrderStatusAfterPaid(): string
-    {
-        // TODO use config or database option for this.
-        return apply_filters('woocommerce_twint_order_status_paid', 'processing');
     }
 
     public function generate_display_options_html(): string
@@ -121,7 +121,7 @@ class ExpressCheckoutGateway extends AbstractGateway
                     <select name="display_options[]" multiple id="display_options" class="select2">
                         <?php foreach ($options as $key => $option) { ?>
                             <option value="<?php echo $key; ?>"
-                                <?php echo in_array($key, $this->displayOptions) ? 'selected' : '' ?>>
+                                <?php echo in_array($key, $this->displayOptions, true) ? 'selected' : '' ?>>
                                 <?php echo $option; ?>
                             </option>
                         <?php } ?>
@@ -156,7 +156,7 @@ class ExpressCheckoutGateway extends AbstractGateway
                     <a href="javascript:void(0)" class="twint-button">
                         <span class="twint-button_icon_block">
                             <img class="twint-button_icon"
-                                 src="<?= TwintPayment::assets('/images/express.svg') ?>">
+                                 src="<?= Plugin::assets('/images/express.svg') ?>">
                         </span>
                         <span class="twint-button_label"><?php echo $this->button; ?></span>
                     </a>
@@ -182,8 +182,6 @@ class ExpressCheckoutGateway extends AbstractGateway
 
     /**
      * Handle store custom config fields
-     *
-     * @return void
      */
     public function saveExpressCheckoutButtonLabelAndDisplayOptions(): void
     {
@@ -196,12 +194,7 @@ class ExpressCheckoutGateway extends AbstractGateway
 
     /**
      * Set up the status initial for the order first created.
-     * @param $status
-     * @param $orderId
-     * @param $order
-     * @return string
      * @since 1.0.0
-     *
      */
     public function setCompleteOrderStatus($status, $orderId, $order): string
     {

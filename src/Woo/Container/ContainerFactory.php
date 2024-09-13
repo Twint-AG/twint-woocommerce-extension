@@ -1,18 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Container;
 
-class Container
+class ContainerFactory
 {
-    static private ?ContainerInterface $container = null;
+    private static ?ContainerInterface $container = null;
 
     public static function instance(): ContainerInterface
     {
-        if (!self::$container) {
-            self::$container = new AliasingContainer(self::loadRegisteredServices());
-        }
-
-        return self::$container;
+        return self::$container ??= new AliasingContainer(self::loadRegisteredServices());
     }
 
     private static function loadRegisteredServices(): array

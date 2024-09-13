@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 class XmlHelper
 {
     public static function format($xml): bool|string

@@ -24,13 +24,12 @@ use Twint\Woo\Utility\CryptoHandler;
 
 class ClientBuilder
 {
-    static private InvocationRecordingClient $instance;
+    private static InvocationRecordingClient $instance;
 
     public function __construct(
-        private readonly CryptoHandler  $crypto,
+        private readonly CryptoHandler $crypto,
         private readonly SettingService $setting,
-    )
-    {
+    ) {
     }
 
     public function build(int $version = Version::LATEST): InvocationRecordingClient
@@ -67,7 +66,7 @@ class ClientBuilder
                     new Version($version),
                     $environment,
                     soapEngineFactory: new DefaultSoapEngineFactory(
-                        wrapTransport: static fn(Transport $transport) => new RecordingTransport(
+                        wrapTransport: static fn (Transport $transport) => new RecordingTransport(
                             $transport,
                             $messageRecorder
                         )

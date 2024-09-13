@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Model\Method;
 
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 
-/**
- *
- */
 final class RegularCheckout extends AbstractMethod
 {
     /**

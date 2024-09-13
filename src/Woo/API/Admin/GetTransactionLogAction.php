@@ -9,9 +9,8 @@ use XmlHelper;
 class GetTransactionLogAction extends BaseAction
 {
     public function __construct(
-            private readonly TransactionRepository $repository
-    )
-    {
+        private readonly TransactionRepository $repository
+    ) {
         add_action('wp_ajax_get_log_transaction_details', [$this, 'getLogTransactionDetails']);
         add_action('wp_ajax_nopriv_get_log_transaction_details', [$this, 'requireLogin']);
     }

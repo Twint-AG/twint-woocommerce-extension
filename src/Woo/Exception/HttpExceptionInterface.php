@@ -1,13 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Exception;
 
 use Throwable;
 
 /**
  * Interface for HTTP error exceptions.
- *
- * @author Kris Wallsmith <kris@symfony.com>
  */
 interface HttpExceptionInterface extends Throwable
 {

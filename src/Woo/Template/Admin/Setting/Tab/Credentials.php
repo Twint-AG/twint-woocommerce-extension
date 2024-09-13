@@ -5,7 +5,6 @@ namespace Twint\Woo\Template\Admin\Setting\Tab;
 use Twint\Woo\Service\SettingService;
 use Twint\Woo\Template\Admin\Setting\TabItem;
 
-
 class Credentials extends TabItem
 {
     public static function getKey(): string
@@ -56,10 +55,6 @@ class Credentials extends TabItem
         ];
     }
 
-    /**
-     * @param array $data
-     * @return string
-     */
     public static function getContents(array $data = []): string
     {
         ob_start();
@@ -100,7 +95,11 @@ class Credentials extends TabItem
                         </tr>
                     <?php endif; ?>
                 <?php endif; ?>
-                <tr class="<?php echo $field['name']; ?> <?php echo (in_array($field['name'], ['plugin_twint_settings_certificate', 'plugin_twint_settings_certificate_password']) and $data['needHideCertificateUpload']) ? 'hidden' : '' ?>">
+                <tr class="<?php echo $field['name']; ?> <?php echo (in_array(
+                    $field['name'],
+                    ['plugin_twint_settings_certificate', 'plugin_twint_settings_certificate_password'],
+                    true
+                ) and $data['needHideCertificateUpload']) ? 'hidden' : '' ?>">
                     <th scope="row">
                         <label for="<?php echo $field['name']; ?>">
                             <?php echo $field['label']; ?>
@@ -138,7 +137,7 @@ class Credentials extends TabItem
                                            name="<?php echo $field['name']; ?>"
                                            id="<?php echo $field['name']; ?>"
                                         <?php if ($field['need_populate'] === true): ?>
-                                            <?php if (get_option($field['name']) == 'yes'): ?>
+                                            <?php if (get_option($field['name']) === 'yes'): ?>
                                                 checked
                                             <?php endif; ?>
                                         <?php endif; ?>
@@ -161,8 +160,9 @@ class Credentials extends TabItem
         </table>
         <?php
 
-        $content = ob_get_contents();
+                $content = ob_get_contents();
         ob_end_clean();
+
         return $content;
     }
 

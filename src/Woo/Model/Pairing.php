@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Model;
 
 use Exception;
@@ -10,22 +12,44 @@ class Pairing
     protected static string $table = 'twint_pairing';
 
     protected string $id; // uuid - twint order uuid
+
     protected string $token;
+
     protected null|int $shippingMethodId = null;
+
     protected int $wcOrderId;
+
     protected null|int $customerId = null;
+
     protected null|array $customerData = null;
+
     protected bool $isExpress = false;
+
     protected float $amount = 0;
+
     protected string $status;
+
     protected string $transactionStatus;
+
     protected string $pairingStatus;
+
     protected int $isOrdering = 0;
+
     protected ?string $checkedAt;
+
     protected ?int $checkedAgo;
+
     protected int $version = 1;
+
     protected string $createdAt;
+
     protected string $updatedAt;
+
+    public static function getTableName(): string
+    {
+        global $table_prefix;
+        return $table_prefix . self::$table;
+    }
 
     public function getVersion(): int
     {
@@ -59,7 +83,7 @@ class Pairing
 
     public function isOrderProcessing(): bool
     {
-        return (bool)$this->isOrdering;
+        return (bool) $this->isOrdering;
     }
 
     public function getCheckedAgo(): ?int
@@ -78,18 +102,18 @@ class Pairing
         $this->setId($data['id']);
         $this->setToken($data['token'] ?? null);
         $this->setShippingMethodId($data['shipping_method_id'] ?? null);
-        $this->setWcOrderId($data['wc_order_id']);
+        $this->setWcOrderId((int) $data['wc_order_id']);
         $this->setCustomerId($data['customer_id'] ?? null);
-        $this->setAmount($data['amount'] ?? 0);
+        $this->setAmount((float) $data['amount'] ?? 0);
         $this->setStatus($data['status']);
         $this->setTransactionStatus($data['transaction_status']);
         $this->setPairingStatus($data['pairing_status']);
-        $this->setIsOrdering($data['is_ordering'] ?? 0);
+        $this->setIsOrdering((int) $data['is_ordering'] ?? 0);
         $this->setCheckedAt($data['checked_at']);
         $this->setCreatedAt($data['created_at']);
         $this->setCheckedAgo($data['checked_ago']);
         $this->setUpdatedAt($data['updated_at']);
-        $this->setVersion($data['version']);
+        $this->setVersion((int) $data['version']);
 
         return $this;
     }
@@ -122,12 +146,6 @@ class Pairing
             // TODO LOG Handler
             return false;
         }
-    }
-
-    public static function getTableName(): string
-    {
-        global $table_prefix;
-        return $table_prefix . self::$table;
     }
 
     public function getId(): string
@@ -245,7 +263,7 @@ class Pairing
         return $this;
     }
 
-    public function getIsOrdering(): bool
+    public function getIsOrdering(): int
     {
         return $this->isOrdering;
     }
@@ -269,7 +287,7 @@ class Pairing
 
     public function getCreatedAt(): string
     {
-        return $this->createdAt ?? date("Y-m-d H:i:s");
+        return $this->createdAt ?? date('Y-m-d H:i:s');
     }
 
     public function setCreatedAt(string $createdAt): self
@@ -280,7 +298,7 @@ class Pairing
 
     public function getUpdatedAt(): string
     {
-        return $this->updatedAt ?? date("Y-m-d H:i:s");
+        return $this->updatedAt ?? date('Y-m-d H:i:s');
     }
 
     public function setUpdatedAt(string $updatedAt): self

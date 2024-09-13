@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Container;
 
 interface ContainerInterface
@@ -8,8 +10,6 @@ interface ContainerInterface
      * Get registered container by id
      *
      * @throw
-     * @param string $id
-     * @return mixed
      */
     public function get(string $id): mixed;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Command;
 
 use DateTime;
@@ -17,20 +19,19 @@ use WC_Logger_Interface;
 #[AsCommand(name: 'twint:poll')]
 class PollCommand extends Command
 {
-    const COMMAND = 'twint:poll';
+    public const COMMAND = 'twint:poll';
 
     public function __construct(
         private readonly PairingRepository $repository,
         private readonly MonitorService $monitor,
         private readonly WC_Logger_Interface $logger
-    )
-    {
+    ) {
         parent::__construct();
     }
 
     protected function configure(): void
     {
-        $this->setName('twint:poll');
+        $this->setName(self::COMMAND);
         $this->addArgument('pairing-id', InputArgument::REQUIRED, 'ID (primary key) of existing TWINT pairings');
         $this->setDescription('Monitoring Pairing');
     }

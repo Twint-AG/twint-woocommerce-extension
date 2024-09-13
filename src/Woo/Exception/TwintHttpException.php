@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Twint\Woo\Exception;
 
@@ -18,11 +20,10 @@ abstract class TwintHttpException extends HttpException implements TwintExceptio
      * @param array<string, mixed> $parameters
      */
     public function __construct(
-        string      $message,
-        array       $parameters = [],
+        string $message,
+        array $parameters = [],
         ?Throwable $e = null
-    )
-    {
+    ) {
         $this->parameters = $parameters;
         $message = $this->parse($message, $parameters);
 
@@ -45,7 +46,7 @@ abstract class TwintHttpException extends HttpException implements TwintExceptio
             $regex[sprintf('/\{\{(\s+)?(%s)(\s+)?\}\}/', $formattedKey)] = $value;
         }
 
-        return (string)preg_replace(array_keys($regex), array_values($regex), $message);
+        return (string) preg_replace(array_keys($regex), array_values($regex), $message);
     }
 
     public function getStatusCode(): int
@@ -61,7 +62,7 @@ abstract class TwintHttpException extends HttpException implements TwintExceptio
     protected function getCommonErrorData(bool $withTrace = false): array
     {
         $error = [
-            'status' => (string)$this->getStatusCode(),
+            'status' => (string) $this->getStatusCode(),
             'code' => $this->getErrorCode(),
             'title' => $this->getStatusCode() ?? 'unknown status',
             'detail' => $this->getMessage(),

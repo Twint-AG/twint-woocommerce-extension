@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 use Twint\Command\PollCommand;
 use Twint\Woo\Api\Admin\GetTransactionLogAction;
 use Twint\Woo\Api\Admin\StoreConfigurationAction;
 use Twint\Woo\Api\Frontend\PairingMonitoringAction;
 use Twint\Woo\Container\ContainerInterface;
 use Twint\Woo\Factory\ClientBuilder;
+use Twint\Woo\Logger\NullLogger;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Repository\TransactionRepository;
 use Twint\Woo\Service\ApiService;
@@ -23,22 +26,22 @@ function twint_services()
 {
     return [
         //Logger
-        'logger' => function (ContainerInterface $container) {
-            if(!function_exists('wc_get_logger')){
-                return new Twint\Woo\Logger\NullLogger();
+        'logger' => static function (ContainerInterface $container) {
+            if (!function_exists('wc_get_logger')) {
+                return new NullLogger();
             }
 
-            return wc_get_logger() ;
+            return wc_get_logger();
         },
         // Repositories
-        'pairing.repository' => function (ContainerInterface $container) {
+        'pairing.repository' => static function (ContainerInterface $container) {
             return new PairingRepository();
         },
-        'transaction.repository' => function (ContainerInterface $container) {
+        'transaction.repository' => static function (ContainerInterface $container) {
             return new TransactionRepository();
         },
         //Commands
-        'poll.command' => function (ContainerInterface $container) {
+        'poll.command' => static function (ContainerInterface $container) {
             return new PollCommand(
                 $container->get('pairing.repository'),
                 $container->get('monitor.service'),
@@ -46,25 +49,20 @@ function twint_services()
             );
         },
         //Handlers
-        'crypto.handler' => function (ContainerInterface $container) {
+        'crypto.handler' => static function (ContainerInterface $container) {
             return new CryptoHandler();
         },
-        'certificate.handler' => function (ContainerInterface $container) {
+        'certificate.handler' => static function (ContainerInterface $container) {
             return new CertificateHandler();
         },
-        'credentials.validator' => function (ContainerInterface $container) {
-            return new CredentialsValidator(
-                $container->get('crypto.handler'),
-            );
+        'credentials.validator' => static function (ContainerInterface $container) {
+            return new CredentialsValidator($container->get('crypto.handler'));
         },
-        'client.builder' => function (ContainerInterface $container) {
-            return new ClientBuilder(
-                $container->get('crypto.handler'),
-                $container->get('setting.service'),
-            );
+        'client.builder' => static function (ContainerInterface $container) {
+            return new ClientBuilder($container->get('crypto.handler'), $container->get('setting.service'));
         },
-        //Base
-        'twint.integration' => function (ContainerInterface $container) {
+        // Base
+        'twint.integration' => static function (ContainerInterface $container) {
             return new TwintIntegration(
                 $container->get('payment.service'),
                 $container->get('pairing.service'),
@@ -74,14 +72,14 @@ function twint_services()
         },
 
         // Services
-        'pairing.service' => function (ContainerInterface $container) {
+        'pairing.service' => static function (ContainerInterface $container) {
             return new PairingService(
                 $container->get('client.builder'),
                 $container->get('api.service'),
                 $container->get('logger'),
             );
         },
-        'payment.service' => function (ContainerInterface $container) {
+        'payment.service' => static function (ContainerInterface $container) {
             return new PaymentService(
                 $container->get('client.builder'),
                 $container->get('api.service'),
@@ -89,20 +87,16 @@ function twint_services()
                 $container->get('logger'),
             );
         },
-        'api.service' => function (ContainerInterface $container) {
-            return new ApiService(
-                $container->get('logger')
-            );
+        'api.service' => static function (ContainerInterface $container) {
+            return new ApiService($container->get('logger'));
         },
-        'apps.service' => function (ContainerInterface $container) {
-            return new AppsService(
-                $container->get('client.builder')
-            );
+        'apps.service' => static function (ContainerInterface $container) {
+            return new AppsService($container->get('client.builder'));
         },
-        'setting.service' => function (ContainerInterface $container) {
+        'setting.service' => static function (ContainerInterface $container) {
             return new SettingService();
         },
-        'monitor.service' => function (ContainerInterface $container) {
+        'monitor.service' => static function (ContainerInterface $container) {
             return new MonitorService(
                 $container->get('pairing.repository'),
                 $container->get('pairing.service'),
@@ -110,12 +104,10 @@ function twint_services()
             );
         },
         // Actions
-        'get_transaction_log.action' => function (ContainerInterface $container) {
-            return new GetTransactionLogAction(
-                $container->get('transaction.repository'),
-            );
+        'get_transaction_log.action' => static function (ContainerInterface $container) {
+            return new GetTransactionLogAction($container->get('transaction.repository'));
         },
-        'store_configuration.action' => function (ContainerInterface $container) {
+        'store_configuration.action' => static function (ContainerInterface $container) {
             return new StoreConfigurationAction(
                 $container->get('crypto.handler'),
                 $container->get('credentials.validator'),
@@ -124,11 +116,8 @@ function twint_services()
                 $container->get('certificate.handler'),
             );
         },
-        'monitor_pairing.action' => function (ContainerInterface $container) {
-            return new PairingMonitoringAction(
-                $container->get('pairing.repository'),
-                $container->get('logger'),
-            );
-        }
+        'monitor_pairing.action' => static function (ContainerInterface $container) {
+            return new PairingMonitoringAction($container->get('pairing.repository'), $container->get('logger'));
+        },
     ];
 }

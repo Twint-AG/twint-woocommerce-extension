@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\CronJob;
 
 use Twint\Woo\Service\SettingService;
@@ -11,8 +13,7 @@ class MonitorPairingCronJob
 
     public function __construct(
         private readonly WC_Logger_Interface $logger
-    )
-    {
+    ) {
         add_filter('cron_schedules', [$this, 'wpCronSchedules']);
 
         add_action(self::HOOK_NAME, [$this, 'run']);
@@ -45,12 +46,7 @@ class MonitorPairingCronJob
 
     public function run(): void
     {
-        $this->logger->info(
-            'twintCronJobRunning',
-            [
-                'Running twint cancel expired orders',
-            ]
-        );
+        $this->logger->info('twintCronJobRunning', ['Running twint cancel expired orders']);
         // Get pending orders within X minutes (configurable in admin setting)
         $onlyPickOrderFromMinutes = get_option(SettingService::MINUTES_PENDING_WAIT, 30);
         $time = strtotime("-{$onlyPickOrderFromMinutes} minutes");
@@ -59,9 +55,7 @@ class MonitorPairingCronJob
             'type' => 'shop_order',
             'limit' => -1,
             'payment_method' => 'twint_regular',
-            'status' => [
-                'wc-pending',
-            ],
+            'status' => ['wc-pending'],
             'date_before' => $time,
         ]);
 
@@ -72,9 +66,7 @@ class MonitorPairingCronJob
 
         $this->logger->info(
             'twintCronJobDone',
-            [
-                'There are ' . count($pendingOrders) . ' pending orders has run.',
-            ]
+            ['There are ' . count($pendingOrders) . ' pending orders has run.']
         );
     }
 }

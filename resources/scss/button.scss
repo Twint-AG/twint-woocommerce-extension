@@ -80,5 +80,5 @@ $border-radius: 6px;
 }
 
 .actions-secondary:has(.twint-button) {
-  width: 100%;
+  @apply w-full;
 }

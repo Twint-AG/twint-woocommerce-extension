@@ -9,8 +9,7 @@ class ApiResponse
     public function __construct(
         private readonly mixed $return,
         private readonly array $log
-    )
-    {
+    ) {
     }
 
     public function getLog(): array

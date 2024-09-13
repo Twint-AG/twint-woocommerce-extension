@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Migration;
 
 final class CreateTwintPairingTable
@@ -30,7 +32,7 @@ final class CreateTwintPairingTable
             created_at DATETIME(3) NOT NULL,
             updated_at DATETIME(3) NULL,
             PRIMARY KEY (id)
-        ) $charset_collate;";
+        ) {$charset_collate};";
 
         $wpdb->query($sql);
     }

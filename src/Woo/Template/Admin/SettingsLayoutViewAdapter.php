@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Template\Admin;
 
 use Twint\Woo\Service\SettingService;
@@ -11,10 +13,10 @@ use Twint\Woo\Utility\CredentialsValidator;
 class SettingsLayoutViewAdapter
 {
     public function __construct(
-        private readonly SettingService       $settingService,
+        private readonly SettingService $settingService,
         private readonly CredentialsValidator $validator,
-        private array                         $data = [])
-    {
+        private array $data = []
+    ) {
     }
 
     public function render(): void
@@ -46,7 +48,6 @@ class SettingsLayoutViewAdapter
 
     /**
      * Get config of tabs on top of Plugin Settings page
-     * @return array
      */
     private function getTabsConfig(): array
     {
@@ -68,7 +69,7 @@ class SettingsLayoutViewAdapter
         ];
     }
 
-    function getTabHtml(array $tabs): string
+    public function getTabHtml(array $tabs): string
     {
         $html = '';
 
@@ -88,13 +89,13 @@ class SettingsLayoutViewAdapter
         return $html;
     }
 
-    function getTabContent(): string
+    public function getTabContent(): string
     {
         $validated = get_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG);
 
         $this->data['flag_credentials'] = $validated;
         $this->data['needHideCertificateUpload'] = $validated === SettingService::YES;
-        $this->data['status'] = $this->checkInvalidCredentialsOrNot();
+        $this->data['status'] = $this->validateCredentials();
         $this->data['fields'] = Credentials::fields();
 
         $nonce = wp_create_nonce('store_twint_settings');
@@ -121,7 +122,7 @@ class SettingsLayoutViewAdapter
         return $html;
     }
 
-    public function checkInvalidCredentialsOrNot(): bool
+    protected function validateCredentials(): bool
     {
         $certificateCheck = $this->settingService->getCertificate();
 

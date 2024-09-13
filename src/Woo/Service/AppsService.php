@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Service;
 
 use Exception;
@@ -10,8 +12,7 @@ class AppsService
 {
     public function __construct(
         private readonly ClientBuilder $builder
-    )
-    {
+    ) {
     }
 
     public function getPayLinks(string $token): array

@@ -1,59 +1,51 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Logger;
 
 use WC_Log_Levels;
 use WC_Logger_Interface;
 
-class NullLogger implements WC_Logger_Interface{
-
+class NullLogger implements WC_Logger_Interface
+{
     public function add($handle, $message, $level = WC_Log_Levels::NOTICE)
     {
-        // TODO: Implement add() method.
     }
 
-    public function log($level, $message, $context = array())
+    public function log($level, $message, $context = [])
     {
-        // TODO: Implement log() method.
     }
 
-    public function emergency($message, $context = array())
+    public function emergency($message, $context = [])
     {
-        // TODO: Implement emergency() method.
     }
 
-    public function alert($message, $context = array())
+    public function alert($message, $context = [])
     {
-        // TODO: Implement alert() method.
     }
 
-    public function critical($message, $context = array())
+    public function critical($message, $context = [])
     {
-        // TODO: Implement critical() method.
     }
 
-    public function error($message, $context = array())
+    public function error($message, $context = [])
     {
-        // TODO: Implement error() method.
     }
 
-    public function warning($message, $context = array())
+    public function warning($message, $context = [])
     {
-        // TODO: Implement warning() method.
     }
 
-    public function notice($message, $context = array())
+    public function notice($message, $context = [])
     {
-        // TODO: Implement notice() method.
     }
 
-    public function info($message, $context = array())
+    public function info($message, $context = [])
     {
-        // TODO: Implement info() method.
     }
 
-    public function debug($message, $context = array())
+    public function debug($message, $context = [])
     {
-        // TODO: Implement debug() method.
     }
 }

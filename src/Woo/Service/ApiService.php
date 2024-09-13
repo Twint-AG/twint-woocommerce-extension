@@ -17,16 +17,20 @@ class ApiService
 {
     public function __construct(
         private readonly WC_Logger_Interface $logger
-    )
-    {
+    ) {
     }
 
     /**
      * @param callable|null $buildLogCallback A callback function to build the log. It should accept two parameters.
      * @throws Throwable
      */
-    public function call(InvocationRecordingClient $client, string $method, array $args, bool $save = true, callable $buildLogCallback = null): ApiResponse
-    {
+    public function call(
+        InvocationRecordingClient $client,
+        string $method,
+        array $args,
+        bool $save = true,
+        callable $buildLogCallback = null
+    ): ApiResponse {
         try {
             $returnValue = $client->{$method}(...$args);
         } catch (Throwable $e) {
@@ -45,13 +49,12 @@ class ApiService
      * @param Invocation[] $invocation
      */
     protected function log(
-        mixed    $returnValue,
-        string   $method,
-        array    $invocation,
-        bool     $save = true,
+        mixed $returnValue,
+        string $method,
+        array $invocation,
+        bool $save = true,
         callable $callback = null
-    ): array
-    {
+    ): array {
         $log = [];
 
         try {
@@ -67,7 +70,7 @@ class ApiService
                 'soap_request' => $soapRequests,
                 'soap_response' => $soapResponses,
                 'exception_text' => $exception,
-                'created_at' => date("Y-m-d H:i:s"),
+                'created_at' => date('Y-m-d H:i:s'),
             ];
 
             if (is_callable($callback)) {
@@ -81,7 +84,7 @@ class ApiService
             global $wpdb;
             $wpdb->insert(TransactionRepository::getTableName(), $log);
         } catch (Throwable $exception) {
-            $this->logger->error("TWINT - Error when saving setting " . PHP_EOL . $exception->getMessage());
+            $this->logger->error('TWINT - Error when saving setting ' . PHP_EOL . $exception->getMessage());
         }
 
         return $log;

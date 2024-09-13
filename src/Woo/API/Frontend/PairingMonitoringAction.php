@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Api\Frontend;
 
 use Symfony\Component\Process\Process;
 use Throwable;
 use Twint\Command\PollCommand;
-use Twint\TwintPayment;
+use Twint\Plugin;
 use Twint\Woo\Api\BaseAction;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
@@ -16,16 +18,14 @@ class PairingMonitoringAction extends BaseAction
     private const TIME_WINDOW_SECONDS = 10; // 10 seconds
 
     public function __construct(
-        private readonly PairingRepository   $pairingRepository,
+        private readonly PairingRepository $pairingRepository,
         private readonly WC_Logger_Interface $logger
-    )
-    {
+    ) {
         add_action('wp_ajax_nopriv_twint_check_pairing_status', [$this, 'requireLogin']);
         add_action('wp_ajax_twint_check_pairing_status', [$this, 'monitorPairing']);
     }
 
     /**
-     * @return void
      * @throws Throwable
      */
     public function monitorPairing(): void
@@ -43,12 +43,7 @@ class PairingMonitoringAction extends BaseAction
         if (!$pairing->isFinished() && !$this->isRunning($pairing)) {
             $this->logger->info("[TWINT] - Checking pairing [{$pairingId}]...");
 
-            $process = new Process([
-                'php',
-                TwintPayment::abspath() . 'bin/console',
-                PollCommand::COMMAND,
-                $pairingId,
-            ]);
+            $process = new Process(['php', Plugin::abspath() . 'bin/console', PollCommand::COMMAND, $pairingId]);
             $process->setOptions([
                 'create_new_console' => true,
             ]);

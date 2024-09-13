@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Service;
 
 use Exception;
@@ -20,11 +22,10 @@ use WC_Order;
 class PairingService
 {
     public function __construct(
-        private readonly ClientBuilder       $builder,
-        private readonly ApiService          $apiService,
+        private readonly ClientBuilder $builder,
+        private readonly ApiService $apiService,
         private readonly WC_Logger_Interface $logger
-    )
-    {
+    ) {
     }
 
     public function create(ApiResponse $response, WC_Order $order): Pairing
@@ -60,7 +61,7 @@ class PairingService
 
         $client = $this->builder->build();
         $apiResponse = $this->apiService->call($client, 'monitorOrder', [
-            new OrderId(new Uuid($pairing->getId()))
+            new OrderId(new Uuid($pairing->getId())),
         ], false);
 
         /** @var Order $tOrder */
@@ -124,7 +125,7 @@ class PairingService
                 ->__toString(),
             'updated_at' => date('Y-m-d H:i:s'),
         ], [
-            'id' => $pairing->getId()
+            'id' => $pairing->getId(),
         ]);
     }
 

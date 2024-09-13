@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Model\Method;
 
 use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
-use Twint\TwintPayment;
+use Twint\Plugin;
 use Twint\Woo\Model\Gateway\AbstractGateway;
 use Twint\Woo\Service\SettingService;
 
@@ -11,19 +13,18 @@ abstract class AbstractMethod extends AbstractPaymentMethodType
 {
     /**
      * The gateway instance.
-     *
-     * @var AbstractGateway
      */
-
     protected AbstractGateway $gateway;
 
     public function initialize(): void
     {
         $this->settings = get_option(SettingService::KEY_PRIMARY_SETTING, []);
-        $gateways = WC()->payment_gateways()->payment_gateways();
+        $gateways = WC()
+            ->payment_gateways()
+            ->payment_gateways();
 
         $validated = get_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG);
-        if (isset($gateways[$this->name]) && SettingService::YES === $validated) {
+        if (isset($gateways[$this->name]) && $validated === SettingService::YES) {
             $this->gateway = $gateways[$this->name];
         }
     }
@@ -45,15 +46,15 @@ abstract class AbstractMethod extends AbstractPaymentMethodType
     public function get_payment_method_script_handles(): array
     {
         $scriptPath = '/dist/frontend/blocks.js';
-        $scriptAssetPath = TwintPayment::abspath() . 'assets/js/frontend/blocks.asset.php';
+        $scriptAssetPath = Plugin::abspath() . 'assets/js/frontend/blocks.asset.php';
         $scriptAsset = file_exists($scriptAssetPath)
-            ? require($scriptAssetPath)
+            ? require ($scriptAssetPath)
             : [
                 'dependencies' => [],
-                'version' => '1.0.0'
+                'version' => '1.0.0',
             ];
 
-        $scriptUrl = TwintPayment::pluginUrl() . $scriptPath;
+        $scriptUrl = Plugin::pluginUrl() . $scriptPath;
 
         wp_register_script(
             'wc-twint-payments-blocks',
@@ -64,7 +65,11 @@ abstract class AbstractMethod extends AbstractPaymentMethodType
         );
 
         if (function_exists('wp_set_script_translations')) {
-            wp_set_script_translations('wc-twint-payments-blocks', 'woocommerce-gateway-twint', TwintPayment::abspath() . 'languages/');
+            wp_set_script_translations(
+                'wc-twint-payments-blocks',
+                'woocommerce-gateway-twint',
+                Plugin::abspath() . 'languages/'
+            );
         }
 
         return ['wc-twint-payments-blocks'];
@@ -72,8 +77,6 @@ abstract class AbstractMethod extends AbstractPaymentMethodType
 
     /**
      * Returns an array of key=>value pairs of data made available to the payment methods script.
-     *
-     * @return array
      */
     public function get_payment_method_data(): array
     {
@@ -81,7 +84,7 @@ abstract class AbstractMethod extends AbstractPaymentMethodType
             'id' => $this->name,
             'title' => !empty($this->get_setting('title')) ? $this->get_setting('title') : 'TWINT',
             'description' => $this->get_setting('description'),
-            'supports' => array_filter($this->gateway->supports, [$this->gateway, 'supports'])
+            'supports' => array_filter($this->gateway->supports, [$this->gateway, 'supports']),
         ];
     }
 }
