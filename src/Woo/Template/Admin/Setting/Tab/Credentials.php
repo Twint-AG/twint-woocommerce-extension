@@ -99,7 +99,7 @@ class Credentials extends TabItem
                     $field['name'],
                     ['plugin_twint_settings_certificate', 'plugin_twint_settings_certificate_password'],
                     true
-                ) and $data['needHideCertificateUpload']) ? 'hidden' : '' ?>">
+                ) && $data['needHideCertificateUpload']) ? 'hidden' : '' ?>">
                     <th scope="row">
                         <label for="<?php echo $field['name']; ?>">
                             <?php echo $field['label']; ?>
@@ -160,7 +160,7 @@ class Credentials extends TabItem
         </table>
         <?php
 
-                                                $content = ob_get_contents();
+                                                        $content = ob_get_contents();
         ob_end_clean();
 
         return $content;

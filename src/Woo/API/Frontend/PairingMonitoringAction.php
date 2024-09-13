@@ -36,7 +36,7 @@ class PairingMonitoringAction extends BaseAction
 
         $pairingId = $_REQUEST['pairingId'];
         $pairing = $this->pairingRepository->findById($pairingId);
-        if (!$pairing) {
+        if (!$pairing instanceof Pairing) {
             exit('The pairing for the the order does not exist.');
         }
 

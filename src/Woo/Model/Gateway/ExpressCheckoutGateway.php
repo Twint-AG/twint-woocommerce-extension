@@ -12,6 +12,22 @@ class ExpressCheckoutGateway extends AbstractGateway
 {
     public const UNIQUE_PAYMENT_ID = 'twint_express';
 
+    /**
+     * @var string[]
+     */
+    public $supports = [
+        'pre-orders',
+        'refunds',
+        'products',
+        'subscriptions',
+        'subscription_cancellation',
+        'subscription_suspension',
+        'subscription_reactivation',
+        'subscription_amount_changes',
+        'subscription_date_changes',
+        'multiple_subscriptions',
+    ];
+
     public $id = self::UNIQUE_PAYMENT_ID;
 
     /**
@@ -33,19 +49,6 @@ class ExpressCheckoutGateway extends AbstractGateway
         parent::__construct();
 
         $this->icon = apply_filters('woocommerce_twint_gateway_express_icon', '');
-        $this->has_fields = false;
-        $this->supports = [
-            'pre-orders',
-            'refunds',
-            'products',
-            'subscriptions',
-            'subscription_cancellation',
-            'subscription_suspension',
-            'subscription_reactivation',
-            'subscription_amount_changes',
-            'subscription_date_changes',
-            'multiple_subscriptions',
-        ];
 
         $this->method_title = __('TWINT Express Checkout', 'woocommerce-gateway-twint');
         $this->method_description = __('Allows TWINT Express Checkout', 'woocommerce-gateway-twint');
@@ -125,7 +128,7 @@ class ExpressCheckoutGateway extends AbstractGateway
             }
         };
 
-        $html = '<tr valign="top">
+        return '<tr valign="top">
                     <th scope="row" class="titledesc">
                         <label>' . __('Display Screens', 'woocommerce-gateway-twint') . '</label>
                     </th>
@@ -142,8 +145,6 @@ class ExpressCheckoutGateway extends AbstractGateway
                         </script>
                     </td>
                 </tr>';
-
-        return $html;
     }
 
     public function generate_button_express_checkout_html(): string

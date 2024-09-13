@@ -41,12 +41,12 @@ class ClientBuilder
 
         $environment = $this->setting->isTestMode() ? Environment::TESTING() : Environment::PRODUCTION();
         $storeUuid = $this->setting->getStoreUuid();
-        if (empty($storeUuid)) {
+        if ($storeUuid === null || $storeUuid === '' || $storeUuid === '0') {
             throw new InvalidConfigException(InvalidConfigException::ERROR_INVALID_STORE_UUID);
         }
 
         $certificate = $this->setting->getCertificate();
-        if (empty($certificate)) {
+        if ($certificate === null || $certificate === []) {
             throw new InvalidConfigException(InvalidConfigException::ERROR_INVALID_CERTIFICATE);
         }
 
@@ -54,7 +54,7 @@ class ClientBuilder
             $cert = $this->crypto->decrypt($certificate['certificate']);
             $passphrase = $this->crypto->decrypt($certificate['passphrase']);
 
-            if (empty($passphrase) || empty($cert)) {
+            if ($passphrase === '' || $passphrase === '0' || ($cert === '' || $cert === '0')) {
                 throw new InvalidConfigException(InvalidConfigException::ERROR_INVALID_CERTIFICATE);
             }
             $messageRecorder = new MessageRecorder();

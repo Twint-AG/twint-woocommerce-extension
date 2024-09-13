@@ -13,6 +13,7 @@ use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Uuid;
 use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Model\ApiResponse;
+use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
 use WC_Logger_Interface;
 use WC_Order;
@@ -68,7 +69,7 @@ class PaymentService
 
         try {
             $pairing = $this->repository->findByWooOrderId($order->get_id());
-            if (!empty($pairing)) {
+            if ($pairing instanceof Pairing) {
                 $currency = $order->get_currency();
                 if (!empty($currency) && $amount > 0) {
                     $reversalId = 'R-' . $pairing->getId() . '-' . $wcRefundId;

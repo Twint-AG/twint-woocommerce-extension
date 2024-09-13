@@ -49,7 +49,8 @@
   "require-dev": {
     "symfony/var-dumper": "^7.1",
     "symplify/easy-coding-standard": "^12.1",
-    "slevomat/coding-standard": "^8.15"
+    "slevomat/coding-standard": "^8.15",
+    "rector/rector": "^1.2"
   },
   "repositories": [
     {

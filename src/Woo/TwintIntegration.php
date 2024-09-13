@@ -10,6 +10,7 @@ use Twint\Woo\CronJob\MonitorPairingCronJob;
 use Twint\Woo\Migration\CreateTwintPairingTable;
 use Twint\Woo\Migration\CreateTwintTransactionLogTable;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
+use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Service\ApiService;
 use Twint\Woo\Service\PairingService;
@@ -219,7 +220,7 @@ class TwintIntegration
 
         if ($order->get_payment_method() === RegularCheckoutGateway::getId()) {
             $pairing = $this->pairingRepository->findByWooOrderId($order->get_id());
-            if (!$pairing) {
+            if (!$pairing instanceof Pairing) {
                 $apiResponse = $this->paymentService->createOrder($order);
                 $res = $this->pairingService->create($apiResponse, $order);
             }

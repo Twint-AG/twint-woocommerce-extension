@@ -31,8 +31,6 @@ abstract class AbstractMethod extends AbstractPaymentMethodType
 
     /**
      * Returns if this payment method should be active. If false, the scripts will not be enqueued.
-     *
-     * @return boolean
      */
     public function is_active(): bool
     {
@@ -82,7 +80,7 @@ abstract class AbstractMethod extends AbstractPaymentMethodType
     {
         return [
             'id' => $this->name,
-            'title' => !empty($this->get_setting('title')) ? $this->get_setting('title') : 'TWINT',
+            'title' => empty($this->get_setting('title')) ? 'TWINT' : $this->get_setting('title'),
             'description' => $this->get_setting('description'),
             'supports' => array_filter($this->gateway->supports, [$this->gateway, 'supports']),
         ];

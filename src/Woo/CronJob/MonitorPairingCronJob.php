@@ -36,7 +36,7 @@ class MonitorPairingCronJob
         if (!isset($schedules['twint1minute'])) {
             $minutes = 1;
             $schedules['twint1minute'] = [
-                'interval' => $minutes * 60,
+                'interval' => 60,
                 'display' => __('Once every 1 minute'),
             ];
         }

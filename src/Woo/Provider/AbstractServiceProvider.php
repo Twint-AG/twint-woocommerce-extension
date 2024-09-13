@@ -8,10 +8,6 @@ abstract class AbstractServiceProvider
 {
     public static array $container = [];
 
-    public function __construct($args = [])
-    {
-    }
-
     public static function getServiceByName(string $name)
     {
         return isset(self::$container[$name]) && !empty(self::$container[$name]) ? self::$container[$name] : null;
@@ -21,7 +17,7 @@ abstract class AbstractServiceProvider
 
     public function registerToServiceContainer(string $name = '', $instance = null): void
     {
-        if (!empty($name) && !empty($instance) && !array_key_exists($name, self::$container)) {
+        if ($name !== '' && $name !== '0' && !empty($instance) && !array_key_exists($name, self::$container)) {
             self::$container[] = [
                 $name => $instance,
             ];

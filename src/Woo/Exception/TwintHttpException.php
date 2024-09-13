@@ -14,7 +14,7 @@ abstract class TwintHttpException extends HttpException implements TwintExceptio
     /**
      * @var array<string, mixed>
      */
-    protected $parameters = [];
+    protected array $parameters;
 
     /**
      * @param array<string, mixed> $parameters

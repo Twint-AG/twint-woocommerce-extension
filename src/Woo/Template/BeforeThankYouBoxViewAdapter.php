@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Woo\Template;
 
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
+use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
 use WC_Order;
 
@@ -19,7 +20,7 @@ class BeforeThankYouBoxViewAdapter
     public function render(): void
     {
         $pairing = $this->pairingRepository->findByWooOrderId($this->order->get_id());
-        if (empty($pairing)) {
+        if (!$pairing instanceof Pairing) {
             return;
         }
 

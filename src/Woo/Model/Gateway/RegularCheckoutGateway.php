@@ -23,8 +23,6 @@ class RegularCheckoutGateway extends AbstractGateway
         parent::__construct();
 
         $this->icon = apply_filters('woocommerce_twint_gateway_regular_icon', '');
-        $this->has_fields = false;
-        $this->supports = ['refunds', 'products'];
 
         $this->method_title = __('TWINT Checkout', 'woocommerce-gateway-twint');
         $this->title = __('TWINT', 'woocommerce-gateway-twint');

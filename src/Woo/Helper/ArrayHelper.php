@@ -8,7 +8,7 @@ class ArrayHelper
 {
     public static function toArray(string $json, bool $associative = false): array|null
     {
-        if (empty($json)) {
+        if ($json === '' || $json === '0') {
             return [];
         }
 

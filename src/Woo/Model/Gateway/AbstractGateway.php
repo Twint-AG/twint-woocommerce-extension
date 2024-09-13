@@ -19,6 +19,40 @@ abstract class AbstractGateway extends WC_Payment_Gateway
     protected WC_Logger_Interface $logger;
 
     /**
+     * @var mixed
+     */
+    public $icon;
+
+    /**
+     * @var bool
+     */
+    public $has_fields = false;
+
+    /**
+     * @var string[]
+     */
+    public $supports = ['refunds', 'products'];
+
+    /**
+     * @var mixed
+     */
+    public $method_title;
+
+    public $title;
+
+    /**
+     * @var mixed
+     */
+    public $method_description;
+
+    public $description;
+
+    /**
+     * @var array<string, array<'default'|'desc_tip'|'description'|'title'|'type', mixed>|array<'default'|'label'|'title'|'type', mixed>>
+     */
+    public $form_fields;
+
+    /**
      * Payment gateway instructions.
      */
     protected string $instructions;
