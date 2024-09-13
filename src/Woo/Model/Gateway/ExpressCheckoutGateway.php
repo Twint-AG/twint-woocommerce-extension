@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Woo\Model\Gateway;
 
 use Twint\Plugin;
@@ -28,6 +30,8 @@ class ExpressCheckoutGateway extends AbstractGateway
      */
     public function __construct()
     {
+        parent::__construct();
+
         $this->icon = apply_filters('woocommerce_twint_gateway_express_icon', '');
         $this->has_fields = false;
         $this->supports = [
@@ -100,84 +104,83 @@ class ExpressCheckoutGateway extends AbstractGateway
 
     public function generate_display_options_html(): string
     {
-        ob_start();
+        $getOptions = function () {
+            $options = [
+                'cart' => __('Cart', 'woocommerce-gateway-twint'),
+                'mini-cart' => __('Mini Cart', 'woocommerce-gateway-twint'),
+                'product-details-page' => __('Product Details Page', 'woocommerce-gateway-twint'),
+                'single-product' => __('Single Product', 'woocommerce-gateway-twint'),
+            ];
 
-        $options = [
-            'cart' => __('Cart', 'woocommerce-gateway-twint'),
-            'mini-cart' => __('Mini Cart', 'woocommerce-gateway-twint'),
-            'product-details-page' => __('Product Details Page', 'woocommerce-gateway-twint'),
-            'single-product' => __('Single Product', 'woocommerce-gateway-twint'),
-        ];
+            $html = '';
+            foreach ($options as $key => $option) {
+                $selected = in_array($key, $this->displayOptions, true) ? ' selected' : '';
 
-        ?>
-        <tr valign="top">
-            <th scope="row" class="titledesc">
-                <label>
-                    <?php echo __('Display Screens', 'woocommerce-gateway-twint'); ?>
-                </label>
-            </th>
-            <td class="forminp" id="display_options">
-                <div class="wc_input_table_wrapper">
-                    <select name="display_options[]" multiple id="display_options" class="select2">
-                        <?php foreach ($options as $key => $option) { ?>
-                            <option value="<?php echo $key; ?>"
-                                <?php echo in_array($key, $this->displayOptions, true) ? 'selected' : '' ?>>
-                                <?php echo $option; ?>
-                            </option>
-                        <?php } ?>
-                    </select>
-                </div>
-                <script type="text/javascript">
-                  jQuery(function () {
-                    jQuery('select.select2').select2();
-                  });
-                </script>
-            </td>
-        </tr>
-        <?php
-        return ob_get_clean();
+                $html .= sprintf(
+                    '<option value="%s"%s>%s</option>',
+                    esc_attr($key),  // Use esc_attr for better security
+                    $selected,
+                    esc_html($option) // Use esc_html to escape the display text
+                );
+            }
+        };
+
+        $html = '<tr valign="top">
+                    <th scope="row" class="titledesc">
+                        <label>' . __('Display Screens', 'woocommerce-gateway-twint') . '</label>
+                    </th>
+                    <td class="forminp" id="display_options">
+                        <div class="wc_input_table_wrapper">
+                            <select name="display_options[]" multiple id="display_options" class="select2">
+                                ' . $getOptions() . '
+                            </select>
+                        </div>
+                        <script type="text/javascript">
+                          jQuery(function () {
+                            jQuery(\'select.select2\').select2();
+                          });
+                        </script>
+                    </td>
+                </tr>';
+
+        return $html;
     }
 
     public function generate_button_express_checkout_html(): string
     {
-        ob_start();
-
-        ?>
+        return '
         <tr valign="top">
             <th scope="row" class="titledesc">
-                <label><?php echo __('Button config', 'woocommerce-gateway-twint'); ?></label>
+                <label>' . __('Button config', 'woocommerce-gateway-twint') . '</label>
             </th>
             <td class="forminp" id="button_express_checkout_label">
                 <div class="wc_input_table_wrapper">
                     <input type="text" name="twint_button_label" value="<?php echo $this->button; ?>">
                     <div class="preview-btn" style="margin-top: 15px; font-size: 14px; font-weight: bold">
-                        <?php echo __('Button Preview', 'woocommerce-gateway-twint') ?>
+                        ' . __('Button Preview', 'woocommerce-gateway-twint') . '
                     </div>
                     <a href="javascript:void(0)" class="twint-button">
                         <span class="twint-button_icon_block">
-                            <img class="twint-button_icon"
-                                 src="<?= Plugin::assets('/images/express.svg') ?>">
+                            <img class="twint-button_icon" src="' . Plugin::assets('/images/express.svg') . '">
                         </span>
-                        <span class="twint-button_label"><?php echo $this->button; ?></span>
+                        <span class="twint-button_label">' . $this->button . '</span>
                     </a>
                 </div>
                 <script type="text/javascript">
                   jQuery(function () {
-                    jQuery('input[name="twint_button_label"]').on('change input', function () {
+                    jQuery(\'input[name="twint_button_label"]\').on(\'change input\', function () {
                       const $this = jQuery(this);
-                      const $btn = jQuery('a.twint-button');
+                      const $btn = jQuery(\'a.twint-button\');
                       const btnLabel = $this.val();
 
-                      $btn.find('span.twint-button_label').text(btnLabel);
+                      $btn.find(\'span.twint-button_label\').text(btnLabel);
 
                       return false;
                     });
                   });
                 </script>
             </td>
-        </tr>
-        <?php
-        return ob_get_clean();
+        </tr>';
     }
 
     /**
