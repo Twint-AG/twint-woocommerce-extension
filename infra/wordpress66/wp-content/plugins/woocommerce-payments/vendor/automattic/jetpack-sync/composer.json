@@ -1,0 +1,68 @@
+{
+	"name": "automattic/jetpack-sync",
+	"description": "Everything needed to allow syncing to the WP.com infrastructure.",
+	"type": "jetpack-library",
+	"license": "GPL-2.0-or-later",
+	"require": {
+		"php": ">=7.0",
+		"automattic/jetpack-connection": "^2.8.2",
+		"automattic/jetpack-constants": "^2.0.2",
+		"automattic/jetpack-identity-crisis": "^0.19.0",
+		"automattic/jetpack-password-checker": "^0.3.1",
+		"automattic/jetpack-ip": "^0.2.2",
+		"automattic/jetpack-roles": "^2.0.2",
+		"automattic/jetpack-status": "^3.0.3"
+	},
+	"require-dev": {
+		"automattic/jetpack-changelogger": "^4.2.3",
+		"yoast/phpunit-polyfills": "1.1.0",
+		"automattic/jetpack-search": "@dev",
+		"automattic/jetpack-waf": "^0.16.7",
+		"automattic/wordbless": "@dev"
+	},
+	"suggest": {
+		"automattic/jetpack-autoloader": "Allow for better interoperability with other plugins that use this package."
+	},
+	"autoload": {
+		"classmap": [
+			"src/"
+		]
+	},
+	"scripts": {
+		"phpunit": [
+			"./vendor/phpunit/phpunit/phpunit --colors=always"
+		],
+		"test-php": [
+			"@composer phpunit"
+		],
+		"post-install-cmd": "WorDBless\\Composer\\InstallDropin::copy",
+		"post-update-cmd": "WorDBless\\Composer\\InstallDropin::copy"
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"extra": {
+		"autotagger": true,
+		"mirror-repo": "Automattic/jetpack-sync",
+		"textdomain": "jetpack-sync",
+		"version-constants": {
+			"::PACKAGE_VERSION": "src/class-package-version.php"
+		},
+		"changelogger": {
+			"link-template": "https://github.com/Automattic/jetpack-sync/compare/v${old}...v${new}"
+		},
+		"branch-alias": {
+			"dev-trunk": "2.16.x-dev"
+		},
+		"dependencies": {
+			"test-only": [
+				"packages/search",
+				"packages/waf"
+			]
+		}
+	},
+	"config": {
+		"allow-plugins": {
+			"roots/wordpress-core-installer": true
+		}
+	}
+}

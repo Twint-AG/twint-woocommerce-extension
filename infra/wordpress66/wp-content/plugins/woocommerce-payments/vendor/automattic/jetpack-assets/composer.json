@@ -1,0 +1,57 @@
+{
+	"name": "automattic/jetpack-assets",
+	"description": "Asset management utilities for Jetpack ecosystem packages",
+	"type": "jetpack-library",
+	"license": "GPL-2.0-or-later",
+	"require": {
+		"php": ">=7.0",
+		"automattic/jetpack-constants": "^2.0.2"
+	},
+	"require-dev": {
+		"brain/monkey": "2.6.1",
+		"yoast/phpunit-polyfills": "1.1.0",
+		"automattic/jetpack-changelogger": "^4.2.3",
+		"wikimedia/testing-access-wrapper": "^1.0 || ^2.0 || ^3.0"
+	},
+	"suggest": {
+		"automattic/jetpack-autoloader": "Allow for better interoperability with other plugins that use this package."
+	},
+	"autoload": {
+		"files": [
+			"actions.php"
+		],
+		"classmap": [
+			"src/"
+		]
+	},
+	"scripts": {
+		"build-development": [
+			"pnpm run build"
+		],
+		"build-production": [
+			"pnpm run build-production"
+		],
+		"phpunit": [
+			"./vendor/phpunit/phpunit/phpunit --colors=always"
+		],
+		"test-js": [
+			"pnpm run test"
+		],
+		"test-php": [
+			"@composer phpunit"
+		]
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"extra": {
+		"autotagger": true,
+		"mirror-repo": "Automattic/jetpack-assets",
+		"textdomain": "jetpack-assets",
+		"changelogger": {
+			"link-template": "https://github.com/Automattic/jetpack-assets/compare/v${old}...v${new}"
+		},
+		"branch-alias": {
+			"dev-trunk": "2.1.x-dev"
+		}
+	}
+}

@@ -34,6 +34,7 @@ services:
       - /var/www/html/wp-content/plugins/twint-woocommerce-extension/infra
   
   oldest_wp:
+    image: 'wordpress:5.9'
     container_name: wp-oldest
     build:
       context: ./docker
