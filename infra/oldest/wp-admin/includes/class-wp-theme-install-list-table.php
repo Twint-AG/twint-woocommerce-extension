@@ -11,6 +11,7 @@
  * Core class used to implement displaying themes to install in a list table.
  *
  * @since 3.1.0
+ * @access private
  *
  * @see WP_Themes_List_Table
  */
@@ -36,8 +37,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		require ABSPATH . 'wp-admin/includes/theme-install.php';
 
 		global $tabs, $tab, $paged, $type, $theme_field_defaults;
-
-		$tab = ! empty( $_REQUEST['tab'] ) ? sanitize_text_field( $_REQUEST['tab'] ) : '';
+		wp_reset_vars( array( 'tab' ) );
 
 		$search_terms  = array();
 		$search_string = '';
@@ -186,14 +186,12 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 
 		$display_tabs = array();
 		foreach ( (array) $tabs as $action => $text ) {
-			$display_tabs[ 'theme-install-' . $action ] = array(
-				'url'     => self_admin_url( 'theme-install.php?tab=' . $action ),
-				'label'   => $text,
-				'current' => $action === $tab,
-			);
+			$current_link_attributes                    = ( $action === $tab ) ? ' class="current" aria-current="page"' : '';
+			$href                                       = self_admin_url( 'theme-install.php?tab=' . $action );
+			$display_tabs[ 'theme-install-' . $action ] = "<a href='$href'$current_link_attributes>$text</a>";
 		}
 
-		return $this->get_views_links( $display_tabs );
+		return $display_tabs;
 	}
 
 	/**
@@ -334,7 +332,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 					esc_url( wp_nonce_url( $install_url, 'install-theme_' . $theme->slug ) ),
 					/* translators: %s: Theme name. */
 					esc_attr( sprintf( _x( 'Install %s', 'theme' ), $name ) ),
-					_x( 'Install Now', 'theme' )
+					__( 'Install Now' )
 				);
 				break;
 		}
@@ -361,7 +359,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 
 		?>
 		<a class="screenshot install-theme-preview" href="<?php echo esc_url( $preview_url ); ?>" title="<?php echo esc_attr( $preview_title ); ?>">
-			<img src="<?php echo esc_url( $theme->screenshot_url . '?ver=' . $theme->version ); ?>" width="150" alt="" />
+			<img src="<?php echo esc_url( $theme->screenshot_url ); ?>" width="150" alt="" />
 		</a>
 
 		<h3><?php echo $name; ?></h3>
@@ -504,7 +502,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 			?>
 			</span>
 			<?php if ( isset( $theme->screenshot_url ) ) : ?>
-				<img class="theme-screenshot" src="<?php echo esc_url( $theme->screenshot_url . '?ver=' . $theme->version ); ?>" alt="" />
+				<img class="theme-screenshot" src="<?php echo esc_url( $theme->screenshot_url ); ?>" alt="" />
 			<?php endif; ?>
 			<div class="theme-details">
 				<?php
@@ -545,7 +543,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	}
 
 	/**
-	 * Checks to see if the theme is already installed.
+	 * Check to see if the theme is already installed.
 	 *
 	 * @since 3.4.0
 	 *

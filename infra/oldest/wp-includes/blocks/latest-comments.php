@@ -30,13 +30,11 @@ function wp_latest_comments_draft_or_post_title( $post = 0 ) {
 	if ( empty( $title ) ) {
 		$title = __( '(no title)' );
 	}
-	return $title;
+	return esc_html( $title );
 }
 
 /**
  * Renders the `core/latest-comments` block on server.
- *
- * @since 5.1.0
  *
  * @param array $attributes The block attributes.
  *
@@ -147,8 +145,6 @@ function render_block_core_latest_comments( $attributes = array() ) {
 
 /**
  * Registers the `core/latest-comments` block.
- *
- * @since 5.3.0
  */
 function register_block_core_latest_comments() {
 	register_block_type_from_metadata(

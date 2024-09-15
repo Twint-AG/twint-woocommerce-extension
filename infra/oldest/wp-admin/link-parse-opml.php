@@ -16,9 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $opml;
 
 /**
- * Starts a new XML tag.
- *
- * Callback function for xml_set_element_handler().
+ * XML callback function for the start of a new XML tag.
  *
  * @since 0.71
  * @access private
@@ -62,9 +60,7 @@ function startElement( $parser, $tag_name, $attrs ) { // phpcs:ignore WordPress.
 }
 
 /**
- * Ends a new XML tag.
- *
- * Callback function for xml_set_element_handler().
+ * XML callback function that is called at the end of a XML tag.
  *
  * @since 0.71
  * @access private
@@ -78,7 +74,7 @@ function endElement( $parser, $tag_name ) { // phpcs:ignore WordPress.NamingConv
 
 // Create an XML parser.
 if ( ! function_exists( 'xml_parser_create' ) ) {
-	wp_trigger_error( '', __( "PHP's XML extension is not available. Please contact your hosting provider to enable PHP's XML extension." ) );
+	trigger_error( __( "PHP's XML extension is not available. Please contact your hosting provider to enable PHP's XML extension." ) );
 	wp_die( __( "PHP's XML extension is not available. Please contact your hosting provider to enable PHP's XML extension." ) );
 }
 

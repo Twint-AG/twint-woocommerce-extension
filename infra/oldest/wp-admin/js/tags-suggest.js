@@ -4,11 +4,12 @@
  * @output wp-admin/js/tags-suggest.js
  */
 ( function( $ ) {
+	if ( typeof window.uiAutocompleteL10n === 'undefined' ) {
+		return;
+	}
+
 	var tempID = 0;
 	var separator = wp.i18n._x( ',', 'tag delimiter' ) || ',';
-	var __ = wp.i18n.__,
-	    _n = wp.i18n._n,
-	    sprintf = wp.i18n.sprintf;
 
 	function split( val ) {
 		return val.split( new RegExp( separator + '\\s*' ) );
@@ -62,8 +63,7 @@
 				$.get( window.ajaxurl, {
 					action: 'ajax-tag-search',
 					tax: taxonomy,
-					q: term,
-					number: 20
+					q: term
 				} ).always( function() {
 					$element.removeClass( 'ui-autocomplete-loading' ); // UI fails to remove this sometimes?
 				} ).done( function( data ) {
@@ -138,17 +138,13 @@
 				collision: 'none'
 			},
 			messages: {
-				noResults: __( 'No results found.' ),
+				noResults: window.uiAutocompleteL10n.noResults,
 				results: function( number ) {
-					return sprintf(
-						/* translators: %d: Number of search results found. */
-						_n(
-							'%d result found. Use up and down arrow keys to navigate.',
-							'%d results found. Use up and down arrow keys to navigate.',
-							number
-						),
-						number
-					);
+					if ( number > 1 ) {
+						return window.uiAutocompleteL10n.manyResults.replace( '%d', number );
+					}
+
+					return window.uiAutocompleteL10n.oneResult;
 				}
 			}
 		}, options );

@@ -388,7 +388,7 @@
 		},
 
 		/**
-		 * Adds keyboard accessibility to the panel.
+		 * Adds keyboard accessiblity to the panel.
 		 */
 		keyboardAccessible: function( event ) {
 			var isEnter = ( event.which === 13 ),
@@ -1457,7 +1457,7 @@
 				self.container.addClass( 'expanding' );
 			};
 
-			if ( $toggleBtn.attr( 'aria-expanded' ) === 'false' ) {
+			if ( expanded ) {
 				if ( api.section.has( self.section() ) ) {
 					api.section( self.section() ).expand( {
 						completeCallback: expandControl
@@ -1623,8 +1623,7 @@
 
 				// @todo This should use the Notifications API introduced to panels. See <https://core.trac.wordpress.org/ticket/38794>.
 				noticeContainer = $( '<div></div>', {
-					'class': 'no-widget-areas-rendered-notice',
-					'role': 'alert'
+					'class': 'no-widget-areas-rendered-notice'
 				});
 				panelMetaContainer.append( noticeContainer );
 

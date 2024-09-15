@@ -1,175 +1,250 @@
-/******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
-/******/ 	// The require scope
-/******/ 	var __webpack_require__ = {};
-/******/ 	
+this["wp"] = this["wp"] || {}; this["wp"]["editWidgets"] =
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "F35A");
+/******/ })
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/************************************************************************/
-var __webpack_exports__ = {};
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
+/******/ ({
 
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, {
-  initialize: () => (/* binding */ initialize),
-  initializeEditor: () => (/* binding */ initializeEditor),
-  reinitializeEditor: () => (/* binding */ reinitializeEditor),
-  store: () => (/* reexport */ store_store)
-});
+/***/ "//Lo":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// NAMESPACE OBJECT: ./node_modules/@wordpress/interface/build-module/store/actions.js
-var actions_namespaceObject = {};
-__webpack_require__.r(actions_namespaceObject);
-__webpack_require__.d(actions_namespaceObject, {
-  closeModal: () => (closeModal),
-  disableComplementaryArea: () => (disableComplementaryArea),
-  enableComplementaryArea: () => (enableComplementaryArea),
-  openModal: () => (openModal),
-  pinItem: () => (pinItem),
-  setDefaultComplementaryArea: () => (setDefaultComplementaryArea),
-  setFeatureDefaults: () => (setFeatureDefaults),
-  setFeatureValue: () => (setFeatureValue),
-  toggleFeature: () => (toggleFeature),
-  unpinItem: () => (unpinItem)
-});
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
 
-// NAMESPACE OBJECT: ./node_modules/@wordpress/interface/build-module/store/selectors.js
-var selectors_namespaceObject = {};
-__webpack_require__.r(selectors_namespaceObject);
-__webpack_require__.d(selectors_namespaceObject, {
-  getActiveComplementaryArea: () => (getActiveComplementaryArea),
-  isComplementaryAreaLoading: () => (isComplementaryAreaLoading),
-  isFeatureActive: () => (isFeatureActive),
-  isItemPinned: () => (isItemPinned),
-  isModalActive: () => (isModalActive)
-});
 
-// NAMESPACE OBJECT: ./node_modules/@wordpress/edit-widgets/build-module/store/actions.js
-var store_actions_namespaceObject = {};
-__webpack_require__.r(store_actions_namespaceObject);
-__webpack_require__.d(store_actions_namespaceObject, {
-  closeGeneralSidebar: () => (closeGeneralSidebar),
-  moveBlockToWidgetArea: () => (moveBlockToWidgetArea),
-  persistStubPost: () => (persistStubPost),
-  saveEditedWidgetAreas: () => (saveEditedWidgetAreas),
-  saveWidgetArea: () => (saveWidgetArea),
-  saveWidgetAreas: () => (saveWidgetAreas),
-  setIsInserterOpened: () => (setIsInserterOpened),
-  setIsListViewOpened: () => (setIsListViewOpened),
-  setIsWidgetAreaOpen: () => (setIsWidgetAreaOpen),
-  setWidgetAreasOpenState: () => (setWidgetAreasOpenState),
-  setWidgetIdForClientId: () => (setWidgetIdForClientId)
-});
-
-// NAMESPACE OBJECT: ./node_modules/@wordpress/edit-widgets/build-module/store/resolvers.js
-var resolvers_namespaceObject = {};
-__webpack_require__.r(resolvers_namespaceObject);
-__webpack_require__.d(resolvers_namespaceObject, {
-  getWidgetAreas: () => (getWidgetAreas),
-  getWidgets: () => (getWidgets)
-});
-
-// NAMESPACE OBJECT: ./node_modules/@wordpress/edit-widgets/build-module/store/selectors.js
-var store_selectors_namespaceObject = {};
-__webpack_require__.r(store_selectors_namespaceObject);
-__webpack_require__.d(store_selectors_namespaceObject, {
-  __experimentalGetInsertionPoint: () => (__experimentalGetInsertionPoint),
-  canInsertBlockInWidgetArea: () => (canInsertBlockInWidgetArea),
-  getEditedWidgetAreas: () => (getEditedWidgetAreas),
-  getIsWidgetAreaOpen: () => (getIsWidgetAreaOpen),
-  getParentWidgetAreaBlock: () => (getParentWidgetAreaBlock),
-  getReferenceWidgetBlocks: () => (getReferenceWidgetBlocks),
-  getWidget: () => (getWidget),
-  getWidgetAreaForWidgetId: () => (getWidgetAreaForWidgetId),
-  getWidgetAreas: () => (selectors_getWidgetAreas),
-  getWidgets: () => (selectors_getWidgets),
-  isInserterOpened: () => (isInserterOpened),
-  isListViewOpened: () => (isListViewOpened),
-  isSavingWidgetAreas: () => (isSavingWidgetAreas)
-});
-
-// NAMESPACE OBJECT: ./node_modules/@wordpress/edit-widgets/build-module/store/private-selectors.js
-var private_selectors_namespaceObject = {};
-__webpack_require__.r(private_selectors_namespaceObject);
-__webpack_require__.d(private_selectors_namespaceObject, {
-  getInserterSidebarToggleRef: () => (getInserterSidebarToggleRef),
-  getListViewToggleRef: () => (getListViewToggleRef)
-});
-
-// NAMESPACE OBJECT: ./node_modules/@wordpress/edit-widgets/build-module/blocks/widget-area/index.js
-var widget_area_namespaceObject = {};
-__webpack_require__.r(widget_area_namespaceObject);
-__webpack_require__.d(widget_area_namespaceObject, {
-  metadata: () => (metadata),
-  name: () => (widget_area_name),
-  settings: () => (settings)
-});
-
-;// CONCATENATED MODULE: external ["wp","blocks"]
-const external_wp_blocks_namespaceObject = window["wp"]["blocks"];
-;// CONCATENATED MODULE: external ["wp","data"]
-const external_wp_data_namespaceObject = window["wp"]["data"];
-;// CONCATENATED MODULE: external ["wp","deprecated"]
-const external_wp_deprecated_namespaceObject = window["wp"]["deprecated"];
-var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_namespaceObject);
-;// CONCATENATED MODULE: external ["wp","element"]
-const external_wp_element_namespaceObject = window["wp"]["element"];
-;// CONCATENATED MODULE: external ["wp","blockLibrary"]
-const external_wp_blockLibrary_namespaceObject = window["wp"]["blockLibrary"];
-;// CONCATENATED MODULE: external ["wp","coreData"]
-const external_wp_coreData_namespaceObject = window["wp"]["coreData"];
-;// CONCATENATED MODULE: external ["wp","widgets"]
-const external_wp_widgets_namespaceObject = window["wp"]["widgets"];
-;// CONCATENATED MODULE: external ["wp","preferences"]
-const external_wp_preferences_namespaceObject = window["wp"]["preferences"];
-;// CONCATENATED MODULE: external ["wp","apiFetch"]
-const external_wp_apiFetch_namespaceObject = window["wp"]["apiFetch"];
-var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_namespaceObject);
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/store/reducer.js
 /**
  * WordPress dependencies
  */
 
+const blockDefault = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M19 8h-1V6h-5v2h-2V6H6v2H5c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-8c0-1.1-.9-2-2-2zm.5 10c0 .3-.2.5-.5.5H5c-.3 0-.5-.2-.5-.5v-8c0-.3.2-.5.5-.5h14c.3 0 .5.2.5.5v8z"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (blockDefault);
+
+
+/***/ }),
+
+/***/ "1CF3":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["dom"]; }());
+
+/***/ }),
+
+/***/ "1ZqX":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["data"]; }());
+
+/***/ }),
+
+/***/ "6aBm":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["mediaUtils"]; }());
+
+/***/ }),
+
+/***/ "Cg8A":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+const cog = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  fillRule: "evenodd",
+  d: "M10.289 4.836A1 1 0 0111.275 4h1.306a1 1 0 01.987.836l.244 1.466c.787.26 1.503.679 2.108 1.218l1.393-.522a1 1 0 011.216.437l.653 1.13a1 1 0 01-.23 1.273l-1.148.944a6.025 6.025 0 010 2.435l1.149.946a1 1 0 01.23 1.272l-.653 1.13a1 1 0 01-1.216.437l-1.394-.522c-.605.54-1.32.958-2.108 1.218l-.244 1.466a1 1 0 01-.987.836h-1.306a1 1 0 01-.986-.836l-.244-1.466a5.995 5.995 0 01-2.108-1.218l-1.394.522a1 1 0 01-1.217-.436l-.653-1.131a1 1 0 01.23-1.272l1.149-.946a6.026 6.026 0 010-2.435l-1.148-.944a1 1 0 01-.23-1.272l.653-1.131a1 1 0 011.217-.437l1.393.522a5.994 5.994 0 012.108-1.218l.244-1.466zM14.929 12a3 3 0 11-6 0 3 3 0 016 0z",
+  clipRule: "evenodd"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (cog);
+
+
+/***/ }),
+
+/***/ "F35A":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "reinitializeEditor", function() { return /* binding */ reinitializeEditor; });
+__webpack_require__.d(__webpack_exports__, "initialize", function() { return /* binding */ initialize; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/edit-widgets/build-module/store/actions.js
+var actions_namespaceObject = {};
+__webpack_require__.r(actions_namespaceObject);
+__webpack_require__.d(actions_namespaceObject, "persistStubPost", function() { return persistStubPost; });
+__webpack_require__.d(actions_namespaceObject, "saveEditedWidgetAreas", function() { return actions_saveEditedWidgetAreas; });
+__webpack_require__.d(actions_namespaceObject, "saveWidgetAreas", function() { return saveWidgetAreas; });
+__webpack_require__.d(actions_namespaceObject, "saveWidgetArea", function() { return saveWidgetArea; });
+__webpack_require__.d(actions_namespaceObject, "setWidgetIdForClientId", function() { return setWidgetIdForClientId; });
+__webpack_require__.d(actions_namespaceObject, "setWidgetAreasOpenState", function() { return setWidgetAreasOpenState; });
+__webpack_require__.d(actions_namespaceObject, "setIsWidgetAreaOpen", function() { return actions_setIsWidgetAreaOpen; });
+__webpack_require__.d(actions_namespaceObject, "setIsInserterOpened", function() { return actions_setIsInserterOpened; });
+__webpack_require__.d(actions_namespaceObject, "setIsListViewOpened", function() { return actions_setIsListViewOpened; });
+__webpack_require__.d(actions_namespaceObject, "closeGeneralSidebar", function() { return actions_closeGeneralSidebar; });
+__webpack_require__.d(actions_namespaceObject, "moveBlockToWidgetArea", function() { return actions_moveBlockToWidgetArea; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/edit-widgets/build-module/store/resolvers.js
+var resolvers_namespaceObject = {};
+__webpack_require__.r(resolvers_namespaceObject);
+__webpack_require__.d(resolvers_namespaceObject, "getWidgetAreas", function() { return getWidgetAreas; });
+__webpack_require__.d(resolvers_namespaceObject, "getWidgets", function() { return getWidgets; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/edit-widgets/build-module/store/selectors.js
+var selectors_namespaceObject = {};
+__webpack_require__.r(selectors_namespaceObject);
+__webpack_require__.d(selectors_namespaceObject, "getWidgets", function() { return selectors_getWidgets; });
+__webpack_require__.d(selectors_namespaceObject, "getWidget", function() { return getWidget; });
+__webpack_require__.d(selectors_namespaceObject, "getWidgetAreas", function() { return selectors_getWidgetAreas; });
+__webpack_require__.d(selectors_namespaceObject, "getWidgetAreaForWidgetId", function() { return getWidgetAreaForWidgetId; });
+__webpack_require__.d(selectors_namespaceObject, "getParentWidgetAreaBlock", function() { return selectors_getParentWidgetAreaBlock; });
+__webpack_require__.d(selectors_namespaceObject, "getEditedWidgetAreas", function() { return selectors_getEditedWidgetAreas; });
+__webpack_require__.d(selectors_namespaceObject, "getReferenceWidgetBlocks", function() { return getReferenceWidgetBlocks; });
+__webpack_require__.d(selectors_namespaceObject, "isSavingWidgetAreas", function() { return selectors_isSavingWidgetAreas; });
+__webpack_require__.d(selectors_namespaceObject, "getIsWidgetAreaOpen", function() { return getIsWidgetAreaOpen; });
+__webpack_require__.d(selectors_namespaceObject, "isInserterOpened", function() { return selectors_isInserterOpened; });
+__webpack_require__.d(selectors_namespaceObject, "__experimentalGetInsertionPoint", function() { return __experimentalGetInsertionPoint; });
+__webpack_require__.d(selectors_namespaceObject, "canInsertBlockInWidgetArea", function() { return selectors_canInsertBlockInWidgetArea; });
+__webpack_require__.d(selectors_namespaceObject, "isListViewOpened", function() { return selectors_isListViewOpened; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/edit-widgets/build-module/blocks/widget-area/index.js
+var widget_area_namespaceObject = {};
+__webpack_require__.r(widget_area_namespaceObject);
+__webpack_require__.d(widget_area_namespaceObject, "metadata", function() { return widget_area_metadata; });
+__webpack_require__.d(widget_area_namespaceObject, "name", function() { return widget_area_name; });
+__webpack_require__.d(widget_area_namespaceObject, "settings", function() { return widget_area_settings; });
+
+// EXTERNAL MODULE: external ["wp","element"]
+var external_wp_element_ = __webpack_require__("GRId");
+
+// EXTERNAL MODULE: external ["wp","blocks"]
+var external_wp_blocks_ = __webpack_require__("HSyU");
+
+// EXTERNAL MODULE: external ["wp","data"]
+var external_wp_data_ = __webpack_require__("1ZqX");
+
+// EXTERNAL MODULE: external ["wp","blockLibrary"]
+var external_wp_blockLibrary_ = __webpack_require__("QyPg");
+
+// EXTERNAL MODULE: external ["wp","coreData"]
+var external_wp_coreData_ = __webpack_require__("jZUy");
+
+// EXTERNAL MODULE: external ["wp","widgets"]
+var external_wp_widgets_ = __webpack_require__("GLVC");
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/interface/build-module/index.js + 17 modules
+var build_module = __webpack_require__("U60i");
+
+// EXTERNAL MODULE: external ["wp","apiFetch"]
+var external_wp_apiFetch_ = __webpack_require__("ywyh");
+var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/store/reducer.js
+/**
+ * WordPress dependencies
+ */
 
 /**
  * Controls the open state of the widget areas.
@@ -179,33 +254,37 @@ var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_w
  *
  * @return {Array} Updated state.
  */
-function widgetAreasOpenState(state = {}, action) {
+
+function reducer_widgetAreasOpenState() {
+  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  let action = arguments.length > 1 ? arguments[1] : undefined;
   const {
     type
   } = action;
+
   switch (type) {
     case 'SET_WIDGET_AREAS_OPEN_STATE':
       {
         return action.widgetAreasOpenState;
       }
+
     case 'SET_IS_WIDGET_AREA_OPEN':
       {
         const {
           clientId,
           isOpen
         } = action;
-        return {
-          ...state,
+        return { ...state,
           [clientId]: isOpen
         };
       }
+
     default:
       {
         return state;
       }
   }
 }
-
 /**
  * Reducer to set the block inserter panel open or closed.
  *
@@ -215,16 +294,21 @@ function widgetAreasOpenState(state = {}, action) {
  * @param {Object} state  Current state.
  * @param {Object} action Dispatched action.
  */
-function blockInserterPanel(state = false, action) {
+
+function blockInserterPanel() {
+  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+  let action = arguments.length > 1 ? arguments[1] : undefined;
+
   switch (action.type) {
     case 'SET_IS_LIST_VIEW_OPENED':
       return action.isOpen ? false : state;
+
     case 'SET_IS_INSERTER_OPENED':
       return action.value;
   }
+
   return state;
 }
-
 /**
  * Reducer to set the list view panel open or closed.
  *
@@ -234,1327 +318,40 @@ function blockInserterPanel(state = false, action) {
  * @param {Object} state  Current state.
  * @param {Object} action Dispatched action.
  */
-function listViewPanel(state = false, action) {
+
+function listViewPanel() {
+  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+  let action = arguments.length > 1 ? arguments[1] : undefined;
+
   switch (action.type) {
     case 'SET_IS_INSERTER_OPENED':
       return action.value ? false : state;
+
     case 'SET_IS_LIST_VIEW_OPENED':
       return action.isOpen;
   }
-  return state;
-}
 
-/**
- * This reducer does nothing aside initializing a ref to the list view toggle.
- * We will have a unique ref per "editor" instance.
- *
- * @param {Object} state
- * @return {Object} Reference to the list view toggle button.
- */
-function listViewToggleRef(state = {
-  current: null
-}) {
   return state;
 }
-
-/**
- * This reducer does nothing aside initializing a ref to the inserter sidebar toggle.
- * We will have a unique ref per "editor" instance.
- *
- * @param {Object} state
- * @return {Object} Reference to the inserter sidebar toggle button.
- */
-function inserterSidebarToggleRef(state = {
-  current: null
-}) {
-  return state;
-}
-/* harmony default export */ const reducer = ((0,external_wp_data_namespaceObject.combineReducers)({
+/* harmony default export */ var reducer = (Object(external_wp_data_["combineReducers"])({
   blockInserterPanel,
-  inserterSidebarToggleRef,
   listViewPanel,
-  listViewToggleRef,
-  widgetAreasOpenState
+  widgetAreasOpenState: reducer_widgetAreasOpenState
 }));
 
-;// CONCATENATED MODULE: external ["wp","i18n"]
-const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
-;// CONCATENATED MODULE: external ["wp","notices"]
-const external_wp_notices_namespaceObject = window["wp"]["notices"];
-;// CONCATENATED MODULE: ./node_modules/clsx/dist/clsx.mjs
-function r(e){var t,f,n="";if("string"==typeof e||"number"==typeof e)n+=e;else if("object"==typeof e)if(Array.isArray(e)){var o=e.length;for(t=0;t<o;t++)e[t]&&(f=r(e[t]))&&(n&&(n+=" "),n+=f)}else for(f in e)e[f]&&(n&&(n+=" "),n+=f);return n}function clsx(){for(var e,t,f=0,n="",o=arguments.length;f<o;f++)(e=arguments[f])&&(t=r(e))&&(n&&(n+=" "),n+=t);return n}/* harmony default export */ const dist_clsx = (clsx);
-;// CONCATENATED MODULE: external ["wp","components"]
-const external_wp_components_namespaceObject = window["wp"]["components"];
-;// CONCATENATED MODULE: external ["wp","primitives"]
-const external_wp_primitives_namespaceObject = window["wp"]["primitives"];
-;// CONCATENATED MODULE: external "ReactJSXRuntime"
-const external_ReactJSXRuntime_namespaceObject = window["ReactJSXRuntime"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/check.js
+// EXTERNAL MODULE: external ["wp","i18n"]
+var external_wp_i18n_ = __webpack_require__("l3Sj");
+
+// EXTERNAL MODULE: external ["wp","notices"]
+var external_wp_notices_ = __webpack_require__("onLe");
+
+// EXTERNAL MODULE: external ["wp","blockEditor"]
+var external_wp_blockEditor_ = __webpack_require__("axFQ");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/store/transformers.js
 /**
  * WordPress dependencies
  */
-
-
-const check = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24",
-  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
-    d: "M16.7 7.1l-6.3 8.5-3.3-2.5-.9 1.2 4.5 3.4L17.9 8z"
-  })
-});
-/* harmony default export */ const library_check = (check);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/star-filled.js
-/**
- * WordPress dependencies
- */
-
-
-const starFilled = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24",
-  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
-    d: "M11.776 4.454a.25.25 0 01.448 0l2.069 4.192a.25.25 0 00.188.137l4.626.672a.25.25 0 01.139.426l-3.348 3.263a.25.25 0 00-.072.222l.79 4.607a.25.25 0 01-.362.263l-4.138-2.175a.25.25 0 00-.232 0l-4.138 2.175a.25.25 0 01-.363-.263l.79-4.607a.25.25 0 00-.071-.222L4.754 9.881a.25.25 0 01.139-.426l4.626-.672a.25.25 0 00.188-.137l2.069-4.192z"
-  })
-});
-/* harmony default export */ const star_filled = (starFilled);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/star-empty.js
-/**
- * WordPress dependencies
- */
-
-
-const starEmpty = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24",
-  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
-    fillRule: "evenodd",
-    d: "M9.706 8.646a.25.25 0 01-.188.137l-4.626.672a.25.25 0 00-.139.427l3.348 3.262a.25.25 0 01.072.222l-.79 4.607a.25.25 0 00.362.264l4.138-2.176a.25.25 0 01.233 0l4.137 2.175a.25.25 0 00.363-.263l-.79-4.607a.25.25 0 01.072-.222l3.347-3.262a.25.25 0 00-.139-.427l-4.626-.672a.25.25 0 01-.188-.137l-2.069-4.192a.25.25 0 00-.448 0L9.706 8.646zM12 7.39l-.948 1.921a1.75 1.75 0 01-1.317.957l-2.12.308 1.534 1.495c.412.402.6.982.503 1.55l-.362 2.11 1.896-.997a1.75 1.75 0 011.629 0l1.895.997-.362-2.11a1.75 1.75 0 01.504-1.55l1.533-1.495-2.12-.308a1.75 1.75 0 01-1.317-.957L12 7.39z",
-    clipRule: "evenodd"
-  })
-});
-/* harmony default export */ const star_empty = (starEmpty);
-
-;// CONCATENATED MODULE: external ["wp","viewport"]
-const external_wp_viewport_namespaceObject = window["wp"]["viewport"];
-;// CONCATENATED MODULE: external ["wp","compose"]
-const external_wp_compose_namespaceObject = window["wp"]["compose"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/close-small.js
-/**
- * WordPress dependencies
- */
-
-
-const closeSmall = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24",
-  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
-    d: "M12 13.06l3.712 3.713 1.061-1.06L13.061 12l3.712-3.712-1.06-1.06L12 10.938 8.288 7.227l-1.061 1.06L10.939 12l-3.712 3.712 1.06 1.061L12 13.061z"
-  })
-});
-/* harmony default export */ const close_small = (closeSmall);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/store/deprecated.js
-/**
- * WordPress dependencies
- */
-
-function normalizeComplementaryAreaScope(scope) {
-  if (['core/edit-post', 'core/edit-site'].includes(scope)) {
-    external_wp_deprecated_default()(`${scope} interface scope`, {
-      alternative: 'core interface scope',
-      hint: 'core/edit-post and core/edit-site are merging.',
-      version: '6.6'
-    });
-    return 'core';
-  }
-  return scope;
-}
-function normalizeComplementaryAreaName(scope, name) {
-  if (scope === 'core' && name === 'edit-site/template') {
-    external_wp_deprecated_default()(`edit-site/template sidebar`, {
-      alternative: 'edit-post/document',
-      version: '6.6'
-    });
-    return 'edit-post/document';
-  }
-  if (scope === 'core' && name === 'edit-site/block-inspector') {
-    external_wp_deprecated_default()(`edit-site/block-inspector sidebar`, {
-      alternative: 'edit-post/block',
-      version: '6.6'
-    });
-    return 'edit-post/block';
-  }
-  return name;
-}
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/store/actions.js
-/**
- * WordPress dependencies
- */
-
-
-
-/**
- * Internal dependencies
- */
-
-
-/**
- * Set a default complementary area.
- *
- * @param {string} scope Complementary area scope.
- * @param {string} area  Area identifier.
- *
- * @return {Object} Action object.
- */
-const setDefaultComplementaryArea = (scope, area) => {
-  scope = normalizeComplementaryAreaScope(scope);
-  area = normalizeComplementaryAreaName(scope, area);
-  return {
-    type: 'SET_DEFAULT_COMPLEMENTARY_AREA',
-    scope,
-    area
-  };
-};
-
-/**
- * Enable the complementary area.
- *
- * @param {string} scope Complementary area scope.
- * @param {string} area  Area identifier.
- */
-const enableComplementaryArea = (scope, area) => ({
-  registry,
-  dispatch
-}) => {
-  // Return early if there's no area.
-  if (!area) {
-    return;
-  }
-  scope = normalizeComplementaryAreaScope(scope);
-  area = normalizeComplementaryAreaName(scope, area);
-  const isComplementaryAreaVisible = registry.select(external_wp_preferences_namespaceObject.store).get(scope, 'isComplementaryAreaVisible');
-  if (!isComplementaryAreaVisible) {
-    registry.dispatch(external_wp_preferences_namespaceObject.store).set(scope, 'isComplementaryAreaVisible', true);
-  }
-  dispatch({
-    type: 'ENABLE_COMPLEMENTARY_AREA',
-    scope,
-    area
-  });
-};
-
-/**
- * Disable the complementary area.
- *
- * @param {string} scope Complementary area scope.
- */
-const disableComplementaryArea = scope => ({
-  registry
-}) => {
-  scope = normalizeComplementaryAreaScope(scope);
-  const isComplementaryAreaVisible = registry.select(external_wp_preferences_namespaceObject.store).get(scope, 'isComplementaryAreaVisible');
-  if (isComplementaryAreaVisible) {
-    registry.dispatch(external_wp_preferences_namespaceObject.store).set(scope, 'isComplementaryAreaVisible', false);
-  }
-};
-
-/**
- * Pins an item.
- *
- * @param {string} scope Item scope.
- * @param {string} item  Item identifier.
- *
- * @return {Object} Action object.
- */
-const pinItem = (scope, item) => ({
-  registry
-}) => {
-  // Return early if there's no item.
-  if (!item) {
-    return;
-  }
-  scope = normalizeComplementaryAreaScope(scope);
-  item = normalizeComplementaryAreaName(scope, item);
-  const pinnedItems = registry.select(external_wp_preferences_namespaceObject.store).get(scope, 'pinnedItems');
-
-  // The item is already pinned, there's nothing to do.
-  if (pinnedItems?.[item] === true) {
-    return;
-  }
-  registry.dispatch(external_wp_preferences_namespaceObject.store).set(scope, 'pinnedItems', {
-    ...pinnedItems,
-    [item]: true
-  });
-};
-
-/**
- * Unpins an item.
- *
- * @param {string} scope Item scope.
- * @param {string} item  Item identifier.
- */
-const unpinItem = (scope, item) => ({
-  registry
-}) => {
-  // Return early if there's no item.
-  if (!item) {
-    return;
-  }
-  scope = normalizeComplementaryAreaScope(scope);
-  item = normalizeComplementaryAreaName(scope, item);
-  const pinnedItems = registry.select(external_wp_preferences_namespaceObject.store).get(scope, 'pinnedItems');
-  registry.dispatch(external_wp_preferences_namespaceObject.store).set(scope, 'pinnedItems', {
-    ...pinnedItems,
-    [item]: false
-  });
-};
-
-/**
- * Returns an action object used in signalling that a feature should be toggled.
- *
- * @param {string} scope       The feature scope (e.g. core/edit-post).
- * @param {string} featureName The feature name.
- */
-function toggleFeature(scope, featureName) {
-  return function ({
-    registry
-  }) {
-    external_wp_deprecated_default()(`dispatch( 'core/interface' ).toggleFeature`, {
-      since: '6.0',
-      alternative: `dispatch( 'core/preferences' ).toggle`
-    });
-    registry.dispatch(external_wp_preferences_namespaceObject.store).toggle(scope, featureName);
-  };
-}
-
-/**
- * Returns an action object used in signalling that a feature should be set to
- * a true or false value
- *
- * @param {string}  scope       The feature scope (e.g. core/edit-post).
- * @param {string}  featureName The feature name.
- * @param {boolean} value       The value to set.
- *
- * @return {Object} Action object.
- */
-function setFeatureValue(scope, featureName, value) {
-  return function ({
-    registry
-  }) {
-    external_wp_deprecated_default()(`dispatch( 'core/interface' ).setFeatureValue`, {
-      since: '6.0',
-      alternative: `dispatch( 'core/preferences' ).set`
-    });
-    registry.dispatch(external_wp_preferences_namespaceObject.store).set(scope, featureName, !!value);
-  };
-}
-
-/**
- * Returns an action object used in signalling that defaults should be set for features.
- *
- * @param {string}                  scope    The feature scope (e.g. core/edit-post).
- * @param {Object<string, boolean>} defaults A key/value map of feature names to values.
- *
- * @return {Object} Action object.
- */
-function setFeatureDefaults(scope, defaults) {
-  return function ({
-    registry
-  }) {
-    external_wp_deprecated_default()(`dispatch( 'core/interface' ).setFeatureDefaults`, {
-      since: '6.0',
-      alternative: `dispatch( 'core/preferences' ).setDefaults`
-    });
-    registry.dispatch(external_wp_preferences_namespaceObject.store).setDefaults(scope, defaults);
-  };
-}
-
-/**
- * Returns an action object used in signalling that the user opened a modal.
- *
- * @param {string} name A string that uniquely identifies the modal.
- *
- * @return {Object} Action object.
- */
-function openModal(name) {
-  return {
-    type: 'OPEN_MODAL',
-    name
-  };
-}
-
-/**
- * Returns an action object signalling that the user closed a modal.
- *
- * @return {Object} Action object.
- */
-function closeModal() {
-  return {
-    type: 'CLOSE_MODAL'
-  };
-}
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/store/selectors.js
-/**
- * WordPress dependencies
- */
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-/**
- * Returns the complementary area that is active in a given scope.
- *
- * @param {Object} state Global application state.
- * @param {string} scope Item scope.
- *
- * @return {string | null | undefined} The complementary area that is active in the given scope.
- */
-const getActiveComplementaryArea = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => (state, scope) => {
-  scope = normalizeComplementaryAreaScope(scope);
-  const isComplementaryAreaVisible = select(external_wp_preferences_namespaceObject.store).get(scope, 'isComplementaryAreaVisible');
-
-  // Return `undefined` to indicate that the user has never toggled
-  // visibility, this is the vanilla default. Other code relies on this
-  // nuance in the return value.
-  if (isComplementaryAreaVisible === undefined) {
-    return undefined;
-  }
-
-  // Return `null` to indicate the user hid the complementary area.
-  if (isComplementaryAreaVisible === false) {
-    return null;
-  }
-  return state?.complementaryAreas?.[scope];
-});
-const isComplementaryAreaLoading = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => (state, scope) => {
-  scope = normalizeComplementaryAreaScope(scope);
-  const isVisible = select(external_wp_preferences_namespaceObject.store).get(scope, 'isComplementaryAreaVisible');
-  const identifier = state?.complementaryAreas?.[scope];
-  return isVisible && identifier === undefined;
-});
-
-/**
- * Returns a boolean indicating if an item is pinned or not.
- *
- * @param {Object} state Global application state.
- * @param {string} scope Scope.
- * @param {string} item  Item to check.
- *
- * @return {boolean} True if the item is pinned and false otherwise.
- */
-const isItemPinned = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => (state, scope, item) => {
-  var _pinnedItems$item;
-  scope = normalizeComplementaryAreaScope(scope);
-  item = normalizeComplementaryAreaName(scope, item);
-  const pinnedItems = select(external_wp_preferences_namespaceObject.store).get(scope, 'pinnedItems');
-  return (_pinnedItems$item = pinnedItems?.[item]) !== null && _pinnedItems$item !== void 0 ? _pinnedItems$item : true;
-});
-
-/**
- * Returns a boolean indicating whether a feature is active for a particular
- * scope.
- *
- * @param {Object} state       The store state.
- * @param {string} scope       The scope of the feature (e.g. core/edit-post).
- * @param {string} featureName The name of the feature.
- *
- * @return {boolean} Is the feature enabled?
- */
-const isFeatureActive = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => (state, scope, featureName) => {
-  external_wp_deprecated_default()(`select( 'core/interface' ).isFeatureActive( scope, featureName )`, {
-    since: '6.0',
-    alternative: `select( 'core/preferences' ).get( scope, featureName )`
-  });
-  return !!select(external_wp_preferences_namespaceObject.store).get(scope, featureName);
-});
-
-/**
- * Returns true if a modal is active, or false otherwise.
- *
- * @param {Object} state     Global application state.
- * @param {string} modalName A string that uniquely identifies the modal.
- *
- * @return {boolean} Whether the modal is active.
- */
-function isModalActive(state, modalName) {
-  return state.activeModal === modalName;
-}
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/store/reducer.js
-/**
- * WordPress dependencies
- */
-
-function complementaryAreas(state = {}, action) {
-  switch (action.type) {
-    case 'SET_DEFAULT_COMPLEMENTARY_AREA':
-      {
-        const {
-          scope,
-          area
-        } = action;
-
-        // If there's already an area, don't overwrite it.
-        if (state[scope]) {
-          return state;
-        }
-        return {
-          ...state,
-          [scope]: area
-        };
-      }
-    case 'ENABLE_COMPLEMENTARY_AREA':
-      {
-        const {
-          scope,
-          area
-        } = action;
-        return {
-          ...state,
-          [scope]: area
-        };
-      }
-  }
-  return state;
-}
-
-/**
- * Reducer for storing the name of the open modal, or null if no modal is open.
- *
- * @param {Object} state  Previous state.
- * @param {Object} action Action object containing the `name` of the modal
- *
- * @return {Object} Updated state
- */
-function activeModal(state = null, action) {
-  switch (action.type) {
-    case 'OPEN_MODAL':
-      return action.name;
-    case 'CLOSE_MODAL':
-      return null;
-  }
-  return state;
-}
-/* harmony default export */ const store_reducer = ((0,external_wp_data_namespaceObject.combineReducers)({
-  complementaryAreas,
-  activeModal
-}));
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/store/constants.js
-/**
- * The identifier for the data store.
- *
- * @type {string}
- */
-const STORE_NAME = 'core/interface';
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/store/index.js
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Internal dependencies
- */
-
-
-
-
-
-/**
- * Store definition for the interface namespace.
- *
- * @see https://github.com/WordPress/gutenberg/blob/HEAD/packages/data/README.md#createReduxStore
- *
- * @type {Object}
- */
-const store = (0,external_wp_data_namespaceObject.createReduxStore)(STORE_NAME, {
-  reducer: store_reducer,
-  actions: actions_namespaceObject,
-  selectors: selectors_namespaceObject
-});
-
-// Once we build a more generic persistence plugin that works across types of stores
-// we'd be able to replace this with a register call.
-(0,external_wp_data_namespaceObject.register)(store);
-
-;// CONCATENATED MODULE: external ["wp","plugins"]
-const external_wp_plugins_namespaceObject = window["wp"]["plugins"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/complementary-area-context/index.js
-/**
- * WordPress dependencies
- */
-
-/* harmony default export */ const complementary_area_context = ((0,external_wp_plugins_namespaceObject.withPluginContext)((context, ownProps) => {
-  return {
-    icon: ownProps.icon || context.icon,
-    identifier: ownProps.identifier || `${context.name}/${ownProps.name}`
-  };
-}));
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/complementary-area-toggle/index.js
-/**
- * WordPress dependencies
- */
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-function ComplementaryAreaToggle({
-  as = external_wp_components_namespaceObject.Button,
-  scope,
-  identifier,
-  icon,
-  selectedIcon,
-  name,
-  ...props
-}) {
-  const ComponentToUse = as;
-  const isSelected = (0,external_wp_data_namespaceObject.useSelect)(select => select(store).getActiveComplementaryArea(scope) === identifier, [identifier, scope]);
-  const {
-    enableComplementaryArea,
-    disableComplementaryArea
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ComponentToUse, {
-    icon: selectedIcon && isSelected ? selectedIcon : icon,
-    "aria-controls": identifier.replace('/', ':'),
-    onClick: () => {
-      if (isSelected) {
-        disableComplementaryArea(scope);
-      } else {
-        enableComplementaryArea(scope, identifier);
-      }
-    },
-    ...props
-  });
-}
-/* harmony default export */ const complementary_area_toggle = (complementary_area_context(ComplementaryAreaToggle));
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/complementary-area-header/index.js
-/**
- * External dependencies
- */
-
-
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Internal dependencies
- */
-
-
-
-
-const ComplementaryAreaHeader = ({
-  smallScreenTitle,
-  children,
-  className,
-  toggleButtonProps
-}) => {
-  const toggleButton = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(complementary_area_toggle, {
-    icon: close_small,
-    ...toggleButtonProps
-  });
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
-      className: "components-panel__header interface-complementary-area-header__small",
-      children: [smallScreenTitle && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("h2", {
-        className: "interface-complementary-area-header__small-title",
-        children: smallScreenTitle
-      }), toggleButton]
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
-      className: dist_clsx('components-panel__header', 'interface-complementary-area-header', className),
-      tabIndex: -1,
-      children: [children, toggleButton]
-    })]
-  });
-};
-/* harmony default export */ const complementary_area_header = (ComplementaryAreaHeader);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/action-item/index.js
-/**
- * WordPress dependencies
- */
-
-
-
-const noop = () => {};
-function ActionItemSlot({
-  name,
-  as: Component = external_wp_components_namespaceObject.ButtonGroup,
-  fillProps = {},
-  bubblesVirtually,
-  ...props
-}) {
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Slot, {
-    name: name,
-    bubblesVirtually: bubblesVirtually,
-    fillProps: fillProps,
-    children: fills => {
-      if (!external_wp_element_namespaceObject.Children.toArray(fills).length) {
-        return null;
-      }
-
-      // Special handling exists for backward compatibility.
-      // It ensures that menu items created by plugin authors aren't
-      // duplicated with automatically injected menu items coming
-      // from pinnable plugin sidebars.
-      // @see https://github.com/WordPress/gutenberg/issues/14457
-      const initializedByPlugins = [];
-      external_wp_element_namespaceObject.Children.forEach(fills, ({
-        props: {
-          __unstableExplicitMenuItem,
-          __unstableTarget
-        }
-      }) => {
-        if (__unstableTarget && __unstableExplicitMenuItem) {
-          initializedByPlugins.push(__unstableTarget);
-        }
-      });
-      const children = external_wp_element_namespaceObject.Children.map(fills, child => {
-        if (!child.props.__unstableExplicitMenuItem && initializedByPlugins.includes(child.props.__unstableTarget)) {
-          return null;
-        }
-        return child;
-      });
-      return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Component, {
-        ...props,
-        children: children
-      });
-    }
-  });
-}
-function ActionItem({
-  name,
-  as: Component = external_wp_components_namespaceObject.Button,
-  onClick,
-  ...props
-}) {
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Fill, {
-    name: name,
-    children: ({
-      onClick: fpOnClick
-    }) => {
-      return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Component, {
-        onClick: onClick || fpOnClick ? (...args) => {
-          (onClick || noop)(...args);
-          (fpOnClick || noop)(...args);
-        } : undefined,
-        ...props
-      });
-    }
-  });
-}
-ActionItem.Slot = ActionItemSlot;
-/* harmony default export */ const action_item = (ActionItem);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/complementary-area-more-menu-item/index.js
-/**
- * WordPress dependencies
- */
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-const PluginsMenuItem = ({
-  // Menu item is marked with unstable prop for backward compatibility.
-  // They are removed so they don't leak to DOM elements.
-  // @see https://github.com/WordPress/gutenberg/issues/14457
-  __unstableExplicitMenuItem,
-  __unstableTarget,
-  ...restProps
-}) => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.MenuItem, {
-  ...restProps
-});
-function ComplementaryAreaMoreMenuItem({
-  scope,
-  target,
-  __unstableExplicitMenuItem,
-  ...props
-}) {
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(complementary_area_toggle, {
-    as: toggleProps => {
-      return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(action_item, {
-        __unstableExplicitMenuItem: __unstableExplicitMenuItem,
-        __unstableTarget: `${scope}/${target}`,
-        as: PluginsMenuItem,
-        name: `${scope}/plugin-more-menu`,
-        ...toggleProps
-      });
-    },
-    role: "menuitemcheckbox",
-    selectedIcon: library_check,
-    name: target,
-    scope: scope,
-    ...props
-  });
-}
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/pinned-items/index.js
-/**
- * External dependencies
- */
-
-
-/**
- * WordPress dependencies
- */
-
-
-function PinnedItems({
-  scope,
-  ...props
-}) {
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Fill, {
-    name: `PinnedItems/${scope}`,
-    ...props
-  });
-}
-function PinnedItemsSlot({
-  scope,
-  className,
-  ...props
-}) {
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Slot, {
-    name: `PinnedItems/${scope}`,
-    ...props,
-    children: fills => fills?.length > 0 && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
-      className: dist_clsx(className, 'interface-pinned-items'),
-      children: fills
-    })
-  });
-}
-PinnedItems.Slot = PinnedItemsSlot;
-/* harmony default export */ const pinned_items = (PinnedItems);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/complementary-area/index.js
-/**
- * External dependencies
- */
-
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-
-
-
-
-
-
-const ANIMATION_DURATION = 0.3;
-function ComplementaryAreaSlot({
-  scope,
-  ...props
-}) {
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Slot, {
-    name: `ComplementaryArea/${scope}`,
-    ...props
-  });
-}
-const SIDEBAR_WIDTH = 280;
-const variants = {
-  open: {
-    width: SIDEBAR_WIDTH
-  },
-  closed: {
-    width: 0
-  },
-  mobileOpen: {
-    width: '100vw'
-  }
-};
-function ComplementaryAreaFill({
-  activeArea,
-  isActive,
-  scope,
-  children,
-  className,
-  id
-}) {
-  const disableMotion = (0,external_wp_compose_namespaceObject.useReducedMotion)();
-  const isMobileViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium', '<');
-  // This is used to delay the exit animation to the next tick.
-  // The reason this is done is to allow us to apply the right transition properties
-  // When we switch from an open sidebar to another open sidebar.
-  // we don't want to animate in this case.
-  const previousActiveArea = (0,external_wp_compose_namespaceObject.usePrevious)(activeArea);
-  const previousIsActive = (0,external_wp_compose_namespaceObject.usePrevious)(isActive);
-  const [, setState] = (0,external_wp_element_namespaceObject.useState)({});
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    setState({});
-  }, [isActive]);
-  const transition = {
-    type: 'tween',
-    duration: disableMotion || isMobileViewport || !!previousActiveArea && !!activeArea && activeArea !== previousActiveArea ? 0 : ANIMATION_DURATION,
-    ease: [0.6, 0, 0.4, 1]
-  };
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Fill, {
-    name: `ComplementaryArea/${scope}`,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__unstableAnimatePresence, {
-      initial: false,
-      children: (previousIsActive || isActive) && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__unstableMotion.div, {
-        variants: variants,
-        initial: "closed",
-        animate: isMobileViewport ? 'mobileOpen' : 'open',
-        exit: "closed",
-        transition: transition,
-        className: "interface-complementary-area__fill",
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
-          id: id,
-          className: className,
-          style: {
-            width: isMobileViewport ? '100vw' : SIDEBAR_WIDTH
-          },
-          children: children
-        })
-      })
-    })
-  });
-}
-function useAdjustComplementaryListener(scope, identifier, activeArea, isActive, isSmall) {
-  const previousIsSmall = (0,external_wp_element_namespaceObject.useRef)(false);
-  const shouldOpenWhenNotSmall = (0,external_wp_element_namespaceObject.useRef)(false);
-  const {
-    enableComplementaryArea,
-    disableComplementaryArea
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    // If the complementary area is active and the editor is switching from
-    // a big to a small window size.
-    if (isActive && isSmall && !previousIsSmall.current) {
-      disableComplementaryArea(scope);
-      // Flag the complementary area to be reopened when the window size
-      // goes from small to big.
-      shouldOpenWhenNotSmall.current = true;
-    } else if (
-    // If there is a flag indicating the complementary area should be
-    // enabled when we go from small to big window size and we are going
-    // from a small to big window size.
-    shouldOpenWhenNotSmall.current && !isSmall && previousIsSmall.current) {
-      // Remove the flag indicating the complementary area should be
-      // enabled.
-      shouldOpenWhenNotSmall.current = false;
-      enableComplementaryArea(scope, identifier);
-    } else if (
-    // If the flag is indicating the current complementary should be
-    // reopened but another complementary area becomes active, remove
-    // the flag.
-    shouldOpenWhenNotSmall.current && activeArea && activeArea !== identifier) {
-      shouldOpenWhenNotSmall.current = false;
-    }
-    if (isSmall !== previousIsSmall.current) {
-      previousIsSmall.current = isSmall;
-    }
-  }, [isActive, isSmall, scope, identifier, activeArea, disableComplementaryArea, enableComplementaryArea]);
-}
-function ComplementaryArea({
-  children,
-  className,
-  closeLabel = (0,external_wp_i18n_namespaceObject.__)('Close plugin'),
-  identifier,
-  header,
-  headerClassName,
-  icon,
-  isPinnable = true,
-  panelClassName,
-  scope,
-  name,
-  smallScreenTitle,
-  title,
-  toggleShortcut,
-  isActiveByDefault
-}) {
-  // This state is used to delay the rendering of the Fill
-  // until the initial effect runs.
-  // This prevents the animation from running on mount if
-  // the complementary area is active by default.
-  const [isReady, setIsReady] = (0,external_wp_element_namespaceObject.useState)(false);
-  const {
-    isLoading,
-    isActive,
-    isPinned,
-    activeArea,
-    isSmall,
-    isLarge,
-    showIconLabels
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const {
-      getActiveComplementaryArea,
-      isComplementaryAreaLoading,
-      isItemPinned
-    } = select(store);
-    const {
-      get
-    } = select(external_wp_preferences_namespaceObject.store);
-    const _activeArea = getActiveComplementaryArea(scope);
-    return {
-      isLoading: isComplementaryAreaLoading(scope),
-      isActive: _activeArea === identifier,
-      isPinned: isItemPinned(scope, identifier),
-      activeArea: _activeArea,
-      isSmall: select(external_wp_viewport_namespaceObject.store).isViewportMatch('< medium'),
-      isLarge: select(external_wp_viewport_namespaceObject.store).isViewportMatch('large'),
-      showIconLabels: get('core', 'showIconLabels')
-    };
-  }, [identifier, scope]);
-  useAdjustComplementaryListener(scope, identifier, activeArea, isActive, isSmall);
-  const {
-    enableComplementaryArea,
-    disableComplementaryArea,
-    pinItem,
-    unpinItem
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    // Set initial visibility: For large screens, enable if it's active by
-    // default. For small screens, always initially disable.
-    if (isActiveByDefault && activeArea === undefined && !isSmall) {
-      enableComplementaryArea(scope, identifier);
-    } else if (activeArea === undefined && isSmall) {
-      disableComplementaryArea(scope, identifier);
-    }
-    setIsReady(true);
-  }, [activeArea, isActiveByDefault, scope, identifier, isSmall, enableComplementaryArea, disableComplementaryArea]);
-  if (!isReady) {
-    return;
-  }
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-    children: [isPinnable && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(pinned_items, {
-      scope: scope,
-      children: isPinned && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(complementary_area_toggle, {
-        scope: scope,
-        identifier: identifier,
-        isPressed: isActive && (!showIconLabels || isLarge),
-        "aria-expanded": isActive,
-        "aria-disabled": isLoading,
-        label: title,
-        icon: showIconLabels ? library_check : icon,
-        showTooltip: !showIconLabels,
-        variant: showIconLabels ? 'tertiary' : undefined,
-        size: "compact"
-      })
-    }), name && isPinnable && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ComplementaryAreaMoreMenuItem, {
-      target: name,
-      scope: scope,
-      icon: icon,
-      children: title
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(ComplementaryAreaFill, {
-      activeArea: activeArea,
-      isActive: isActive,
-      className: dist_clsx('interface-complementary-area', className),
-      scope: scope,
-      id: identifier.replace('/', ':'),
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(complementary_area_header, {
-        className: headerClassName,
-        closeLabel: closeLabel,
-        onClose: () => disableComplementaryArea(scope),
-        smallScreenTitle: smallScreenTitle,
-        toggleButtonProps: {
-          label: closeLabel,
-          size: 'small',
-          shortcut: toggleShortcut,
-          scope,
-          identifier
-        },
-        children: header || /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("h2", {
-            className: "interface-complementary-area-header__title",
-            children: title
-          }), isPinnable && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
-            className: "interface-complementary-area__pin-unpin-item",
-            icon: isPinned ? star_filled : star_empty,
-            label: isPinned ? (0,external_wp_i18n_namespaceObject.__)('Unpin from toolbar') : (0,external_wp_i18n_namespaceObject.__)('Pin to toolbar'),
-            onClick: () => (isPinned ? unpinItem : pinItem)(scope, identifier),
-            isPressed: isPinned,
-            "aria-expanded": isPinned,
-            size: "compact"
-          })]
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Panel, {
-        className: panelClassName,
-        children: children
-      })]
-    })]
-  });
-}
-const ComplementaryAreaWrapped = complementary_area_context(ComplementaryArea);
-ComplementaryAreaWrapped.Slot = ComplementaryAreaSlot;
-/* harmony default export */ const complementary_area = (ComplementaryAreaWrapped);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/navigable-region/index.js
-/**
- * External dependencies
- */
-
-
-function NavigableRegion({
-  children,
-  className,
-  ariaLabel,
-  as: Tag = 'div',
-  ...props
-}) {
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Tag, {
-    className: dist_clsx('interface-navigable-region', className),
-    "aria-label": ariaLabel,
-    role: "region",
-    tabIndex: "-1",
-    ...props,
-    children: children
-  });
-}
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/interface-skeleton/index.js
-/**
- * External dependencies
- */
-
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-const interface_skeleton_ANIMATION_DURATION = 0.25;
-const commonTransition = {
-  type: 'tween',
-  duration: interface_skeleton_ANIMATION_DURATION,
-  ease: [0.6, 0, 0.4, 1]
-};
-function useHTMLClass(className) {
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    const element = document && document.querySelector(`html:not(.${className})`);
-    if (!element) {
-      return;
-    }
-    element.classList.toggle(className);
-    return () => {
-      element.classList.toggle(className);
-    };
-  }, [className]);
-}
-const headerVariants = {
-  hidden: {
-    opacity: 1,
-    marginTop: -60
-  },
-  visible: {
-    opacity: 1,
-    marginTop: 0
-  },
-  distractionFreeHover: {
-    opacity: 1,
-    marginTop: 0,
-    transition: {
-      ...commonTransition,
-      delay: 0.2,
-      delayChildren: 0.2
-    }
-  },
-  distractionFreeHidden: {
-    opacity: 0,
-    marginTop: -60
-  },
-  distractionFreeDisabled: {
-    opacity: 0,
-    marginTop: 0,
-    transition: {
-      ...commonTransition,
-      delay: 0.8,
-      delayChildren: 0.8
-    }
-  }
-};
-function InterfaceSkeleton({
-  isDistractionFree,
-  footer,
-  header,
-  editorNotices,
-  sidebar,
-  secondarySidebar,
-  content,
-  actions,
-  labels,
-  className,
-  enableRegionNavigation = true,
-  // Todo: does this need to be a prop.
-  // Can we use a dependency to keyboard-shortcuts directly?
-  shortcuts
-}, ref) {
-  const [secondarySidebarResizeListener, secondarySidebarSize] = (0,external_wp_compose_namespaceObject.useResizeObserver)();
-  const isMobileViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium', '<');
-  const disableMotion = (0,external_wp_compose_namespaceObject.useReducedMotion)();
-  const defaultTransition = {
-    type: 'tween',
-    duration: disableMotion ? 0 : interface_skeleton_ANIMATION_DURATION,
-    ease: [0.6, 0, 0.4, 1]
-  };
-  const navigateRegionsProps = (0,external_wp_components_namespaceObject.__unstableUseNavigateRegions)(shortcuts);
-  useHTMLClass('interface-interface-skeleton__html-container');
-  const defaultLabels = {
-    /* translators: accessibility text for the top bar landmark region. */
-    header: (0,external_wp_i18n_namespaceObject._x)('Header', 'header landmark area'),
-    /* translators: accessibility text for the content landmark region. */
-    body: (0,external_wp_i18n_namespaceObject.__)('Content'),
-    /* translators: accessibility text for the secondary sidebar landmark region. */
-    secondarySidebar: (0,external_wp_i18n_namespaceObject.__)('Block Library'),
-    /* translators: accessibility text for the settings landmark region. */
-    sidebar: (0,external_wp_i18n_namespaceObject.__)('Settings'),
-    /* translators: accessibility text for the publish landmark region. */
-    actions: (0,external_wp_i18n_namespaceObject.__)('Publish'),
-    /* translators: accessibility text for the footer landmark region. */
-    footer: (0,external_wp_i18n_namespaceObject.__)('Footer')
-  };
-  const mergedLabels = {
-    ...defaultLabels,
-    ...labels
-  };
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
-    ...(enableRegionNavigation ? navigateRegionsProps : {}),
-    ref: (0,external_wp_compose_namespaceObject.useMergeRefs)([ref, enableRegionNavigation ? navigateRegionsProps.ref : undefined]),
-    className: dist_clsx(className, 'interface-interface-skeleton', navigateRegionsProps.className, !!footer && 'has-footer'),
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
-      className: "interface-interface-skeleton__editor",
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__unstableAnimatePresence, {
-        initial: false,
-        children: !!header && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(NavigableRegion, {
-          as: external_wp_components_namespaceObject.__unstableMotion.div,
-          className: "interface-interface-skeleton__header",
-          "aria-label": mergedLabels.header,
-          initial: isDistractionFree ? 'distractionFreeHidden' : 'hidden',
-          whileHover: isDistractionFree ? 'distractionFreeHover' : 'visible',
-          animate: isDistractionFree ? 'distractionFreeDisabled' : 'visible',
-          exit: isDistractionFree ? 'distractionFreeHidden' : 'hidden',
-          variants: headerVariants,
-          transition: defaultTransition,
-          children: header
-        })
-      }), isDistractionFree && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
-        className: "interface-interface-skeleton__header",
-        children: editorNotices
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
-        className: "interface-interface-skeleton__body",
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__unstableAnimatePresence, {
-          initial: false,
-          children: !!secondarySidebar && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(NavigableRegion, {
-            className: "interface-interface-skeleton__secondary-sidebar",
-            ariaLabel: mergedLabels.secondarySidebar,
-            as: external_wp_components_namespaceObject.__unstableMotion.div,
-            initial: "closed",
-            animate: isMobileViewport ? 'mobileOpen' : 'open',
-            exit: "closed",
-            variants: {
-              open: {
-                width: secondarySidebarSize.width
-              },
-              closed: {
-                width: 0
-              },
-              mobileOpen: {
-                width: '100vw'
-              }
-            },
-            transition: defaultTransition,
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
-              style: {
-                position: 'absolute',
-                width: isMobileViewport ? '100vw' : 'fit-content',
-                height: '100%',
-                right: 0
-              },
-              children: [secondarySidebarResizeListener, secondarySidebar]
-            })
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(NavigableRegion, {
-          className: "interface-interface-skeleton__content",
-          ariaLabel: mergedLabels.body,
-          children: content
-        }), !!sidebar && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(NavigableRegion, {
-          className: "interface-interface-skeleton__sidebar",
-          ariaLabel: mergedLabels.sidebar,
-          children: sidebar
-        }), !!actions && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(NavigableRegion, {
-          className: "interface-interface-skeleton__actions",
-          ariaLabel: mergedLabels.actions,
-          children: actions
-        })]
-      })]
-    }), !!footer && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(NavigableRegion, {
-      className: "interface-interface-skeleton__footer",
-      ariaLabel: mergedLabels.footer,
-      children: footer
-    })]
-  });
-}
-/* harmony default export */ const interface_skeleton = ((0,external_wp_element_namespaceObject.forwardRef)(InterfaceSkeleton));
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/index.js
-
-
-
-
-
-
-
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/index.js
-
-
-
-;// CONCATENATED MODULE: external ["wp","blockEditor"]
-const external_wp_blockEditor_namespaceObject = window["wp"]["blockEditor"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/store/transformers.js
-/**
- * WordPress dependencies
- */
-
 
 
 /**
@@ -1563,17 +360,20 @@ const external_wp_blockEditor_namespaceObject = window["wp"]["blockEditor"];
  * @param {Object} widget The widget entity record.
  * @return {Object} a block (converted from the entity record).
  */
+
 function transformWidgetToBlock(widget) {
   if (widget.id_base === 'block') {
-    const parsedBlocks = (0,external_wp_blocks_namespaceObject.parse)(widget.instance.raw.content, {
-      __unstableSkipAutop: true
-    });
+    const parsedBlocks = Object(external_wp_blocks_["parse"])(widget.instance.raw.content);
+
     if (!parsedBlocks.length) {
-      return (0,external_wp_widgets_namespaceObject.addWidgetIdToBlock)((0,external_wp_blocks_namespaceObject.createBlock)('core/paragraph', {}, []), widget.id);
+      return Object(external_wp_widgets_["addWidgetIdToBlock"])(Object(external_wp_blocks_["createBlock"])('core/paragraph', {}, []), widget.id);
     }
-    return (0,external_wp_widgets_namespaceObject.addWidgetIdToBlock)(parsedBlocks[0], widget.id);
+
+    return Object(external_wp_widgets_["addWidgetIdToBlock"])(parsedBlocks[0], widget.id);
   }
+
   let attributes;
+
   if (widget._embedded.about[0].is_multi) {
     attributes = {
       idBase: widget.id_base,
@@ -1584,9 +384,9 @@ function transformWidgetToBlock(widget) {
       id: widget.id
     };
   }
-  return (0,external_wp_widgets_namespaceObject.addWidgetIdToBlock)((0,external_wp_blocks_namespaceObject.createBlock)('core/legacy-widget', attributes, []), widget.id);
-}
 
+  return Object(external_wp_widgets_["addWidgetIdToBlock"])(Object(external_wp_blocks_["createBlock"])('core/legacy-widget', attributes, []), widget.id);
+}
 /**
  * Converts a block to a widget entity record.
  *
@@ -1594,95 +394,96 @@ function transformWidgetToBlock(widget) {
  * @param {Object?} relatedWidget A related widget entity record from the API (optional).
  * @return {Object} the widget object (converted from block).
  */
-function transformBlockToWidget(block, relatedWidget = {}) {
+
+function transformBlockToWidget(block) {
+  let relatedWidget = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   let widget;
   const isValidLegacyWidgetBlock = block.name === 'core/legacy-widget' && (block.attributes.id || block.attributes.instance);
+
   if (isValidLegacyWidgetBlock) {
     var _block$attributes$id, _block$attributes$idB, _block$attributes$ins;
-    widget = {
-      ...relatedWidget,
+
+    widget = { ...relatedWidget,
       id: (_block$attributes$id = block.attributes.id) !== null && _block$attributes$id !== void 0 ? _block$attributes$id : relatedWidget.id,
       id_base: (_block$attributes$idB = block.attributes.idBase) !== null && _block$attributes$idB !== void 0 ? _block$attributes$idB : relatedWidget.id_base,
       instance: (_block$attributes$ins = block.attributes.instance) !== null && _block$attributes$ins !== void 0 ? _block$attributes$ins : relatedWidget.instance
     };
   } else {
-    widget = {
-      ...relatedWidget,
+    widget = { ...relatedWidget,
       id_base: 'block',
       instance: {
         raw: {
-          content: (0,external_wp_blocks_namespaceObject.serialize)(block)
+          content: Object(external_wp_blocks_["serialize"])(block)
         }
       }
     };
-  }
+  } // Delete read-only properties.
 
-  // Delete read-only properties.
+
   delete widget.rendered;
   delete widget.rendered_form;
   return widget;
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/store/utils.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/store/utils.js
 /**
  * "Kind" of the navigation post.
  *
  * @type {string}
  */
 const KIND = 'root';
-
 /**
  * "post type" of the navigation post.
  *
  * @type {string}
  */
-const WIDGET_AREA_ENTITY_TYPE = 'sidebar';
 
+const WIDGET_AREA_ENTITY_TYPE = 'sidebar';
 /**
  * "post type" of the widget area post.
  *
  * @type {string}
  */
-const POST_TYPE = 'postType';
 
+const POST_TYPE = 'postType';
 /**
  * Builds an ID for a new widget area post.
  *
  * @param {number} widgetAreaId Widget area id.
  * @return {string} An ID.
  */
-const buildWidgetAreaPostId = widgetAreaId => `widget-area-${widgetAreaId}`;
 
+const buildWidgetAreaPostId = widgetAreaId => `widget-area-${widgetAreaId}`;
 /**
  * Builds an ID for a global widget areas post.
  *
  * @return {string} An ID.
  */
-const buildWidgetAreasPostId = () => `widget-areas`;
 
+const buildWidgetAreasPostId = () => `widget-areas`;
 /**
  * Builds a query to resolve sidebars.
  *
  * @return {Object} Query.
  */
+
 function buildWidgetAreasQuery() {
   return {
     per_page: -1
   };
 }
-
 /**
  * Builds a query to resolve widgets.
  *
  * @return {Object} Query.
  */
+
 function buildWidgetsQuery() {
   return {
     per_page: -1,
     _embed: 'about'
   };
 }
-
 /**
  * Creates a stub post with given id and set of blocks. Used as a governing entity records
  * for all widget areas.
@@ -1691,6 +492,7 @@ function buildWidgetsQuery() {
  * @param {Array}  blocks The list of blocks.
  * @return {Object} A stub post object formatted in compliance with the data layer.
  */
+
 const createStubPost = (id, blocks) => ({
   id,
   slug: id,
@@ -1702,17 +504,16 @@ const createStubPost = (id, blocks) => ({
   }
 });
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/store/constants.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/store/constants.js
 /**
  * Module Constants
  */
-const constants_STORE_NAME = 'core/edit-widgets';
+const STORE_NAME = 'core/edit-widgets';
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/store/actions.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/store/actions.js
 /**
  * WordPress dependencies
  */
-
 
 
 
@@ -1734,16 +535,17 @@ const constants_STORE_NAME = 'core/edit-widgets';
  * @param {Array}  blocks Blocks the post should consist of.
  * @return {Object} The post object.
  */
-const persistStubPost = (id, blocks) => ({
-  registry
-}) => {
+
+const persistStubPost = (id, blocks) => _ref => {
+  let {
+    registry
+  } = _ref;
   const stubPost = createStubPost(id, blocks);
-  registry.dispatch(external_wp_coreData_namespaceObject.store).receiveEntityRecords(KIND, POST_TYPE, stubPost, {
+  registry.dispatch(external_wp_coreData_["store"]).receiveEntityRecords(KIND, POST_TYPE, stubPost, {
     id: stubPost.id
   }, false);
   return stubPost;
 };
-
 /**
  * Converts all the blocks from edited widget areas into widgets,
  * and submits a batch request to save everything at once.
@@ -1752,28 +554,32 @@ const persistStubPost = (id, blocks) => ({
  *
  * @return {Function} An action creator.
  */
-const saveEditedWidgetAreas = () => async ({
-  select,
-  dispatch,
-  registry
-}) => {
+
+const actions_saveEditedWidgetAreas = () => async _ref2 => {
+  let {
+    select,
+    dispatch,
+    registry
+  } = _ref2;
   const editedWidgetAreas = select.getEditedWidgetAreas();
-  if (!editedWidgetAreas?.length) {
+
+  if (!(editedWidgetAreas !== null && editedWidgetAreas !== void 0 && editedWidgetAreas.length)) {
     return;
   }
+
   try {
     await dispatch.saveWidgetAreas(editedWidgetAreas);
-    registry.dispatch(external_wp_notices_namespaceObject.store).createSuccessNotice((0,external_wp_i18n_namespaceObject.__)('Widgets saved.'), {
+    registry.dispatch(external_wp_notices_["store"]).createSuccessNotice(Object(external_wp_i18n_["__"])('Widgets saved.'), {
       type: 'snackbar'
     });
   } catch (e) {
-    registry.dispatch(external_wp_notices_namespaceObject.store).createErrorNotice( /* translators: %s: The error message. */
-    (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('There was an error. %s'), e.message), {
+    registry.dispatch(external_wp_notices_["store"]).createErrorNotice(
+    /* translators: %s: The error message. */
+    Object(external_wp_i18n_["sprintf"])(Object(external_wp_i18n_["__"])('There was an error. %s'), e.message), {
       type: 'snackbar'
     });
   }
 };
-
 /**
  * Converts all the blocks from specified widget areas into widgets,
  * and submits a batch request to save everything at once.
@@ -1781,20 +587,22 @@ const saveEditedWidgetAreas = () => async ({
  * @param {Object[]} widgetAreas Widget areas to save.
  * @return {Function} An action creator.
  */
-const saveWidgetAreas = widgetAreas => async ({
-  dispatch,
-  registry
-}) => {
+
+const saveWidgetAreas = widgetAreas => async _ref3 => {
+  let {
+    dispatch,
+    registry
+  } = _ref3;
+
   try {
     for (const widgetArea of widgetAreas) {
       await dispatch.saveWidgetArea(widgetArea.id);
     }
   } finally {
-    // saveEditedEntityRecord resets the resolution status, let's fix it manually.
-    await registry.dispatch(external_wp_coreData_namespaceObject.store).finishResolution('getEntityRecord', KIND, WIDGET_AREA_ENTITY_TYPE, buildWidgetAreasQuery());
+    // saveEditedEntityRecord resets the resolution status, let's fix it manually
+    await registry.dispatch(external_wp_coreData_["store"]).finishResolution('getEntityRecord', KIND, WIDGET_AREA_ENTITY_TYPE, buildWidgetAreasQuery());
   }
 };
-
 /**
  * Converts all the blocks from a widget area specified by ID into widgets,
  * and submits a batch request to save everything at once.
@@ -1802,140 +610,171 @@ const saveWidgetAreas = widgetAreas => async ({
  * @param {string} widgetAreaId ID of the widget area to process.
  * @return {Function} An action creator.
  */
-const saveWidgetArea = widgetAreaId => async ({
-  dispatch,
-  select,
-  registry
-}) => {
+
+const saveWidgetArea = widgetAreaId => async _ref4 => {
+  let {
+    dispatch,
+    select,
+    registry
+  } = _ref4;
   const widgets = select.getWidgets();
-  const post = registry.select(external_wp_coreData_namespaceObject.store).getEditedEntityRecord(KIND, POST_TYPE, buildWidgetAreaPostId(widgetAreaId));
+  const post = registry.select(external_wp_coreData_["store"]).getEditedEntityRecord(KIND, POST_TYPE, buildWidgetAreaPostId(widgetAreaId)); // Get all widgets from this area
 
-  // Get all widgets from this area
-  const areaWidgets = Object.values(widgets).filter(({
-    sidebar
-  }) => sidebar === widgetAreaId);
-
-  // Remove all duplicate reference widget instances for legacy widgets.
+  const areaWidgets = Object.values(widgets).filter(_ref5 => {
+    let {
+      sidebar
+    } = _ref5;
+    return sidebar === widgetAreaId;
+  }); // Remove all duplicate reference widget instances for legacy widgets.
   // Why? We filter out the widgets with duplicate IDs to prevent adding more than one instance of a widget
   // implemented using a function. WordPress doesn't support having more than one instance of these, if you try to
   // save multiple instances of these in different sidebars you will run into undefined behaviors.
+
   const usedReferenceWidgets = [];
   const widgetsBlocks = post.blocks.filter(block => {
     const {
       id
     } = block.attributes;
+
     if (block.name === 'core/legacy-widget' && id) {
       if (usedReferenceWidgets.includes(id)) {
         return false;
       }
+
       usedReferenceWidgets.push(id);
     }
-    return true;
-  });
 
-  // Determine which widgets have been deleted. We can tell if a widget is
+    return true;
+  }); // Determine which widgets have been deleted. We can tell if a widget is
   // deleted and not just moved to a different area by looking to see if
   // getWidgetAreaForWidgetId() finds something.
+
   const deletedWidgets = [];
+
   for (const widget of areaWidgets) {
     const widgetsNewArea = select.getWidgetAreaForWidgetId(widget.id);
+
     if (!widgetsNewArea) {
       deletedWidgets.push(widget);
     }
   }
+
   const batchMeta = [];
   const batchTasks = [];
   const sidebarWidgetsIds = [];
+
   for (let i = 0; i < widgetsBlocks.length; i++) {
     const block = widgetsBlocks[i];
-    const widgetId = (0,external_wp_widgets_namespaceObject.getWidgetIdFromBlock)(block);
+    const widgetId = Object(external_wp_widgets_["getWidgetIdFromBlock"])(block);
     const oldWidget = widgets[widgetId];
-    const widget = transformBlockToWidget(block, oldWidget);
-
-    // We'll replace the null widgetId after save, but we track it here
+    const widget = transformBlockToWidget(block, oldWidget); // We'll replace the null widgetId after save, but we track it here
     // since order is important.
-    sidebarWidgetsIds.push(widgetId);
 
-    // Check oldWidget as widgetId might refer to an ID which has been
+    sidebarWidgetsIds.push(widgetId); // Check oldWidget as widgetId might refer to an ID which has been
     // deleted, e.g. if a deleted block is restored via undo after saving.
+
     if (oldWidget) {
       // Update an existing widget.
-      registry.dispatch(external_wp_coreData_namespaceObject.store).editEntityRecord('root', 'widget', widgetId, {
-        ...widget,
+      registry.dispatch(external_wp_coreData_["store"]).editEntityRecord('root', 'widget', widgetId, { ...widget,
         sidebar: widgetAreaId
       }, {
         undoIgnore: true
       });
-      const hasEdits = registry.select(external_wp_coreData_namespaceObject.store).hasEditsForEntityRecord('root', 'widget', widgetId);
+      const hasEdits = registry.select(external_wp_coreData_["store"]).hasEditsForEntityRecord('root', 'widget', widgetId);
+
       if (!hasEdits) {
         continue;
       }
-      batchTasks.push(({
-        saveEditedEntityRecord
-      }) => saveEditedEntityRecord('root', 'widget', widgetId));
+
+      batchTasks.push(_ref6 => {
+        let {
+          saveEditedEntityRecord
+        } = _ref6;
+        return saveEditedEntityRecord('root', 'widget', widgetId);
+      });
     } else {
       // Create a new widget.
-      batchTasks.push(({
-        saveEntityRecord
-      }) => saveEntityRecord('root', 'widget', {
-        ...widget,
-        sidebar: widgetAreaId
-      }));
+      batchTasks.push(_ref7 => {
+        let {
+          saveEntityRecord
+        } = _ref7;
+        return saveEntityRecord('root', 'widget', { ...widget,
+          sidebar: widgetAreaId
+        });
+      });
     }
+
     batchMeta.push({
       block,
       position: i,
       clientId: block.clientId
     });
   }
+
   for (const widget of deletedWidgets) {
-    batchTasks.push(({
-      deleteEntityRecord
-    }) => deleteEntityRecord('root', 'widget', widget.id, {
-      force: true
-    }));
+    batchTasks.push(_ref8 => {
+      let {
+        deleteEntityRecord
+      } = _ref8;
+      return deleteEntityRecord('root', 'widget', widget.id, {
+        force: true
+      });
+    });
   }
-  const records = await registry.dispatch(external_wp_coreData_namespaceObject.store).__experimentalBatch(batchTasks);
+
+  const records = await registry.dispatch(external_wp_coreData_["store"]).__experimentalBatch(batchTasks);
   const preservedRecords = records.filter(record => !record.hasOwnProperty('deleted'));
   const failedWidgetNames = [];
+
   for (let i = 0; i < preservedRecords.length; i++) {
     const widget = preservedRecords[i];
     const {
       block,
       position
-    } = batchMeta[i];
-
-    // Set __internalWidgetId on the block. This will be persisted to the
+    } = batchMeta[i]; // Set __internalWidgetId on the block. This will be persisted to the
     // store when we dispatch receiveEntityRecords( post ) below.
+
     post.blocks[position].attributes.__internalWidgetId = widget.id;
-    const error = registry.select(external_wp_coreData_namespaceObject.store).getLastEntitySaveError('root', 'widget', widget.id);
+    const error = registry.select(external_wp_coreData_["store"]).getLastEntitySaveError('root', 'widget', widget.id);
+
     if (error) {
-      failedWidgetNames.push(block.attributes?.name || block?.name);
+      var _block$attributes;
+
+      failedWidgetNames.push(((_block$attributes = block.attributes) === null || _block$attributes === void 0 ? void 0 : _block$attributes.name) || (block === null || block === void 0 ? void 0 : block.name));
     }
+
     if (!sidebarWidgetsIds[position]) {
       sidebarWidgetsIds[position] = widget.id;
     }
   }
+
   if (failedWidgetNames.length) {
-    throw new Error((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: List of widget names */
-    (0,external_wp_i18n_namespaceObject.__)('Could not save the following widgets: %s.'), failedWidgetNames.join(', ')));
+    throw new Error(Object(external_wp_i18n_["sprintf"])(
+    /* translators: %s: List of widget names */
+    Object(external_wp_i18n_["__"])('Could not save the following widgets: %s.'), failedWidgetNames.join(', ')));
   }
-  registry.dispatch(external_wp_coreData_namespaceObject.store).editEntityRecord(KIND, WIDGET_AREA_ENTITY_TYPE, widgetAreaId, {
+
+  registry.dispatch(external_wp_coreData_["store"]).editEntityRecord(KIND, WIDGET_AREA_ENTITY_TYPE, widgetAreaId, {
     widgets: sidebarWidgetsIds
   }, {
     undoIgnore: true
   });
   dispatch(trySaveWidgetArea(widgetAreaId));
-  registry.dispatch(external_wp_coreData_namespaceObject.store).receiveEntityRecords(KIND, POST_TYPE, post, undefined);
-};
-const trySaveWidgetArea = widgetAreaId => ({
-  registry
-}) => {
-  registry.dispatch(external_wp_coreData_namespaceObject.store).saveEditedEntityRecord(KIND, WIDGET_AREA_ENTITY_TYPE, widgetAreaId, {
-    throwOnError: true
-  });
+  registry.dispatch(external_wp_coreData_["store"]).receiveEntityRecords(KIND, POST_TYPE, post, undefined);
 };
 
+const trySaveWidgetArea = widgetAreaId => _ref9 => {
+  let {
+    registry
+  } = _ref9;
+  const saveErrorBefore = registry.select(external_wp_coreData_["store"]).getLastEntitySaveError(KIND, WIDGET_AREA_ENTITY_TYPE, widgetAreaId);
+  registry.dispatch(external_wp_coreData_["store"]).saveEditedEntityRecord(KIND, WIDGET_AREA_ENTITY_TYPE, widgetAreaId);
+  const saveErrorAfter = registry.select(external_wp_coreData_["store"]).getLastEntitySaveError(KIND, WIDGET_AREA_ENTITY_TYPE, widgetAreaId);
+
+  if (saveErrorAfter && saveErrorBefore !== saveErrorAfter) {
+    throw new Error(saveErrorAfter);
+  }
+};
 /**
  * Sets the clientId stored for a particular widgetId.
  *
@@ -1944,6 +783,8 @@ const trySaveWidgetArea = widgetAreaId => ({
  *
  * @return {Object} Action.
  */
+
+
 function setWidgetIdForClientId(clientId, widgetId) {
   return {
     type: 'SET_WIDGET_ID_FOR_CLIENT_ID',
@@ -1951,7 +792,6 @@ function setWidgetIdForClientId(clientId, widgetId) {
     widgetId
   };
 }
-
 /**
  * Sets the open state of all the widget areas.
  *
@@ -1959,13 +799,13 @@ function setWidgetIdForClientId(clientId, widgetId) {
  *
  * @return {Object} Action.
  */
+
 function setWidgetAreasOpenState(widgetAreasOpenState) {
   return {
     type: 'SET_WIDGET_AREAS_OPEN_STATE',
     widgetAreasOpenState
   };
 }
-
 /**
  * Sets the open state of the widget area.
  *
@@ -1974,14 +814,14 @@ function setWidgetAreasOpenState(widgetAreasOpenState) {
  *
  * @return {Object} Action.
  */
-function setIsWidgetAreaOpen(clientId, isOpen) {
+
+function actions_setIsWidgetAreaOpen(clientId, isOpen) {
   return {
     type: 'SET_IS_WIDGET_AREA_OPEN',
     clientId,
     isOpen
   };
 }
-
 /**
  * Returns an action object used to open/close the inserter.
  *
@@ -1994,78 +834,81 @@ function setIsWidgetAreaOpen(clientId, isOpen) {
  *
  * @return {Object} Action object.
  */
-function setIsInserterOpened(value) {
+
+function actions_setIsInserterOpened(value) {
   return {
     type: 'SET_IS_INSERTER_OPENED',
     value
   };
 }
-
 /**
  * Returns an action object used to open/close the list view.
  *
  * @param {boolean} isOpen A boolean representing whether the list view should be opened or closed.
  * @return {Object} Action object.
  */
-function setIsListViewOpened(isOpen) {
+
+function actions_setIsListViewOpened(isOpen) {
   return {
     type: 'SET_IS_LIST_VIEW_OPENED',
     isOpen
   };
 }
-
 /**
  * Returns an action object signalling that the user closed the sidebar.
  *
  * @return {Object} Action creator.
  */
-const closeGeneralSidebar = () => ({
-  registry
-}) => {
-  registry.dispatch(store).disableComplementaryArea(constants_STORE_NAME);
-};
 
+const actions_closeGeneralSidebar = () => _ref10 => {
+  let {
+    registry
+  } = _ref10;
+  registry.dispatch(build_module["i" /* store */]).disableComplementaryArea(STORE_NAME);
+};
 /**
  * Action that handles moving a block between widget areas
  *
  * @param {string} clientId     The clientId of the block to move.
  * @param {string} widgetAreaId The id of the widget area to move the block to.
  */
-const moveBlockToWidgetArea = (clientId, widgetAreaId) => async ({
-  dispatch,
-  select,
-  registry
-}) => {
-  const sourceRootClientId = registry.select(external_wp_blockEditor_namespaceObject.store).getBlockRootClientId(clientId);
 
-  // Search the top level blocks (widget areas) for the one with the matching
+const actions_moveBlockToWidgetArea = (clientId, widgetAreaId) => async _ref11 => {
+  let {
+    dispatch,
+    select,
+    registry
+  } = _ref11;
+  const sourceRootClientId = registry.select(external_wp_blockEditor_["store"]).getBlockRootClientId([clientId]); // Search the top level blocks (widget areas) for the one with the matching
   // id attribute. Makes the assumption that all top-level blocks are widget
   // areas.
-  const widgetAreas = registry.select(external_wp_blockEditor_namespaceObject.store).getBlocks();
-  const destinationWidgetAreaBlock = widgetAreas.find(({
-    attributes
-  }) => attributes.id === widgetAreaId);
-  const destinationRootClientId = destinationWidgetAreaBlock.clientId;
 
-  // Get the index for moving to the end of the destination widget area.
-  const destinationInnerBlocksClientIds = registry.select(external_wp_blockEditor_namespaceObject.store).getBlockOrder(destinationRootClientId);
-  const destinationIndex = destinationInnerBlocksClientIds.length;
+  const widgetAreas = registry.select(external_wp_blockEditor_["store"]).getBlocks();
+  const destinationWidgetAreaBlock = widgetAreas.find(_ref12 => {
+    let {
+      attributes
+    } = _ref12;
+    return attributes.id === widgetAreaId;
+  });
+  const destinationRootClientId = destinationWidgetAreaBlock.clientId; // Get the index for moving to the end of the the destination widget area.
 
-  // Reveal the widget area, if it's not open.
+  const destinationInnerBlocksClientIds = registry.select(external_wp_blockEditor_["store"]).getBlockOrder(destinationRootClientId);
+  const destinationIndex = destinationInnerBlocksClientIds.length; // Reveal the widget area, if it's not open.
+
   const isDestinationWidgetAreaOpen = select.getIsWidgetAreaOpen(destinationRootClientId);
+
   if (!isDestinationWidgetAreaOpen) {
     dispatch.setIsWidgetAreaOpen(destinationRootClientId, true);
-  }
+  } // Move the block.
 
-  // Move the block.
-  registry.dispatch(external_wp_blockEditor_namespaceObject.store).moveBlocksToPosition([clientId], sourceRootClientId, destinationRootClientId, destinationIndex);
+
+  registry.dispatch(external_wp_blockEditor_["store"]).moveBlocksToPosition([clientId], sourceRootClientId, destinationRootClientId, destinationIndex);
 };
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/store/resolvers.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/store/resolvers.js
 /**
  * WordPress dependencies
  */
-
 
 
 /**
@@ -2084,33 +927,40 @@ const moveBlockToWidgetArea = (clientId, widgetAreaId) => async ({
  *
  * @return {Function} An action creator.
  */
-const getWidgetAreas = () => async ({
-  dispatch,
-  registry
-}) => {
+
+const getWidgetAreas = () => async _ref => {
+  let {
+    dispatch,
+    registry
+  } = _ref;
   const query = buildWidgetAreasQuery();
-  const widgetAreas = await registry.resolveSelect(external_wp_coreData_namespaceObject.store).getEntityRecords(KIND, WIDGET_AREA_ENTITY_TYPE, query);
+  const widgetAreas = await registry.resolveSelect(external_wp_coreData_["store"]).getEntityRecords(KIND, WIDGET_AREA_ENTITY_TYPE, query);
   const widgetAreaBlocks = [];
   const sortedWidgetAreas = widgetAreas.sort((a, b) => {
     if (a.id === 'wp_inactive_widgets') {
       return 1;
     }
+
     if (b.id === 'wp_inactive_widgets') {
       return -1;
     }
+
     return 0;
   });
+
   for (const widgetArea of sortedWidgetAreas) {
-    widgetAreaBlocks.push((0,external_wp_blocks_namespaceObject.createBlock)('core/widget-area', {
+    widgetAreaBlocks.push(Object(external_wp_blocks_["createBlock"])('core/widget-area', {
       id: widgetArea.id,
       name: widgetArea.name
     }));
+
     if (!widgetArea.widgets.length) {
       // If this widget area has no widgets, it won't get a post setup by
       // the getWidgets resolver.
       dispatch(persistStubPost(buildWidgetAreaPostId(widgetArea.id), []));
     }
   }
+
   const widgetAreasOpenState = {};
   widgetAreaBlocks.forEach((widgetAreaBlock, index) => {
     // Defaults to open the first widget area.
@@ -2119,24 +969,27 @@ const getWidgetAreas = () => async ({
   dispatch(setWidgetAreasOpenState(widgetAreasOpenState));
   dispatch(persistStubPost(buildWidgetAreasPostId(), widgetAreaBlocks));
 };
-
 /**
  * Fetches all widgets from all widgets ares, and groups them by widget area Id.
  *
  * @return {Function} An action creator.
  */
-const getWidgets = () => async ({
-  dispatch,
-  registry
-}) => {
+
+const getWidgets = () => async _ref2 => {
+  let {
+    dispatch,
+    registry
+  } = _ref2;
   const query = buildWidgetsQuery();
-  const widgets = await registry.resolveSelect(external_wp_coreData_namespaceObject.store).getEntityRecords('root', 'widget', query);
+  const widgets = await registry.resolveSelect(external_wp_coreData_["store"]).getEntityRecords('root', 'widget', query);
   const groupedBySidebar = {};
+
   for (const widget of widgets) {
     const block = transformWidgetToBlock(widget);
     groupedBySidebar[widget.sidebar] = groupedBySidebar[widget.sidebar] || [];
     groupedBySidebar[widget.sidebar].push(block);
   }
+
   for (const sidebarId in groupedBySidebar) {
     if (groupedBySidebar.hasOwnProperty(sidebarId)) {
       // Persist the actual post containing the widget block
@@ -2145,7 +998,14 @@ const getWidgets = () => async ({
   }
 };
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/store/selectors.js
+// EXTERNAL MODULE: external "lodash"
+var external_lodash_ = __webpack_require__("YLtl");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/store/selectors.js
+/**
+ * External dependencies
+ */
+
 /**
  * WordPress dependencies
  */
@@ -2159,27 +1019,17 @@ const getWidgets = () => async ({
  */
 
 
-const EMPTY_INSERTION_POINT = {
-  rootClientId: undefined,
-  insertionIndex: undefined
-};
 
 /**
  * Returns all API widgets.
  *
  * @return {Object[]} API List of widgets.
  */
-const selectors_getWidgets = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => () => {
-  const widgets = select(external_wp_coreData_namespaceObject.store).getEntityRecords('root', 'widget', buildWidgetsQuery());
-  return (
-    // Key widgets by their ID.
-    widgets?.reduce((allWidgets, widget) => ({
-      ...allWidgets,
-      [widget.id]: widget
-    }), {}) || {}
-  );
-});
 
+const selectors_getWidgets = Object(external_wp_data_["createRegistrySelector"])(select => () => {
+  const widgets = select(external_wp_coreData_["store"]).getEntityRecords('root', 'widget', buildWidgetsQuery());
+  return Object(external_lodash_["keyBy"])(widgets, 'id');
+});
 /**
  * Returns API widget data for a particular widget ID.
  *
@@ -2187,36 +1037,36 @@ const selectors_getWidgets = (0,external_wp_data_namespaceObject.createRegistryS
  *
  * @return {Object} API widget data for a particular widget ID.
  */
-const getWidget = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => (state, id) => {
-  const widgets = select(constants_STORE_NAME).getWidgets();
+
+const getWidget = Object(external_wp_data_["createRegistrySelector"])(select => (state, id) => {
+  const widgets = select(STORE_NAME).getWidgets();
   return widgets[id];
 });
-
 /**
  * Returns all API widget areas.
  *
  * @return {Object[]} API List of widget areas.
  */
-const selectors_getWidgetAreas = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => () => {
-  const query = buildWidgetAreasQuery();
-  return select(external_wp_coreData_namespaceObject.store).getEntityRecords(KIND, WIDGET_AREA_ENTITY_TYPE, query);
-});
 
+const selectors_getWidgetAreas = Object(external_wp_data_["createRegistrySelector"])(select => () => {
+  const query = buildWidgetAreasQuery();
+  return select(external_wp_coreData_["store"]).getEntityRecords(KIND, WIDGET_AREA_ENTITY_TYPE, query);
+});
 /**
  * Returns widgetArea containing a block identify by given widgetId
  *
  * @param {string} widgetId The ID of the widget.
  * @return {Object} Containing widget area.
  */
-const getWidgetAreaForWidgetId = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => (state, widgetId) => {
-  const widgetAreas = select(constants_STORE_NAME).getWidgetAreas();
+
+const getWidgetAreaForWidgetId = Object(external_wp_data_["createRegistrySelector"])(select => (state, widgetId) => {
+  const widgetAreas = select(STORE_NAME).getWidgetAreas();
   return widgetAreas.find(widgetArea => {
-    const post = select(external_wp_coreData_namespaceObject.store).getEditedEntityRecord(KIND, POST_TYPE, buildWidgetAreaPostId(widgetArea.id));
-    const blockWidgetIds = post.blocks.map(block => (0,external_wp_widgets_namespaceObject.getWidgetIdFromBlock)(block));
+    const post = select(external_wp_coreData_["store"]).getEditedEntityRecord(KIND, POST_TYPE, buildWidgetAreaPostId(widgetArea.id));
+    const blockWidgetIds = post.blocks.map(block => Object(external_wp_widgets_["getWidgetIdFromBlock"])(block));
     return blockWidgetIds.includes(widgetId);
   });
 });
-
 /**
  * Given a child client id, returns the parent widget area block.
  *
@@ -2224,88 +1074,118 @@ const getWidgetAreaForWidgetId = (0,external_wp_data_namespaceObject.createRegis
  *
  * @return {WPBlock} The widget area block.
  */
-const getParentWidgetAreaBlock = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => (state, clientId) => {
+
+const selectors_getParentWidgetAreaBlock = Object(external_wp_data_["createRegistrySelector"])(select => (state, clientId) => {
   const {
     getBlock,
     getBlockName,
     getBlockParents
-  } = select(external_wp_blockEditor_namespaceObject.store);
+  } = select(external_wp_blockEditor_["store"]);
   const blockParents = getBlockParents(clientId);
   const widgetAreaClientId = blockParents.find(parentClientId => getBlockName(parentClientId) === 'core/widget-area');
   return getBlock(widgetAreaClientId);
 });
-
 /**
  * Returns all edited widget area entity records.
  *
  * @return {Object[]} List of edited widget area entity records.
  */
-const getEditedWidgetAreas = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => (state, ids) => {
-  let widgetAreas = select(constants_STORE_NAME).getWidgetAreas();
+
+const selectors_getEditedWidgetAreas = Object(external_wp_data_["createRegistrySelector"])(select => (state, ids) => {
+  let widgetAreas = select(STORE_NAME).getWidgetAreas();
+
   if (!widgetAreas) {
     return [];
   }
-  if (ids) {
-    widgetAreas = widgetAreas.filter(({
-      id
-    }) => ids.includes(id));
-  }
-  return widgetAreas.filter(({
-    id
-  }) => select(external_wp_coreData_namespaceObject.store).hasEditsForEntityRecord(KIND, POST_TYPE, buildWidgetAreaPostId(id))).map(({
-    id
-  }) => select(external_wp_coreData_namespaceObject.store).getEditedEntityRecord(KIND, WIDGET_AREA_ENTITY_TYPE, id));
-});
 
+  if (ids) {
+    widgetAreas = widgetAreas.filter(_ref => {
+      let {
+        id
+      } = _ref;
+      return ids.includes(id);
+    });
+  }
+
+  return widgetAreas.filter(_ref2 => {
+    let {
+      id
+    } = _ref2;
+    return select(external_wp_coreData_["store"]).hasEditsForEntityRecord(KIND, POST_TYPE, buildWidgetAreaPostId(id));
+  }).map(_ref3 => {
+    let {
+      id
+    } = _ref3;
+    return select(external_wp_coreData_["store"]).getEditedEntityRecord(KIND, WIDGET_AREA_ENTITY_TYPE, id);
+  });
+});
 /**
  * Returns all blocks representing reference widgets.
  *
  * @param {string} referenceWidgetName Optional. If given, only reference widgets with this name will be returned.
  * @return {Array}  List of all blocks representing reference widgets
  */
-const getReferenceWidgetBlocks = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => (state, referenceWidgetName = null) => {
+
+const getReferenceWidgetBlocks = Object(external_wp_data_["createRegistrySelector"])(select => function (state) {
+  let referenceWidgetName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
   const results = [];
-  const widgetAreas = select(constants_STORE_NAME).getWidgetAreas();
+  const widgetAreas = select(STORE_NAME).getWidgetAreas();
+
   for (const _widgetArea of widgetAreas) {
-    const post = select(external_wp_coreData_namespaceObject.store).getEditedEntityRecord(KIND, POST_TYPE, buildWidgetAreaPostId(_widgetArea.id));
+    const post = select(external_wp_coreData_["store"]).getEditedEntityRecord(KIND, POST_TYPE, buildWidgetAreaPostId(_widgetArea.id));
+
     for (const block of post.blocks) {
-      if (block.name === 'core/legacy-widget' && (!referenceWidgetName || block.attributes?.referenceWidgetName === referenceWidgetName)) {
+      var _block$attributes;
+
+      if (block.name === 'core/legacy-widget' && (!referenceWidgetName || ((_block$attributes = block.attributes) === null || _block$attributes === void 0 ? void 0 : _block$attributes.referenceWidgetName) === referenceWidgetName)) {
         results.push(block);
       }
     }
   }
+
   return results;
 });
-
 /**
  * Returns true if any widget area is currently being saved.
  *
  * @return {boolean} True if any widget area is currently being saved. False otherwise.
  */
-const isSavingWidgetAreas = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => () => {
-  const widgetAreasIds = select(constants_STORE_NAME).getWidgetAreas()?.map(({
-    id
-  }) => id);
+
+const selectors_isSavingWidgetAreas = Object(external_wp_data_["createRegistrySelector"])(select => () => {
+  var _select$getWidgetArea;
+
+  const widgetAreasIds = (_select$getWidgetArea = select(STORE_NAME).getWidgetAreas()) === null || _select$getWidgetArea === void 0 ? void 0 : _select$getWidgetArea.map(_ref4 => {
+    let {
+      id
+    } = _ref4;
+    return id;
+  });
+
   if (!widgetAreasIds) {
     return false;
   }
+
   for (const id of widgetAreasIds) {
-    const isSaving = select(external_wp_coreData_namespaceObject.store).isSavingEntityRecord(KIND, WIDGET_AREA_ENTITY_TYPE, id);
+    const isSaving = select(external_wp_coreData_["store"]).isSavingEntityRecord(KIND, WIDGET_AREA_ENTITY_TYPE, id);
+
     if (isSaving) {
       return true;
     }
   }
-  const widgetIds = [...Object.keys(select(constants_STORE_NAME).getWidgets()), undefined // account for new widgets without an ID
+
+  const widgetIds = [...Object.keys(select(STORE_NAME).getWidgets()), undefined // account for new widgets without an ID
   ];
+
   for (const id of widgetIds) {
-    const isSaving = select(external_wp_coreData_namespaceObject.store).isSavingEntityRecord('root', 'widget', id);
+    const isSaving = select(external_wp_coreData_["store"]).isSavingEntityRecord('root', 'widget', id);
+
     if (isSaving) {
       return true;
     }
   }
+
   return false;
 });
-
 /**
  * Gets whether the widget area is opened.
  *
@@ -2314,13 +1194,13 @@ const isSavingWidgetAreas = (0,external_wp_data_namespaceObject.createRegistrySe
  *
  * @return {boolean} True if the widget area is open.
  */
+
 const getIsWidgetAreaOpen = (state, clientId) => {
   const {
     widgetAreasOpenState
   } = state;
   return !!widgetAreasOpenState[clientId];
 };
-
 /**
  * Returns true if the inserter is opened.
  *
@@ -2328,10 +1208,10 @@ const getIsWidgetAreaOpen = (state, clientId) => {
  *
  * @return {boolean} Whether the inserter is opened.
  */
-function isInserterOpened(state) {
+
+function selectors_isInserterOpened(state) {
   return !!state.blockInserterPanel;
 }
-
 /**
  * Get the insertion point for the inserter.
  *
@@ -2339,13 +1219,17 @@ function isInserterOpened(state) {
  *
  * @return {Object} The root client ID and index to insert at.
  */
-function __experimentalGetInsertionPoint(state) {
-  if (typeof state.blockInserterPanel === 'boolean') {
-    return EMPTY_INSERTION_POINT;
-  }
-  return state.blockInserterPanel;
-}
 
+function __experimentalGetInsertionPoint(state) {
+  const {
+    rootClientId,
+    insertionIndex
+  } = state.blockInserterPanel;
+  return {
+    rootClientId,
+    insertionIndex
+  };
+}
 /**
  * Returns true if a block can be inserted into a widget area.
  *
@@ -2354,17 +1238,16 @@ function __experimentalGetInsertionPoint(state) {
  *
  * @return {boolean} True if the block can be inserted in a widget area.
  */
-const canInsertBlockInWidgetArea = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => (state, blockName) => {
-  // Widget areas are always top-level blocks, which getBlocks will return.
-  const widgetAreas = select(external_wp_blockEditor_namespaceObject.store).getBlocks();
 
-  // Makes an assumption that a block that can be inserted into one
+const selectors_canInsertBlockInWidgetArea = Object(external_wp_data_["createRegistrySelector"])(select => (state, blockName) => {
+  // Widget areas are always top-level blocks, which getBlocks will return.
+  const widgetAreas = select(external_wp_blockEditor_["store"]).getBlocks(); // Makes an assumption that a block that can be inserted into one
   // widget area can be inserted into any widget area. Uses the first
   // widget area for testing whether the block can be inserted.
-  const [firstWidgetArea] = widgetAreas;
-  return select(external_wp_blockEditor_namespaceObject.store).canInsertBlockType(blockName, firstWidgetArea.clientId);
-});
 
+  const [firstWidgetArea] = widgetAreas;
+  return select(external_wp_blockEditor_["store"]).canInsertBlockType(blockName, firstWidgetArea.clientId);
+});
 /**
  * Returns true if the list view is opened.
  *
@@ -2372,42 +1255,20 @@ const canInsertBlockInWidgetArea = (0,external_wp_data_namespaceObject.createReg
  *
  * @return {boolean} Whether the list view is opened.
  */
-function isListViewOpened(state) {
+
+function selectors_isListViewOpened(state) {
   return state.listViewPanel;
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/store/private-selectors.js
-function getListViewToggleRef(state) {
-  return state.listViewToggleRef;
-}
-function getInserterSidebarToggleRef(state) {
-  return state.inserterSidebarToggleRef;
-}
-
-;// CONCATENATED MODULE: external ["wp","privateApis"]
-const external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/lock-unlock.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/store/index.js
 /**
  * WordPress dependencies
  */
-
-const {
-  lock,
-  unlock
-} = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.', '@wordpress/edit-widgets');
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/store/index.js
-/**
- * WordPress dependencies
- */
-
 
 
 /**
  * Internal dependencies
  */
-
-
 
 
 
@@ -2417,17 +1278,18 @@ const {
 /**
  * Block editor data store configuration.
  *
- * @see https://github.com/WordPress/gutenberg/blob/HEAD/packages/data/README.md#register
+ * @see https://github.com/WordPress/gutenberg/blob/HEAD/packages/data/README.md#registerStore
  *
  * @type {Object}
  */
+
 const storeConfig = {
   reducer: reducer,
-  selectors: store_selectors_namespaceObject,
+  selectors: selectors_namespaceObject,
   resolvers: resolvers_namespaceObject,
-  actions: store_actions_namespaceObject
+  actions: actions_namespaceObject,
+  __experimentalUseThunks: true
 };
-
 /**
  * Store definition for the edit widgets namespace.
  *
@@ -2435,28 +1297,36 @@ const storeConfig = {
  *
  * @type {Object}
  */
-const store_store = (0,external_wp_data_namespaceObject.createReduxStore)(constants_STORE_NAME, storeConfig);
-(0,external_wp_data_namespaceObject.register)(store_store);
 
-// This package uses a few in-memory post types as wrappers for convenience.
+const store = Object(external_wp_data_["createReduxStore"])(STORE_NAME, storeConfig); // Once we build a more generic persistence plugin that works across types of stores
+// we'd be able to replace this with a register call.
+
+Object(external_wp_data_["registerStore"])(STORE_NAME, storeConfig); // This package uses a few in-memory post types as wrappers for convenience.
 // This middleware prevents any network requests related to these types as they are
 // bound to fail anyway.
-external_wp_apiFetch_default().use(function (options, next) {
-  if (options.path?.indexOf('/wp/v2/types/widget-area') === 0) {
+
+external_wp_apiFetch_default.a.use(function (options, next) {
+  var _options$path;
+
+  if (((_options$path = options.path) === null || _options$path === void 0 ? void 0 : _options$path.indexOf('/wp/v2/types/widget-area')) === 0) {
     return Promise.resolve({});
   }
+
   return next(options);
 });
-unlock(store_store).registerPrivateSelectors(private_selectors_namespaceObject);
 
-;// CONCATENATED MODULE: external ["wp","hooks"]
-const external_wp_hooks_namespaceObject = window["wp"]["hooks"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/filters/move-to-widget-area.js
+// EXTERNAL MODULE: external ["wp","compose"]
+var external_wp_compose_ = __webpack_require__("K9lf");
+
+// EXTERNAL MODULE: external ["wp","hooks"]
+var external_wp_hooks_ = __webpack_require__("g56x");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/filters/move-to-widget-area.js
+
+
 /**
  * WordPress dependencies
  */
-
-
 
 
 
@@ -2467,9 +1337,7 @@ const external_wp_hooks_namespaceObject = window["wp"]["hooks"];
  */
 
 
-
-
-const withMoveToWidgetAreaToolbarItem = (0,external_wp_compose_namespaceObject.createHigherOrderComponent)(BlockEdit => props => {
+const withMoveToWidgetAreaToolbarItem = Object(external_wp_compose_["createHigherOrderComponent"])(BlockEdit => props => {
   const {
     clientId,
     name: blockName
@@ -2478,63 +1346,69 @@ const withMoveToWidgetAreaToolbarItem = (0,external_wp_compose_namespaceObject.c
     widgetAreas,
     currentWidgetAreaId,
     canInsertBlockInWidgetArea
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+  } = Object(external_wp_data_["useSelect"])(select => {
+    var _widgetAreaBlock$attr;
+
     // Component won't display for a widget area, so don't run selectors.
     if (blockName === 'core/widget-area') {
       return {};
     }
-    const selectors = select(store_store);
+
+    const selectors = select(store);
     const widgetAreaBlock = selectors.getParentWidgetAreaBlock(clientId);
     return {
       widgetAreas: selectors.getWidgetAreas(),
-      currentWidgetAreaId: widgetAreaBlock?.attributes?.id,
+      currentWidgetAreaId: widgetAreaBlock === null || widgetAreaBlock === void 0 ? void 0 : (_widgetAreaBlock$attr = widgetAreaBlock.attributes) === null || _widgetAreaBlock$attr === void 0 ? void 0 : _widgetAreaBlock$attr.id,
       canInsertBlockInWidgetArea: selectors.canInsertBlockInWidgetArea(blockName)
     };
   }, [clientId, blockName]);
   const {
     moveBlockToWidgetArea
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
-  const hasMultipleWidgetAreas = widgetAreas?.length > 1;
+  } = Object(external_wp_data_["useDispatch"])(store);
+  const hasMultipleWidgetAreas = (widgetAreas === null || widgetAreas === void 0 ? void 0 : widgetAreas.length) > 1;
   const isMoveToWidgetAreaVisible = blockName !== 'core/widget-area' && hasMultipleWidgetAreas && canInsertBlockInWidgetArea;
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(BlockEdit, {
-      ...props
-    }), isMoveToWidgetAreaVisible && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.BlockControls, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_widgets_namespaceObject.MoveToWidgetArea, {
-        widgetAreas: widgetAreas,
-        currentWidgetAreaId: currentWidgetAreaId,
-        onSelect: widgetAreaId => {
-          moveBlockToWidgetArea(props.clientId, widgetAreaId);
-        }
-      })
-    })]
-  });
+  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(BlockEdit, props), isMoveToWidgetAreaVisible && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], null, Object(external_wp_element_["createElement"])(external_wp_widgets_["MoveToWidgetArea"], {
+    widgetAreas: widgetAreas,
+    currentWidgetAreaId: currentWidgetAreaId,
+    onSelect: widgetAreaId => {
+      moveBlockToWidgetArea(props.clientId, widgetAreaId);
+    }
+  })));
 }, 'withMoveToWidgetAreaToolbarItem');
-(0,external_wp_hooks_namespaceObject.addFilter)('editor.BlockEdit', 'core/edit-widgets/block-edit', withMoveToWidgetAreaToolbarItem);
+Object(external_wp_hooks_["addFilter"])('editor.BlockEdit', 'core/edit-widgets/block-edit', withMoveToWidgetAreaToolbarItem);
 
-;// CONCATENATED MODULE: external ["wp","mediaUtils"]
-const external_wp_mediaUtils_namespaceObject = window["wp"]["mediaUtils"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/filters/replace-media-upload.js
+// EXTERNAL MODULE: external ["wp","mediaUtils"]
+var external_wp_mediaUtils_ = __webpack_require__("6aBm");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/filters/replace-media-upload.js
 /**
  * WordPress dependencies
  */
 
 
-const replaceMediaUpload = () => external_wp_mediaUtils_namespaceObject.MediaUpload;
-(0,external_wp_hooks_namespaceObject.addFilter)('editor.MediaUpload', 'core/edit-widgets/replace-media-upload', replaceMediaUpload);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/filters/index.js
+const replaceMediaUpload = () => external_wp_mediaUtils_["MediaUpload"];
+
+Object(external_wp_hooks_["addFilter"])('editor.MediaUpload', 'core/edit-widgets/replace-media-upload', replaceMediaUpload);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/filters/index.js
 /**
  * Internal dependencies
  */
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/blocks/widget-area/edit/use-is-dragging-within.js
+// EXTERNAL MODULE: external ["wp","components"]
+var external_wp_components_ = __webpack_require__("tI+e");
+
+// EXTERNAL MODULE: ./node_modules/classnames/index.js
+var classnames = __webpack_require__("TSYQ");
+var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/blocks/widget-area/edit/use-is-dragging-within.js
 /**
  * WordPress dependencies
  */
-
 
 /** @typedef {import('@wordpress/element').RefObject} RefObject */
 
@@ -2545,21 +1419,24 @@ const replaceMediaUpload = () => external_wp_mediaUtils_namespaceObject.MediaUpl
  *
  * @return {boolean} Is dragging within the target element.
  */
+
 const useIsDraggingWithin = elementRef => {
-  const [isDraggingWithin, setIsDraggingWithin] = (0,external_wp_element_namespaceObject.useState)(false);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
+  const [isDraggingWithin, setIsDraggingWithin] = Object(external_wp_element_["useState"])(false);
+  Object(external_wp_element_["useEffect"])(() => {
     const {
       ownerDocument
     } = elementRef.current;
+
     function handleDragStart(event) {
       // Check the first time when the dragging starts.
       handleDragEnter(event);
-    }
+    } // Set to false whenever the user cancel the drag event by either releasing the mouse or press Escape.
 
-    // Set to false whenever the user cancel the drag event by either releasing the mouse or press Escape.
+
     function handleDragEnd() {
       setIsDraggingWithin(false);
     }
+
     function handleDragEnter(event) {
       // Check if the current target is inside the item element.
       if (elementRef.current.contains(event.target)) {
@@ -2567,10 +1444,10 @@ const useIsDraggingWithin = elementRef => {
       } else {
         setIsDraggingWithin(false);
       }
-    }
-
-    // Bind these events to the document to catch all drag events.
+    } // Bind these events to the document to catch all drag events.
     // Ideally, we can also use `event.relatedTarget`, but sadly that doesn't work in Safari.
+
+
     ownerDocument.addEventListener('dragstart', handleDragStart);
     ownerDocument.addEventListener('dragend', handleDragEnd);
     ownerDocument.addEventListener('dragenter', handleDragEnter);
@@ -2582,13 +1459,15 @@ const useIsDraggingWithin = elementRef => {
   }, []);
   return isDraggingWithin;
 };
-/* harmony default export */ const use_is_dragging_within = (useIsDraggingWithin);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/blocks/widget-area/edit/inner-blocks.js
+/* harmony default export */ var use_is_dragging_within = (useIsDraggingWithin);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/blocks/widget-area/edit/inner-blocks.js
+
+
 /**
  * External dependencies
  */
-
 
 /**
  * WordPress dependencies
@@ -2602,39 +1481,38 @@ const useIsDraggingWithin = elementRef => {
  */
 
 
-function WidgetAreaInnerBlocks({
-  id
-}) {
-  const [blocks, onInput, onChange] = (0,external_wp_coreData_namespaceObject.useEntityBlockEditor)('root', 'postType');
-  const innerBlocksRef = (0,external_wp_element_namespaceObject.useRef)();
+function WidgetAreaInnerBlocks(_ref) {
+  let {
+    id
+  } = _ref;
+  const [blocks, onInput, onChange] = Object(external_wp_coreData_["useEntityBlockEditor"])('root', 'postType');
+  const innerBlocksRef = Object(external_wp_element_["useRef"])();
   const isDraggingWithinInnerBlocks = use_is_dragging_within(innerBlocksRef);
-  const shouldHighlightDropZone = isDraggingWithinInnerBlocks;
-  // Using the experimental hook so that we can control the className of the element.
-  const innerBlocksProps = (0,external_wp_blockEditor_namespaceObject.useInnerBlocksProps)({
+  const shouldHighlightDropZone = isDraggingWithinInnerBlocks; // Using the experimental hook so that we can control the className of the element.
+
+  const innerBlocksProps = Object(external_wp_blockEditor_["useInnerBlocksProps"])({
     ref: innerBlocksRef
   }, {
     value: blocks,
     onInput,
     onChange,
     templateLock: false,
-    renderAppender: external_wp_blockEditor_namespaceObject.InnerBlocks.ButtonBlockAppender
+    renderAppender: external_wp_blockEditor_["InnerBlocks"].ButtonBlockAppender
   });
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
+  return Object(external_wp_element_["createElement"])("div", {
     "data-widget-area-id": id,
-    className: dist_clsx('wp-block-widget-area__inner-blocks block-editor-inner-blocks editor-styles-wrapper', {
+    className: classnames_default()('wp-block-widget-area__inner-blocks block-editor-inner-blocks editor-styles-wrapper', {
       'wp-block-widget-area__highlight-drop-zone': shouldHighlightDropZone
-    }),
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
-      ...innerBlocksProps
     })
-  });
+  }, Object(external_wp_element_["createElement"])("div", innerBlocksProps));
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/blocks/widget-area/edit/index.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/blocks/widget-area/edit/index.js
+
+
 /**
  * WordPress dependencies
  */
-
 
 
 
@@ -2648,28 +1526,30 @@ function WidgetAreaInnerBlocks({
 
 /** @typedef {import('@wordpress/element').RefObject} RefObject */
 
-function WidgetAreaEdit({
-  clientId,
-  className,
-  attributes: {
-    id,
-    name
-  }
-}) {
-  const isOpen = (0,external_wp_data_namespaceObject.useSelect)(select => select(store_store).getIsWidgetAreaOpen(clientId), [clientId]);
+function WidgetAreaEdit(_ref) {
+  let {
+    clientId,
+    className,
+    attributes: {
+      id,
+      name
+    }
+  } = _ref;
+  const isOpen = Object(external_wp_data_["useSelect"])(select => select(store).getIsWidgetAreaOpen(clientId), [clientId]);
   const {
     setIsWidgetAreaOpen
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
-  const wrapper = (0,external_wp_element_namespaceObject.useRef)();
-  const setOpen = (0,external_wp_element_namespaceObject.useCallback)(openState => setIsWidgetAreaOpen(clientId, openState), [clientId]);
+  } = Object(external_wp_data_["useDispatch"])(store);
+  const wrapper = Object(external_wp_element_["useRef"])();
+  const setOpen = Object(external_wp_element_["useCallback"])(openState => setIsWidgetAreaOpen(clientId, openState), [clientId]);
   const isDragging = useIsDragging(wrapper);
   const isDraggingWithin = use_is_dragging_within(wrapper);
-  const [openedWhileDragging, setOpenedWhileDragging] = (0,external_wp_element_namespaceObject.useState)(false);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
+  const [openedWhileDragging, setOpenedWhileDragging] = Object(external_wp_element_["useState"])(false);
+  Object(external_wp_element_["useEffect"])(() => {
     if (!isDragging) {
       setOpenedWhileDragging(false);
       return;
     }
+
     if (isDraggingWithin && !isOpen) {
       setOpen(true);
       setOpenedWhileDragging(true);
@@ -2677,40 +1557,37 @@ function WidgetAreaEdit({
       setOpen(false);
     }
   }, [isOpen, isDragging, isDraggingWithin, openedWhileDragging]);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Panel, {
+  return Object(external_wp_element_["createElement"])(external_wp_components_["Panel"], {
     className: className,
-    ref: wrapper,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.PanelBody, {
-      title: name,
-      opened: isOpen,
-      onToggle: () => {
-        setIsWidgetAreaOpen(clientId, !isOpen);
-      },
-      scrollAfterOpen: !isDragging,
-      children: ({
-        opened
-      }) =>
-      /*#__PURE__*/
-      // This is required to ensure LegacyWidget blocks are not
+    ref: wrapper
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["PanelBody"], {
+    title: name,
+    opened: isOpen,
+    onToggle: () => {
+      setIsWidgetAreaOpen(clientId, !isOpen);
+    },
+    scrollAfterOpen: !isDragging
+  }, _ref2 => {
+    let {
+      opened
+    } = _ref2;
+    return (// This is required to ensure LegacyWidget blocks are not
       // unmounted when the panel is collapsed. Unmounting legacy
       // widgets may have unintended consequences (e.g.  TinyMCE
       // not being properly reinitialized)
-      (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__unstableDisclosureContent, {
+      Object(external_wp_element_["createElement"])(external_wp_components_["__unstableDisclosureContent"], {
         className: "wp-block-widget-area__panel-body-content",
-        visible: opened,
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_coreData_namespaceObject.EntityProvider, {
-          kind: "root",
-          type: "postType",
-          id: `widget-area-${id}`,
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(WidgetAreaInnerBlocks, {
-            id: id
-          })
-        })
-      })
-    })
-  });
+        visible: opened
+      }, Object(external_wp_element_["createElement"])(external_wp_coreData_["EntityProvider"], {
+        kind: "root",
+        type: "postType",
+        id: `widget-area-${id}`
+      }, Object(external_wp_element_["createElement"])(WidgetAreaInnerBlocks, {
+        id: id
+      })))
+    );
+  }));
 }
-
 /**
  * A React hook to determine if dragging is active.
  *
@@ -2718,18 +1595,22 @@ function WidgetAreaEdit({
  *
  * @return {boolean} Is dragging within the entire document.
  */
+
 const useIsDragging = elementRef => {
-  const [isDragging, setIsDragging] = (0,external_wp_element_namespaceObject.useState)(false);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
+  const [isDragging, setIsDragging] = Object(external_wp_element_["useState"])(false);
+  Object(external_wp_element_["useEffect"])(() => {
     const {
       ownerDocument
     } = elementRef.current;
+
     function handleDragStart() {
       setIsDragging(true);
     }
+
     function handleDragEnd() {
       setIsDragging(false);
     }
+
     ownerDocument.addEventListener('dragstart', handleDragStart);
     ownerDocument.addEventListener('dragend', handleDragEnd);
     return () => {
@@ -2740,19 +1621,17 @@ const useIsDragging = elementRef => {
   return isDragging;
 };
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/blocks/widget-area/index.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/blocks/widget-area/index.js
 /**
  * WordPress dependencies
  */
 
-
 /**
  * Internal dependencies
  */
-const metadata = {
-  $schema: "https://schemas.wp.org/trunk/block.json",
+
+const widget_area_metadata = {
   name: "core/widget-area",
-  title: "Widget Area",
   category: "widgets",
   attributes: {
     id: {
@@ -2768,8 +1647,7 @@ const metadata = {
     customClassName: false,
     reusable: false,
     __experimentalToolbar: false,
-    __experimentalParentSelector: false,
-    __experimentalDisableBlockOverlay: true
+    __experimentalParentSelector: false
   },
   editorStyle: "wp-block-widget-area-editor",
   style: "wp-block-widget-area"
@@ -2777,18 +1655,26 @@ const metadata = {
 
 const {
   name: widget_area_name
-} = metadata;
+} = widget_area_metadata;
 
-const settings = {
-  title: (0,external_wp_i18n_namespaceObject.__)('Widget Area'),
-  description: (0,external_wp_i18n_namespaceObject.__)('A widget area container.'),
-  __experimentalLabel: ({
-    name: label
-  }) => label,
+const widget_area_settings = {
+  title: Object(external_wp_i18n_["__"])('Widget Area'),
+  description: Object(external_wp_i18n_["__"])('A widget area container.'),
+  __experimentalLabel: _ref => {
+    let {
+      name: label
+    } = _ref;
+    return label;
+  },
   edit: WidgetAreaEdit
 };
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/error-boundary/index.js
+// EXTERNAL MODULE: external ["wp","plugins"]
+var external_wp_plugins_ = __webpack_require__("TvNi");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/error-boundary/index.js
+
+
 /**
  * WordPress dependencies
  */
@@ -2798,70 +1684,74 @@ const settings = {
 
 
 
-
-function CopyButton({
-  text,
-  children
-}) {
-  const ref = (0,external_wp_compose_namespaceObject.useCopyToClipboard)(text);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+function CopyButton(_ref) {
+  let {
+    text,
+    children
+  } = _ref;
+  const ref = Object(external_wp_compose_["useCopyToClipboard"])(text);
+  return Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
     variant: "secondary",
-    ref: ref,
-    children: children
-  });
+    ref: ref
+  }, children);
 }
-function ErrorBoundaryWarning({
-  message,
-  error
-}) {
-  const actions = [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(CopyButton, {
-    text: error.stack,
-    children: (0,external_wp_i18n_namespaceObject.__)('Copy Error')
-  }, "copy-error")];
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.Warning, {
-    className: "edit-widgets-error-boundary",
-    actions: actions,
-    children: message
-  });
-}
-class ErrorBoundary extends external_wp_element_namespaceObject.Component {
+
+class error_boundary_ErrorBoundary extends external_wp_element_["Component"] {
   constructor() {
     super(...arguments);
+    this.reboot = this.reboot.bind(this);
     this.state = {
       error: null
     };
   }
+
   componentDidCatch(error) {
-    (0,external_wp_hooks_namespaceObject.doAction)('editor.ErrorBoundary.errorLogged', error);
-  }
-  static getDerivedStateFromError(error) {
-    return {
+    this.setState({
       error
-    };
-  }
-  render() {
-    if (!this.state.error) {
-      return this.props.children;
-    }
-    return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ErrorBoundaryWarning, {
-      message: (0,external_wp_i18n_namespaceObject.__)('The editor has encountered an unexpected error.'),
-      error: this.state.error
     });
   }
+
+  reboot() {
+    this.props.onError();
+  }
+
+  render() {
+    const {
+      error
+    } = this.state;
+
+    if (!error) {
+      return this.props.children;
+    }
+
+    return Object(external_wp_element_["createElement"])(external_wp_blockEditor_["Warning"], {
+      className: "edit-widgets-error-boundary",
+      actions: [Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
+        key: "recovery",
+        onClick: this.reboot,
+        variant: "secondary"
+      }, Object(external_wp_i18n_["__"])('Attempt Recovery')), Object(external_wp_element_["createElement"])(CopyButton, {
+        key: "copy-error",
+        text: error.stack
+      }, Object(external_wp_i18n_["__"])('Copy Error'))]
+    }, Object(external_wp_i18n_["__"])('The editor has encountered an unexpected error.'));
+  }
+
 }
 
-;// CONCATENATED MODULE: external ["wp","patterns"]
-const external_wp_patterns_namespaceObject = window["wp"]["patterns"];
-;// CONCATENATED MODULE: external ["wp","keyboardShortcuts"]
-const external_wp_keyboardShortcuts_namespaceObject = window["wp"]["keyboardShortcuts"];
-;// CONCATENATED MODULE: external ["wp","keycodes"]
-const external_wp_keycodes_namespaceObject = window["wp"]["keycodes"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/keyboard-shortcuts/index.js
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
+var esm_extends = __webpack_require__("wx14");
+
+// EXTERNAL MODULE: external ["wp","reusableBlocks"]
+var external_wp_reusableBlocks_ = __webpack_require__("diJD");
+
+// EXTERNAL MODULE: external ["wp","keyboardShortcuts"]
+var external_wp_keyboardShortcuts_ = __webpack_require__("hF7m");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/keyboard-shortcuts/index.js
 /**
  * WordPress dependencies
  */
-
-
 
 
 
@@ -2871,38 +1761,41 @@ const external_wp_keycodes_namespaceObject = window["wp"]["keycodes"];
  * Internal dependencies
  */
 
+
+
 function KeyboardShortcuts() {
   const {
     redo,
     undo
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_coreData_namespaceObject.store);
+  } = Object(external_wp_data_["useDispatch"])(external_wp_coreData_["store"]);
   const {
     saveEditedWidgetAreas
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
-  (0,external_wp_keyboardShortcuts_namespaceObject.useShortcut)('core/edit-widgets/undo', event => {
+  } = Object(external_wp_data_["useDispatch"])(store);
+  Object(external_wp_keyboardShortcuts_["useShortcut"])('core/edit-widgets/undo', event => {
     undo();
     event.preventDefault();
   });
-  (0,external_wp_keyboardShortcuts_namespaceObject.useShortcut)('core/edit-widgets/redo', event => {
+  Object(external_wp_keyboardShortcuts_["useShortcut"])('core/edit-widgets/redo', event => {
     redo();
     event.preventDefault();
   });
-  (0,external_wp_keyboardShortcuts_namespaceObject.useShortcut)('core/edit-widgets/save', event => {
+  Object(external_wp_keyboardShortcuts_["useShortcut"])('core/edit-widgets/save', event => {
     event.preventDefault();
     saveEditedWidgetAreas();
   });
   return null;
 }
+
 function KeyboardShortcutsRegister() {
-  // Registering the shortcuts.
+  // Registering the shortcuts
   const {
     registerShortcut
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_keyboardShortcuts_namespaceObject.store);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
+  } = Object(external_wp_data_["useDispatch"])(external_wp_keyboardShortcuts_["store"]);
+  Object(external_wp_element_["useEffect"])(() => {
     registerShortcut({
       name: 'core/edit-widgets/undo',
       category: 'global',
-      description: (0,external_wp_i18n_namespaceObject.__)('Undo your last changes.'),
+      description: Object(external_wp_i18n_["__"])('Undo your last changes.'),
       keyCombination: {
         modifier: 'primary',
         character: 'z'
@@ -2911,24 +1804,16 @@ function KeyboardShortcutsRegister() {
     registerShortcut({
       name: 'core/edit-widgets/redo',
       category: 'global',
-      description: (0,external_wp_i18n_namespaceObject.__)('Redo your last undo.'),
+      description: Object(external_wp_i18n_["__"])('Redo your last undo.'),
       keyCombination: {
         modifier: 'primaryShift',
         character: 'z'
-      },
-      // Disable on Apple OS because it conflicts with the browser's
-      // history shortcut. It's a fine alias for both Windows and Linux.
-      // Since there's no conflict for Ctrl+Shift+Z on both Windows and
-      // Linux, we keep it as the default for consistency.
-      aliases: (0,external_wp_keycodes_namespaceObject.isAppleOS)() ? [] : [{
-        modifier: 'primary',
-        character: 'y'
-      }]
+      }
     });
     registerShortcut({
       name: 'core/edit-widgets/save',
       category: 'global',
-      description: (0,external_wp_i18n_namespaceObject.__)('Save your changes.'),
+      description: Object(external_wp_i18n_["__"])('Save your changes.'),
       keyCombination: {
         modifier: 'primary',
         character: 's'
@@ -2937,7 +1822,7 @@ function KeyboardShortcutsRegister() {
     registerShortcut({
       name: 'core/edit-widgets/keyboard-shortcuts',
       category: 'main',
-      description: (0,external_wp_i18n_namespaceObject.__)('Display these keyboard shortcuts.'),
+      description: Object(external_wp_i18n_["__"])('Display these keyboard shortcuts.'),
       keyCombination: {
         modifier: 'access',
         character: 'h'
@@ -2946,7 +1831,7 @@ function KeyboardShortcutsRegister() {
     registerShortcut({
       name: 'core/edit-widgets/next-region',
       category: 'global',
-      description: (0,external_wp_i18n_namespaceObject.__)('Navigate to the next part of the editor.'),
+      description: Object(external_wp_i18n_["__"])('Navigate to the next part of the editor.'),
       keyCombination: {
         modifier: 'ctrl',
         character: '`'
@@ -2959,7 +1844,7 @@ function KeyboardShortcutsRegister() {
     registerShortcut({
       name: 'core/edit-widgets/previous-region',
       category: 'global',
-      description: (0,external_wp_i18n_namespaceObject.__)('Navigate to the previous part of the editor.'),
+      description: Object(external_wp_i18n_["__"])('Navigate to the previous part of the editor.'),
       keyCombination: {
         modifier: 'ctrlShift',
         character: '`'
@@ -2967,22 +1852,19 @@ function KeyboardShortcutsRegister() {
       aliases: [{
         modifier: 'access',
         character: 'p'
-      }, {
-        modifier: 'ctrlShift',
-        character: '~'
       }]
     });
   }, [registerShortcut]);
   return null;
 }
-KeyboardShortcuts.Register = KeyboardShortcutsRegister;
-/* harmony default export */ const keyboard_shortcuts = (KeyboardShortcuts);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/hooks/use-last-selected-widget-area.js
+KeyboardShortcuts.Register = KeyboardShortcutsRegister;
+/* harmony default export */ var keyboard_shortcuts = (KeyboardShortcuts);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/hooks/use-last-selected-widget-area.js
 /**
  * WordPress dependencies
  */
-
 
 
 
@@ -2998,46 +1880,56 @@ KeyboardShortcuts.Register = KeyboardShortcutsRegister;
  *
  * @return {string} clientId of the widget area last selected.
  */
-const useLastSelectedWidgetArea = () => (0,external_wp_data_namespaceObject.useSelect)(select => {
+
+const useLastSelectedWidgetArea = () => Object(external_wp_data_["useSelect"])(select => {
+  var _widgetAreasPost$bloc;
+
   const {
     getBlockSelectionEnd,
     getBlockName
-  } = select(external_wp_blockEditor_namespaceObject.store);
-  const selectionEndClientId = getBlockSelectionEnd();
+  } = select(external_wp_blockEditor_["store"]);
+  const selectionEndClientId = getBlockSelectionEnd(); // If the selected block is a widget area, return its clientId.
 
-  // If the selected block is a widget area, return its clientId.
   if (getBlockName(selectionEndClientId) === 'core/widget-area') {
     return selectionEndClientId;
   }
+
   const {
     getParentWidgetAreaBlock
-  } = select(store_store);
+  } = select(store);
   const widgetAreaBlock = getParentWidgetAreaBlock(selectionEndClientId);
-  const widgetAreaBlockClientId = widgetAreaBlock?.clientId;
+  const widgetAreaBlockClientId = widgetAreaBlock === null || widgetAreaBlock === void 0 ? void 0 : widgetAreaBlock.clientId;
+
   if (widgetAreaBlockClientId) {
     return widgetAreaBlockClientId;
-  }
-
-  // If no widget area has been selected, return the clientId of the first
+  } // If no widget area has been selected, return the clientId of the first
   // area.
+
+
   const {
     getEntityRecord
-  } = select(external_wp_coreData_namespaceObject.store);
+  } = select(external_wp_coreData_["store"]);
   const widgetAreasPost = getEntityRecord(KIND, POST_TYPE, buildWidgetAreasPostId());
-  return widgetAreasPost?.blocks[0]?.clientId;
+  return widgetAreasPost === null || widgetAreasPost === void 0 ? void 0 : (_widgetAreasPost$bloc = widgetAreasPost.blocks[0]) === null || _widgetAreasPost$bloc === void 0 ? void 0 : _widgetAreasPost$bloc.clientId;
 }, []);
-/* harmony default export */ const use_last_selected_widget_area = (useLastSelectedWidgetArea);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/constants.js
+/* harmony default export */ var use_last_selected_widget_area = (useLastSelectedWidgetArea);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/constants.js
 const ALLOW_REUSABLE_BLOCKS = false;
 const ENABLE_EXPERIMENTAL_FSE_BLOCKS = false;
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/widget-areas-block-editor-provider/index.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/widget-areas-block-editor-provider/index.js
+
+
+
+/**
+ * External dependencies
+ */
+
 /**
  * WordPress dependencies
  */
-
-
 
 
 
@@ -3057,158 +1949,92 @@ const ENABLE_EXPERIMENTAL_FSE_BLOCKS = false;
 
 
 
-
-const {
-  ExperimentalBlockEditorProvider
-} = unlock(external_wp_blockEditor_namespaceObject.privateApis);
-const {
-  PatternsMenuItems
-} = unlock(external_wp_patterns_namespaceObject.privateApis);
-const {
-  BlockKeyboardShortcuts
-} = unlock(external_wp_blockLibrary_namespaceObject.privateApis);
-function WidgetAreasBlockEditorProvider({
-  blockEditorSettings,
-  children,
-  ...props
-}) {
-  const mediaPermissions = (0,external_wp_coreData_namespaceObject.useResourcePermissions)('media');
-  const isLargeViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium');
+function WidgetAreasBlockEditorProvider(_ref) {
+  let {
+    blockEditorSettings,
+    children,
+    ...props
+  } = _ref;
   const {
+    hasUploadPermissions,
     reusableBlocks,
     isFixedToolbarActive,
-    keepCaretInsideBlock,
-    pageOnFront,
-    pageForPosts
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const {
-      canUser,
-      getEntityRecord,
-      getEntityRecords
-    } = select(external_wp_coreData_namespaceObject.store);
-    const siteSettings = canUser('read', 'settings') ? getEntityRecord('root', 'site') : undefined;
-    return {
-      widgetAreas: select(store_store).getWidgetAreas(),
-      widgets: select(store_store).getWidgets(),
-      reusableBlocks: ALLOW_REUSABLE_BLOCKS ? getEntityRecords('postType', 'wp_block') : [],
-      isFixedToolbarActive: !!select(external_wp_preferences_namespaceObject.store).get('core/edit-widgets', 'fixedToolbar'),
-      keepCaretInsideBlock: !!select(external_wp_preferences_namespaceObject.store).get('core/edit-widgets', 'keepCaretInsideBlock'),
-      pageOnFront: siteSettings?.page_on_front,
-      pageForPosts: siteSettings?.page_for_posts
-    };
-  }, []);
+    keepCaretInsideBlock
+  } = Object(external_wp_data_["useSelect"])(select => ({
+    hasUploadPermissions: Object(external_lodash_["defaultTo"])(select(external_wp_coreData_["store"]).canUser('create', 'media'), true),
+    widgetAreas: select(store).getWidgetAreas(),
+    widgets: select(store).getWidgets(),
+    reusableBlocks: ALLOW_REUSABLE_BLOCKS ? select(external_wp_coreData_["store"]).getEntityRecords('postType', 'wp_block') : [],
+    isFixedToolbarActive: select(build_module["i" /* store */]).isFeatureActive('core/edit-widgets', 'fixedToolbar'),
+    keepCaretInsideBlock: select(build_module["i" /* store */]).isFeatureActive('core/edit-widgets', 'keepCaretInsideBlock')
+  }), []);
   const {
     setIsInserterOpened
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
-  const settings = (0,external_wp_element_namespaceObject.useMemo)(() => {
+  } = Object(external_wp_data_["useDispatch"])(store);
+  const settings = Object(external_wp_element_["useMemo"])(() => {
     let mediaUploadBlockEditor;
-    if (mediaPermissions.canCreate) {
-      mediaUploadBlockEditor = ({
-        onError,
-        ...argumentsObject
-      }) => {
-        (0,external_wp_mediaUtils_namespaceObject.uploadMedia)({
+
+    if (hasUploadPermissions) {
+      mediaUploadBlockEditor = _ref2 => {
+        let {
+          onError,
+          ...argumentsObject
+        } = _ref2;
+        Object(external_wp_mediaUtils_["uploadMedia"])({
           wpAllowedMimeTypes: blockEditorSettings.allowedMimeTypes,
-          onError: ({
-            message
-          }) => onError(message),
+          onError: _ref3 => {
+            let {
+              message
+            } = _ref3;
+            return onError(message);
+          },
           ...argumentsObject
         });
       };
     }
-    return {
-      ...blockEditorSettings,
+
+    return { ...blockEditorSettings,
       __experimentalReusableBlocks: reusableBlocks,
-      hasFixedToolbar: isFixedToolbarActive || !isLargeViewport,
+      hasFixedToolbar: isFixedToolbarActive,
       keepCaretInsideBlock,
       mediaUpload: mediaUploadBlockEditor,
       templateLock: 'all',
-      __experimentalSetIsInserterOpened: setIsInserterOpened,
-      pageOnFront,
-      pageForPosts
+      __experimentalSetIsInserterOpened: setIsInserterOpened
     };
-  }, [blockEditorSettings, isFixedToolbarActive, isLargeViewport, keepCaretInsideBlock, mediaPermissions.canCreate, reusableBlocks, setIsInserterOpened, pageOnFront, pageForPosts]);
+  }, [blockEditorSettings, isFixedToolbarActive, keepCaretInsideBlock, hasUploadPermissions, reusableBlocks, setIsInserterOpened]);
   const widgetAreaId = use_last_selected_widget_area();
-  const [blocks, onInput, onChange] = (0,external_wp_coreData_namespaceObject.useEntityBlockEditor)(KIND, POST_TYPE, {
+  const [blocks, onInput, onChange] = Object(external_wp_coreData_["useEntityBlockEditor"])(KIND, POST_TYPE, {
     id: buildWidgetAreasPostId()
   });
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.SlotFillProvider, {
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(keyboard_shortcuts.Register, {}), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(BlockKeyboardShortcuts, {}), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(ExperimentalBlockEditorProvider, {
-      value: blocks,
-      onInput: onInput,
-      onChange: onChange,
-      settings: settings,
-      useSubRegistry: false,
-      ...props,
-      children: [children, /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(PatternsMenuItems, {
-        rootClientId: widgetAreaId
-      })]
-    })]
-  });
+  return Object(external_wp_element_["createElement"])(external_wp_keyboardShortcuts_["ShortcutProvider"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockEditorKeyboardShortcuts"].Register, null), Object(external_wp_element_["createElement"])(keyboard_shortcuts.Register, null), Object(external_wp_element_["createElement"])(external_wp_components_["SlotFillProvider"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockEditorProvider"], Object(esm_extends["a" /* default */])({
+    value: blocks,
+    onInput: onInput,
+    onChange: onChange,
+    settings: settings,
+    useSubRegistry: false
+  }, props), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["CopyHandler"], null, children), Object(external_wp_element_["createElement"])(external_wp_reusableBlocks_["ReusableBlocksMenuItems"], {
+    rootClientId: widgetAreaId
+  }))));
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/drawer-left.js
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/cog.js
+var cog = __webpack_require__("Cg8A");
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/block-default.js
+var block_default = __webpack_require__("//Lo");
+
+// EXTERNAL MODULE: external ["wp","url"]
+var external_wp_url_ = __webpack_require__("Mmq9");
+
+// EXTERNAL MODULE: external ["wp","dom"]
+var external_wp_dom_ = __webpack_require__("1CF3");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/sidebar/widget-areas.js
+
+
 /**
  * WordPress dependencies
  */
-
-
-const drawerLeft = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
-  width: "24",
-  height: "24",
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24",
-  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
-    fillRule: "evenodd",
-    clipRule: "evenodd",
-    d: "M18 4H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM8.5 18.5H6c-.3 0-.5-.2-.5-.5V6c0-.3.2-.5.5-.5h2.5v13zm10-.5c0 .3-.2.5-.5.5h-8v-13h8c.3 0 .5.2.5.5v12z"
-  })
-});
-/* harmony default export */ const drawer_left = (drawerLeft);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/drawer-right.js
-/**
- * WordPress dependencies
- */
-
-
-const drawerRight = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
-  width: "24",
-  height: "24",
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24",
-  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
-    fillRule: "evenodd",
-    clipRule: "evenodd",
-    d: "M18 4H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-4 14.5H6c-.3 0-.5-.2-.5-.5V6c0-.3.2-.5.5-.5h8v13zm4.5-.5c0 .3-.2.5-.5.5h-2.5v-13H18c.3 0 .5.2.5.5v12z"
-  })
-});
-/* harmony default export */ const drawer_right = (drawerRight);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/block-default.js
-/**
- * WordPress dependencies
- */
-
-
-const blockDefault = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24",
-  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
-    d: "M19 8h-1V6h-5v2h-2V6H6v2H5c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-8c0-1.1-.9-2-2-2zm.5 10c0 .3-.2.5-.5.5H5c-.3 0-.5-.2-.5-.5v-8c0-.3.2-.5.5-.5h14c.3 0 .5.2.5.5v8z"
-  })
-});
-/* harmony default export */ const block_default = (blockDefault);
-
-;// CONCATENATED MODULE: external ["wp","url"]
-const external_wp_url_namespaceObject = window["wp"]["url"];
-;// CONCATENATED MODULE: external ["wp","dom"]
-const external_wp_dom_namespaceObject = window["wp"]["dom"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/sidebar/widget-areas.js
-/**
- * WordPress dependencies
- */
-
 
 
 
@@ -3222,51 +2048,52 @@ const external_wp_dom_namespaceObject = window["wp"]["dom"];
  */
 
 
-
-function WidgetAreas({
-  selectedWidgetAreaId
-}) {
-  const widgetAreas = (0,external_wp_data_namespaceObject.useSelect)(select => select(store_store).getWidgetAreas(), []);
-  const selectedWidgetArea = (0,external_wp_element_namespaceObject.useMemo)(() => selectedWidgetAreaId && widgetAreas?.find(widgetArea => widgetArea.id === selectedWidgetAreaId), [selectedWidgetAreaId, widgetAreas]);
+function WidgetAreas(_ref) {
+  let {
+    selectedWidgetAreaId
+  } = _ref;
+  const widgetAreas = Object(external_wp_data_["useSelect"])(select => select(store).getWidgetAreas(), []);
+  const selectedWidgetArea = Object(external_wp_element_["useMemo"])(() => selectedWidgetAreaId && (widgetAreas === null || widgetAreas === void 0 ? void 0 : widgetAreas.find(widgetArea => widgetArea.id === selectedWidgetAreaId)), [selectedWidgetAreaId, widgetAreas]);
   let description;
+
   if (!selectedWidgetArea) {
-    description = (0,external_wp_i18n_namespaceObject.__)('Widget Areas are global parts in your site’s layout that can accept blocks. These vary by theme, but are typically parts like your Sidebar or Footer.');
+    description = Object(external_wp_i18n_["__"])('Widget Areas are global parts in your site’s layout that can accept blocks. These vary by theme, but are typically parts like your Sidebar or Footer.');
   } else if (selectedWidgetAreaId === 'wp_inactive_widgets') {
-    description = (0,external_wp_i18n_namespaceObject.__)('Blocks in this Widget Area will not be displayed in your site.');
+    description = Object(external_wp_i18n_["__"])('Blocks in this Widget Area will not be displayed in your site.');
   } else {
     description = selectedWidgetArea.description;
   }
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
-    className: "edit-widgets-widget-areas",
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
-      className: "edit-widgets-widget-areas__top-container",
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.BlockIcon, {
-        icon: block_default
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("p", {
-          // Use `dangerouslySetInnerHTML` to keep backwards
-          // compatibility. Basic markup in the description is an
-          // established feature of WordPress.
-          // @see https://github.com/WordPress/gutenberg/issues/33106
-          dangerouslySetInnerHTML: {
-            __html: (0,external_wp_dom_namespaceObject.safeHTML)(description)
-          }
-        }), widgetAreas?.length === 0 && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("p", {
-          children: (0,external_wp_i18n_namespaceObject.__)('Your theme does not contain any Widget Areas.')
-        }), !selectedWidgetArea && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
-          href: (0,external_wp_url_namespaceObject.addQueryArgs)('customize.php', {
-            'autofocus[panel]': 'widgets',
-            return: window.location.pathname
-          }),
-          variant: "tertiary",
-          children: (0,external_wp_i18n_namespaceObject.__)('Manage with live preview')
-        })]
-      })]
-    })
-  });
+
+  return Object(external_wp_element_["createElement"])("div", {
+    className: "edit-widgets-widget-areas"
+  }, Object(external_wp_element_["createElement"])("div", {
+    className: "edit-widgets-widget-areas__top-container"
+  }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockIcon"], {
+    icon: block_default["a" /* default */]
+  }), Object(external_wp_element_["createElement"])("div", null, Object(external_wp_element_["createElement"])("p", {
+    // Use `dangerouslySetInnerHTML` to keep backwards
+    // compatibility. Basic markup in the description is an
+    // established feature of WordPress.
+    // @see https://github.com/WordPress/gutenberg/issues/33106
+    dangerouslySetInnerHTML: {
+      __html: Object(external_wp_dom_["safeHTML"])(description)
+    }
+  }), (widgetAreas === null || widgetAreas === void 0 ? void 0 : widgetAreas.length) === 0 && Object(external_wp_element_["createElement"])("p", null, Object(external_wp_i18n_["__"])('Your theme does not contain any Widget Areas.')), !selectedWidgetArea && Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
+    href: Object(external_wp_url_["addQueryArgs"])('customize.php', {
+      'autofocus[panel]': 'widgets',
+      return: window.location.pathname
+    }),
+    variant: "tertiary"
+  }, Object(external_wp_i18n_["__"])('Manage with live preview')))));
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/sidebar/index.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/sidebar/index.js
+
+
+/**
+ * External dependencies
+ */
+
 /**
  * WordPress dependencies
  */
@@ -3277,16 +2104,15 @@ function WidgetAreas({
 
 
 
-const SIDEBAR_ACTIVE_BY_DEFAULT = external_wp_element_namespaceObject.Platform.select({
+
+const SIDEBAR_ACTIVE_BY_DEFAULT = external_wp_element_["Platform"].select({
   web: true,
   native: false
 });
-const BLOCK_INSPECTOR_IDENTIFIER = 'edit-widgets/block-inspector';
-
-// Widget areas were one called block areas, so use 'edit-widgets/block-areas'
+const BLOCK_INSPECTOR_IDENTIFIER = 'edit-widgets/block-inspector'; // Widget areas were one called block areas, so use 'edit-widgets/block-areas'
 // for backwards compatibility.
-const WIDGET_AREAS_IDENTIFIER = 'edit-widgets/block-areas';
 
+const WIDGET_AREAS_IDENTIFIER = 'edit-widgets/block-areas';
 /**
  * Internal dependencies
  */
@@ -3294,102 +2120,48 @@ const WIDGET_AREAS_IDENTIFIER = 'edit-widgets/block-areas';
 
 
 
-
-const {
-  Tabs
-} = unlock(external_wp_components_namespaceObject.privateApis);
-function SidebarHeader({
-  selectedWidgetAreaBlock
-}) {
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(Tabs.TabList, {
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Tabs.Tab, {
-      tabId: WIDGET_AREAS_IDENTIFIER,
-      children: selectedWidgetAreaBlock ? selectedWidgetAreaBlock.attributes.name : (0,external_wp_i18n_namespaceObject.__)('Widget Areas')
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Tabs.Tab, {
-      tabId: BLOCK_INSPECTOR_IDENTIFIER,
-      children: (0,external_wp_i18n_namespaceObject.__)('Block')
-    })]
-  });
-}
-function SidebarContent({
-  hasSelectedNonAreaBlock,
-  currentArea,
-  isGeneralSidebarOpen,
-  selectedWidgetAreaBlock
-}) {
+function ComplementaryAreaTab(_ref) {
+  let {
+    identifier,
+    label,
+    isActive
+  } = _ref;
   const {
     enableComplementaryArea
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (hasSelectedNonAreaBlock && currentArea === WIDGET_AREAS_IDENTIFIER && isGeneralSidebarOpen) {
-      enableComplementaryArea('core/edit-widgets', BLOCK_INSPECTOR_IDENTIFIER);
-    }
-    if (!hasSelectedNonAreaBlock && currentArea === BLOCK_INSPECTOR_IDENTIFIER && isGeneralSidebarOpen) {
-      enableComplementaryArea('core/edit-widgets', WIDGET_AREAS_IDENTIFIER);
-    }
-    // We're intentionally leaving `currentArea` and `isGeneralSidebarOpen`
-    // out of the dep array because we want this effect to run based on
-    // block selection changes, not sidebar state changes.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasSelectedNonAreaBlock, enableComplementaryArea]);
-  const tabsContextValue = (0,external_wp_element_namespaceObject.useContext)(Tabs.Context);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(complementary_area, {
-    className: "edit-widgets-sidebar",
-    header: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Tabs.Context.Provider, {
-      value: tabsContextValue,
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(SidebarHeader, {
-        selectedWidgetAreaBlock: selectedWidgetAreaBlock
-      })
+  } = Object(external_wp_data_["useDispatch"])(build_module["i" /* store */]);
+  return Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
+    onClick: () => enableComplementaryArea(store.name, identifier),
+    className: classnames_default()('edit-widgets-sidebar__panel-tab', {
+      'is-active': isActive
     }),
-    headerClassName: "edit-widgets-sidebar__panel-tabs"
-    /* translators: button label text should, if possible, be under 16 characters. */,
-    title: (0,external_wp_i18n_namespaceObject.__)('Settings'),
-    closeLabel: (0,external_wp_i18n_namespaceObject.__)('Close Settings'),
-    scope: "core/edit-widgets",
-    identifier: currentArea,
-    icon: (0,external_wp_i18n_namespaceObject.isRTL)() ? drawer_left : drawer_right,
-    isActiveByDefault: SIDEBAR_ACTIVE_BY_DEFAULT,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(Tabs.Context.Provider, {
-      value: tabsContextValue,
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Tabs.TabPanel, {
-        tabId: WIDGET_AREAS_IDENTIFIER,
-        focusable: false,
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(WidgetAreas, {
-          selectedWidgetAreaId: selectedWidgetAreaBlock?.attributes.id
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Tabs.TabPanel, {
-        tabId: BLOCK_INSPECTOR_IDENTIFIER,
-        focusable: false,
-        children: hasSelectedNonAreaBlock ? /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.BlockInspector, {}) :
-        /*#__PURE__*/
-        // Pretend that Widget Areas are part of the UI by not
-        // showing the Block Inspector when one is selected.
-        (0,external_ReactJSXRuntime_namespaceObject.jsx)("span", {
-          className: "block-editor-block-inspector__no-blocks",
-          children: (0,external_wp_i18n_namespaceObject.__)('No block selected.')
-        })
-      })]
-    })
-  });
+    "aria-label": isActive ? // translators: %s: sidebar label e.g: "Widget Areas".
+    Object(external_wp_i18n_["sprintf"])(Object(external_wp_i18n_["__"])('%s (selected)'), label) : label,
+    "data-label": label
+  }, label);
 }
+
 function Sidebar() {
+  const {
+    enableComplementaryArea
+  } = Object(external_wp_data_["useDispatch"])(build_module["i" /* store */]);
   const {
     currentArea,
     hasSelectedNonAreaBlock,
     isGeneralSidebarOpen,
     selectedWidgetAreaBlock
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+  } = Object(external_wp_data_["useSelect"])(select => {
     const {
       getSelectedBlock,
       getBlock,
       getBlockParentsByBlockName
-    } = select(external_wp_blockEditor_namespaceObject.store);
+    } = select(external_wp_blockEditor_["store"]);
     const {
       getActiveComplementaryArea
-    } = select(store);
+    } = select(build_module["i" /* store */]);
     const selectedBlock = getSelectedBlock();
-    const activeArea = getActiveComplementaryArea(store_store.name);
+    const activeArea = getActiveComplementaryArea(store.name);
     let currentSelection = activeArea;
+
     if (!currentSelection) {
       if (selectedBlock) {
         currentSelection = BLOCK_INSPECTOR_IDENTIFIER;
@@ -3397,7 +2169,9 @@ function Sidebar() {
         currentSelection = WIDGET_AREAS_IDENTIFIER;
       }
     }
+
     let widgetAreaBlock;
+
     if (selectedBlock) {
       if (selectedBlock.name === 'core/widget-area') {
         widgetAreaBlock = selectedBlock;
@@ -3405,183 +2179,66 @@ function Sidebar() {
         widgetAreaBlock = getBlock(getBlockParentsByBlockName(selectedBlock.clientId, 'core/widget-area')[0]);
       }
     }
+
     return {
       currentArea: currentSelection,
       hasSelectedNonAreaBlock: !!(selectedBlock && selectedBlock.name !== 'core/widget-area'),
       isGeneralSidebarOpen: !!activeArea,
       selectedWidgetAreaBlock: widgetAreaBlock
     };
-  }, []);
-  const {
-    enableComplementaryArea
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
+  }, []); // currentArea, and isGeneralSidebarOpen are intentionally left out from the dependencies,
+  // because we want to run the effect when a block is selected/unselected and not when the sidebar state changes.
 
-  // `newSelectedTabId` could technically be falsey if no tab is selected (i.e.
-  // the initial render) or when we don't want a tab displayed (i.e. the
-  // sidebar is closed). These cases should both be covered by the `!!` check
-  // below, so we shouldn't need any additional falsey handling.
-  const onTabSelect = (0,external_wp_element_namespaceObject.useCallback)(newSelectedTabId => {
-    if (!!newSelectedTabId) {
-      enableComplementaryArea(store_store.name, newSelectedTabId);
+  Object(external_wp_element_["useEffect"])(() => {
+    if (hasSelectedNonAreaBlock && currentArea === WIDGET_AREAS_IDENTIFIER && isGeneralSidebarOpen) {
+      enableComplementaryArea('core/edit-widgets', BLOCK_INSPECTOR_IDENTIFIER);
     }
-  }, [enableComplementaryArea]);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Tabs
-  // Due to how this component is controlled (via a value from the
-  // `interfaceStore`), when the sidebar closes the currently selected
-  // tab can't be found. This causes the component to continuously reset
-  // the selection to `null` in an infinite loop. Proactively setting
-  // the selected tab to `null` avoids that.
-  , {
-    selectedTabId: isGeneralSidebarOpen ? currentArea : null,
-    onSelect: onTabSelect,
-    selectOnMove: false,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(SidebarContent, {
-      hasSelectedNonAreaBlock: hasSelectedNonAreaBlock,
-      currentArea: currentArea,
-      isGeneralSidebarOpen: isGeneralSidebarOpen,
-      selectedWidgetAreaBlock: selectedWidgetAreaBlock
-    })
-  });
-}
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/plus.js
-/**
- * WordPress dependencies
- */
-
-
-const plus = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24",
-  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
-    d: "M11 12.5V17.5H12.5V12.5H17.5V11H12.5V6H11V11H6V12.5H11Z"
-  })
-});
-/* harmony default export */ const library_plus = (plus);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/list-view.js
-/**
- * WordPress dependencies
- */
-
-
-const listView = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg",
-  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
-    d: "M3 6h11v1.5H3V6Zm3.5 5.5h11V13h-11v-1.5ZM21 17H10v1.5h11V17Z"
-  })
-});
-/* harmony default export */ const list_view = (listView);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/undo.js
-/**
- * WordPress dependencies
- */
-
-
-const undo = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24",
-  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
-    d: "M18.3 11.7c-.6-.6-1.4-.9-2.3-.9H6.7l2.9-3.3-1.1-1-4.5 5L8.5 16l1-1-2.7-2.7H16c.5 0 .9.2 1.3.5 1 1 1 3.4 1 4.5v.3h1.5v-.2c0-1.5 0-4.3-1.5-5.7z"
-  })
-});
-/* harmony default export */ const library_undo = (undo);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/redo.js
-/**
- * WordPress dependencies
- */
-
-
-const redo = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24",
-  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
-    d: "M15.6 6.5l-1.1 1 2.9 3.3H8c-.9 0-1.7.3-2.3.9-1.4 1.5-1.4 4.2-1.4 5.6v.2h1.5v-.3c0-1.1 0-3.5 1-4.5.3-.3.7-.5 1.3-.5h9.2L14.5 15l1.1 1.1 4.6-4.6-4.6-5z"
-  })
-});
-/* harmony default export */ const library_redo = (redo);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/header/undo-redo/undo.js
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-
-
-
-function UndoButton(props, ref) {
-  const hasUndo = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_coreData_namespaceObject.store).hasUndo(), []);
-  const {
-    undo
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_coreData_namespaceObject.store);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
-    ...props,
-    ref: ref,
-    icon: !(0,external_wp_i18n_namespaceObject.isRTL)() ? library_undo : library_redo,
-    label: (0,external_wp_i18n_namespaceObject.__)('Undo'),
-    shortcut: external_wp_keycodes_namespaceObject.displayShortcut.primary('z')
-    // If there are no undo levels we don't want to actually disable this
-    // button, because it will remove focus for keyboard users.
-    // See: https://github.com/WordPress/gutenberg/issues/3486
+    if (!hasSelectedNonAreaBlock && currentArea === BLOCK_INSPECTOR_IDENTIFIER && isGeneralSidebarOpen) {
+      enableComplementaryArea('core/edit-widgets', WIDGET_AREAS_IDENTIFIER);
+    }
+  }, [hasSelectedNonAreaBlock, enableComplementaryArea]);
+  return Object(external_wp_element_["createElement"])(build_module["b" /* ComplementaryArea */], {
+    className: "edit-widgets-sidebar",
+    header: Object(external_wp_element_["createElement"])("ul", null, Object(external_wp_element_["createElement"])("li", null, Object(external_wp_element_["createElement"])(ComplementaryAreaTab, {
+      identifier: WIDGET_AREAS_IDENTIFIER,
+      label: selectedWidgetAreaBlock ? selectedWidgetAreaBlock.attributes.name : Object(external_wp_i18n_["__"])('Widget Areas'),
+      isActive: currentArea === WIDGET_AREAS_IDENTIFIER
+    })), Object(external_wp_element_["createElement"])("li", null, Object(external_wp_element_["createElement"])(ComplementaryAreaTab, {
+      identifier: BLOCK_INSPECTOR_IDENTIFIER,
+      label: Object(external_wp_i18n_["__"])('Block'),
+      isActive: currentArea === BLOCK_INSPECTOR_IDENTIFIER
+    }))),
+    headerClassName: "edit-widgets-sidebar__panel-tabs"
+    /* translators: button label text should, if possible, be under 16 characters. */
     ,
-    "aria-disabled": !hasUndo,
-    onClick: hasUndo ? undo : undefined,
-    size: "compact"
-  });
+    title: Object(external_wp_i18n_["__"])('Settings'),
+    closeLabel: Object(external_wp_i18n_["__"])('Close settings'),
+    scope: "core/edit-widgets",
+    identifier: currentArea,
+    icon: cog["a" /* default */],
+    isActiveByDefault: SIDEBAR_ACTIVE_BY_DEFAULT
+  }, currentArea === WIDGET_AREAS_IDENTIFIER && Object(external_wp_element_["createElement"])(WidgetAreas, {
+    selectedWidgetAreaId: selectedWidgetAreaBlock === null || selectedWidgetAreaBlock === void 0 ? void 0 : selectedWidgetAreaBlock.attributes.id
+  }), currentArea === BLOCK_INSPECTOR_IDENTIFIER && (hasSelectedNonAreaBlock ? Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockInspector"], null) : // Pretend that Widget Areas are part of the UI by not
+  // showing the Block Inspector when one is selected.
+  Object(external_wp_element_["createElement"])("span", {
+    className: "block-editor-block-inspector__no-blocks"
+  }, Object(external_wp_i18n_["__"])('No block selected.'))));
 }
-/* harmony default export */ const undo_redo_undo = ((0,external_wp_element_namespaceObject.forwardRef)(UndoButton));
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/header/undo-redo/redo.js
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/plus.js
+var plus = __webpack_require__("Q4Sy");
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/list-view.js
+var list_view = __webpack_require__("OzlF");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/save-button/index.js
+
+
 /**
  * WordPress dependencies
  */
-
-
-
-
-
-
-
-
-function RedoButton(props, ref) {
-  const shortcut = (0,external_wp_keycodes_namespaceObject.isAppleOS)() ? external_wp_keycodes_namespaceObject.displayShortcut.primaryShift('z') : external_wp_keycodes_namespaceObject.displayShortcut.primary('y');
-  const hasRedo = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_coreData_namespaceObject.store).hasRedo(), []);
-  const {
-    redo
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_coreData_namespaceObject.store);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
-    ...props,
-    ref: ref,
-    icon: !(0,external_wp_i18n_namespaceObject.isRTL)() ? library_redo : library_undo,
-    label: (0,external_wp_i18n_namespaceObject.__)('Redo'),
-    shortcut: shortcut
-    // If there are no undo levels we don't want to actually disable this
-    // button, because it will remove focus for keyboard users.
-    // See: https://github.com/WordPress/gutenberg/issues/3486
-    ,
-    "aria-disabled": !hasRedo,
-    onClick: hasRedo ? redo : undefined,
-    size: "compact"
-  });
-}
-/* harmony default export */ const undo_redo_redo = ((0,external_wp_element_namespaceObject.forwardRef)(RedoButton));
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/header/document-tools/index.js
-/**
- * WordPress dependencies
- */
-
-
-
-
-
 
 
 
@@ -3589,152 +2246,109 @@ function RedoButton(props, ref) {
  * Internal dependencies
  */
 
-
-
-
-
-
-
-function DocumentTools() {
-  const isMediumViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium');
-  const {
-    isInserterOpen,
-    isListViewOpen,
-    inserterSidebarToggleRef,
-    listViewToggleRef
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const {
-      isInserterOpened,
-      getInserterSidebarToggleRef,
-      isListViewOpened,
-      getListViewToggleRef
-    } = unlock(select(store_store));
-    return {
-      isInserterOpen: isInserterOpened(),
-      isListViewOpen: isListViewOpened(),
-      inserterSidebarToggleRef: getInserterSidebarToggleRef(),
-      listViewToggleRef: getListViewToggleRef()
-    };
-  }, []);
-  const {
-    setIsInserterOpened,
-    setIsListViewOpened
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
-  const toggleListView = (0,external_wp_element_namespaceObject.useCallback)(() => setIsListViewOpened(!isListViewOpen), [setIsListViewOpened, isListViewOpen]);
-  const toggleInserterSidebar = (0,external_wp_element_namespaceObject.useCallback)(() => setIsInserterOpened(!isInserterOpen), [setIsInserterOpened, isInserterOpen]);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_blockEditor_namespaceObject.NavigableToolbar, {
-    className: "edit-widgets-header-toolbar",
-    "aria-label": (0,external_wp_i18n_namespaceObject.__)('Document tools'),
-    variant: "unstyled",
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarItem, {
-      ref: inserterSidebarToggleRef,
-      as: external_wp_components_namespaceObject.Button,
-      className: "edit-widgets-header-toolbar__inserter-toggle",
-      variant: "primary",
-      isPressed: isInserterOpen,
-      onMouseDown: event => {
-        event.preventDefault();
-      },
-      onClick: toggleInserterSidebar,
-      icon: library_plus
-      /* translators: button label text should, if possible, be under 16
-      	characters. */,
-      label: (0,external_wp_i18n_namespaceObject._x)('Toggle block inserter', 'Generic label for block inserter button'),
-      size: "compact"
-    }), isMediumViewport && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarItem, {
-        as: undo_redo_undo
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarItem, {
-        as: undo_redo_redo
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarItem, {
-        as: external_wp_components_namespaceObject.Button,
-        className: "edit-widgets-header-toolbar__list-view-toggle",
-        icon: list_view,
-        isPressed: isListViewOpen
-        /* translators: button label text should, if possible, be under 16 characters. */,
-        label: (0,external_wp_i18n_namespaceObject.__)('List View'),
-        onClick: toggleListView,
-        ref: listViewToggleRef,
-        size: "compact"
-      })]
-    })]
-  });
-}
-/* harmony default export */ const document_tools = (DocumentTools);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/save-button/index.js
-/**
- * WordPress dependencies
- */
-
-
-
-
-/**
- * Internal dependencies
- */
 
 
 function SaveButton() {
   const {
     hasEditedWidgetAreaIds,
     isSaving
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+  } = Object(external_wp_data_["useSelect"])(select => {
+    var _getEditedWidgetAreas;
+
     const {
       getEditedWidgetAreas,
       isSavingWidgetAreas
-    } = select(store_store);
+    } = select(store);
     return {
-      hasEditedWidgetAreaIds: getEditedWidgetAreas()?.length > 0,
+      hasEditedWidgetAreaIds: ((_getEditedWidgetAreas = getEditedWidgetAreas()) === null || _getEditedWidgetAreas === void 0 ? void 0 : _getEditedWidgetAreas.length) > 0,
       isSaving: isSavingWidgetAreas()
     };
   }, []);
   const {
     saveEditedWidgetAreas
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
-  const isDisabled = isSaving || !hasEditedWidgetAreaIds;
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+  } = Object(external_wp_data_["useDispatch"])(store);
+  return Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
     variant: "primary",
     isBusy: isSaving,
-    "aria-disabled": isDisabled,
-    onClick: isDisabled ? undefined : saveEditedWidgetAreas,
-    size: "compact",
-    children: isSaving ? (0,external_wp_i18n_namespaceObject.__)('Saving…') : (0,external_wp_i18n_namespaceObject.__)('Update')
+    "aria-disabled": isSaving,
+    onClick: isSaving ? undefined : saveEditedWidgetAreas,
+    disabled: !hasEditedWidgetAreaIds
+  }, isSaving ? Object(external_wp_i18n_["__"])('Saving…') : Object(external_wp_i18n_["__"])('Update'));
+}
+
+/* harmony default export */ var save_button = (SaveButton);
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/undo.js
+var library_undo = __webpack_require__("Ntru");
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/redo.js
+var library_redo = __webpack_require__("K2cm");
+
+// EXTERNAL MODULE: external ["wp","keycodes"]
+var external_wp_keycodes_ = __webpack_require__("RxS6");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/header/undo-redo/undo.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+
+function UndoButton() {
+  const hasUndo = Object(external_wp_data_["useSelect"])(select => select(external_wp_coreData_["store"]).hasUndo(), []);
+  const {
+    undo
+  } = Object(external_wp_data_["useDispatch"])(external_wp_coreData_["store"]);
+  return Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarButton"], {
+    icon: !Object(external_wp_i18n_["isRTL"])() ? library_undo["a" /* default */] : library_redo["a" /* default */],
+    label: Object(external_wp_i18n_["__"])('Undo'),
+    shortcut: external_wp_keycodes_["displayShortcut"].primary('z') // If there are no undo levels we don't want to actually disable this
+    // button, because it will remove focus for keyboard users.
+    // See: https://github.com/WordPress/gutenberg/issues/3486
+    ,
+    "aria-disabled": !hasUndo,
+    onClick: hasUndo ? undo : undefined
   });
 }
-/* harmony default export */ const save_button = (SaveButton);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/more-vertical.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/header/undo-redo/redo.js
+
+
 /**
  * WordPress dependencies
  */
 
 
-const moreVertical = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24",
-  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
-    d: "M13 19h-2v-2h2v2zm0-6h-2v-2h2v2zm0-6h-2V5h2v2z"
-  })
-});
-/* harmony default export */ const more_vertical = (moreVertical);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/external.js
-/**
- * WordPress dependencies
- */
 
 
-const external = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24",
-  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
-    d: "M19.5 4.5h-7V6h4.44l-5.97 5.97 1.06 1.06L18 7.06v4.44h1.5v-7Zm-13 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3H17v3a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h3V5.5h-3Z"
-  })
-});
-/* harmony default export */ const library_external = (external);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/keyboard-shortcut-help-modal/config.js
+
+function RedoButton() {
+  const hasRedo = Object(external_wp_data_["useSelect"])(select => select(external_wp_coreData_["store"]).hasRedo(), []);
+  const {
+    redo
+  } = Object(external_wp_data_["useDispatch"])(external_wp_coreData_["store"]);
+  return Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarButton"], {
+    icon: !Object(external_wp_i18n_["isRTL"])() ? library_redo["a" /* default */] : library_undo["a" /* default */],
+    label: Object(external_wp_i18n_["__"])('Redo'),
+    shortcut: external_wp_keycodes_["displayShortcut"].primaryShift('z') // If there are no undo levels we don't want to actually disable this
+    // button, because it will remove focus for keyboard users.
+    // See: https://github.com/WordPress/gutenberg/issues/3486
+    ,
+    "aria-disabled": !hasRedo,
+    onClick: hasRedo ? redo : undefined
+  });
+}
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/external.js
+var external = __webpack_require__("K+tz");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/keyboard-shortcut-help-modal/config.js
 /**
  * WordPress dependencies
  */
@@ -3744,73 +2358,40 @@ const textFormattingShortcuts = [{
     modifier: 'primary',
     character: 'b'
   },
-  description: (0,external_wp_i18n_namespaceObject.__)('Make the selected text bold.')
+  description: Object(external_wp_i18n_["__"])('Make the selected text bold.')
 }, {
   keyCombination: {
     modifier: 'primary',
     character: 'i'
   },
-  description: (0,external_wp_i18n_namespaceObject.__)('Make the selected text italic.')
+  description: Object(external_wp_i18n_["__"])('Make the selected text italic.')
 }, {
   keyCombination: {
     modifier: 'primary',
     character: 'k'
   },
-  description: (0,external_wp_i18n_namespaceObject.__)('Convert the selected text into a link.')
+  description: Object(external_wp_i18n_["__"])('Convert the selected text into a link.')
 }, {
   keyCombination: {
     modifier: 'primaryShift',
     character: 'k'
   },
-  description: (0,external_wp_i18n_namespaceObject.__)('Remove a link.')
-}, {
-  keyCombination: {
-    character: '[['
-  },
-  description: (0,external_wp_i18n_namespaceObject.__)('Insert a link to a post or page.')
+  description: Object(external_wp_i18n_["__"])('Remove a link.')
 }, {
   keyCombination: {
     modifier: 'primary',
     character: 'u'
   },
-  description: (0,external_wp_i18n_namespaceObject.__)('Underline the selected text.')
-}, {
-  keyCombination: {
-    modifier: 'access',
-    character: 'd'
-  },
-  description: (0,external_wp_i18n_namespaceObject.__)('Strikethrough the selected text.')
-}, {
-  keyCombination: {
-    modifier: 'access',
-    character: 'x'
-  },
-  description: (0,external_wp_i18n_namespaceObject.__)('Make the selected text inline code.')
-}, {
-  keyCombination: {
-    modifier: 'access',
-    character: '0'
-  },
-  aliases: [{
-    modifier: 'access',
-    character: '7'
-  }],
-  description: (0,external_wp_i18n_namespaceObject.__)('Convert the current heading to a paragraph.')
-}, {
-  keyCombination: {
-    modifier: 'access',
-    character: '1-6'
-  },
-  description: (0,external_wp_i18n_namespaceObject.__)('Convert the current paragraph or heading to a heading of level 1 to 6.')
-}, {
-  keyCombination: {
-    modifier: 'primaryShift',
-    character: 'SPACE'
-  },
-  description: (0,external_wp_i18n_namespaceObject.__)('Add non breaking space.')
+  description: Object(external_wp_i18n_["__"])('Underline the selected text.')
 }];
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/keyboard-shortcut-help-modal/shortcut.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/keyboard-shortcut-help-modal/shortcut.js
+
+
+/**
+ * External dependencies
+ */
+
 /**
  * WordPress dependencies
  */
@@ -3818,59 +2399,59 @@ const textFormattingShortcuts = [{
 
 
 
-
-function KeyCombination({
-  keyCombination,
-  forceAriaLabel
-}) {
-  const shortcut = keyCombination.modifier ? external_wp_keycodes_namespaceObject.displayShortcutList[keyCombination.modifier](keyCombination.character) : keyCombination.character;
-  const ariaLabel = keyCombination.modifier ? external_wp_keycodes_namespaceObject.shortcutAriaLabel[keyCombination.modifier](keyCombination.character) : keyCombination.character;
-  const shortcuts = Array.isArray(shortcut) ? shortcut : [shortcut];
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("kbd", {
+function KeyCombination(_ref) {
+  let {
+    keyCombination,
+    forceAriaLabel
+  } = _ref;
+  const shortcut = keyCombination.modifier ? external_wp_keycodes_["displayShortcutList"][keyCombination.modifier](keyCombination.character) : keyCombination.character;
+  const ariaLabel = keyCombination.modifier ? external_wp_keycodes_["shortcutAriaLabel"][keyCombination.modifier](keyCombination.character) : keyCombination.character;
+  return Object(external_wp_element_["createElement"])("kbd", {
     className: "edit-widgets-keyboard-shortcut-help-modal__shortcut-key-combination",
-    "aria-label": forceAriaLabel || ariaLabel,
-    children: shortcuts.map((character, index) => {
-      if (character === '+') {
-        return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_element_namespaceObject.Fragment, {
-          children: character
-        }, index);
-      }
-      return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("kbd", {
-        className: "edit-widgets-keyboard-shortcut-help-modal__shortcut-key",
-        children: character
-      }, index);
-    })
-  });
-}
-function Shortcut({
-  description,
-  keyCombination,
-  aliases = [],
-  ariaLabel
-}) {
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
-      className: "edit-widgets-keyboard-shortcut-help-modal__shortcut-description",
-      children: description
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
-      className: "edit-widgets-keyboard-shortcut-help-modal__shortcut-term",
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(KeyCombination, {
-        keyCombination: keyCombination,
-        forceAriaLabel: ariaLabel
-      }), aliases.map((alias, index) => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(KeyCombination, {
-        keyCombination: alias,
-        forceAriaLabel: ariaLabel
-      }, index))]
-    })]
-  });
-}
-/* harmony default export */ const keyboard_shortcut_help_modal_shortcut = (Shortcut);
+    "aria-label": forceAriaLabel || ariaLabel
+  }, Object(external_lodash_["castArray"])(shortcut).map((character, index) => {
+    if (character === '+') {
+      return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], {
+        key: index
+      }, character);
+    }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/keyboard-shortcut-help-modal/dynamic-shortcut.js
+    return Object(external_wp_element_["createElement"])("kbd", {
+      key: index,
+      className: "edit-widgets-keyboard-shortcut-help-modal__shortcut-key"
+    }, character);
+  }));
+}
+
+function Shortcut(_ref2) {
+  let {
+    description,
+    keyCombination,
+    aliases = [],
+    ariaLabel
+  } = _ref2;
+  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])("div", {
+    className: "edit-widgets-keyboard-shortcut-help-modal__shortcut-description"
+  }, description), Object(external_wp_element_["createElement"])("div", {
+    className: "edit-widgets-keyboard-shortcut-help-modal__shortcut-term"
+  }, Object(external_wp_element_["createElement"])(KeyCombination, {
+    keyCombination: keyCombination,
+    forceAriaLabel: ariaLabel
+  }), aliases.map((alias, index) => Object(external_wp_element_["createElement"])(KeyCombination, {
+    keyCombination: alias,
+    forceAriaLabel: ariaLabel,
+    key: index
+  }))));
+}
+
+/* harmony default export */ var keyboard_shortcut_help_modal_shortcut = (Shortcut);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/keyboard-shortcut-help-modal/dynamic-shortcut.js
+
+
 /**
  * WordPress dependencies
  */
-
 
 
 /**
@@ -3878,37 +2459,44 @@ function Shortcut({
  */
 
 
-function DynamicShortcut({
-  name
-}) {
+
+function DynamicShortcut(_ref) {
+  let {
+    name
+  } = _ref;
   const {
     keyCombination,
     description,
     aliases
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+  } = Object(external_wp_data_["useSelect"])(select => {
     const {
       getShortcutKeyCombination,
       getShortcutDescription,
       getShortcutAliases
-    } = select(external_wp_keyboardShortcuts_namespaceObject.store);
+    } = select(external_wp_keyboardShortcuts_["store"]);
     return {
       keyCombination: getShortcutKeyCombination(name),
       aliases: getShortcutAliases(name),
       description: getShortcutDescription(name)
     };
   }, [name]);
+
   if (!keyCombination) {
     return null;
   }
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(keyboard_shortcut_help_modal_shortcut, {
+
+  return Object(external_wp_element_["createElement"])(keyboard_shortcut_help_modal_shortcut, {
     keyCombination: keyCombination,
     description: description,
     aliases: aliases
   });
 }
-/* harmony default export */ const dynamic_shortcut = (DynamicShortcut);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/keyboard-shortcut-help-modal/index.js
+/* harmony default export */ var dynamic_shortcut = (DynamicShortcut);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/keyboard-shortcut-help-modal/index.js
+
+
 /**
  * External dependencies
  */
@@ -3930,121 +2518,112 @@ function DynamicShortcut({
 
 
 
-const ShortcutList = ({
-  shortcuts
-}) =>
-/*#__PURE__*/
-/*
- * Disable reason: The `list` ARIA role is redundant but
- * Safari+VoiceOver won't announce the list otherwise.
- */
-/* eslint-disable jsx-a11y/no-redundant-roles */
-(0,external_ReactJSXRuntime_namespaceObject.jsx)("ul", {
-  className: "edit-widgets-keyboard-shortcut-help-modal__shortcut-list",
-  role: "list",
-  children: shortcuts.map((shortcut, index) => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("li", {
-    className: "edit-widgets-keyboard-shortcut-help-modal__shortcut",
-    children: typeof shortcut === 'string' ? /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(dynamic_shortcut, {
+const ShortcutList = _ref => {
+  let {
+    shortcuts
+  } = _ref;
+  return (
+    /*
+     * Disable reason: The `list` ARIA role is redundant but
+     * Safari+VoiceOver won't announce the list otherwise.
+     */
+
+    /* eslint-disable jsx-a11y/no-redundant-roles */
+    Object(external_wp_element_["createElement"])("ul", {
+      className: "edit-widgets-keyboard-shortcut-help-modal__shortcut-list",
+      role: "list"
+    }, shortcuts.map((shortcut, index) => Object(external_wp_element_["createElement"])("li", {
+      className: "edit-widgets-keyboard-shortcut-help-modal__shortcut",
+      key: index
+    }, Object(external_lodash_["isString"])(shortcut) ? Object(external_wp_element_["createElement"])(dynamic_shortcut, {
       name: shortcut
-    }) : /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(keyboard_shortcut_help_modal_shortcut, {
-      ...shortcut
-    })
-  }, index))
-})
-/* eslint-enable jsx-a11y/no-redundant-roles */;
-const ShortcutSection = ({
-  title,
-  shortcuts,
-  className
-}) => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("section", {
-  className: dist_clsx('edit-widgets-keyboard-shortcut-help-modal__section', className),
-  children: [!!title && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("h2", {
-    className: "edit-widgets-keyboard-shortcut-help-modal__section-title",
-    children: title
-  }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ShortcutList, {
+    }) : Object(external_wp_element_["createElement"])(keyboard_shortcut_help_modal_shortcut, shortcut))))
+    /* eslint-enable jsx-a11y/no-redundant-roles */
+
+  );
+};
+
+const ShortcutSection = _ref2 => {
+  let {
+    title,
+    shortcuts,
+    className
+  } = _ref2;
+  return Object(external_wp_element_["createElement"])("section", {
+    className: classnames_default()('edit-widgets-keyboard-shortcut-help-modal__section', className)
+  }, !!title && Object(external_wp_element_["createElement"])("h2", {
+    className: "edit-widgets-keyboard-shortcut-help-modal__section-title"
+  }, title), Object(external_wp_element_["createElement"])(ShortcutList, {
     shortcuts: shortcuts
-  })]
-});
-const ShortcutCategorySection = ({
-  title,
-  categoryName,
-  additionalShortcuts = []
-}) => {
-  const categoryShortcuts = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    return select(external_wp_keyboardShortcuts_namespaceObject.store).getCategoryShortcuts(categoryName);
+  }));
+};
+
+const ShortcutCategorySection = _ref3 => {
+  let {
+    title,
+    categoryName,
+    additionalShortcuts = []
+  } = _ref3;
+  const categoryShortcuts = Object(external_wp_data_["useSelect"])(select => {
+    return select(external_wp_keyboardShortcuts_["store"]).getCategoryShortcuts(categoryName);
   }, [categoryName]);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ShortcutSection, {
+  return Object(external_wp_element_["createElement"])(ShortcutSection, {
     title: title,
     shortcuts: categoryShortcuts.concat(additionalShortcuts)
   });
 };
-function KeyboardShortcutHelpModal({
-  isModalActive,
-  toggleModal
-}) {
-  (0,external_wp_keyboardShortcuts_namespaceObject.useShortcut)('core/edit-widgets/keyboard-shortcuts', toggleModal, {
+
+function KeyboardShortcutHelpModal(_ref4) {
+  let {
+    isModalActive,
+    toggleModal
+  } = _ref4;
+  Object(external_wp_keyboardShortcuts_["useShortcut"])('core/edit-widgets/keyboard-shortcuts', toggleModal, {
     bindGlobal: true
   });
+
   if (!isModalActive) {
     return null;
   }
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.Modal, {
+
+  return Object(external_wp_element_["createElement"])(external_wp_components_["Modal"], {
     className: "edit-widgets-keyboard-shortcut-help-modal",
-    title: (0,external_wp_i18n_namespaceObject.__)('Keyboard shortcuts'),
-    onRequestClose: toggleModal,
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ShortcutSection, {
-      className: "edit-widgets-keyboard-shortcut-help-modal__main-shortcuts",
-      shortcuts: ['core/edit-widgets/keyboard-shortcuts']
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ShortcutCategorySection, {
-      title: (0,external_wp_i18n_namespaceObject.__)('Global shortcuts'),
-      categoryName: "global"
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ShortcutCategorySection, {
-      title: (0,external_wp_i18n_namespaceObject.__)('Selection shortcuts'),
-      categoryName: "selection"
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ShortcutCategorySection, {
-      title: (0,external_wp_i18n_namespaceObject.__)('Block shortcuts'),
-      categoryName: "block",
-      additionalShortcuts: [{
-        keyCombination: {
-          character: '/'
-        },
-        description: (0,external_wp_i18n_namespaceObject.__)('Change the block type after adding a new paragraph.'),
-        /* translators: The forward-slash character. e.g. '/'. */
-        ariaLabel: (0,external_wp_i18n_namespaceObject.__)('Forward-slash')
-      }]
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ShortcutSection, {
-      title: (0,external_wp_i18n_namespaceObject.__)('Text formatting'),
-      shortcuts: textFormattingShortcuts
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ShortcutCategorySection, {
-      title: (0,external_wp_i18n_namespaceObject.__)('List View shortcuts'),
-      categoryName: "list-view"
-    })]
-  });
+    title: Object(external_wp_i18n_["__"])('Keyboard shortcuts'),
+    closeLabel: Object(external_wp_i18n_["__"])('Close'),
+    onRequestClose: toggleModal
+  }, Object(external_wp_element_["createElement"])(ShortcutSection, {
+    className: "edit-widgets-keyboard-shortcut-help-modal__main-shortcuts",
+    shortcuts: ['core/edit-widgets/keyboard-shortcuts']
+  }), Object(external_wp_element_["createElement"])(ShortcutCategorySection, {
+    title: Object(external_wp_i18n_["__"])('Global shortcuts'),
+    categoryName: "global"
+  }), Object(external_wp_element_["createElement"])(ShortcutCategorySection, {
+    title: Object(external_wp_i18n_["__"])('Selection shortcuts'),
+    categoryName: "selection"
+  }), Object(external_wp_element_["createElement"])(ShortcutCategorySection, {
+    title: Object(external_wp_i18n_["__"])('Block shortcuts'),
+    categoryName: "block",
+    additionalShortcuts: [{
+      keyCombination: {
+        character: '/'
+      },
+      description: Object(external_wp_i18n_["__"])('Change the block type after adding a new paragraph.'),
+
+      /* translators: The forward-slash character. e.g. '/'. */
+      ariaLabel: Object(external_wp_i18n_["__"])('Forward-slash')
+    }]
+  }), Object(external_wp_element_["createElement"])(ShortcutSection, {
+    title: Object(external_wp_i18n_["__"])('Text formatting'),
+    shortcuts: textFormattingShortcuts
+  }));
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/more-menu/tools-more-menu-group.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/more-menu/index.js
+
+
 /**
  * WordPress dependencies
  */
-
-
-const {
-  Fill: ToolsMoreMenuGroup,
-  Slot
-} = (0,external_wp_components_namespaceObject.createSlotFill)('EditWidgetsToolsMoreMenuGroup');
-ToolsMoreMenuGroup.Slot = ({
-  fillProps
-}) => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Slot, {
-  fillProps: fillProps,
-  children: fills => fills.length > 0 && fills
-});
-/* harmony default export */ const tools_more_menu_group = (ToolsMoreMenuGroup);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/more-menu/index.js
-/**
- * WordPress dependencies
- */
-
 
 
 
@@ -4056,99 +2635,75 @@ ToolsMoreMenuGroup.Slot = ({
 /**
  * Internal dependencies
  */
-
-
-
 
 
 function MoreMenu() {
-  const [isKeyboardShortcutsModalActive, setIsKeyboardShortcutsModalVisible] = (0,external_wp_element_namespaceObject.useState)(false);
+  const [isKeyboardShortcutsModalActive, setIsKeyboardShortcutsModalVisible] = Object(external_wp_element_["useState"])(false);
+
   const toggleKeyboardShortcutsModal = () => setIsKeyboardShortcutsModalVisible(!isKeyboardShortcutsModalActive);
-  (0,external_wp_keyboardShortcuts_namespaceObject.useShortcut)('core/edit-widgets/keyboard-shortcuts', toggleKeyboardShortcutsModal);
-  const isLargeViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium');
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.DropdownMenu, {
-      icon: more_vertical,
-      label: (0,external_wp_i18n_namespaceObject.__)('Options'),
-      popoverProps: {
-        placement: 'bottom-end',
-        className: 'more-menu-dropdown__content'
-      },
-      toggleProps: {
-        tooltipPosition: 'bottom',
-        size: 'compact'
-      },
-      children: onClose => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-        children: [isLargeViewport && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.MenuGroup, {
-          label: (0,external_wp_i18n_namespaceObject._x)('View', 'noun'),
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_preferences_namespaceObject.PreferenceToggleMenuItem, {
-            scope: "core/edit-widgets",
-            name: "fixedToolbar",
-            label: (0,external_wp_i18n_namespaceObject.__)('Top toolbar'),
-            info: (0,external_wp_i18n_namespaceObject.__)('Access all block and document tools in a single place'),
-            messageActivated: (0,external_wp_i18n_namespaceObject.__)('Top toolbar activated'),
-            messageDeactivated: (0,external_wp_i18n_namespaceObject.__)('Top toolbar deactivated')
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.MenuGroup, {
-          label: (0,external_wp_i18n_namespaceObject.__)('Tools'),
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.MenuItem, {
-            onClick: () => {
-              setIsKeyboardShortcutsModalVisible(true);
-            },
-            shortcut: external_wp_keycodes_namespaceObject.displayShortcut.access('h'),
-            children: (0,external_wp_i18n_namespaceObject.__)('Keyboard shortcuts')
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_preferences_namespaceObject.PreferenceToggleMenuItem, {
-            scope: "core/edit-widgets",
-            name: "welcomeGuide",
-            label: (0,external_wp_i18n_namespaceObject.__)('Welcome Guide')
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.MenuItem, {
-            role: "menuitem",
-            icon: library_external,
-            href: (0,external_wp_i18n_namespaceObject.__)('https://wordpress.org/documentation/article/block-based-widgets-editor/'),
-            target: "_blank",
-            rel: "noopener noreferrer",
-            children: [(0,external_wp_i18n_namespaceObject.__)('Help'), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.VisuallyHidden, {
-              as: "span",
-              children: /* translators: accessibility text */
-              (0,external_wp_i18n_namespaceObject.__)('(opens in a new tab)')
-            })]
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(tools_more_menu_group.Slot, {
-            fillProps: {
-              onClose
-            }
-          })]
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.MenuGroup, {
-          label: (0,external_wp_i18n_namespaceObject.__)('Preferences'),
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_preferences_namespaceObject.PreferenceToggleMenuItem, {
-            scope: "core/edit-widgets",
-            name: "keepCaretInsideBlock",
-            label: (0,external_wp_i18n_namespaceObject.__)('Contain text cursor inside block'),
-            info: (0,external_wp_i18n_namespaceObject.__)('Aids screen readers by stopping text caret from leaving blocks.'),
-            messageActivated: (0,external_wp_i18n_namespaceObject.__)('Contain text cursor inside block activated'),
-            messageDeactivated: (0,external_wp_i18n_namespaceObject.__)('Contain text cursor inside block deactivated')
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_preferences_namespaceObject.PreferenceToggleMenuItem, {
-            scope: "core/edit-widgets",
-            name: "themeStyles",
-            info: (0,external_wp_i18n_namespaceObject.__)('Make the editor look like your theme.'),
-            label: (0,external_wp_i18n_namespaceObject.__)('Use theme styles')
-          }), isLargeViewport && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_preferences_namespaceObject.PreferenceToggleMenuItem, {
-            scope: "core/edit-widgets",
-            name: "showBlockBreadcrumbs",
-            label: (0,external_wp_i18n_namespaceObject.__)('Display block breadcrumbs'),
-            info: (0,external_wp_i18n_namespaceObject.__)('Shows block breadcrumbs at the bottom of the editor.'),
-            messageActivated: (0,external_wp_i18n_namespaceObject.__)('Display block breadcrumbs activated'),
-            messageDeactivated: (0,external_wp_i18n_namespaceObject.__)('Display block breadcrumbs deactivated')
-          })]
-        })]
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(KeyboardShortcutHelpModal, {
-      isModalActive: isKeyboardShortcutsModalActive,
-      toggleModal: toggleKeyboardShortcutsModal
-    })]
-  });
+
+  Object(external_wp_keyboardShortcuts_["useShortcut"])('core/edit-widgets/keyboard-shortcuts', toggleKeyboardShortcutsModal);
+  const isLargeViewport = Object(external_wp_compose_["useViewportMatch"])('medium');
+  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(build_module["f" /* MoreMenuDropdown */], null, () => Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, isLargeViewport && Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], {
+    label: Object(external_wp_i18n_["_x"])('View', 'noun')
+  }, Object(external_wp_element_["createElement"])(build_module["g" /* MoreMenuFeatureToggle */], {
+    scope: "core/edit-widgets",
+    feature: "fixedToolbar",
+    label: Object(external_wp_i18n_["__"])('Top toolbar'),
+    info: Object(external_wp_i18n_["__"])('Access all block and document tools in a single place'),
+    messageActivated: Object(external_wp_i18n_["__"])('Top toolbar activated'),
+    messageDeactivated: Object(external_wp_i18n_["__"])('Top toolbar deactivated')
+  })), Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], {
+    label: Object(external_wp_i18n_["__"])('Tools')
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
+    onClick: () => {
+      setIsKeyboardShortcutsModalVisible(true);
+    },
+    shortcut: external_wp_keycodes_["displayShortcut"].access('h')
+  }, Object(external_wp_i18n_["__"])('Keyboard shortcuts')), Object(external_wp_element_["createElement"])(build_module["g" /* MoreMenuFeatureToggle */], {
+    scope: "core/edit-widgets",
+    feature: "welcomeGuide",
+    label: Object(external_wp_i18n_["__"])('Welcome Guide')
+  }), Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
+    role: "menuitem",
+    icon: external["a" /* default */],
+    href: Object(external_wp_i18n_["__"])('https://wordpress.org/support/article/block-based-widgets-editor/'),
+    target: "_blank",
+    rel: "noopener noreferrer"
+  }, Object(external_wp_i18n_["__"])('Help'), Object(external_wp_element_["createElement"])(external_wp_components_["VisuallyHidden"], {
+    as: "span"
+  },
+  /* translators: accessibility text */
+  Object(external_wp_i18n_["__"])('(opens in a new tab)')))), Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], {
+    label: Object(external_wp_i18n_["__"])('Preferences')
+  }, Object(external_wp_element_["createElement"])(build_module["g" /* MoreMenuFeatureToggle */], {
+    scope: "core/edit-widgets",
+    feature: "keepCaretInsideBlock",
+    label: Object(external_wp_i18n_["__"])('Contain text cursor inside block'),
+    info: Object(external_wp_i18n_["__"])('Aids screen readers by stopping text caret from leaving blocks.'),
+    messageActivated: Object(external_wp_i18n_["__"])('Contain text cursor inside block activated'),
+    messageDeactivated: Object(external_wp_i18n_["__"])('Contain text cursor inside block deactivated')
+  }), Object(external_wp_element_["createElement"])(build_module["g" /* MoreMenuFeatureToggle */], {
+    scope: "core/edit-widgets",
+    feature: "themeStyles",
+    info: Object(external_wp_i18n_["__"])('Make the editor look like your theme.'),
+    label: Object(external_wp_i18n_["__"])('Use theme styles')
+  }), isLargeViewport && Object(external_wp_element_["createElement"])(build_module["g" /* MoreMenuFeatureToggle */], {
+    scope: "core/edit-widgets",
+    feature: "showBlockBreadcrumbs",
+    label: Object(external_wp_i18n_["__"])('Display block breadcrumbs'),
+    info: Object(external_wp_i18n_["__"])('Shows block breadcrumbs at the bottom of the editor.'),
+    messageActivated: Object(external_wp_i18n_["__"])('Display block breadcrumbs activated'),
+    messageDeactivated: Object(external_wp_i18n_["__"])('Display block breadcrumbs deactivated')
+  })))), Object(external_wp_element_["createElement"])(KeyboardShortcutHelpModal, {
+    isModalActive: isKeyboardShortcutsModalActive,
+    toggleModal: toggleKeyboardShortcutsModal
+  }));
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/header/index.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/header/index.js
+
+
 /**
  * WordPress dependencies
  */
@@ -4160,10 +2715,11 @@ function MoreMenu() {
 
 
 
-
 /**
  * Internal dependencies
  */
+
+
 
 
 
@@ -4171,48 +2727,106 @@ function MoreMenu() {
 
 
 function Header() {
-  const isLargeViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium');
-  const blockToolbarRef = (0,external_wp_element_namespaceObject.useRef)();
+  const isMediumViewport = Object(external_wp_compose_["useViewportMatch"])('medium');
+  const inserterButton = Object(external_wp_element_["useRef"])();
+  const widgetAreaClientId = use_last_selected_widget_area();
+  const isLastSelectedWidgetAreaOpen = Object(external_wp_data_["useSelect"])(select => select(store).getIsWidgetAreaOpen(widgetAreaClientId), [widgetAreaClientId]);
   const {
-    hasFixedToolbar
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => ({
-    hasFixedToolbar: !!select(external_wp_preferences_namespaceObject.store).get('core/edit-widgets', 'fixedToolbar')
-  }), []);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
-      className: "edit-widgets-header",
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
-        className: "edit-widgets-header__navigable-toolbar-wrapper",
-        children: [isLargeViewport && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("h1", {
-          className: "edit-widgets-header__title",
-          children: (0,external_wp_i18n_namespaceObject.__)('Widgets')
-        }), !isLargeViewport && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.VisuallyHidden, {
-          as: "h1",
-          className: "edit-widgets-header__title",
-          children: (0,external_wp_i18n_namespaceObject.__)('Widgets')
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(document_tools, {}), hasFixedToolbar && isLargeViewport && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
-            className: "selected-block-tools-wrapper",
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.BlockToolbar, {
-              hideDragHandle: true
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Popover.Slot, {
-            ref: blockToolbarRef,
-            name: "block-toolbar"
-          })]
-        })]
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
-        className: "edit-widgets-header__actions",
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(save_button, {}), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(pinned_items.Slot, {
-          scope: "core/edit-widgets"
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(MoreMenu, {})]
-      })]
-    })
-  });
-}
-/* harmony default export */ const header = (Header);
+    isInserterOpen,
+    isListViewOpen
+  } = Object(external_wp_data_["useSelect"])(select => {
+    const {
+      isInserterOpened,
+      isListViewOpened
+    } = select(store);
+    return {
+      isInserterOpen: isInserterOpened(),
+      isListViewOpen: isListViewOpened()
+    };
+  }, []);
+  const {
+    setIsWidgetAreaOpen,
+    setIsInserterOpened,
+    setIsListViewOpened
+  } = Object(external_wp_data_["useDispatch"])(store);
+  const {
+    selectBlock
+  } = Object(external_wp_data_["useDispatch"])(external_wp_blockEditor_["store"]);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/notices/index.js
+  const handleClick = () => {
+    if (isInserterOpen) {
+      // Focusing the inserter button closes the inserter popover
+      setIsInserterOpened(false);
+    } else {
+      if (!isLastSelectedWidgetAreaOpen) {
+        // Select the last selected block if hasn't already.
+        selectBlock(widgetAreaClientId); // Open the last selected widget area when opening the inserter.
+
+        setIsWidgetAreaOpen(widgetAreaClientId, true);
+      } // The DOM updates resulting from selectBlock() and setIsInserterOpened() calls are applied the
+      // same tick and pretty much in a random order. The inserter is closed if any other part of the
+      // app receives focus. If selectBlock() happens to take effect after setIsInserterOpened() then
+      // the inserter is visible for a brief moment and then gets auto-closed due to focus moving to
+      // the selected block.
+
+
+      window.requestAnimationFrame(() => setIsInserterOpened(true));
+    }
+  };
+
+  const toggleListView = Object(external_wp_element_["useCallback"])(() => setIsListViewOpened(!isListViewOpen), [setIsListViewOpened, isListViewOpen]);
+  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])("div", {
+    className: "edit-widgets-header"
+  }, Object(external_wp_element_["createElement"])("div", {
+    className: "edit-widgets-header__navigable-toolbar-wrapper"
+  }, isMediumViewport && Object(external_wp_element_["createElement"])("h1", {
+    className: "edit-widgets-header__title"
+  }, Object(external_wp_i18n_["__"])('Widgets')), !isMediumViewport && Object(external_wp_element_["createElement"])(external_wp_components_["VisuallyHidden"], {
+    as: "h1",
+    className: "edit-widgets-header__title"
+  }, Object(external_wp_i18n_["__"])('Widgets')), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["NavigableToolbar"], {
+    className: "edit-widgets-header-toolbar",
+    "aria-label": Object(external_wp_i18n_["__"])('Document tools')
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarItem"], {
+    ref: inserterButton,
+    as: external_wp_components_["Button"],
+    className: "edit-widgets-header-toolbar__inserter-toggle",
+    variant: "primary",
+    isPressed: isInserterOpen,
+    onMouseDown: event => {
+      event.preventDefault();
+    },
+    onClick: handleClick,
+    icon: plus["a" /* default */]
+    /* translators: button label text should, if possible, be under 16
+    characters. */
+    ,
+    label: Object(external_wp_i18n_["_x"])('Toggle block inserter', 'Generic label for block inserter button')
+  }), isMediumViewport && Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(UndoButton, null), Object(external_wp_element_["createElement"])(RedoButton, null), Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarItem"], {
+    as: external_wp_components_["Button"],
+    className: "edit-widgets-header-toolbar__list-view-toggle",
+    icon: list_view["a" /* default */],
+    isPressed: isListViewOpen
+    /* translators: button label text should, if possible, be under 16 characters. */
+    ,
+    label: Object(external_wp_i18n_["__"])('List View'),
+    onClick: toggleListView
+  })))), Object(external_wp_element_["createElement"])("div", {
+    className: "edit-widgets-header__actions"
+  }, Object(external_wp_element_["createElement"])(save_button, null), Object(external_wp_element_["createElement"])(build_module["h" /* PinnedItems */].Slot, {
+    scope: "core/edit-widgets"
+  }), Object(external_wp_element_["createElement"])(MoreMenu, null))));
+}
+
+/* harmony default export */ var header = (Header);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/notices/index.js
+
+
+/**
+ * External dependencies
+ */
+
 /**
  * WordPress dependencies
  */
@@ -4220,56 +2834,51 @@ function Header() {
 
 
 
-// Last three notices. Slices from the tail end of the list.
 
-
-
-const MAX_VISIBLE_NOTICES = -3;
 function Notices() {
   const {
     removeNotice
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_notices_namespaceObject.store);
+  } = Object(external_wp_data_["useDispatch"])(external_wp_notices_["store"]);
   const {
     notices
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+  } = Object(external_wp_data_["useSelect"])(select => {
     return {
-      notices: select(external_wp_notices_namespaceObject.store).getNotices()
+      notices: select(external_wp_notices_["store"]).getNotices()
     };
   }, []);
-  const dismissibleNotices = notices.filter(({
-    isDismissible,
-    type
-  }) => isDismissible && type === 'default');
-  const nonDismissibleNotices = notices.filter(({
-    isDismissible,
-    type
-  }) => !isDismissible && type === 'default');
-  const snackbarNotices = notices.filter(({
-    type
-  }) => type === 'snackbar').slice(MAX_VISIBLE_NOTICES);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.NoticeList, {
-      notices: nonDismissibleNotices,
-      className: "edit-widgets-notices__pinned"
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.NoticeList, {
-      notices: dismissibleNotices,
-      className: "edit-widgets-notices__dismissible",
-      onRemove: removeNotice
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.SnackbarList, {
-      notices: snackbarNotices,
-      className: "edit-widgets-notices__snackbar",
-      onRemove: removeNotice
-    })]
+  const dismissibleNotices = Object(external_lodash_["filter"])(notices, {
+    isDismissible: true,
+    type: 'default'
   });
+  const nonDismissibleNotices = Object(external_lodash_["filter"])(notices, {
+    isDismissible: false,
+    type: 'default'
+  });
+  const snackbarNotices = Object(external_lodash_["filter"])(notices, {
+    type: 'snackbar'
+  });
+  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_components_["NoticeList"], {
+    notices: nonDismissibleNotices,
+    className: "edit-widgets-notices__pinned"
+  }), Object(external_wp_element_["createElement"])(external_wp_components_["NoticeList"], {
+    notices: dismissibleNotices,
+    className: "edit-widgets-notices__dismissible",
+    onRemove: removeNotice
+  }), Object(external_wp_element_["createElement"])(external_wp_components_["SnackbarList"], {
+    notices: snackbarNotices,
+    className: "edit-widgets-notices__snackbar",
+    onRemove: removeNotice
+  }));
 }
-/* harmony default export */ const notices = (Notices);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/widget-areas-block-editor-content/index.js
+/* harmony default export */ var components_notices = (Notices);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/widget-areas-block-editor-content/index.js
+
+
 /**
  * WordPress dependencies
  */
-
-
 
 
 
@@ -4280,111 +2889,95 @@ function Notices() {
 
 
 
-
-function WidgetAreasBlockEditorContent({
-  blockEditorSettings
-}) {
-  const hasThemeStyles = (0,external_wp_data_namespaceObject.useSelect)(select => !!select(external_wp_preferences_namespaceObject.store).get('core/edit-widgets', 'themeStyles'), []);
-  const isLargeViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium');
-  const styles = (0,external_wp_element_namespaceObject.useMemo)(() => {
+function WidgetAreasBlockEditorContent(_ref) {
+  let {
+    blockEditorSettings
+  } = _ref;
+  const hasThemeStyles = Object(external_wp_data_["useSelect"])(select => select(build_module["i" /* store */]).isFeatureActive('core/edit-widgets', 'themeStyles'), []);
+  const styles = Object(external_wp_element_["useMemo"])(() => {
     return hasThemeStyles ? blockEditorSettings.styles : [];
   }, [blockEditorSettings, hasThemeStyles]);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
-    className: "edit-widgets-block-editor",
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(notices, {}), !isLargeViewport && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.BlockToolbar, {
-      hideDragHandle: true
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_blockEditor_namespaceObject.BlockTools, {
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(keyboard_shortcuts, {}), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.__unstableEditorStyles, {
-        styles: styles,
-        scope: ".editor-styles-wrapper"
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.BlockSelectionClearer, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.WritingFlow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.BlockList, {
-            className: "edit-widgets-main-block-list"
-          })
-        })
-      })]
-    })]
-  });
+  return Object(external_wp_element_["createElement"])("div", {
+    className: "edit-widgets-block-editor"
+  }, Object(external_wp_element_["createElement"])(components_notices, null), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockTools"], null, Object(external_wp_element_["createElement"])(keyboard_shortcuts, null), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__unstableEditorStyles"], {
+    styles: styles
+  }), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockSelectionClearer"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["WritingFlow"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["ObserveTyping"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockList"], {
+    className: "edit-widgets-main-block-list"
+  }))))));
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/close.js
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/close.js
+var library_close = __webpack_require__("w95h");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/hooks/use-widget-library-insertion-point.js
 /**
  * WordPress dependencies
  */
-
-
-const close_close = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24",
-  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
-    d: "M13 11.8l6.1-6.3-1-1-6.1 6.2-6.1-6.2-1 1 6.1 6.3-6.5 6.7 1 1 6.5-6.6 6.5 6.6 1-1z"
-  })
-});
-/* harmony default export */ const library_close = (close_close);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/hooks/use-widget-library-insertion-point.js
-/**
- * WordPress dependencies
- */
-
 
 
 
 /**
  * Internal dependencies
  */
+
+
 
 
 const useWidgetLibraryInsertionPoint = () => {
-  const firstRootId = (0,external_wp_data_namespaceObject.useSelect)(select => {
+  const firstRootId = Object(external_wp_data_["useSelect"])(select => {
+    var _widgetAreasPost$bloc;
+
     // Default to the first widget area
     const {
       getEntityRecord
-    } = select(external_wp_coreData_namespaceObject.store);
+    } = select(external_wp_coreData_["store"]);
     const widgetAreasPost = getEntityRecord(KIND, POST_TYPE, buildWidgetAreasPostId());
-    return widgetAreasPost?.blocks[0]?.clientId;
+    return widgetAreasPost === null || widgetAreasPost === void 0 ? void 0 : (_widgetAreasPost$bloc = widgetAreasPost.blocks[0]) === null || _widgetAreasPost$bloc === void 0 ? void 0 : _widgetAreasPost$bloc.clientId;
   }, []);
-  return (0,external_wp_data_namespaceObject.useSelect)(select => {
+  return Object(external_wp_data_["useSelect"])(select => {
     const {
       getBlockRootClientId,
       getBlockSelectionEnd,
       getBlockOrder,
       getBlockIndex
-    } = select(external_wp_blockEditor_namespaceObject.store);
-    const insertionPoint = select(store_store).__experimentalGetInsertionPoint();
+    } = select(external_wp_blockEditor_["store"]);
 
-    // "Browse all" in the quick inserter will set the rootClientId to the current block.
+    const insertionPoint = select(store).__experimentalGetInsertionPoint(); // "Browse all" in the quick inserter will set the rootClientId to the current block.
     // Otherwise, it will just be undefined, and we'll have to handle it differently below.
+
+
     if (insertionPoint.rootClientId) {
       return insertionPoint;
     }
-    const clientId = getBlockSelectionEnd() || firstRootId;
-    const rootClientId = getBlockRootClientId(clientId);
 
-    // If the selected block is at the root level, it's a widget area and
+    const clientId = getBlockSelectionEnd() || firstRootId;
+    const rootClientId = getBlockRootClientId(clientId); // If the selected block is at the root level, it's a widget area and
     // blocks can't be inserted here. Return this block as the root and the
     // last child clientId indicating insertion at the end.
+
     if (clientId && rootClientId === '') {
       return {
         rootClientId: clientId,
         insertionIndex: getBlockOrder(clientId).length
       };
     }
+
     return {
       rootClientId,
       insertionIndex: getBlockIndex(clientId) + 1
     };
   }, [firstRootId]);
 };
-/* harmony default export */ const use_widget_library_insertion_point = (useWidgetLibraryInsertionPoint);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/secondary-sidebar/inserter-sidebar.js
+/* harmony default export */ var use_widget_library_insertion_point = (useWidgetLibraryInsertionPoint);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/secondary-sidebar/inserter-sidebar.js
+
+
+
 /**
  * WordPress dependencies
  */
-
-
 
 
 
@@ -4397,55 +2990,49 @@ const useWidgetLibraryInsertionPoint = () => {
 
 
 
-
 function InserterSidebar() {
-  const isMobileViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium', '<');
+  const isMobileViewport = Object(external_wp_compose_["useViewportMatch"])('medium', '<');
   const {
     rootClientId,
     insertionIndex
   } = use_widget_library_insertion_point();
   const {
     setIsInserterOpened
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
-  const closeInserter = (0,external_wp_element_namespaceObject.useCallback)(() => {
-    return setIsInserterOpened(false);
+  } = Object(external_wp_data_["useDispatch"])(store);
+  const closeInserter = Object(external_wp_element_["useCallback"])(() => {
+    return () => setIsInserterOpened(false);
   }, [setIsInserterOpened]);
-  const TagName = !isMobileViewport ? external_wp_components_namespaceObject.VisuallyHidden : 'div';
-  const [inserterDialogRef, inserterDialogProps] = (0,external_wp_compose_namespaceObject.__experimentalUseDialog)({
-    onClose: closeInserter,
-    focusOnMount: true
+  const [inserterDialogRef, inserterDialogProps] = Object(external_wp_compose_["__experimentalUseDialog"])({
+    onClose: closeInserter
   });
-  const libraryRef = (0,external_wp_element_namespaceObject.useRef)();
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
-    ref: inserterDialogRef,
-    ...inserterDialogProps,
-    className: "edit-widgets-layout__inserter-panel",
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(TagName, {
-      className: "edit-widgets-layout__inserter-panel-header",
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
-        icon: library_close,
-        onClick: closeInserter,
-        label: (0,external_wp_i18n_namespaceObject.__)('Close block inserter')
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
-      className: "edit-widgets-layout__inserter-panel-content",
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.__experimentalLibrary, {
-        showInserterHelpPanel: true,
-        shouldFocusBlock: isMobileViewport,
-        rootClientId: rootClientId,
-        __experimentalInsertionIndex: insertionIndex,
-        ref: libraryRef
-      })
-    })]
-  });
+  return Object(external_wp_element_["createElement"])("div", Object(esm_extends["a" /* default */])({
+    ref: inserterDialogRef
+  }, inserterDialogProps, {
+    className: "edit-widgets-layout__inserter-panel"
+  }), Object(external_wp_element_["createElement"])("div", {
+    className: "edit-widgets-layout__inserter-panel-header"
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
+    icon: library_close["a" /* default */],
+    onClick: closeInserter
+  })), Object(external_wp_element_["createElement"])("div", {
+    className: "edit-widgets-layout__inserter-panel-content"
+  }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__experimentalLibrary"], {
+    showInserterHelpPanel: true,
+    shouldFocusBlock: isMobileViewport,
+    rootClientId: rootClientId,
+    __experimentalInsertionIndex: insertionIndex
+  })));
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/secondary-sidebar/list-view-sidebar.js
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/close-small.js
+var close_small = __webpack_require__("bWcr");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/secondary-sidebar/list-view-sidebar.js
+
+
 /**
  * WordPress dependencies
  */
-
-
 
 
 
@@ -4458,59 +3045,61 @@ function InserterSidebar() {
  */
 
 
-
-
 function ListViewSidebar() {
   const {
     setIsListViewOpened
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
+  } = Object(external_wp_data_["useDispatch"])(store);
   const {
-    getListViewToggleRef
-  } = unlock((0,external_wp_data_namespaceObject.useSelect)(store_store));
+    clearSelectedBlock,
+    selectBlock
+  } = Object(external_wp_data_["useDispatch"])(external_wp_blockEditor_["store"]);
 
-  // Use internal state instead of a ref to make sure that the component
-  // re-renders when the dropZoneElement updates.
-  const [dropZoneElement, setDropZoneElement] = (0,external_wp_element_namespaceObject.useState)(null);
-  const focusOnMountRef = (0,external_wp_compose_namespaceObject.useFocusOnMount)('firstElement');
+  async function selectEditorBlock(clientId) {
+    await clearSelectedBlock();
+    selectBlock(clientId, -1);
+  }
 
-  // When closing the list view, focus should return to the toggle button.
-  const closeListView = (0,external_wp_element_namespaceObject.useCallback)(() => {
-    setIsListViewOpened(false);
-    getListViewToggleRef().current?.focus();
-  }, [getListViewToggleRef, setIsListViewOpened]);
-  const closeOnEscape = (0,external_wp_element_namespaceObject.useCallback)(event => {
-    if (event.keyCode === external_wp_keycodes_namespaceObject.ESCAPE && !event.defaultPrevented) {
+  const focusOnMountRef = Object(external_wp_compose_["useFocusOnMount"])('firstElement');
+  const focusReturnRef = Object(external_wp_compose_["useFocusReturn"])();
+
+  function closeOnEscape(event) {
+    if (event.keyCode === external_wp_keycodes_["ESCAPE"] && !event.defaultPrevented) {
       event.preventDefault();
-      closeListView();
+      setIsListViewOpened(false);
     }
-  }, [closeListView]);
-  return (
-    /*#__PURE__*/
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-    (0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
+  }
+
+  const instanceId = Object(external_wp_compose_["useInstanceId"])(ListViewSidebar);
+  const labelId = `edit-widgets-editor__list-view-panel-label-${instanceId}`;
+  return (// eslint-disable-next-line jsx-a11y/no-static-element-interactions
+    Object(external_wp_element_["createElement"])("div", {
+      "aria-labelledby": labelId,
       className: "edit-widgets-editor__list-view-panel",
-      onKeyDown: closeOnEscape,
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
-        className: "edit-widgets-editor__list-view-panel-header",
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("strong", {
-          children: (0,external_wp_i18n_namespaceObject.__)('List View')
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
-          icon: close_small,
-          label: (0,external_wp_i18n_namespaceObject.__)('Close'),
-          onClick: closeListView
-        })]
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
-        className: "edit-widgets-editor__list-view-panel-content",
-        ref: (0,external_wp_compose_namespaceObject.useMergeRefs)([focusOnMountRef, setDropZoneElement]),
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.__experimentalListView, {
-          dropZoneElement: dropZoneElement
-        })
-      })]
-    })
+      onKeyDown: closeOnEscape
+    }, Object(external_wp_element_["createElement"])("div", {
+      className: "edit-widgets-editor__list-view-panel-header"
+    }, Object(external_wp_element_["createElement"])("strong", {
+      id: labelId
+    }, Object(external_wp_i18n_["__"])('List view')), Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
+      icon: close_small["a" /* default */],
+      label: Object(external_wp_i18n_["__"])('Close list view sidebar'),
+      onClick: () => setIsListViewOpened(false)
+    })), Object(external_wp_element_["createElement"])("div", {
+      className: "edit-widgets-editor__list-view-panel-content",
+      ref: Object(external_wp_compose_["useMergeRefs"])([focusReturnRef, focusOnMountRef])
+    }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__experimentalListView"], {
+      onSelect: selectEditorBlock,
+      showNestedBlocks: true,
+      __experimentalHideContainerBlockActions: true,
+      __experimentalFeatures: true,
+      __experimentalPersistentListViewFeatures: true
+    })))
   );
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/secondary-sidebar/index.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/secondary-sidebar/index.js
+
+
 /**
  * WordPress dependencies
  */
@@ -4530,31 +3119,34 @@ function SecondarySidebar() {
   const {
     isInserterOpen,
     isListViewOpen
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+  } = Object(external_wp_data_["useSelect"])(select => {
     const {
       isInserterOpened,
       isListViewOpened
-    } = select(store_store);
+    } = select(store);
     return {
       isInserterOpen: isInserterOpened(),
       isListViewOpen: isListViewOpened()
     };
   }, []);
+
   if (isInserterOpen) {
-    return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(InserterSidebar, {});
+    return Object(external_wp_element_["createElement"])(InserterSidebar, null);
   }
+
   if (isListViewOpen) {
-    return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ListViewSidebar, {});
+    return Object(external_wp_element_["createElement"])(ListViewSidebar, null);
   }
+
   return null;
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/layout/interface.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/layout/interface.js
+
+
 /**
  * WordPress dependencies
  */
-
-
 
 
 
@@ -4570,27 +3162,31 @@ function SecondarySidebar() {
 
 
 
-
 const interfaceLabels = {
   /* translators: accessibility text for the widgets screen top bar landmark region. */
-  header: (0,external_wp_i18n_namespaceObject.__)('Widgets top bar'),
+  header: Object(external_wp_i18n_["__"])('Widgets top bar'),
+
   /* translators: accessibility text for the widgets screen content landmark region. */
-  body: (0,external_wp_i18n_namespaceObject.__)('Widgets and blocks'),
+  body: Object(external_wp_i18n_["__"])('Widgets and blocks'),
+
   /* translators: accessibility text for the widgets screen settings landmark region. */
-  sidebar: (0,external_wp_i18n_namespaceObject.__)('Widgets settings'),
+  sidebar: Object(external_wp_i18n_["__"])('Widgets settings'),
+
   /* translators: accessibility text for the widgets screen footer landmark region. */
-  footer: (0,external_wp_i18n_namespaceObject.__)('Widgets footer')
+  footer: Object(external_wp_i18n_["__"])('Widgets footer')
 };
-function Interface({
-  blockEditorSettings
-}) {
-  const isMobileViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium', '<');
-  const isHugeViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('huge', '>=');
+
+function Interface(_ref) {
+  let {
+    blockEditorSettings
+  } = _ref;
+  const isMobileViewport = Object(external_wp_compose_["useViewportMatch"])('medium', '<');
+  const isHugeViewport = Object(external_wp_compose_["useViewportMatch"])('huge', '>=');
   const {
     setIsInserterOpened,
     setIsListViewOpened,
     closeGeneralSidebar
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
+  } = Object(external_wp_data_["useDispatch"])(store);
   const {
     hasBlockBreadCrumbsEnabled,
     hasSidebarEnabled,
@@ -4598,63 +3194,55 @@ function Interface({
     isListViewOpened,
     previousShortcut,
     nextShortcut
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => ({
-    hasSidebarEnabled: !!select(store).getActiveComplementaryArea(store_store.name),
-    isInserterOpened: !!select(store_store).isInserterOpened(),
-    isListViewOpened: !!select(store_store).isListViewOpened(),
-    hasBlockBreadCrumbsEnabled: !!select(external_wp_preferences_namespaceObject.store).get('core/edit-widgets', 'showBlockBreadcrumbs'),
-    previousShortcut: select(external_wp_keyboardShortcuts_namespaceObject.store).getAllShortcutKeyCombinations('core/edit-widgets/previous-region'),
-    nextShortcut: select(external_wp_keyboardShortcuts_namespaceObject.store).getAllShortcutKeyCombinations('core/edit-widgets/next-region')
-  }), []);
+  } = Object(external_wp_data_["useSelect"])(select => ({
+    hasSidebarEnabled: !!select(build_module["i" /* store */]).getActiveComplementaryArea(store.name),
+    isInserterOpened: !!select(store).isInserterOpened(),
+    isListViewOpened: !!select(store).isListViewOpened(),
+    hasBlockBreadCrumbsEnabled: select(build_module["i" /* store */]).isFeatureActive('core/edit-widgets', 'showBlockBreadcrumbs'),
+    previousShortcut: select(external_wp_keyboardShortcuts_["store"]).getAllShortcutKeyCombinations('core/edit-widgets/previous-region'),
+    nextShortcut: select(external_wp_keyboardShortcuts_["store"]).getAllShortcutKeyCombinations('core/edit-widgets/next-region')
+  }), []); // Inserter and Sidebars are mutually exclusive
 
-  // Inserter and Sidebars are mutually exclusive
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
+  Object(external_wp_element_["useEffect"])(() => {
     if (hasSidebarEnabled && !isHugeViewport) {
       setIsInserterOpened(false);
       setIsListViewOpened(false);
     }
   }, [hasSidebarEnabled, isHugeViewport]);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
+  Object(external_wp_element_["useEffect"])(() => {
     if ((isInserterOpened || isListViewOpened) && !isHugeViewport) {
       closeGeneralSidebar();
     }
   }, [isInserterOpened, isListViewOpened, isHugeViewport]);
-  const secondarySidebarLabel = isListViewOpened ? (0,external_wp_i18n_namespaceObject.__)('List View') : (0,external_wp_i18n_namespaceObject.__)('Block Library');
   const hasSecondarySidebar = isListViewOpened || isInserterOpened;
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(interface_skeleton, {
-    labels: {
-      ...interfaceLabels,
-      secondarySidebar: secondarySidebarLabel
-    },
-    header: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(header, {}),
-    secondarySidebar: hasSecondarySidebar && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(SecondarySidebar, {}),
-    sidebar: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(complementary_area.Slot, {
+  return Object(external_wp_element_["createElement"])(build_module["e" /* InterfaceSkeleton */], {
+    labels: interfaceLabels,
+    header: Object(external_wp_element_["createElement"])(header, null),
+    secondarySidebar: hasSecondarySidebar && Object(external_wp_element_["createElement"])(SecondarySidebar, null),
+    sidebar: hasSidebarEnabled && Object(external_wp_element_["createElement"])(build_module["b" /* ComplementaryArea */].Slot, {
       scope: "core/edit-widgets"
     }),
-    content: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(WidgetAreasBlockEditorContent, {
-        blockEditorSettings: blockEditorSettings
-      })
+    content: Object(external_wp_element_["createElement"])(WidgetAreasBlockEditorContent, {
+      blockEditorSettings: blockEditorSettings
     }),
-    footer: hasBlockBreadCrumbsEnabled && !isMobileViewport && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
-      className: "edit-widgets-layout__footer",
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.BlockBreadcrumb, {
-        rootLabelText: (0,external_wp_i18n_namespaceObject.__)('Widgets')
-      })
-    }),
+    footer: hasBlockBreadCrumbsEnabled && !isMobileViewport && Object(external_wp_element_["createElement"])("div", {
+      className: "edit-widgets-layout__footer"
+    }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockBreadcrumb"], {
+      rootLabelText: Object(external_wp_i18n_["__"])('Widgets')
+    })),
     shortcuts: {
       previous: previousShortcut,
       next: nextShortcut
     }
   });
 }
-/* harmony default export */ const layout_interface = (Interface);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/layout/unsaved-changes-warning.js
+/* harmony default export */ var layout_interface = (Interface);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/layout/unsaved-changes-warning.js
 /**
  * WordPress dependencies
  */
-
 
 
 
@@ -4669,30 +3257,32 @@ function Interface({
  * This is a duplicate of the component implemented in the editor package.
  * Duplicated here as edit-widgets doesn't depend on editor.
  *
- * @return {Component} The component.
+ * @return {WPComponent} The component.
  */
+
 function UnsavedChangesWarning() {
-  const isDirty = (0,external_wp_data_namespaceObject.useSelect)(select => {
+  const isDirty = Object(external_wp_data_["useSelect"])(select => {
     const {
       getEditedWidgetAreas
-    } = select(store_store);
+    } = select(store);
     const editedWidgetAreas = getEditedWidgetAreas();
-    return editedWidgetAreas?.length > 0;
+    return (editedWidgetAreas === null || editedWidgetAreas === void 0 ? void 0 : editedWidgetAreas.length) > 0;
   }, []);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
+  Object(external_wp_element_["useEffect"])(() => {
     /**
      * Warns the user if there are unsaved changes before leaving the editor.
      *
      * @param {Event} event `beforeunload` event.
      *
-     * @return {string | undefined} Warning prompt message, if unsaved changes exist.
+     * @return {?string} Warning prompt message, if unsaved changes exist.
      */
     const warnIfUnsavedChanges = event => {
       if (isDirty) {
-        event.returnValue = (0,external_wp_i18n_namespaceObject.__)('You have unsaved changes. If you proceed, they will be lost.');
+        event.returnValue = Object(external_wp_i18n_["__"])('You have unsaved changes. If you proceed, they will be lost.');
         return event.returnValue;
       }
     };
+
     window.addEventListener('beforeunload', warnIfUnsavedChanges);
     return () => {
       window.removeEventListener('beforeunload', warnIfUnsavedChanges);
@@ -4701,7 +3291,9 @@ function UnsavedChangesWarning() {
   return null;
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/welcome-guide/index.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/welcome-guide/index.js
+
+
 /**
  * WordPress dependencies
  */
@@ -4710,143 +3302,116 @@ function UnsavedChangesWarning() {
 
 
 
-
 /**
  * Internal dependencies
  */
-
-
 
 
 function WelcomeGuide() {
   var _widgetAreas$filter$l;
-  const isActive = (0,external_wp_data_namespaceObject.useSelect)(select => !!select(external_wp_preferences_namespaceObject.store).get('core/edit-widgets', 'welcomeGuide'), []);
+
+  const isActive = Object(external_wp_data_["useSelect"])(select => select(build_module["i" /* store */]).isFeatureActive('core/edit-widgets', 'welcomeGuide'), []);
   const {
-    toggle
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_preferences_namespaceObject.store);
-  const widgetAreas = (0,external_wp_data_namespaceObject.useSelect)(select => select(store_store).getWidgetAreas({
+    toggleFeature
+  } = Object(external_wp_data_["useDispatch"])(build_module["i" /* store */]);
+  const widgetAreas = Object(external_wp_data_["useSelect"])(select => select(store).getWidgetAreas({
     per_page: -1
   }), []);
+
   if (!isActive) {
     return null;
   }
-  const isEntirelyBlockWidgets = widgetAreas?.every(widgetArea => widgetArea.id === 'wp_inactive_widgets' || widgetArea.widgets.every(widgetId => widgetId.startsWith('block-')));
-  const numWidgetAreas = (_widgetAreas$filter$l = widgetAreas?.filter(widgetArea => widgetArea.id !== 'wp_inactive_widgets').length) !== null && _widgetAreas$filter$l !== void 0 ? _widgetAreas$filter$l : 0;
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Guide, {
+
+  const isEntirelyBlockWidgets = widgetAreas === null || widgetAreas === void 0 ? void 0 : widgetAreas.every(widgetArea => widgetArea.id === 'wp_inactive_widgets' || widgetArea.widgets.every(widgetId => widgetId.startsWith('block-')));
+  const numWidgetAreas = (_widgetAreas$filter$l = widgetAreas === null || widgetAreas === void 0 ? void 0 : widgetAreas.filter(widgetArea => widgetArea.id !== 'wp_inactive_widgets').length) !== null && _widgetAreas$filter$l !== void 0 ? _widgetAreas$filter$l : 0;
+  return Object(external_wp_element_["createElement"])(external_wp_components_["Guide"], {
     className: "edit-widgets-welcome-guide",
-    contentLabel: (0,external_wp_i18n_namespaceObject.__)('Welcome to block Widgets'),
-    finishButtonText: (0,external_wp_i18n_namespaceObject.__)('Get started'),
-    onFinish: () => toggle('core/edit-widgets', 'welcomeGuide'),
+    contentLabel: Object(external_wp_i18n_["__"])('Welcome to block Widgets'),
+    finishButtonText: Object(external_wp_i18n_["__"])('Get started'),
+    onFinish: () => toggleFeature('core/edit-widgets', 'welcomeGuide'),
     pages: [{
-      image: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(WelcomeGuideImage, {
+      image: Object(external_wp_element_["createElement"])(WelcomeGuideImage, {
         nonAnimatedSrc: "https://s.w.org/images/block-editor/welcome-canvas.svg",
         animatedSrc: "https://s.w.org/images/block-editor/welcome-canvas.gif"
       }),
-      content: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("h1", {
-          className: "edit-widgets-welcome-guide__heading",
-          children: (0,external_wp_i18n_namespaceObject.__)('Welcome to block Widgets')
-        }), isEntirelyBlockWidgets ? /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("p", {
-            className: "edit-widgets-welcome-guide__text",
-            children: (0,external_wp_i18n_namespaceObject.sprintf)(
-            // Translators: %s: Number of block areas in the current theme.
-            (0,external_wp_i18n_namespaceObject._n)('Your theme provides %s “block” area for you to add and edit content. Try adding a search bar, social icons, or other types of blocks here and see how they’ll look on your site.', 'Your theme provides %s different “block” areas for you to add and edit content. Try adding a search bar, social icons, or other types of blocks here and see how they’ll look on your site.', numWidgetAreas), numWidgetAreas)
-          })
-        }) : /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("p", {
-            className: "edit-widgets-welcome-guide__text",
-            children: (0,external_wp_i18n_namespaceObject.__)('You can now add any block to your site’s widget areas. Don’t worry, all of your favorite widgets still work flawlessly.')
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("p", {
-            className: "edit-widgets-welcome-guide__text",
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("strong", {
-              children: (0,external_wp_i18n_namespaceObject.__)('Want to stick with the old widgets?')
-            }), ' ', /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ExternalLink, {
-              href: (0,external_wp_i18n_namespaceObject.__)('https://wordpress.org/plugins/classic-widgets/'),
-              children: (0,external_wp_i18n_namespaceObject.__)('Get the Classic Widgets plugin.')
-            })]
-          })]
-        })]
-      })
+      content: Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])("h1", {
+        className: "edit-widgets-welcome-guide__heading"
+      }, Object(external_wp_i18n_["__"])('Welcome to block Widgets')), isEntirelyBlockWidgets ? Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])("p", {
+        className: "edit-widgets-welcome-guide__text"
+      }, Object(external_wp_i18n_["sprintf"])( // Translators: %s: Number of block areas in the current theme.
+      Object(external_wp_i18n_["_n"])('Your theme provides %s “block” area for you to add and edit content. Try adding a search bar, social icons, or other types of blocks here and see how they’ll look on your site.', 'Your theme provides %s different “block” areas for you to add and edit content. Try adding a search bar, social icons, or other types of blocks here and see how they’ll look on your site.', numWidgetAreas), numWidgetAreas))) : Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])("p", {
+        className: "edit-widgets-welcome-guide__text"
+      }, Object(external_wp_i18n_["__"])('You can now add any block to your site’s widget areas. Don’t worry, all of your favorite widgets still work flawlessly.')), Object(external_wp_element_["createElement"])("p", {
+        className: "edit-widgets-welcome-guide__text"
+      }, Object(external_wp_element_["createElement"])("strong", null, Object(external_wp_i18n_["__"])('Want to stick with the old widgets?')), ' ', Object(external_wp_element_["createElement"])(external_wp_components_["ExternalLink"], {
+        href: Object(external_wp_i18n_["__"])('https://wordpress.org/plugins/classic-widgets/')
+      }, Object(external_wp_i18n_["__"])('Get the Classic Widgets plugin.')))))
     }, {
-      image: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(WelcomeGuideImage, {
+      image: Object(external_wp_element_["createElement"])(WelcomeGuideImage, {
         nonAnimatedSrc: "https://s.w.org/images/block-editor/welcome-editor.svg",
         animatedSrc: "https://s.w.org/images/block-editor/welcome-editor.gif"
       }),
-      content: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("h1", {
-          className: "edit-widgets-welcome-guide__heading",
-          children: (0,external_wp_i18n_namespaceObject.__)('Make each block your own')
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("p", {
-          className: "edit-widgets-welcome-guide__text",
-          children: (0,external_wp_i18n_namespaceObject.__)('Each block comes with its own set of controls for changing things like color, width, and alignment. These will show and hide automatically when you have a block selected.')
-        })]
-      })
+      content: Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])("h1", {
+        className: "edit-widgets-welcome-guide__heading"
+      }, Object(external_wp_i18n_["__"])('Make each block your own')), Object(external_wp_element_["createElement"])("p", {
+        className: "edit-widgets-welcome-guide__text"
+      }, Object(external_wp_i18n_["__"])('Each block comes with its own set of controls for changing things like color, width, and alignment. These will show and hide automatically when you have a block selected.')))
     }, {
-      image: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(WelcomeGuideImage, {
+      image: Object(external_wp_element_["createElement"])(WelcomeGuideImage, {
         nonAnimatedSrc: "https://s.w.org/images/block-editor/welcome-library.svg",
         animatedSrc: "https://s.w.org/images/block-editor/welcome-library.gif"
       }),
-      content: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("h1", {
-          className: "edit-widgets-welcome-guide__heading",
-          children: (0,external_wp_i18n_namespaceObject.__)('Get to know the block library')
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("p", {
-          className: "edit-widgets-welcome-guide__text",
-          children: (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.__)('All of the blocks available to you live in the block library. You’ll find it wherever you see the <InserterIconImage /> icon.'), {
-            InserterIconImage: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("img", {
-              className: "edit-widgets-welcome-guide__inserter-icon",
-              alt: (0,external_wp_i18n_namespaceObject.__)('inserter'),
-              src: "data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='18' height='18' rx='2' fill='%231E1E1E'/%3E%3Cpath d='M9.22727 4V14M4 8.77273H14' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E%0A"
-            })
-          })
-        })]
-      })
+      content: Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])("h1", {
+        className: "edit-widgets-welcome-guide__heading"
+      }, Object(external_wp_i18n_["__"])('Get to know the block library')), Object(external_wp_element_["createElement"])("p", {
+        className: "edit-widgets-welcome-guide__text"
+      }, Object(external_wp_element_["createInterpolateElement"])(Object(external_wp_i18n_["__"])('All of the blocks available to you live in the block library. You’ll find it wherever you see the <InserterIconImage /> icon.'), {
+        InserterIconImage: Object(external_wp_element_["createElement"])("img", {
+          className: "edit-widgets-welcome-guide__inserter-icon",
+          alt: Object(external_wp_i18n_["__"])('inserter'),
+          src: "data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='18' height='18' rx='2' fill='%231E1E1E'/%3E%3Cpath d='M9.22727 4V14M4 8.77273H14' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E%0A"
+        })
+      })))
     }, {
-      image: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(WelcomeGuideImage, {
+      image: Object(external_wp_element_["createElement"])(WelcomeGuideImage, {
         nonAnimatedSrc: "https://s.w.org/images/block-editor/welcome-documentation.svg",
         animatedSrc: "https://s.w.org/images/block-editor/welcome-documentation.gif"
       }),
-      content: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("h1", {
-          className: "edit-widgets-welcome-guide__heading",
-          children: (0,external_wp_i18n_namespaceObject.__)('Learn how to use the block editor')
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("p", {
-          className: "edit-widgets-welcome-guide__text",
-          children: [(0,external_wp_i18n_namespaceObject.__)('New to the block editor? Want to learn more about using it? '), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ExternalLink, {
-            href: (0,external_wp_i18n_namespaceObject.__)('https://wordpress.org/documentation/article/wordpress-block-editor/'),
-            children: (0,external_wp_i18n_namespaceObject.__)("Here's a detailed guide.")
-          })]
-        })]
-      })
+      content: Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])("h1", {
+        className: "edit-widgets-welcome-guide__heading"
+      }, Object(external_wp_i18n_["__"])('Learn how to use the block editor')), Object(external_wp_element_["createElement"])("p", {
+        className: "edit-widgets-welcome-guide__text"
+      }, Object(external_wp_i18n_["__"])('New to the block editor? Want to learn more about using it? '), Object(external_wp_element_["createElement"])(external_wp_components_["ExternalLink"], {
+        href: Object(external_wp_i18n_["__"])('https://wordpress.org/support/article/wordpress-editor/')
+      }, Object(external_wp_i18n_["__"])("Here's a detailed guide."))))
     }]
   });
 }
-function WelcomeGuideImage({
-  nonAnimatedSrc,
-  animatedSrc
-}) {
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("picture", {
-    className: "edit-widgets-welcome-guide__image",
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("source", {
-      srcSet: nonAnimatedSrc,
-      media: "(prefers-reduced-motion: reduce)"
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("img", {
-      src: animatedSrc,
-      width: "312",
-      height: "240",
-      alt: ""
-    })]
-  });
+
+function WelcomeGuideImage(_ref) {
+  let {
+    nonAnimatedSrc,
+    animatedSrc
+  } = _ref;
+  return Object(external_wp_element_["createElement"])("picture", {
+    className: "edit-widgets-welcome-guide__image"
+  }, Object(external_wp_element_["createElement"])("source", {
+    srcSet: nonAnimatedSrc,
+    media: "(prefers-reduced-motion: reduce)"
+  }), Object(external_wp_element_["createElement"])("img", {
+    src: animatedSrc,
+    width: "312",
+    height: "240",
+    alt: ""
+  }));
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/layout/index.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/layout/index.js
+
+
 /**
  * WordPress dependencies
  */
-
-
-
 
 
 /**
@@ -4860,35 +3425,28 @@ function WelcomeGuideImage({
 
 
 
-function Layout({
-  blockEditorSettings
-}) {
-  const {
-    createErrorNotice
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_notices_namespaceObject.store);
-  function onPluginAreaError(name) {
-    createErrorNotice((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: plugin name */
-    (0,external_wp_i18n_namespaceObject.__)('The "%s" plugin has encountered an error and cannot be rendered.'), name));
-  }
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ErrorBoundary, {
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(WidgetAreasBlockEditorProvider, {
-      blockEditorSettings: blockEditorSettings,
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(layout_interface, {
-        blockEditorSettings: blockEditorSettings
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Sidebar, {}), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_plugins_namespaceObject.PluginArea, {
-        onError: onPluginAreaError
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(UnsavedChangesWarning, {}), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(WelcomeGuide, {})]
-    })
-  });
+function Layout(_ref) {
+  let {
+    blockEditorSettings,
+    onError
+  } = _ref;
+  return Object(external_wp_element_["createElement"])(error_boundary_ErrorBoundary, {
+    onError: onError
+  }, Object(external_wp_element_["createElement"])(WidgetAreasBlockEditorProvider, {
+    blockEditorSettings: blockEditorSettings
+  }, Object(external_wp_element_["createElement"])(layout_interface, {
+    blockEditorSettings: blockEditorSettings
+  }), Object(external_wp_element_["createElement"])(Sidebar, null), Object(external_wp_element_["createElement"])(external_wp_components_["Popover"].Slot, null), Object(external_wp_element_["createElement"])(external_wp_plugins_["PluginArea"], null), Object(external_wp_element_["createElement"])(UnsavedChangesWarning, null), Object(external_wp_element_["createElement"])(WelcomeGuide, null)));
 }
-/* harmony default export */ const layout = (Layout);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/index.js
+/* harmony default export */ var layout = (Layout);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/index.js
+
+
 /**
  * WordPress dependencies
  */
-
-
 
 
 
@@ -4906,79 +3464,1853 @@ function Layout({
 
 
 const disabledBlocks = ['core/more', 'core/freeform', 'core/template-part', ...(ALLOW_REUSABLE_BLOCKS ? [] : ['core/block'])];
+/**
+ * Reinitializes the editor after the user chooses to reboot the editor after
+ * an unhandled error occurs, replacing previously mounted editor element using
+ * an initial state from prior to the crash.
+ *
+ * @param {Element} target   DOM node in which editor is rendered.
+ * @param {?Object} settings Editor settings object.
+ */
 
+function reinitializeEditor(target, settings) {
+  Object(external_wp_element_["unmountComponentAtNode"])(target);
+  const reboot = reinitializeEditor.bind(null, target, settings);
+  Object(external_wp_element_["render"])(Object(external_wp_element_["createElement"])(layout, {
+    blockEditorSettings: settings,
+    onError: reboot
+  }), target);
+}
 /**
  * Initializes the block editor in the widgets screen.
  *
  * @param {string} id       ID of the root element to render the screen in.
  * @param {Object} settings Block editor settings.
  */
-function initializeEditor(id, settings) {
+
+function initialize(id, settings) {
   const target = document.getElementById(id);
-  const root = (0,external_wp_element_namespaceObject.createRoot)(target);
-  const coreBlocks = (0,external_wp_blockLibrary_namespaceObject.__experimentalGetCoreBlocks)().filter(block => {
+  const reboot = reinitializeEditor.bind(null, target, settings);
+
+  const coreBlocks = Object(external_wp_blockLibrary_["__experimentalGetCoreBlocks"])().filter(block => {
     return !(disabledBlocks.includes(block.name) || block.name.startsWith('core/post') || block.name.startsWith('core/query') || block.name.startsWith('core/site') || block.name.startsWith('core/navigation'));
   });
-  (0,external_wp_data_namespaceObject.dispatch)(external_wp_preferences_namespaceObject.store).setDefaults('core/edit-widgets', {
+
+  Object(external_wp_data_["dispatch"])(build_module["i" /* store */]).setFeatureDefaults('core/edit-widgets', {
     fixedToolbar: false,
     welcomeGuide: true,
     showBlockBreadcrumbs: true,
     themeStyles: true
   });
-  (0,external_wp_data_namespaceObject.dispatch)(external_wp_blocks_namespaceObject.store).reapplyBlockTypeFilters();
-  (0,external_wp_blockLibrary_namespaceObject.registerCoreBlocks)(coreBlocks);
-  (0,external_wp_widgets_namespaceObject.registerLegacyWidgetBlock)();
-  if (false) {}
-  (0,external_wp_widgets_namespaceObject.registerLegacyWidgetVariations)(settings);
-  registerBlock(widget_area_namespaceObject);
-  (0,external_wp_widgets_namespaceObject.registerWidgetGroupBlock)();
-  settings.__experimentalFetchLinkSuggestions = (search, searchOptions) => (0,external_wp_coreData_namespaceObject.__experimentalFetchLinkSuggestions)(search, searchOptions, settings);
 
-  // As we are unregistering `core/freeform` to avoid the Classic block, we must
+  Object(external_wp_data_["dispatch"])(external_wp_blocks_["store"]).__experimentalReapplyBlockTypeFilters();
+
+  Object(external_wp_blockLibrary_["registerCoreBlocks"])(coreBlocks);
+  Object(external_wp_widgets_["registerLegacyWidgetBlock"])();
+
+  if (false) {}
+
+  Object(external_wp_widgets_["registerLegacyWidgetVariations"])(settings);
+  registerBlock(widget_area_namespaceObject);
+  Object(external_wp_widgets_["registerWidgetGroupBlock"])();
+
+  settings.__experimentalFetchLinkSuggestions = (search, searchOptions) => Object(external_wp_coreData_["__experimentalFetchLinkSuggestions"])(search, searchOptions, settings); // As we are unregistering `core/freeform` to avoid the Classic block, we must
   // replace it with something as the default freeform content handler. Failure to
   // do this will result in errors in the default block parser.
   // see: https://github.com/WordPress/gutenberg/issues/33097
-  (0,external_wp_blocks_namespaceObject.setFreeformContentHandlerName)('core/html');
-  root.render( /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(layout, {
-    blockEditorSettings: settings
-  }));
-  return root;
-}
 
-/**
- * Compatibility export under the old `initialize` name.
- */
-const initialize = initializeEditor;
-function reinitializeEditor() {
-  external_wp_deprecated_default()('wp.editWidgets.reinitializeEditor', {
-    since: '6.2',
-    version: '6.3'
-  });
-}
 
+  Object(external_wp_blocks_["setFreeformContentHandlerName"])('core/html');
+  Object(external_wp_element_["render"])(Object(external_wp_element_["createElement"])(layout, {
+    blockEditorSettings: settings,
+    onError: reboot
+  }), target);
+}
 /**
  * Function to register an individual block.
  *
  * @param {Object} block The block to be registered.
+ *
  */
+
 const registerBlock = block => {
   if (!block) {
     return;
   }
+
   const {
     metadata,
     settings,
     name
   } = block;
+
   if (metadata) {
-    (0,external_wp_blocks_namespaceObject.unstable__bootstrapServerSideBlockDefinitions)({
+    Object(external_wp_blocks_["unstable__bootstrapServerSideBlockDefinitions"])({
       [name]: metadata
     });
   }
-  (0,external_wp_blocks_namespaceObject.registerBlockType)(name, settings);
+
+  Object(external_wp_blocks_["registerBlockType"])(name, settings);
 };
 
 
-(window.wp = window.wp || {}).editWidgets = __webpack_exports__;
-/******/ })()
-;
+/***/ }),
+
+/***/ "GLVC":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["widgets"]; }());
+
+/***/ }),
+
+/***/ "GRId":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["element"]; }());
+
+/***/ }),
+
+/***/ "HSyU":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["blocks"]; }());
+
+/***/ }),
+
+/***/ "K+tz":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+const external = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M18.2 17c0 .7-.6 1.2-1.2 1.2H7c-.7 0-1.2-.6-1.2-1.2V7c0-.7.6-1.2 1.2-1.2h3.2V4.2H7C5.5 4.2 4.2 5.5 4.2 7v10c0 1.5 1.2 2.8 2.8 2.8h10c1.5 0 2.8-1.2 2.8-2.8v-3.6h-1.5V17zM14.9 3v1.5h3.7l-6.4 6.4 1.1 1.1 6.4-6.4v3.7h1.5V3h-6.3z"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (external);
+
+
+/***/ }),
+
+/***/ "K2cm":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+const redo = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M15.6 6.5l-1.1 1 2.9 3.3H8c-.9 0-1.7.3-2.3.9-1.4 1.5-1.4 4.2-1.4 5.6v.2h1.5v-.3c0-1.1 0-3.5 1-4.5.3-.3.7-.5 1.3-.5h9.2L14.5 15l1.1 1.1 4.6-4.6-4.6-5z"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (redo);
+
+
+/***/ }),
+
+/***/ "K9lf":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["compose"]; }());
+
+/***/ }),
+
+/***/ "KEfo":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["viewport"]; }());
+
+/***/ }),
+
+/***/ "Mmq9":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["url"]; }());
+
+/***/ }),
+
+/***/ "Ntru":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+const undo = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M18.3 11.7c-.6-.6-1.4-.9-2.3-.9H6.7l2.9-3.3-1.1-1-4.5 5L8.5 16l1-1-2.7-2.7H16c.5 0 .9.2 1.3.5 1 1 1 3.4 1 4.5v.3h1.5v-.2c0-1.5 0-4.3-1.5-5.7z"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (undo);
+
+
+/***/ }),
+
+/***/ "OzlF":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+const listView = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M13.8 5.2H3v1.5h10.8V5.2zm-3.6 12v1.5H21v-1.5H10.2zm7.2-6H6.6v1.5h10.8v-1.5z"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (listView);
+
+
+/***/ }),
+
+/***/ "Q4Sy":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+const plus = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M18 11.2h-5.2V6h-1.6v5.2H6v1.6h5.2V18h1.6v-5.2H18z"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (plus);
+
+
+/***/ }),
+
+/***/ "QyPg":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["blockLibrary"]; }());
+
+/***/ }),
+
+/***/ "RMJe":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+const check = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M16.7 7.1l-6.3 8.5-3.3-2.5-.9 1.2 4.5 3.4L17.9 8z"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (check);
+
+
+/***/ }),
+
+/***/ "RxS6":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["keycodes"]; }());
+
+/***/ }),
+
+/***/ "TSYQ":
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+  Copyright (c) 2018 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
+/* global define */
+
+(function () {
+	'use strict';
+
+	var hasOwn = {}.hasOwnProperty;
+
+	function classNames() {
+		var classes = [];
+
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (!arg) continue;
+
+			var argType = typeof arg;
+
+			if (argType === 'string' || argType === 'number') {
+				classes.push(arg);
+			} else if (Array.isArray(arg)) {
+				if (arg.length) {
+					var inner = classNames.apply(null, arg);
+					if (inner) {
+						classes.push(inner);
+					}
+				}
+			} else if (argType === 'object') {
+				if (arg.toString === Object.prototype.toString) {
+					for (var key in arg) {
+						if (hasOwn.call(arg, key) && arg[key]) {
+							classes.push(key);
+						}
+					}
+				} else {
+					classes.push(arg.toString());
+				}
+			}
+		}
+
+		return classes.join(' ');
+	}
+
+	if ( true && module.exports) {
+		classNames.default = classNames;
+		module.exports = classNames;
+	} else if (true) {
+		// register as 'classnames', consistent with npm package name
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+			return classNames;
+		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {}
+}());
+
+
+/***/ }),
+
+/***/ "Tqx9":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["primitives"]; }());
+
+/***/ }),
+
+/***/ "TvNi":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["plugins"]; }());
+
+/***/ }),
+
+/***/ "U60i":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "b", function() { return /* reexport */ complementary_area; });
+__webpack_require__.d(__webpack_exports__, "c", function() { return /* reexport */ ComplementaryAreaMoreMenuItem; });
+__webpack_require__.d(__webpack_exports__, "d", function() { return /* reexport */ fullscreen_mode; });
+__webpack_require__.d(__webpack_exports__, "e", function() { return /* reexport */ interface_skeleton; });
+__webpack_require__.d(__webpack_exports__, "h", function() { return /* reexport */ pinned_items; });
+__webpack_require__.d(__webpack_exports__, "f", function() { return /* reexport */ MoreMenuDropdown; });
+__webpack_require__.d(__webpack_exports__, "g", function() { return /* reexport */ MoreMenuFeatureToggle; });
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* reexport */ action_item; });
+__webpack_require__.d(__webpack_exports__, "i", function() { return /* reexport */ store; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/interface/build-module/store/actions.js
+var actions_namespaceObject = {};
+__webpack_require__.r(actions_namespaceObject);
+__webpack_require__.d(actions_namespaceObject, "enableComplementaryArea", function() { return actions_enableComplementaryArea; });
+__webpack_require__.d(actions_namespaceObject, "disableComplementaryArea", function() { return actions_disableComplementaryArea; });
+__webpack_require__.d(actions_namespaceObject, "pinItem", function() { return actions_pinItem; });
+__webpack_require__.d(actions_namespaceObject, "unpinItem", function() { return actions_unpinItem; });
+__webpack_require__.d(actions_namespaceObject, "toggleFeature", function() { return actions_toggleFeature; });
+__webpack_require__.d(actions_namespaceObject, "setFeatureValue", function() { return setFeatureValue; });
+__webpack_require__.d(actions_namespaceObject, "setFeatureDefaults", function() { return setFeatureDefaults; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/interface/build-module/store/selectors.js
+var selectors_namespaceObject = {};
+__webpack_require__.r(selectors_namespaceObject);
+__webpack_require__.d(selectors_namespaceObject, "getActiveComplementaryArea", function() { return selectors_getActiveComplementaryArea; });
+__webpack_require__.d(selectors_namespaceObject, "isItemPinned", function() { return selectors_isItemPinned; });
+__webpack_require__.d(selectors_namespaceObject, "isFeatureActive", function() { return isFeatureActive; });
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
+var esm_extends = __webpack_require__("wx14");
+
+// EXTERNAL MODULE: external ["wp","element"]
+var external_wp_element_ = __webpack_require__("GRId");
+
+// EXTERNAL MODULE: ./node_modules/classnames/index.js
+var classnames = __webpack_require__("TSYQ");
+var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
+
+// EXTERNAL MODULE: external ["wp","components"]
+var external_wp_components_ = __webpack_require__("tI+e");
+
+// EXTERNAL MODULE: external ["wp","data"]
+var external_wp_data_ = __webpack_require__("1ZqX");
+
+// EXTERNAL MODULE: external ["wp","i18n"]
+var external_wp_i18n_ = __webpack_require__("l3Sj");
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/check.js
+var check = __webpack_require__("RMJe");
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/star-filled.js
+var star_filled = __webpack_require__("URob");
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/star-empty.js
+var star_empty = __webpack_require__("Xxwi");
+
+// EXTERNAL MODULE: external ["wp","viewport"]
+var external_wp_viewport_ = __webpack_require__("KEfo");
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/close-small.js
+var close_small = __webpack_require__("bWcr");
+
+// EXTERNAL MODULE: external "lodash"
+var external_lodash_ = __webpack_require__("YLtl");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/store/reducer.js
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Reducer to keep tract of the active area per scope.
+ *
+ * @param {boolean} state           Previous state.
+ * @param {Object}  action          Action object.
+ * @param {string}  action.type     Action type.
+ * @param {string}  action.itemType Type of item.
+ * @param {string}  action.scope    Item scope.
+ * @param {string}  action.item     Item name.
+ *
+ * @return {Object} Updated state.
+ */
+
+function singleEnableItems() {
+  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  let {
+    type,
+    itemType,
+    scope,
+    item
+  } = arguments.length > 1 ? arguments[1] : undefined;
+
+  if (type !== 'SET_SINGLE_ENABLE_ITEM' || !itemType || !scope) {
+    return state;
+  }
+
+  return { ...state,
+    [itemType]: { ...state[itemType],
+      [scope]: item || null
+    }
+  };
+}
+/**
+ * Reducer keeping track of the "pinned" items per scope.
+ *
+ * @param {boolean} state           Previous state.
+ * @param {Object}  action          Action object.
+ * @param {string}  action.type     Action type.
+ * @param {string}  action.itemType Type of item.
+ * @param {string}  action.scope    Item scope.
+ * @param {string}  action.item     Item name.
+ * @param {boolean} action.isEnable Whether the item is pinned.
+ *
+ * @return {Object} Updated state.
+ */
+
+function multipleEnableItems() {
+  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  let {
+    type,
+    itemType,
+    scope,
+    item,
+    isEnable
+  } = arguments.length > 1 ? arguments[1] : undefined;
+
+  if (type !== 'SET_MULTIPLE_ENABLE_ITEM' || !itemType || !scope || !item || Object(external_lodash_["get"])(state, [itemType, scope, item]) === isEnable) {
+    return state;
+  }
+
+  const currentTypeState = state[itemType] || {};
+  const currentScopeState = currentTypeState[scope] || {};
+  return { ...state,
+    [itemType]: { ...currentTypeState,
+      [scope]: { ...currentScopeState,
+        [item]: isEnable || false
+      }
+    }
+  };
+}
+/**
+ * Reducer returning the defaults for user preferences.
+ *
+ * This is kept intentionally separate from the preferences
+ * themselves so that defaults are not persisted.
+ *
+ * @param {Object} state  Current state.
+ * @param {Object} action Dispatched action.
+ *
+ * @return {Object} Updated state.
+ */
+
+const preferenceDefaults = Object(external_wp_data_["combineReducers"])({
+  features() {
+    let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    let action = arguments.length > 1 ? arguments[1] : undefined;
+
+    if (action.type === 'SET_FEATURE_DEFAULTS') {
+      const {
+        scope,
+        defaults
+      } = action;
+      return { ...state,
+        [scope]: { ...state[scope],
+          ...defaults
+        }
+      };
+    }
+
+    return state;
+  }
+
+});
+/**
+ * Reducer returning the user preferences.
+ *
+ * @param {Object} state  Current state.
+ * @param {Object} action Dispatched action.
+ *
+ * @return {Object} Updated state.
+ */
+
+const preferences = Object(external_wp_data_["combineReducers"])({
+  features() {
+    let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    let action = arguments.length > 1 ? arguments[1] : undefined;
+
+    if (action.type === 'SET_FEATURE_VALUE') {
+      const {
+        scope,
+        featureName,
+        value
+      } = action;
+      return { ...state,
+        [scope]: { ...state[scope],
+          [featureName]: value
+        }
+      };
+    }
+
+    return state;
+  }
+
+});
+const enableItems = Object(external_wp_data_["combineReducers"])({
+  singleEnableItems,
+  multipleEnableItems
+});
+/* harmony default export */ var reducer = (Object(external_wp_data_["combineReducers"])({
+  enableItems,
+  preferenceDefaults,
+  preferences
+}));
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/store/actions.js
+/**
+ * Returns an action object used in signalling that an active area should be changed.
+ *
+ * @param {string} itemType Type of item.
+ * @param {string} scope    Item scope.
+ * @param {string} item     Item identifier.
+ *
+ * @return {Object} Action object.
+ */
+function setSingleEnableItem(itemType, scope, item) {
+  return {
+    type: 'SET_SINGLE_ENABLE_ITEM',
+    itemType,
+    scope,
+    item
+  };
+}
+/**
+ * Returns an action object used in signalling that a complementary item should be enabled.
+ *
+ * @param {string} scope Complementary area scope.
+ * @param {string} area  Area identifier.
+ *
+ * @return {Object} Action object.
+ */
+
+
+function actions_enableComplementaryArea(scope, area) {
+  return setSingleEnableItem('complementaryArea', scope, area);
+}
+/**
+ * Returns an action object used in signalling that the complementary area of a given scope should be disabled.
+ *
+ * @param {string} scope Complementary area scope.
+ *
+ * @return {Object} Action object.
+ */
+
+function actions_disableComplementaryArea(scope) {
+  return setSingleEnableItem('complementaryArea', scope, undefined);
+}
+/**
+ * Returns an action object to make an area enabled/disabled.
+ *
+ * @param {string}  itemType Type of item.
+ * @param {string}  scope    Item scope.
+ * @param {string}  item     Item identifier.
+ * @param {boolean} isEnable Boolean indicating if an area should be pinned or not.
+ *
+ * @return {Object} Action object.
+ */
+
+function setMultipleEnableItem(itemType, scope, item, isEnable) {
+  return {
+    type: 'SET_MULTIPLE_ENABLE_ITEM',
+    itemType,
+    scope,
+    item,
+    isEnable
+  };
+}
+/**
+ * Returns an action object used in signalling that an item should be pinned.
+ *
+ * @param {string} scope  Item scope.
+ * @param {string} itemId Item identifier.
+ *
+ * @return {Object} Action object.
+ */
+
+
+function actions_pinItem(scope, itemId) {
+  return setMultipleEnableItem('pinnedItems', scope, itemId, true);
+}
+/**
+ * Returns an action object used in signalling that an item should be unpinned.
+ *
+ * @param {string} scope  Item scope.
+ * @param {string} itemId Item identifier.
+ *
+ * @return {Object} Action object.
+ */
+
+function actions_unpinItem(scope, itemId) {
+  return setMultipleEnableItem('pinnedItems', scope, itemId, false);
+}
+/**
+ * Returns an action object used in signalling that a feature should be toggled.
+ *
+ * @param {string} scope       The feature scope (e.g. core/edit-post).
+ * @param {string} featureName The feature name.
+ */
+
+function actions_toggleFeature(scope, featureName) {
+  return function (_ref) {
+    let {
+      select,
+      dispatch
+    } = _ref;
+    const currentValue = select.isFeatureActive(scope, featureName);
+    dispatch.setFeatureValue(scope, featureName, !currentValue);
+  };
+}
+/**
+ * Returns an action object used in signalling that a feature should be set to
+ * a true or false value
+ *
+ * @param {string}  scope       The feature scope (e.g. core/edit-post).
+ * @param {string}  featureName The feature name.
+ * @param {boolean} value       The value to set.
+ *
+ * @return {Object} Action object.
+ */
+
+function setFeatureValue(scope, featureName, value) {
+  return {
+    type: 'SET_FEATURE_VALUE',
+    scope,
+    featureName,
+    value: !!value
+  };
+}
+/**
+ * Returns an action object used in signalling that defaults should be set for features.
+ *
+ * @param {string}                  scope    The feature scope (e.g. core/edit-post).
+ * @param {Object<string, boolean>} defaults A key/value map of feature names to values.
+ *
+ * @return {Object} Action object.
+ */
+
+function setFeatureDefaults(scope, defaults) {
+  return {
+    type: 'SET_FEATURE_DEFAULTS',
+    scope,
+    defaults
+  };
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/store/selectors.js
+/**
+ * External dependencies
+ */
+
+/**
+ * Returns the item that is enabled in a given scope.
+ *
+ * @param {Object} state    Global application state.
+ * @param {string} itemType Type of item.
+ * @param {string} scope    Item scope.
+ *
+ * @return {?string|null} The item that is enabled in the passed scope and type.
+ */
+
+function getSingleEnableItem(state, itemType, scope) {
+  return Object(external_lodash_["get"])(state.enableItems.singleEnableItems, [itemType, scope]);
+}
+/**
+ * Returns the complementary area that is active in a given scope.
+ *
+ * @param {Object} state Global application state.
+ * @param {string} scope Item scope.
+ *
+ * @return {string} The complementary area that is active in the given scope.
+ */
+
+
+function selectors_getActiveComplementaryArea(state, scope) {
+  return getSingleEnableItem(state, 'complementaryArea', scope);
+}
+/**
+ * Returns a boolean indicating if an item is enabled or not in a given scope.
+ *
+ * @param {Object} state    Global application state.
+ * @param {string} itemType Type of item.
+ * @param {string} scope    Scope.
+ * @param {string} item     Item to check.
+ *
+ * @return {boolean|undefined} True if the item is enabled, false otherwise if the item is explicitly disabled, and undefined if there is no information for that item.
+ */
+
+function isMultipleEnabledItemEnabled(state, itemType, scope, item) {
+  return Object(external_lodash_["get"])(state.enableItems.multipleEnableItems, [itemType, scope, item]);
+}
+/**
+ * Returns a boolean indicating if an item is pinned or not.
+ *
+ * @param {Object} state Global application state.
+ * @param {string} scope Scope.
+ * @param {string} item  Item to check.
+ *
+ * @return {boolean} True if the item is pinned and false otherwise.
+ */
+
+
+function selectors_isItemPinned(state, scope, item) {
+  return isMultipleEnabledItemEnabled(state, 'pinnedItems', scope, item) !== false;
+}
+/**
+ * Returns a boolean indicating whether a feature is active for a particular
+ * scope.
+ *
+ * @param {Object} state       The store state.
+ * @param {string} scope       The scope of the feature (e.g. core/edit-post).
+ * @param {string} featureName The name of the feature.
+ *
+ * @return {boolean} Is the feature enabled?
+ */
+
+function isFeatureActive(state, scope, featureName) {
+  var _state$preferences$fe, _state$preferenceDefa;
+
+  const featureValue = (_state$preferences$fe = state.preferences.features[scope]) === null || _state$preferences$fe === void 0 ? void 0 : _state$preferences$fe[featureName];
+  const defaultedFeatureValue = featureValue !== undefined ? featureValue : (_state$preferenceDefa = state.preferenceDefaults.features[scope]) === null || _state$preferenceDefa === void 0 ? void 0 : _state$preferenceDefa[featureName];
+  return !!defaultedFeatureValue;
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/store/constants.js
+/**
+ * The identifier for the data store.
+ *
+ * @type {string}
+ */
+const STORE_NAME = 'core/interface';
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/store/index.js
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+
+/**
+ * Store definition for the interface namespace.
+ *
+ * @see https://github.com/WordPress/gutenberg/blob/HEAD/packages/data/README.md#createReduxStore
+ *
+ * @type {Object}
+ */
+
+const store = Object(external_wp_data_["createReduxStore"])(STORE_NAME, {
+  reducer: reducer,
+  actions: actions_namespaceObject,
+  selectors: selectors_namespaceObject,
+  persist: ['enableItems', 'preferences'],
+  __experimentalUseThunks: true
+}); // Once we build a more generic persistence plugin that works across types of stores
+// we'd be able to replace this with a register call.
+
+Object(external_wp_data_["registerStore"])(STORE_NAME, {
+  reducer: reducer,
+  actions: actions_namespaceObject,
+  selectors: selectors_namespaceObject,
+  persist: ['enableItems', 'preferences'],
+  __experimentalUseThunks: true
+});
+
+// EXTERNAL MODULE: external ["wp","plugins"]
+var external_wp_plugins_ = __webpack_require__("TvNi");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/complementary-area-context/index.js
+/**
+ * WordPress dependencies
+ */
+
+/* harmony default export */ var complementary_area_context = (Object(external_wp_plugins_["withPluginContext"])((context, ownProps) => {
+  return {
+    icon: ownProps.icon || context.icon,
+    identifier: ownProps.identifier || `${context.name}/${ownProps.name}`
+  };
+}));
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/complementary-area-toggle/index.js
+
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+function ComplementaryAreaToggle(_ref) {
+  let {
+    as = external_wp_components_["Button"],
+    scope,
+    identifier,
+    icon,
+    selectedIcon,
+    ...props
+  } = _ref;
+  const ComponentToUse = as;
+  const isSelected = Object(external_wp_data_["useSelect"])(select => select(store).getActiveComplementaryArea(scope) === identifier, [identifier]);
+  const {
+    enableComplementaryArea,
+    disableComplementaryArea
+  } = Object(external_wp_data_["useDispatch"])(store);
+  return Object(external_wp_element_["createElement"])(ComponentToUse, Object(esm_extends["a" /* default */])({
+    icon: selectedIcon && isSelected ? selectedIcon : icon,
+    onClick: () => {
+      if (isSelected) {
+        disableComplementaryArea(scope);
+      } else {
+        enableComplementaryArea(scope, identifier);
+      }
+    }
+  }, Object(external_lodash_["omit"])(props, ['name'])));
+}
+
+/* harmony default export */ var complementary_area_toggle = (complementary_area_context(ComplementaryAreaToggle));
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/complementary-area-header/index.js
+
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+const ComplementaryAreaHeader = _ref => {
+  let {
+    smallScreenTitle,
+    children,
+    className,
+    toggleButtonProps
+  } = _ref;
+  const toggleButton = Object(external_wp_element_["createElement"])(complementary_area_toggle, Object(esm_extends["a" /* default */])({
+    icon: close_small["a" /* default */]
+  }, toggleButtonProps));
+  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])("div", {
+    className: "components-panel__header interface-complementary-area-header__small"
+  }, smallScreenTitle && Object(external_wp_element_["createElement"])("span", {
+    className: "interface-complementary-area-header__small-title"
+  }, smallScreenTitle), toggleButton), Object(external_wp_element_["createElement"])("div", {
+    className: classnames_default()('components-panel__header', 'interface-complementary-area-header', className),
+    tabIndex: -1
+  }, children, toggleButton));
+};
+
+/* harmony default export */ var complementary_area_header = (ComplementaryAreaHeader);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/action-item/index.js
+
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+function ActionItemSlot(_ref) {
+  let {
+    name,
+    as: Component = external_wp_components_["ButtonGroup"],
+    fillProps = {},
+    bubblesVirtually,
+    ...props
+  } = _ref;
+  return Object(external_wp_element_["createElement"])(external_wp_components_["Slot"], {
+    name: name,
+    bubblesVirtually: bubblesVirtually,
+    fillProps: fillProps
+  }, fills => {
+    if (Object(external_lodash_["isEmpty"])(external_wp_element_["Children"].toArray(fills))) {
+      return null;
+    } // Special handling exists for backward compatibility.
+    // It ensures that menu items created by plugin authors aren't
+    // duplicated with automatically injected menu items coming
+    // from pinnable plugin sidebars.
+    // @see https://github.com/WordPress/gutenberg/issues/14457
+
+
+    const initializedByPlugins = [];
+    external_wp_element_["Children"].forEach(fills, _ref2 => {
+      let {
+        props: {
+          __unstableExplicitMenuItem,
+          __unstableTarget
+        }
+      } = _ref2;
+
+      if (__unstableTarget && __unstableExplicitMenuItem) {
+        initializedByPlugins.push(__unstableTarget);
+      }
+    });
+    const children = external_wp_element_["Children"].map(fills, child => {
+      if (!child.props.__unstableExplicitMenuItem && initializedByPlugins.includes(child.props.__unstableTarget)) {
+        return null;
+      }
+
+      return child;
+    });
+    return Object(external_wp_element_["createElement"])(Component, props, children);
+  });
+}
+
+function ActionItem(_ref3) {
+  let {
+    name,
+    as: Component = external_wp_components_["Button"],
+    onClick,
+    ...props
+  } = _ref3;
+  return Object(external_wp_element_["createElement"])(external_wp_components_["Fill"], {
+    name: name
+  }, _ref4 => {
+    let {
+      onClick: fpOnClick
+    } = _ref4;
+    return Object(external_wp_element_["createElement"])(Component, Object(esm_extends["a" /* default */])({
+      onClick: onClick || fpOnClick ? function () {
+        (onClick || external_lodash_["noop"])(...arguments);
+        (fpOnClick || external_lodash_["noop"])(...arguments);
+      } : undefined
+    }, props));
+  });
+}
+
+ActionItem.Slot = ActionItemSlot;
+/* harmony default export */ var action_item = (ActionItem);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/complementary-area-more-menu-item/index.js
+
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+const PluginsMenuItem = props => // Menu item is marked with unstable prop for backward compatibility.
+// They are removed so they don't leak to DOM elements.
+// @see https://github.com/WordPress/gutenberg/issues/14457
+Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], Object(external_lodash_["omit"])(props, ['__unstableExplicitMenuItem', '__unstableTarget']));
+
+function ComplementaryAreaMoreMenuItem(_ref) {
+  let {
+    scope,
+    target,
+    __unstableExplicitMenuItem,
+    ...props
+  } = _ref;
+  return Object(external_wp_element_["createElement"])(complementary_area_toggle, Object(esm_extends["a" /* default */])({
+    as: toggleProps => {
+      return Object(external_wp_element_["createElement"])(action_item, Object(esm_extends["a" /* default */])({
+        __unstableExplicitMenuItem: __unstableExplicitMenuItem,
+        __unstableTarget: `${scope}/${target}`,
+        as: PluginsMenuItem,
+        name: `${scope}/plugin-more-menu`
+      }, toggleProps));
+    },
+    role: "menuitemcheckbox",
+    selectedIcon: check["a" /* default */],
+    name: target,
+    scope: scope
+  }, props));
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/pinned-items/index.js
+
+
+
+/**
+ * External dependencies
+ */
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+function PinnedItems(_ref) {
+  let {
+    scope,
+    ...props
+  } = _ref;
+  return Object(external_wp_element_["createElement"])(external_wp_components_["Fill"], Object(esm_extends["a" /* default */])({
+    name: `PinnedItems/${scope}`
+  }, props));
+}
+
+function PinnedItemsSlot(_ref2) {
+  let {
+    scope,
+    className,
+    ...props
+  } = _ref2;
+  return Object(external_wp_element_["createElement"])(external_wp_components_["Slot"], Object(esm_extends["a" /* default */])({
+    name: `PinnedItems/${scope}`
+  }, props), fills => !Object(external_lodash_["isEmpty"])(fills) && Object(external_wp_element_["createElement"])("div", {
+    className: classnames_default()(className, 'interface-pinned-items')
+  }, fills));
+}
+
+PinnedItems.Slot = PinnedItemsSlot;
+/* harmony default export */ var pinned_items = (PinnedItems);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/complementary-area/index.js
+
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+
+
+
+
+function ComplementaryAreaSlot(_ref) {
+  let {
+    scope,
+    ...props
+  } = _ref;
+  return Object(external_wp_element_["createElement"])(external_wp_components_["Slot"], Object(esm_extends["a" /* default */])({
+    name: `ComplementaryArea/${scope}`
+  }, props));
+}
+
+function ComplementaryAreaFill(_ref2) {
+  let {
+    scope,
+    children,
+    className
+  } = _ref2;
+  return Object(external_wp_element_["createElement"])(external_wp_components_["Fill"], {
+    name: `ComplementaryArea/${scope}`
+  }, Object(external_wp_element_["createElement"])("div", {
+    className: className
+  }, children));
+}
+
+function useAdjustComplementaryListener(scope, identifier, activeArea, isActive, isSmall) {
+  const previousIsSmall = Object(external_wp_element_["useRef"])(false);
+  const shouldOpenWhenNotSmall = Object(external_wp_element_["useRef"])(false);
+  const {
+    enableComplementaryArea,
+    disableComplementaryArea
+  } = Object(external_wp_data_["useDispatch"])(store);
+  Object(external_wp_element_["useEffect"])(() => {
+    // If the complementary area is active and the editor is switching from a big to a small window size.
+    if (isActive && isSmall && !previousIsSmall.current) {
+      // Disable the complementary area.
+      disableComplementaryArea(scope); // Flag the complementary area to be reopened when the window size goes from small to big.
+
+      shouldOpenWhenNotSmall.current = true;
+    } else if ( // If there is a flag indicating the complementary area should be enabled when we go from small to big window size
+    // and we are going from a small to big window size.
+    shouldOpenWhenNotSmall.current && !isSmall && previousIsSmall.current) {
+      // Remove the flag indicating the complementary area should be enabled.
+      shouldOpenWhenNotSmall.current = false; // Enable the complementary area.
+
+      enableComplementaryArea(scope, identifier);
+    } else if ( // If the flag is indicating the current complementary should be reopened but another complementary area becomes active,
+    // remove the flag.
+    shouldOpenWhenNotSmall.current && activeArea && activeArea !== identifier) {
+      shouldOpenWhenNotSmall.current = false;
+    }
+
+    if (isSmall !== previousIsSmall.current) {
+      previousIsSmall.current = isSmall;
+    }
+  }, [isActive, isSmall, scope, identifier, activeArea]);
+}
+
+function ComplementaryArea(_ref3) {
+  let {
+    children,
+    className,
+    closeLabel = Object(external_wp_i18n_["__"])('Close plugin'),
+    identifier,
+    header,
+    headerClassName,
+    icon,
+    isPinnable = true,
+    panelClassName,
+    scope,
+    name,
+    smallScreenTitle,
+    title,
+    toggleShortcut,
+    isActiveByDefault,
+    showIconLabels = false
+  } = _ref3;
+  const {
+    isActive,
+    isPinned,
+    activeArea,
+    isSmall,
+    isLarge
+  } = Object(external_wp_data_["useSelect"])(select => {
+    const {
+      getActiveComplementaryArea,
+      isItemPinned
+    } = select(store);
+
+    const _activeArea = getActiveComplementaryArea(scope);
+
+    return {
+      isActive: _activeArea === identifier,
+      isPinned: isItemPinned(scope, identifier),
+      activeArea: _activeArea,
+      isSmall: select(external_wp_viewport_["store"]).isViewportMatch('< medium'),
+      isLarge: select(external_wp_viewport_["store"]).isViewportMatch('large')
+    };
+  }, [identifier, scope]);
+  useAdjustComplementaryListener(scope, identifier, activeArea, isActive, isSmall);
+  const {
+    enableComplementaryArea,
+    disableComplementaryArea,
+    pinItem,
+    unpinItem
+  } = Object(external_wp_data_["useDispatch"])(store);
+  Object(external_wp_element_["useEffect"])(() => {
+    if (isActiveByDefault && activeArea === undefined && !isSmall) {
+      enableComplementaryArea(scope, identifier);
+    }
+  }, [activeArea, isActiveByDefault, scope, identifier, isSmall]);
+  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, isPinnable && Object(external_wp_element_["createElement"])(pinned_items, {
+    scope: scope
+  }, isPinned && Object(external_wp_element_["createElement"])(complementary_area_toggle, {
+    scope: scope,
+    identifier: identifier,
+    isPressed: isActive && (!showIconLabels || isLarge),
+    "aria-expanded": isActive,
+    label: title,
+    icon: showIconLabels ? check["a" /* default */] : icon,
+    showTooltip: !showIconLabels,
+    variant: showIconLabels ? 'tertiary' : undefined
+  })), name && isPinnable && Object(external_wp_element_["createElement"])(ComplementaryAreaMoreMenuItem, {
+    target: name,
+    scope: scope,
+    icon: icon
+  }, title), isActive && Object(external_wp_element_["createElement"])(ComplementaryAreaFill, {
+    className: classnames_default()('interface-complementary-area', className),
+    scope: scope
+  }, Object(external_wp_element_["createElement"])(complementary_area_header, {
+    className: headerClassName,
+    closeLabel: closeLabel,
+    onClose: () => disableComplementaryArea(scope),
+    smallScreenTitle: smallScreenTitle,
+    toggleButtonProps: {
+      label: closeLabel,
+      shortcut: toggleShortcut,
+      scope,
+      identifier
+    }
+  }, header || Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])("strong", null, title), isPinnable && Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
+    className: "interface-complementary-area__pin-unpin-item",
+    icon: isPinned ? star_filled["a" /* default */] : star_empty["a" /* default */],
+    label: isPinned ? Object(external_wp_i18n_["__"])('Unpin from toolbar') : Object(external_wp_i18n_["__"])('Pin to toolbar'),
+    onClick: () => (isPinned ? unpinItem : pinItem)(scope, identifier),
+    isPressed: isPinned,
+    "aria-expanded": isPinned
+  }))), Object(external_wp_element_["createElement"])(external_wp_components_["Panel"], {
+    className: panelClassName
+  }, children)));
+}
+
+const ComplementaryAreaWrapped = complementary_area_context(ComplementaryArea);
+ComplementaryAreaWrapped.Slot = ComplementaryAreaSlot;
+/* harmony default export */ var complementary_area = (ComplementaryAreaWrapped);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/fullscreen-mode/index.js
+/**
+ * WordPress dependencies
+ */
+
+
+const FullscreenMode = _ref => {
+  let {
+    isActive
+  } = _ref;
+  Object(external_wp_element_["useEffect"])(() => {
+    let isSticky = false; // `is-fullscreen-mode` is set in PHP as a body class by Gutenberg, and this causes
+    // `sticky-menu` to be applied by WordPress and prevents the admin menu being scrolled
+    // even if `is-fullscreen-mode` is then removed. Let's remove `sticky-menu` here as
+    // a consequence of the FullscreenMode setup
+
+    if (document.body.classList.contains('sticky-menu')) {
+      isSticky = true;
+      document.body.classList.remove('sticky-menu');
+    }
+
+    return () => {
+      if (isSticky) {
+        document.body.classList.add('sticky-menu');
+      }
+    };
+  }, []);
+  Object(external_wp_element_["useEffect"])(() => {
+    if (isActive) {
+      document.body.classList.add('is-fullscreen-mode');
+    } else {
+      document.body.classList.remove('is-fullscreen-mode');
+    }
+
+    return () => {
+      if (isActive) {
+        document.body.classList.remove('is-fullscreen-mode');
+      }
+    };
+  }, [isActive]);
+  return null;
+};
+
+/* harmony default export */ var fullscreen_mode = (FullscreenMode);
+
+// EXTERNAL MODULE: external ["wp","compose"]
+var external_wp_compose_ = __webpack_require__("K9lf");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/interface-skeleton/index.js
+
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+
+function useHTMLClass(className) {
+  Object(external_wp_element_["useEffect"])(() => {
+    const element = document && document.querySelector(`html:not(.${className})`);
+
+    if (!element) {
+      return;
+    }
+
+    element.classList.toggle(className);
+    return () => {
+      element.classList.toggle(className);
+    };
+  }, [className]);
+}
+
+function InterfaceSkeleton(_ref, ref) {
+  let {
+    footer,
+    header,
+    sidebar,
+    secondarySidebar,
+    notices,
+    content,
+    drawer,
+    actions,
+    labels,
+    className,
+    shortcuts
+  } = _ref;
+  const navigateRegionsProps = Object(external_wp_components_["__unstableUseNavigateRegions"])(shortcuts);
+  useHTMLClass('interface-interface-skeleton__html-container');
+  const defaultLabels = {
+    /* translators: accessibility text for the nav bar landmark region. */
+    drawer: Object(external_wp_i18n_["__"])('Drawer'),
+
+    /* translators: accessibility text for the top bar landmark region. */
+    header: Object(external_wp_i18n_["__"])('Header'),
+
+    /* translators: accessibility text for the content landmark region. */
+    body: Object(external_wp_i18n_["__"])('Content'),
+
+    /* translators: accessibility text for the secondary sidebar landmark region. */
+    secondarySidebar: Object(external_wp_i18n_["__"])('Block Library'),
+
+    /* translators: accessibility text for the settings landmark region. */
+    sidebar: Object(external_wp_i18n_["__"])('Settings'),
+
+    /* translators: accessibility text for the publish landmark region. */
+    actions: Object(external_wp_i18n_["__"])('Publish'),
+
+    /* translators: accessibility text for the footer landmark region. */
+    footer: Object(external_wp_i18n_["__"])('Footer')
+  };
+  const mergedLabels = { ...defaultLabels,
+    ...labels
+  };
+  return Object(external_wp_element_["createElement"])("div", Object(esm_extends["a" /* default */])({}, navigateRegionsProps, {
+    ref: Object(external_wp_compose_["useMergeRefs"])([ref, navigateRegionsProps.ref]),
+    className: classnames_default()(className, 'interface-interface-skeleton', navigateRegionsProps.className, !!footer && 'has-footer')
+  }), !!drawer && Object(external_wp_element_["createElement"])("div", {
+    className: "interface-interface-skeleton__drawer",
+    role: "region",
+    "aria-label": mergedLabels.drawer,
+    tabIndex: "-1"
+  }, drawer), Object(external_wp_element_["createElement"])("div", {
+    className: "interface-interface-skeleton__editor"
+  }, !!header && Object(external_wp_element_["createElement"])("div", {
+    className: "interface-interface-skeleton__header",
+    role: "region",
+    "aria-label": mergedLabels.header,
+    tabIndex: "-1"
+  }, header), Object(external_wp_element_["createElement"])("div", {
+    className: "interface-interface-skeleton__body"
+  }, !!secondarySidebar && Object(external_wp_element_["createElement"])("div", {
+    className: "interface-interface-skeleton__secondary-sidebar",
+    role: "region",
+    "aria-label": mergedLabels.secondarySidebar,
+    tabIndex: "-1"
+  }, secondarySidebar), !!notices && Object(external_wp_element_["createElement"])("div", {
+    className: "interface-interface-skeleton__notices"
+  }, notices), Object(external_wp_element_["createElement"])("div", {
+    className: "interface-interface-skeleton__content",
+    role: "region",
+    "aria-label": mergedLabels.body,
+    tabIndex: "-1"
+  }, content), !!sidebar && Object(external_wp_element_["createElement"])("div", {
+    className: "interface-interface-skeleton__sidebar",
+    role: "region",
+    "aria-label": mergedLabels.sidebar,
+    tabIndex: "-1"
+  }, sidebar), !!actions && Object(external_wp_element_["createElement"])("div", {
+    className: "interface-interface-skeleton__actions",
+    role: "region",
+    "aria-label": mergedLabels.actions,
+    tabIndex: "-1"
+  }, actions))), !!footer && Object(external_wp_element_["createElement"])("div", {
+    className: "interface-interface-skeleton__footer",
+    role: "region",
+    "aria-label": mergedLabels.footer,
+    tabIndex: "-1"
+  }, footer));
+}
+
+/* harmony default export */ var interface_skeleton = (Object(external_wp_element_["forwardRef"])(InterfaceSkeleton));
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/more-vertical.js
+var more_vertical = __webpack_require__("VKE3");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/more-menu-dropdown/index.js
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+function MoreMenuDropdown(_ref) {
+  let {
+    as: DropdownComponent = external_wp_components_["DropdownMenu"],
+    className,
+
+    /* translators: button label text should, if possible, be under 16 characters. */
+    label = Object(external_wp_i18n_["__"])('Options'),
+    popoverProps,
+    toggleProps,
+    children
+  } = _ref;
+  return Object(external_wp_element_["createElement"])(DropdownComponent, {
+    className: classnames_default()('interface-more-menu-dropdown', className),
+    icon: more_vertical["a" /* default */],
+    label: label,
+    popoverProps: {
+      position: 'bottom left',
+      ...popoverProps,
+      className: classnames_default()('interface-more-menu-dropdown__content', popoverProps === null || popoverProps === void 0 ? void 0 : popoverProps.className)
+    },
+    toggleProps: {
+      tooltipPosition: 'bottom',
+      ...toggleProps
+    }
+  }, onClose => children(onClose));
+}
+
+// EXTERNAL MODULE: external ["wp","a11y"]
+var external_wp_a11y_ = __webpack_require__("gdqT");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/more-menu-feature-toggle/index.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+function MoreMenuFeatureToggle(_ref) {
+  let {
+    scope,
+    label,
+    info,
+    messageActivated,
+    messageDeactivated,
+    shortcut,
+    feature
+  } = _ref;
+  const isActive = Object(external_wp_data_["useSelect"])(select => select(store).isFeatureActive(scope, feature), [feature]);
+  const {
+    toggleFeature
+  } = Object(external_wp_data_["useDispatch"])(store);
+
+  const speakMessage = () => {
+    if (isActive) {
+      Object(external_wp_a11y_["speak"])(messageDeactivated || Object(external_wp_i18n_["__"])('Feature deactivated'));
+    } else {
+      Object(external_wp_a11y_["speak"])(messageActivated || Object(external_wp_i18n_["__"])('Feature activated'));
+    }
+  };
+
+  return Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
+    icon: isActive && check["a" /* default */],
+    isSelected: isActive,
+    onClick: () => {
+      toggleFeature(scope, feature);
+      speakMessage();
+    },
+    role: "menuitemcheckbox",
+    info: info,
+    shortcut: shortcut
+  }, label);
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/index.js
+
+
+
+
+
+
+
+
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/index.js
+
+
+
+
+/***/ }),
+
+/***/ "URob":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+const starFilled = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M11.776 4.454a.25.25 0 01.448 0l2.069 4.192a.25.25 0 00.188.137l4.626.672a.25.25 0 01.139.426l-3.348 3.263a.25.25 0 00-.072.222l.79 4.607a.25.25 0 01-.362.263l-4.138-2.175a.25.25 0 00-.232 0l-4.138 2.175a.25.25 0 01-.363-.263l.79-4.607a.25.25 0 00-.071-.222L4.754 9.881a.25.25 0 01.139-.426l4.626-.672a.25.25 0 00.188-.137l2.069-4.192z"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (starFilled);
+
+
+/***/ }),
+
+/***/ "VKE3":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+const moreVertical = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M13 19h-2v-2h2v2zm0-6h-2v-2h2v2zm0-6h-2V5h2v2z"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (moreVertical);
+
+
+/***/ }),
+
+/***/ "Xxwi":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+const starEmpty = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  fillRule: "evenodd",
+  d: "M9.706 8.646a.25.25 0 01-.188.137l-4.626.672a.25.25 0 00-.139.427l3.348 3.262a.25.25 0 01.072.222l-.79 4.607a.25.25 0 00.362.264l4.138-2.176a.25.25 0 01.233 0l4.137 2.175a.25.25 0 00.363-.263l-.79-4.607a.25.25 0 01.072-.222l3.347-3.262a.25.25 0 00-.139-.427l-4.626-.672a.25.25 0 01-.188-.137l-2.069-4.192a.25.25 0 00-.448 0L9.706 8.646zM12 7.39l-.948 1.921a1.75 1.75 0 01-1.317.957l-2.12.308 1.534 1.495c.412.402.6.982.503 1.55l-.362 2.11 1.896-.997a1.75 1.75 0 011.629 0l1.895.997-.362-2.11a1.75 1.75 0 01.504-1.55l1.533-1.495-2.12-.308a1.75 1.75 0 01-1.317-.957L12 7.39z",
+  clipRule: "evenodd"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (starEmpty);
+
+
+/***/ }),
+
+/***/ "YLtl":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["lodash"]; }());
+
+/***/ }),
+
+/***/ "axFQ":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["blockEditor"]; }());
+
+/***/ }),
+
+/***/ "bWcr":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+const closeSmall = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M12 13.06l3.712 3.713 1.061-1.06L13.061 12l3.712-3.712-1.06-1.06L12 10.938 8.288 7.227l-1.061 1.06L10.939 12l-3.712 3.712 1.06 1.061L12 13.061z"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (closeSmall);
+
+
+/***/ }),
+
+/***/ "diJD":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["reusableBlocks"]; }());
+
+/***/ }),
+
+/***/ "g56x":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["hooks"]; }());
+
+/***/ }),
+
+/***/ "gdqT":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["a11y"]; }());
+
+/***/ }),
+
+/***/ "hF7m":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["keyboardShortcuts"]; }());
+
+/***/ }),
+
+/***/ "jZUy":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["coreData"]; }());
+
+/***/ }),
+
+/***/ "l3Sj":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["i18n"]; }());
+
+/***/ }),
+
+/***/ "onLe":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["notices"]; }());
+
+/***/ }),
+
+/***/ "tI+e":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["components"]; }());
+
+/***/ }),
+
+/***/ "w95h":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+const close = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M13 11.8l6.1-6.3-1-1-6.1 6.2-6.1-6.2-1 1 6.1 6.3-6.5 6.7 1 1 6.5-6.6 6.5 6.6 1-1z"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (close);
+
+
+/***/ }),
+
+/***/ "wx14":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _extends; });
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+/***/ }),
+
+/***/ "ywyh":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["apiFetch"]; }());
+
+/***/ })
+
+/******/ });

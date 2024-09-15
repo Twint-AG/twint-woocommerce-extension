@@ -1,10 +1,9 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
+	"apiVersion": 2,
 	"name": "core/post-author",
-	"title": "Author",
+	"title": "Post Author",
 	"category": "theme",
-	"description": "Display post author details such as name, avatar, and bio.",
+	"description": "Add the author of this post.",
 	"textdomain": "default",
 	"attributes": {
 		"textAlign": {
@@ -23,14 +22,6 @@
 		},
 		"byline": {
 			"type": "string"
-		},
-		"isLink": {
-			"type": "boolean",
-			"default": false
-		},
-		"linkTarget": {
-			"type": "string",
-			"default": "_self"
 		}
 	},
 	"usesContext": [ "postType", "postId", "queryId" ],
@@ -43,12 +34,10 @@
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
-			"__experimentalFontFamily": true,
-			"__experimentalFontWeight": true,
 			"__experimentalFontStyle": true,
-			"__experimentalTextTransform": true,
-			"__experimentalTextDecoration": true,
+			"__experimentalFontWeight": true,
 			"__experimentalLetterSpacing": true,
+			"__experimentalTextTransform": true,
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}
@@ -56,15 +45,9 @@
 		"color": {
 			"gradients": true,
 			"link": true,
-			"__experimentalDuotone": ".wp-block-post-author__avatar img",
-			"__experimentalDefaultControls": {
-				"background": true,
-				"text": true
-			}
-		},
-		"interactivity": {
-			"clientNavigation": true
+			"__experimentalDuotone": ".wp-block-post-author__avatar img"
 		}
 	},
+	"editorStyle": "wp-block-post-author-editor",
 	"style": "wp-block-post-author"
 }
