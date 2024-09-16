@@ -26,6 +26,7 @@ class Modal
     {
         add_action('wp_footer', [$this, 'render'], 98);
         wp_enqueue_script('woocommerce-gateway-twint-qrcode', 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js');
+        wp_enqueue_script('woocommerce-gateway-twint-clipboard', 'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.4.0/clipboard.min.js');
     }
 
     public function render(): void
@@ -175,11 +176,12 @@ class Modal
                                     </div>
 
                                     <div class="text-center my-4 ' . $this->getMdClasses('md:hidden') . '">
-                                        <button id="btn-copy-token"
-                                                data-clipboard-action="copy"
-                                                data-clipboard-target="#qr-token"
-                                                class="p-4 px-6 !bg-white rounded-lg border-black">
-                                            ' . __('Copy code', 'woocommerce-gateway-twint') . '
+                                        <button id="twint-copy-btn"
+                                            data-clipboard-action="copy"
+                                            data-clipboard-target="#qr-token"
+                                            data-default="' . __('Copy code', 'woocommerce-gateway-twint') . '"
+                                            data-copied="' . __('Copied', 'woocommerce-gateway-twint') . '"
+                                            class="p-4 px-6 !bg-white rounded-lg border-black">
                                         </button>
                                     </div>
 
@@ -229,7 +231,7 @@ class Modal
                         </div>
 
                         <div class="container mx-auto mt-4 text-16 p-4">
-                            <div class="grid grid-cols-2">
+                            <div class="grid grid-cols-1 md:grid-cols-2">
                                 <div class="hidden flex-col items-center ' . $this->getMdClasses('md:flex') . '">
                                     <div class="flex justify-center">
                                         <img class="w-55 h-55"

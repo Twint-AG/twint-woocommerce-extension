@@ -1,4 +1,5 @@
 import StatusRefresher from "./handler/status-refresher";
+import TokenCopier from "./handler/token-copier";
 
 class Modal {
   constructor(){
@@ -7,6 +8,7 @@ class Modal {
 
     // Handlers
     this.statusRefresher = new StatusRefresher();
+    this.tokenCopier = new TokenCopier();
 
     this.registerEvents();
   }
@@ -19,6 +21,8 @@ class Modal {
     // Display
     let span = this.closeBtn.querySelector('span');
     span.innerHTML = this.closeBtn.getAttribute('data-default');
+
+    this.tokenCopier.reset();
 
     // prepare modal content
     this.content.render();

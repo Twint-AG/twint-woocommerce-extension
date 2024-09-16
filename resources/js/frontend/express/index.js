@@ -29,7 +29,7 @@ class ExpressCheckout {
     e.preventDefault();
     e.stopPropagation();
 
-    ExpressCheckout.modal.setContent(new ModalContent('123456', '1.0 CHF', 'pairing-id',true));
+    ExpressCheckout.modal.setContent(new ModalContent('123456', '1.0 CHF', 'pairing-id',false));
     ExpressCheckout.modal.show();
   }
 

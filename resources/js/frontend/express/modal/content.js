@@ -47,12 +47,10 @@ class ModalContent{
 
     if(this.isExpress){
       selectContact.classList.remove('hidden');
-      guides.classList.add('grid-cols-2');
-      guides.classList.remove('grid-cols-1');
+      guides.classList.add('md:grid-cols-2');
     }else {
       selectContact.classList.add('hidden');
-      guides.classList.remove('grid-cols-2');
-      guides.classList.add('grid-cols-1');
+      guides.classList.remove('md:grid-cols-2');
     }
   }
 }

@@ -222,7 +222,7 @@ const ModalTwintPayment = (
                                     </div>
 
                                     <div className="md:hidden text-center my-4">
-                                        <button id="btn-copy-token"
+                                        <button id="twint-copy-btn"
                                                 data-clipboard-action="copy"
                                                 data-clipboard-target="#qr-token"
                                                 className="p-4 px-6 !bg-white rounded-lg border-black">

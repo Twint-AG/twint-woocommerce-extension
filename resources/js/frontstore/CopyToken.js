@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     class CopyToken {
         constructor() {
             this.options = {
-                selector: '#btn-copy-token',
+                selector: '#twint-copy-btn',
                 target: '#qr-token',
             };
 
