@@ -29,8 +29,25 @@ class ExpressCheckout {
     e.preventDefault();
     e.stopPropagation();
 
-    ExpressCheckout.modal.setContent(new ModalContent('123456', '1.0 CHF', 'pairing-id',false));
+    ExpressCheckout.modal.setContent(this.getRandomModalContent());
     ExpressCheckout.modal.show();
+  }
+
+  //TODO only for testing purposes
+  getRandomModalContent() {
+    // Generate a random 6-digit number as a string
+    const randomId = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // Generate a random currency value between 0.1 and 100 with 2 decimal places
+    const randomCurrencyValue = (Math.random() * 99.9 + 0.1).toFixed(2) + ' CHF';
+
+    // Generate a random string for the pairing ID (e.g., 'pairing-123')
+    const randomPairingId = 'pairing-' + Math.floor(Math.random() * 1000);
+
+    // Randomize the boolean value (true/false)
+    const randomBoolean = Math.random() < 0.5;
+
+    return new ModalContent(randomId, randomCurrencyValue, randomPairingId, randomBoolean);
   }
 
   init() {

@@ -40,7 +40,7 @@ class StatusRefresher {
   }
 
   onProcessing() {
-    if (this.processing)
+    if (this.processing || this.stopped)
       return;
 
     let interval = this.intervalHanlder.interval();
@@ -76,7 +76,7 @@ class StatusRefresher {
   }
 
   check() {
-    if (this.stopped)
+    if (this.stopped || this.processing)
       return;
 
     const self = this;
