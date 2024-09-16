@@ -2,6 +2,7 @@
 module.exports = {
   content: [
     './resources/js/**/*.js',
+    './src/Woo/Model/**/*.php'
   ],
   theme: {
     extend: {

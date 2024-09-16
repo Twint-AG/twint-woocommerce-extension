@@ -206,11 +206,9 @@ const ModalTwintPayment = (
                          alt="TWINT Logo"/>
                 </header>
                 <div className="twint-modal-content twint-qr-container p-0 md:p-4" id="twint-qr-container">
-                    <div id="qr-modal-content"
-                         className="text-20">
+                    <div id="qr-modal-content" className="text-20">
                         <input type="hidden" name="twint_wp_nonce" value={nonce} id="twint_wp_nonce"/>
                         <div className="flex flex-col md:flex-row gap-4 bg-gray-100">
-
                             <div
                                 className="qr-code md:flex flex flex-1 order-1 md:order-none bg-white md:rounded-lg items-center justify-center">
                                 <div className="md:flex flex flex-col text-center md:flex-col-reverse ">

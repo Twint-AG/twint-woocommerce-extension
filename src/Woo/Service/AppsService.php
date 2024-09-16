@@ -15,7 +15,7 @@ class AppsService
     ) {
     }
 
-    public function getPayLinks(string $token): array
+    public function getPayLinks(string $token = '--TOKEN--'): array
     {
         $payLinks = [];
         try {

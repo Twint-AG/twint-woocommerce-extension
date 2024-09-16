@@ -1,8 +1,9 @@
 import Spinner from './spinner/index';
+import Modal from './modal/modal';
 
 const bootstrap = () => {
   let spinner = new Spinner();
-  // spinner.start();
+  let modal = new Modal();
 };
 
 document.addEventListener( 'DOMContentLoaded', () => {
