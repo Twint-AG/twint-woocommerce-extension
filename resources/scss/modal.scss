@@ -1,5 +1,6 @@
 #twint-modal{
   @apply text-16 flex fixed inset-0 top-0 left-0 items-center justify-center w-screen h-screen z-50 overflow-y-auto;
+  @apply transition-all duration-300 ease-out;
 
   &:has(.twint-mobile){
     @apply w-full h-full m-0 max-h-full overflow-y-scroll;

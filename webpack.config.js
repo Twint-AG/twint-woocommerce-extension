@@ -36,7 +36,7 @@ module.exports = {
 
         // Frontend JS
         'checkout': '/resources/js/frontend/index.js',
-        'button': '/resources/js/frontend/express/button.js',
+        'express': '/resources/js/frontend/express/index.js',
 
         // Admin JS
         CredentialSetting: '/resources/js/admin/CredentialSetting.js',

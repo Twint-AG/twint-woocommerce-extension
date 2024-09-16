@@ -51,7 +51,7 @@ class ExpressButton
             $this->spinner->registerHooks();
             $this->modal->registerHooks();
 
-            wp_enqueue_script('js-woocommerce-gateway-twint-frontend', Plugin::dist('/button.js'));
+            wp_enqueue_script('js-woocommerce-gateway-twint-frontend', Plugin::dist('/express.js'));
         }
 
         foreach ($screens as $screen) {

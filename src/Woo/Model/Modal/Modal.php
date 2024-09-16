@@ -131,7 +131,7 @@ class Modal
     private function getContent(): string
     {
         return '
-            <div id="twint-modal">
+            <div id="twint-modal" class="!hidden">
                 <div class="fixed inset-0 bg-black opacity-50"></div>
                 <div class="modal-inner-wrap shadow-lg w-screen h-screen p-6 z-10 overflow-y-auto ' . $this->getMdClasses(
             'md:rounded-lg md:h-auto md:max-h-[95vh]'
@@ -139,24 +139,27 @@ class Modal
                     <header class="twint-modal-header sticky top-0 flex justify-between items-center bg-white py-2 px-4 ' . $this->getMdClasses(
             'md:rounded-t-lg'
         ) . '">
-                        <button id="twint-close">
+                        <button id="twint-close"
+                           data-default="' . __('Cancel checkout', 'woocommerce-gateway-twint') . '"
+                           data-success="' . __('Continue shopping', 'woocommerce-gateway-twint') . '"
+                        >
                             <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M1.40001 12.8078L0.692261 12.1L6.29226 6.50001L0.692261 0.900011L1.40001 0.192261L7.00001 5.79226L12.6 0.192261L13.3078 0.900011L7.70776 6.50001L13.3078 12.1L12.6 12.8078L7.00001 7.20776L1.40001 12.8078Z" fill="#1C1B1F"></path>
                             </svg>
-                            <span class="ml-2">Cancel checkout</span>
+                            <span class="ml-2"></span>
                         </button>
                         <img class="twint-logo hidden ' . $this->getMdClasses('md:block') . '" src="' . Plugin::dist(
             '/images/twint_logo.png'
         ) . '" 
                         alt="TWINT Logo">
                     </header>
-                    <div class="modal-content twint-modal-content twint-qr-container p-0 ' . $this->getMobileClass() . $this->getMdClasses(
+                    <div class="modal-content twint-modal-content p-0 ' . $this->getMobileClass() . $this->getMdClasses(
             'md:p-4'
         ) . '">
                         <div id="qr-modal-content" class="text-20">
                         <input type="hidden" name="twint_wp_nonce" value={nonce} id="twint_wp_nonce"/>
                         <div class="flex flex-col  gap-4 bg-gray-100 ' . $this->getMdClasses('md:flex-row') . '">
-                            <div class="qr-code flex flex-1 order-1 bg-white items-center justify-center ' . $this->getMdClasses(
+                            <div class="flex flex-1 order-1 bg-white items-center justify-center ' . $this->getMdClasses(
             'md:flex md:order-none md:rounded-lg'
         ) . '">
                                 <div class="flex flex-col text-center ' . $this->getMdClasses(
@@ -183,7 +186,6 @@ class Modal
                                     <div id="qrcode" class="hidden text-center items-center justify-center m-4 
                                     ' . $this->getMdClasses('md:flex') . '"
                                         title={pairingToken}>
-                                        <img src={qrCode} alt="' . __('QR Code', 'woocommerce-gateway-twint') . '"/>
                                     </div>
                                 </div>
                             </div>
@@ -205,7 +207,7 @@ class Modal
                                 <div class="app-selector ' . $this->getMdClasses('md:hidden') . '">
                                     ' . $this->getAndroidHtml() . '
                                     ' . $this->getIosHtml() . '
-                                    <div class="qr-code text-center ' . $this->getMdClasses('md:hidden') . '">
+                                    <div class="text-center ' . $this->getMdClasses('md:hidden') . '">
                                         <div class="flex items-center justify-center mx-4">
                                             <div
                                                 class="flex-grow border-b-0 border-t border-solid border-gray-300"></div>
@@ -216,7 +218,7 @@ class Modal
                                                 class="flex-grow border-b-0 border-t border-solid border-gray-300"></div>
                                         </div>
 
-                                        <div class="row qr-code my-3">
+                                        <div class="row my-3">
                                             <div class="col-9 text-center">
                                                 ' . __('Enter this code in your TWINT app:', 'woocommerce-gateway-twint') . '
                                             </div>
@@ -226,8 +228,8 @@ class Modal
                             </div>
                         </div>
 
-                        <div class="qr-code container mx-auto mt-4 text-16 p-4">
-                            <div class="grid grid-cols-1">
+                        <div class="container mx-auto mt-4 text-16 p-4">
+                            <div class="grid grid-cols-2">
                                 <div class="hidden flex-col items-center ' . $this->getMdClasses('md:flex') . '">
                                     <div class="flex justify-center">
                                         <img class="w-55 h-55"
@@ -237,6 +239,12 @@ class Modal
                                     <div class="text-center mt-4">
                                         ' . __('Scan this QR Code with your TWINT app to complete the checkout.', 'woocommerce-gateway-twint') . '
                                     </div>
+                                </div>
+                                <div id="twint-guide-contact" class="flex flex-col items-center p-4">
+                                    <div class="flex justify-center">
+                                        <img class="w-55 h-55" src="' . Plugin::assets('/images/icon-contact.svg') . '" alt="contact">
+                                    </div>
+                                    <div class="text-center mt-4">' . __("Follow the instructions in the app to confirm your order.") .'</div>
                                 </div>
                             </div>
                         </div>
