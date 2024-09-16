@@ -26,4 +26,4 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Twint\Plugin;
 
-Plugin::init();
+Plugin::init(__FILE__);

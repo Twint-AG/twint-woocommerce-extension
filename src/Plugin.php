@@ -17,11 +17,15 @@ use WC_Payment_Gateway;
 
 class Plugin
 {
+    public static string $pluginFile;
+
     /**
      * Plugin bootstrapping.
      */
-    public static function init(): void
+    public static function init(string $path): void
     {
+        self::$pluginFile = $path;
+
         // Twint Payments gateway class.
         add_action('plugins_loaded', [self::class, 'loaded'], 0);
 
@@ -31,8 +35,8 @@ class Plugin
         // Registers WooCommerce Blocks integration.
         add_action('woocommerce_blocks_loaded', [self::class, 'registerCheckoutBlocks']);
 
-        register_activation_hook((new self())->pluginFile(), [TwintIntegration::class, 'install']);
-        register_deactivation_hook((new self())->pluginFile(), [TwintIntegration::class, 'uninstall']);
+        register_activation_hook(self::pluginFile(), [TwintIntegration::class, 'install']);
+        register_deactivation_hook(self::pluginFile(), [TwintIntegration::class, 'uninstall']);
 
         add_action('init', [self::class, 'createCustomWooCommerceStatus']);
         add_filter('wc_order_statuses', [self::class, 'addCustomWooCommerceStatusToList']);
@@ -109,7 +113,7 @@ class Plugin
 
         $instance = self::di('twint.integration');
         add_filter(
-            'plugin_action_links_' . plugin_basename((new self())->pluginFile()),
+            'plugin_action_links_' . plugin_basename(self::pluginFile()),
             [$instance, 'adminPluginSettingsLink']
         );
 
@@ -121,7 +125,7 @@ class Plugin
      */
     public static function pluginUrl(): string
     {
-        return untrailingslashit(plugins_url('/', (new self())->pluginFile()));
+        return untrailingslashit(plugins_url('/', self::pluginFile()));
     }
 
     /**
@@ -129,7 +133,7 @@ class Plugin
      */
     public static function abspath(): string
     {
-        return trailingslashit(plugin_dir_path((new self())->pluginFile()));
+        return trailingslashit(plugin_dir_path(self::pluginFile()));
     }
 
     /**
@@ -172,8 +176,8 @@ class Plugin
         return $localPath . $fileName;
     }
 
-    protected function pluginFile(): string
+    protected static function pluginFile(): string
     {
-        return __DIR__ . '/../woocommerce-gateway-twint.php';
+        return self::$pluginFile;
     }
 }

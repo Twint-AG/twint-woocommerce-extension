@@ -127,14 +127,14 @@ function twint_services()
         'express.button' => static function (ContainerInterface $container) {
             return new ExpressButton(
                 $container->get('setting.service'),
-                $container->get('express.modal'),
+                $container->get('payment.modal'),
                 $container->get('express.spinner'),
             );
         },
         'express.spinner' => static function (ContainerInterface $container): Spinner {
             return new Spinner();
         },
-        'express.modal' => static function (ContainerInterface $container): Modal {
+        'payment.modal' => static function (ContainerInterface $container): Modal {
             return new Modal($container->get('apps.service'));
         },
     ];

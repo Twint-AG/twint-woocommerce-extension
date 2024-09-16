@@ -6,6 +6,7 @@ namespace Twint\Woo\Model\Gateway;
 
 use Exception;
 use Twint\Plugin;
+use Twint\Woo\Model\Modal\Modal;
 use Twint\Woo\Service\SettingService;
 
 class RegularCheckoutGateway extends AbstractGateway
@@ -13,6 +14,8 @@ class RegularCheckoutGateway extends AbstractGateway
     public const UNIQUE_PAYMENT_ID = 'twint_regular';
 
     public $id = self::UNIQUE_PAYMENT_ID;
+
+    private Modal $modal;
 
     /**
      * Constructor for the gateway.
@@ -37,8 +40,10 @@ class RegularCheckoutGateway extends AbstractGateway
 
         // Actions.
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
-
         add_filter('woocommerce_payment_complete_order_status', [$this, 'setCompleteOrderStatus'], 10, 3);
+
+        $this->modal = Plugin::di('payment.modal');
+        $this->modal->registerHooks();
     }
 
     /**

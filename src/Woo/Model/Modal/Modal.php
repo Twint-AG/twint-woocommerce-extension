@@ -9,6 +9,8 @@ use Twint\Woo\Service\AppsService;
 
 class Modal
 {
+    private bool $registered = false;
+
     private array $links = [];
 
     private bool $isAndroid = false;
@@ -24,9 +26,19 @@ class Modal
 
     public function registerHooks(): void
     {
+        if ($this->registered || is_admin()) {
+            return;
+        }
+
         add_action('wp_footer', [$this, 'render'], 98);
-        wp_enqueue_script('woocommerce-gateway-twint-qrcode', 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js');
-        wp_enqueue_script('woocommerce-gateway-twint-clipboard', 'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.4.0/clipboard.min.js');
+        wp_enqueue_script(
+            'woocommerce-gateway-twint-qrcode',
+            'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js'
+        );
+        wp_enqueue_script(
+            'woocommerce-gateway-twint-clipboard',
+            'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.4.0/clipboard.min.js'
+        );
     }
 
     public function render(): void
@@ -149,7 +161,9 @@ class Modal
                             </svg>
                             <span class="ml-2"></span>
                         </button>
-                        <img class="twint-logo hidden ' . $this->getMdClasses('md:block') . '" src="' . Plugin::assets('/images/twint_logo.png') . '" 
+                        <img class="twint-logo hidden ' . $this->getMdClasses('md:block') . '" src="' . Plugin::assets(
+            '/images/twint_logo.png'
+        ) . '" 
                         alt="TWINT Logo">
                     </header>
                     <div class="modal-content twint-modal-content p-0 ' . $this->getMobileClass() . $this->getMdClasses(
@@ -242,9 +256,11 @@ class Modal
                                 </div>
                                 <div id="twint-guide-contact" class="flex flex-col items-center p-4">
                                     <div class="flex justify-center">
-                                        <img class="w-55 h-55" src="' . Plugin::assets('/images/icon-contact.svg') . '" alt="contact">
+                                        <img class="w-55 h-55" src="' . Plugin::assets(
+            '/images/icon-contact.svg'
+        ) . '" alt="contact">
                                     </div>
-                                    <div class="text-center mt-4">' . __("Follow the instructions in the app to confirm your order.") .'</div>
+                                    <div class="text-center mt-4">' . __('Follow the instructions in the app to confirm your order.') . '</div>
                                 </div>
                             </div>
                         </div>

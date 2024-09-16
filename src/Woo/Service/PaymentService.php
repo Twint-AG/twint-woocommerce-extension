@@ -53,11 +53,8 @@ class PaymentService
                 return $log;
             });
         } catch (Exception $e) {
-//            dd($e);
-            $this->logger->error(
-                'TWINT PaymentService::createOrder error' . PHP_EOL . $e->getMessage()
-            );
-//            throw $e;
+            $this->logger->error('PaymentService::createOrder error' . PHP_EOL . $e->getMessage());
+            throw $e;
         }
     }
 
@@ -82,10 +79,7 @@ class PaymentService
                 }
             }
         } catch (Exception $e) {
-            dd($e);
-            $this->logger->error(
-                'An error occurred during the communication with external payment gateway' . PHP_EOL . $e->getMessage()
-            );
+            $this->logger->error('PaymentService::reverseOrder ' . PHP_EOL . $e->getMessage());
 
             throw $e;
         }
