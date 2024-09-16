@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Model\Gateway;
 
-use chillerlan\QRCode\QRCode;
 use Exception;
 use Twint\Plugin;
 use Twint\Woo\Service\SettingService;
@@ -94,7 +93,6 @@ class RegularCheckoutGateway extends AbstractGateway
             //            WC()->cart->empty_cart();
 
             $pairing = Plugin::di('pairing.repository')->findByWooOrderId($order_id);
-            $qrcode = (new QRCode())->render($pairing->getToken());
 
             return [
                 'result' => 'success',
@@ -104,7 +102,6 @@ class RegularCheckoutGateway extends AbstractGateway
                 'pairingToken' => $pairing->getToken(),
                 'currency' => $order->get_currency(),
                 'nonce' => wp_create_nonce('twint_check_pairing_status'),
-                'qrcode' => $qrcode,
                 'shopName' => get_bloginfo('name'),
                 'amount' => number_format(
                     (int) $order->get_total(),
@@ -114,7 +111,7 @@ class RegularCheckoutGateway extends AbstractGateway
                 ),
             ];
         } catch (Exception $e) {
-            $this->logger->error('Error when processing the payment for order ' . PHP_EOL . $e->getMessage(), [
+            $this->logger->error('Twint RegularCheckoutGateway::process_payment ' . PHP_EOL . $e->getMessage(), [
                 'orderID' => $order->get_id(),
                 'paymentMethod' => $order->get_payment_method(),
             ]);

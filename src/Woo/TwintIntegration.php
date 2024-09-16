@@ -38,6 +38,7 @@ class TwintIntegration
 
         add_action('admin_menu', [$this, 'registerMenuItem']);
 
+        //TODO move belows add_action to Gateway classes.We dont handle for payment here
         /**
          * @support Classic Checkout
          * Would be triggered after order created with CLASSIC Checkout

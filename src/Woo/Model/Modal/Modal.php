@@ -149,9 +149,7 @@ class Modal
                             </svg>
                             <span class="ml-2"></span>
                         </button>
-                        <img class="twint-logo hidden ' . $this->getMdClasses('md:block') . '" src="' . Plugin::dist(
-            '/images/twint_logo.png'
-        ) . '" 
+                        <img class="twint-logo hidden ' . $this->getMdClasses('md:block') . '" src="' . Plugin::assets('/images/twint_logo.png') . '" 
                         alt="TWINT Logo">
                     </header>
                     <div class="modal-content twint-modal-content p-0 ' . $this->getMobileClass() . $this->getMdClasses(

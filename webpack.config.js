@@ -35,7 +35,7 @@ module.exports = {
         admin: './resources/scss/admin/style.scss',
 
         // Frontend JS
-        'checkout': '/resources/js/frontend/index.js',
+        'checkout': '/resources/js/frontend/regular-checkout.js',
         'express': '/resources/js/frontend/express/index.js',
 
         // Admin JS

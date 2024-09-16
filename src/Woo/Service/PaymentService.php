@@ -53,10 +53,11 @@ class PaymentService
                 return $log;
             });
         } catch (Exception $e) {
+//            dd($e);
             $this->logger->error(
-                'An error occurred during the communication with external payment gateway' . PHP_EOL . $e->getMessage()
+                'TWINT PaymentService::createOrder error' . PHP_EOL . $e->getMessage()
             );
-            throw $e;
+//            throw $e;
         }
     }
 
@@ -81,6 +82,7 @@ class PaymentService
                 }
             }
         } catch (Exception $e) {
+            dd($e);
             $this->logger->error(
                 'An error occurred during the communication with external payment gateway' . PHP_EOL . $e->getMessage()
             );
