@@ -43,7 +43,6 @@ abstract class AbstractMethod extends AbstractPaymentMethodType
 
     public function get_payment_method_script_handles(): array
     {
-        $scriptPath = '/dist/frontend/blocks.js';
         $scriptAssetPath = Plugin::abspath() . 'assets/js/frontend/blocks.asset.php';
         $scriptAsset = file_exists($scriptAssetPath)
             ? require ($scriptAssetPath)
@@ -52,7 +51,7 @@ abstract class AbstractMethod extends AbstractPaymentMethodType
                 'version' => '1.0.0',
             ];
 
-        $scriptUrl = Plugin::pluginUrl() . $scriptPath;
+        $scriptUrl = Plugin::dist('/checkout.js');
 
         wp_register_script(
             'wc-twint-payments-blocks',

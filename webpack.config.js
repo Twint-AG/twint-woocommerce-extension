@@ -30,16 +30,15 @@ const requestToHandle = (request) => {
 module.exports = {
     ...defaultConfig,
     entry: {
+        // Styling
         frontend: './resources/scss/style.scss',
         admin: './resources/scss/admin/style.scss',
 
-        'frontend/blocks': '/resources/js/frontend/index.js',
-        'frontend/frontstore': '/resources/js/frontstore/CopyToken.js',
-        'TwintPaymentIntegration': '/resources/js/frontstore/TwintPaymentIntegration.js',
-        'DeviceSwitcher': '/resources/js/frontstore/DeviceSwitcher.js',
-        'PaymentStatusRefresh': '/resources/js/frontstore/PaymentStatusRefresh.js',
-        'ModalQR': '/resources/js/frontstore/ModalQR.js',
-        // Admin
+        // Frontend JS
+        'checkout': '/resources/js/frontend/index.js',
+        'button': '/resources/js/frontend/express/button.js',
+
+        // Admin JS
         CredentialSetting: '/resources/js/admin/CredentialSetting.js',
     },
     output: {

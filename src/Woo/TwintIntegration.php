@@ -167,11 +167,6 @@ class TwintIntegration
 
     public function wpEnqueueScriptsFrontend(): void
     {
-        wp_enqueue_script('js-woocommerce-gateway-twint-frontend', Plugin::dist('/frontend/frontstore.js'));
-        wp_enqueue_script('js-woocommerce-gateway-DeviceSwitcher', Plugin::dist('/DeviceSwitcher.js'));
-        wp_enqueue_script('js-woocommerce-gateway-PaymentStatusRefresh', Plugin::dist('/PaymentStatusRefresh.js'));
-        wp_enqueue_script('js-woocommerce-gateway-ModalQR', Plugin::dist('/ModalQR.js'));
-
         wp_localize_script('js-woocommerce-gateway-twint-frontend', 'twint_api', [
             'admin_url' => admin_url('admin-ajax.php'),
         ]);

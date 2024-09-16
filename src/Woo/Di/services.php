@@ -10,6 +10,7 @@ use Twint\Woo\Container\ContainerInterface;
 use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Logger\NullLogger;
 use Twint\Woo\Model\Button\ExpressButton;
+use Twint\Woo\Model\Modal\Spinner;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Repository\TransactionRepository;
 use Twint\Woo\Service\ApiService;
@@ -123,7 +124,13 @@ function twint_services()
 
         // Express Checkout
         'express.button' => static function (ContainerInterface $container) {
-            return new ExpressButton($container->get('setting.service'));
+            return new ExpressButton(
+                $container->get('setting.service'),
+                $container->get('express.spinner'),
+            );
+        },
+        'express.spinner' => static function (ContainerInterface $container) {
+            return new Spinner();
         },
     ];
 }

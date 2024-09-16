@@ -7,12 +7,14 @@ namespace Twint\Woo\Model\Button;
 use Twint\Plugin;
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
+use Twint\Woo\Model\Modal\Spinner;
 use Twint\Woo\Service\SettingService;
 
 class ExpressButton
 {
     public function __construct(
-        private readonly SettingService $setting
+        private readonly SettingService $setting,
+        private readonly Spinner $spinner
     ) {
         if (!is_admin()) {
             $this->registerHooks();
@@ -39,7 +41,17 @@ class ExpressButton
 
     protected function registerHooks(): void
     {
-        foreach ($this->getAvailableScreens() as $screen) {
+        $screens = $this->getAvailableScreens();
+
+
+        if(count($screens) > 0){
+            // render spinner
+            $this->spinner->registerHooks();
+
+            wp_enqueue_script('js-woocommerce-gateway-twint-frontend', Plugin::dist('/button.js'));
+        }
+
+        foreach ($screens as $screen) {
             switch ($screen) {
                 case TwintConstant::CONFIG_SCREEN_PDP:
                     add_action('woocommerce_after_add_to_cart_button', [$this, 'renderButton'], 20);
