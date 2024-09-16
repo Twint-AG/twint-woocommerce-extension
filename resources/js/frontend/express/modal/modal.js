@@ -1,5 +1,7 @@
 import StatusRefresher from "./handler/status-refresher";
 import TokenCopier from "./handler/token-copier";
+import AndroidConnector from "./connector/android-connector";
+import IosConnector from "./connector/ios-connector";
 
 class Modal {
   constructor(){
@@ -9,6 +11,10 @@ class Modal {
     // Handlers
     this.statusRefresher = new StatusRefresher();
     this.tokenCopier = new TokenCopier();
+
+    this.connectors = [];
+    this.connectors.push(new AndroidConnector());
+    this.connectors.push(new IosConnector());
 
     this.registerEvents();
   }
@@ -29,6 +35,12 @@ class Modal {
 
     //Show modal
     this.element.classList.remove('!hidden');
+
+    //Connector
+    this.connectors.forEach(connector => {
+      connector.setToken(this.content.token);
+      connector.init();
+    });
 
     //Events
     this.statusRefresher.setPairing(this.content.pairing);
