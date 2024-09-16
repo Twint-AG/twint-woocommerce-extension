@@ -128,7 +128,7 @@ class SettingsLayoutViewAdapter
 
         return $this->validator->validate(
             $certificateCheck,
-            get_option(SettingService::STORE_UUID),
+            get_option(SettingService::STORE_UUID, ''),
             get_option(SettingService::TEST_MODE) === SettingService::YES
         );
     }
