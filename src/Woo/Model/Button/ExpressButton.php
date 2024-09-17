@@ -15,9 +15,10 @@ class ExpressButton
 {
     public function __construct(
         private readonly SettingService $setting,
-        private readonly Modal $modal,
-        private readonly Spinner $spinner,
-    ) {
+        private readonly Modal          $modal,
+        private readonly Spinner        $spinner,
+    )
+    {
         if (!is_admin()) {
             add_action('wp', [$this, 'registerHooks']);
         }
@@ -45,7 +46,6 @@ class ExpressButton
     {
         $screens = $this->getAvailableScreens();
 
-
         if ($screens !== []) {
             // render spinner
             $this->spinner->registerHooks();
@@ -65,8 +65,30 @@ class ExpressButton
                     add_filter('woocommerce_loop_add_to_cart_link', [$this, 'renderInProductBox']);
 
                     break;
+
+                case TwintConstant::CONFIG_SCREEN_CART:
+                    add_filter('render_block_woocommerce/cart-express-payment-block', [$this, 'renderExpressButtonInCartPage']);
+                    break;
             }
         }
+    }
+
+    public function renderExpressButtonInCartPage(string $html): string
+    {
+        $html .= $this->getButton();
+
+        $html .= $this->renderOrSection();
+
+        return $html;
+    }
+
+    public function renderOrSection(): string
+    {
+        return '
+            <div class="wc-block-components-express-payment-continue-rule wc-block-components-express-payment-continue-rule--cart">
+                Or
+            </div> 
+        ';
     }
 
     private function getButton(): string
