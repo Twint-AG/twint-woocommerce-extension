@@ -36,13 +36,16 @@ module.exports = {
 
         // Frontend JS
         'checkout': '/resources/js/frontend/regular-checkout.js',
+        'express-checkout': '/resources/js/frontend/express-checkout.js',
         'express': '/resources/js/frontend/express/index.js',
 
         // Admin JS
-        CredentialSetting: '/resources/js/admin/CredentialSetting.js',
+        'credentials-setting': '/resources/js/admin/credentials-setting.js',
+        'admin-utilities': '/resources/js/admin/admin-utilities.js',
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
+        filename: "[name].js"
     },
     module: {
         rules: [

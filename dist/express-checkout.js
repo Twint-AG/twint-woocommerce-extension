@@ -1,0 +1,2 @@
+(()=>{"use strict";const w=window.wp.i18n;window.wc.wcBlocksRegistry,(0,w.__)("TWINT","woocommerce-gateway-twint"),(0,w.__)("Proceed to TWINT","woocommerce-gateway-twint")})();
+//# sourceMappingURL=express-checkout.js.map

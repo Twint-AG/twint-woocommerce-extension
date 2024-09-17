@@ -1,3 +1,4 @@
+import jquery from 'jquery';
 (function ($) {
     /**
      * Create drag and drop element.

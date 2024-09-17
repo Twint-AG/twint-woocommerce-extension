@@ -19,7 +19,7 @@ class ExpressButton
         private readonly Spinner $spinner,
     ) {
         if (!is_admin()) {
-            $this->registerHooks();
+            add_action('wp', [$this, 'registerHooks']);
         }
     }
 
@@ -41,7 +41,7 @@ class ExpressButton
         return isset($gateways[ExpressCheckoutGateway::getId()]);
     }
 
-    protected function registerHooks(): void
+    public function registerHooks(): void
     {
         $screens = $this->getAvailableScreens();
 
@@ -51,7 +51,8 @@ class ExpressButton
             $this->spinner->registerHooks();
             $this->modal->registerHooks();
 
-            wp_enqueue_script('js-woocommerce-gateway-twint-frontend', Plugin::dist('/express.js'));
+            Plugin::enqueueScript('frontend-express', '/express.js');
+//            Plugin::enqueueScripts('checkout-express', '/express-checkout.js');
         }
 
         foreach ($screens as $screen) {

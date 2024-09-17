@@ -152,6 +152,27 @@ class Plugin
         }
     }
 
+    /**
+     * Utility function for enqueue JS files with dependencies and version
+     * Only support for script files in /dist folder
+     *
+     * @param string $id
+     * @param string $path
+     * @return void
+     */
+    public static function enqueueScript(string $id, string $path, bool $useHook = true): void
+    {
+        $func = function () use ($id, $path) {
+            $name = "woocommerce-gateway-twint-$id";
+            $asset = require self::abspath() . 'dist' . str_replace('.js', '.asset.php', $path);
+
+            wp_enqueue_script($name, Plugin::dist($path), $asset['dependencies'], $asset['version']);
+        };
+
+        // Hook into wp_enqueue_scripts or another relevant hook
+        $useHook ? add_action('wp_enqueue_scripts', $func) : $func();
+    }
+
     public static function assets(string $asset): ?string
     {
         // Ensure the asset path starts with a slash

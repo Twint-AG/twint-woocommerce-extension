@@ -248,16 +248,12 @@ class TwintIntegration
 
     public function enqueueScripts(): void
     {
-        wp_enqueue_script(
-            'js-woocommerce-gateway-twint-CredentialSetting',
-            Plugin::dist('/CredentialSetting.js'),
-            ['jquery']
-        );
+        Plugin::enqueueScript('admin-credentials', '/credentials-setting.js', false);
+        Plugin::enqueueScript('admin-utilities', '/admin-utilities.js', false);
 
-        wp_localize_script('js-woocommerce-gateway-twint-CredentialSetting', 'twint_api', [
+        wp_localize_script('woocommerce-gateway-twint-admin-credentials', 'twint_api', [
             'admin_url' => admin_url('admin-ajax.php'),
         ]);
-        wp_enqueue_script('js-woocommerce-gateway-twint', Plugin::dist('/TwintPaymentIntegration.js'), ['jquery']);
     }
 
     public function enqueueStyles(): void

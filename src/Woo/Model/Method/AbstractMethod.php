@@ -52,10 +52,19 @@ abstract class AbstractMethod extends AbstractPaymentMethodType
             ];
 
         $scriptUrl = Plugin::dist('/checkout.js');
+        $scriptUrl2 = Plugin::dist('/express-checkout.js');
 
         wp_register_script(
             'wc-twint-payments-blocks',
             $scriptUrl,
+            $scriptAsset['dependencies'],
+            $scriptAsset['version'],
+            true
+        );
+
+        wp_register_script(
+            'wc-twint-payments-blocks',
+            $scriptUrl2,
             $scriptAsset['dependencies'],
             $scriptAsset['version'],
             true

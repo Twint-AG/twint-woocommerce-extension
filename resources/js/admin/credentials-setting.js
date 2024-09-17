@@ -1,4 +1,5 @@
 import axios from "axios";
+import jquery from "jquery";
 
 document.addEventListener("DOMContentLoaded", function (event) {
     class CredentialsSetting {
