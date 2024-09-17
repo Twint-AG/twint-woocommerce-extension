@@ -20,7 +20,7 @@ class ExpressButton
     )
     {
         if (!is_admin()) {
-            add_action('wp', [$this, 'registerHooks']);
+            $this->registerHooks();
         }
     }
 
@@ -52,7 +52,6 @@ class ExpressButton
             $this->modal->registerHooks();
 
             Plugin::enqueueScript('frontend-express', '/express.js');
-//            Plugin::enqueueScripts('checkout-express', '/express-checkout.js');
         }
 
         foreach ($screens as $screen) {
@@ -69,13 +68,17 @@ class ExpressButton
                 case TwintConstant::CONFIG_SCREEN_CART:
                     add_filter('render_block_woocommerce/cart-express-payment-block', [$this, 'renderExpressButtonInCartPage']);
                     break;
+
+                case TwintConstant::CONFIG_SCREEN_CART_FLYOUT:
+                    add_filter('render_block_woocommerce/mini-cart-checkout-button-block', [$this, 'renderButtonInMiniCart']);
+                    break;
             }
         }
     }
 
     public function renderExpressButtonInCartPage(string $html): string
     {
-        $html .= $this->getButton();
+        $html .= $this->getButton('cart');
 
         $html .= $this->renderOrSection();
 
@@ -91,14 +94,21 @@ class ExpressButton
         ';
     }
 
-    private function getButton(): string
+    public function renderButtonInMiniCart(string $html): string
+    {
+        $html .= $this->getButton('mini-cart');
+
+        return $html;
+    }
+
+    private function getButton(string $additionalClasses = ''): string
     {
         return '
-            <button type="submit" class="twint-button express">
-                <span class="icon-block">
-                    <img class="twint-icon" src="' . Plugin::assets('/images/express.svg') . '" alt="Express Checkout">
+            <button type="submit" class="twint twint-button express ' . $additionalClasses . '">
+                <span class="twint icon-block">
+                    <img class="twint twint-icon" src="' . Plugin::assets('/images/express.svg') . '" alt="Express Checkout">
                 </span>
-                <span class="twint-label">Express Checkout</span>
+                <span class="twint twint-label">Express Checkout</span>
             </button>
         ';
     }

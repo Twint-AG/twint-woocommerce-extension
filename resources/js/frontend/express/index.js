@@ -23,14 +23,28 @@ class ExpressCheckout {
     this.buttonManager.buttons.forEach(function (button) {
       button.addEventListener('click', self.onButtonClicked.bind(self));
     })
+
+    let body = document.querySelector('body');
+    body.addEventListener('click', function (event) {
+      if(event.target && event.target.matches('.twint')){
+        self.onButtonClicked(event);
+      }
+    });
   }
 
   onButtonClicked(e){
     e.preventDefault();
     e.stopPropagation();
 
-    ExpressCheckout.modal.setContent(this.getRandomModalContent());
-    ExpressCheckout.modal.show();
+    console.log("clicked");
+
+    ExpressCheckout.spinner.start();
+
+    setTimeout(()=>{
+      ExpressCheckout.spinner.stop();
+      ExpressCheckout.modal.setContent(this.getRandomModalContent());
+      ExpressCheckout.modal.show();
+    }, 3000);
   }
 
   //TODO only for testing purposes

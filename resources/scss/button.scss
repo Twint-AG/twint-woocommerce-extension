@@ -40,23 +40,6 @@ $border-radius: 6px;
     height: $icon-size;
     width: $icon-size;
   }
-
-  &.box {
-    font-size: inherit;
-    height: auto;
-    padding: 3px 10px;
-
-    .icon-block {
-      height: 30px;
-      padding: 1px;
-    }
-
-    .twint-icon {
-      height: $icon-size-small;
-      width: $icon-size-small;
-    }
-  }
-
   .twint-label {
     font-size: 15px;
     font-weight: 600;
@@ -85,5 +68,9 @@ $border-radius: 6px;
 
   *:has(+ &.express){
     margin-bottom: 0 !important;
+  }
+
+  *:has(> &.express.mini-cart) {
+    flex-wrap: wrap;
   }
 }

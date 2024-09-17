@@ -6,9 +6,14 @@ namespace Twint\Woo\Model\Modal;
 
 class Spinner
 {
+    private bool $registered = false;
+
     public function registerHooks(): void
     {
-        add_action('wp_footer', [$this, 'render'], 99);
+        if (!$this->registered) {
+            add_action('wp_footer', [$this, 'render'], 99);
+            $this->registered = true;
+        }
     }
 
     public function render(): void
