@@ -85,7 +85,7 @@ class ExpressButton
     {
         return '
             <div class="wc-block-components-express-payment-continue-rule wc-block-components-express-payment-continue-rule--cart">
-                Or
+               ' . __('Or', 'woocommerce-gateway-twint') . '
             </div> 
         ';
     }
