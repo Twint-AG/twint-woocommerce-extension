@@ -218,7 +218,9 @@ class Modal
                                             {price}
                                         </span>
                                 </div>
-                                <div class="flex flex-1 bg-white p-4 items-center justify-center md:rounded-lg">
+                                <div class="flex flex-1 bg-white p-4 items-center justify-center' . $this->getMdClasses(
+                'md:rounded-lg'
+            ) . '">
                                     ' . get_bloginfo('name') . '
                                 </div>
 

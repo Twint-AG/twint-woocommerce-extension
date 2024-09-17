@@ -5,36 +5,42 @@ declare(strict_types=1);
 namespace Twint\Woo\Api\Frontend;
 
 use Symfony\Component\Process\Process;
-use Throwable;
 use Twint\Command\PollCommand;
 use Twint\Plugin;
 use Twint\Woo\Api\BaseAction;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
 use WC_Logger_Interface;
+use WP_REST_Request;
+use WP_REST_Response;
 
-class PairingMonitoringAction extends BaseAction
+class PaymentStatusAction extends BaseAction
 {
     private const TIME_WINDOW_SECONDS = 10; // 10 seconds
 
     public function __construct(
         private readonly PairingRepository $pairingRepository,
         private readonly WC_Logger_Interface $logger
-    ) {
-        add_action('wp_ajax_nopriv_twint_check_pairing_status', [$this, 'requireLogin']);
-        add_action('wp_ajax_twint_check_pairing_status', [$this, 'monitorPairing']);
+    )
+    {
+        $this->registerHooks();
     }
 
-    /**
-     * @throws Throwable
-     */
-    public function monitorPairing(): void
+    protected function registerHooks(): void
     {
-        if (!wp_verify_nonce($_REQUEST['nonce'], 'twint_check_pairing_status')) {
-            exit('The WP Nonce is invalid, please check again!');
-        }
+        add_action('rest_api_init', function () {
+            register_rest_route('twint/v1', '/payment/status', [
+                'methods' => 'POST',
+                'callback' => [$this, 'handle'],
+                'permission_callback' => '__return_true'
+            ]);
+        });
+    }
 
-        $pairingId = $_REQUEST['pairingId'];
+    public function handle(WP_REST_Request $request): WP_REST_Response
+    {
+        $pairingId = $request->get_param('pairingId');
+
         $pairing = $this->pairingRepository->findById($pairingId);
         if (!$pairing instanceof Pairing) {
             exit('The pairing for the the order does not exist.');
@@ -51,13 +57,11 @@ class PairingMonitoringAction extends BaseAction
             $process->start();
         }
 
-        echo json_encode([
+        return new WP_REST_Response([
             'success' => true,
             'isOrderPaid' => $pairing->isFinished(),
             'status' => $pairing->getStatus(),
-        ]);
-
-        die();
+        ], 200);
     }
 
     protected function isRunning(Pairing $pairing): bool

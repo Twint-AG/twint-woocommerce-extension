@@ -5,7 +5,8 @@ declare(strict_types=1);
 use Twint\Command\PollCommand;
 use Twint\Woo\Api\Admin\GetTransactionLogAction;
 use Twint\Woo\Api\Admin\StoreConfigurationAction;
-use Twint\Woo\Api\Frontend\PairingMonitoringAction;
+use Twint\Woo\Api\Frontend\ExpressCheckoutAction;
+use Twint\Woo\Api\Frontend\PaymentStatusAction;
 use Twint\Woo\Container\ContainerInterface;
 use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Logger\NullLogger;
@@ -119,8 +120,11 @@ function twint_services()
                 $container->get('certificate.handler'),
             );
         },
-        'monitor_pairing.action' => static function (ContainerInterface $container) {
-            return new PairingMonitoringAction($container->get('pairing.repository'), $container->get('logger'));
+        'payment_status.action' => static function (ContainerInterface $container) {
+            return new PaymentStatusAction($container->get('pairing.repository'), $container->get('logger'));
+        },
+        'express_checkout.action' => static function (ContainerInterface $container) {
+            return new ExpressCheckoutAction();
         },
 
         // Express Checkout
