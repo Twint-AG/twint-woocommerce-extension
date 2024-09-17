@@ -44,4 +44,4 @@ select2.scss
 composer.lock
 auth.json
 
-dist/*/js.map
+dist/**/*.js.map

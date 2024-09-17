@@ -62,15 +62,15 @@ $border-radius: 6px;
     }
   }
 
-  *:has(> &.express) {
+  *:has(> &) {
     container-type: inline-size;
   }
 
-  *:has(+ &.express){
+  *:has(+ &){
     margin-bottom: 0 !important;
   }
 
-  *:has(> &.express.mini-cart) {
+  *:has(> &.mini-cart) {
     flex-wrap: wrap;
   }
 }

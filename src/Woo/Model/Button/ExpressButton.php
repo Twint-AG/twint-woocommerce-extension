@@ -104,7 +104,7 @@ class ExpressButton
     private function getButton(string $additionalClasses = ''): string
     {
         return '
-            <button type="submit" class="twint twint-button express ' . $additionalClasses . '">
+            <button type="submit" class="twint twint-button ' . $additionalClasses . '">
                 <span class="twint icon-block">
                     <img class="twint twint-icon" src="' . Plugin::assets('/images/express.svg') . '" alt="Express Checkout">
                 </span>
