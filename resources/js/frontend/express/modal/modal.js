@@ -60,7 +60,15 @@ class Modal {
     this.closeBtn.addEventListener('click', this.close.bind(this));
   }
 
+  refreshMiniCart() {
+    // Use vanilla JS if we can
+    jQuery( document.body ).trigger( 'removed_from_cart' );
+    // document.body.dispatchEvent(new CustomEvent('removed_from_cart'));
+  }
+
   onPaid(){
+    this.refreshMiniCart();
+
     let span = this.closeBtn.querySelector('span');
     span.innerHTML = this.closeBtn.getAttribute('data-success');
   }

@@ -43,10 +43,16 @@ class PaymentStatusAction extends BaseAction
      */
     public function handle(WP_REST_Request $request): WP_REST_Response
     {
+        WC()->frontend_includes();
+        WC()->initialize_session();
+        WC()->initialize_cart();
+
+        WC()->cart->empty_cart();
+
         return new WP_REST_Response([
             'success' => true,
-            'isOrderPaid' => false,
-            'status' => 'DONE',
+            'status' => 1,
+            'finish' => true,
         ], 200);
 
         $pairingId = $request->get_param('pairingId');

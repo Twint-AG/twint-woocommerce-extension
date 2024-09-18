@@ -28,7 +28,7 @@ class ExpressCheckoutAction {
 
     public function handle(WP_REST_Request $request): WP_REST_Response
     {
-        sleep(4);
+        sleep(2);
 
         return new WP_REST_Response(['success' => true], 200);
     }
