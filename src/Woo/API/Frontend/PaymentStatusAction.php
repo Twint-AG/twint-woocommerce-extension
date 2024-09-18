@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Api\Frontend;
 
+use Exception;
 use Symfony\Component\Process\Process;
 use Twint\Command\PollCommand;
 use Twint\Plugin;
@@ -37,13 +38,16 @@ class PaymentStatusAction extends BaseAction
         });
     }
 
+    /**
+     * @throws Exception
+     */
     public function handle(WP_REST_Request $request): WP_REST_Response
     {
         $pairingId = $request->get_param('pairingId');
 
         $pairing = $this->pairingRepository->findById($pairingId);
         if (!$pairing instanceof Pairing) {
-            exit('The pairing for the the order does not exist.');
+            throw new Exception('The pairing for the the order does not exist.');
         }
 
         if (!$pairing->isFinished() && !$this->isRunning($pairing)) {

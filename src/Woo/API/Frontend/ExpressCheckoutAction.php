@@ -8,7 +8,9 @@ use WP_REST_Request;
 use WP_REST_Response;
 
 class ExpressCheckoutAction {
-    public function __construct()
+    public function __construct(
+
+    )
     {
         $this->registerHooks();
     }

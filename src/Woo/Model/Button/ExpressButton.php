@@ -115,12 +115,12 @@ class ExpressButton
 
     public function renderButton(): void
     {
-        echo $this->getButton();
+        echo $this->getButton('PDP');
     }
 
     public function renderInProductBox(string $html): string
     {
-        $button = $this->getButton();
+        $button = $this->getButton('PLP');
 
         return str_replace('</button>', "</button> {$button}", $html);
     }
