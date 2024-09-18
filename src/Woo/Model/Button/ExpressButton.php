@@ -19,9 +19,7 @@ class ExpressButton
         private readonly Spinner        $spinner,
     )
     {
-        if (!is_admin()) {
-            $this->registerHooks();
-        }
+        add_action('wp', [$this, 'registerHooks']);
     }
 
     protected function getAvailableScreens(): array
@@ -44,6 +42,9 @@ class ExpressButton
 
     public function registerHooks(): void
     {
+        if(is_admin())
+            return;
+
         $screens = $this->getAvailableScreens();
 
         if ($screens !== []) {

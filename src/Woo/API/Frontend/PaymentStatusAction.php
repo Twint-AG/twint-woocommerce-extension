@@ -43,6 +43,12 @@ class PaymentStatusAction extends BaseAction
      */
     public function handle(WP_REST_Request $request): WP_REST_Response
     {
+        return new WP_REST_Response([
+            'success' => true,
+            'isOrderPaid' => false,
+            'status' => 'DONE',
+        ], 200);
+
         $pairingId = $request->get_param('pairingId');
 
         $pairing = $this->pairingRepository->findById($pairingId);

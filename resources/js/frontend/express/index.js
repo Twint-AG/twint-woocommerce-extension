@@ -1,18 +1,19 @@
-import Spinner from './spinner/index';
 import Modal from './modal/modal';
 import ButtonHandler from './button/button-handler';
 import ModalContent from './modal/content';
+import Action from './checkout/action';
+import ContextFactory from './context/factory';
 
 class ExpressCheckout {
   // Singleton instance
   static modal;
-  static spinner;
 
   constructor() {
     this.buttonManager = new ButtonHandler();
+    this.checkoutAction = new Action();
   }
 
-  handle(){
+  handle() {
     this.init();
     this.registerEvents();
   }
@@ -26,25 +27,28 @@ class ExpressCheckout {
 
     let body = document.querySelector('body');
     body.addEventListener('click', function (event) {
-      if(event.target && event.target.matches('.twint')){
+      if (event.target && event.target.matches('.twint')) {
         self.onButtonClicked(event);
       }
     });
   }
 
-  onButtonClicked(e){
+  onButtonClicked(e) {
     e.preventDefault();
     e.stopPropagation();
 
-    console.log("clicked");
+    const button = e.target.closest('.twint-button');
 
-    ExpressCheckout.spinner.start();
+    this.checkoutAction.handle(ContextFactory.getContext(button), this.onSuccessCallback.bind(this), this.onFailureCallback.bind(this));
+  }
 
-    setTimeout(()=>{
-      ExpressCheckout.spinner.stop();
-      ExpressCheckout.modal.setContent(this.getRandomModalContent());
-      ExpressCheckout.modal.show();
-    }, 3000);
+  onSuccessCallback(data) {
+    ExpressCheckout.modal.setContent(this.getRandomModalContent());
+    ExpressCheckout.modal.show();
+  }
+
+  onFailureCallback() {
+    console.log("Cannot perform express checkout");
   }
 
   //TODO only for testing purposes
@@ -58,24 +62,17 @@ class ExpressCheckout {
     // Generate a random string for the pairing ID (e.g., 'pairing-123')
     const randomPairingId = 'pairing-' + Math.floor(Math.random() * 1000);
 
-    // Randomize the boolean value (true/false)
-    const randomBoolean = Math.random() < 0.5;
-
-    return new ModalContent(randomId, randomCurrencyValue, randomPairingId, randomBoolean);
+    return new ModalContent(randomId, randomCurrencyValue, randomPairingId, true);
   }
 
   init() {
-    if(!ExpressCheckout.modal){
+    if (!ExpressCheckout.modal) {
       ExpressCheckout.modal = new Modal();
-    }
-
-    if(!ExpressCheckout.spinner){
-      ExpressCheckout.spinner = new Spinner();
     }
   }
 }
 
-document.addEventListener( 'DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
   let handler = new ExpressCheckout();
   handler.handle();
 });

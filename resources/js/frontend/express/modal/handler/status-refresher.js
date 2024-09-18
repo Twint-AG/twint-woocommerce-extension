@@ -1,5 +1,5 @@
+import triggerFetch from '@wordpress/api-fetch';
 import IntervalHandler from "./interval-handler";
-import axios from "axios";
 
 class StatusRefresher {
   static EVENT_CANCELLED = 'cancelled';
@@ -82,22 +82,35 @@ class StatusRefresher {
     const self = this;
     this.processing = true;
 
-    let url = woocommerce_params.ajax_url;
-
-    let formData = new FormData();
-    formData.append('action', 'twint_check_pairing_status');
-    formData.append('pairingId', this.pairing);
-    // formData.append('nonce', nonce);
-
-    return axios.post(url, formData).then(response => {
+    triggerFetch({
+      path: '/twint/v1/payment/status',
+      method: 'POST',
+      data: {
+        pairingId: this.pairing
+      },
+      cache: 'no-store',
+      parse: false,
+    })
+      .then(response => {
         self.processing = false;
+        triggerFetch.setNonce(response.headers);
 
-        if (response.finish === true)
-          return self.onFinish(response);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
 
-        return self.onProcessing();
-      }
-    );
+        return response.json();
+      })
+      .then(data => {
+        if (data.finish === true)
+          return self.onFinish(data);
+
+        self.onProcessing();
+      })
+      .catch((error) => {
+        self.processing = false;
+        console.error('Error:', error);
+      });
   }
 }
 
