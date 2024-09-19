@@ -260,7 +260,7 @@ class Modal
                                         ' . __('Scan this QR Code with your TWINT app to complete the checkout.', 'woocommerce-gateway-twint') . '
                                     </div>
                                 </div>
-                                <div id="twint-guide-contact" class="flex flex-col items-center p-4">
+                                <div id="twint-guide-contact" class="flex flex-col items-center">
                                     <div class="flex justify-center">
                                         <img class="w-55 h-55" src="' . Plugin::assets(
                 '/images/icon-contact.svg'

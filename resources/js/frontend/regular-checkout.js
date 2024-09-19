@@ -17,7 +17,7 @@ const label = __('TWINT', 'woocommerce-gateway-twint');
  * @returns {JSX.Element}
  * @constructor
  */
-const ModalTwintPayment = ({eventRegistration,emitResponse}) => {
+const ModalTwintPayment = ({eventRegistration, emitResponse}) => {
   const {onCheckoutAfterProcessingWithSuccess} = eventRegistration;
   useEffect(() => {
     const unsubscribe = onCheckoutAfterProcessingWithSuccess(async ({processingResponse}) => {
@@ -68,7 +68,6 @@ const TwintRegular = {
   edit: <BlockEditorTwintComponent/>,
   canMakePayment: () => true,
   ariaLabel: label,
-  placeOrderButtonLabel: __('Proceed to TWINT', 'woocommerce-gateway-twint'),
   supports: {
     features: settings.supports,
   },

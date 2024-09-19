@@ -51,9 +51,13 @@ class Modal {
 
   close(){
     // Display
-    this.element.classList.add('!hidden');
+    // Refresh the page after close the modal
+    // TODO: Need to figure out the way to enable/active the buttons again.
+    // Discussion Blocker: https://github.com/woocommerce/woocommerce/discussions/49213
+    // this.element.classList.add('!hidden');
 
     this.statusRefresher.stop();
+    location.reload();
   }
 
   registerEvents() {

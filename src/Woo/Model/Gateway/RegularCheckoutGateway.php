@@ -86,7 +86,9 @@ class RegularCheckoutGateway extends AbstractGateway
                 ];
             }
 
-            $order->payment_complete();
+            $order->update_status(
+                self::getOrderStatusAfterFirstTimeCreatedOrder()
+            );
 
             /**
              * Need to reduce stock levels from Order
@@ -109,7 +111,7 @@ class RegularCheckoutGateway extends AbstractGateway
                 'nonce' => wp_create_nonce('twint_check_pairing_status'),
                 'shopName' => get_bloginfo('name'),
                 'amount' => number_format(
-                    (int) $order->get_total(),
+                    (float) $order->get_total(),
                     (int) get_option('woocommerce_price_num_decimals'),
                     get_option('woocommerce_price_decimal_sep'),
                     get_option('woocommerce_price_thousand_sep')
