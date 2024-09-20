@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Api\Frontend;
 
+use Automattic\WooCommerce\StoreApi\Exceptions\RouteException;
+use Twint\Woo\Service\ExpressCheckoutService;
+use WC_Data_Exception;
 use WP_REST_Request;
 use WP_REST_Response;
 
 class ExpressCheckoutAction {
     public function __construct(
-
+        private readonly ExpressCheckoutService $service
     )
     {
         $this->registerHooks();
@@ -26,10 +29,42 @@ class ExpressCheckoutAction {
         });
     }
 
+    /**
+     * @throws WC_Data_Exception
+     */
     public function handle(WP_REST_Request $request): WP_REST_Response
     {
-        sleep(2);
+        $this->init();
 
-        return new WP_REST_Response(['success' => true], 200);
+        $full = $request->get_param('full') ?? false;
+
+        if(!$full){
+            if(!$this->service->isEmptyCart()) {
+                return new WP_REST_Response([
+                    'openMiniCart' => true
+                ], 200);
+            }
+
+            $this->service->addToCart($request);
+        }
+
+        $pairing = $this->service->checkout();
+
+        return new WP_REST_Response([
+            'pairing' => $pairing->getId(),
+            'amount' => wc_price($pairing->getAmount()),
+            'token' => $pairing->getToken(),
+            'id' => $pairing->getWcOrderId()
+        ], 200);
+    }
+
+    private function init(): void
+    {
+        $cart = WC()->cart;
+        if(!$cart){
+            WC()->frontend_includes();
+            WC()->initialize_session();
+            WC()->initialize_cart();
+        }
     }
 }

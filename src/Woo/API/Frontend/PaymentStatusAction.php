@@ -47,8 +47,6 @@ class PaymentStatusAction extends BaseAction
         WC()->initialize_session();
         WC()->initialize_cart();
 
-        WC()->cart->empty_cart();
-
         return new WP_REST_Response([
             'success' => true,
             'status' => 1,

@@ -6,6 +6,7 @@ namespace Twint\Woo\Model;
 
 use Exception;
 use Twint\Sdk\Value\OrderStatus;
+use Twint\Sdk\Value\PairingStatus;
 
 class Pairing
 {
@@ -27,9 +28,9 @@ class Pairing
 
     protected float $amount = 0;
 
-    protected string $status;
+    protected string $status = PairingStatus::PAIRING_IN_PROGRESS;
 
-    protected string $transactionStatus;
+    protected string $transactionStatus = '';
 
     protected string $pairingStatus;
 

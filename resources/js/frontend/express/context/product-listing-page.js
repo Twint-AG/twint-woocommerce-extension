@@ -14,7 +14,14 @@ class ProductListingPageContext extends Context {
 
     const json = box.getAttribute('data-wc-context');
 
-    return JSON.parse(json);
+    return this.mapping(JSON.parse(json));
+  }
+
+  mapping(data){
+    return {
+      quantity: data.quantityToAdd,
+      id: data.productId
+    }
   }
 }
 

@@ -8,8 +8,10 @@ use Exception;
 use mysqli_result;
 use mysqli_sql_exception;
 use Throwable;
+use Twint\Sdk\Value\InteractiveFastCheckoutCheckIn;
 use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderId;
+use Twint\Sdk\Value\PairingStatus;
 use Twint\Sdk\Value\Uuid;
 use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Model\ApiResponse;
@@ -140,5 +142,24 @@ class PairingService
         $log['transaction_id'] = $order->get_transaction_id();
 
         $this->apiService->saveLog($log);
+    }
+
+    public function createExpressPairing(ApiResponse $response, WC_Order $order): Pairing{
+        /** @var InteractiveFastCheckoutCheckIn $checkin */
+        $checkin = $response->getReturn();
+
+        $pairing = new Pairing();
+
+        $pairing->setToken($checkin->pairingToken()?->__toString());
+        $pairing->setAmount((float)$order->get_total());
+        $pairing->setWcOrderId($order->get_id());
+        $pairing->setId($checkin->pairingUuid()->__toString());
+        $pairing->setPairingStatus($checkin->pairingStatus()->__toString());
+        $pairing->setStatus(PairingStatus::PAIRING_IN_PROGRESS);
+        $pairing->setIsExpress(true);
+
+        $pairing->save();
+
+        return $pairing;
     }
 }

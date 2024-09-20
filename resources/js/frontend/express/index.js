@@ -43,26 +43,19 @@ class ExpressCheckout {
   }
 
   onSuccessCallback(data) {
-    ExpressCheckout.modal.setContent(this.getRandomModalContent());
+    if(data.openMiniCart){
+      jQuery('body').trigger('wc_fragment_refresh');
+      return;
+    }
+
+    ExpressCheckout.modal.setContent(
+      new ModalContent(data.token, data.amount, data.pairing, true)
+    );
     ExpressCheckout.modal.show();
   }
 
   onFailureCallback() {
     console.log("Cannot perform express checkout");
-  }
-
-  //TODO only for testing purposes
-  getRandomModalContent() {
-    // Generate a random 6-digit number as a string
-    const randomId = Math.floor(100000 + Math.random() * 900000).toString();
-
-    // Generate a random currency value between 0.1 and 100 with 2 decimal places
-    const randomCurrencyValue = (Math.random() * 99.9 + 0.1).toFixed(2) + ' CHF';
-
-    // Generate a random string for the pairing ID (e.g., 'pairing-123')
-    const randomPairingId = 'pairing-' + Math.floor(Math.random() * 1000);
-
-    return new ModalContent(randomId, randomCurrencyValue, randomPairingId, true);
   }
 
   init() {

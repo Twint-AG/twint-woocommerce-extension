@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Model\Gateway;
 
+use Throwable;
 use Twint\Plugin;
 use Twint\Woo\Constant\TwintConstant;
+use Twint\Woo\Service\FastCheckoutCheckinService;
 use Twint\Woo\Service\SettingService;
 use WP_Error;
 
@@ -67,7 +69,9 @@ class ExpressCheckoutGateway extends AbstractGateway
 
         // Display Options
         $this->displayOptions = get_option(TwintConstant::CONFIG_EXPRESS_SCREENS, []);
+    }
 
+    protected function registerHooks(){
         // Actions.
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
         add_action(
@@ -76,6 +80,10 @@ class ExpressCheckoutGateway extends AbstractGateway
         );
 
         add_filter('woocommerce_payment_complete_order_status', [$this, 'setCompleteOrderStatus'], 10, 3);
+
+        if(!is_admin()) {
+            FastCheckoutCheckinService::registerHooks();
+        }
     }
 
     /**
@@ -214,24 +222,15 @@ class ExpressCheckoutGateway extends AbstractGateway
     }
 
     /**
-     * Process refund.
-     *
-     * If the gateway declares 'refunds' support, this will allow it to refund.
-     * a passed in amount.
-     *
-     * @param int $order_id Order ID.
-     * @param float|null $amount Refund amount.
-     * @param string $reason Refund reason.
-     * @return bool|WP_Error True or false based on success, or a WP_Error object.
+     * @throws Throwable
      */
-    public function process_refund($order_id, $amount = null, $reason = ''): bool|WP_Error
+    public function process_payment($order_id)
     {
+        /** @var FastCheckoutCheckinService $service */
+        $service = Plugin::di('fast_checkout_checkin.service');
+
         $order = wc_get_order($order_id);
 
-        if (!$this->can_refund_order($order)) {
-            return new WP_Error('error', __('Refund failed.', 'woocommerce-gateway-twint'));
-        }
-
-        // TODO Implement refund feature
+        return $service->checkin($order);
     }
 }
