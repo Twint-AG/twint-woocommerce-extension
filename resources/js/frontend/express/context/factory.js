@@ -26,7 +26,7 @@ class ContextFactory {
   }
 
   static inCart(button) {
-    return button.classList.contains('mini-cart') || button.classList.contains('PLP');
+    return button.classList.contains('mini-cart') || button.classList.contains('cart');
   }
 }
 
