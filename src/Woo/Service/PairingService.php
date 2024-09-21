@@ -172,7 +172,7 @@ class PairingService
     {
         $pairing->setVersion($pairing->getVersion());
         $pairing->setCustomerData($checkIn->hasCustomerData() ? json_encode($checkIn->customerData()) : null);
-        $pairing->setShippingMethodId((string) $checkIn->shippingMethodId());
+        $pairing->setShippingMethodId($checkIn->shippingMethodId()?->__toString() ?? null);
         $pairing->setPairingStatus((string) $checkIn->pairingStatus());
 
         $this->logger->info("TWINT update: {$pairing->getId()} {$pairing->getPairingStatus()}");

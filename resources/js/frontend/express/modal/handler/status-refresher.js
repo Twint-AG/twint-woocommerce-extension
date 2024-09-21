@@ -64,13 +64,11 @@ class StatusRefresher {
   }
 
   onFinish(response) {
-    // Refresh cart
-
-    if (response.finish && response.status > 0) {
+    if (response.finish && response.status === 'PAID') {
       return this.onPaid(response);
     }
 
-    if (response.finish && response.status < 0) {
+    if (response.finish && response.status === 'FAILED') {
       return this.onCancelled();
     }
   }

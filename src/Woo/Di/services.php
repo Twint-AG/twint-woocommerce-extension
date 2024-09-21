@@ -17,6 +17,7 @@ use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Repository\TransactionRepository;
 use Twint\Woo\Service\ApiService;
 use Twint\Woo\Service\AppsService;
+use Twint\Woo\Service\Express\ExpressOrderService;
 use Twint\Woo\Service\ExpressCheckoutService;
 use Twint\Woo\Service\FastCheckoutCheckinService;
 use Twint\Woo\Service\MonitorService;
@@ -122,6 +123,7 @@ function twint_services()
                 $container->get('logger'),
                 $container->get('pairing.service'),
                 $container->get('api.service'),
+                $container->get('express_order.service'),
             );
         },
         'express_checkout.service' => static function (ContainerInterface $container): ExpressCheckoutService {
@@ -134,6 +136,9 @@ function twint_services()
                 $container->get('api.service'),
                 $container->get('pairing.service'),
             );
+        },
+        'express_order.service' => static function (ContainerInterface $container): ExpressOrderService {
+            return new ExpressOrderService();
         },
         // Actions
         'get_transaction_log.action' => static function (ContainerInterface $container) {

@@ -22,6 +22,7 @@ use Twint\Woo\Model\Monitor\MonitoringStatus;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Repository\TransactionRepository;
+use Twint\Woo\Service\Express\ExpressOrderService;
 use WC_Logger_Interface;
 
 class MonitorService
@@ -33,6 +34,7 @@ class MonitorService
         private readonly WC_Logger_Interface $logger,
         private readonly PairingService $pairingService,
         private readonly ApiService $api,
+        private readonly ExpressOrderService $orderService,
     ) {
     }
 
@@ -62,7 +64,23 @@ class MonitorService
     {
         $cloned = clone $pairing;
 
-        return $pairing->getIsExpress() ? $this->monitorExpress($pairing, $cloned) : $this->monitorRegular(
+        if($pairing->getIsExpress()){
+            $status = $this->monitorExpress($pairing, $cloned);
+            if ($status->paid()) {
+                $this->repository->markAsOrdering($pairing->getId());
+                try {
+                    $this->orderService->update($cloned);
+                    $status->addExtra('order', $pairing->getWcOrderId());
+
+                    $this->repository->markAsPaid($pairing->getId());
+                } catch (Exception $e) {
+                    $this->logger->error('TWINT MonitorService::monitor: ' . $e->getMessage());
+                    $this->repository->markAsCancelled($pairing->getId());
+                }
+            }
+        }
+
+        return $this->monitorRegular(
             $pairing,
             $cloned
         );
@@ -136,6 +154,9 @@ class MonitorService
 
         // As paid
         if (($pairing->getCustomerData() === null || $pairing->getCustomerData() === '' || $pairing->getCustomerData() === '0') && $state->hasCustomerData()) {
+            $this->logger->info(
+                "TWINT paid {$pairing->getPairingStatus()} - {$cloned->getPairingStatus()}"
+            );
             $status = MonitoringStatus::STATUS_PAID;
 
             return MonitoringStatus::fromValues(true, $status, [

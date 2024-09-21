@@ -48,6 +48,11 @@ class MonitoringStatus
         $this->extra[$key] = $value;
     }
 
+    public function paid(): bool
+    {
+        return $this->status === self::STATUS_PAID;
+    }
+
     private static function extractStatus(Pairing $pairing): string
     {
         if ($pairing->isSuccessful()) {

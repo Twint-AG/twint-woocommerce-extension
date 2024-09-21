@@ -142,6 +142,13 @@ class PairingRepository
         return ($result = $this->db->get_results($query)) ? (new Pairing(false))->load((array) reset($result)) : null;
     }
 
+    public function markAsOrdering(string $id): mysqli_result|bool|int|null
+    {
+        $query = $this->db->prepare('UPDATE %i SET is_ordering = 1 WHERE id = %s;', [self::tableName(), $id]);
+
+        return $this->db->query($query);
+    }
+
     public function markAsCancelled(string $id): mysqli_result|bool|int|null
     {
         return $this->updateStatus($id, Pairing::EXPRESS_STATUS_CANCELLED);

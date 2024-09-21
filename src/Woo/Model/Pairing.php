@@ -30,8 +30,6 @@ class Pairing
 
     protected int $wcOrderId;
 
-    protected null|int $customerId = null;
-
     protected ?string $customerData = null;
 
     protected bool $isExpress = false;
@@ -91,6 +89,7 @@ class Pairing
             'is_express' => ['isExpress', static function ($value) {
                 return (bool)$value;
             }],
+            'customer_data' => 'customerData'
         ];
     }
 
@@ -108,7 +107,7 @@ class Pairing
     public function isFinished(): bool
     {
         if ($this->isExpress) {
-            // TODO Update check isFinished for Express Checkout
+            return in_array($this->getStatus(), [self::EXPRESS_STATUS_PAID, self::EXPRESS_STATUS_CANCELLED, self::EXPRESS_STATUS_MERCHANT_CANCELLED]);
         }
 
         return in_array($this->status, [OrderStatus::SUCCESS, OrderStatus::FAILURE], true);
@@ -192,11 +191,6 @@ class Pairing
     {
         $this->wcOrderId = $wcOrderId;
         return $this;
-    }
-
-    public function getCustomerId(): int|null
-    {
-        return $this->customerId;
     }
 
     public function setCustomerData(?string $value): self
@@ -316,11 +310,19 @@ class Pairing
 
     public function isSuccessful(): bool
     {
+        if($this->isExpress){
+            return $this->getStatus() === self::EXPRESS_STATUS_PAID;
+        }
+
         return $this->getStatus() === OrderStatus::SUCCESS;
     }
 
     public function isFailure(): bool
     {
+        if ($this->isExpress) {
+            return $this->getPairingStatus() === PairingStatus::NO_PAIRING;
+        }
+
         return $this->getStatus() === OrderStatus::FAILURE;
     }
 

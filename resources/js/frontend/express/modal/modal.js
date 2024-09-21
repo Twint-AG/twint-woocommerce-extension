@@ -10,6 +10,9 @@ class Modal {
     this.element = document.getElementById('twint-modal');
     this.closeBtn = this.element.querySelector('#twint-close');
 
+    this.payContainer = this.element.querySelector('#qr-modal-content');
+    this.successContainer = this.element.querySelector('#qr-modal-success');
+
     // Handlers
     this.statusRefresher = new StatusRefresher();
     this.tokenCopier = new TokenCopier();
@@ -35,6 +38,9 @@ class Modal {
 
   show(){
     // Display
+    this.payContainer.classList.remove('!hidden');
+    this.successContainer.classList.add('!hidden');
+
     let span = this.closeBtn.querySelector('span');
     span.innerHTML = this.closeBtn.getAttribute('data-default');
 
@@ -87,6 +93,9 @@ class Modal {
 
     let span = this.closeBtn.querySelector('span');
     span.innerHTML = this.closeBtn.getAttribute('data-success');
+
+    this.payContainer.classList.add('!hidden');
+    this.successContainer.classList.remove('!hidden');
   }
 
   continue(){
