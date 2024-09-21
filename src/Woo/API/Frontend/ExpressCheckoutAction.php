@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Api\Frontend;
 
-use Automattic\WooCommerce\StoreApi\Exceptions\RouteException;
+use Throwable;
 use Twint\Woo\Service\ExpressCheckoutService;
 use WC_Data_Exception;
 use WP_REST_Request;
 use WP_REST_Response;
 
 class ExpressCheckoutAction {
+    use CartInitTrait;
+
     public function __construct(
         private readonly ExpressCheckoutService $service
     )
@@ -30,11 +32,11 @@ class ExpressCheckoutAction {
     }
 
     /**
-     * @throws WC_Data_Exception
+     * @throws WC_Data_Exception|Throwable
      */
     public function handle(WP_REST_Request $request): WP_REST_Response
     {
-        $this->init();
+        $this->initCartIfNeed();
 
         $full = $request->get_param('full') ?? false;
 
@@ -56,15 +58,5 @@ class ExpressCheckoutAction {
             'token' => $pairing->getToken(),
             'id' => $pairing->getWcOrderId()
         ], 200);
-    }
-
-    private function init(): void
-    {
-        $cart = WC()->cart;
-        if(!$cart){
-            WC()->frontend_includes();
-            WC()->initialize_session();
-            WC()->initialize_cart();
-        }
     }
 }

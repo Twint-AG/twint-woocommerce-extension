@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
+use Twint\Plugin;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Service\MonitorService;
@@ -21,12 +22,16 @@ class PollCommand extends Command
 {
     public const COMMAND = 'twint:poll';
 
-    public function __construct(
-        private readonly PairingRepository $repository,
-        private readonly MonitorService $monitor,
-        private readonly WC_Logger_Interface $logger
-    ) {
+    private PairingRepository $repository;
+    private MonitorService $monitor;
+    private WC_Logger_Interface $logger;
+
+    public function __construct() {
         parent::__construct();
+
+        $this->logger = Plugin::di('logger');
+        $this->repository = Plugin::di('pairing.repository');
+        $this->monitor = Plugin::di('monitor.service');
     }
 
     protected function configure(): void
@@ -49,10 +54,10 @@ class PollCommand extends Command
 
         while (!$pairing->isFinished()) {
             $output->writeln("<info>Checking count: {$count}</info>");
-            $this->logger->info("[TWINT] - monitoring: {$pairingId}: {$pairing->getVersion()}");
+            $this->logger->info("[TWINT] - monitoring: {$pairingId}: {$pairing->getVersion()} {$pairing->getCheckedAgo()}");
             $this->repository->updateCheckedAt($pairing);
 
-            $this->monitor->monitor($pairing);
+//            $this->monitor->monitor($pairing);
 
             sleep($this->getInterval($pairing, $startedAt));
             $pairing = $this->repository->findById($pairingId);

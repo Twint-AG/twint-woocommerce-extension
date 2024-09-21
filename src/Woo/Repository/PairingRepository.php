@@ -21,8 +21,9 @@ class PairingRepository
     {
         global $wpdb;
         $table = Pairing::getTableName();
+        $select = $this->getSelect();
         $results = $wpdb->get_results(
-            "SELECT *, (UNIX_TIMESTAMP() - UNIX_TIMESTAMP(checked_at)) AS checked_ago FROM {$table} WHERE status IN ('PAIRING_IN_PROGRESS', 'IN_PROGRESS') ORDER BY created_at ASC"
+            "SELECT {$select} WHERE status IN ('PAIRING_IN_PROGRESS', 'IN_PROGRESS') ORDER BY created_at ASC"
         );
         $pairings = [];
         foreach ($results as $result) {
@@ -38,8 +39,9 @@ class PairingRepository
     {
         global $wpdb;
         $table = Pairing::getTableName();
+        $select = $this->getSelect();
         $result = $wpdb->get_results(
-            "SELECT *, (UNIX_TIMESTAMP() - UNIX_TIMESTAMP(checked_at)) AS checked_ago FROM {$table} WHERE wc_order_id = {$orderId} LIMIT 1"
+            "SELECT {$select} FROM {$table} WHERE wc_order_id = {$orderId} LIMIT 1"
         );
         if (empty($result)) {
             return null;
@@ -53,8 +55,12 @@ class PairingRepository
     {
         global $wpdb;
         $table = Pairing::getTableName();
+        $select = $this->getSelect();
         $result = $wpdb->get_results(
-            "SELECT *, (UNIX_TIMESTAMP() - UNIX_TIMESTAMP(checked_at)) AS checked_ago FROM {$table} WHERE id = '{$pairingId}' LIMIT 1"
+            "SELECT {$select}
+                    FROM {$table} 
+                    WHERE id = '{$pairingId}' 
+                    LIMIT 1"
         );
         if (empty($result)) {
             return null;
@@ -62,5 +68,13 @@ class PairingRepository
 
         $instance = new Pairing();
         return $instance->load((array) reset($result)) ?? null;
+    }
+
+    private function getSelect(): string
+    {
+        return '*, 
+                (UNIX_TIMESTAMP() - UNIX_TIMESTAMP(checked_at)) AS checked_ago,
+                (UNIX_TIMESTAMP() - UNIX_TIMESTAMP(created_at)) AS created_ago 
+               ';
     }
 }

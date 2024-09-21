@@ -6,21 +6,25 @@ namespace Twint\Woo\Api\Frontend;
 
 use Exception;
 use Symfony\Component\Process\Process;
+use Throwable;
 use Twint\Command\PollCommand;
 use Twint\Plugin;
 use Twint\Woo\Api\BaseAction;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
+use Twint\Woo\Service\MonitorService;
 use WC_Logger_Interface;
 use WP_REST_Request;
 use WP_REST_Response;
 
 class PaymentStatusAction extends BaseAction
 {
+    use CartInitTrait;
     private const TIME_WINDOW_SECONDS = 10; // 10 seconds
 
     public function __construct(
         private readonly PairingRepository $pairingRepository,
+        private readonly MonitorService $service,
         private readonly WC_Logger_Interface $logger
     )
     {
@@ -40,18 +44,11 @@ class PaymentStatusAction extends BaseAction
 
     /**
      * @throws Exception
+     * @throws Throwable
      */
     public function handle(WP_REST_Request $request): WP_REST_Response
     {
-        WC()->frontend_includes();
-        WC()->initialize_session();
-        WC()->initialize_cart();
-
-        return new WP_REST_Response([
-            'success' => true,
-            'status' => 1,
-            'finish' => true,
-        ], 200);
+        $this->initCartIfNeed();
 
         $pairingId = $request->get_param('pairingId');
 
@@ -60,26 +57,8 @@ class PaymentStatusAction extends BaseAction
             throw new Exception('The pairing for the the order does not exist.');
         }
 
-        if (!$pairing->isFinished() && !$this->isRunning($pairing)) {
-            $this->logger->info("[TWINT] - Checking pairing [{$pairingId}]...");
+        $status = $this->service->status($pairing);
 
-            $process = new Process(['php', Plugin::abspath() . 'bin/console', PollCommand::COMMAND, $pairingId]);
-            $process->setOptions([
-                'create_new_console' => true,
-            ]);
-            $process->disableOutput();
-            $process->start();
-        }
-
-        return new WP_REST_Response([
-            'success' => true,
-            'isOrderPaid' => $pairing->isFinished(),
-            'status' => $pairing->getStatus(),
-        ], 200);
-    }
-
-    protected function isRunning(Pairing $pairing): bool
-    {
-        return $pairing->getCheckedAt() && $pairing->getCheckedAgo() < self::TIME_WINDOW_SECONDS;
+        return new WP_REST_Response($status->toArray(), 200);
     }
 }

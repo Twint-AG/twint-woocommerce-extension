@@ -135,7 +135,10 @@ function twint_services()
             );
         },
         'payment_status.action' => static function (ContainerInterface $container) {
-            return new PaymentStatusAction($container->get('pairing.repository'), $container->get('logger'));
+            return new PaymentStatusAction(
+                $container->get('pairing.repository'),
+                $container->get('monitor.service'),
+                $container->get('logger'));
         },
         'express_checkout.action' => static function (ContainerInterface $container) {
             return new ExpressCheckoutAction(

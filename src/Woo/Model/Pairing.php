@@ -10,6 +10,8 @@ use Twint\Sdk\Value\PairingStatus;
 
 class Pairing
 {
+    const TIME_WINDOW_SECONDS = 10;
+
     protected static string $table = 'twint_pairing';
 
     protected string $id; // uuid - twint order uuid
@@ -39,6 +41,8 @@ class Pairing
     protected ?string $checkedAt;
 
     protected ?int $checkedAgo;
+
+    protected ?int $createdAgo;
 
     protected int $version = 1;
 
@@ -92,10 +96,20 @@ class Pairing
         return $this->checkedAgo ?? 0;
     }
 
+    public function getCreatedAgo(): ?int
+    {
+        return $this->createdAgo ?? null;
+    }
+
     public function setCheckedAgo(?int $checkedAgo): self
     {
         $this->checkedAgo = $checkedAgo;
         return $this;
+    }
+
+    public function setCreatedAgo(?int $value):void
+    {
+        $this->createdAgo = $value;
     }
 
     public function load(array $data): self
@@ -112,7 +126,8 @@ class Pairing
         $this->setIsOrdering((int) $data['is_ordering'] ?? 0);
         $this->setCheckedAt($data['checked_at']);
         $this->setCreatedAt($data['created_at']);
-        $this->setCheckedAgo($data['checked_ago']);
+        $this->setCheckedAgo((int) $data['checked_ago']);
+        $this->setCheckedAgo((int) $data['created_ago']);
         $this->setUpdatedAt($data['updated_at']);
         $this->setVersion((int) $data['version']);
 
@@ -306,5 +321,20 @@ class Pairing
     {
         $this->updatedAt = $updatedAt;
         return $this;
+    }
+
+    public function isMonitoring(): bool
+    {
+        return $this->getCheckedAt() && $this->getCheckedAgo() < self::TIME_WINDOW_SECONDS;
+    }
+
+    public function isSuccessful(): bool
+    {
+        return $this->getStatus() === OrderStatus::SUCCESS;
+    }
+
+    public function isFailure(): bool
+    {
+        return $this->getStatus() === OrderStatus::FAILURE;
     }
 }
