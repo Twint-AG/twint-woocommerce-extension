@@ -24,6 +24,9 @@ const ModalTwintPayment = ({eventRegistration, emitResponse}) => {
       const details = processingResponse.paymentDetails;
       if (details.result === 'success') {
         let modal = new Modal();
+        modal.addCallback(Modal.EVENT_CLOSED, ()=> {
+          location.reload();
+        });
         modal.setContent(new ModalContent(details.pairingToken,
           details.amount + details.currency,
           details.pairingId,

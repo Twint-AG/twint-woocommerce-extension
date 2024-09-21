@@ -4,6 +4,8 @@ import AndroidConnector from "./connector/android-connector";
 import IosConnector from "./connector/ios-connector";
 
 class Modal {
+  static EVENT_CLOSED = 'CLOSED';
+
   constructor(){
     this.element = document.getElementById('twint-modal');
     this.closeBtn = this.element.querySelector('#twint-close');
@@ -17,10 +19,18 @@ class Modal {
     this.connectors.push(new IosConnector());
 
     this.registerEvents();
+
+    this.callbacks = {};
   }
 
   setContent(content){
     this.content = content;
+  }
+
+  addCallback(event, callback){
+    if(typeof callback === 'function') {
+      this.callbacks[event] = callback;
+    }
   }
 
   show(){
@@ -51,13 +61,15 @@ class Modal {
 
   close(){
     // Display
-    // Refresh the page after close the modal
-    // TODO: Need to figure out the way to enable/active the buttons again.
-    // Discussion Blocker: https://github.com/woocommerce/woocommerce/discussions/49213
-    // this.element.classList.add('!hidden');
+    this.element.classList.add('!hidden');
 
+    // Default handlers
     this.statusRefresher.stop();
-    location.reload();
+
+    let callback = this.callbacks[Modal.EVENT_CLOSED];
+    if(callback){
+      callback();
+    }
   }
 
   registerEvents() {
