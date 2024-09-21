@@ -26,8 +26,7 @@ class FastCheckoutCheckinService
         private readonly ClientBuilder $builder,
         private readonly ApiService $api,
         private readonly PairingService $pairingService,
-    )
-    {
+    ) {
     }
 
     public static function registerHooks(): void
@@ -37,13 +36,10 @@ class FastCheckoutCheckinService
 
     /**
      * Express checkout only support for CH country
-     *
-     * @param $packages
-     * @return array
      */
     public static function forceCountry($packages): array
     {
-        foreach ($packages as &$package){
+        foreach ($packages as &$package) {
             $package['destination']['country'] = 'CH';
         }
 
@@ -66,7 +62,7 @@ class FastCheckoutCheckinService
      */
     private function callApi(WC_Order $order, ShippingMethods $methods): ApiResponse
     {
-        $client = $this->builder->build( Version::NEXT);
+        $client = $this->builder->build(Version::NEXT);
 
         $this->logger->info("TWINT start EC {$order->get_id()}");
 
@@ -94,7 +90,7 @@ class FastCheckoutCheckinService
                 $options[] = new ShippingMethod(
                     new ShippingMethodId($rate->get_method_id()),
                     $rate->get_label(),
-                    Money::CHF((float)$rate->get_cost())
+                    Money::CHF((float) $rate->get_cost())
                 );
             }
         }

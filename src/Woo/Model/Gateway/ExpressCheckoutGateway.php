@@ -9,7 +9,6 @@ use Twint\Plugin;
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Service\FastCheckoutCheckinService;
 use Twint\Woo\Service\SettingService;
-use WP_Error;
 
 class ExpressCheckoutGateway extends AbstractGateway
 {
@@ -71,7 +70,18 @@ class ExpressCheckoutGateway extends AbstractGateway
         $this->displayOptions = get_option(TwintConstant::CONFIG_EXPRESS_SCREENS, []);
     }
 
-    protected function registerHooks(){
+    /**
+     * Set up the status of the order after order got paid.
+     * @since 1.0.0
+     */
+    public static function getOrderStatusAfterPaid(): string
+    {
+        // TODO use config or database option for this.
+        return apply_filters('woocommerce_twint_order_status_paid', 'processing');
+    }
+
+    protected function registerHooks()
+    {
         // Actions.
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
         add_action(
@@ -81,19 +91,9 @@ class ExpressCheckoutGateway extends AbstractGateway
 
         add_filter('woocommerce_payment_complete_order_status', [$this, 'setCompleteOrderStatus'], 10, 3);
 
-        if(!is_admin()) {
+        if (!is_admin()) {
             FastCheckoutCheckinService::registerHooks();
         }
-    }
-
-    /**
-     * Set up the status of the order after order got paid.
-     * @since 1.0.0
-     */
-    public static function getOrderStatusAfterPaid(): string
-    {
-        // TODO use config or database option for this.
-        return apply_filters('woocommerce_twint_order_status_paid', 'processing');
     }
 
     /**

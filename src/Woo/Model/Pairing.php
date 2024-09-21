@@ -10,7 +10,7 @@ use Twint\Sdk\Value\PairingStatus;
 
 class Pairing
 {
-    const TIME_WINDOW_SECONDS = 10;
+    public const TIME_WINDOW_SECONDS = 10;
 
     protected static string $table = 'twint_pairing';
 
@@ -107,7 +107,7 @@ class Pairing
         return $this;
     }
 
-    public function setCreatedAgo(?int $value):void
+    public function setCreatedAgo(?int $value): void
     {
         $this->createdAgo = $value;
     }

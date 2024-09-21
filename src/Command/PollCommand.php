@@ -23,10 +23,13 @@ class PollCommand extends Command
     public const COMMAND = 'twint:poll';
 
     private PairingRepository $repository;
+
     private MonitorService $monitor;
+
     private WC_Logger_Interface $logger;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->logger = Plugin::di('logger');
@@ -54,10 +57,12 @@ class PollCommand extends Command
 
         while (!$pairing->isFinished()) {
             $output->writeln("<info>Checking count: {$count}</info>");
-            $this->logger->info("[TWINT] - monitoring: {$pairingId}: {$pairing->getVersion()} {$pairing->getCheckedAgo()}");
+            $this->logger->info(
+                "[TWINT] - monitoring: {$pairingId}: {$pairing->getVersion()} {$pairing->getCheckedAgo()}"
+            );
             $this->repository->updateCheckedAt($pairing);
 
-//            $this->monitor->monitor($pairing);
+            $this->monitor->monitor($pairing);
 
             sleep($this->getInterval($pairing, $startedAt));
             $pairing = $this->repository->findById($pairingId);

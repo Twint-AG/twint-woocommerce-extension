@@ -33,12 +33,15 @@ class ExpressCheckoutService
         $user_id = get_current_user_id();
 
         // Create a new order
-        $order = wc_create_order(['customer_id' => $user_id]);
+        $order = wc_create_order([
+            'customer_id' => $user_id,
+        ]);
 
         // Get the cart items
-        $cart = WC()->cart->get_cart();
+        $cart = WC()
+            ->cart->get_cart();
 
-        foreach ($cart as $cart_item_key => $cart_item) {
+        foreach ($cart as $cart_item) {
             // Get the product
             $product = $cart_item['data'];
             $quantity = $cart_item['quantity'];
@@ -60,7 +63,7 @@ class ExpressCheckoutService
             'city' => 'New York',
             'state' => 'NY',
             'postcode' => '10001',
-            'country' => 'CH'
+            'country' => 'CH',
         ];
         $order->set_address($address, 'billing');
         $order->set_address($address, 'shipping');
@@ -81,11 +84,12 @@ class ExpressCheckoutService
      */
     private function handlePayment(WC_Order $order): Pairing
     {
-        $gateways = WC()->payment_gateways->payment_gateways();
+        $gateways = WC()
+            ->payment_gateways->payment_gateways();
 
         /** @var ExpressCheckoutGateway $gatewayInstance */
         $gatewayInstance = $gateways[ExpressCheckoutGateway::UNIQUE_PAYMENT_ID];
-        if(!$gatewayInstance){
+        if (!$gatewayInstance) {
             throw new Exception('Payment gateway is not available');
         }
 
@@ -99,7 +103,8 @@ class ExpressCheckoutService
 
     public function isEmptyCart(): bool
     {
-        $quantity = $this->getCart()->get_cart_item_quantities();
+        $quantity = $this->getCart()
+            ->get_cart_item_quantities();
 
         return count($quantity) === 0;
     }
@@ -111,7 +116,7 @@ class ExpressCheckoutService
             [
                 'id' => $request['id'],
                 'quantity' => $request['quantity'],
-                'variation' => $request['variation']
+                'variation' => $request['variation'],
             ],
             $request
         );

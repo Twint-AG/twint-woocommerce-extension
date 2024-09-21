@@ -144,14 +144,15 @@ class PairingService
         $this->apiService->saveLog($log);
     }
 
-    public function createExpressPairing(ApiResponse $response, WC_Order $order): Pairing{
+    public function createExpressPairing(ApiResponse $response, WC_Order $order): Pairing
+    {
         /** @var InteractiveFastCheckoutCheckIn $checkin */
         $checkin = $response->getReturn();
 
         $pairing = new Pairing();
 
-        $pairing->setToken($checkin->pairingToken()?->__toString());
-        $pairing->setAmount((float)$order->get_total());
+        $pairing->setToken($checkin->pairingToken()->__toString());
+        $pairing->setAmount((float) $order->get_total());
         $pairing->setWcOrderId($order->get_id());
         $pairing->setId($checkin->pairingUuid()->__toString());
         $pairing->setPairingStatus($checkin->pairingStatus()->__toString());

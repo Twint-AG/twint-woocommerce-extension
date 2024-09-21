@@ -21,8 +21,7 @@ class Modal
 
     public function __construct(
         private readonly AppsService $service
-    )
-    {
+    ) {
     }
 
     public function registerHooks(): void
@@ -33,7 +32,7 @@ class Modal
 
         add_action('wp_footer', [$this, 'render'], 98);
 
-        add_action('wp_enqueue_scripts', function () {
+        add_action('wp_enqueue_scripts', static function () {
             wp_enqueue_script(
                 'woocommerce-gateway-twint-qrcode',
                 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js'
@@ -112,8 +111,8 @@ class Modal
                     alt="' . htmlentities($link['name']) . '">';
             } else {
                 $else .= '<option value="' . htmlentities($link['link']) . '">' . htmlentities(
-                        $link['name']
-                    ) . '</option>';
+                    $link['name']
+                ) . '</option>';
             }
         }
 
@@ -151,11 +150,11 @@ class Modal
             <div id="twint-modal" class="!hidden">
                 <div class="fixed inset-0 bg-black opacity-50"></div>
                 <div class="modal-inner-wrap shadow-lg w-screen h-screen p-6 z-10 overflow-y-auto ' . $this->getMdClasses(
-                'md:rounded-lg md:h-auto md:max-h-[95vh]'
-            ) . '">
+            'md:rounded-lg md:h-auto md:max-h-[95vh]'
+        ) . '">
                     <header class="twint-modal-header sticky top-0 flex justify-between items-center bg-white py-2 px-4 ' . $this->getMdClasses(
-                'md:rounded-t-lg'
-            ) . '">
+            'md:rounded-t-lg'
+        ) . '">
                         <button id="twint-close"
                            data-default="' . __('Cancel checkout', 'woocommerce-gateway-twint') . '"
                            data-success="' . __('Continue shopping', 'woocommerce-gateway-twint') . '"
@@ -166,22 +165,22 @@ class Modal
                             <span class="ml-2"></span>
                         </button>
                         <img class="twint-logo hidden ' . $this->getMdClasses('md:block') . '" src="' . Plugin::assets(
-                '/images/twint_logo.png'
-            ) . '" 
+            '/images/twint_logo.png'
+        ) . '" 
                         alt="TWINT Logo">
                     </header>
                     <div class="modal-content twint-modal-content p-0 ' . $this->getMobileClass() . $this->getMdClasses(
-                'md:p-4'
-            ) . '">
+            'md:p-4'
+        ) . '">
                         <div id="qr-modal-content" class="text-20">
                         <input type="hidden" name="twint_wp_nonce" value={nonce} id="twint_wp_nonce"/>
                         <div class="flex flex-col  gap-4 bg-gray-100 ' . $this->getMdClasses('md:flex-row') . '">
                             <div class="flex flex-1 order-1 bg-white items-center justify-center ' . $this->getMdClasses(
-                'md:flex md:order-none md:rounded-lg'
-            ) . '">
+            'md:flex md:order-none md:rounded-lg'
+        ) . '">
                                 <div class="flex flex-col text-center ' . $this->getMdClasses(
-                'md:flex-col-reverse'
-            ) . '">
+            'md:flex-col-reverse'
+        ) . '">
                                     <div class="qr-token text-center my-3">
                                         <input id="qr-token"
                                                class="bg-white"
@@ -209,18 +208,18 @@ class Modal
                             </div>
 
                             <div class="flex-1 order-0 flex flex-col gap-1 ' . $this->getMdClasses(
-                'md:gap-4 md:order-1'
-            ) . '">
+            'md:gap-4 md:order-1'
+        ) . '">
                                 <div class="flex flex-1 bg-white p-4 items-center justify-center ' . $this->getMdClasses(
-                'md:rounded-lg'
-            ) . '">
+            'md:rounded-lg'
+        ) . '">
                                         <span id="twint-amount">
                                             {price}
                                         </span>
                                 </div>
                                 <div class="flex flex-1 bg-white p-4 items-center justify-center ' . $this->getMdClasses(
-                'md:rounded-lg'
-            ) . '">
+            'md:rounded-lg'
+        ) . '">
                                     ' . get_bloginfo('name') . '
                                 </div>
 
@@ -263,8 +262,8 @@ class Modal
                                 <div id="twint-guide-contact" class="flex flex-col items-center">
                                     <div class="flex justify-center">
                                         <img class="w-55 h-55" src="' . Plugin::assets(
-                '/images/icon-contact.svg'
-            ) . '" alt="contact">
+            '/images/icon-contact.svg'
+        ) . '" alt="contact">
                                     </div>
                                     <div class="text-center mt-4">' . __('Follow the instructions in the app to confirm your order.') . '</div>
                                 </div>

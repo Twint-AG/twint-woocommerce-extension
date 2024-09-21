@@ -15,10 +15,9 @@ class ExpressButton
 {
     public function __construct(
         private readonly SettingService $setting,
-        private readonly Modal          $modal,
-        private readonly Spinner        $spinner,
-    )
-    {
+        private readonly Modal $modal,
+        private readonly Spinner $spinner,
+    ) {
         add_action('wp', [$this, 'registerHooks']);
     }
 
@@ -42,8 +41,9 @@ class ExpressButton
 
     public function registerHooks(): void
     {
-        if(is_admin())
+        if (is_admin()) {
             return;
+        }
 
         $screens = $this->getAvailableScreens();
 
@@ -67,11 +67,17 @@ class ExpressButton
                     break;
 
                 case TwintConstant::CONFIG_SCREEN_CART:
-                    add_filter('render_block_woocommerce/cart-express-payment-block', [$this, 'renderExpressButtonInCartPage']);
+                    add_filter(
+                        'render_block_woocommerce/cart-express-payment-block',
+                        [$this, 'renderExpressButtonInCartPage']
+                    );
                     break;
 
                 case TwintConstant::CONFIG_SCREEN_CART_FLYOUT:
-                    add_filter('render_block_woocommerce/mini-cart-checkout-button-block', [$this, 'renderButtonInMiniCart']);
+                    add_filter(
+                        'render_block_woocommerce/mini-cart-checkout-button-block',
+                        [$this, 'renderButtonInMiniCart']
+                    );
                     break;
             }
         }
@@ -81,9 +87,7 @@ class ExpressButton
     {
         $html .= $this->getButton('cart');
 
-        $html .= $this->renderOrSection();
-
-        return $html;
+        return $html . $this->renderOrSection();
     }
 
     public function renderOrSection(): string
@@ -97,9 +101,7 @@ class ExpressButton
 
     public function renderButtonInMiniCart(string $html): string
     {
-        $html .= $this->getButton('mini-cart');
-
-        return $html;
+        return $html . $this->getButton('mini-cart');
     }
 
     private function getButton(string $additionalClasses = ''): string
@@ -107,7 +109,9 @@ class ExpressButton
         return '
             <button type="submit" class="twint twint-button ' . $additionalClasses . '">
                 <span class="twint icon-block">
-                    <img class="twint twint-icon" src="' . Plugin::assets('/images/express.svg') . '" alt="Express Checkout">
+                    <img class="twint twint-icon" src="' . Plugin::assets(
+            '/images/express.svg'
+        ) . '" alt="Express Checkout">
                 </span>
                 <span class="twint twint-label">Express Checkout</span>
             </button>

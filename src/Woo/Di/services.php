@@ -6,7 +6,6 @@ use Twint\Command\PollCommand;
 use Twint\Woo\Api\Admin\GetTransactionLogAction;
 use Twint\Woo\Api\Admin\StoreConfigurationAction;
 use Twint\Woo\Api\Frontend\ExpressCheckoutAction;
-use Twint\Woo\API\Frontend\OrderPayButtonAction;
 use Twint\Woo\Api\Frontend\PaymentStatusAction;
 use Twint\Woo\Container\ContainerInterface;
 use Twint\Woo\Factory\ClientBuilder;
@@ -32,6 +31,11 @@ use Twint\Woo\Utility\CryptoHandler;
 function twint_services()
 {
     return [
+        'db' => static function (ContainerInterface $container): wpdb {
+            global $wpdb;
+
+            return $wpdb;
+        },
         //Logger
         'logger' => static function (ContainerInterface $container) {
             if (!function_exists('wc_get_logger')) {
@@ -42,18 +46,14 @@ function twint_services()
         },
         // Repositories
         'pairing.repository' => static function (ContainerInterface $container) {
-            return new PairingRepository();
+            return new PairingRepository($container->get('db'));
         },
         'transaction.repository' => static function (ContainerInterface $container) {
             return new TransactionRepository();
         },
         //Commands
         'poll.command' => static function (ContainerInterface $container) {
-            return new PollCommand(
-                $container->get('pairing.repository'),
-                $container->get('monitor.service'),
-                $container->get('logger'),
-            );
+            return new PollCommand();
         },
         //Handlers
         'crypto.handler' => static function (ContainerInterface $container) {
@@ -138,12 +138,11 @@ function twint_services()
             return new PaymentStatusAction(
                 $container->get('pairing.repository'),
                 $container->get('monitor.service'),
-                $container->get('logger'));
+                $container->get('logger')
+            );
         },
         'express_checkout.action' => static function (ContainerInterface $container) {
-            return new ExpressCheckoutAction(
-                $container->get('express_checkout.service')
-            );
+            return new ExpressCheckoutAction($container->get('express_checkout.service'));
         },
 
         // Express Checkout

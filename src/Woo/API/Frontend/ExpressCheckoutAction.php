@@ -10,13 +10,13 @@ use WC_Data_Exception;
 use WP_REST_Request;
 use WP_REST_Response;
 
-class ExpressCheckoutAction {
+class ExpressCheckoutAction
+{
     use CartInitTrait;
 
     public function __construct(
         private readonly ExpressCheckoutService $service
-    )
-    {
+    ) {
         $this->registerHooks();
     }
 
@@ -26,7 +26,7 @@ class ExpressCheckoutAction {
             register_rest_route('twint/v1', '/express/checkout', [
                 'methods' => 'POST',
                 'callback' => [$this, 'handle'],
-                'permission_callback' => '__return_true'
+                'permission_callback' => '__return_true',
             ]);
         });
     }
@@ -40,10 +40,10 @@ class ExpressCheckoutAction {
 
         $full = $request->get_param('full') ?? false;
 
-        if(!$full){
-            if(!$this->service->isEmptyCart()) {
+        if (!$full) {
+            if (!$this->service->isEmptyCart()) {
                 return new WP_REST_Response([
-                    'openMiniCart' => true
+                    'openMiniCart' => true,
                 ], 200);
             }
 
@@ -56,7 +56,7 @@ class ExpressCheckoutAction {
             'pairing' => $pairing->getId(),
             'amount' => wc_price($pairing->getAmount()),
             'token' => $pairing->getToken(),
-            'id' => $pairing->getWcOrderId()
+            'id' => $pairing->getWcOrderId(),
         ], 200);
     }
 }

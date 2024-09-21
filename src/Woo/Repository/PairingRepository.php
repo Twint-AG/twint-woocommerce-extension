@@ -4,26 +4,35 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Repository;
 
+use mysqli_result;
 use Twint\Woo\Model\Pairing;
+use wpdb;
 
+/**
+ * TODO fix SQL injection issues
+ * use $query =  $this->>db->prepare
+ */
 class PairingRepository
 {
+    public function __construct(
+        private readonly wpdb $db
+    ) {
+    }
+
     public function updateCheckedAt(Pairing $pairing): mysqli_result|bool|int|null
     {
-        global $wpdb;
         $table = $pairing->getTableName();
         $pairingId = $pairing->getId();
 
-        return $wpdb->query("UPDATE {$table} SET checked_at = NOW() WHERE id = '{$pairingId}';");
+        return $this->db->query("UPDATE {$table} SET checked_at = NOW() WHERE id = '{$pairingId}';");
     }
 
     public function loadInProcessPairings(): array
     {
-        global $wpdb;
         $table = Pairing::getTableName();
         $select = $this->getSelect();
-        $results = $wpdb->get_results(
-            "SELECT {$select} WHERE status IN ('PAIRING_IN_PROGRESS', 'IN_PROGRESS') ORDER BY created_at ASC"
+        $results = $this->db->get_results(
+            "SELECT {$select} FROM {$table} WHERE status IN ('PAIRING_IN_PROGRESS', 'IN_PROGRESS') ORDER BY created_at ASC"
         );
         $pairings = [];
         foreach ($results as $result) {
@@ -37,12 +46,9 @@ class PairingRepository
 
     public function findByWooOrderId($orderId): ?Pairing
     {
-        global $wpdb;
         $table = Pairing::getTableName();
         $select = $this->getSelect();
-        $result = $wpdb->get_results(
-            "SELECT {$select} FROM {$table} WHERE wc_order_id = {$orderId} LIMIT 1"
-        );
+        $result = $this->db->get_results("SELECT {$select} FROM {$table} WHERE wc_order_id = {$orderId} LIMIT 1");
         if (empty($result)) {
             return null;
         }
@@ -53,10 +59,9 @@ class PairingRepository
 
     public function findById(mixed $pairingId): ?Pairing
     {
-        global $wpdb;
         $table = Pairing::getTableName();
         $select = $this->getSelect();
-        $result = $wpdb->get_results(
+        $result = $this->db->get_results(
             "SELECT {$select}
                     FROM {$table} 
                     WHERE id = '{$pairingId}' 

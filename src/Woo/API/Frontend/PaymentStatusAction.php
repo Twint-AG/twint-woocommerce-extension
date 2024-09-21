@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace Twint\Woo\Api\Frontend;
 
 use Exception;
-use Symfony\Component\Process\Process;
 use Throwable;
-use Twint\Command\PollCommand;
-use Twint\Plugin;
 use Twint\Woo\Api\BaseAction;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
@@ -19,15 +16,13 @@ use WP_REST_Response;
 
 class PaymentStatusAction extends BaseAction
 {
-    use CartInitTrait;
-    private const TIME_WINDOW_SECONDS = 10; // 10 seconds
+    use CartInitTrait; // 10 seconds
 
     public function __construct(
         private readonly PairingRepository $pairingRepository,
         private readonly MonitorService $service,
         private readonly WC_Logger_Interface $logger
-    )
-    {
+    ) {
         $this->registerHooks();
     }
 
@@ -37,7 +32,7 @@ class PaymentStatusAction extends BaseAction
             register_rest_route('twint/v1', '/payment/status', [
                 'methods' => 'POST',
                 'callback' => [$this, 'handle'],
-                'permission_callback' => '__return_true'
+                'permission_callback' => '__return_true',
             ]);
         });
     }
