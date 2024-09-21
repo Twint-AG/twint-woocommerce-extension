@@ -33,6 +33,16 @@ class MonitoringStatus
         return $instance;
     }
 
+    public static function fromValues(bool $finished, string $status, array $extra = []): self
+    {
+        $instance = new self();
+        $instance->status = $status;
+        $instance->finish = $finished;
+        $instance->extra = $extra;
+
+        return $instance;
+    }
+
     public function addExtra(string $key, mixed $value): void
     {
         $this->extra[$key] = $value;

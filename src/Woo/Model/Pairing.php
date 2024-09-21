@@ -4,15 +4,21 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Model;
 
-use Exception;
+use Twint\Sdk\Value\FastCheckoutCheckIn;
+use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderStatus;
 use Twint\Sdk\Value\PairingStatus;
+use Twint\Woo\Constant\TwintConstant;
 
 class Pairing
 {
     public const TIME_WINDOW_SECONDS = 10;
 
-    protected static string $table = 'twint_pairing';
+    public const EXPRESS_STATUS_PAID = 'PAID';
+
+    public const EXPRESS_STATUS_CANCELLED = 'CANCELLED';
+
+    public const EXPRESS_STATUS_MERCHANT_CANCELLED = 'MERCHANT_CANCELLED';
 
     protected string $id; // uuid - twint order uuid
 
@@ -49,12 +55,6 @@ class Pairing
     protected string $createdAt;
 
     protected string $updatedAt;
-
-    public static function getTableName(): string
-    {
-        global $table_prefix;
-        return $table_prefix . self::$table;
-    }
 
     public function getVersion(): int
     {
@@ -132,36 +132,6 @@ class Pairing
         $this->setVersion((int) $data['version']);
 
         return $this;
-    }
-
-    public function save(): bool
-    {
-        try {
-            global $wpdb;
-
-            $wpdb->insert(self::getTableName(), [
-                'id' => $this->getId(),
-                'token' => $this->getToken(),
-                'shipping_method_id' => $this->getShippingMethodId(),
-                'wc_order_id' => $this->getWcOrderId(),
-                'customer_id' => $this->getCustomerId(),
-                'customer_data' => $this->getCustomerData(),
-                'is_express' => $this->getIsExpress(),
-                'amount' => $this->getAmount(),
-                'status' => $this->getStatus(),
-                'transaction_status' => $this->getTransactionStatus(),
-                'pairing_status' => $this->getPairingStatus(),
-                'is_ordering' => $this->getIsOrdering(),
-                'checked_at' => $this->getCheckedAt(),
-                'created_at' => $this->getCreatedAt(),
-                'updated_at' => $this->getUpdatedAt(),
-            ]);
-
-            return true;
-        } catch (Exception $e) {
-            // TODO LOG Handler
-            return false;
-        }
     }
 
     public function getId(): string
@@ -336,5 +306,26 @@ class Pairing
     public function isFailure(): bool
     {
         return $this->getStatus() === OrderStatus::FAILURE;
+    }
+
+    public function hasDiffs(FastCheckoutCheckIn|Order $target): bool
+    {
+        if ($target instanceof FastCheckoutCheckIn) {
+            return $this->getPairingStatus() !== ($target->pairingStatus()->__toString() ?? '')
+                || $this->getShippingMethodId() !== ($target->hasShippingMethodId() ? (string) $target->shippingMethodId() : null);
+        }
+
+
+        /** @var Order $target */
+        return $this->getPairingStatus() !== ($target->pairingStatus()?->__toString() ?? '')
+            || $this->getTransactionStatus() !== $target->transactionStatus()
+                ->__toString()
+            || $this->getStatus() !== $target->status()
+                ->__toString();
+    }
+
+    public function isTimedOut(): bool
+    {
+        return $this->getCreatedAgo() > ($this->getIsExpress() ? TwintConstant::PAIRING_TIMEOUT_EXPRESS : TwintConstant::PAIRING_TIMEOUT_REGULAR);
     }
 }
