@@ -111,7 +111,7 @@ class PairingService
             $order->update_status($status);
         }
 
-        $this->updateLog($apiResponse->getLog(), $pairing, $order);
+        $this->updateLog($apiResponse->getLog(), $pairing);
 
         return true;
     }

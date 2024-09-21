@@ -125,7 +125,7 @@ class TransactionRepository
 
         $result = $this->db->get_results($query);
 
-        return !empty($result) ? (new TransactionLog(false))->load(reset($result)) : null;
+        return empty($result) ? null : (new TransactionLog(false))->load(reset($result));
 
     }
 }
