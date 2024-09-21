@@ -114,7 +114,6 @@ class TwintIntegration
         //Frontend
         Plugin::di('payment_status.action');
         Plugin::di('express_checkout.action');
-        Plugin::di('view_order_button.action');
     }
 
     /**

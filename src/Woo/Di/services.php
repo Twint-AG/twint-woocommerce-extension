@@ -142,9 +142,6 @@ function twint_services()
                 $container->get('express_checkout.service')
             );
         },
-        'view_order_button.action' => static function (ContainerInterface $container) {
-            return new OrderPayButtonAction();
-        },
 
         // Express Checkout
         'express.button' => static function (ContainerInterface $container) {

@@ -24,6 +24,46 @@ class RegularCheckoutGateway extends AbstractGateway
     {
         parent::__construct();
 
+        $this->initAdminConfig();
+
+        $this->modal = Plugin::di('payment.modal');
+
+        $this->registerHooks();
+    }
+
+    protected function registerHooks(){
+        // Actions.
+        add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
+        add_filter('woocommerce_payment_complete_order_status', [$this, 'setCompleteOrderStatus'], 10, 3);
+
+        /**
+         * These 2 (action and filter) for "Pay" for the order in My account > Orders section.
+         */
+        add_action('woocommerce_view_order', [$this, 'addOrderPayButton']);
+        add_filter('woocommerce_valid_order_statuses_for_payment', [$this, 'appendValidStatusForOrderNeedPayment']);
+
+        $this->modal->registerHooks();
+    }
+
+    public function addOrderPayButton(int $orderId): void
+    {
+        $order = wc_get_order($orderId);
+
+        if ('wc-' . $order->get_status() === RegularCheckoutGateway::getOrderStatusAfterFirstTimeCreatedOrder()) {
+            printf(
+                '<a class="woocommerce-button wp-element-button button pay" href="%s">%s</a>',
+                $order->get_checkout_payment_url(), __('Pay for this order', 'woocommerce')
+            );
+        }
+    }
+
+    public function appendValidStatusForOrderNeedPayment(array $statuses): array
+    {
+        $statuses[] = 'twint-pending';
+        return $statuses;
+    }
+
+    protected function initAdminConfig(){
         $this->icon = apply_filters('woocommerce_twint_gateway_regular_icon', '');
 
         $this->method_title = __('TWINT Checkout', 'woocommerce-gateway-twint');
@@ -37,13 +77,6 @@ class RegularCheckoutGateway extends AbstractGateway
         // Define user set variables.
         $this->title = $this->get_option('title');
         $this->description = $this->get_option('description');
-
-        // Actions.
-        add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
-        add_filter('woocommerce_payment_complete_order_status', [$this, 'setCompleteOrderStatus'], 10, 3);
-
-        $this->modal = Plugin::di('payment.modal');
-        $this->modal->registerHooks();
     }
 
     /**
