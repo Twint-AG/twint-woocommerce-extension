@@ -4,20 +4,23 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Service;
 
+use Exception;
 use Throwable;
 use Twint\Sdk\Exception\ApiFailure;
 use Twint\Sdk\InvocationRecorder\InvocationRecordingClient;
 use Twint\Sdk\InvocationRecorder\Value\Invocation;
 use Twint\Woo\Model\ApiResponse;
+use Twint\Woo\Model\TransactionLog;
 use Twint\Woo\Repository\TransactionRepository;
 use WC_Logger_Interface;
-use const PHP_EOL;
 
 class ApiService
 {
     public function __construct(
-        private readonly WC_Logger_Interface $logger
-    ) {
+        private readonly WC_Logger_Interface   $logger,
+        private readonly TransactionRepository $logRepository,
+    )
+    {
     }
 
     /**
@@ -26,15 +29,20 @@ class ApiService
      */
     public function call(
         InvocationRecordingClient $client,
-        string $method,
-        array $args,
-        bool $save = true,
-        callable $buildLogCallback = null
-    ): ApiResponse {
+        string                    $method,
+        array                     $args,
+        bool                      $save = true,
+        callable                  $buildLogCallback = null
+    ): ApiResponse
+    {
+        if (!in_array($method, ['monitorOrder', 'monitorFastCheckOutCheckIn'], true)) {
+            $save = true;
+        }
+
         try {
             $returnValue = $client->{$method}(...$args);
         } catch (Throwable $e) {
-            $this->logger->error('TWINT - API error: ' . PHP_EOL . $e->getMessage());
+            $this->logger->error('TWINT ApiService::call: ' . $e->getMessage());
             throw $e;
         } finally {
             $invocations = $client->flushInvocations();
@@ -47,22 +55,23 @@ class ApiService
 
     /**
      * @param Invocation[] $invocation
+     * @throws Throwable
      */
     protected function log(
-        mixed $returnValue,
-        string $method,
-        array $invocation,
-        bool $save = true,
+        mixed    $returnValue,
+        string   $method,
+        array    $invocation,
+        bool     $save = true,
         callable $callback = null
-    ): array {
-        $log = [];
-
+    ): TransactionLog
+    {
         try {
             list($request, $response, $soapRequests, $soapResponses, $soapActions, $exception) = $this->parse(
                 $invocation
             );
 
-            $log = [
+            $log = new TransactionLog();
+            $log->load([
                 'api_method' => $method,
                 'soap_action' => $soapActions,
                 'request' => $request,
@@ -71,7 +80,7 @@ class ApiService
                 'soap_response' => $soapResponses,
                 'exception_text' => $exception,
                 'created_at' => date('Y-m-d H:i:s'),
-            ];
+            ]);
 
             if (is_callable($callback)) {
                 $log = $callback($log, $returnValue);
@@ -81,13 +90,11 @@ class ApiService
                 return $log;
             }
 
-            global $wpdb;
-            $wpdb->insert(TransactionRepository::getTableName(), $log);
-        } catch (Throwable $exception) {
-            $this->logger->error('TWINT - Error when saving setting ' . PHP_EOL . $exception->getMessage());
+            return $this->logRepository->save($log);
+        } catch (Throwable $e) {
+            $this->logger->error('TWINT ApiService::log: ' . $e->getMessage());
+            throw $e;
         }
-
-        return $log;
     }
 
     /**
@@ -121,17 +128,11 @@ class ApiService
         return [$request, $response, $soapRequests, $soapResponses, $soapActions, $exception];
     }
 
-    public function saveLog(array $log): void
+    /**
+     * @throws Exception
+     */
+    public function saveLog(TransactionLog $log): TransactionLog
     {
-        global $wpdb;
-        if (isset($log['id'])) {
-            // Update transaction log
-            $wpdb->update(TransactionRepository::getTableName(), $log, [
-                'id' => $log['id'],
-            ]);
-        }
-
-        // Create transaction log
-        $wpdb->insert(TransactionRepository::getTableName(), $log);
+        return $this->logRepository->save($log);
     }
 }

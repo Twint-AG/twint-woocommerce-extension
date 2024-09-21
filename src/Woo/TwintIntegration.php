@@ -7,8 +7,8 @@ namespace Twint\Woo;
 use Throwable;
 use Twint\Plugin;
 use Twint\Woo\CronJob\MonitorPairingCronJob;
-use Twint\Woo\Migration\CreateTwintPairingTable;
-use Twint\Woo\Migration\CreateTwintTransactionLogTable;
+use Twint\Woo\Migration\CreatePairingTable;
+use Twint\Woo\Migration\CreateTransactionLogTable;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
@@ -88,8 +88,8 @@ class TwintIntegration
 
     public static function createDatabase(): void
     {
-        CreateTwintTransactionLogTable::up();
-        CreateTwintPairingTable::up();
+        CreateTransactionLogTable::up();
+        CreatePairingTable::up();
     }
 
     public static function uninstall(): void
@@ -98,8 +98,8 @@ class TwintIntegration
          * Do we need to remove the table when deactivating plugin?
          */
         if (SettingService::getAutoRemoveDBTableWhenDisabling() === 'yes') {
-            CreateTwintTransactionLogTable::down();
-            CreateTwintPairingTable::down();
+            CreateTransactionLogTable::down();
+            CreatePairingTable::down();
         }
 
         MonitorPairingCronJob::removeCronjob();

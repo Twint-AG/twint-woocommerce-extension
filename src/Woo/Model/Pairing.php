@@ -12,6 +12,8 @@ use Twint\Woo\Constant\TwintConstant;
 
 class Pairing
 {
+    use EntityTrait;
+
     public const TIME_WINDOW_SECONDS = 10;
 
     public const EXPRESS_STATUS_PAID = 'PAID';
@@ -24,13 +26,13 @@ class Pairing
 
     protected string $token;
 
-    protected null|int $shippingMethodId = null;
+    protected ?string $shippingMethodId = null;
 
     protected int $wcOrderId;
 
     protected null|int $customerId = null;
 
-    protected null|array $customerData = null;
+    protected ?string $customerData = null;
 
     protected bool $isExpress = false;
 
@@ -38,11 +40,11 @@ class Pairing
 
     protected string $status = PairingStatus::PAIRING_IN_PROGRESS;
 
-    protected string $transactionStatus = '';
+    protected ?string $transactionStatus = null;
 
-    protected string $pairingStatus;
+    protected ?string $pairingStatus = null;
 
-    protected int $isOrdering = 0;
+    protected bool $isOrdering = false;
 
     protected ?string $checkedAt;
 
@@ -54,7 +56,43 @@ class Pairing
 
     protected string $createdAt;
 
-    protected string $updatedAt;
+    protected ?string $updatedAt;
+
+    protected function mapping(): array
+    {
+        return [
+            'id' => 'id',
+            'token' => 'token',
+            'shipping_method_id' => 'shippingMethodId',
+            'wc_order_id' => ['wcOrderId', static function ($value) {
+                return (int)$value;
+            }],
+            'amount' => ['amount', static function ($value) {
+                return (float)$value;
+            }],
+            'status' => 'status',
+            'transaction_status' => 'transactionStatus',
+            'pairing_status' => 'pairingStatus',
+            'is_ordering' => ['isOrdering', static function ($value) {
+                return (bool)$value;
+            }],
+            'checked_at' => 'checkedAt',
+            'created_at' => 'createdAt',
+            'checked_ago' => ['checkedAgo', static function ($value) {
+                return (int)$value;
+            }],
+            'created_ago' => ['createdAgo', static function ($value) {
+                return (int)$value;
+            }],
+            'updated_at' => 'updatedAt',
+            'version' => ['version', static function ($value) {
+                return (int)$value;
+            }],
+            'is_express' => ['isExpress', static function ($value) {
+                return (bool)$value;
+            }],
+        ];
+    }
 
     public function getVersion(): int
     {
@@ -88,7 +126,7 @@ class Pairing
 
     public function isOrderProcessing(): bool
     {
-        return (bool) $this->isOrdering;
+        return $this->isOrdering;
     }
 
     public function getCheckedAgo(): ?int
@@ -110,28 +148,6 @@ class Pairing
     public function setCreatedAgo(?int $value): void
     {
         $this->createdAgo = $value;
-    }
-
-    public function load(array $data): self
-    {
-        $this->setId($data['id']);
-        $this->setToken($data['token'] ?? null);
-        $this->setShippingMethodId($data['shipping_method_id'] ?? null);
-        $this->setWcOrderId((int) $data['wc_order_id']);
-        $this->setCustomerId($data['customer_id'] ?? null);
-        $this->setAmount((float) $data['amount'] ?? 0);
-        $this->setStatus($data['status']);
-        $this->setTransactionStatus($data['transaction_status']);
-        $this->setPairingStatus($data['pairing_status']);
-        $this->setIsOrdering((int) $data['is_ordering'] ?? 0);
-        $this->setCheckedAt($data['checked_at']);
-        $this->setCreatedAt($data['created_at']);
-        $this->setCheckedAgo((int) $data['checked_ago']);
-        $this->setCheckedAgo((int) $data['created_ago']);
-        $this->setUpdatedAt($data['updated_at']);
-        $this->setVersion((int) $data['version']);
-
-        return $this;
     }
 
     public function getId(): string
@@ -156,9 +172,9 @@ class Pairing
         return $this;
     }
 
-    public function getShippingMethodId(): int|null
+    public function getShippingMethodId(): ?string
     {
-        return $this->shippingMethodId ?? null;
+        return $this->shippingMethodId;
     }
 
     public function setShippingMethodId($shippingMethodId): self
@@ -183,13 +199,13 @@ class Pairing
         return $this->customerId;
     }
 
-    public function setCustomerId($customerId): self
+    public function setCustomerData(?string $value): self
     {
-        $this->customerId = $customerId;
+        $this->customerData = $value;
         return $this;
     }
 
-    public function getCustomerData(): null|array
+    public function getCustomerData(): ?string
     {
         return $this->customerData;
     }
@@ -227,7 +243,7 @@ class Pairing
         return $this;
     }
 
-    public function getTransactionStatus(): string
+    public function getTransactionStatus(): ?string
     {
         return $this->transactionStatus;
     }
@@ -238,7 +254,7 @@ class Pairing
         return $this;
     }
 
-    public function getPairingStatus(): string
+    public function getPairingStatus(): ?string
     {
         return $this->pairingStatus;
     }
@@ -249,7 +265,7 @@ class Pairing
         return $this;
     }
 
-    public function getIsOrdering(): int
+    public function getIsOrdering(): bool
     {
         return $this->isOrdering;
     }
@@ -287,7 +303,7 @@ class Pairing
         return $this->updatedAt ?? date('Y-m-d H:i:s');
     }
 
-    public function setUpdatedAt(string $updatedAt): self
+    public function setUpdatedAt(?string $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
         return $this;
@@ -312,7 +328,7 @@ class Pairing
     {
         if ($target instanceof FastCheckoutCheckIn) {
             return $this->getPairingStatus() !== ($target->pairingStatus()->__toString() ?? '')
-                || $this->getShippingMethodId() !== ($target->hasShippingMethodId() ? (string) $target->shippingMethodId() : null);
+                || $this->getShippingMethodId() !== ($target->hasShippingMethodId() ? (string)$target->shippingMethodId() : null);
         }
 
 

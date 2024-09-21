@@ -46,10 +46,16 @@ function twint_services()
         },
         // Repositories
         'pairing.repository' => static function (ContainerInterface $container) {
-            return new PairingRepository($container->get('db'));
+            return new PairingRepository(
+                $container->get('db'),
+                $container->get('logger'),
+            );
         },
         'transaction.repository' => static function (ContainerInterface $container) {
-            return new TransactionRepository();
+            return new TransactionRepository(
+                $container->get('db'),
+                $container->get('logger'),
+            );
         },
         //Commands
         'poll.command' => static function (ContainerInterface $container) {
@@ -81,6 +87,8 @@ function twint_services()
         // Services
         'pairing.service' => static function (ContainerInterface $container) {
             return new PairingService(
+                $container->get('pairing.repository'),
+                $container->get('transaction.repository'),
                 $container->get('client.builder'),
                 $container->get('api.service'),
                 $container->get('logger'),
@@ -95,7 +103,10 @@ function twint_services()
             );
         },
         'api.service' => static function (ContainerInterface $container) {
-            return new ApiService($container->get('logger'));
+            return new ApiService(
+                $container->get('logger'),
+                $container->get('transaction.repository'),
+            );
         },
         'apps.service' => static function (ContainerInterface $container) {
             return new AppsService($container->get('client.builder'));
@@ -106,8 +117,11 @@ function twint_services()
         'monitor.service' => static function (ContainerInterface $container) {
             return new MonitorService(
                 $container->get('pairing.repository'),
-                $container->get('pairing.service'),
+                $container->get('transaction.repository'),
+                $container->get('client.builder'),
                 $container->get('logger'),
+                $container->get('pairing.service'),
+                $container->get('api.service'),
             );
         },
         'express_checkout.service' => static function (ContainerInterface $container): ExpressCheckoutService {

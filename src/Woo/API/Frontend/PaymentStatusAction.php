@@ -47,7 +47,7 @@ class PaymentStatusAction extends BaseAction
 
         $pairingId = $request->get_param('pairingId');
 
-        $pairing = $this->pairingRepository->findById($pairingId);
+        $pairing = $this->pairingRepository->get($pairingId);
         if (!$pairing instanceof Pairing) {
             throw new Exception('The pairing for the the order does not exist.');
         }

@@ -8,11 +8,11 @@ class ApiResponse
 {
     public function __construct(
         private readonly mixed $return,
-        private readonly array $log
+        private readonly TransactionLog $log
     ) {
     }
 
-    public function getLog(): array
+    public function getLog(): TransactionLog
     {
         return $this->log;
     }

@@ -21,12 +21,14 @@ use Twint\Woo\Model\ApiResponse;
 use Twint\Woo\Model\Monitor\MonitoringStatus;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
+use Twint\Woo\Repository\TransactionRepository;
 use WC_Logger_Interface;
 
 class MonitorService
 {
     public function __construct(
         private readonly PairingRepository $repository,
+        private readonly TransactionRepository $logRepository,
         private readonly ClientBuilder $builder,
         private readonly WC_Logger_Interface $logger,
         private readonly PairingService $pairingService,
@@ -106,18 +108,21 @@ class MonitorService
             // Because cancelFastCheckoutCheckIn API return void then need monitor in next loop
             if ($state->pairingStatus()->__toString() === PairingStatus::PAIRING_IN_PROGRESS && $pairing->isTimedOut()) {
                 $cancellationRes = $this->cancelFastCheckoutCheckIn($cloned, $client);
+                $log = $cancellationRes->getLog();
+                $this->logRepository->updatePartial($log, [
+                    'pairing_id' => $cloned->getId(),
+                    'order_id' => $cloned->getWcOrderId()
+                ]);
                 $this->repository->markAsMerchantCancelled($cloned->getId());
 
                 $cloned->setStatus(Pairing::EXPRESS_STATUS_MERCHANT_CANCELLED);
-
-                $this->pairingService->createHistory($cloned, $cancellationRes->getLog());
             }
 
             return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
         }
 
         try {
-            $cloned = $this->updateForExpress($cloned, $state);
+            $cloned = $this->pairingService->updateForExpress($cloned, $state);
         } catch (mysqli_sql_exception $e) {
             if ($e->getCode() === TwintConstant::EXCEPTION_VERSION_CONFLICT) {
                 $this->logger->info("TWINT {$pairing->getId()} update was conflicted");
@@ -127,8 +132,7 @@ class MonitorService
             throw $e;
         }
 
-        $log = $this->api->saveLog($res->getLog());
-        $history = $this->pairingService->createHistory($cloned, $log);
+        $this->api->saveLog($res->getLog());
 
         // As paid
         if (($pairing->getCustomerData() === null || $pairing->getCustomerData() === '' || $pairing->getCustomerData() === '0') && $state->hasCustomerData()) {
@@ -136,7 +140,6 @@ class MonitorService
 
             return MonitoringStatus::fromValues(true, $status, [
                 'pairing' => $cloned,
-                'history' => $history,
             ]);
         }
 

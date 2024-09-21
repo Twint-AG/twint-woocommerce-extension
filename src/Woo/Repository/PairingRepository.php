@@ -7,12 +7,14 @@ namespace Twint\Woo\Repository;
 use Exception;
 use mysqli_result;
 use Twint\Woo\Model\Pairing;
+use WC_Logger_Interface;
 use wpdb;
 
 class PairingRepository
 {
     public function __construct(
-        private readonly wpdb $db
+        private readonly wpdb $db,
+        private readonly WC_Logger_Interface $logger,
     ) {
     }
 
@@ -23,7 +25,42 @@ class PairingRepository
         return $table_prefix . 'twint_pairing';
     }
 
-    public function save(Pairing $pairing): bool
+    public function save(Pairing $pairing): Pairing
+    {
+        if($pairing->isNewRecord()) {
+            return $this->insert($pairing);
+        }
+
+        return $this->update($pairing);
+    }
+
+    public function update(Pairing $pairing): Pairing{
+        try {
+            $this->db->update(self::tableName(), [
+                'version' => $pairing->getVersion(),
+                'token' => $pairing->getToken(),
+                'shipping_method_id' => $pairing->getShippingMethodId(),
+                'wc_order_id' => $pairing->getWcOrderId(),
+                'customer_data' => $pairing->getCustomerData(),
+                'is_express' => $pairing->getIsExpress(),
+                'amount' => $pairing->getAmount(),
+                'status' => $pairing->getStatus(),
+                'transaction_status' => $pairing->getTransactionStatus(),
+                'pairing_status' => $pairing->getPairingStatus(),
+                'is_ordering' => $pairing->getIsOrdering(),
+                'checked_at' => $pairing->getCheckedAt(),
+                'created_at' => $pairing->getCreatedAt()
+            ], [
+                'id' => $pairing->getId(),
+            ]);
+
+            return $this->get($pairing->getId());
+        } catch (Exception $e) {
+            $this->logger->error("TWINT PairingRepository::update: " . $e->getMessage());
+        }
+    }
+
+    public function insert(Pairing $pairing): Pairing
     {
         try {
             $this->db->insert(self::tableName(), [
@@ -31,7 +68,6 @@ class PairingRepository
                 'token' => $pairing->getToken(),
                 'shipping_method_id' => $pairing->getShippingMethodId(),
                 'wc_order_id' => $pairing->getWcOrderId(),
-                'customer_id' => $pairing->getCustomerId(),
                 'customer_data' => $pairing->getCustomerData(),
                 'is_express' => $pairing->getIsExpress(),
                 'amount' => $pairing->getAmount(),
@@ -43,10 +79,9 @@ class PairingRepository
                 'created_at' => $pairing->getCreatedAt()
             ]);
 
-            return true;
+            return $this->get($pairing->getId());
         } catch (Exception $e) {
-            // TODO LOG Handler
-            return false;
+            $this->logger->error("TWINT PairingRepository::insert: " . $e->getMessage());
         }
     }
 
@@ -95,21 +130,16 @@ class PairingRepository
         return $instance->load((array) reset($result));
     }
 
-    public function findById(mixed $pairingId): ?Pairing
+    public function get(mixed $id): ?Pairing
     {
         $select = $this->getSelect();
 
         $query = $this->db->prepare("SELECT {$select} FROM %i WHERE id = %s LIMIT 1;", [
             self::tableName(),
-            $pairingId,
+            $id,
         ]);
 
-        $result = $this->db->get_results($query);
-        if (empty($result)) {
-            return null;
-        }
-
-        return (new Pairing())->load((array) reset($result)) ?? null;
+        return ($result = $this->db->get_results($query)) ? (new Pairing(false))->load((array) reset($result)) : null;
     }
 
     public function markAsCancelled(string $id): mysqli_result|bool|int|null

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Twint\Woo\Service;
 
 use Exception;
-use mysqli_result;
 use mysqli_sql_exception;
 use Throwable;
+use Twint\Sdk\Value\FastCheckoutCheckIn;
 use Twint\Sdk\Value\InteractiveFastCheckoutCheckIn;
 use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderId;
@@ -17,13 +17,18 @@ use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Model\ApiResponse;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 use Twint\Woo\Model\Pairing;
+use Twint\Woo\Model\TransactionLog;
 use Twint\Woo\Provider\DatabaseServiceProvider;
+use Twint\Woo\Repository\PairingRepository;
+use Twint\Woo\Repository\TransactionRepository;
 use WC_Logger_Interface;
 use WC_Order;
 
 class PairingService
 {
     public function __construct(
+        private readonly PairingRepository $repository,
+        private readonly TransactionRepository $logRepository,
         private readonly ClientBuilder $builder,
         private readonly ApiService $apiService,
         private readonly WC_Logger_Interface $logger
@@ -45,9 +50,8 @@ class PairingService
         $pairing->setPairingStatus($tOrder->pairingStatus()->__toString());
         $pairing->setStatus($tOrder->status()->__toString());
 
-        $pairing->save();
 
-        return $pairing;
+        return $this->repository->save($pairing);
     }
 
     /**
@@ -112,38 +116,31 @@ class PairingService
         return true;
     }
 
-    protected function update(Pairing $pairing, ApiResponse $response): int|bool|null|mysqli_result
+    protected function update(Pairing $pairing, ApiResponse $response): Pairing
     {
-        /** @var Order $tOrder */
-        $tOrder = $response->getReturn();
-        global $wpdb;
-        $newPairing = new Pairing();
-        return $wpdb->update($newPairing->getTableName(), [
-            'version' => $pairing->getVersion(),
-            'status' => $tOrder->status()
-                ->__toString(),
-            'pairing_status' => $tOrder->pairingStatus()?->__toString(),
-            'transaction_status' => $tOrder->transactionStatus()
-                ->__toString(),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ], [
-            'id' => $pairing->getId(),
-        ]);
+        /** @var Order $order */
+        $order = $response->getReturn();
+
+        $pairing->setStatus($order->status()->__toString());
+        $pairing->setPairingStatus($order->pairingStatus()?->__toString());
+        $pairing->setTransactionStatus($order->transactionStatus()->__toString());
+
+        return $this->repository->save($pairing);
     }
 
     /**
      * @throws Exception
      */
-    protected function updateLog(array $log, Pairing $pairing, WC_Order $order): void
+    protected function updateLog(TransactionLog $log, Pairing $pairing): void
     {
-        $log['pairing_id'] = $pairing->getId();
-        $log['order_id'] = $order->get_id();
-        $log['order_status'] = $order->get_status();
-        $log['transaction_id'] = $order->get_transaction_id();
+        $log->setPairingId($pairing->getId());
 
         $this->apiService->saveLog($log);
     }
 
+    /**
+     * @throws Exception
+     */
     public function createExpressPairing(ApiResponse $response, WC_Order $order): Pairing
     {
         /** @var InteractiveFastCheckoutCheckIn $checkin */
@@ -159,8 +156,27 @@ class PairingService
         $pairing->setStatus(PairingStatus::PAIRING_IN_PROGRESS);
         $pairing->setIsExpress(true);
 
-        $pairing->save();
+        $pairing = $this->repository->save($pairing);
+
+        $log = $response->getLog();
+        $log->setPairingId($pairing->getId());
+        $this->logRepository->updatePartial($log, [
+            'pairing_id' => $pairing->getId(),
+            'order_id' => $pairing->getWcOrderId()
+        ]);
 
         return $pairing;
+    }
+
+    public function updateForExpress(Pairing $pairing, FastCheckoutCheckIn $checkIn): Pairing
+    {
+        $pairing->setVersion($pairing->getVersion());
+        $pairing->setCustomerData($checkIn->hasCustomerData() ? json_encode($checkIn->customerData()) : null);
+        $pairing->setShippingMethodId((string) $checkIn->shippingMethodId());
+        $pairing->setPairingStatus((string) $checkIn->pairingStatus());
+
+        $this->logger->info("TWINT update: {$pairing->getId()} {$pairing->getPairingStatus()}");
+
+        return $this->repository->save($pairing);
     }
 }

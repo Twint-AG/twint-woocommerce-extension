@@ -49,8 +49,8 @@ class PollCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $pairingId = $input->getArgument('pairing-id');
-        $pairing = $this->repository->findById($pairingId);
+        $id = $input->getArgument('pairing-id');
+        $pairing = $this->repository->get($id);
 
         $count = 1;
         $startedAt = new DateTime();
@@ -58,14 +58,14 @@ class PollCommand extends Command
         while (!$pairing->isFinished()) {
             $output->writeln("<info>Checking count: {$count}</info>");
             $this->logger->info(
-                "[TWINT] - monitoring: {$pairingId}: {$pairing->getVersion()} {$pairing->getCheckedAgo()}"
+                "[TWINT] - monitoring: {$id}: {$pairing->getVersion()} {$pairing->getCreatedAgo()}"
             );
             $this->repository->updateCheckedAt($pairing);
 
             $this->monitor->monitor($pairing);
 
             sleep($this->getInterval($pairing, $startedAt));
-            $pairing = $this->repository->findById($pairingId);
+            $pairing = $this->repository->get($id);
             ++$count;
         }
 
