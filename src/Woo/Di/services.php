@@ -6,6 +6,7 @@ use Twint\Command\PollCommand;
 use Twint\Woo\Api\Admin\GetTransactionLogAction;
 use Twint\Woo\Api\Admin\StoreConfigurationAction;
 use Twint\Woo\Api\Frontend\ExpressCheckoutAction;
+use Twint\Woo\API\Frontend\OrderPayButtonAction;
 use Twint\Woo\Api\Frontend\PaymentStatusAction;
 use Twint\Woo\Container\ContainerInterface;
 use Twint\Woo\Factory\ClientBuilder;
@@ -140,6 +141,9 @@ function twint_services()
             return new ExpressCheckoutAction(
                 $container->get('express_checkout.service')
             );
+        },
+        'view_order_button.action' => static function (ContainerInterface $container) {
+            return new OrderPayButtonAction();
         },
 
         // Express Checkout
