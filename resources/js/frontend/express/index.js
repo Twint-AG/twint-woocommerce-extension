@@ -3,6 +3,7 @@ import ButtonHandler from './button/button-handler';
 import ModalContent from './modal/content';
 import Action from './checkout/action';
 import ContextFactory from './context/factory';
+import {__} from "@wordpress/i18n";
 
 class ExpressCheckout {
   // Singleton instance
@@ -43,9 +44,8 @@ class ExpressCheckout {
   }
 
   onSuccessCallback(data) {
-    if(data.openMiniCart){
-      jQuery('body').trigger('wc_fragment_refresh');
-      return;
+    if (data.openMiniCart) {
+      return this.showMessageAndOpenMiniCart();
     }
 
     ExpressCheckout.modal.setContent(
@@ -62,6 +62,30 @@ class ExpressCheckout {
     if (!ExpressCheckout.modal) {
       ExpressCheckout.modal = new Modal();
     }
+  }
+
+  showMessageAndOpenMiniCart(){
+    let messages = document.querySelector('.woocommerce-notices-wrapper');
+    if (messages) {
+      messages.innerHTML =
+        `<div class="wc-block-components-notice-banner is-success" role="alert">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"
+                   focusable="false">
+                <path d="M16.7 7.1l-6.3 8.5-3.3-2.5-.9 1.2 4.5 3.4L17.9 8z"></path>
+              </svg>
+              <div class="wc-block-components-notice-banner__content">
+                <a href="/cart/" tabIndex="1" class="button wc-forward wp-element-button">` + __('View cart', 'woocommerce') + `</a>
+                ` + __("You have existing products in the shopping cart. Please review your shopping cart before continue.", 'woocommerce-gateway-twint') + `
+              </div>
+            </div>`;
+
+      messages.scrollIntoView({
+        behavior: 'smooth', // Enables smooth scrolling
+        block: 'start'      // Aligns the element to the top of the viewport
+      });
+    }
+
+    jQuery('.wc-block-mini-cart__button ').click();
   }
 }
 
