@@ -55,11 +55,13 @@ class PaymentStatusAction extends BaseAction
         $status = $this->service->status($pairing);
         $response = $status->toArray();
 
-        if($status->paid()){
+        if ($status->paid()) {
             $order = wc_get_order($pairing->getWcOrderId());
 
             ob_start();
-            wc_get_template( 'checkout/thankyou.php', array( 'order' => $order ) );
+            wc_get_template('checkout/thankyou.php', [
+                'order' => $order,
+            ]);
 
             $html = ob_get_clean();
 

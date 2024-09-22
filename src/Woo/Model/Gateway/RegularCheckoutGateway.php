@@ -21,8 +21,11 @@ class RegularCheckoutGateway extends AbstractGateway
     public $id = self::UNIQUE_PAYMENT_ID;
 
     private Modal $modal;
+
     private PairingRepository $pairingRepository;
+
     private PaymentService $paymentService;
+
     private PairingService $pairingService;
 
     /**
@@ -109,7 +112,7 @@ class RegularCheckoutGateway extends AbstractGateway
     {
         $order = wc_get_order($orderId);
 
-        if ($order->get_payment_method() === RegularCheckoutGateway::getId()) {
+        if ($order->get_payment_method() === self::getId()) {
             $pairing = $this->pairingRepository->findByWooOrderId($order->get_id());
             if (!$pairing instanceof Pairing) {
                 $apiResponse = $this->paymentService->createOrder($order);
@@ -159,8 +162,8 @@ class RegularCheckoutGateway extends AbstractGateway
                 'nonce' => wp_create_nonce('twint_check_pairing_status'),
                 'shopName' => get_bloginfo('name'),
                 'amount' => number_format(
-                    (float)$order->get_total(),
-                    (int)get_option('woocommerce_price_num_decimals'),
+                    (float) $order->get_total(),
+                    (int) get_option('woocommerce_price_num_decimals'),
                     get_option('woocommerce_price_decimal_sep'),
                     get_option('woocommerce_price_thousand_sep')
                 ),

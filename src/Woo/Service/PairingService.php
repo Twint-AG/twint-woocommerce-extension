@@ -57,8 +57,8 @@ class PairingService
 
         $log = $response->getLog();
         $log->setPairingId($pairing->getId());
-        $this->logRepository->updatePartial($log , [
-            'pairing_id' => $pairing->getId()
+        $this->logRepository->updatePartial($log, [
+            'pairing_id' => $pairing->getId(),
         ]);
 
         return $pairing;
