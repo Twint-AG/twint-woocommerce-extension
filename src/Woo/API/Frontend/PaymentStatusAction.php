@@ -53,7 +53,19 @@ class PaymentStatusAction extends BaseAction
         }
 
         $status = $this->service->status($pairing);
+        $response = $status->toArray();
 
-        return new WP_REST_Response($status->toArray(), 200);
+        if($status->paid()){
+            $order = wc_get_order($pairing->getWcOrderId());
+
+            ob_start();
+            wc_get_template( 'checkout/thankyou.php', array( 'order' => $order ) );
+
+            $html = ob_get_clean();
+
+            $response['extra']['thank-you'] = $html;
+        }
+
+        return new WP_REST_Response($response, 200);
     }
 }

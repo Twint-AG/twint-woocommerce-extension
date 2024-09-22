@@ -87,7 +87,7 @@ class ApiService
                 return $log;
             }
 
-            return $this->logRepository->save($log);
+            return $this->logRepository->insert($log, true);
         } catch (Throwable $e) {
             $this->logger->error('TWINT ApiService::log: ' . $e->getMessage());
             throw $e;

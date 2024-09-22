@@ -88,7 +88,7 @@ class Modal {
     // document.body.dispatchEvent(new CustomEvent('removed_from_cart'));
   }
 
-  onPaid(){
+  onPaid(response){
     this.refreshMiniCart();
 
     let span = this.closeBtn.querySelector('span');
@@ -96,6 +96,7 @@ class Modal {
 
     this.payContainer.classList.add('!hidden');
     this.successContainer.classList.remove('!hidden');
+    this.successContainer.innerHTML = response.extra['thank-you'];
   }
 
   continue(){
