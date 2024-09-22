@@ -29,7 +29,7 @@ class TransactionRepository
     public function insert(TransactionLog $log): TransactionLog
     {
         try {
-            $a = $this->db->insert(self::tableName(), [
+            $this->db->insert(self::tableName(), [
                 'pairing_id' => $log->getPairingId(),
                 'order_id' => $log->getOrderId(),
                 'soap_action' => $log->getSoapAction(),

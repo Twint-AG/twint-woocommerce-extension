@@ -4,36 +4,34 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Model;
 
-class TransactionLog
+class TransactionLog extends Entity
 {
-    use EntityTrait;
+    protected ?int $id;
 
-    private ?int $id;
+    protected ?string $pairingId = null;
 
-    private ?string $pairingId = null;
+    protected ?int $orderId = null;
 
-    private ?int $orderId = null;
+    protected string $soapAction;
 
-    private string $soapAction;
+    protected string $apiMethod;
 
-    private string $apiMethod;
+    protected string $request;
 
-    private string $request;
+    protected string $response;
 
-    private string $response;
+    protected string $soapRequest;
 
-    private string $soapRequest;
+    protected string $soapResponse;
 
-    private string $soapResponse;
+    protected ?string $exceptionText;
 
-    private ?string $exceptionText;
-
-    private string $createdAt;
+    protected string $createdAt;
 
     protected function mapping(): array
     {
         return [
-            'id' => ['id', static function ($value) { return (int) $value; }],
+            'id' => ['id',fn($value) => (int) $value],
             'pairing_id' => 'pairingId',
             'order_id' => 'orderId',
             'soap_action' => 'soapAction',

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Model;
 
-trait EntityTrait
+abstract class Entity
 {
     private bool $isNewRecord = true;
 

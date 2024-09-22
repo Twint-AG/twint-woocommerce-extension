@@ -55,7 +55,6 @@ class TwintIntegration
         add_action('woocommerce_refund_created', [$this, 'refundCreatedHandler'], 10);
 
         new TransactionLogMeta();
-        //        new MonitorPairingCronJob();
 
         $this->registerApiActions();
     }
