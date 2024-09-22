@@ -38,7 +38,7 @@ class PairingService
     /**
      * @throws Exception
      */
-    public function create(ApiResponse $response, WC_Order $order): Pairing
+    public function create(ApiResponse $response, WC_Order $order, bool $captured = false): Pairing
     {
         /** @var Order $tOrder */
         $tOrder = $response->getReturn();
@@ -52,6 +52,7 @@ class PairingService
         $pairing->setTransactionStatus($tOrder->transactionStatus()->__toString());
         $pairing->setPairingStatus($tOrder->pairingStatus()->__toString());
         $pairing->setStatus($tOrder->status()->__toString());
+        $pairing->setCaptured($captured);
 
         $pairing = $this->repository->save($pairing);
 
@@ -126,7 +127,7 @@ class PairingService
         return true;
     }
 
-    protected function update(Pairing $pairing, ApiResponse $response): Pairing
+    public function update(Pairing $pairing, ApiResponse $response): Pairing
     {
         /** @var Order $order */
         $order = $response->getReturn();
@@ -135,7 +136,7 @@ class PairingService
         $pairing->setPairingStatus($order->pairingStatus()?->__toString());
         $pairing->setTransactionStatus($order->transactionStatus()->__toString());
 
-        return $this->repository->save($pairing);
+        return $this->repository->update($pairing);
     }
 
     /**

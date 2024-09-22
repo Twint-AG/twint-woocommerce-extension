@@ -40,7 +40,7 @@ class ApiService
         try {
             $returnValue = $client->{$method}(...$args);
         } catch (Throwable $e) {
-            $this->logger->error('TWINT ApiService::call: ' . $e->getMessage());
+            $this->logger->error('TWINT ApiService::call: ' . $method . ' ' . $e->getMessage());
             throw $e;
         } finally {
             $invocations = $client->flushInvocations();

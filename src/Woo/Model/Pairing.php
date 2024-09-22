@@ -22,7 +22,7 @@ class Pairing extends Entity
 
     protected string $id; // uuid - twint order uuid
 
-    protected string $token;
+    protected ?string $token;
 
     protected ?string $shippingMethodId = null;
 
@@ -41,6 +41,8 @@ class Pairing extends Entity
     protected ?string $pairingStatus = null;
 
     protected bool $isOrdering = false;
+
+    protected bool $captured = false;
 
     protected ?string $checkedAt;
 
@@ -73,6 +75,10 @@ class Pairing extends Entity
             'pairing_status' => 'pairingStatus',
             'is_ordering' => [
                 'isOrdering',
+                static fn ($value) => (bool) $value,
+            ],
+            'captured' => [
+                'captured',
                 static fn ($value) => (bool) $value,
             ],
             'checked_at' => 'checkedAt',
@@ -132,6 +138,16 @@ class Pairing extends Entity
         return $this->status === OrderStatus::FAILURE;
     }
 
+    public function setCaptured(bool $value): void
+    {
+        $this->captured = $value;
+    }
+
+    public function isCaptured(): bool
+    {
+        return $this->captured;
+    }
+
     public function isOrderProcessing(): bool
     {
         return $this->isOrdering;
@@ -169,12 +185,12 @@ class Pairing extends Entity
         return $this;
     }
 
-    public function getToken(): string
+    public function getToken(): ?string
     {
         return $this->token;
     }
 
-    public function setToken($token): self
+    public function setToken(?string $token): self
     {
         $this->token = $token;
         return $this;
@@ -208,9 +224,9 @@ class Pairing extends Entity
         return $this;
     }
 
-    public function getCustomerData(): ?string
+    public function getCustomerData(): array
     {
-        return $this->customerData;
+        return $this->customerData === null || $this->customerData === '' || $this->customerData === '0' ? [] : json_decode($this->customerData, true);
     }
 
     public function getIsExpress(): bool
@@ -338,8 +354,15 @@ class Pairing extends Entity
     public function hasDiffs(FastCheckoutCheckIn|Order $target): bool
     {
         if ($target instanceof FastCheckoutCheckIn) {
+            //            dd($this->getPairingStatus() !== ($target->pairingStatus()->__toString() ?? '')
+            //               , $this->getShippingMethodId() !== ($target->hasShippingMethodId() ? (string) $target->shippingMethodId() : null)
+            //               , !empty($this->customerData) , $target->hasCustomerData(),
+            //            $this, $target
+            //            );
             return $this->getPairingStatus() !== ($target->pairingStatus()->__toString() ?? '')
-                || $this->getShippingMethodId() !== ($target->hasShippingMethodId() ? (string) $target->shippingMethodId() : null);
+                || $this->getShippingMethodId() !== ($target->hasShippingMethodId() ? (string) $target->shippingMethodId() : null)
+                || (($this->customerData === null || $this->customerData === '' || $this->customerData === '0') && $target->hasCustomerData())
+                || ($this->customerData !== null && $this->customerData !== '' && $this->customerData !== '0' && !$target->hasCustomerData());
         }
 
 

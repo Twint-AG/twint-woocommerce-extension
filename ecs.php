@@ -5,17 +5,21 @@ declare(strict_types=1);
 use PHP_CodeSniffer\Standards\Squiz\Sniffs\Commenting\DocCommentAlignmentSniff;
 use PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\LanguageConstructSpacingSniff;
 use PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\SuperfluousWhitespaceSniff;
+use PhpCsFixer\Fixer\Alias\ModernizeStrposFixer;
 use PhpCsFixer\Fixer\AttributeNotation\AttributeEmptyParenthesesFixer;
 use PhpCsFixer\Fixer\CastNotation\CastSpacesFixer;
+use PhpCsFixer\Fixer\CastNotation\ModernizeTypesCastingFixer;
 use PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer;
-use PhpCsFixer\Fixer\ClassNotation\FinalClassFixer;
 use PhpCsFixer\Fixer\ClassNotation\NoBlankLinesAfterClassOpeningFixer;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Fixer\ClassNotation\SingleTraitInsertPerStatementFixer;
+use PhpCsFixer\Fixer\FunctionNotation\FunctionDeclarationFixer;
 use PhpCsFixer\Fixer\FunctionNotation\FunctionTypehintSpaceFixer;
 use PhpCsFixer\Fixer\FunctionNotation\MethodArgumentSpaceFixer;
+use PhpCsFixer\Fixer\FunctionNotation\NoSpacesAfterFunctionNameFixer;
 use PhpCsFixer\Fixer\FunctionNotation\ReturnTypeDeclarationFixer;
 use PhpCsFixer\Fixer\FunctionNotation\StaticLambdaFixer;
+use PhpCsFixer\Fixer\FunctionNotation\UseArrowFunctionsFixer;
 use PhpCsFixer\Fixer\Import\FullyQualifiedStrictTypesFixer;
 use PhpCsFixer\Fixer\Import\GlobalNamespaceImportFixer;
 use PhpCsFixer\Fixer\Import\NoLeadingImportSlashFixer;
@@ -64,7 +68,7 @@ use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
 return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->paths([__DIR__.'/src']);
+    $ecsConfig->paths([__DIR__ . '/src']);
 
     $ecsConfig->rules(
         [
@@ -75,14 +79,8 @@ return static function (ECSConfig $ecsConfig): void {
             NoLeadingImportSlashFixer::class,
             StaticLambdaFixer::class,
             ReferenceUsedNamesOnlySniff::class,
-        ]
-    );
-
-    $ecsConfig->rules(
-        [
             StandaloneLinePromotedPropertyFixer::class,
             BlankLineAfterOpeningTagFixer::class,
-            MethodChainingIndentationFixer::class,
             CastSpacesFixer::class,
             SingleTraitInsertPerStatementFixer::class,
             FunctionTypehintSpaceFixer::class,
@@ -94,8 +92,13 @@ return static function (ECSConfig $ecsConfig): void {
             ReturnTypeDeclarationFixer::class,
             SpaceAfterSemicolonFixer::class,
             TernaryOperatorSpacesFixer::class,
-//            MethodArgumentSpaceFixer::class,
             LanguageConstructSpacingSniff::class,
+            MethodArgumentSpaceFixer::class,
+            UseArrowFunctionsFixer::class,
+            NoSpacesAfterFunctionNameFixer::class,
+            ModernizeStrposFixer::class,
+            ModernizeTypesCastingFixer::class,
+            FunctionDeclarationFixer::class
         ]
     );
     $ecsConfig->ruleWithConfiguration(ClassAttributesSeparationFixer::class, [
@@ -108,6 +111,7 @@ return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->ruleWithConfiguration(ConcatSpaceFixer::class, [
         'spacing' => 'one',
     ]);
+
     $ecsConfig->ruleWithConfiguration(SuperfluousWhitespaceSniff::class, [
         'ignoreBlankLines' => false,
     ]);
@@ -198,8 +202,6 @@ return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->ruleWithConfiguration(AttributesOrderSniff::class, [
         'orderAlphabetically' => true,
     ]);
-
-    $ecsConfig->disableParallel();
 
     $ecsConfig->cacheDirectory('/tmp/ecs/src');
 };

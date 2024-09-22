@@ -53,6 +53,11 @@ class MonitoringStatus
         return $this->status === self::STATUS_PAID;
     }
 
+    public function finished(): bool
+    {
+        return $this->finish;
+    }
+
     private static function extractStatus(Pairing $pairing): string
     {
         if ($pairing->isSuccessful()) {

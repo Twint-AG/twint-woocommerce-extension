@@ -108,6 +108,26 @@ $table_prefix = getenv_docker('WORDPRESS_TABLE_PREFIX', 'wp_');
  * @link https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/
  */
 
+function debug() {
+    // Get the backtrace
+    $backtrace = debug_backtrace(1);
+
+    // Initialize an array to hold the file and line information
+    $trace_info = [];
+
+    // Loop through the backtrace
+    foreach ($backtrace as $trace) {
+        if (isset($trace['file']) && isset($trace['line'])) {
+            $trace_info[] = [
+                'file' => $trace['file'],
+                'line' => $trace['line']
+            ];
+        }
+    }
+
+    return $trace_info;
+}
+
 define('WP_DEBUG', true);
 define( 'WP_DEVELOPMENT_MODE', 'plugin' );
 //define('WP_DEBUG_DISPLAY', false);

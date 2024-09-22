@@ -37,12 +37,14 @@ class PairingRepository
     public function update(Pairing $pairing): Pairing
     {
         try {
+            $customerData = $pairing->getCustomerData();
+
             $this->db->update(self::tableName(), [
                 'version' => $pairing->getVersion(),
                 'token' => $pairing->getToken(),
                 'shipping_method_id' => $pairing->getShippingMethodId(),
                 'wc_order_id' => $pairing->getWcOrderId(),
-                'customer_data' => $pairing->getCustomerData(),
+                'customer_data' => $customerData === [] ? null : json_encode($customerData),
                 'is_express' => $pairing->getIsExpress(),
                 'amount' => $pairing->getAmount(),
                 'status' => $pairing->getStatus(),

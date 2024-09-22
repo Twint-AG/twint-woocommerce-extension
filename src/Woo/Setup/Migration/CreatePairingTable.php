@@ -21,7 +21,7 @@ final class CreatePairingTable
         $sql = "CREATE TABLE IF NOT EXISTS `{$tableName}` (
           `id` varchar(36) COLLATE utf8mb4_unicode_520_ci NOT NULL,
           `wc_order_id` int unsigned NOT NULL,
-          `token` varchar(32) COLLATE utf8mb4_unicode_520_ci NOT NULL,
+          `token` varchar(32) NULL,
           `amount` decimal(19,2) unsigned NOT NULL,
           `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
           `transaction_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -29,7 +29,8 @@ final class CreatePairingTable
           `is_express` tinyint(1) NOT NULL DEFAULT '0',   
           `shipping_method_id` varchar(128) DEFAULT NULL,
           `customer_data` longtext COLLATE utf8mb4_unicode_520_ci,
-          `is_ordering` int unsigned NOT NULL DEFAULT '0',
+          `is_ordering` tinyint(1) unsigned NOT NULL DEFAULT '0',
+          `captured` tinyint(1) unsigned NOT NULL DEFAULT '0',
           `version` int unsigned NOT NULL DEFAULT '1',
           `checked_at` datetime DEFAULT NULL,
           `created_at` datetime DEFAULT NOW(),
