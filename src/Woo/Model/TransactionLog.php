@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Twint\Woo\Model;
@@ -8,21 +9,31 @@ class TransactionLog
     use EntityTrait;
 
     private ?int $id;
+
     private ?string $pairingId = null;
+
     private ?int $orderId = null;
+
     private string $soapAction;
+
     private string $apiMethod;
+
     private string $request;
+
     private string $response;
+
     private string $soapRequest;
+
     private string $soapResponse;
+
     private ?string $exceptionText;
+
     private string $createdAt;
 
     protected function mapping(): array
     {
         return [
-            'id' => ['id',  static function($value) { return (int) $value; }],
+            'id' => ['id', static function ($value) { return (int) $value; }],
             'pairing_id' => 'pairingId',
             'order_id' => 'orderId',
             'soap_action' => 'soapAction',
@@ -32,7 +43,7 @@ class TransactionLog
             'soap_request' => 'soapRequest',
             'soap_response' => 'soapResponse',
             'exception_text' => 'exceptionText',
-            'created_at' => 'createdAt'
+            'created_at' => 'createdAt',
         ];
     }
 

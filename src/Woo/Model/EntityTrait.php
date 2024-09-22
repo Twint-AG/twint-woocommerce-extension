@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Twint\Woo\Model;
 
-trait EntityTrait{
-
+trait EntityTrait
+{
     private bool $isNewRecord = true;
 
     public function __construct(bool $isNewRecord = true)

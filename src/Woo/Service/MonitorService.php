@@ -64,7 +64,7 @@ class MonitorService
     {
         $cloned = clone $pairing;
 
-        if($pairing->getIsExpress()){
+        if ($pairing->getIsExpress()) {
             $status = $this->monitorExpress($pairing, $cloned);
             if ($status->paid()) {
                 $this->repository->markAsOrdering($pairing->getId());
@@ -80,10 +80,7 @@ class MonitorService
             }
         }
 
-        return $this->monitorRegular(
-            $pairing,
-            $cloned
-        );
+        return $this->monitorRegular($pairing, $cloned);
     }
 
     public function monitorRegular(Pairing $pairing, Pairing $cloned): MonitoringStatus
@@ -129,7 +126,7 @@ class MonitorService
                 $log = $cancellationRes->getLog();
                 $this->logRepository->updatePartial($log, [
                     'pairing_id' => $cloned->getId(),
-                    'order_id' => $cloned->getWcOrderId()
+                    'order_id' => $cloned->getWcOrderId(),
                 ]);
                 $this->repository->markAsMerchantCancelled($cloned->getId());
 
@@ -154,9 +151,7 @@ class MonitorService
 
         // As paid
         if (($pairing->getCustomerData() === null || $pairing->getCustomerData() === '' || $pairing->getCustomerData() === '0') && $state->hasCustomerData()) {
-            $this->logger->info(
-                "TWINT paid {$pairing->getPairingStatus()} - {$cloned->getPairingStatus()}"
-            );
+            $this->logger->info("TWINT paid {$pairing->getPairingStatus()} - {$cloned->getPairingStatus()}");
             $status = MonitoringStatus::STATUS_PAID;
 
             return MonitoringStatus::fromValues(true, $status, [

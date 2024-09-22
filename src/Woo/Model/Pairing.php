@@ -63,33 +63,33 @@ class Pairing
             'token' => 'token',
             'shipping_method_id' => 'shippingMethodId',
             'wc_order_id' => ['wcOrderId', static function ($value) {
-                return (int)$value;
+                return (int) $value;
             }],
             'amount' => ['amount', static function ($value) {
-                return (float)$value;
+                return (float) $value;
             }],
             'status' => 'status',
             'transaction_status' => 'transactionStatus',
             'pairing_status' => 'pairingStatus',
             'is_ordering' => ['isOrdering', static function ($value) {
-                return (bool)$value;
+                return (bool) $value;
             }],
             'checked_at' => 'checkedAt',
             'created_at' => 'createdAt',
             'checked_ago' => ['checkedAgo', static function ($value) {
-                return (int)$value;
+                return (int) $value;
             }],
             'created_ago' => ['createdAgo', static function ($value) {
-                return (int)$value;
+                return (int) $value;
             }],
             'updated_at' => 'updatedAt',
             'version' => ['version', static function ($value) {
-                return (int)$value;
+                return (int) $value;
             }],
             'is_express' => ['isExpress', static function ($value) {
-                return (bool)$value;
+                return (bool) $value;
             }],
-            'customer_data' => 'customerData'
+            'customer_data' => 'customerData',
         ];
     }
 
@@ -107,7 +107,11 @@ class Pairing
     public function isFinished(): bool
     {
         if ($this->isExpress) {
-            return in_array($this->getStatus(), [self::EXPRESS_STATUS_PAID, self::EXPRESS_STATUS_CANCELLED, self::EXPRESS_STATUS_MERCHANT_CANCELLED]);
+            return in_array(
+                $this->getStatus(),
+                [self::EXPRESS_STATUS_PAID, self::EXPRESS_STATUS_CANCELLED, self::EXPRESS_STATUS_MERCHANT_CANCELLED],
+                true
+            );
         }
 
         return in_array($this->status, [OrderStatus::SUCCESS, OrderStatus::FAILURE], true);
@@ -310,7 +314,7 @@ class Pairing
 
     public function isSuccessful(): bool
     {
-        if($this->isExpress){
+        if ($this->isExpress) {
             return $this->getStatus() === self::EXPRESS_STATUS_PAID;
         }
 
@@ -330,7 +334,7 @@ class Pairing
     {
         if ($target instanceof FastCheckoutCheckIn) {
             return $this->getPairingStatus() !== ($target->pairingStatus()->__toString() ?? '')
-                || $this->getShippingMethodId() !== ($target->hasShippingMethodId() ? (string)$target->shippingMethodId() : null);
+                || $this->getShippingMethodId() !== ($target->hasShippingMethodId() ? (string) $target->shippingMethodId() : null);
         }
 
 

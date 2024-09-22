@@ -162,7 +162,7 @@ class PairingService
         $log->setPairingId($pairing->getId());
         $this->logRepository->updatePartial($log, [
             'pairing_id' => $pairing->getId(),
-            'order_id' => $pairing->getWcOrderId()
+            'order_id' => $pairing->getWcOrderId(),
         ]);
 
         return $pairing;

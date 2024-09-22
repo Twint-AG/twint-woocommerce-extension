@@ -27,14 +27,15 @@ class PairingRepository
 
     public function save(Pairing $pairing): Pairing
     {
-        if($pairing->isNewRecord()) {
+        if ($pairing->isNewRecord()) {
             return $this->insert($pairing);
         }
 
         return $this->update($pairing);
     }
 
-    public function update(Pairing $pairing): Pairing{
+    public function update(Pairing $pairing): Pairing
+    {
         try {
             $this->db->update(self::tableName(), [
                 'version' => $pairing->getVersion(),
@@ -49,14 +50,14 @@ class PairingRepository
                 'pairing_status' => $pairing->getPairingStatus(),
                 'is_ordering' => $pairing->getIsOrdering(),
                 'checked_at' => $pairing->getCheckedAt(),
-                'created_at' => $pairing->getCreatedAt()
+                'created_at' => $pairing->getCreatedAt(),
             ], [
                 'id' => $pairing->getId(),
             ]);
 
             return $this->get($pairing->getId());
         } catch (Exception $e) {
-            $this->logger->error("TWINT PairingRepository::update: " . $e->getMessage());
+            $this->logger->error('TWINT PairingRepository::update: ' . $e->getMessage());
         }
     }
 
@@ -76,12 +77,12 @@ class PairingRepository
                 'pairing_status' => $pairing->getPairingStatus(),
                 'is_ordering' => $pairing->getIsOrdering(),
                 'checked_at' => $pairing->getCheckedAt(),
-                'created_at' => $pairing->getCreatedAt()
+                'created_at' => $pairing->getCreatedAt(),
             ]);
 
             return $this->get($pairing->getId());
         } catch (Exception $e) {
-            $this->logger->error("TWINT PairingRepository::insert: " . $e->getMessage());
+            $this->logger->error('TWINT PairingRepository::insert: ' . $e->getMessage());
         }
     }
 
@@ -134,10 +135,7 @@ class PairingRepository
     {
         $select = $this->getSelect();
 
-        $query = $this->db->prepare("SELECT {$select} FROM %i WHERE id = %s LIMIT 1;", [
-            self::tableName(),
-            $id,
-        ]);
+        $query = $this->db->prepare("SELECT {$select} FROM %i WHERE id = %s LIMIT 1;", [self::tableName(), $id]);
 
         return ($result = $this->db->get_results($query)) ? (new Pairing(false))->load((array) reset($result)) : null;
     }

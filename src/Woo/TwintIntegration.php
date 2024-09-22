@@ -6,21 +6,16 @@ namespace Twint\Woo;
 
 use Throwable;
 use Twint\Plugin;
-use Twint\Woo\CronJob\MonitorPairingCronJob;
-use Twint\Woo\Migration\CreatePairingTable;
-use Twint\Woo\Migration\CreateTransactionLogTable;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Service\ApiService;
 use Twint\Woo\Service\PairingService;
 use Twint\Woo\Service\PaymentService;
-use Twint\Woo\Service\SettingService;
 use Twint\Woo\Template\Admin\MetaBox\TransactionLogMeta;
 use Twint\Woo\Template\Admin\SettingsLayoutViewAdapter;
 use Twint\Woo\Template\BeforeThankYouBoxViewAdapter;
 use WC_Order;
-use function Psl\Filesystem\copy;
 
 class TwintIntegration
 {
@@ -67,42 +62,14 @@ class TwintIntegration
 
     public static function install(): void
     {
-        self::createDatabase();
-
-        MonitorPairingCronJob::initCronjob();
-
-        $pluginLanguagesPath = Plugin::abspath() . 'i18n/languages/';
-        $wpLangPluginPath = WP_CONTENT_DIR . '/languages/plugins/';
-        $pluginLanguagesDirectory = array_diff(scandir($pluginLanguagesPath), ['..', '.']);
-        foreach ($pluginLanguagesDirectory as $language) {
-            copy($pluginLanguagesPath . $language, $wpLangPluginPath . $language, true);
-        }
-
-        // Init setting for payment gateway
-        $initData = [
-            'enabled' => 'yes',
-            'title' => 'TWINT',
-        ];
-        update_option('woocommerce_twint_regular_settings', $initData);
-    }
-
-    public static function createDatabase(): void
-    {
-        CreateTransactionLogTable::up();
-        CreatePairingTable::up();
+        $installer = Plugin::di('installer');
+        $installer->install();
     }
 
     public static function uninstall(): void
     {
-        /**
-         * Do we need to remove the table when deactivating plugin?
-         */
-        if (SettingService::getAutoRemoveDBTableWhenDisabling() === 'yes') {
-            CreateTransactionLogTable::down();
-            CreatePairingTable::down();
-        }
-
-        MonitorPairingCronJob::removeCronjob();
+        $uninstaller = Plugin::di('uninstaller');
+        $uninstaller->uninstall();
     }
 
     private function registerApiActions(): void

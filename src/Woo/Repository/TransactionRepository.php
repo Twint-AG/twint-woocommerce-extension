@@ -12,10 +12,9 @@ use wpdb;
 class TransactionRepository
 {
     public function __construct(
-        private readonly wpdb                $db,
+        private readonly wpdb $db,
         private readonly WC_Logger_Interface $logger,
-    )
-    {
+    ) {
     }
 
     public static function tableName(): string
@@ -44,7 +43,7 @@ class TransactionRepository
 
             return $this->get($this->db->insert_id);
         } catch (Exception $e) {
-            $this->logger->error("TWINT TransactionRepository::insert: " . $e->getMessage());
+            $this->logger->error('TWINT TransactionRepository::insert: ' . $e->getMessage());
             throw $e;
         }
     }
@@ -66,12 +65,12 @@ class TransactionRepository
                 'soap_response' => $log->getSoapResponse(),
                 'exception_text' => $log->getExceptionText(),
             ], [
-                'id' => $log->getId()
+                'id' => $log->getId(),
             ]);
 
             return $reload ? $this->get($log->getId()) : $log;
         } catch (Exception $e) {
-            $this->logger->error("TWINT TransactionRepository::update: " . $e->getMessage());
+            $this->logger->error('TWINT TransactionRepository::update: ' . $e->getMessage());
             throw $e;
         }
     }
@@ -83,12 +82,12 @@ class TransactionRepository
     {
         try {
             $this->db->update(self::tableName(), $values, [
-                'id' => $log->getId()
+                'id' => $log->getId(),
             ]);
 
             return $reload ? $this->get($log->getId()) : $log;
         } catch (Exception $e) {
-            $this->logger->error("TWINT TransactionRepository::updatePartial: " . $e->getMessage());
+            $this->logger->error('TWINT TransactionRepository::updatePartial: ' . $e->getMessage());
             throw $e;
         }
     }
@@ -108,24 +107,20 @@ class TransactionRepository
     {
         $query = $this->db->prepare('SELECT * from %i WHERE order_id = %d ORDER BY created_at DESC;', [
             self::tableName(),
-            $orderId
+            $orderId,
         ]);
 
         $result = $this->db->get_results($query);
 
-        return array_map(fn($row) => (new TransactionLog(false))->load($row), $result);
+        return array_map(static fn ($row) => (new TransactionLog(false))->load($row), $result);
     }
 
     public function get(int $id): ?TransactionLog
     {
-        $query = $this->db->prepare('SELECT * from %i WHERE id = %d ;', [
-            self::tableName(),
-            $id
-        ]);
+        $query = $this->db->prepare('SELECT * from %i WHERE id = %d ;', [self::tableName(), $id]);
 
         $result = $this->db->get_results($query);
 
         return empty($result) ? null : (new TransactionLog(false))->load(reset($result));
-
     }
 }

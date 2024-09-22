@@ -24,6 +24,10 @@ use Twint\Woo\Service\MonitorService;
 use Twint\Woo\Service\PairingService;
 use Twint\Woo\Service\PaymentService;
 use Twint\Woo\Service\SettingService;
+use Twint\Woo\Setup\Installer;
+use Twint\Woo\Setup\Migration\CreatePairingTable;
+use Twint\Woo\Setup\Migration\CreateTransactionLogTable;
+use Twint\Woo\Setup\UnInstaller;
 use Twint\Woo\TwintIntegration;
 use Twint\Woo\Utility\CertificateHandler;
 use Twint\Woo\Utility\CredentialsValidator;
@@ -32,11 +36,27 @@ use Twint\Woo\Utility\CryptoHandler;
 function twint_services()
 {
     return [
+        'installer' => static function (ContainerInterface $container): Installer {
+            return new Installer($container->get('migrations'));
+        },
+        'uninstaller' => static function (ContainerInterface $container): UnInstaller {
+            return new UnInstaller($container->get('migrations'));
+        },
         'db' => static function (ContainerInterface $container): wpdb {
             global $wpdb;
 
             return $wpdb;
         },
+        'pairing.migration' => static function (ContainerInterface $container): CreatePairingTable {
+            return new CreatePairingTable($container->get('db'));
+        },
+        'log.migration' => static function (ContainerInterface $container): CreateTransactionLogTable {
+            return new CreateTransactionLogTable($container->get('db'));
+        },
+        'migrations' => static function (ContainerInterface $container): array {
+            return [$container->get('pairing.migration'), $container->get('log.migration')];
+        },
+
         //Logger
         'logger' => static function (ContainerInterface $container) {
             if (!function_exists('wc_get_logger')) {
@@ -47,16 +67,10 @@ function twint_services()
         },
         // Repositories
         'pairing.repository' => static function (ContainerInterface $container) {
-            return new PairingRepository(
-                $container->get('db'),
-                $container->get('logger'),
-            );
+            return new PairingRepository($container->get('db'), $container->get('logger'));
         },
         'transaction.repository' => static function (ContainerInterface $container) {
-            return new TransactionRepository(
-                $container->get('db'),
-                $container->get('logger'),
-            );
+            return new TransactionRepository($container->get('db'), $container->get('logger'));
         },
         //Commands
         'poll.command' => static function (ContainerInterface $container) {
@@ -104,10 +118,7 @@ function twint_services()
             );
         },
         'api.service' => static function (ContainerInterface $container) {
-            return new ApiService(
-                $container->get('logger'),
-                $container->get('transaction.repository'),
-            );
+            return new ApiService($container->get('logger'), $container->get('transaction.repository'));
         },
         'apps.service' => static function (ContainerInterface $container) {
             return new AppsService($container->get('client.builder'));
