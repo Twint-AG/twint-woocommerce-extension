@@ -7,10 +7,8 @@ namespace Twint\Woo;
 use Throwable;
 use Twint\Plugin;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
-use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Service\ApiService;
-use Twint\Woo\Service\PairingService;
 use Twint\Woo\Service\PaymentService;
 use Twint\Woo\Template\Admin\MetaBox\TransactionLogMeta;
 use Twint\Woo\Template\Admin\SettingsLayoutViewAdapter;
@@ -23,7 +21,6 @@ class TwintIntegration
 
     public function __construct(
         private readonly PaymentService $paymentService,
-        private readonly PairingService $pairingService,
         private readonly ApiService $api,
         private readonly PairingRepository $pairingRepository,
     ) {
@@ -32,19 +29,6 @@ class TwintIntegration
         add_action('admin_enqueue_scripts', [$this, 'enqueueScripts'], 20);
 
         add_action('admin_menu', [$this, 'registerMenuItem']);
-
-        //TODO move belows add_action to Gateway classes.We dont handle for payment here
-        /**
-         * @support Classic Checkout
-         * Would be triggered after order created with CLASSIC Checkout
-         */
-        add_action('woocommerce_checkout_order_created', [$this, 'woocommerceCheckoutOrderCreated']);
-
-        /**
-         * @support Block Checkout
-         * Would be triggered after order created with BLOCK Checkout
-         */
-        add_action('woocommerce_store_api_checkout_order_processed', [$this, 'woocommerceCheckoutOrderCreated']);
 
         add_filter('woocommerce_before_save_order_items', [$this, 'wooBeforeOrderUpdateChange'], 10, 2);
 
@@ -165,22 +149,6 @@ class TwintIntegration
         }
 
         return $template;
-    }
-
-    /**
-     * @throws Throwable
-     */
-    public function woocommerceCheckoutOrderCreated($orderId): void
-    {
-        $order = wc_get_order($orderId);
-
-        if ($order->get_payment_method() === RegularCheckoutGateway::getId()) {
-            $pairing = $this->pairingRepository->findByWooOrderId($order->get_id());
-            if (!$pairing instanceof Pairing) {
-                $apiResponse = $this->paymentService->createOrder($order);
-                $res = $this->pairingService->create($apiResponse, $order);
-            }
-        }
     }
 
     public function accessSettingsMenuCallback(): void

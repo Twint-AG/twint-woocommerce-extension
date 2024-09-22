@@ -93,7 +93,6 @@ function twint_services()
         'twint.integration' => static function (ContainerInterface $container) {
             return new TwintIntegration(
                 $container->get('payment.service'),
-                $container->get('pairing.service'),
                 $container->get('api.service'),
                 $container->get('pairing.repository'),
             );

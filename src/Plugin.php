@@ -65,22 +65,11 @@ class Plugin
                 'show_in_admin_status_list' => true,
             ]
         );
-
-        register_post_status(
-            RegularCheckoutGateway::getOrderStatusAfterFirstTimeCreatedOrder(),
-            [
-                'label' => __('TWINT Pending', 'woocommerce-gateway-twint'),
-                'public' => true,
-                'show_in_admin_all_list' => true,
-                'show_in_admin_status_list' => true,
-            ]
-        );
     }
 
     public static function addCustomWooCommerceStatusToList($orderStatuses): array
     {
         $orderStatuses[RegularCheckoutGateway::getOrderStatusAfterPartiallyRefunded()] = __('Refunded (partially)', 'woocommerce-gateway-twint');
-        $orderStatuses[RegularCheckoutGateway::getOrderStatusAfterFirstTimeCreatedOrder()] = __('TWINT Pending', 'woocommerce-gateway-twint');
         return $orderStatuses;
     }
 

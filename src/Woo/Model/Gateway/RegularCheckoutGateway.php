@@ -5,8 +5,13 @@ declare(strict_types=1);
 namespace Twint\Woo\Model\Gateway;
 
 use Exception;
+use Throwable;
 use Twint\Plugin;
 use Twint\Woo\Model\Modal\Modal;
+use Twint\Woo\Model\Pairing;
+use Twint\Woo\Repository\PairingRepository;
+use Twint\Woo\Service\PairingService;
+use Twint\Woo\Service\PaymentService;
 use Twint\Woo\Service\SettingService;
 
 class RegularCheckoutGateway extends AbstractGateway
@@ -16,6 +21,9 @@ class RegularCheckoutGateway extends AbstractGateway
     public $id = self::UNIQUE_PAYMENT_ID;
 
     private Modal $modal;
+    private PairingRepository $pairingRepository;
+    private PaymentService $paymentService;
+    private PairingService $pairingService;
 
     /**
      * Constructor for the gateway.
@@ -27,6 +35,9 @@ class RegularCheckoutGateway extends AbstractGateway
         $this->initAdminConfig();
 
         $this->modal = Plugin::di('payment.modal');
+        $this->pairingRepository = Plugin::di('pairing.repository');
+        $this->paymentService = Plugin::di('payment.service');
+        $this->pairingService = Plugin::di('pairing.service');
 
         $this->registerHooks();
     }
@@ -38,31 +49,18 @@ class RegularCheckoutGateway extends AbstractGateway
         add_filter('woocommerce_payment_complete_order_status', [$this, 'setCompleteOrderStatus'], 10, 3);
 
         /**
-         * These 2 (action and filter) for "Pay" for the order in My account > Orders section.
+         * @support Classic Checkout
+         * Would be triggered after order created with CLASSIC Checkout
          */
-        add_action('woocommerce_view_order', [$this, 'addOrderPayButton']);
-        add_filter('woocommerce_valid_order_statuses_for_payment', [$this, 'appendValidStatusForOrderNeedPayment']);
+        add_action('woocommerce_checkout_order_created', [$this, 'woocommerceCheckoutOrderCreated']);
+
+        /**
+         * @support Block Checkout
+         * Would be triggered after order created with BLOCK Checkout
+         */
+        add_action('woocommerce_store_api_checkout_order_processed', [$this, 'woocommerceCheckoutOrderCreated']);
 
         $this->modal->registerHooks();
-    }
-
-    public function addOrderPayButton(int $orderId): void
-    {
-        $order = wc_get_order($orderId);
-
-        if ('wc-' . $order->get_status() === self::getOrderStatusAfterFirstTimeCreatedOrder()) {
-            printf(
-                '<a class="woocommerce-button wp-element-button button pay" href="%s">%s</a>',
-                $order->get_checkout_payment_url(),
-                __('Pay for this order', 'woocommerce')
-            );
-        }
-    }
-
-    public function appendValidStatusForOrderNeedPayment(array $statuses): array
-    {
-        $statuses[] = 'twint-pending';
-        return $statuses;
     }
 
     protected function initAdminConfig()
@@ -102,6 +100,22 @@ class RegularCheckoutGateway extends AbstractGateway
                 'default' => __('TWINT', 'woocommerce-gateway-twint'),
             ],
         ];
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function woocommerceCheckoutOrderCreated($orderId): void
+    {
+        $order = wc_get_order($orderId);
+
+        if ($order->get_payment_method() === RegularCheckoutGateway::getId()) {
+            $pairing = $this->pairingRepository->findByWooOrderId($order->get_id());
+            if (!$pairing instanceof Pairing) {
+                $apiResponse = $this->paymentService->createOrder($order);
+                $res = $this->pairingService->create($apiResponse, $order);
+            }
+        }
     }
 
     /**
@@ -145,8 +159,8 @@ class RegularCheckoutGateway extends AbstractGateway
                 'nonce' => wp_create_nonce('twint_check_pairing_status'),
                 'shopName' => get_bloginfo('name'),
                 'amount' => number_format(
-                    (float) $order->get_total(),
-                    (int) get_option('woocommerce_price_num_decimals'),
+                    (float)$order->get_total(),
+                    (int)get_option('woocommerce_price_num_decimals'),
                     get_option('woocommerce_price_decimal_sep'),
                     get_option('woocommerce_price_thousand_sep')
                 ),

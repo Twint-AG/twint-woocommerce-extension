@@ -95,7 +95,7 @@ abstract class AbstractGateway extends WC_Payment_Gateway
      */
     public static function getOrderStatusAfterFirstTimeCreatedOrder(): string
     {
-        return apply_filters('woocommerce_twint_order_status_after_partially_refunded', 'wc-twint-pending');
+        return apply_filters('woocommerce_twint_order_status_after_partially_refunded', 'pending');
     }
 
     /**
