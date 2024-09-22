@@ -60,19 +60,40 @@ class Pairing extends Entity
             'id' => 'id',
             'token' => 'token',
             'shipping_method_id' => 'shippingMethodId',
-            'wc_order_id' => ['wcOrderId', fn($value) => (int) $value],
-            'amount' => ['amount', fn($value) => (float) $value],
+            'wc_order_id' => [
+                'wcOrderId',
+                static fn ($value) => (int) $value,
+            ],
+            'amount' => [
+                'amount',
+                static fn ($value) => (float) $value,
+            ],
             'status' => 'status',
             'transaction_status' => 'transactionStatus',
             'pairing_status' => 'pairingStatus',
-            'is_ordering' => ['isOrdering', fn($value) => (bool) $value],
+            'is_ordering' => [
+                'isOrdering',
+                static fn ($value) => (bool) $value,
+            ],
             'checked_at' => 'checkedAt',
             'created_at' => 'createdAt',
-            'checked_ago' => ['checkedAgo', fn($value) => (int) $value],
-            'created_ago' => ['createdAgo', fn($value) => (int) $value],
+            'checked_ago' => [
+                'checkedAgo',
+                static fn ($value) => (int) $value,
+            ],
+            'created_ago' => [
+                'createdAgo',
+                static fn ($value) => (int) $value,
+            ],
             'updated_at' => 'updatedAt',
-            'version' => ['version', fn($value) => (int) $value],
-            'is_express' => ['isExpress', fn($value) => (bool) $value],
+            'version' => [
+                'version',
+                static fn ($value) => (int) $value,
+            ],
+            'is_express' => [
+                'isExpress',
+                static fn ($value) => (bool) $value,
+            ],
             'customer_data' => 'customerData',
         ];
     }

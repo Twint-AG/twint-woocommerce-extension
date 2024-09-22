@@ -26,7 +26,7 @@ class TransactionRepository
     /**
      * @throws Exception
      */
-    public function insert(TransactionLog $log): TransactionLog
+    public function insert(TransactionLog $log, bool $reload = false): TransactionLog
     {
         try {
             $this->db->insert(self::tableName(), [
@@ -41,7 +41,7 @@ class TransactionRepository
                 'exception_text' => $log->getExceptionText(),
             ]);
 
-            return $this->get($this->db->insert_id);
+            return $reload ? $this->get($this->db->insert_id) : $log;
         } catch (Exception $e) {
             $this->logger->error('TWINT TransactionRepository::insert: ' . $e->getMessage());
             throw $e;

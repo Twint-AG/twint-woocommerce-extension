@@ -108,7 +108,7 @@ class PairingRepository
         $results = $this->db->get_results($query);
         $pairings = [];
         foreach ($results as $result) {
-            $pairings[] = (new Pairing())->load((array) $result);
+            $pairings[] = (new Pairing(false))->load((array) $result);
         }
 
         return $pairings;

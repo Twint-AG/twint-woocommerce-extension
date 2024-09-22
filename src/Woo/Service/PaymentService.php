@@ -14,6 +14,7 @@ use Twint\Sdk\Value\Uuid;
 use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Model\ApiResponse;
 use Twint\Woo\Model\Pairing;
+use Twint\Woo\Model\TransactionLog;
 use Twint\Woo\Repository\PairingRepository;
 use WC_Logger_Interface;
 use WC_Order;
@@ -42,12 +43,10 @@ class PaymentService
             return $this->api->call($client, 'startOrder', [
                 new UnfiledMerchantTransactionReference($orderNumber),
                 new Money($currency, (float) $order->get_total()),
-            ], true, static function (array $log, mixed $return) use ($order) {
+            ], true, static function (TransactionLog $log, mixed $return) use ($order) {
                 if ($return instanceof Order) {
-                    $log['pairing_id'] = $return->id()->__toString();
-                    $log['order_id'] = $order->get_id();
-                    $log['order_status'] = $order->get_status();
-                    $log['transaction_id'] = $order->get_transaction_id();
+                    $log->setPairingId($return->id()->__toString());
+                    $log->setOrderId($order->get_id());
                 }
 
                 return $log;

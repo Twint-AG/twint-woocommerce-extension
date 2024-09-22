@@ -31,7 +31,10 @@ class TransactionLog extends Entity
     protected function mapping(): array
     {
         return [
-            'id' => ['id',fn($value) => (int) $value],
+            'id' => [
+                'id',
+                static fn ($value) => (int) $value,
+            ],
             'pairing_id' => 'pairingId',
             'order_id' => 'orderId',
             'soap_action' => 'soapAction',
