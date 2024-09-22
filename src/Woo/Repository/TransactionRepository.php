@@ -97,7 +97,7 @@ class TransactionRepository
      */
     public function save(TransactionLog $log): TransactionLog
     {
-        return $log->isNewRecord() ? $this->insert($log) : $this->update($log);
+        return $log->isNewRecord() ? $this->insert($log, true) : $this->update($log);
     }
 
     /**

@@ -85,6 +85,7 @@ class MonitorService
 
     public function monitorRegular(Pairing $pairing, Pairing $cloned): MonitoringStatus
     {
+        return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
     }
 
     /**

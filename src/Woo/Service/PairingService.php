@@ -35,6 +35,9 @@ class PairingService
     ) {
     }
 
+    /**
+     * @throws Exception
+     */
     public function create(ApiResponse $response, WC_Order $order): Pairing
     {
         /** @var Order $tOrder */
@@ -50,8 +53,15 @@ class PairingService
         $pairing->setPairingStatus($tOrder->pairingStatus()->__toString());
         $pairing->setStatus($tOrder->status()->__toString());
 
+        $pairing = $this->repository->save($pairing);
 
-        return $this->repository->save($pairing);
+        $log = $response->getLog();
+        $log->setPairingId($pairing->getId());
+        $this->logRepository->updatePartial($log , [
+            'pairing_id' => $pairing->getId()
+        ]);
+
+        return $pairing;
     }
 
     /**

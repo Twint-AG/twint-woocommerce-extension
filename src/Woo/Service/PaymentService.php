@@ -45,7 +45,6 @@ class PaymentService
                 new Money($currency, (float) $order->get_total()),
             ], true, static function (TransactionLog $log, mixed $return) use ($order) {
                 if ($return instanceof Order) {
-                    $log->setPairingId($return->id()->__toString());
                     $log->setOrderId($order->get_id());
                 }
 

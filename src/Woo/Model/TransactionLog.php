@@ -36,7 +36,7 @@ class TransactionLog extends Entity
                 static fn ($value) => (int) $value,
             ],
             'pairing_id' => 'pairingId',
-            'order_id' => 'orderId',
+            'order_id' => ['orderId',static fn ($value) => (int) $value],
             'soap_action' => 'soapAction',
             'api_method' => 'apiMethod',
             'request' => 'request',
