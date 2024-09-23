@@ -63,87 +63,6 @@ class Modal
         $this->isMobile = $this->isAndroid || $this->isIos;
     }
 
-    private function getAndroidHtml(): string
-    {
-        if (!$this->isAndroid) {
-            return '';
-        }
-
-        $link = $this->links['android'];
-
-        return '
-            <div class="text-center mt-4 px-4">
-                <a id="twint-addroid-button"
-                   data-href="javascript:window.location = \'' . $link . '\'"
-                   href="javascript:window.location = \'' . $link . '\'">
-                    ' . __('Switch to TWINT app now') . '
-                </a>
-            </div>
-        ';
-    }
-
-    private function getIosHtml(): string
-    {
-        if (!$this->isIos) {
-            return '';
-        }
-
-        $links = $this->links['ios'];
-
-        $refinedApps = [
-            'UBS TWINT' => 'bank-ubs',
-            'Raiffeisen TWINT' => 'bank-raiffeisen',
-            'PostFinance TWINT' => 'bank-pf',
-            'ZKB TWINT' => 'bank-zkb',
-            'Credit Suisse TWINT' => 'bank-cs',
-            'BCV TWINT' => 'bank-bcv',
-        ];
-
-        $app = '';
-        $else = '';
-
-        foreach ($links as $link) {
-            $icon = $refinedApps[$link['name']] ?? null;
-            if ($icon) {
-                $app .= '<img src="' . Plugin::assets("/images/{$icon}.png") . '" 
-                    class="shadow-2xl w-64 h-64 rounded-2xl mx-auto"
-                    data-link="' . htmlentities($link['link']) . '"
-                    alt="' . htmlentities($link['name']) . '">';
-            } else {
-                $else .= '<option value="' . htmlentities($link['link']) . '">' . htmlentities(
-                    $link['name']
-                ) . '</option>';
-            }
-        }
-
-        return '
-            <div id="twint-ios-container">
-                <div class="my-6 text-center">
-                    ' . __('Choose your TWINT app:') . '
-                </div>
-    
-                <div class="twint-app-container w-3/4 mx-auto justify-center max-w-screen-md mx-auto grid grid-cols-3 gap-4">
-                    ' . $app . '
-                </div>
-                
-                <select class="twint-select">
-                    <option>' . __('Other banks') . '</option>
-                    ' . $else . '
-                </select>    
-            </div>        
-        ';
-    }
-
-    private function getMdClasses(string $classes): string
-    {
-        return $this->isMobile ? '' : $classes;
-    }
-
-    private function getMobileClass(): string
-    {
-        return $this->isMobile ? ' twint-mobile ' : '';
-    }
-
     private function getContent(): string
     {
         return '
@@ -274,5 +193,86 @@ class Modal
                     </div>
                 </div>                
             </div>';
+    }
+
+    private function getMdClasses(string $classes): string
+    {
+        return $this->isMobile ? '' : $classes;
+    }
+
+    private function getMobileClass(): string
+    {
+        return $this->isMobile ? ' twint-mobile ' : '';
+    }
+
+    private function getAndroidHtml(): string
+    {
+        if (!$this->isAndroid) {
+            return '';
+        }
+
+        $link = $this->links['android'];
+
+        return '
+            <div class="text-center mt-4 px-4">
+                <a id="twint-addroid-button"
+                   data-href="javascript:window.location = \'' . $link . '\'"
+                   href="javascript:window.location = \'' . $link . '\'">
+                    ' . __('Switch to TWINT app now') . '
+                </a>
+            </div>
+        ';
+    }
+
+    private function getIosHtml(): string
+    {
+        if (!$this->isIos) {
+            return '';
+        }
+
+        $links = $this->links['ios'];
+
+        $refinedApps = [
+            'UBS TWINT' => 'bank-ubs',
+            'Raiffeisen TWINT' => 'bank-raiffeisen',
+            'PostFinance TWINT' => 'bank-pf',
+            'ZKB TWINT' => 'bank-zkb',
+            'Credit Suisse TWINT' => 'bank-cs',
+            'BCV TWINT' => 'bank-bcv',
+        ];
+
+        $app = '';
+        $else = '';
+
+        foreach ($links as $link) {
+            $icon = $refinedApps[$link['name']] ?? null;
+            if ($icon) {
+                $app .= '<img src="' . Plugin::assets("/images/{$icon}.png") . '" 
+                    class="shadow-2xl w-64 h-64 rounded-2xl mx-auto"
+                    data-link="' . htmlentities($link['link']) . '"
+                    alt="' . htmlentities($link['name']) . '">';
+            } else {
+                $else .= '<option value="' . htmlentities($link['link']) . '">' . htmlentities(
+                    $link['name']
+                ) . '</option>';
+            }
+        }
+
+        return '
+            <div id="twint-ios-container">
+                <div class="my-6 text-center">
+                    ' . __('Choose your TWINT app:') . '
+                </div>
+    
+                <div class="twint-app-container w-3/4 mx-auto justify-center max-w-screen-md mx-auto grid grid-cols-3 gap-4">
+                    ' . $app . '
+                </div>
+                
+                <select class="twint-select">
+                    <option>' . __('Other banks') . '</option>
+                    ' . $else . '
+                </select>    
+            </div>        
+        ';
     }
 }

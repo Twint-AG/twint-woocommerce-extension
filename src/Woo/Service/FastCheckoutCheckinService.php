@@ -23,17 +23,19 @@ use WC_Shipping_Rate;
 
 /**
  * @method ClientBuilder getBuilder()
+ * @method PairingService getPairingService()
  */
 class FastCheckoutCheckinService
 {
     use LazyLoadTrait;
-    protected static array $lazyLoads = ['builder'];
-    
+
+    protected static array $lazyLoads = ['builder', 'pairingService'];
+
     public function __construct(
         private readonly WC_Logger_Interface $logger,
-        private Lazy | ClientBuilder $builder,
+        private Lazy|ClientBuilder $builder,
         private readonly ApiService $api,
-        private readonly PairingService $pairingService,
+        private Lazy|PairingService $pairingService,
     ) {
     }
 
@@ -44,6 +46,7 @@ class FastCheckoutCheckinService
 
     /**
      * Express checkout only support for CH country
+     * @param mixed $packages
      */
     public static function forceCountry($packages): array
     {
@@ -62,27 +65,8 @@ class FastCheckoutCheckinService
         $options = $this->getShippingOptions();
         $res = $this->callApi($order, $options);
 
-        return $this->pairingService->createExpressPairing($res, $order);
-    }
-
-    /**
-     * @throws Throwable
-     */
-    private function callApi(WC_Order $order, ShippingMethods $methods): ApiResponse
-    {
-        $client = $this->getBuilder()->build(Version::NEXT);
-
-        $this->logger->info("TWINT start EC {$order->get_id()}");
-
-        return $this->api->call(
-            $client,
-            'requestFastCheckOutCheckIn',
-            [
-                Money::CHF((float) $order->get_total()),
-                new CustomerDataScopes(...CustomerDataScopes::all()),
-                $methods,
-            ]
-        );
+        return $this->getPairingService()
+            ->createExpressPairing($res, $order);
     }
 
     protected function getShippingOptions(): ShippingMethods
@@ -104,5 +88,26 @@ class FastCheckoutCheckinService
         }
 
         return new ShippingMethods(...$options);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    private function callApi(WC_Order $order, ShippingMethods $methods): ApiResponse
+    {
+        $client = $this->getBuilder()
+            ->build(Version::NEXT);
+
+        $this->logger->info("TWINT start EC {$order->get_id()}");
+
+        return $this->api->call(
+            $client,
+            'requestFastCheckOutCheckIn',
+            [
+                Money::CHF((float) $order->get_total()),
+                new CustomerDataScopes(...CustomerDataScopes::all()),
+                $methods,
+            ]
+        );
     }
 }

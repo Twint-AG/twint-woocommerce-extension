@@ -7,6 +7,8 @@ namespace Twint\Woo\Api\Frontend;
 use Exception;
 use Throwable;
 use Twint\Woo\Api\BaseAction;
+use Twint\Woo\Container\Lazy;
+use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Service\MonitorService;
@@ -14,12 +16,20 @@ use WC_Logger_Interface;
 use WP_REST_Request;
 use WP_REST_Response;
 
+/**
+ * @method PairingRepository getRepository()
+ */
 class PaymentStatusAction extends BaseAction
 {
-    use CartInitTrait; // 10 seconds
+    use LazyLoadTrait;
+    use CartInitTrait;
+
+    // 10 seconds
+
+    protected static array $lazyLoads = ['repository'];
 
     public function __construct(
-        private readonly PairingRepository $pairingRepository,
+        private Lazy|PairingRepository $repository,
         private readonly MonitorService $service,
         private readonly WC_Logger_Interface $logger
     ) {
@@ -47,7 +57,8 @@ class PaymentStatusAction extends BaseAction
 
         $pairingId = $request->get_param('pairingId');
 
-        $pairing = $this->pairingRepository->get($pairingId);
+        $pairing = $this->getRepository()
+            ->get($pairingId);
         if (!$pairing instanceof Pairing) {
             throw new Exception('The pairing for the the order does not exist.');
         }

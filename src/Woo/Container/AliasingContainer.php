@@ -26,7 +26,7 @@ class AliasingContainer implements ContainerInterface
             ? ($this->alias[$id])($this)
             : $this->alias[$id];
 
-        if($this->alias[$id] instanceof  Lazy){
+        if ($this->alias[$id] instanceof Lazy) {
             $this->alias[$id]->setId($id);
         }
 

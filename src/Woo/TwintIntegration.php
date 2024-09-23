@@ -6,6 +6,8 @@ namespace Twint\Woo;
 
 use Throwable;
 use Twint\Plugin;
+use Twint\Woo\Container\Lazy;
+use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Service\ApiService;
@@ -15,14 +17,22 @@ use Twint\Woo\Template\Admin\SettingsLayoutViewAdapter;
 use Twint\Woo\Template\BeforeThankYouBoxViewAdapter;
 use WC_Order;
 
+/**
+ * @method PairingRepository getPairingRepository()
+ * @method PaymentService getPaymentService()
+ */
 class TwintIntegration
 {
+    use LazyLoadTrait;
+
+    protected static array $lazyLoads = ['pairingRepository', 'paymentService'];
+
     protected string $pageHookSetting;
 
     public function __construct(
-        private readonly PaymentService $paymentService,
+        private Lazy|PaymentService $paymentService,
         private readonly ApiService $api,
-        private readonly PairingRepository $pairingRepository,
+        private Lazy|PairingRepository $pairingRepository,
     ) {
         add_action('admin_enqueue_scripts', [$this, 'enqueueStyles'], 19);
         add_action('wp_enqueue_scripts', [$this, 'wpEnqueueScriptsFrontend'], 19);
@@ -68,6 +78,7 @@ class TwintIntegration
 
     /**
      * //TODO move gateway class
+     * @param mixed $refundId
      * @throws Throwable
      */
     public function refundCreatedHandler($refundId): void
@@ -76,7 +87,8 @@ class TwintIntegration
         $order = wc_get_order($refund->get_parent_id());
         $amount = $refund->get_amount();
 
-        $apiResponse = $this->paymentService->reverseOrder($order, $amount, $refundId);
+        $apiResponse = $this->getPaymentService()
+            ->reverseOrder($order, $amount, $refundId);
 
         // Check if the refund was processed by your custom gateway
         if ($order->get_payment_method() === RegularCheckoutGateway::getId()) {
@@ -90,7 +102,8 @@ class TwintIntegration
             $order->update_status($status);
         }
 
-        $pairing = $this->pairingRepository->findByWooOrderId($order->get_id());
+        $pairing = $this->getPairingRepository()
+            ->findByWooOrderId($order->get_id());
         $log['pairing_id'] = $pairing->getId();
         $log['order_id'] = $order->get_id();
         $log['order_status'] = $order->get_status();

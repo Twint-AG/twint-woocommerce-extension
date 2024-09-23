@@ -21,24 +21,6 @@ class ExpressButton
         add_action('wp', [$this, 'registerHooks']);
     }
 
-    protected function getAvailableScreens(): array
-    {
-        $validated = $this->setting->isValidated();
-        $enabled = $this->isPaymentEnabled();
-        $currency = get_woocommerce_currency() === TwintConstant::SUPPORTED_CURRENCY;
-
-        return ($validated && $enabled && $currency) ? $this->setting->getScreens() : [];
-    }
-
-    private function isPaymentEnabled(): bool
-    {
-        $gateways = WC()
-            ->payment_gateways()
-            ->get_available_payment_gateways();
-
-        return isset($gateways[ExpressCheckoutGateway::getId()]);
-    }
-
     public function registerHooks(): void
     {
         if (is_admin()) {
@@ -83,25 +65,29 @@ class ExpressButton
         }
     }
 
+    protected function getAvailableScreens(): array
+    {
+        $validated = $this->setting->isValidated();
+        $enabled = $this->isPaymentEnabled();
+        $currency = get_woocommerce_currency() === TwintConstant::SUPPORTED_CURRENCY;
+
+        return ($validated && $enabled && $currency) ? $this->setting->getScreens() : [];
+    }
+
+    private function isPaymentEnabled(): bool
+    {
+        $gateways = WC()
+            ->payment_gateways()
+            ->get_available_payment_gateways();
+
+        return isset($gateways[ExpressCheckoutGateway::getId()]);
+    }
+
     public function renderExpressButtonInCartPage(string $html): string
     {
         $html .= $this->getButton('cart');
 
         return $html . $this->renderOrSection();
-    }
-
-    public function renderOrSection(): string
-    {
-        return '
-            <div class="wc-block-components-express-payment-continue-rule wc-block-components-express-payment-continue-rule--cart">
-               ' . __('Or', 'woocommerce-gateway-twint') . '
-            </div> 
-        ';
-    }
-
-    public function renderButtonInMiniCart(string $html): string
-    {
-        return $html . $this->getButton('mini-cart');
     }
 
     private function getButton(string $additionalClasses = ''): string
@@ -116,6 +102,20 @@ class ExpressButton
                 <span class="twint twint-label">Express Checkout</span>
             </button>
         ';
+    }
+
+    public function renderOrSection(): string
+    {
+        return '
+            <div class="wc-block-components-express-payment-continue-rule wc-block-components-express-payment-continue-rule--cart">
+               ' . __('Or', 'woocommerce-gateway-twint') . '
+            </div> 
+        ';
+    }
+
+    public function renderButtonInMiniCart(string $html): string
+    {
+        return $html . $this->getButton('mini-cart');
     }
 
     public function renderButton(): void

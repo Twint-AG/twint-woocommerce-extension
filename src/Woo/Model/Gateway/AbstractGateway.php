@@ -100,6 +100,9 @@ abstract class AbstractGateway extends WC_Payment_Gateway
 
     /**
      * Set up the status initial for the order first created.
+     * @param mixed $status
+     * @param mixed $orderId
+     * @param mixed $order
      * @since 1.0.0
      */
     public function setCompleteOrderStatus($status, $orderId, $order): string
@@ -120,8 +123,8 @@ abstract class AbstractGateway extends WC_Payment_Gateway
      * @param int $order_id Order ID.
      * @param float|null $amount Refund amount.
      * @param string $reason Refund reason.
-     * @return bool|WP_Error True or false based on success, or a WP_Error object.
      * @throws Throwable
+     * @return bool|WP_Error True or false based on success, or a WP_Error object.
      */
     public function process_refund($order_id, $amount = null, $reason = ''): bool|WP_Error
     {

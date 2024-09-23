@@ -20,9 +20,7 @@ class StoreConfigurationAction extends BaseAction
 {
     use LazyLoadTrait;
 
-    protected static array $lazyLoads = [
-        'encryptor','validator','settingService','certificateHandler'
-    ];
+    protected static array $lazyLoads = ['encryptor', 'validator', 'settingService', 'certificateHandler'];
 
     public function __construct(
         private Lazy|CryptoHandler $encryptor,

@@ -28,15 +28,16 @@ use WC_Order;
 
 /**
  * @method ClientBuilder getBuilder()
+ * @method PairingRepository getRepository()
  */
 class PairingService
 {
     use LazyLoadTrait;
 
-    protected static array $lazyLoads = ['builder'];
+    protected static array $lazyLoads = ['builder', 'repository'];
 
     public function __construct(
-        private readonly PairingRepository $repository,
+        private Lazy|PairingRepository $repository,
         private readonly TransactionRepository $logRepository,
         private Lazy|ClientBuilder $builder,
         private readonly ApiService $apiService,
@@ -63,7 +64,8 @@ class PairingService
         $pairing->setStatus($tOrder->status()->__toString());
         $pairing->setCaptured($captured);
 
-        $pairing = $this->repository->save($pairing);
+        $pairing = $this->getRepository()
+            ->save($pairing);
 
         $log = $response->getLog();
         $log->setPairingId($pairing->getId());
@@ -85,7 +87,8 @@ class PairingService
 
         $org = clone $pairing;
 
-        $client = $this->getBuilder()->build();
+        $client = $this->getBuilder()
+            ->build();
         $apiResponse = $this->apiService->call($client, 'monitorOrder', [
             new OrderId(new Uuid($pairing->getId())),
         ], false);
@@ -145,7 +148,8 @@ class PairingService
         $pairing->setPairingStatus($order->pairingStatus()?->__toString());
         $pairing->setTransactionStatus($order->transactionStatus()->__toString());
 
-        return $this->repository->update($pairing);
+        return $this->getRepository()
+            ->update($pairing);
     }
 
     /**
@@ -176,7 +180,8 @@ class PairingService
         $pairing->setStatus(PairingStatus::PAIRING_IN_PROGRESS);
         $pairing->setIsExpress(true);
 
-        $pairing = $this->repository->save($pairing);
+        $pairing = $this->getRepository()
+            ->save($pairing);
 
         $log = $response->getLog();
         $log->setPairingId($pairing->getId());
@@ -197,6 +202,7 @@ class PairingService
 
         $this->logger->info("TWINT update: {$pairing->getId()} {$pairing->getPairingStatus()}");
 
-        return $this->repository->save($pairing);
+        return $this->getRepository()
+            ->save($pairing);
     }
 }

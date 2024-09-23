@@ -34,21 +34,23 @@ use Twint\Woo\Service\Express\ExpressOrderService;
 use WC_Logger_Interface;
 
 /**
- * @method  ExpressOrderService getOrderService()
+ * @method ExpressOrderService getOrderService()
  * @method ClientBuilder getBuilder()
+ * @method PairingRepository getRepository()
+ * @method PairingService getPairingService()
  */
 class MonitorService
 {
     use LazyLoadTrait;
 
-    protected static array $lazyLoads = ['orderService', 'builder'];
+    protected static array $lazyLoads = ['orderService', 'builder', 'repository', 'pairingService'];
 
     public function __construct(
-        private readonly PairingRepository $repository,
+        private Lazy|PairingRepository $repository,
         private readonly TransactionRepository $logRepository,
-        private Lazy | ClientBuilder $builder,
+        private Lazy|ClientBuilder $builder,
         private readonly WC_Logger_Interface $logger,
-        private readonly PairingService $pairingService,
+        private Lazy|PairingService $pairingService,
         private readonly ApiService $api,
         private Lazy|ExpressOrderService $orderService,
     ) {
@@ -60,7 +62,8 @@ class MonitorService
      */
     public function monitors(): void
     {
-        $pairings = $this->repository->loadInProcessPairings();
+        $pairings = $this->getRepository()
+            ->loadInProcessPairings();
 
         /** @var Pairing $pairing */
         foreach ($pairings as $pairing) {
@@ -83,16 +86,21 @@ class MonitorService
         if ($pairing->getIsExpress()) {
             $status = $this->monitorExpress($pairing, $cloned);
             if ($status->paid()) {
-                $this->repository->markAsOrdering($pairing->getId());
+                $this->getRepository()
+                    ->markAsOrdering($pairing->getId());
                 try {
-                    $this->getOrderService()->setMonitor($this);
-                    $this->getOrderService()->update($cloned);
+                    $this->getOrderService()
+                        ->setMonitor($this);
+                    $this->getOrderService()
+                        ->update($cloned);
                     $status->addExtra('order', $pairing->getWcOrderId());
 
-                    $this->repository->markAsPaid($pairing->getId());
+                    $this->getRepository()
+                        ->markAsPaid($pairing->getId());
                 } catch (PaymentException $e) {
                     $this->logger->error('TWINT MonitorService::monitor: ' . $e->getMessage());
-                    $this->repository->markAsCancelled($pairing->getId());
+                    $this->getRepository()
+                        ->markAsCancelled($pairing->getId());
                 }
             }
 
@@ -105,9 +113,122 @@ class MonitorService
     /**
      * @throws Throwable
      */
+    public function monitorExpress(Pairing $pairing, Pairing $cloned): MonitoringStatus
+    {
+        $client = $this->getBuilder()
+            ->build(Version::NEXT);
+
+        $res = $this->api->call(
+            $client,
+            'monitorFastCheckOutCheckIn',
+            [PairingUuid::fromString($cloned->getId())],
+            false
+        );
+
+        return $this->monitorExpressRecursive($pairing, $cloned, $res, $client);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function monitorExpressRecursive(
+        Pairing $pairing,
+        Pairing $cloned,
+        ApiResponse $res,
+        InvocationRecordingClient $client
+    ): MonitoringStatus {
+        /** @var FastCheckoutCheckIn $state */
+        $state = $res->getReturn();
+
+        $status = MonitoringStatus::STATUS_IN_PROGRESS;
+        $finished = false;
+
+        if (!$cloned->hasDiffs($state)) {
+            // Because cancelFastCheckoutCheckIn API return void then need monitor in next loop
+            if ($state->pairingStatus()->__toString() === PairingStatus::PAIRING_IN_PROGRESS && $pairing->isTimedOut()) {
+                $cancellationRes = $this->cancelFastCheckoutCheckIn($cloned, $client);
+                $log = $cancellationRes->getLog();
+                $this->logRepository->updatePartial($log, [
+                    'pairing_id' => $cloned->getId(),
+                    'order_id' => $cloned->getWcOrderId(),
+                ]);
+                $this->getRepository()
+                    ->markAsMerchantCancelled($cloned->getId());
+
+                $cloned->setStatus(Pairing::EXPRESS_STATUS_MERCHANT_CANCELLED);
+            }
+
+            return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
+        }
+
+        try {
+            $cloned = $this->getPairingService()
+                ->updateForExpress($cloned, $state);
+        } catch (mysqli_sql_exception $e) {
+            if ($e->getCode() === TwintConstant::EXCEPTION_VERSION_CONFLICT) {
+                $this->logger->info("TWINT {$pairing->getId()} update was conflicted");
+                return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
+            }
+
+            throw $e;
+        }
+
+        $log = $res->getLog();
+        $log->setOrderId($pairing->getWcOrderId());
+        $log->setPairingId($pairing->getId());
+        if ($log->isNewRecord()) {
+            $this->logRepository->insert($log);
+        } else {
+            $this->logRepository->updatePartial($log, [
+                'pairing_id' => $pairing->getId(),
+                'order_id' => $pairing->getWcOrderId(),
+            ]);
+        }
+
+        // As paid
+        if ($pairing->getCustomerData() === [] && $state->hasCustomerData()) {
+            $this->logger->info("TWINT paid {$pairing->getPairingStatus()} - {$cloned->getPairingStatus()}");
+            $status = MonitoringStatus::STATUS_PAID;
+
+            return MonitoringStatus::fromValues(true, $status, [
+                'pairing' => $cloned,
+            ]);
+        }
+
+        // As cancelled
+        if (!$pairing->getIsOrdering() && $pairing->getPairingStatus() !== PairingStatus::NO_PAIRING && $cloned->getPairingStatus() === PairingStatus::NO_PAIRING && !$state->hasCustomerData()) {
+            $this->logger->info(
+                "TWINT mark as cancelled {$pairing->getPairingStatus()} - {$cloned->getPairingStatus()}"
+            );
+
+            $this->getRepository()
+                ->markAsCancelled($pairing->getId());
+            $finished = true;
+            $status = MonitoringStatus::STATUS_CANCELLED;
+        }
+
+        return MonitoringStatus::fromValues($finished, $status);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function cancelFastCheckoutCheckIn(Pairing $pairing, InvocationRecordingClient $client): ApiResponse
+    {
+        $this->logger->info("TWINT cancel EC: {$pairing->getId()}");
+
+        return $this->api->call($client, 'cancelFastCheckoutCheckIn', [
+            PairingUuid::fromString($pairing->getId()),
+        ]);
+    }
+
+    /**
+     * @throws Throwable
+     */
     public function monitorRegular(Pairing $pairing, Pairing $cloned): MonitoringStatus
     {
-        $client = $this->getBuilder()->build();
+        $client = $this->getBuilder()
+            ->build();
 
         try {
             $res = $this->api->call($client, 'monitorOrder', [new OrderId(new Uuid($pairing->getId()))], false);
@@ -133,7 +254,8 @@ class MonitorService
 
         if ($pairing->hasDiffs($tOrder)) {
             try {
-                $pairing = $this->pairingService->update($pairing, $res);
+                $pairing = $this->getPairingService()
+                    ->update($pairing, $res);
             } catch (mysqli_sql_exception $e) {
                 if ($e->getCode() === TwintConstant::EXCEPTION_VERSION_CONFLICT) {
                     $this->logger->info("TWINT {$pairing->getId()} update was conflicted");
@@ -190,7 +312,8 @@ class MonitorService
 
         if ($tOrder->isFailure() && !$orgPairing->isFailure()) {
             if (!$orgPairing->isCaptured()) {
-                $this->getOrderService()->cancelOrder($pairing);
+                $this->getOrderService()
+                    ->cancelOrder($pairing);
             }
 
             return MonitoringStatus::fromValues(true, MonitoringStatus::STATUS_CANCELLED);
@@ -207,114 +330,6 @@ class MonitorService
         $this->logger->info("TWINT cancel order: {$pairing->getId()}");
 
         return $this->api->call($client, 'cancelOrder', [new OrderId(new Uuid($pairing->getId()))]);
-    }
-
-    /**
-     * @throws Throwable
-     */
-    public function monitorExpress(Pairing $pairing, Pairing $cloned): MonitoringStatus
-    {
-        $client = $this->getBuilder()->build(Version::NEXT);
-
-        $res = $this->api->call(
-            $client,
-            'monitorFastCheckOutCheckIn',
-            [PairingUuid::fromString($cloned->getId())],
-            false
-        );
-
-        return $this->monitorExpressRecursive($pairing, $cloned, $res, $client);
-    }
-
-    /**
-     * @throws Throwable
-     */
-    public function monitorExpressRecursive(
-        Pairing $pairing,
-        Pairing $cloned,
-        ApiResponse $res,
-        InvocationRecordingClient $client
-    ): MonitoringStatus {
-        /** @var FastCheckoutCheckIn $state */
-        $state = $res->getReturn();
-
-        $status = MonitoringStatus::STATUS_IN_PROGRESS;
-        $finished = false;
-
-        if (!$cloned->hasDiffs($state)) {
-            // Because cancelFastCheckoutCheckIn API return void then need monitor in next loop
-            if ($state->pairingStatus()->__toString() === PairingStatus::PAIRING_IN_PROGRESS && $pairing->isTimedOut()) {
-                $cancellationRes = $this->cancelFastCheckoutCheckIn($cloned, $client);
-                $log = $cancellationRes->getLog();
-                $this->logRepository->updatePartial($log, [
-                    'pairing_id' => $cloned->getId(),
-                    'order_id' => $cloned->getWcOrderId(),
-                ]);
-                $this->repository->markAsMerchantCancelled($cloned->getId());
-
-                $cloned->setStatus(Pairing::EXPRESS_STATUS_MERCHANT_CANCELLED);
-            }
-
-            return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
-        }
-
-        try {
-            $cloned = $this->pairingService->updateForExpress($cloned, $state);
-        } catch (mysqli_sql_exception $e) {
-            if ($e->getCode() === TwintConstant::EXCEPTION_VERSION_CONFLICT) {
-                $this->logger->info("TWINT {$pairing->getId()} update was conflicted");
-                return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
-            }
-
-            throw $e;
-        }
-
-        $log = $res->getLog();
-        $log->setOrderId($pairing->getWcOrderId());
-        $log->setPairingId($pairing->getId());
-        if ($log->isNewRecord()) {
-            $this->logRepository->insert($log);
-        } else {
-            $this->logRepository->updatePartial($log, [
-                'pairing_id' => $pairing->getId(),
-                'order_id' => $pairing->getWcOrderId(),
-            ]);
-        }
-
-        // As paid
-        if ($pairing->getCustomerData() === [] && $state->hasCustomerData()) {
-            $this->logger->info("TWINT paid {$pairing->getPairingStatus()} - {$cloned->getPairingStatus()}");
-            $status = MonitoringStatus::STATUS_PAID;
-
-            return MonitoringStatus::fromValues(true, $status, [
-                'pairing' => $cloned,
-            ]);
-        }
-
-        // As cancelled
-        if (!$pairing->getIsOrdering() && $pairing->getPairingStatus() !== PairingStatus::NO_PAIRING && $cloned->getPairingStatus() === PairingStatus::NO_PAIRING && !$state->hasCustomerData()) {
-            $this->logger->info(
-                "TWINT mark as cancelled {$pairing->getPairingStatus()} - {$cloned->getPairingStatus()}"
-            );
-
-            $this->repository->markAsCancelled($pairing->getId());
-            $finished = true;
-            $status = MonitoringStatus::STATUS_CANCELLED;
-        }
-
-        return MonitoringStatus::fromValues($finished, $status);
-    }
-
-    /**
-     * @throws Throwable
-     */
-    public function cancelFastCheckoutCheckIn(Pairing $pairing, InvocationRecordingClient $client): ApiResponse
-    {
-        $this->logger->info("TWINT cancel EC: {$pairing->getId()}");
-
-        return $this->api->call($client, 'cancelFastCheckoutCheckIn', [
-            PairingUuid::fromString($pairing->getId()),
-        ]);
     }
 
     /**

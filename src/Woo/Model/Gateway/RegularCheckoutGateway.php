@@ -7,6 +7,8 @@ namespace Twint\Woo\Model\Gateway;
 use Exception;
 use Throwable;
 use Twint\Plugin;
+use Twint\Woo\Container\Lazy;
+use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Model\Modal\Modal;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
@@ -14,19 +16,28 @@ use Twint\Woo\Service\PairingService;
 use Twint\Woo\Service\PaymentService;
 use Twint\Woo\Service\SettingService;
 
+/**
+ * @method PairingRepository getPairingRepository()
+ * @method PaymentService getPaymentService()
+ * @method PairingService getPairingService()
+ */
 class RegularCheckoutGateway extends AbstractGateway
 {
+    use LazyLoadTrait;
+
     public const UNIQUE_PAYMENT_ID = 'twint_regular';
+
+    protected static array $lazyLoads = ['pairingRepository', 'paymentService', 'pairingService'];
 
     public $id = self::UNIQUE_PAYMENT_ID;
 
     private Modal $modal;
 
-    private PairingRepository $pairingRepository;
+    private Lazy|PairingRepository $pairingRepository;
 
-    private PaymentService $paymentService;
+    private Lazy|PaymentService $paymentService;
 
-    private PairingService $pairingService;
+    private Lazy|PairingService $pairingService;
 
     /**
      * Constructor for the gateway.
@@ -43,6 +54,45 @@ class RegularCheckoutGateway extends AbstractGateway
         $this->pairingService = Plugin::di('pairing.service');
 
         $this->registerHooks();
+    }
+
+    protected function initAdminConfig()
+    {
+        $this->icon = apply_filters('woocommerce_twint_gateway_regular_icon', '');
+
+        $this->method_title = __('TWINT Checkout', 'woocommerce-gateway-twint');
+        $this->title = __('TWINT', 'woocommerce-gateway-twint');
+        $this->method_description = __('Allows TWINT Checkout', 'woocommerce-gateway-twint');
+
+        // Load the settings.
+        $this->init_form_fields();
+        $this->init_settings();
+
+        // Define user set variables.
+        $this->title = $this->get_option('title');
+        $this->description = $this->get_option('description');
+    }
+
+    /**
+     * Initialise Gateway Settings Form Fields.
+     */
+    public function init_form_fields(): void
+    {
+        $this->form_fields = [
+            'enabled' => [
+                'title' => __('Enable/Disable', 'woocommerce-gateway-twint'),
+                'type' => 'checkbox',
+                'label' => __('Enable TWINT Checkout', 'woocommerce-gateway-twint'),
+                'default' => SettingService::YES,
+            ],
+            'title' => [
+                'title' => __('Title', 'woocommerce-gateway-twint'),
+                'type' => 'safe_text',
+                'description' => __('This controls the title which the user sees during checkout.', 'woocommerce-gateway-twint'),
+                'desc_tip' => true,
+                'default' => __('TWINT', 'woocommerce-gateway-twint'),
+            ],
+        ];
     }
 
     protected function registerHooks()
@@ -75,6 +125,9 @@ class RegularCheckoutGateway extends AbstractGateway
     /**
      * Set up the status initial for the order first created.
      * @since 1.0.0
+     * @param mixed $status
+     * @param mixed $orderId
+     * @param mixed $order
      */
     public function setCompleteOrderStatus($status, $orderId, $order): string
     {
@@ -85,31 +138,15 @@ class RegularCheckoutGateway extends AbstractGateway
         return $status;
     }
 
-    protected function initAdminConfig()
-    {
-        $this->icon = apply_filters('woocommerce_twint_gateway_regular_icon', '');
-
-        $this->method_title = __('TWINT Checkout', 'woocommerce-gateway-twint');
-        $this->title = __('TWINT', 'woocommerce-gateway-twint');
-        $this->method_description = __('Allows TWINT Checkout', 'woocommerce-gateway-twint');
-
-        // Load the settings.
-        $this->init_form_fields();
-        $this->init_settings();
-
-        // Define user set variables.
-        $this->title = $this->get_option('title');
-        $this->description = $this->get_option('description');
-    }
-
     public function addOrderPayButton($orderId): void
     {
         $order = wc_get_order($orderId);
 
-        if ('wc-' . $order->get_status() === RegularCheckoutGateway::getOrderStatusAfterFirstTimeCreatedOrder()) {
+        if ('wc-' . $order->get_status() === self::getOrderStatusAfterFirstTimeCreatedOrder()) {
             printf(
                 '<a class="woocommerce-button wp-element-button button pay" href="%s">%s</a>',
-                $order->get_checkout_payment_url(), __('Pay for this order', 'woocommerce')
+                $order->get_checkout_payment_url(),
+                __('Pay for this order', 'woocommerce')
             );
         }
     }
@@ -121,28 +158,7 @@ class RegularCheckoutGateway extends AbstractGateway
     }
 
     /**
-     * Initialise Gateway Settings Form Fields.
-     */
-    public function init_form_fields(): void
-    {
-        $this->form_fields = [
-            'enabled' => [
-                'title' => __('Enable/Disable', 'woocommerce-gateway-twint'),
-                'type' => 'checkbox',
-                'label' => __('Enable TWINT Checkout', 'woocommerce-gateway-twint'),
-                'default' => SettingService::YES,
-            ],
-            'title' => [
-                'title' => __('Title', 'woocommerce-gateway-twint'),
-                'type' => 'safe_text',
-                'description' => __('This controls the title which the user sees during checkout.', 'woocommerce-gateway-twint'),
-                'desc_tip' => true,
-                'default' => __('TWINT', 'woocommerce-gateway-twint'),
-            ],
-        ];
-    }
-
-    /**
+     * @param mixed $orderId
      * @throws Throwable
      */
     public function woocommerceCheckoutOrderCreated($orderId): void
@@ -150,10 +166,13 @@ class RegularCheckoutGateway extends AbstractGateway
         $order = wc_get_order($orderId);
 
         if ($order->get_payment_method() === self::getId()) {
-            $pairing = $this->pairingRepository->findByWooOrderId($order->get_id());
+            $pairing = $this->getPairingRepository()
+                ->findByWooOrderId($order->get_id());
             if (!$pairing instanceof Pairing) {
-                $apiResponse = $this->paymentService->createOrder($order);
-                $res = $this->pairingService->create($apiResponse, $order);
+                $apiResponse = $this->getPaymentService()
+                    ->createOrder($order);
+                $res = $this->getPairingService()
+                    ->create($apiResponse, $order);
             }
         }
     }

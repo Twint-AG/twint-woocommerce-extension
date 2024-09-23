@@ -80,22 +80,6 @@ class ExpressCheckoutGateway extends AbstractGateway
         return apply_filters('woocommerce_twint_order_status_paid', 'processing');
     }
 
-    protected function registerHooks()
-    {
-        // Actions.
-        add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
-        add_action(
-            'woocommerce_update_options_payment_gateways_' . $this->id,
-            [$this, 'saveExpressCheckoutButtonLabelAndDisplayOptions']
-        );
-
-        add_filter('woocommerce_payment_complete_order_status', [$this, 'setCompleteOrderStatus'], 10, 3);
-
-        if (!is_admin()) {
-            FastCheckoutCheckinService::registerHooks();
-        }
-    }
-
     /**
      * Initialise Gateway Settings Form Fields.
      */
@@ -209,6 +193,9 @@ class ExpressCheckoutGateway extends AbstractGateway
 
     /**
      * Set up the status initial for the order first created.
+     * @param mixed $status
+     * @param mixed $orderId
+     * @param mixed $order
      * @since 1.0.0
      */
     public function setCompleteOrderStatus($status, $orderId, $order): string
@@ -222,6 +209,7 @@ class ExpressCheckoutGateway extends AbstractGateway
     }
 
     /**
+     * @param mixed $order_id
      * @throws Throwable
      */
     public function process_payment($order_id)
@@ -232,5 +220,21 @@ class ExpressCheckoutGateway extends AbstractGateway
         $order = wc_get_order($order_id);
 
         return $service->checkin($order);
+    }
+
+    protected function registerHooks()
+    {
+        // Actions.
+        add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
+        add_action(
+            'woocommerce_update_options_payment_gateways_' . $this->id,
+            [$this, 'saveExpressCheckoutButtonLabelAndDisplayOptions']
+        );
+
+        add_filter('woocommerce_payment_complete_order_status', [$this, 'setCompleteOrderStatus'], 10, 3);
+
+        if (!is_admin()) {
+            FastCheckoutCheckinService::registerHooks();
+        }
     }
 }

@@ -37,10 +37,10 @@ use Twint\Woo\Utility\CryptoHandler;
 function twint_services()
 {
     return [
-        'installer' => static fn(ContainerInterface $container): Installer => new Installer($container->get(
+        'installer' => static fn (ContainerInterface $container): Installer => new Installer($container->get(
             'migrations'
         )),
-        'uninstaller' => static fn(ContainerInterface $container): UnInstaller => new UnInstaller($container->get(
+        'uninstaller' => static fn (ContainerInterface $container): UnInstaller => new UnInstaller($container->get(
             'migrations'
         )),
         'db' => static function (ContainerInterface $container): wpdb {
@@ -48,13 +48,13 @@ function twint_services()
 
             return $wpdb;
         },
-        'pairing.migration' => static fn(ContainerInterface $container): CreatePairingTable => new CreatePairingTable(
+        'pairing.migration' => static fn (ContainerInterface $container): CreatePairingTable => new CreatePairingTable(
             $container->get('db')
         ),
-        'log.migration' => static fn(ContainerInterface $container): CreateTransactionLogTable => new CreateTransactionLogTable(
+        'log.migration' => static fn (ContainerInterface $container): CreateTransactionLogTable => new CreateTransactionLogTable(
             $container->get('db')
         ),
-        'migrations' => static fn(ContainerInterface $container): array => [
+        'migrations' => static fn (ContainerInterface $container): array => [
             $container->get('pairing.migration'),
             $container->get('log.migration'),
         ],
@@ -68,24 +68,23 @@ function twint_services()
             return wc_get_logger();
         },
         // Repositories
-        'pairing.repository' => static fn(ContainerInterface $container) => new PairingRepository($container->get(
-            'db'
-        ), $container->get('logger')),
-        'transaction.repository' => static fn(ContainerInterface $container) => new TransactionRepository(
+        'pairing.repository' => static fn (ContainerInterface $container) => new Lazy(
+            static fn () => new PairingRepository($container->get('db'), $container->get('logger'))
+        ),
+        'transaction.repository' => static fn (ContainerInterface $container) => new TransactionRepository(
             $container->get('db'),
             $container->get('logger')
         ),
         //Commands
-        'poll.command' => static fn(ContainerInterface $container) => new PollCommand(),
+        'poll.command' => static fn (ContainerInterface $container) => new PollCommand(),
         //Handlers
-        'crypto.handler' => static fn(ContainerInterface $container) => new CryptoHandler(),
-        'certificate.handler' => static fn(ContainerInterface $container) => new CertificateHandler(),
-        'credentials.validator' => static fn(ContainerInterface $container) => new Lazy( fn() => new CredentialsValidator(
+        'crypto.handler' => static fn (ContainerInterface $container) => new CryptoHandler(),
+        'certificate.handler' => static fn (ContainerInterface $container) => new CertificateHandler(),
+        'credentials.validator' => static fn (ContainerInterface $container) => new Lazy(static fn () => new CredentialsValidator(
             $container->get('crypto.handler')
         )),
-        'client.builder' => static fn(ContainerInterface $container) => new Lazy(fn() => new ClientBuilder(
-            $container->get('crypto.handler'),
-            $container->get('setting.service'))
+        'client.builder' => static fn (ContainerInterface $container) => new Lazy(
+            static fn () => new ClientBuilder($container->get('crypto.handler'), $container->get('setting.service'))
         ),
         // Base
         'twint.integration' => static function (ContainerInterface $container) {
@@ -97,30 +96,30 @@ function twint_services()
         },
 
         // Services
-        'pairing.service' => static function (ContainerInterface $container) {
-            return new PairingService(
+        'pairing.service' => static fn (ContainerInterface $container) => new Lazy(
+            static fn () => new PairingService(
                 $container->get('pairing.repository'),
                 $container->get('transaction.repository'),
                 $container->get('client.builder'),
                 $container->get('api.service'),
                 $container->get('logger'),
-            );
-        },
-        'payment.service' => static function (ContainerInterface $container) {
-            return new PaymentService(
+            )
+        ),
+        'payment.service' => static fn (ContainerInterface $container) => new Lazy(
+            static fn () => new PaymentService(
                 $container->get('client.builder'),
                 $container->get('api.service'),
                 $container->get('pairing.repository'),
                 $container->get('logger'),
-            );
-        },
-        'api.service' => static fn(ContainerInterface $container) => new ApiService($container->get(
+            )
+        ),
+        'api.service' => static fn (ContainerInterface $container) => new ApiService($container->get(
             'logger'
         ), $container->get('transaction.repository')),
-        'apps.service' => static fn(ContainerInterface $container) => new AppsService($container->get(
+        'apps.service' => static fn (ContainerInterface $container) => new AppsService($container->get(
             'client.builder'
         )),
-        'setting.service' => static fn(ContainerInterface $container) => new SettingService(),
+        'setting.service' => static fn (ContainerInterface $container) => new SettingService(),
         'monitor.service' => static function (ContainerInterface $container) {
             return new MonitorService(
                 $container->get('pairing.repository'),
@@ -132,7 +131,7 @@ function twint_services()
                 $container->get('express_order.service'),
             );
         },
-        'express_checkout.service' => static fn(ContainerInterface $container): ExpressCheckoutService => new ExpressCheckoutService(),
+        'express_checkout.service' => static fn (ContainerInterface $container): ExpressCheckoutService => new ExpressCheckoutService(),
         'fast_checkout_checkin.service' => static function (ContainerInterface $container): FastCheckoutCheckinService {
             return new FastCheckoutCheckinService(
                 $container->get('logger'),
@@ -141,8 +140,9 @@ function twint_services()
                 $container->get('pairing.service'),
             );
         },
-        'express_order.service' => static fn(ContainerInterface $container): Lazy => new Lazy(
-            fn() => new ExpressOrderService(
+        'express_order.service' => static fn (ContainerInterface $container): Lazy => new Lazy(
+            static fn () => new ExpressOrderService(
+                $container->get('pairing.repository'),
                 $container->get('api.service'),
                 $container->get('logger'),
                 $container->get('client.builder'),
@@ -150,10 +150,10 @@ function twint_services()
             )
         ),
         // Actions
-        'get_transaction_log.action' => static fn(ContainerInterface $container) => new GetTransactionLogAction(
+        'get_transaction_log.action' => static fn (ContainerInterface $container) => new GetTransactionLogAction(
             $container->get('transaction.repository')
         ),
-        'store_configuration.action' => static fn(ContainerInterface $container) => new StoreConfigurationAction(
+        'store_configuration.action' => static fn (ContainerInterface $container) => new StoreConfigurationAction(
             $container->get('crypto.handler'),
             $container->get('credentials.validator'),
             $container->get('logger'),
@@ -167,7 +167,7 @@ function twint_services()
                 $container->get('logger')
             );
         },
-        'express_checkout.action' => static fn(ContainerInterface $container) => new ExpressCheckoutAction(
+        'express_checkout.action' => static fn (ContainerInterface $container) => new ExpressCheckoutAction(
             $container->get('express_checkout.service')
         ),
 
@@ -179,8 +179,8 @@ function twint_services()
                 $container->get('express.spinner'),
             );
         },
-        'express.spinner' => static fn(ContainerInterface $container): Spinner => new Spinner(),
-        'payment.modal' => static fn(ContainerInterface $container): Modal => new Modal($container->get(
+        'express.spinner' => static fn (ContainerInterface $container): Spinner => new Spinner(),
+        'payment.modal' => static fn (ContainerInterface $container): Modal => new Modal($container->get(
             'apps.service'
         )),
     ];

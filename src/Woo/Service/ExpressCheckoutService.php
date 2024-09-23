@@ -96,17 +96,17 @@ class ExpressCheckoutService
         return $gatewayInstance->process_payment($order->get_id());
     }
 
-    private function getCart(): WC_Cart
-    {
-        return WC()->cart ?? new WC_Cart();
-    }
-
     public function isEmptyCart(): bool
     {
         $quantity = $this->getCart()
             ->get_cart_item_quantities();
 
         return count($quantity) === 0;
+    }
+
+    private function getCart(): WC_Cart
+    {
+        return WC()->cart ?? new WC_Cart();
     }
 
     public function addToCart(WP_REST_Request $request): void

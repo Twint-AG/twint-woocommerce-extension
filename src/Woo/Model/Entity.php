@@ -18,12 +18,6 @@ abstract class Entity
         return $this->isNewRecord;
     }
 
-    protected function mapping(): array
-    {
-        return [];
-    }
-
-    // Constructor
     public function load($data = []): self
     {
         $map = $this->mapping();
@@ -41,5 +35,12 @@ abstract class Entity
         }
 
         return $this;
+    }
+
+    // Constructor
+
+    protected function mapping(): array
+    {
+        return [];
     }
 }

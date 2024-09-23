@@ -16,6 +16,7 @@ use Twint\Woo\Exception\PaymentException;
 use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Model\TransactionLog;
+use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Service\ApiService;
 use Twint\Woo\Service\MonitorService;
 use Twint\Woo\Service\PairingService;
@@ -26,20 +27,23 @@ use WC_Shipping_Zones;
 
 /**
  * @method ClientBuilder getBuilder()
+ * @method PairingRepository getPairingRepository()
+ * @method PairingService getPairingService()
  */
 class ExpressOrderService
 {
     use LazyLoadTrait;
 
+    protected static array $lazyLoads = ['builder', 'pairingRepository', 'pairingService'];
+
     private MonitorService $monitor;
 
-    protected static array $lazyLoads = ['builder'];
-
     public function __construct(
+        private readonly Lazy|PairingRepository $pairingRepository,
         private readonly ApiService $api,
         private readonly WC_Logger_Interface $logger,
-        private Lazy | ClientBuilder $builder,
-        private readonly PairingService $pairingService,
+        private Lazy|ClientBuilder $builder,
+        private Lazy|PairingService $pairingService,
         MonitorService $monitor = null
     ) {
     }
@@ -54,6 +58,9 @@ class ExpressOrderService
      */
     public function update(Pairing $pairing): void
     {
+        $this->getPairingRepository()
+            ->markAsOrdering($pairing->getId());
+
         $order = wc_get_order($pairing->getWcOrderId());
 
         $this->updateAddress($order, $pairing);
@@ -62,17 +69,6 @@ class ExpressOrderService
         $this->startOrder($order, $pairing);
 
         $order->payment_complete();
-    }
-
-    public function cancelOrder(Pairing $pairing): void
-    {
-        $order = wc_get_order($pairing->getWcOrderId());
-        $order->update_status('cancelled', 'Order cancelled programmatically.');
-
-        // Optionally, you can add an order note
-        $order->add_order_note('The order was cancelled via custom PHP code.');
-
-        $order->save();
     }
 
     protected function updateAddress(WC_Order $order, Pairing $pairing): void
@@ -233,7 +229,8 @@ class ExpressOrderService
      */
     private function startOrder(WC_Order $order, Pairing $pairing): void
     {
-        $client = $this->getBuilder()->build(Version::NEXT);
+        $client = $this->getBuilder()
+            ->build(Version::NEXT);
 
         $res = $this->api->call($client, 'startFastCheckoutOrder', [
             PairingUuid::fromString($pairing->getId()),
@@ -245,7 +242,8 @@ class ExpressOrderService
             return $log;
         });
 
-        $newPairing = $this->pairingService->create($res, $order, true);
+        $newPairing = $this->getPairingService()
+            ->create($res, $order, true);
 
         $success = $this->monitorPairing($newPairing);
         if (!$success) {
@@ -267,5 +265,16 @@ class ExpressOrderService
         } while (!$status->finished());
 
         return $status->paid();
+    }
+
+    public function cancelOrder(Pairing $pairing): void
+    {
+        $order = wc_get_order($pairing->getWcOrderId());
+        $order->update_status('cancelled', 'Order cancelled programmatically.');
+
+        // Optionally, you can add an order note
+        $order->add_order_note('The order was cancelled via custom PHP code.');
+
+        $order->save();
     }
 }

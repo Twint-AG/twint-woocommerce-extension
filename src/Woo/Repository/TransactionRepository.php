@@ -26,24 +26,16 @@ class TransactionRepository
     /**
      * @throws Exception
      */
-    public function insert(TransactionLog $log, bool $reload = false): TransactionLog
+    public function updatePartial(TransactionLog $log, array $values, bool $reload = false): TransactionLog
     {
         try {
-            $this->db->insert(self::tableName(), [
-                'pairing_id' => $log->getPairingId(),
-                'order_id' => $log->getOrderId(),
-                'soap_action' => $log->getSoapAction(),
-                'api_method' => $log->getApiMethod(),
-                'request' => $log->getRequest(),
-                'response' => $log->getResponse(),
-                'soap_request' => $log->getSoapRequest(),
-                'soap_response' => $log->getSoapResponse(),
-                'exception_text' => $log->getExceptionText(),
+            $this->db->update(self::tableName(), $values, [
+                'id' => $log->getId(),
             ]);
 
-            return $reload ? $this->get($this->db->insert_id) : $log;
+            return $reload ? $this->get($log->getId()) : $log;
         } catch (Exception $e) {
-            $this->logger->error('TWINT TransactionRepository::insert: ' . $e->getMessage());
+            $this->logger->error('TWINT TransactionRepository::updatePartial: ' . $e->getMessage());
             throw $e;
         }
     }
@@ -75,21 +67,13 @@ class TransactionRepository
         }
     }
 
-    /**
-     * @throws Exception
-     */
-    public function updatePartial(TransactionLog $log, array $values, bool $reload = false): TransactionLog
+    public function get(int $id): ?TransactionLog
     {
-        try {
-            $this->db->update(self::tableName(), $values, [
-                'id' => $log->getId(),
-            ]);
+        $query = $this->db->prepare('SELECT * from %i WHERE id = %d ;', [self::tableName(), $id]);
 
-            return $reload ? $this->get($log->getId()) : $log;
-        } catch (Exception $e) {
-            $this->logger->error('TWINT TransactionRepository::updatePartial: ' . $e->getMessage());
-            throw $e;
-        }
+        $result = $this->db->get_results($query);
+
+        return empty($result) ? null : (new TransactionLog(false))->load(reset($result));
     }
 
     /**
@@ -98,6 +82,31 @@ class TransactionRepository
     public function save(TransactionLog $log): TransactionLog
     {
         return $log->isNewRecord() ? $this->insert($log, true) : $this->update($log);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function insert(TransactionLog $log, bool $reload = false): TransactionLog
+    {
+        try {
+            $this->db->insert(self::tableName(), [
+                'pairing_id' => $log->getPairingId(),
+                'order_id' => $log->getOrderId(),
+                'soap_action' => $log->getSoapAction(),
+                'api_method' => $log->getApiMethod(),
+                'request' => $log->getRequest(),
+                'response' => $log->getResponse(),
+                'soap_request' => $log->getSoapRequest(),
+                'soap_response' => $log->getSoapResponse(),
+                'exception_text' => $log->getExceptionText(),
+            ]);
+
+            return $reload ? $this->get($this->db->insert_id) : $log;
+        } catch (Exception $e) {
+            $this->logger->error('TWINT TransactionRepository::insert: ' . $e->getMessage());
+            throw $e;
+        }
     }
 
     /**
@@ -113,14 +122,5 @@ class TransactionRepository
         $result = $this->db->get_results($query);
 
         return array_map(static fn ($row) => (new TransactionLog(false))->load($row), $result);
-    }
-
-    public function get(int $id): ?TransactionLog
-    {
-        $query = $this->db->prepare('SELECT * from %i WHERE id = %d ;', [self::tableName(), $id]);
-
-        $result = $this->db->get_results($query);
-
-        return empty($result) ? null : (new TransactionLog(false))->load(reset($result));
     }
 }

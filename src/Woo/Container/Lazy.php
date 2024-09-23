@@ -9,6 +9,7 @@ use Twint\Plugin;
 class Lazy
 {
     private string $id;
+
     private $resolver;
 
     public function __construct(callable $resolver)
@@ -24,7 +25,7 @@ class Lazy
     public function get(): mixed
     {
         $instance = Plugin::di($this->id);
-        if($instance instanceof self) {
+        if ($instance instanceof self) {
             return ($this->resolver)();
         }
 

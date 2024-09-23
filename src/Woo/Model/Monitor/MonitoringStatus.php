@@ -43,6 +43,18 @@ class MonitoringStatus
         return $instance;
     }
 
+    private static function extractStatus(Pairing $pairing): string
+    {
+        if ($pairing->isSuccessful()) {
+            return self::STATUS_PAID;
+        }
+        if ($pairing->isFailure()) {
+            return self::STATUS_CANCELLED;
+        }
+
+        return self::STATUS_IN_PROGRESS;
+    }
+
     public function addExtra(string $key, mixed $value): void
     {
         $this->extra[$key] = $value;
@@ -56,18 +68,6 @@ class MonitoringStatus
     public function finished(): bool
     {
         return $this->finish;
-    }
-
-    private static function extractStatus(Pairing $pairing): string
-    {
-        if ($pairing->isSuccessful()) {
-            return self::STATUS_PAID;
-        }
-        if ($pairing->isFailure()) {
-            return self::STATUS_CANCELLED;
-        }
-
-        return self::STATUS_IN_PROGRESS;
     }
 
     #[ArrayShape([

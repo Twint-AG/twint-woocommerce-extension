@@ -23,16 +23,18 @@ use WC_Order;
 
 /**
  * @method ClientBuilder getBuilder()
+ * @method PairingRepository getRepository()
  */
 class PaymentService
 {
     use LazyLoadTrait;
-    protected static array $lazyLoads = ['builder'];
-    
+
+    protected static array $lazyLoads = ['builder', 'repository'];
+
     public function __construct(
-        private Lazy | ClientBuilder $builder,
+        private Lazy|ClientBuilder $builder,
         private readonly ApiService $api,
-        private readonly PairingRepository $repository,
+        private Lazy|PairingRepository $repository,
         private readonly WC_Logger_Interface $logger
     ) {
     }
@@ -42,7 +44,8 @@ class PaymentService
      */
     public function createOrder(WC_Order $order): ApiResponse
     {
-        $client = $this->getBuilder()->build();
+        $client = $this->getBuilder()
+            ->build();
 
         try {
             $currency = $order->get_currency();
@@ -69,10 +72,12 @@ class PaymentService
      */
     public function reverseOrder(WC_Order $order, float $amount, int $wcRefundId): ?ApiResponse
     {
-        $client = $this->getBuilder()->build();
+        $client = $this->getBuilder()
+            ->build();
 
         try {
-            $pairing = $this->repository->findByWooOrderId($order->get_id());
+            $pairing = $this->getRepository()
+                ->findByWooOrderId($order->get_id());
             if ($pairing instanceof Pairing) {
                 $currency = $order->get_currency();
                 if (!empty($currency) && $amount > 0) {

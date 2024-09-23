@@ -26,6 +26,13 @@ class Installer
         $this->copyLanguagePacks();
     }
 
+    private function upgradeSchema(): void
+    {
+        foreach ($this->migrations as $migration) {
+            $migration->up();
+        }
+    }
+
     private function setDefaultConfigs(): void
     {
         // Init setting for payment gateway
@@ -43,13 +50,6 @@ class Installer
         $pluginLanguagesDirectory = array_diff(scandir($pluginLanguagesPath), ['..', '.']);
         foreach ($pluginLanguagesDirectory as $language) {
             copy($pluginLanguagesPath . $language, $wpLangPluginPath . $language, true);
-        }
-    }
-
-    private function upgradeSchema(): void
-    {
-        foreach ($this->migrations as $migration) {
-            $migration->up();
         }
     }
 }
