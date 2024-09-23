@@ -226,7 +226,10 @@ class Pairing extends Entity
 
     public function getCustomerData(): array
     {
-        return $this->customerData === null || $this->customerData === '' || $this->customerData === '0' ? [] : json_decode($this->customerData, true);
+        return $this->customerData === null || $this->customerData === '' || $this->customerData === '0' ? [] : json_decode(
+            $this->customerData,
+            true
+        );
     }
 
     public function getIsExpress(): bool

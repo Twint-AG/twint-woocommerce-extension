@@ -10,6 +10,8 @@ use Twint\Sdk\Value\PairingUuid;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Version;
 use Twint\Woo\Constant\TwintConstant;
+use Twint\Woo\Container\Lazy;
+use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Exception\PaymentException;
 use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Model\Pairing;
@@ -22,14 +24,21 @@ use WC_Order;
 use WC_Order_Item_Shipping;
 use WC_Shipping_Zones;
 
+/**
+ * @method ClientBuilder getBuilder()
+ */
 class ExpressOrderService
 {
+    use LazyLoadTrait;
+
     private MonitorService $monitor;
+
+    protected static array $lazyLoads = ['builder'];
 
     public function __construct(
         private readonly ApiService $api,
         private readonly WC_Logger_Interface $logger,
-        private readonly ClientBuilder $builder,
+        private Lazy | ClientBuilder $builder,
         private readonly PairingService $pairingService,
         MonitorService $monitor = null
     ) {
@@ -224,7 +233,7 @@ class ExpressOrderService
      */
     private function startOrder(WC_Order $order, Pairing $pairing): void
     {
-        $client = $this->builder->build(Version::NEXT);
+        $client = $this->getBuilder()->build(Version::NEXT);
 
         $res = $this->api->call($client, 'startFastCheckoutOrder', [
             PairingUuid::fromString($pairing->getId()),

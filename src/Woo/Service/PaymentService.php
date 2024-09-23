@@ -11,6 +11,8 @@ use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Uuid;
+use Twint\Woo\Container\Lazy;
+use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Model\ApiResponse;
 use Twint\Woo\Model\Pairing;
@@ -19,10 +21,16 @@ use Twint\Woo\Repository\PairingRepository;
 use WC_Logger_Interface;
 use WC_Order;
 
+/**
+ * @method ClientBuilder getBuilder()
+ */
 class PaymentService
 {
+    use LazyLoadTrait;
+    protected static array $lazyLoads = ['builder'];
+    
     public function __construct(
-        private readonly ClientBuilder $builder,
+        private Lazy | ClientBuilder $builder,
         private readonly ApiService $api,
         private readonly PairingRepository $repository,
         private readonly WC_Logger_Interface $logger
@@ -34,7 +42,7 @@ class PaymentService
      */
     public function createOrder(WC_Order $order): ApiResponse
     {
-        $client = $this->builder->build();
+        $client = $this->getBuilder()->build();
 
         try {
             $currency = $order->get_currency();
@@ -61,7 +69,7 @@ class PaymentService
      */
     public function reverseOrder(WC_Order $order, float $amount, int $wcRefundId): ?ApiResponse
     {
-        $client = $this->builder->build();
+        $client = $this->getBuilder()->build();
 
         try {
             $pairing = $this->repository->findByWooOrderId($order->get_id());

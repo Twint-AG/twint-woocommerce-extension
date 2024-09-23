@@ -12,6 +12,8 @@ use Twint\Sdk\Value\ShippingMethod;
 use Twint\Sdk\Value\ShippingMethodId;
 use Twint\Sdk\Value\ShippingMethods;
 use Twint\Sdk\Value\Version;
+use Twint\Woo\Container\Lazy;
+use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Model\ApiResponse;
 use Twint\Woo\Model\Pairing;
@@ -19,11 +21,17 @@ use WC_Logger_Interface;
 use WC_Order;
 use WC_Shipping_Rate;
 
+/**
+ * @method ClientBuilder getBuilder()
+ */
 class FastCheckoutCheckinService
 {
+    use LazyLoadTrait;
+    protected static array $lazyLoads = ['builder'];
+    
     public function __construct(
         private readonly WC_Logger_Interface $logger,
-        private readonly ClientBuilder $builder,
+        private Lazy | ClientBuilder $builder,
         private readonly ApiService $api,
         private readonly PairingService $pairingService,
     ) {
@@ -62,7 +70,7 @@ class FastCheckoutCheckinService
      */
     private function callApi(WC_Order $order, ShippingMethods $methods): ApiResponse
     {
-        $client = $this->builder->build(Version::NEXT);
+        $client = $this->getBuilder()->build(Version::NEXT);
 
         $this->logger->info("TWINT start EC {$order->get_id()}");
 

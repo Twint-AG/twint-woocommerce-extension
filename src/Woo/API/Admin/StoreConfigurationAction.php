@@ -7,6 +7,8 @@ namespace Twint\Woo\Api\Admin;
 use Exception;
 use Twint\Sdk\Certificate\Pkcs12Certificate;
 use Twint\Woo\Api\BaseAction;
+use Twint\Woo\Container\Lazy;
+use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Helper\StringHelper;
 use Twint\Woo\Service\SettingService;
 use Twint\Woo\Utility\CertificateHandler;
@@ -16,12 +18,18 @@ use WC_Logger_Interface;
 
 class StoreConfigurationAction extends BaseAction
 {
+    use LazyLoadTrait;
+
+    protected static array $lazyLoads = [
+        'encryptor','validator','settingService','certificateHandler'
+    ];
+
     public function __construct(
-        private readonly CryptoHandler $encryptor,
-        private readonly CredentialsValidator $validator,
+        private Lazy|CryptoHandler $encryptor,
+        private Lazy|CredentialsValidator $validator,
         private readonly WC_Logger_Interface $logger,
-        private readonly SettingService $settingService,
-        private readonly CertificateHandler $certificateHandler,
+        private Lazy|SettingService $settingService,
+        private Lazy|CertificateHandler $certificateHandler,
     ) {
         add_action('wp_ajax_store_twint_settings', [$this, 'storeTwintSettings']);
         add_action('wp_ajax_nopriv_store_twint_settings', [$this, 'requireLogin']);

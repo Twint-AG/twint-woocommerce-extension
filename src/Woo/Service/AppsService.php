@@ -5,13 +5,21 @@ declare(strict_types=1);
 namespace Twint\Woo\Service;
 
 use Exception;
+use Twint\Woo\Container\Lazy;
+use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Factory\ClientBuilder;
 use function Psl\Type\string;
 
+/**
+ * @method ClientBuilder getBuilder()
+ */
 class AppsService
 {
+    use LazyLoadTrait;
+    protected static array $lazyLoads = ['builder'];
+    
     public function __construct(
-        private readonly ClientBuilder $builder
+        private Lazy| ClientBuilder $builder
     ) {
     }
 
@@ -19,7 +27,7 @@ class AppsService
     {
         $payLinks = [];
         try {
-            $client = $this->builder->build();
+            $client = $this->getBuilder()->build();
             $device = $client->detectDevice(string()->assert($_SERVER['HTTP_USER_AGENT'] ?? ''));
             if ($device->isAndroid()) {
                 $payLinks['android'] = 'intent://payment#Intent;action=ch.twint.action.TWINT_PAYMENT;scheme=twint;S.code =' . $token . ';S.startingOrigin=EXTERNAL_WEB_BROWSER;S.browser_fallback_url=;end';

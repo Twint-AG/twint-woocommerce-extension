@@ -22,9 +22,15 @@ class AliasingContainer implements ContainerInterface
             throw new ContainerException("Container '{$id}' is not registered");
         }
 
-        return $this->alias[$id] = is_callable($this->alias[$id])
+        $this->alias[$id] = is_callable($this->alias[$id])
             ? ($this->alias[$id])($this)
             : $this->alias[$id];
+
+        if($this->alias[$id] instanceof  Lazy){
+            $this->alias[$id]->setId($id);
+        }
+
+        return $this->alias[$id];
     }
 
     public function has(string $id): bool
