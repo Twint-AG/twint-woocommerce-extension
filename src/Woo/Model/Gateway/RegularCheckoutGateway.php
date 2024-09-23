@@ -63,7 +63,26 @@ class RegularCheckoutGateway extends AbstractGateway
          */
         add_action('woocommerce_store_api_checkout_order_processed', [$this, 'woocommerceCheckoutOrderCreated']);
 
+        /**
+         * These 2 (action and filter) for "Pay" for the order in My account > Orders section.
+         */
+        add_action('woocommerce_view_order', [$this, 'addOrderPayButton']);
+        add_filter('woocommerce_valid_order_statuses_for_payment', [$this, 'appendValidStatusForOrderNeedPayment']);
+
         $this->modal->registerHooks();
+    }
+
+    /**
+     * Set up the status initial for the order first created.
+     * @since 1.0.0
+     */
+    public function setCompleteOrderStatus($status, $orderId, $order): string
+    {
+        if ($order && static::UNIQUE_PAYMENT_ID === $order->get_payment_method()) {
+            $status = 'pending-payment';
+        }
+
+        return $status;
     }
 
     protected function initAdminConfig()
@@ -81,6 +100,24 @@ class RegularCheckoutGateway extends AbstractGateway
         // Define user set variables.
         $this->title = $this->get_option('title');
         $this->description = $this->get_option('description');
+    }
+
+    public function addOrderPayButton($orderId): void
+    {
+        $order = wc_get_order($orderId);
+
+        if ('wc-' . $order->get_status() === RegularCheckoutGateway::getOrderStatusAfterFirstTimeCreatedOrder()) {
+            printf(
+                '<a class="woocommerce-button wp-element-button button pay" href="%s">%s</a>',
+                $order->get_checkout_payment_url(), __('Pay for this order', 'woocommerce')
+            );
+        }
+    }
+
+    public function appendValidStatusForOrderNeedPayment($statuses)
+    {
+        $statuses[] = 'pending-payment';
+        return $statuses;
     }
 
     /**

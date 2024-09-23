@@ -95,7 +95,7 @@ abstract class AbstractGateway extends WC_Payment_Gateway
      */
     public static function getOrderStatusAfterFirstTimeCreatedOrder(): string
     {
-        return apply_filters('woocommerce_twint_order_status_after_partially_refunded', 'pending');
+        return apply_filters('woocommerce_twint_order_status_after_first_time_created', 'wc-pending-payment');
     }
 
     /**
@@ -120,8 +120,8 @@ abstract class AbstractGateway extends WC_Payment_Gateway
      * @param int $order_id Order ID.
      * @param float|null $amount Refund amount.
      * @param string $reason Refund reason.
-     * @throws Throwable
      * @return bool|WP_Error True or false based on success, or a WP_Error object.
+     * @throws Throwable
      */
     public function process_refund($order_id, $amount = null, $reason = ''): bool|WP_Error
     {
