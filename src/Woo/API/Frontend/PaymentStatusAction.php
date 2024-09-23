@@ -67,6 +67,7 @@ class PaymentStatusAction extends BaseAction
         $response = $status->toArray();
 
         if ($status->paid()) {
+            WC()->cart->empty_cart();
             $order = wc_get_order($pairing->getWcOrderId());
 
             ob_start();

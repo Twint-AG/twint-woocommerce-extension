@@ -12,19 +12,28 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 use Twint\Plugin;
+use Twint\Woo\Container\Lazy;
+use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Service\MonitorService;
 use WC_Logger_Interface;
 
+/**
+ * @method PairingRepository getRepository()
+ * @method MonitorService getMonitor()
+ */
 #[AsCommand(name: 'twint:poll')]
 class PollCommand extends Command
 {
+    use LazyLoadTrait;
+    protected static array $lazyLoads = ['repository', 'monitor'];
+    
     public const COMMAND = 'twint:poll';
 
-    private PairingRepository $repository;
+    private Lazy|PairingRepository $repository;
 
-    private MonitorService $monitor;
+    private Lazy|MonitorService $monitor;
 
     private WC_Logger_Interface $logger;
 
@@ -50,7 +59,7 @@ class PollCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $id = $input->getArgument('pairing-id');
-        $pairing = $this->repository->get($id);
+        $pairing = $this->getRepository()->get($id);
 
         $count = 1;
         $startedAt = new DateTime();
@@ -60,12 +69,12 @@ class PollCommand extends Command
             $this->logger->info(
                 "[TWINT] - monitoring: {$id}: {$pairing->getVersion()} {$pairing->getCreatedAgo()}"
             );
-            $this->repository->updateCheckedAt($pairing);
+            $this->getRepository()->updateCheckedAt($pairing);
 
-            $this->monitor->monitor($pairing);
+            $this->getMonitor()->monitor($pairing);
 
             sleep($this->getInterval($pairing, $startedAt));
-            $pairing = $this->repository->get($id);
+            $pairing = $this->getRepository()->get($id);
             ++$count;
         }
 

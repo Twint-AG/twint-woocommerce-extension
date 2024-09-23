@@ -17,9 +17,9 @@ use Twint\Woo\Service\PaymentService;
 use Twint\Woo\Service\SettingService;
 
 /**
- * @method PairingRepository getPairingRepository()
  * @method PaymentService getPaymentService()
  * @method PairingService getPairingService()
+ * @method PairingRepository getPairingRepository()
  */
 class RegularCheckoutGateway extends AbstractGateway
 {
@@ -206,7 +206,7 @@ class RegularCheckoutGateway extends AbstractGateway
             // TODO Think about this cart
             //            WC()->cart->empty_cart();
 
-            $pairing = Plugin::di('pairing.repository')->findByWooOrderId($order_id);
+            $pairing = $this->getPairingRepository()->findByWooOrderId($order_id);
 
             return [
                 'result' => 'success',

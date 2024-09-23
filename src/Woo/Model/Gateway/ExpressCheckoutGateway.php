@@ -7,6 +7,7 @@ namespace Twint\Woo\Model\Gateway;
 use Throwable;
 use Twint\Plugin;
 use Twint\Woo\Constant\TwintConstant;
+use Twint\Woo\Container\Lazy;
 use Twint\Woo\Service\FastCheckoutCheckinService;
 use Twint\Woo\Service\SettingService;
 
@@ -215,7 +216,8 @@ class ExpressCheckoutGateway extends AbstractGateway
     public function process_payment($order_id)
     {
         /** @var FastCheckoutCheckinService $service */
-        $service = Plugin::di('fast_checkout_checkin.service');
+        $service = Plugin::di('fast_checkout_checkin.service', true);
+
 
         $order = wc_get_order($order_id);
 

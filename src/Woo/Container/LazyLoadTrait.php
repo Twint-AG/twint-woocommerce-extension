@@ -10,12 +10,10 @@ trait LazyLoadTrait
 {
     public function __call(string $name, array $arguments)
     {
-        $property = str_replace('get', '', $name);
-        $property = lcfirst($property);
-        //        dd($property);
+        $property = lcfirst(str_replace('get', '', $name));
+
         if (in_array($property, static::$lazyLoads, true)) {
             if ($this->{$property} instanceof Lazy) {
-                //                dd($property);
                 $this->{$property} = $this->{$property}->get();
             }
 

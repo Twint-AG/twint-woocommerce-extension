@@ -11,7 +11,7 @@ interface ContainerInterface
      *
      * @throw
      */
-    public function get(string $id): mixed;
+    public function get(string $id, bool $immediately): mixed;
 
     public function has(string $id): bool;
 }

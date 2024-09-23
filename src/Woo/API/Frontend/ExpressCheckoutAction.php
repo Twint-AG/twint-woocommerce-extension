@@ -41,13 +41,13 @@ class ExpressCheckoutAction
         $full = $request->get_param('full') ?? false;
 
         if (!$full) {
+            $this->service->addToCart($request);
+
             if (!$this->service->isEmptyCart()) {
                 return new WP_REST_Response([
                     'openMiniCart' => true,
                 ], 200);
             }
-
-            $this->service->addToCart($request);
         }
 
         $pairing = $this->service->checkout();

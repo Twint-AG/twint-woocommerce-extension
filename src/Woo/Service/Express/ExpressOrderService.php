@@ -39,7 +39,7 @@ class ExpressOrderService
     private MonitorService $monitor;
 
     public function __construct(
-        private readonly Lazy|PairingRepository $pairingRepository,
+        private Lazy|PairingRepository $pairingRepository,
         private readonly ApiService $api,
         private readonly WC_Logger_Interface $logger,
         private Lazy|ClientBuilder $builder,
@@ -69,6 +69,8 @@ class ExpressOrderService
         $this->startOrder($order, $pairing);
 
         $order->payment_complete();
+
+        $this->cleanCart();
     }
 
     protected function updateAddress(WC_Order $order, Pairing $pairing): void
@@ -276,5 +278,10 @@ class ExpressOrderService
         $order->add_order_note('The order was cancelled via custom PHP code.');
 
         $order->save();
+    }
+
+    private function cleanCart(): void
+    {
+        WC()->cart->empty_cart();
     }
 }

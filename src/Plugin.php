@@ -49,9 +49,9 @@ class Plugin
         });
     }
 
-    public static function di(string $container): mixed
+    public static function di(string $container, bool $immediately = false): mixed
     {
-        return ContainerFactory::instance()->get($container);
+        return ContainerFactory::instance()->get($container, $immediately);
     }
 
     public static function createCustomWooCommerceStatus(): void
@@ -122,13 +122,13 @@ class Plugin
             exit;
         }
 
-        $instance = self::di('twint.integration');
+        $instance = self::di('twint.integration', true);
         add_filter(
             'plugin_action_links_' . plugin_basename(self::pluginFile()),
             [$instance, 'adminPluginSettingsLink']
         );
 
-        self::di('express.button');
+        self::di('express.button', true);
     }
 
     /**

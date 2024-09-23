@@ -55,25 +55,25 @@ class TwintIntegration
 
     public static function install(): void
     {
-        $installer = Plugin::di('installer');
+        $installer = Plugin::di('installer', true);
         $installer->install();
     }
 
     public static function uninstall(): void
     {
-        $uninstaller = Plugin::di('uninstaller');
+        $uninstaller = Plugin::di('uninstaller', true);
         $uninstaller->uninstall();
     }
 
     private function registerApiActions(): void
     {
         // Admin
-        Plugin::di('get_transaction_log.action');
-        Plugin::di('store_configuration.action');
+        Plugin::di('get_transaction_log.action', true);
+        Plugin::di('store_configuration.action', true);
 
         //Frontend
-        Plugin::di('payment_status.action');
-        Plugin::di('express_checkout.action');
+        Plugin::di('payment_status.action', true);
+        Plugin::di('express_checkout.action', true);
     }
 
     /**
@@ -127,7 +127,7 @@ class TwintIntegration
             return;
         }
 
-        $template = new BeforeThankYouBoxViewAdapter($order, Plugin::di('pairing.repository'));
+        $template = new BeforeThankYouBoxViewAdapter($order, Plugin::di('pairing.repository', true));
         $template->render();
     }
 
@@ -169,8 +169,8 @@ class TwintIntegration
         $args['admin_url'] = admin_url();
 
         $adapter = new SettingsLayoutViewAdapter(
-            Plugin::di('setting.service'),
-            Plugin::di('credentials.validator'),
+            Plugin::di('setting.service', true),
+            Plugin::di('credentials.validator', true),
             $args
         );
 
