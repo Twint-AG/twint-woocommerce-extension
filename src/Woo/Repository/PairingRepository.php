@@ -109,14 +109,15 @@ class PairingRepository
                 'id' => $pairing->getId(),
             ]);
 
-            if(!$result){
+            if (!$result) {
                 throw new DatabaseException($this->db->last_error);
             }
 
             return $this->get($pairing->getId());
-        }
-        catch (Throwable $e) {
-            !($e instanceof  DatabaseException) && $this->logger->error('TWINT PairingRepository::update: ' . $e->getMessage());
+        } catch (Throwable $e) {
+            if (!($e instanceof DatabaseException)) {
+                $this->logger->error('TWINT PairingRepository::update: ' . $e->getMessage());
+            }
 
             throw $e;
         }
@@ -157,6 +158,23 @@ class PairingRepository
             self::tableName(),
             $orderId,
         ]);
+
+        $result = $this->db->get_results($query);
+        if (empty($result)) {
+            return null;
+        }
+
+        $instance = new Pairing();
+        return $instance->load((array) reset($result));
+    }
+
+    public function getRefundableForOrder(int $orderId): ?Pairing
+    {
+        $select = $this->getSelect();
+        $query = $this->db->prepare(
+            "SELECT {$select} FROM %i WHERE is_express = 0 AND wc_order_id = %d ORDER BY created_at DESC LIMIT 1;",
+            [self::tableName(), $orderId]
+        );
 
         $result = $this->db->get_results($query);
         if (empty($result)) {

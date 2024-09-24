@@ -100,7 +100,7 @@ class ApiService
     protected function parse(array $invocations): array
     {
         $request = json_encode($invocations[0]->arguments());
-        $exception = $invocations[0]->exception() ?? ' ';
+        $exception = $invocations[0]->exception() ?? null;
 
         if ($exception instanceof ApiFailure) {
             $exception = $exception->getMessage();

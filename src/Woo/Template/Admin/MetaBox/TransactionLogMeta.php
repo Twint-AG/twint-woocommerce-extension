@@ -8,7 +8,6 @@ use Psr\Container\NotFoundExceptionInterface;
 use Twint\Plugin;
 use Twint\Woo\Model\TransactionLog;
 use Twint\Woo\Repository\TransactionRepository;
-use function Clue\StreamFilter\fun;
 
 class TransactionLogMeta
 {
@@ -62,7 +61,7 @@ class TransactionLogMeta
             <?php
                 /** @var TransactionLog $log */
                 foreach ($logs as $log): ?>
-                <tr>
+                <tr <?= empty($log->getExceptionText()) ? '' : 'class="log-error"' ?>>
                     <td><?= $log->getOrderId() ?></td>
                     <td><?= $log->getApiMethod(); ?></td>
                     <td>

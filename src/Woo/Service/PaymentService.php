@@ -70,31 +70,29 @@ class PaymentService
     /**
      * @throws Throwable
      */
-    public function reverseOrder(WC_Order $order, float $amount, int $wcRefundId): ?ApiResponse
+    public function reverseOrder(WC_Order $order, float $amount): ?ApiResponse
     {
         $client = $this->getBuilder()
             ->build();
 
-        try {
-            $pairing = $this->getRepository()
-                ->findByWooOrderId($order->get_id());
-            if ($pairing instanceof Pairing) {
-                $currency = $order->get_currency();
-                if (!empty($currency) && $amount > 0) {
-                    $reversalId = 'R-' . $pairing->getId() . '-' . $wcRefundId;
-                    return $this->api->call($client, 'reverseOrder', [
-                        new UnfiledMerchantTransactionReference($reversalId),
-                        new OrderId(new Uuid($pairing->getId())),
-                        new Money($currency, $amount),
-                    ], false);
-                }
-            }
-        } catch (Exception $e) {
-            $this->logger->error('PaymentService::reverseOrder ' . PHP_EOL . $e->getMessage());
-
-            throw $e;
+        $pairing = $this->getRepository()
+            ->getRefundableForOrder($order->get_id());
+        if (!$pairing instanceof Pairing) {
+            $this->logger->error('Cannot refund due to non-exist pairing');
+            return null;
         }
 
-        return null;
+        $reversalId = 'R-' . $pairing->getId() . '-' . time();
+
+        return $this->api->call($client, 'reverseOrder', [
+            new UnfiledMerchantTransactionReference($reversalId),
+            new OrderId(new Uuid($pairing->getId())),
+            new Money(Money::CHF, $amount),
+        ], true, static function (TransactionLog $log, mixed $return) use ($pairing, $order) {
+            $log->setOrderId($order->get_id());
+            $log->setPairingId($pairing->getId());
+
+            return $log;
+        });
     }
 }

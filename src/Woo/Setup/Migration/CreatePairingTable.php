@@ -20,7 +20,7 @@ final class CreatePairingTable
         $this->createTrigger();
     }
 
-    protected function createTable(): void
+    private function createTable(): void
     {
         $tableName = PairingRepository::tableName();
 
@@ -50,7 +50,7 @@ final class CreatePairingTable
     private function createTrigger(): void
     {
         $tableName = PairingRepository::tableName();
-        $sql = "CREATE TRIGGER `before_update_twint_pairing` BEFORE UPDATE ON `$tableName` FOR EACH ROW BEGIN
+        $sql = "CREATE TRIGGER `before_update_twint_pairing` BEFORE UPDATE ON `{$tableName}` FOR EACH ROW BEGIN
 	
                 DECLARE changed_columns INT;
             

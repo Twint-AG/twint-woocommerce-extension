@@ -6,8 +6,11 @@ namespace Twint\Woo\Model\Gateway;
 
 use Throwable;
 use Twint\Plugin;
+use Twint\Woo\Model\ApiResponse;
+use Twint\Woo\Service\PaymentService;
 use WC_Payment_Gateway;
 use WP_Error;
+use function Psl\PseudoRandom\float;
 
 abstract class AbstractGateway extends WC_Payment_Gateway
 {
@@ -130,20 +133,10 @@ abstract class AbstractGateway extends WC_Payment_Gateway
     {
         $order = wc_get_order($order_id);
 
-        if (!$this->can_refund_order($order)) {
-            return new WP_Error('error', __('Refund failed.', 'woocommerce-gateway-twint'));
-        }
+        /** @var PaymentService $service */
+        $service = Plugin::di('payment.service', true);
+        $res = $service->reverseOrder($order, (float) $amount);
 
-        // Schedule a delayed status change to "custom-one"
-        add_action('woocommerce_order_refunded', static function () use ($order) {
-            $remainingAmountRefunded = $order->get_remaining_refund_amount();
-            if ($remainingAmountRefunded > 0) {
-                return $order->update_status('wc-refunded-partial');
-            }
-
-            return $order->update_status('wc-refunded');
-        }, 10, 1);
-
-        return true;
+        return $res instanceof ApiResponse;
     }
 }

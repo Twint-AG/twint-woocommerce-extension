@@ -31,7 +31,7 @@ final class CreateTransactionLogTable
               `response` longtext COLLATE utf8mb4_unicode_520_ci NOT NULL,
               `soap_request` longtext COLLATE utf8mb4_unicode_520_ci NOT NULL,
               `soap_response` longtext COLLATE utf8mb4_unicode_520_ci NOT NULL,
-              `exception_text` longtext COLLATE utf8mb4_unicode_520_ci NOT NULL,
+              `exception_text` longtext COLLATE utf8mb4_unicode_520_ci NULL,
               `created_at` datetime DEFAULT NOW(),
               PRIMARY KEY (`id`),
               FOREIGN KEY (pairing_id) REFERENCES {$pairingTable}(id)

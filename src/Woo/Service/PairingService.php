@@ -152,7 +152,9 @@ class PairingService
         $pairing->setPairingStatus($order->pairingStatus()?->__toString());
         $pairing->setTransactionStatus($order->transactionStatus()->__toString());
 
-        $this->logger->info("TWINT update: {$pairing->getId()} {$pairing->getVersion()} {$pairing->getPairingStatus()} {$pairing->getTransactionStatus()}");
+        $this->logger->info(
+            "TWINT update: {$pairing->getId()} {$pairing->getVersion()} {$pairing->getPairingStatus()} {$pairing->getTransactionStatus()}"
+        );
         return $this->getRepository()
             ->update($pairing);
     }

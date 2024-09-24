@@ -206,7 +206,8 @@ class RegularCheckoutGateway extends AbstractGateway
             // TODO Think about this cart
             //            WC()->cart->empty_cart();
 
-            $pairing = $this->getPairingRepository()->findByWooOrderId($order_id);
+            $pairing = $this->getPairingRepository()
+                ->findByWooOrderId($order_id);
 
             return [
                 'result' => 'success',

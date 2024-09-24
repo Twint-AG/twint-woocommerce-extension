@@ -81,7 +81,7 @@ class MonitorService
      */
     public function monitor(Pairing $pairing): MonitoringStatus
     {
-        if($pairing->isFinished()){
+        if ($pairing->isFinished()) {
             return MonitoringStatus::fromPairing($pairing);
         }
 
@@ -102,7 +102,6 @@ class MonitorService
                     $cloned->setStatus(Pairing::EXPRESS_STATUS_PAID);
                     $this->getRepository()
                         ->markAsPaid($pairing->getId());
-
                 } catch (PaymentException $e) {
                     $this->logger->error('TWINT MonitorService::monitor: ' . $e->getMessage());
                     $cloned->setStatus(Pairing::EXPRESS_STATUS_CANCELLED);
@@ -178,7 +177,7 @@ class MonitorService
                 return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
             }
 
-            dd("other exception", $e);
+            dd('other exception', $e);
             throw $e;
         }
 

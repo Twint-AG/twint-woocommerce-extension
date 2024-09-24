@@ -26,5 +26,5 @@ class TwintConstant
 
     public const PAIRING_TIMEOUT_EXPRESS = 60 * 5; //5 mins
 
-    public const EXCEPTION_VERSION_CONFLICT = "Version conflict detected. Update aborted.";
+    public const EXCEPTION_VERSION_CONFLICT = 'Version conflict detected. Update aborted.';
 }

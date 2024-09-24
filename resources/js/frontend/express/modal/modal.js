@@ -38,8 +38,8 @@ class Modal {
 
   show(){
     // Display
-    this.payContainer.classList.remove('!hidden');
-    this.successContainer.classList.add('!hidden');
+    // this.payContainer.classList.remove('!hidden');
+    // this.successContainer.classList.add('!hidden');
 
     let span = this.closeBtn.querySelector('span');
     span.innerHTML = this.closeBtn.getAttribute('data-default');
@@ -94,9 +94,9 @@ class Modal {
     let span = this.closeBtn.querySelector('span');
     span.innerHTML = this.closeBtn.getAttribute('data-success');
 
-    this.payContainer.classList.add('!hidden');
-    this.successContainer.classList.remove('!hidden');
-    this.successContainer.innerHTML = response.extra['thank-you'];
+    // this.payContainer.classList.add('!hidden');
+    // this.successContainer.classList.remove('!hidden');
+    // this.successContainer.innerHTML = response.extra['thank-you'];
 
     location.href = response.extra.redirect;
   }

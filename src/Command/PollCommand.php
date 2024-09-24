@@ -29,9 +29,9 @@ class PollCommand extends Command
 {
     use LazyLoadTrait;
 
-    protected static array $lazyLoads = ['repository', 'monitor'];
-
     public const COMMAND = 'twint:poll';
+
+    protected static array $lazyLoads = ['repository', 'monitor'];
 
     private Lazy|PairingRepository $repository;
 
@@ -61,29 +61,32 @@ class PollCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $id = $input->getArgument('pairing-id');
-        $pairing = $this->getRepository()->get($id);
+        $pairing = $this->getRepository()
+            ->get($id);
 
         $count = 1;
         $startedAt = new DateTime();
 
         /** @var ExpressOrderService $service */
-//        $service = Plugin::di('express_order.service', true);
-//        $service->setMonitor(Plugin::di('monitor.service', true));
-//        $service->update($pairing);
-//
-//        return 0;
+        //        $service = Plugin::di('express_order.service', true);
+        //        $service->setMonitor(Plugin::di('monitor.service', true));
+        //        $service->update($pairing);
+        //
+        //        return 0;
 
         $output->writeln("Monitoring: <info>{$id}</info>");
         $this->logger->info("Monitoring: {$id}");
 
         while (!$pairing->isFinished()) {
+            $this->getRepository()
+                ->updateCheckedAt($pairing);
 
-            $this->getRepository()->updateCheckedAt($pairing);
-
-            $this->getMonitor()->monitor($pairing);
+            $this->getMonitor()
+                ->monitor($pairing);
 
             sleep($this->getInterval($pairing, $startedAt));
-            $pairing = $this->getRepository()->get($id);
+            $pairing = $this->getRepository()
+                ->get($id);
             ++$count;
         }
 

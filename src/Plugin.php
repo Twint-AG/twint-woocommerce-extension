@@ -57,16 +57,6 @@ class Plugin
     public static function createCustomWooCommerceStatus(): void
     {
         register_post_status(
-            RegularCheckoutGateway::getOrderStatusAfterPartiallyRefunded(),
-            [
-                'label' => __('Refunded (partially)', 'woocommerce-gateway-twint'),
-                'public' => true,
-                'show_in_admin_all_list' => true,
-                'show_in_admin_status_list' => true,
-            ]
-        );
-
-        register_post_status(
             RegularCheckoutGateway::getOrderStatusAfterFirstTimeCreatedOrder(),
             [
                 'label' => __('Pending payment', 'woocommerce'),
@@ -79,8 +69,8 @@ class Plugin
 
     public static function addCustomWooCommerceStatusToList($orderStatuses): array
     {
-        $orderStatuses[RegularCheckoutGateway::getOrderStatusAfterPartiallyRefunded()] = __('Refunded (partially)', 'woocommerce-gateway-twint');
         $orderStatuses[RegularCheckoutGateway::getOrderStatusAfterFirstTimeCreatedOrder()] = __('Pending payment', 'woocommerce');
+
         return $orderStatuses;
     }
 

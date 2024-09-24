@@ -183,7 +183,7 @@ class ExpressOrderService
             $method = $methods[$pairing->getShippingMethodId()] ?? null;
         }
 
-        if(!$method){
+        if (!$method) {
             $methods = WC()
                 ->shipping()
                 ->get_shipping_methods();
@@ -269,12 +269,11 @@ class ExpressOrderService
             );
 
             $status = $this->monitor->monitor($pairing);
-            $pairing = $this->getPairingRepository()->get($pairing->getId());
+            $pairing = $this->getPairingRepository()
+                ->get($pairing->getId());
         } while (!$status->finished());
 
-        $this->logger->info(
-            "TWINT EC monitor finished: {$pairing->getId()}"
-        );
+        $this->logger->info("TWINT EC monitor finished: {$pairing->getId()}");
 
         return $status->paid();
     }

@@ -7,7 +7,6 @@ namespace Twint\Woo\Model\Gateway;
 use Throwable;
 use Twint\Plugin;
 use Twint\Woo\Constant\TwintConstant;
-use Twint\Woo\Container\Lazy;
 use Twint\Woo\Service\FastCheckoutCheckinService;
 use Twint\Woo\Service\SettingService;
 

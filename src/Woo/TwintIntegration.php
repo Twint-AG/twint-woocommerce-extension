@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Woo;
 
-use Throwable;
 use Twint\Plugin;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
@@ -40,13 +39,9 @@ class TwintIntegration
 
         add_action('admin_menu', [$this, 'registerMenuItem']);
 
-        add_filter('woocommerce_before_save_order_items', [$this, 'wooBeforeOrderUpdateChange'], 10, 2);
-
         add_filter('woocommerce_locate_template', [$this, 'wooPluginTemplate'], 10, 3);
 
         add_action('woocommerce_before_thankyou', [$this, 'additionalWoocommerceBeforeThankyou'], 20);
-
-        add_action('woocommerce_refund_created', [$this, 'refundCreatedHandler'], 10);
 
         new TransactionLogMeta();
 
@@ -74,46 +69,6 @@ class TwintIntegration
         //Frontend
         Plugin::di('payment_status.action', true);
         Plugin::di('express_checkout.action', true);
-    }
-
-    /**
-     * //TODO move gateway class
-     * @param mixed $refundId
-     * @throws Throwable
-     */
-    public function refundCreatedHandler($refundId): void
-    {
-        $refund = wc_get_order($refundId);
-        $order = wc_get_order($refund->get_parent_id());
-        $amount = $refund->get_amount();
-
-        $apiResponse = $this->getPaymentService()
-            ->reverseOrder($order, $amount, $refundId);
-
-        // Check if the refund was processed by your custom gateway
-        if ($order->get_payment_method() === RegularCheckoutGateway::getId()) {
-            $remainingAmountRefunded = $order->get_remaining_refund_amount();
-            if ($remainingAmountRefunded > 0) {
-                $status = RegularCheckoutGateway::getOrderStatusAfterPartiallyRefunded();
-            } else {
-                $status = 'wc-refunded';
-            }
-
-            $order->update_status($status);
-        }
-
-        $pairing = $this->getPairingRepository()
-            ->findByWooOrderId($order->get_id());
-        $log['pairing_id'] = $pairing->getId();
-        $log['order_id'] = $order->get_id();
-        $log['order_status'] = $order->get_status();
-        $log['transaction_id'] = $order->get_transaction_id();
-        $log = array_merge($log, $apiResponse->getLog());
-        $this->api->saveLog($log);
-    }
-
-    public function wooBeforeOrderUpdateChange($orderId, $items): void
-    {
     }
 
     public function additionalWoocommerceBeforeThankyou(WC_Order|int $order): void

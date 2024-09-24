@@ -16,8 +16,7 @@ class ExpressCheckoutAction
 
     public function __construct(
         private readonly ExpressCheckoutService $service
-    )
-    {
+    ) {
         $this->registerHooks();
     }
 

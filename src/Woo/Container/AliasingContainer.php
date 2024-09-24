@@ -40,7 +40,6 @@ class AliasingContainer implements ContainerInterface
         $this->alias[$id] = $instance;
 
         return $instance;
-
     }
 
     public function has(string $id): bool
