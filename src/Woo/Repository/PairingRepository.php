@@ -6,6 +6,8 @@ namespace Twint\Woo\Repository;
 
 use Exception;
 use mysqli_result;
+use Throwable;
+use Twint\Woo\Exception\DatabaseException;
 use Twint\Woo\Model\Pairing;
 use WC_Logger_Interface;
 use wpdb;
@@ -25,6 +27,9 @@ class PairingRepository
         return $table_prefix . 'twint_pairing';
     }
 
+    /**
+     * @throws Throwable
+     */
     public function save(Pairing $pairing): Pairing
     {
         if ($pairing->isNewRecord()) {
@@ -77,12 +82,15 @@ class PairingRepository
                ';
     }
 
+    /**
+     * @throws Exception|Throwable
+     */
     public function update(Pairing $pairing): Pairing
     {
         try {
             $customerData = $pairing->getCustomerData();
 
-            $this->db->update(self::tableName(), [
+            $result = $this->db->update(self::tableName(), [
                 'version' => $pairing->getVersion(),
                 'token' => $pairing->getToken(),
                 'shipping_method_id' => $pairing->getShippingMethodId(),
@@ -101,9 +109,16 @@ class PairingRepository
                 'id' => $pairing->getId(),
             ]);
 
+            if(!$result){
+                throw new DatabaseException($this->db->last_error);
+            }
+
             return $this->get($pairing->getId());
-        } catch (Exception $e) {
-            $this->logger->error('TWINT PairingRepository::update: ' . $e->getMessage());
+        }
+        catch (Throwable $e) {
+            !($e instanceof  DatabaseException) && $this->logger->error('TWINT PairingRepository::update: ' . $e->getMessage());
+
+            throw $e;
         }
     }
 

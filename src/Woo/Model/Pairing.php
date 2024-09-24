@@ -50,7 +50,7 @@ class Pairing extends Entity
 
     protected ?int $createdAgo;
 
-    protected int $version = 1;
+    protected int $version;
 
     protected string $createdAt;
 

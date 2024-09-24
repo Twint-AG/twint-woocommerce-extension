@@ -15,6 +15,7 @@ use Twint\Sdk\Value\PairingStatus;
 use Twint\Sdk\Value\Uuid;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
+use Twint\Woo\Exception\DatabaseException;
 use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Model\ApiResponse;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
@@ -139,6 +140,9 @@ class PairingService
         return true;
     }
 
+    /**
+     * @throws Throwable
+     */
     public function update(Pairing $pairing, ApiResponse $response): Pairing
     {
         /** @var Order $order */
@@ -148,6 +152,7 @@ class PairingService
         $pairing->setPairingStatus($order->pairingStatus()?->__toString());
         $pairing->setTransactionStatus($order->transactionStatus()->__toString());
 
+        $this->logger->info("TWINT update: {$pairing->getId()} {$pairing->getVersion()} {$pairing->getPairingStatus()} {$pairing->getTransactionStatus()}");
         return $this->getRepository()
             ->update($pairing);
     }
@@ -193,9 +198,11 @@ class PairingService
         return $pairing;
     }
 
+    /**
+     * @throws Throwable|DatabaseException
+     */
     public function updateForExpress(Pairing $pairing, FastCheckoutCheckIn $checkIn): Pairing
     {
-        $pairing->setVersion($pairing->getVersion());
         $pairing->setCustomerData($checkIn->hasCustomerData() ? json_encode($checkIn->customerData()) : null);
         $pairing->setShippingMethodId($checkIn->shippingMethodId()?->__toString() ?? null);
         $pairing->setPairingStatus((string) $checkIn->pairingStatus());

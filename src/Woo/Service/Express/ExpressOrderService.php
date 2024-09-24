@@ -169,21 +169,26 @@ class ExpressOrderService
         ];
 
         $methods = [];
+        $method = null;
 
         // Get all shipping methods
         $zone = WC_Shipping_Zones::get_zone_matching_package($package);
         if ($zone) {
             $rawMethods = $zone->get_shipping_methods(true);
+
             foreach ($rawMethods as $method) {
                 $methods[$method->id] = $method;
             }
-        } else {
+
+            $method = $methods[$pairing->getShippingMethodId()] ?? null;
+        }
+
+        if(!$method){
             $methods = WC()
                 ->shipping()
                 ->get_shipping_methods();
+            $method = $methods[$pairing->getShippingMethodId()] ?? null;
         }
-
-        $method = $methods[$pairing->getShippingMethodId()] ?? null;
 
         if ($method) {
             $rates = $method->get_rates_for_package($package);
@@ -264,7 +269,12 @@ class ExpressOrderService
             );
 
             $status = $this->monitor->monitor($pairing);
+            $pairing = $this->getPairingRepository()->get($pairing->getId());
         } while (!$status->finished());
+
+        $this->logger->info(
+            "TWINT EC monitor finished: {$pairing->getId()}"
+        );
 
         return $status->paid();
     }

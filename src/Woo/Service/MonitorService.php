@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Twint\Woo\Service;
 
 use Exception;
-use mysqli_sql_exception;
 use Symfony\Component\Process\Process;
 use Throwable;
 use Twint\Command\PollCommand;
@@ -23,6 +22,7 @@ use Twint\Sdk\Value\Version;
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
+use Twint\Woo\Exception\DatabaseException;
 use Twint\Woo\Exception\PaymentException;
 use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Model\ApiResponse;
@@ -81,6 +81,10 @@ class MonitorService
      */
     public function monitor(Pairing $pairing): MonitoringStatus
     {
+        if($pairing->isFinished()){
+            return MonitoringStatus::fromPairing($pairing);
+        }
+
         $cloned = clone $pairing;
 
         if ($pairing->getIsExpress()) {
@@ -167,12 +171,14 @@ class MonitorService
         try {
             $cloned = $this->getPairingService()
                 ->updateForExpress($cloned, $state);
-        } catch (mysqli_sql_exception $e) {
-            if ($e->getCode() === TwintConstant::EXCEPTION_VERSION_CONFLICT) {
-                $this->logger->info("TWINT {$pairing->getId()} update was conflicted");
+        } catch (DatabaseException $e) {
+            if ($e->getMessage() === TwintConstant::EXCEPTION_VERSION_CONFLICT) {
+                $this->logger->info("TWINT {$pairing->getId()} " . $e->getMessage());
+
                 return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
             }
 
+            dd("other exception", $e);
             throw $e;
         }
 
@@ -259,9 +265,10 @@ class MonitorService
             try {
                 $pairing = $this->getPairingService()
                     ->update($pairing, $res);
-            } catch (mysqli_sql_exception $e) {
-                if ($e->getCode() === TwintConstant::EXCEPTION_VERSION_CONFLICT) {
-                    $this->logger->info("TWINT {$pairing->getId()} update was conflicted");
+            } catch (DatabaseException $e) {
+                if ($e->getMessage() === TwintConstant::EXCEPTION_VERSION_CONFLICT) {
+                    $this->logger->info("TWINT {$pairing->getId()} " . $e->getMessage());
+
                     return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
                 }
 
