@@ -16,7 +16,8 @@ class ExpressCheckoutAction
 
     public function __construct(
         private readonly ExpressCheckoutService $service
-    ) {
+    )
+    {
         $this->registerHooks();
     }
 
@@ -41,9 +42,10 @@ class ExpressCheckoutAction
         $full = $request->get_param('full') ?? false;
 
         if (!$full) {
+            $empty = $this->service->isEmptyCart();
             $this->service->addToCart($request);
 
-            if (!$this->service->isEmptyCart()) {
+            if (!$empty) {
                 return new WP_REST_Response([
                     'openMiniCart' => true,
                 ], 200);

@@ -51,6 +51,7 @@ class PairingRepository
                 'is_ordering' => $pairing->getIsOrdering(),
                 'checked_at' => $pairing->getCheckedAt(),
                 'created_at' => $pairing->getCreatedAt(),
+                'captured' => $pairing->isCaptured(),
             ]);
 
             return $this->get($pairing->getId());
@@ -95,6 +96,7 @@ class PairingRepository
                 'is_ordering' => $pairing->getIsOrdering(),
                 'checked_at' => $pairing->getCheckedAt(),
                 'created_at' => $pairing->getCreatedAt(),
+                'captured' => $pairing->isCaptured(),
             ], [
                 'id' => $pairing->getId(),
             ]);

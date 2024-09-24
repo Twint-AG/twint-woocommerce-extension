@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+namespace Twint\Woo\Helper;
+
+use DOMDocument;
+
 class XmlHelper
 {
     public static function format($xml): bool|string

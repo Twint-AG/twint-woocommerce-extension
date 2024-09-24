@@ -3,8 +3,9 @@
 namespace Twint\Woo\Api\Admin;
 
 use Twint\Woo\Api\BaseAction;
+use Twint\Woo\Helper\XmlHelper;
+use Twint\Woo\Model\TransactionLog;
 use Twint\Woo\Repository\TransactionRepository;
-use XmlHelper;
 
 class GetTransactionLogAction extends BaseAction
 {
@@ -21,10 +22,9 @@ class GetTransactionLogAction extends BaseAction
             exit('The WP Nonce is invalid, please check again!');
         }
 
-        $data = $this->repository->getLogTransactionDetails($_REQUEST['record_id']);
+        /** @var TransactionLog $log */
+        $log = $this->repository->get($_REQUEST['record_id']);
 
-        $soapActions = json_decode($data['soap_action'], true);
-        $soapResponses = json_decode($data['soap_response'], true);
         ob_start();
         ?>
         <table class="content-table">
@@ -32,14 +32,12 @@ class GetTransactionLogAction extends BaseAction
             <tr>
                 <th><?= __('Order ID', 'woocommerce-gateway-twint'); ?></th>
                 <th><?= __('API Method', 'woocommerce-gateway-twint'); ?></th>
-                <th><?= __('Order Status', 'woocommerce-gateway-twint'); ?></th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td><?= $data['order_id']; ?></td>
-                <td><span class="badge bg-primary"><?= $data['api_method']; ?></span></td>
-                <td><?= $data['order_status']; ?></td>
+                <td><?= $log->getId() ?></td>
+                <td><span class="badge bg-primary"><?= $log->getApiMethod(); ?></span></td>
             </tr>
             </tbody>
         </table>
@@ -54,22 +52,22 @@ class GetTransactionLogAction extends BaseAction
 
                     <div id="request">
                         <label for="request"><?= __('Request', 'woocommerce-gateway-twint'); ?></label>
-                        <textarea cols="30" rows="6" id="request" disabled><?= $data['request']; ?></textarea>
+                        <textarea cols="30" rows="6" id="request" disabled><?= $log->getRequest(); ?></textarea>
                     </div>
                     <div id="response">
                         <label for="request"><?= __('Response', 'woocommerce-gateway-twint'); ?></label>
-                        <textarea cols="30" rows="6" id="request" disabled><?= $data['response']; ?></textarea>
+                        <textarea cols="30" rows="6" id="request" disabled><?= $log->getResponse(); ?></textarea>
                     </div>
                 </div>
             </div>
         </div>
-        <?php foreach (json_decode($data['soap_request']) as $index => $request): ?>
+        <?php foreach ($log->getSoapRequest(true) as $index => $request): ?>
         <div class="components-surface components-card woocommerce-store-alerts is-alert-update"
              style="margin: 20px 0;">
             <div class="">
                 <div class="components-flex components-card__header components-card-header">
                     <h2 class="components-truncate components-text" style="padding-left: 0;">
-                        <?= $soapActions[$index]; ?>
+                        <?= $log->getSoapAction(true)[$index] ?>
                     </h2>
 
                     <div id="request">
@@ -80,7 +78,7 @@ class GetTransactionLogAction extends BaseAction
                     <div id="response">
                         <label for="response"><?= __('Response', 'woocommerce-gateway-twint'); ?></label>
                         <textarea cols="30" rows="6" id="request"
-                                  disabled><?= XmlHelper::format($soapResponses[$index]); ?></textarea>
+                                  disabled><?= XmlHelper::format($log->getSoapResponse(true)[$index]); ?></textarea>
                     </div>
                 </div>
             </div>

@@ -55,9 +55,9 @@ class TransactionLog extends Entity
         $this->orderId = $orderId;
     }
 
-    public function getSoapAction(): string
+    public function getSoapAction(bool $asArray = false): string|array
     {
-        return $this->soapAction;
+        return $asArray? json_decode($this->soapAction, true) : $this->soapAction;
     }
 
     public function setSoapAction($soapAction): void
@@ -97,9 +97,9 @@ class TransactionLog extends Entity
         $this->response = $response;
     }
 
-    public function getSoapRequest(): string
+    public function getSoapRequest(bool $asArray = false): string|array
     {
-        return $this->soapRequest;
+        return $asArray? json_decode($this->soapRequest, true) : $this->soapRequest;
     }
 
     public function setSoapRequest(string $soapRequest): void
@@ -107,9 +107,9 @@ class TransactionLog extends Entity
         $this->soapRequest = $soapRequest;
     }
 
-    public function getSoapResponse(): string
+    public function getSoapResponse(bool $asArray = false): string|array
     {
-        return $this->soapResponse;
+        return $asArray? json_decode($this->soapResponse, true) : $this->soapResponse;
     }
 
     public function setSoapResponse(string $soapResponse): void
