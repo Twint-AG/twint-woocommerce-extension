@@ -97,6 +97,8 @@ class Modal {
     this.payContainer.classList.add('!hidden');
     this.successContainer.classList.remove('!hidden');
     this.successContainer.innerHTML = response.extra['thank-you'];
+
+    location.href = response.extra.redirect;
   }
 
   continue(){

@@ -70,14 +70,11 @@ class PaymentStatusAction extends BaseAction
             WC()->cart->empty_cart();
             $order = wc_get_order($pairing->getWcOrderId());
 
-            ob_start();
-            wc_get_template('checkout/thankyou.php', [
-                'order' => $order,
-            ]);
+            $url = wc_get_endpoint_url( 'order-received', $order->get_id(), wc_get_checkout_url() ) . '?key=' . $order->get_order_key();
 
-            $html = ob_get_clean();
-
-            $response['extra']['thank-you'] = $html;
+            $response['extra'] = [
+                'redirect' =>  $url
+            ];
         }
 
         return new WP_REST_Response($response, 200);

@@ -63,7 +63,7 @@ class TransactionLogMeta
                 /** @var TransactionLog $log */
                 foreach ($logs as $log): ?>
                 <tr>
-                    <td><?= $log->getId() ?></td>
+                    <td><?= $log->getOrderId() ?></td>
                     <td><?= $log->getApiMethod(); ?></td>
                     <td>
                         <?php foreach ($log->getSoapAction(true) as $action): ?>
