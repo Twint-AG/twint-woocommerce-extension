@@ -87,15 +87,6 @@ abstract class AbstractGateway extends WC_Payment_Gateway
      * Set up the status of the order after order got paid.
      * @since 1.0.0
      */
-    public static function getOrderStatusAfterPartiallyRefunded(): string
-    {
-        return apply_filters('woocommerce_twint_order_status_after_partially_refunded', 'wc-refunded-partial');
-    }
-
-    /**
-     * Set up the status of the order after order got paid.
-     * @since 1.0.0
-     */
     public static function getOrderStatusAfterFirstTimeCreatedOrder(): string
     {
         return apply_filters('woocommerce_twint_order_status_after_first_time_created', 'wc-pending-payment');
@@ -137,6 +128,6 @@ abstract class AbstractGateway extends WC_Payment_Gateway
         $service = Plugin::di('payment.service', true);
         $res = $service->reverseOrder($order, (float) $amount);
 
-        return $res instanceof ApiResponse;
+        return $res instanceof ApiResponse && $res->getReturn()->isSuccessful();
     }
 }
