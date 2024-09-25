@@ -58,17 +58,16 @@ class ExpressOrderService
      */
     public function update(Pairing $pairing): void
     {
-        $this->getPairingRepository()
-            ->markAsOrdering($pairing->getId());
+        $this->getPairingRepository()->markAsOrdering($pairing->getId());
 
         $order = wc_get_order($pairing->getWcOrderId());
 
         $this->updateAddress($order, $pairing);
         $this->updateShippingMethod($order, $pairing);
 
-        $this->startOrder($order, $pairing);
+        $new = $this->startOrder($order, $pairing);
 
-        $order->payment_complete($pairing->getId());
+        $order->payment_complete($new->getId());
 
         $this->cleanCart();
     }
@@ -184,9 +183,7 @@ class ExpressOrderService
         }
 
         if (!$method) {
-            $methods = WC()
-                ->shipping()
-                ->get_shipping_methods();
+            $methods = WC()->shipping()->get_shipping_methods();
             $method = $methods[$pairing->getShippingMethodId()] ?? null;
         }
 
@@ -234,10 +231,9 @@ class ExpressOrderService
     /**
      * @throws Throwable
      */
-    private function startOrder(WC_Order $order, Pairing $pairing): void
+    private function startOrder(WC_Order $order, Pairing $pairing): Pairing
     {
-        $client = $this->getBuilder()
-            ->build(Version::NEXT);
+        $client = $this->getBuilder()->build(Version::NEXT);
 
         $res = $this->api->call($client, 'startFastCheckoutOrder', [
             PairingUuid::fromString($pairing->getId()),
@@ -249,13 +245,14 @@ class ExpressOrderService
             return $log;
         });
 
-        $newPairing = $this->getPairingService()
-            ->create($res, $order, true);
+        $newPairing = $this->getPairingService()->create($res, $order, true);
 
         $success = $this->monitorPairing($newPairing);
         if (!$success) {
             throw new PaymentException('TWINT: Your balance is insufficient.');
         }
+
+        return $newPairing;
     }
 
     /**
@@ -269,8 +266,7 @@ class ExpressOrderService
             );
 
             $status = $this->monitor->monitor($pairing);
-            $pairing = $this->getPairingRepository()
-                ->get($pairing->getId());
+            $pairing = $this->getPairingRepository()->get($pairing->getId());
         } while (!$status->finished());
 
         $this->logger->info("TWINT EC monitor finished: {$pairing->getId()}");
