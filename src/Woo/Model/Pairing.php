@@ -266,15 +266,10 @@ class Pairing extends Entity
     public function hasDiffs(FastCheckoutCheckIn|Order $target): bool
     {
         if ($target instanceof FastCheckoutCheckIn) {
-            //            dd($this->getPairingStatus() !== ($target->pairingStatus()->__toString() ?? '')
-            //               , $this->getShippingMethodId() !== ($target->hasShippingMethodId() ? (string) $target->shippingMethodId() : null)
-            //               , !empty($this->customerData) , $target->hasCustomerData(),
-            //            $this, $target
-            //            );
             return $this->getPairingStatus() !== ($target->pairingStatus()->__toString() ?? '')
                 || $this->getShippingMethodId() !== ($target->hasShippingMethodId() ? (string) $target->shippingMethodId() : null)
-                || (($this->customerData === null || $this->customerData === '' || $this->customerData === '0') && $target->hasCustomerData())
-                || ($this->customerData !== null && $this->customerData !== '' && $this->customerData !== '0' && !$target->hasCustomerData());
+                || ($this->getCustomerData() === [] && $target->hasCustomerData())
+                || ($this->getCustomerData() !== [] && !$target->hasCustomerData());
         }
 
 

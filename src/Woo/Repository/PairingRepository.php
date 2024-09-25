@@ -15,7 +15,7 @@ use wpdb;
 class PairingRepository
 {
     public function __construct(
-        private readonly wpdb $db,
+        private readonly wpdb                $db,
         private readonly WC_Logger_Interface $logger,
     ) {
     }

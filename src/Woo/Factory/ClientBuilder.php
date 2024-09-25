@@ -28,7 +28,7 @@ class ClientBuilder
     private static InvocationRecordingClient $instance;
 
     public function __construct(
-        private readonly CryptoHandler $crypto,
+        private readonly CryptoHandler  $crypto,
         private readonly SettingService $setting,
     ) {
     }

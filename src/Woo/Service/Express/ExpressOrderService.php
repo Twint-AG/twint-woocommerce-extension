@@ -39,12 +39,12 @@ class ExpressOrderService
     private MonitorService $monitor;
 
     public function __construct(
-        private Lazy|PairingRepository $pairingRepository,
-        private readonly ApiService $api,
+        private Lazy|PairingRepository       $pairingRepository,
+        private readonly ApiService          $api,
         private readonly WC_Logger_Interface $logger,
-        private Lazy|ClientBuilder $builder,
-        private Lazy|PairingService $pairingService,
-        MonitorService $monitor = null
+        private Lazy|ClientBuilder           $builder,
+        private Lazy|PairingService          $pairingService,
+        MonitorService                       $monitor = null
     ) {
     }
 
@@ -68,7 +68,7 @@ class ExpressOrderService
 
         $this->startOrder($order, $pairing);
 
-        $order->payment_complete();
+        $order->payment_complete($pairing->getId());
 
         $this->cleanCart();
     }

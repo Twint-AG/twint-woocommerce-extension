@@ -21,7 +21,7 @@ class Installer
 
         $this->setDefaultConfigs();
 
-        MonitorPairingCronJob::initCronjob();
+        MonitorPairingCronJob::scheduleCronjob();
 
         $this->copyLanguagePacks();
     }

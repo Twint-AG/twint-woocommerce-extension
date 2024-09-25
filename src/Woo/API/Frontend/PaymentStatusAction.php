@@ -29,8 +29,8 @@ class PaymentStatusAction extends BaseAction
     protected static array $lazyLoads = ['repository'];
 
     public function __construct(
-        private Lazy|PairingRepository $repository,
-        private readonly MonitorService $service,
+        private Lazy|PairingRepository       $repository,
+        private readonly MonitorService      $service,
         private readonly WC_Logger_Interface $logger
     ) {
         $this->registerHooks();

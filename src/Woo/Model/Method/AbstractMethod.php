@@ -19,9 +19,7 @@ abstract class AbstractMethod extends AbstractPaymentMethodType
     public function initialize(): void
     {
         $this->settings = get_option(SettingService::KEY_PRIMARY_SETTING, []);
-        $gateways = WC()
-            ->payment_gateways()
-            ->payment_gateways();
+        $gateways = WC()->payment_gateways();
 
         $validated = get_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG);
         if (isset($gateways[$this->name]) && $validated === SettingService::YES) {

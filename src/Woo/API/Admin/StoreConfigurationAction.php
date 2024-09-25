@@ -23,11 +23,11 @@ class StoreConfigurationAction extends BaseAction
     protected static array $lazyLoads = ['encryptor', 'validator', 'settingService', 'certificateHandler'];
 
     public function __construct(
-        private Lazy|CryptoHandler $encryptor,
-        private Lazy|CredentialsValidator $validator,
+        private Lazy|CryptoHandler           $encryptor,
+        private Lazy|CredentialsValidator    $validator,
         private readonly WC_Logger_Interface $logger,
-        private Lazy|SettingService $settingService,
-        private Lazy|CertificateHandler $certificateHandler,
+        private Lazy|SettingService          $settingService,
+        private Lazy|CertificateHandler      $certificateHandler,
     ) {
         add_action('wp_ajax_store_twint_settings', [$this, 'storeTwintSettings']);
         add_action('wp_ajax_nopriv_store_twint_settings', [$this, 'requireLogin']);

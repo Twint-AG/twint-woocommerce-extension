@@ -15,8 +15,8 @@ class ExpressButton
 {
     public function __construct(
         private readonly SettingService $setting,
-        private readonly Modal $modal,
-        private readonly Spinner $spinner,
+        private readonly Modal          $modal,
+        private readonly Spinner        $spinner,
     ) {
         add_action('wp', [$this, 'registerHooks']);
     }

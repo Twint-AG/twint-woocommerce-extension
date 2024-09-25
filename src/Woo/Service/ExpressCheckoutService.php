@@ -38,8 +38,7 @@ class ExpressCheckoutService
         ]);
 
         // Get the cart items
-        $cart = WC()
-            ->cart->get_cart();
+        $cart = WC()->cart->get_cart();
 
         foreach ($cart as $cart_item) {
             // Get the product
@@ -84,8 +83,7 @@ class ExpressCheckoutService
      */
     private function handlePayment(WC_Order $order): Pairing
     {
-        $gateways = WC()
-            ->payment_gateways->payment_gateways();
+        $gateways = WC()->payment_gateways->payment_gateways();
 
         /** @var ExpressCheckoutGateway $gatewayInstance */
         $gatewayInstance = $gateways[ExpressCheckoutGateway::UNIQUE_PAYMENT_ID];
@@ -98,8 +96,7 @@ class ExpressCheckoutService
 
     public function isEmptyCart(): bool
     {
-        $quantity = $this->getCart()
-            ->get_cart_item_quantities();
+        $quantity = $this->getCart()->get_cart_item_quantities();
 
         return count($quantity) === 0;
     }

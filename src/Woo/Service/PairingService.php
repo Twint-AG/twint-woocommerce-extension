@@ -5,23 +5,17 @@ declare(strict_types=1);
 namespace Twint\Woo\Service;
 
 use Exception;
-use mysqli_sql_exception;
 use Throwable;
 use Twint\Sdk\Value\FastCheckoutCheckIn;
 use Twint\Sdk\Value\InteractiveFastCheckoutCheckIn;
 use Twint\Sdk\Value\Order;
-use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\PairingStatus;
-use Twint\Sdk\Value\Uuid;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Exception\DatabaseException;
 use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Model\ApiResponse;
-use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 use Twint\Woo\Model\Pairing;
-use Twint\Woo\Model\TransactionLog;
-use Twint\Woo\Provider\DatabaseServiceProvider;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Repository\TransactionRepository;
 use WC_Logger_Interface;
@@ -38,16 +32,17 @@ class PairingService
     protected static array $lazyLoads = ['builder', 'repository'];
 
     public function __construct(
-        private Lazy|PairingRepository $repository,
+        private Lazy|PairingRepository         $repository,
         private readonly TransactionRepository $logRepository,
-        private Lazy|ClientBuilder $builder,
-        private readonly ApiService $apiService,
-        private readonly WC_Logger_Interface $logger
+        private Lazy|ClientBuilder             $builder,
+        private readonly ApiService            $apiService,
+        private readonly WC_Logger_Interface   $logger
     ) {
     }
 
     /**
      * @throws Exception
+     * @throws Throwable
      */
     public function create(ApiResponse $response, WC_Order $order, bool $captured = false): Pairing
     {
@@ -65,8 +60,7 @@ class PairingService
         $pairing->setStatus($tOrder->status()->__toString());
         $pairing->setCaptured($captured);
 
-        $pairing = $this->getRepository()
-            ->save($pairing);
+        $pairing = $this->getRepository()->save($pairing);
 
         $log = $response->getLog();
         $log->setPairingId($pairing->getId());
@@ -75,69 +69,6 @@ class PairingService
         ]);
 
         return $pairing;
-    }
-
-    /**
-     * @throws Throwable
-     */
-    public function monitor(Pairing $pairing): bool
-    {
-        if ($pairing->isFinished()) {
-            return true;
-        }
-
-        $org = clone $pairing;
-
-        $client = $this->getBuilder()
-            ->build();
-        $apiResponse = $this->apiService->call($client, 'monitorOrder', [
-            new OrderId(new Uuid($pairing->getId())),
-        ], false);
-
-        /** @var Order $tOrder */
-        $tOrder = $apiResponse->getReturn();
-        if ($pairing->getStatus() !== $tOrder->status()->__toString() ||
-            $pairing->getPairingStatus() !== $tOrder->pairingStatus()?->__toString() ||
-            $pairing->getTransactionStatus() !== $tOrder->transactionStatus()
-                ->__toString()
-        ) {
-            try {
-                $this->update($pairing, $apiResponse);
-            } catch (mysqli_sql_exception $e) {
-                if ($e->getSQLState() !== DatabaseServiceProvider::DATABASE_TRIGGER_STATE_ERROR_CODE) {
-                    throw $e;
-                }
-
-                $this->logger->info(
-                    "[TWINT] - Update pairing is locked {$pairing->getId()} {$pairing->getVersion()} {$pairing->getStatus()}"
-                );
-
-                return false;
-            }
-        }
-
-        if ($tOrder->isPending()) {
-            return false;
-        }
-
-        // Get WC Order
-        $order = wc_get_order($pairing->getWcOrderId());
-
-        if (!$org->isSuccess() && $tOrder->isSuccessful()) {
-            $status = RegularCheckoutGateway::getOrderStatusAfterPaid();
-            $this->logger->info("[TWINT] - Mark Order {$order->get_id()} and Pairing {$pairing->getId()} as {$status}");
-            $order->update_status($status);
-        }
-
-        if (!$org->isFailed() && $tOrder->isFailure()) {
-            $status = RegularCheckoutGateway::getOrderStatusAfterCancelled();
-            $this->logger->info("[TWINT] - Mark Order {$order->get_id()} and Pairing {$pairing->getId()} as {$status}");
-            $order->update_status($status);
-        }
-
-        $this->updateLog($apiResponse->getLog(), $pairing);
-
-        return true;
     }
 
     /**
@@ -155,22 +86,11 @@ class PairingService
         $this->logger->info(
             "TWINT update: {$pairing->getId()} {$pairing->getVersion()} {$pairing->getPairingStatus()} {$pairing->getTransactionStatus()}"
         );
-        return $this->getRepository()
-            ->update($pairing);
+        return $this->getRepository()->update($pairing);
     }
 
     /**
-     * @throws Exception
-     */
-    protected function updateLog(TransactionLog $log, Pairing $pairing): void
-    {
-        $log->setPairingId($pairing->getId());
-
-        $this->apiService->saveLog($log);
-    }
-
-    /**
-     * @throws Exception
+     * @throws Exception|Throwable
      */
     public function createExpressPairing(ApiResponse $response, WC_Order $order): Pairing
     {
@@ -187,8 +107,7 @@ class PairingService
         $pairing->setStatus(PairingStatus::PAIRING_IN_PROGRESS);
         $pairing->setIsExpress(true);
 
-        $pairing = $this->getRepository()
-            ->save($pairing);
+        $pairing = $this->getRepository()->save($pairing);
 
         $log = $response->getLog();
         $log->setPairingId($pairing->getId());
@@ -211,7 +130,6 @@ class PairingService
 
         $this->logger->info("TWINT update: {$pairing->getId()} {$pairing->getPairingStatus()}");
 
-        return $this->getRepository()
-            ->save($pairing);
+        return $this->getRepository()->save($pairing);
     }
 }

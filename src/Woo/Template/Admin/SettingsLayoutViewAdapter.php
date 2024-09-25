@@ -13,9 +13,9 @@ use Twint\Woo\Utility\CredentialsValidator;
 class SettingsLayoutViewAdapter
 {
     public function __construct(
-        private readonly SettingService $settingService,
+        private readonly SettingService       $settingService,
         private readonly CredentialsValidator $validator,
-        private array $data = []
+        private array                         $data = []
     ) {
     }
 

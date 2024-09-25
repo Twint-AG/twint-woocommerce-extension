@@ -28,6 +28,7 @@ use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Model\ApiResponse;
 use Twint\Woo\Model\Monitor\MonitoringStatus;
 use Twint\Woo\Model\Pairing;
+use Twint\Woo\Model\TransactionLog;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Repository\TransactionRepository;
 use Twint\Woo\Service\Express\ExpressOrderService;
@@ -46,13 +47,13 @@ class MonitorService
     protected static array $lazyLoads = ['orderService', 'builder', 'repository', 'pairingService'];
 
     public function __construct(
-        private Lazy|PairingRepository $repository,
+        private Lazy|PairingRepository         $repository,
         private readonly TransactionRepository $logRepository,
-        private Lazy|ClientBuilder $builder,
-        private readonly WC_Logger_Interface $logger,
-        private Lazy|PairingService $pairingService,
-        private readonly ApiService $api,
-        private Lazy|ExpressOrderService $orderService,
+        private Lazy|ClientBuilder             $builder,
+        private readonly WC_Logger_Interface   $logger,
+        private Lazy|PairingService            $pairingService,
+        private readonly ApiService            $api,
+        private Lazy|ExpressOrderService       $orderService,
     ) {
     }
 
@@ -90,23 +91,18 @@ class MonitorService
         if ($pairing->getIsExpress()) {
             $status = $this->monitorExpress($pairing, $cloned);
             if ($status->paid()) {
-                $this->getRepository()
-                    ->markAsOrdering($pairing->getId());
+                $this->getRepository()->markAsOrdering($pairing->getId());
                 try {
-                    $this->getOrderService()
-                        ->setMonitor($this);
-                    $this->getOrderService()
-                        ->update($cloned);
+                    $this->getOrderService()->setMonitor($this);
+                    $this->getOrderService()->update($cloned);
                     $status->addExtra('order', $pairing->getWcOrderId());
 
                     $cloned->setStatus(Pairing::EXPRESS_STATUS_PAID);
-                    $this->getRepository()
-                        ->markAsPaid($pairing->getId());
+                    $this->getRepository()->markAsPaid($pairing->getId());
                 } catch (PaymentException $e) {
                     $this->logger->error('TWINT MonitorService::monitor: ' . $e->getMessage());
                     $cloned->setStatus(Pairing::EXPRESS_STATUS_CANCELLED);
-                    $this->getRepository()
-                        ->markAsCancelled($pairing->getId());
+                    $this->getRepository()->markAsCancelled($pairing->getId());
                 }
             }
 
@@ -121,8 +117,7 @@ class MonitorService
      */
     public function monitorExpress(Pairing $pairing, Pairing $cloned): MonitoringStatus
     {
-        $client = $this->getBuilder()
-            ->build(Version::NEXT);
+        $client = $this->getBuilder()->build(Version::NEXT);
 
         $res = $this->api->call(
             $client,
@@ -138,9 +133,9 @@ class MonitorService
      * @throws Throwable
      */
     public function monitorExpressRecursive(
-        Pairing $pairing,
-        Pairing $cloned,
-        ApiResponse $res,
+        Pairing                   $pairing,
+        Pairing                   $cloned,
+        ApiResponse               $res,
         InvocationRecordingClient $client
     ): MonitoringStatus {
         /** @var FastCheckoutCheckIn $state */
@@ -158,9 +153,8 @@ class MonitorService
                     'pairing_id' => $cloned->getId(),
                     'order_id' => $cloned->getWcOrderId(),
                 ]);
-                $this->getRepository()
-                    ->markAsMerchantCancelled($cloned->getId());
 
+                $this->getRepository()->markAsMerchantCancelled($cloned->getId());
                 $cloned->setStatus(Pairing::EXPRESS_STATUS_MERCHANT_CANCELLED);
             }
 
@@ -168,8 +162,7 @@ class MonitorService
         }
 
         try {
-            $cloned = $this->getPairingService()
-                ->updateForExpress($cloned, $state);
+            $cloned = $this->getPairingService()->updateForExpress($cloned, $state);
         } catch (DatabaseException $e) {
             if ($e->getMessage() === TwintConstant::EXCEPTION_VERSION_CONFLICT) {
                 $this->logger->info("TWINT {$pairing->getId()} " . $e->getMessage());
@@ -177,7 +170,6 @@ class MonitorService
                 return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
             }
 
-            dd('other exception', $e);
             throw $e;
         }
 
@@ -209,8 +201,7 @@ class MonitorService
                 "TWINT mark as cancelled {$pairing->getPairingStatus()} - {$cloned->getPairingStatus()}"
             );
 
-            $this->getRepository()
-                ->markAsCancelled($pairing->getId());
+            $this->getRepository()->markAsCancelled($pairing->getId());
             $finished = true;
             $status = MonitoringStatus::STATUS_CANCELLED;
         }
@@ -227,7 +218,12 @@ class MonitorService
 
         return $this->api->call($client, 'cancelFastCheckoutCheckIn', [
             PairingUuid::fromString($pairing->getId()),
-        ]);
+        ], true, static function (TransactionLog $log) use ($pairing) {
+            $log->setPairingId($pairing->getId());
+            $log->setOrderId($pairing->getWcOrderId());
+
+            return $log;
+        });
     }
 
     /**
@@ -235,8 +231,7 @@ class MonitorService
      */
     public function monitorRegular(Pairing $pairing, Pairing $cloned): MonitoringStatus
     {
-        $client = $this->getBuilder()
-            ->build();
+        $client = $this->getBuilder()->build();
 
         try {
             $res = $this->api->call($client, 'monitorOrder', [new OrderId(new Uuid($pairing->getId()))], false);
@@ -252,18 +247,17 @@ class MonitorService
      * @throws Throwable
      */
     protected function recursiveMonitor(
-        Pairing $orgPairing,
-        Pairing $pairing,
+        Pairing                   $orgPairing,
+        Pairing                   $pairing,
         InvocationRecordingClient $client,
-        ApiResponse $res
+        ApiResponse               $res
     ): MonitoringStatus {
         /** @var Order $tOrder */
         $tOrder = $res->getReturn();
 
         if ($pairing->hasDiffs($tOrder)) {
             try {
-                $pairing = $this->getPairingService()
-                    ->update($pairing, $res);
+                $pairing = $this->getPairingService()->update($pairing, $res);
             } catch (DatabaseException $e) {
                 if ($e->getMessage() === TwintConstant::EXCEPTION_VERSION_CONFLICT) {
                     $this->logger->info("TWINT {$pairing->getId()} " . $e->getMessage());
@@ -321,8 +315,7 @@ class MonitorService
 
         if ($tOrder->isFailure() && !$orgPairing->isFailure()) {
             if (!$orgPairing->isCaptured()) {
-                $this->getOrderService()
-                    ->cancelOrder($pairing);
+                $this->getOrderService()->cancelOrder($pairing);
             }
 
             return MonitoringStatus::fromValues(true, MonitoringStatus::STATUS_CANCELLED);

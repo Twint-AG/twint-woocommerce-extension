@@ -33,9 +33,9 @@ class FastCheckoutCheckinService
 
     public function __construct(
         private readonly WC_Logger_Interface $logger,
-        private Lazy|ClientBuilder $builder,
-        private readonly ApiService $api,
-        private Lazy|PairingService $pairingService,
+        private Lazy|ClientBuilder           $builder,
+        private readonly ApiService          $api,
+        private Lazy|PairingService          $pairingService,
     ) {
     }
 
@@ -65,8 +65,7 @@ class FastCheckoutCheckinService
         $options = $this->getShippingOptions();
         $res = $this->callApi($order, $options);
 
-        return $this->getPairingService()
-            ->createExpressPairing($res, $order);
+        return $this->getPairingService()->createExpressPairing($res, $order);
     }
 
     protected function getShippingOptions(): ShippingMethods
@@ -95,8 +94,7 @@ class FastCheckoutCheckinService
      */
     private function callApi(WC_Order $order, ShippingMethods $methods): ApiResponse
     {
-        $client = $this->getBuilder()
-            ->build(Version::NEXT);
+        $client = $this->getBuilder()->build(Version::NEXT);
 
         $this->logger->info("TWINT start EC {$order->get_id()}");
 

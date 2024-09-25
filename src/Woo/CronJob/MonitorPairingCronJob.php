@@ -4,25 +4,36 @@ declare(strict_types=1);
 
 namespace Twint\Woo\CronJob;
 
-use Twint\Woo\Constant\TwintConstant;
+use Throwable;
+use Twint\Woo\Container\Lazy;
+use Twint\Woo\Container\LazyLoadTrait;
+use Twint\Woo\Service\MonitorService;
 use WC_Logger_Interface;
 
+/**
+ * @method MonitorService getMonitor()
+ */
 class MonitorPairingCronJob
 {
+    use LazyLoadTrait;
+
     public const HOOK_NAME = 'twint_order_handler';
 
+    protected static array $lazyLoads = ['monitor'];
+
     public function __construct(
-        private readonly WC_Logger_Interface $logger
+        private readonly WC_Logger_Interface $logger,
+        private readonly Lazy|MonitorService $monitor,
     ) {
-        add_filter('cron_schedules', [$this, 'wpCronSchedules']);
+        add_filter('cron_schedules', [$this, 'addMinuteInterval']);
 
         add_action(self::HOOK_NAME, [$this, 'run']);
     }
 
-    public static function initCronjob(): void
+    public static function scheduleCronjob(): void
     {
         if (!wp_next_scheduled(self::HOOK_NAME)) {
-            wp_schedule_event(time(), 'twint1minute', self::HOOK_NAME);
+            wp_schedule_event(time(), 'every_minute', self::HOOK_NAME);
         }
     }
 
@@ -31,42 +42,25 @@ class MonitorPairingCronJob
         wp_clear_scheduled_hook(self::HOOK_NAME);
     }
 
-    public function wpCronSchedules($schedules)
+    public function addMinuteInterval($schedules): array
     {
-        if (!isset($schedules['twint1minute'])) {
-            $minutes = 1;
-            $schedules['twint1minute'] = [
-                'interval' => 60,
-                'display' => __('Once every 1 minute'),
-            ];
-        }
+        $schedules['every_minute'] = [
+            'interval' => 60, // 60 seconds = 1 minute
+            'display' => __('Every Minute'),
+        ];
 
         return $schedules;
     }
 
+    /**
+     * @throws Throwable
+     */
     public function run(): void
     {
         $this->logger->info('twintCronJobRunning', ['Running twint cancel expired orders']);
-        // Get pending orders within X minutes (configurable in admin setting)
-        $onlyPickOrderFromMinutes = get_option(TwintConstant::MINUTES_PENDING_WAIT, 30);
-        $time = strtotime("-{$onlyPickOrderFromMinutes} minutes");
-        $time = date('Y-m-d H:i:s', $time);
-        $pendingOrders = wc_get_orders([
-            'type' => 'shop_order',
-            'limit' => -1,
-            'payment_method' => 'twint_regular',
-            'status' => ['wc-pending'],
-            'date_before' => $time,
-        ]);
 
-        foreach ($pendingOrders as $order) {
-            $msgNote = __('The order has been cancelled due to expired after ' . $onlyPickOrderFromMinutes . ' minutes.', 'woocommerce-gateway-twint');
-            $order->update_status('cancelled', $msgNote);
-        }
+        $this->getMonitor()->monitors();
 
-        $this->logger->info(
-            'twintCronJobDone',
-            ['There are ' . count($pendingOrders) . ' pending orders has run.']
-        );
+        $this->logger->info('twintCronJobDone');
     }
 }

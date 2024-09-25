@@ -12,7 +12,7 @@ use wpdb;
 class TransactionRepository
 {
     public function __construct(
-        private readonly wpdb $db,
+        private readonly wpdb                $db,
         private readonly WC_Logger_Interface $logger,
     ) {
     }
@@ -114,8 +114,13 @@ class TransactionRepository
      */
     public function getByOrderId(int $orderId): array
     {
-        $query = $this->db->prepare('SELECT * from %i WHERE order_id = %d ORDER BY created_at DESC;', [
+        $query = $this->db->prepare('
+            SELECT l.* from %i AS l
+            INNER JOIN %i AS p on p.id = l.pairing_id    
+            WHERE l.order_id = %d 
+            ORDER BY p.created_at DESC, l.created_at DESC;', [
             self::tableName(),
+            PairingRepository::tableName(),
             $orderId,
         ]);
 

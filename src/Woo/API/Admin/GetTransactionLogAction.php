@@ -32,12 +32,14 @@ class GetTransactionLogAction extends BaseAction
             <tr>
                 <th><?= __('Order ID', 'woocommerce-gateway-twint'); ?></th>
                 <th><?= __('API Method', 'woocommerce-gateway-twint'); ?></th>
+                <th><?= __('Exception', 'woocommerce-gateway-twint'); ?></th>
             </tr>
             </thead>
             <tbody>
             <tr>
                 <td><?= $log->getId() ?></td>
                 <td><span class="badge bg-primary"><?= $log->getApiMethod(); ?></span></td>
+                <td><span><?= $log->getExceptionText(); ?></span></td>
             </tr>
             </tbody>
         </table>

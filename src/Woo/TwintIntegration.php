@@ -29,8 +29,8 @@ class TwintIntegration
     protected string $pageHookSetting;
 
     public function __construct(
-        private Lazy|PaymentService $paymentService,
-        private readonly ApiService $api,
+        private Lazy|PaymentService    $paymentService,
+        private readonly ApiService    $api,
         private Lazy|PairingRepository $pairingRepository,
     ) {
         add_action('admin_enqueue_scripts', [$this, 'enqueueStyles'], 19);

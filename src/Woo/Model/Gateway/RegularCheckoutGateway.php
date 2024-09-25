@@ -124,10 +124,10 @@ class RegularCheckoutGateway extends AbstractGateway
 
     /**
      * Set up the status initial for the order first created.
-     * @since 1.0.0
      * @param mixed $status
      * @param mixed $orderId
      * @param mixed $order
+     * @since 1.0.0
      */
     public function setCompleteOrderStatus($status, $orderId, $order): string
     {
@@ -166,13 +166,10 @@ class RegularCheckoutGateway extends AbstractGateway
         $order = wc_get_order($orderId);
 
         if ($order->get_payment_method() === self::getId()) {
-            $pairing = $this->getPairingRepository()
-                ->findByWooOrderId($order->get_id());
+            $pairing = $this->getPairingRepository()->findByWooOrderId($order->get_id());
             if (!$pairing instanceof Pairing) {
-                $apiResponse = $this->getPaymentService()
-                    ->createOrder($order);
-                $res = $this->getPairingService()
-                    ->create($apiResponse, $order);
+                $apiResponse = $this->getPaymentService()->createOrder($order);
+                $res = $this->getPairingService()->create($apiResponse, $order);
             }
         }
     }
@@ -206,8 +203,7 @@ class RegularCheckoutGateway extends AbstractGateway
             // TODO Think about this cart
             //            WC()->cart->empty_cart();
 
-            $pairing = $this->getPairingRepository()
-                ->findByWooOrderId($order_id);
+            $pairing = $this->getPairingRepository()->findByWooOrderId($order_id);
 
             return [
                 'result' => 'success',

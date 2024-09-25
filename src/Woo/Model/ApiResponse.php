@@ -7,7 +7,7 @@ namespace Twint\Woo\Model;
 class ApiResponse
 {
     public function __construct(
-        private readonly mixed $return,
+        private readonly mixed          $return,
         private readonly TransactionLog $log
     ) {
     }

@@ -17,7 +17,7 @@ use WC_Logger_Interface;
 class ApiService
 {
     public function __construct(
-        private readonly WC_Logger_Interface $logger,
+        private readonly WC_Logger_Interface   $logger,
         private readonly TransactionRepository $logRepository,
     ) {
     }
@@ -28,10 +28,10 @@ class ApiService
      */
     public function call(
         InvocationRecordingClient $client,
-        string $method,
-        array $args,
-        bool $save = true,
-        callable $buildLogCallback = null
+        string                    $method,
+        array                     $args,
+        bool                      $save = true,
+        callable                  $buildLogCallback = null
     ): ApiResponse {
         if (!in_array($method, ['monitorOrder', 'monitorFastCheckOutCheckIn'], true)) {
             $save = true;
@@ -56,10 +56,10 @@ class ApiService
      * @throws Throwable
      */
     protected function log(
-        mixed $returnValue,
-        string $method,
-        array $invocation,
-        bool $save = true,
+        mixed    $returnValue,
+        string   $method,
+        array    $invocation,
+        bool     $save = true,
         callable $callback = null
     ): TransactionLog {
         try {
@@ -83,7 +83,11 @@ class ApiService
                 $log = $callback($log, $returnValue);
             }
 
-            if (!empty($exception) && !$save) {
+            //            if (in_array($method, ['monitorOrder', 'monitorFastCheckOutCheckIn'], true)) {
+            //                dd($exception);
+            //            }
+
+            if (!$exception && !$save) {
                 return $log;
             }
 

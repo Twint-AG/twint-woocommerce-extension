@@ -32,9 +32,9 @@ class PaymentService
     protected static array $lazyLoads = ['builder', 'repository'];
 
     public function __construct(
-        private Lazy|ClientBuilder $builder,
-        private readonly ApiService $api,
-        private Lazy|PairingRepository $repository,
+        private Lazy|ClientBuilder           $builder,
+        private readonly ApiService          $api,
+        private Lazy|PairingRepository       $repository,
         private readonly WC_Logger_Interface $logger
     ) {
     }
@@ -44,8 +44,7 @@ class PaymentService
      */
     public function createOrder(WC_Order $order): ApiResponse
     {
-        $client = $this->getBuilder()
-            ->build();
+        $client = $this->getBuilder()->build();
 
         try {
             $currency = $order->get_currency();
@@ -72,11 +71,9 @@ class PaymentService
      */
     public function reverseOrder(WC_Order $order, float $amount): ?ApiResponse
     {
-        $client = $this->getBuilder()
-            ->build();
+        $client = $this->getBuilder()->build();
 
-        $pairing = $this->getRepository()
-            ->getRefundableForOrder($order->get_id());
+        $pairing = $this->getRepository()->getRefundableForOrder($order->get_id());
         if (!$pairing instanceof Pairing) {
             $this->logger->error('Cannot refund due to non-exist pairing');
             return null;

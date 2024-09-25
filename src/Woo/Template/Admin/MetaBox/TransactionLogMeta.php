@@ -59,8 +59,8 @@ class TransactionLogMeta
             </thead>
             <tbody>
             <?php
-                /** @var TransactionLog $log */
-                foreach ($logs as $log): ?>
+            /** @var TransactionLog $log */
+            foreach ($logs as $log): ?>
                 <tr <?= empty($log->getExceptionText()) ? '' : 'class="log-error"' ?>>
                     <td><?= $log->getOrderId() ?></td>
                     <td><?= $log->getApiMethod(); ?></td>
@@ -84,16 +84,12 @@ class TransactionLogMeta
 
         <div class="modal twint-modal">
             <div class="modal-content" style="width: 70%;">
-                <div class="modal-body">
-                    <span class="close-button">&times;</span>
+                <div class="modal-header">
                     <h3><?= __('Twint transaction log', 'woocommerce-gateway-twint'); ?></h3>
-                    <div id="modal-content-details"></div>
+                    <span class="close-button">&times;</span>
                 </div>
-
-                <div class="modal-footer">
-                    <a href="#" class="button button-small button-primary close-button">
-                        <?= __('Close', 'woocommerce-gateway-twint'); ?>
-                    </a>
+                <div class="modal-body">
+                    <div id="modal-content-details"></div>
                 </div>
             </div>
         </div>
