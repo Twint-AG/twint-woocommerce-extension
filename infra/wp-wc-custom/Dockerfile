@@ -30,6 +30,10 @@ RUN curl -k -L --output ${WOO_VERSION}.zip https://downloads.wordpress.org/plugi
     rm ${WOO_VERSION}.zip
 COPY woocommerce-gateway-twint /usr/src/wordpress/wp-content/plugins/woocommerce-gateway-twint
 
+RUN apt-get update && \
+    apt-get install -y libxslt-dev && \
+    docker-php-ext-install xsl
+
 # Copy source code of website
 RUN cp -a /usr/src/wordpress/. /var/www/html
 
