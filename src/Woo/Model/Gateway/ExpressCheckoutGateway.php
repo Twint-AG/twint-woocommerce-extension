@@ -7,6 +7,7 @@ namespace Twint\Woo\Model\Gateway;
 use Throwable;
 use Twint\Plugin;
 use Twint\Woo\Constant\TwintConstant;
+use Twint\Woo\Model\Pairing;
 use Twint\Woo\Service\FastCheckoutCheckinService;
 use Twint\Woo\Service\SettingService;
 
@@ -184,13 +185,11 @@ class ExpressCheckoutGateway extends AbstractGateway
     /**
      * Handle store custom config fields
      */
-    public function saveExpressCheckoutButtonLabelAndDisplayOptions(): void
+    public function saveConfigs(): void
     {
-        $label = $_POST['twint_button_label'] ?? 'TWINT Express Checkout';
         $displayOptions = $_POST['display_options'] ?? [];
 
         update_option('twint_express_checkout_display_options', $displayOptions);
-        update_option('twint_express_checkout_label', $label);
     }
 
     /**
@@ -203,8 +202,7 @@ class ExpressCheckoutGateway extends AbstractGateway
     public function setCompleteOrderStatus($status, $orderId, $order): string
     {
         if ($order && $this->id === $order->get_payment_method()) {
-            // TODO use config or database option for this.
-            $status = 'pending';
+            $status = 'processing';
         }
 
         return $status;
@@ -213,6 +211,7 @@ class ExpressCheckoutGateway extends AbstractGateway
     /**
      * @param mixed $order_id
      * @throws Throwable
+     * @return Pairing
      */
     public function process_payment($order_id)
     {
@@ -229,12 +228,9 @@ class ExpressCheckoutGateway extends AbstractGateway
     {
         // Actions.
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
-        add_action(
-            'woocommerce_update_options_payment_gateways_' . $this->id,
-            [$this, 'saveExpressCheckoutButtonLabelAndDisplayOptions']
-        );
-
+        add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'saveConfigs']);
         add_filter('woocommerce_payment_complete_order_status', [$this, 'setCompleteOrderStatus'], 10, 3);
+
 
         if (!is_admin()) {
             FastCheckoutCheckinService::registerHooks();

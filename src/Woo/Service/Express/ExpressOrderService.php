@@ -285,8 +285,11 @@ class ExpressOrderService
         $order->save();
     }
 
+    /**
+     * Clean up cart if can
+     */
     private function cleanCart(): void
     {
-        WC()->cart->empty_cart();
+        WC()?->cart?->empty_cart();
     }
 }

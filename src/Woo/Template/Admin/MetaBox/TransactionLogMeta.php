@@ -8,6 +8,7 @@ use Psr\Container\NotFoundExceptionInterface;
 use Twint\Plugin;
 use Twint\Woo\Model\TransactionLog;
 use Twint\Woo\Repository\TransactionRepository;
+use WC_Order;
 
 class TransactionLogMeta
 {
@@ -39,7 +40,7 @@ class TransactionLogMeta
 
     public function addTransactionLogTable($post): void
     {
-        $order = wc_get_order($post->get_id());
+        $order = wc_get_order($post instanceof WC_Order ? $post->get_id() : $post->ID);
 
         /** @var TransactionRepository $repository */
         $repository = Plugin::di('transaction.repository', true);

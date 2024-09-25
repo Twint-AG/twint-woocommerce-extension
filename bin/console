@@ -1,7 +1,14 @@
 #!/usr/bin/env php
 <?php
 require __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../../../../wp-load.php';
+
+// for testing now only will revisit later
+$file = __DIR__ . '/../../../../wp-load.php';
+if(!file_exists($file)){
+    $file =  '/var/www/html/wp-load.php';
+}
+
+require_once $file;
 
 use Symfony\Component\Console\Application;
 use Twint\Command\PollCommand;

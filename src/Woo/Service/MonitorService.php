@@ -97,12 +97,15 @@ class MonitorService
                     $this->getOrderService()->update($cloned);
                     $status->addExtra('order', $pairing->getWcOrderId());
 
+                    $this->logger->info('TWINT mark as paid');
                     $cloned->setStatus(Pairing::EXPRESS_STATUS_PAID);
                     $this->getRepository()->markAsPaid($pairing->getId());
                 } catch (PaymentException $e) {
                     $this->logger->error('TWINT MonitorService::monitor: ' . $e->getMessage());
                     $cloned->setStatus(Pairing::EXPRESS_STATUS_CANCELLED);
                     $this->getRepository()->markAsCancelled($pairing->getId());
+                } catch (Throwable $e) {
+                    $this->logger->error($e->getMessage());
                 }
             }
 
