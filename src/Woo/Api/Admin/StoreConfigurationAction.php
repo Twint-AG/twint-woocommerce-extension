@@ -16,6 +16,11 @@ use Twint\Woo\Utility\CredentialsValidator;
 use Twint\Woo\Utility\CryptoHandler;
 use WC_Logger_Interface;
 
+/**
+ * @method getSettingService()
+ * @method getValidator()
+ * @method getCertificateHandler()
+ */
 class StoreConfigurationAction extends BaseAction
 {
     use LazyLoadTrait;
@@ -83,7 +88,7 @@ class StoreConfigurationAction extends BaseAction
                 $file = $_FILES[$certificateKey];
                 $content = file_get_contents($file['tmp_name']);
 
-                $certificate = $this->certificateHandler->read((string) $content, $password);
+                $certificate = $this->getCertificateHandler()->read((string) $content, $password);
 
                 if ($certificate instanceof Pkcs12Certificate) {
                     $certificateResult = [
@@ -108,7 +113,7 @@ class StoreConfigurationAction extends BaseAction
             }
 
             if (!$alreadyCheckedSystemCertificate) {
-                $certificateCheck = $this->settingService->getCertificate();
+                $certificateCheck = $this->getSettingService()->getCertificate();
                 if ($certificateCheck === null) {
                     $certificateCheck = [];
                 }
@@ -130,7 +135,7 @@ class StoreConfigurationAction extends BaseAction
     {
         $response = [];
         $certificateKey = SettingService::CERTIFICATE;
-        $isValidTwintConfiguration = $this->validator->validate($certificate, $storeUuid, $testMode);
+        $isValidTwintConfiguration = $this->getValidator()->validate($certificate, $storeUuid, $testMode);
 
         if ($isValidTwintConfiguration) {
             $response['status'] = true;

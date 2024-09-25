@@ -68,6 +68,8 @@ class ExpressCheckoutGateway extends AbstractGateway
 
         // Display Options
         $this->displayOptions = get_option(TwintConstant::CONFIG_EXPRESS_SCREENS, []);
+
+        $this->registerHooks();
     }
 
     /**
