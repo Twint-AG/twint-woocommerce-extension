@@ -26,6 +26,7 @@ use Twint\Woo\Exception\DatabaseException;
 use Twint\Woo\Exception\PaymentException;
 use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Model\ApiResponse;
+use Twint\Woo\Model\Gateway\AbstractGateway;
 use Twint\Woo\Model\Monitor\MonitoringStatus;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Model\TransactionLog;
@@ -304,14 +305,14 @@ class MonitorService
         if (!$orgPairing->isCaptured() && $tOrder->isSuccessful() && !$orgPairing->isSuccessful()) {
             $order = wc_get_order($pairing->getWcOrderId());
 
+            // Update order status after paid by TWINT application
+            // AND Optionally, add an order note
+            $order->update_status(AbstractGateway::getOrderStatusAfterPaid(), 'The order was marked as paid programmatically.');
+
             // Mark the order as paid (completed)
             $order->payment_complete();
 
-            // Optionally, add an order note
             $order->add_order_note('The order was marked as paid programmatically.');
-
-            // Save changes
-            $order->save();
 
             return MonitoringStatus::fromValues(true, MonitoringStatus::STATUS_PAID);
         }
