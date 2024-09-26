@@ -1,0 +1,104 @@
+#twint-modal{
+  @apply text-16 flex fixed inset-0 top-0 left-0 items-center justify-center w-screen h-screen z-[99999] overflow-y-auto;
+  @apply transition-all duration-300 ease-out;
+
+  &:has(.twint-mobile){
+    @apply w-full h-full m-0 max-h-full overflow-y-scroll;
+
+    .twint-logo{
+      @apply hidden;
+    }
+
+    #twint-close > span{
+      order: 9999;
+      margin-left: 1em;
+    }
+  }
+
+  .modal-inner-wrap {
+    @apply p-0;
+    background-color: rgb(243 244 246);
+
+    @media (min-width: 1024px) {
+      & {
+        width: 800px;
+      }
+    }
+  }
+
+  header {
+    border-bottom: solid 1px rgba(0, 0, 0, 0.25);
+  }
+
+  &-logo {
+    width: 139px;
+    height: 53px;
+  }
+
+  #twint-close {
+    @apply focus:border-none focus:outline-none cursor-pointer border-none bg-inherit text-[#262626] flex items-center align-middle font-normal shadow-none;
+
+    span {
+      display: inline-block;
+      box-shadow: none !important;
+    }
+
+    &:hover, &:focus {
+      color: #262626;
+
+      @apply border-0 font-normal bg-inherit;
+    }
+  }
+
+  &-modal-slide {
+    left: 0 !important;
+  }
+
+  #qr-token {
+    @apply text-center font-semibold text-[30px] leading-[41px] tracking-[4px] text-black border-none opacity-100 uppercase;
+  }
+
+  #twint-copy-btn {
+    @apply border;
+    color: #262626;
+
+    &.copied {
+      @apply text-green-500;
+    }
+  }
+
+  #twint-addroid-button{
+    @apply no-underline block mb-1 bg-black text-white font-bold p-4 rounded-lg text-center hover:bg-gray-800 focus:outline-none focus:ring-gray-600 focus:ring-opacity-75
+    hover:text-white hover:no-underline;
+  }
+
+  #twint-amount{
+    @apply text-center inline-block p-3 px-6 text-white bg-black font-semibold;
+  }
+
+  .twint-app-container{
+    @apply w-3/4 mx-auto justify-center max-w-screen-md mx-auto grid grid-cols-3 gap-4;
+  }
+
+  .twint-select {
+    @apply h-55 block my-4 w-full p-4 bg-white text-center appearance-none border-none focus:outline-none focus:ring-0 bg-no-repeat;
+
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTYgMTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTE0Ljg3NSAxLjU2MjVMOCA4LjQzNzVMMS4xMjUgMS41NjI1IiBzdHJva2U9IiMyNjI2MjYiIHN0cm9rZS13aWR0aD0iMiIvPjwvc3ZnPg==');
+    background-position: right 1rem center;
+    background-size: 1em;
+  }
+}
+
+.twint-mobile{
+  #qrcode{
+    @apply hidden;
+  }
+
+  @media (orientation: landscape) {
+    @apply flex justify-center;
+
+    & > * {
+      @apply w-1/2 max-w-full;
+    }
+  }
+}

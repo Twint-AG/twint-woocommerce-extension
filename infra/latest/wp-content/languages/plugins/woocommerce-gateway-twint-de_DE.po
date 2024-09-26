@@ -1,0 +1,204 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: TWINT Woo Extension\n"
+"Language: de\n"
+
+msgid "Regular Checkout"
+msgstr "Regulärer Checkout"
+
+msgid "Express Checkout"
+msgstr "Express Checkout"
+
+msgid "TWINT - Express Checkout | TBU - Twint Payment"
+msgstr "TWINT - Express Checkout | TBU - Twint Payment"
+
+msgid "Allows TWINT - Express Checkout"
+msgstr "Ermöglicht TWINT - Express Checkout"
+
+msgid "Enable/Disable"
+msgstr "Aktivieren/Deaktivieren"
+
+msgid "Enable TWINT Express Checkout"
+msgstr "TWINT Express Checkout aktivieren"
+
+msgid "Display Screens"
+msgstr "Bildschirme anzeigen"
+
+msgid "Button config"
+msgstr "Taste konfigurieren"
+
+msgid "Button Preview"
+msgstr "Schaltfläche Vorschau"
+
+msgid "Refund failed."
+msgstr "Rückerstattung fehlgeschlagen."
+
+msgid "TWINT - Regular Checkout | TBU - Twint Payment"
+msgstr "TWINT - Regulärer Checkout | TBU - Twint Zahlung"
+
+msgid "Allows TWINT - Regular Checkout"
+msgstr "Ermöglicht TWINT - Regulärer Checkout"
+
+msgid "Enable Twint Regular Checkout"
+msgstr "Twint Regular Checkout aktivieren"
+
+msgid "Title"
+msgstr "Titel"
+
+msgid "Description"
+msgstr "Beschreibung"
+
+msgid "This controls the title which the user sees during checkout."
+msgstr "Dies steuert den Titel, den der Benutzer beim Bezahlvorgang sieht."
+
+msgid "TWINT"
+msgstr "TWINT"
+
+msgid "This controls the description which the user sees during checkout."
+msgstr ""
+"Dies steuert die Beschreibung, die dem Benutzer beim Bezahlvorgang angezeigt "
+"wird."
+
+msgid "Regular Checkout Payment Plugin supported by TWINT"
+msgstr "Regular Checkout Zahlungs-Plugin unterstützt durch TWINT"
+
+msgid "Invalid Merchant ID. Merchant ID needs to be a UUIDv4."
+msgstr "Ungültige Händler-ID. Die Händler-ID muss eine UUIDv4 sein."
+
+msgid "Settings have been saved successfully."
+msgstr "Einstellungen wurden erfolgreich gespeichert."
+
+msgid "You need to provide P12 certificate file."
+msgstr "Sie müssen eine P12-Zertifikatsdatei bereitstellen."
+
+msgid ""
+"Please check again. Your Certificate file, merchant ID or Certificate "
+"password is incorrect."
+msgstr ""
+"Bitte überprüfen Sie es noch einmal. Ihre Zertifikatsdatei, Händler-ID oder "
+"Ihr Zertifikatskennwort ist falsch."
+
+msgid "Invalid certificate or password."
+msgstr "Ungültiges Zertifikat oder Passwort."
+
+msgid "Credential"
+msgstr "Anmeldeinformationen"
+
+msgid "Switch to test mode"
+msgstr "In den Testmodus wechseln"
+
+msgid "Merchant ID"
+msgstr "Händler-ID"
+
+msgid "Upload a certificate file (.p12)"
+msgstr "Laden Sie eine Zertifikatsdatei (.p12) hoch."
+
+msgid "Enter the certificate password for the Twint merchant certificate."
+msgstr "Geben Sie das Zertifikatspasswort für das Twint Händlerzertifikat ein."
+
+msgid "Certificate Password"
+msgstr "Zertifikatkennwort"
+
+msgid "Please enter the password for the certificate."
+msgstr "Bitte geben Sie das Passwort für das Zertifikat ein."
+
+msgid "The order has bene cancelled."
+msgstr "Die Bestellung wurde storniert."
+
+msgid "Settings"
+msgstr "Einstellungen"
+
+msgid "TWINT Settings"
+msgstr "TWINT Einstellungen"
+
+msgid "Certificate encrypted and stored."
+msgstr "Zertifikat verschlüsselt und gespeichert."
+
+msgid "TWINT Transaction log"
+msgstr "TWINT Transaktionsprotokoll"
+
+msgid "Your payment was successful"
+msgstr "Ihre Zahlung war erfolgreich"
+
+msgid "Your order was cancelled."
+msgstr "Ihre Bestellung wurde storniert."
+
+msgid "Scan this QR Code with your TWINT app to complete the checkout."
+msgstr ""
+"Scannen Sie diesen QR-Code mit Ihrer TWINT App, um den Checkout "
+"abzuschließen."
+
+msgid "or"
+msgstr "oder"
+
+msgid "Enter this code in your TWINT app:"
+msgstr "Gib diesen Code in deiner TWINT App ein:"
+
+msgid "Choose your TWINT app"
+msgstr "Wähle deine TWINT App"
+
+msgid "Upload new certificate"
+msgstr "Neues Zertifikat hochladen"
+
+msgid "Close"
+msgstr "Schließen"
+
+msgid "The configurations are loaded but encryption fails. Please check again."
+msgstr ""
+"Die Konfigurationen werden geladen, aber die Verschlüsselung schlägt fehl. "
+"Bitte überprüfen Sie es noch einmal."
+
+msgid "Save changes"
+msgstr "Änderungen speichern"
+
+msgid "Copy Code"
+msgstr "Code kopieren"
+
+msgid "Other banks"
+msgstr "Andere Banken"
+
+msgid "Cart"
+msgstr "Wagen"
+
+msgid "Mini Cart"
+msgstr "Mini-Wagen"
+
+msgid "Product Details Page"
+msgstr "Produktdetailseite"
+
+msgid "Single Product"
+msgstr "Einzelnes Produkt"
+
+msgid "Order ID"
+msgstr "Bestell-ID"
+
+msgid "API Method"
+msgstr "API-Methode"
+
+msgid "SOAP Actions"
+msgstr "SOAP-Aktionen"
+
+msgid "Order Status"
+msgstr "Status der Bestellung"
+
+msgid "Created At"
+msgstr "Erstellt am"
+
+msgid "Actions"
+msgstr "Aktionen"
+
+msgid "View Details"
+msgstr "Details anzeigen"
+
+msgid "Request"
+msgstr "Anfrage"
+
+msgid "Response"
+msgstr "Antwort"
+
+msgid "TWINT API Response"
+msgstr "TWINT API-Antwort"

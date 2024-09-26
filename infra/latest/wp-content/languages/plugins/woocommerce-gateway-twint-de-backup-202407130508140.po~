@@ -1,0 +1,184 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"Project-Id-Version: TWINT Woo Extension\n"
+"Language: de\n"
+"Language-Team: German\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"PO-Revision-Date: 2024-07-13 05:08+0000"
+
+#: src/Woo/CronJob/TwintCancelOrderExpiredCronJob.php:65
+msgid " minutes."
+msgstr " Protokoll."
+
+#: src/Woo/TwintIntegration.php:96
+msgid "</strong>, because this order has not been paid by the customer."
+msgstr "</strong>, weil diese Bestellung vom Kunden nicht bezahlt wurde."
+
+#: includes/class-wc-gateway-twint-express-checkout.php:69
+msgid "Allows TWINT - Express Checkout"
+msgstr "Ermöglicht TWINT - Express Checkout"
+
+#: includes/class-wc-gateway-twint-regular-checkout.php:57
+msgid "Allows TWINT - Regular Checkout"
+msgstr "Ermöglicht TWINT - Regulärer Checkout"
+
+#: includes/class-wc-gateway-twint-express-checkout.php:160
+msgid "Button config"
+msgstr "Taste konfigurieren"
+
+#: includes/class-wc-gateway-twint-express-checkout.php:166
+msgid "Button Preview"
+msgstr "Schaltfläche Vorschau"
+
+#: src/Woo/Includes/Admin/Settings/Tabs/Credential.php:55
+#: src/Woo/Includes/Admin/Settings/Tabs/Credential.php:57
+msgid "Certificate Password"
+msgstr "Zertifikatkennwort"
+
+#: src/Woo/Includes/Admin/Settings/Tabs/Credential.php:23
+msgid "Credential"
+msgstr "Anmeldeinformationen"
+
+#: includes/class-wc-gateway-twint-regular-checkout.php:94
+msgid "Description"
+msgstr "Beschreibung"
+
+#: includes/class-wc-gateway-twint-express-checkout.php:128
+msgid "Display Screens"
+msgstr "Bildschirme anzeigen"
+
+#: includes/class-wc-gateway-twint-express-checkout.php:101
+msgid "Enable TWINT Express Checkout"
+msgstr "TWINT Express Checkout aktivieren"
+
+#: includes/class-wc-gateway-twint-regular-checkout.php:83
+msgid "Enable Twint Regular Checkout"
+msgstr "Twint Regular Checkout aktivieren"
+
+#: includes/class-wc-gateway-twint-regular-checkout.php:81
+#: includes/class-wc-gateway-twint-express-checkout.php:99
+msgid "Enable/Disable"
+msgstr "Aktivieren/Deaktivieren"
+
+#: src/Woo/Includes/Admin/Settings/Tabs/Credential.php:50
+msgid "Enter the certificate password for the Twint merchant certificate."
+msgstr "Geben Sie das Zertifikatspasswort für das Twint Händlerzertifikat ein."
+
+#: src/Woo/Includes/Admin/Settings/Tabs/ExpressCheckout.php:19
+msgid "Express Checkout"
+msgstr "Express Checkout"
+
+#. URI of the plugin
+#. Author URI of the plugin
+msgid "https://www.nfq-asia.com/"
+msgstr ""
+
+#: src/Woo/App/API/TwintApiWordpressAjax.php:177
+msgid "Invalid certificate or password."
+msgstr "Ungültiges Zertifikat oder Passwort."
+
+#: src/Woo/App/API/TwintApiWordpressAjax.php:98
+msgid "Invalid Merchant ID. Merchant ID needs to be a UUIDv4."
+msgstr "Ungültige Händler-ID. Die Händler-ID muss eine UUIDv4 sein."
+
+#: src/Woo/Includes/Admin/Settings/Tabs/Credential.php:38
+msgid "Merchant ID"
+msgstr "Händler-ID"
+
+#. Author of the plugin
+msgid "NFQ GROUP"
+msgstr "NFQ GROUP"
+
+#: src/Woo/App/API/TwintApiWordpressAjax.php:170
+msgid ""
+"Please check again. Your Certificate file, merchant ID or Certificate "
+"password is incorrect."
+msgstr ""
+"Bitte überprüfen Sie es noch einmal. Ihre Zertifikatsdatei, Händler-ID oder "
+"Ihr Zertifikatskennwort ist falsch."
+
+#: src/Woo/Includes/Admin/Settings/Tabs/Credential.php:58
+msgid "Please enter the password for the certificate."
+msgstr "Bitte geben Sie das Passwort für das Zertifikat ein."
+
+#: includes/class-wc-gateway-twint-regular-checkout.php:185
+#: includes/class-wc-gateway-twint-express-checkout.php:256
+msgid "Refund failed."
+msgstr "Rückerstattung fehlgeschlagen."
+
+#: src/Woo/Includes/Admin/Settings/Tabs/RegularCheckout.php:19
+msgid "Regular Checkout"
+msgstr "Regulärer Checkout"
+
+#: includes/class-wc-gateway-twint-regular-checkout.php:97
+msgid "Regular Checkout Payment Plugin supported by TWINT"
+msgstr "Regular Checkout Zahlungs-Plugin unterstützt durch TWINT"
+
+#: src/Woo/TwintIntegration.php:292
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: src/Woo/App/API/TwintApiWordpressAjax.php:119
+msgid "Settings have been saved successfully."
+msgstr "Einstellungen wurden erfolgreich gespeichert."
+
+#: src/Woo/Includes/Admin/Settings/Tabs/Credential.php:31
+msgid "Switch to test mode"
+msgstr "In den Testmodus wechseln"
+
+#. Name of the plugin
+msgid "TBU - Twint Payment"
+msgstr "TBU - Twint Payment"
+
+#: src/Woo/Services/PaymentService.php:105
+msgid "The order has bene cancelled."
+msgstr "Die Bestellung wurde storniert."
+
+#: includes/class-wc-gateway-twint-regular-checkout.php:96
+msgid "This controls the description which the user sees during checkout."
+msgstr ""
+"Dies steuert die Beschreibung, die dem Benutzer beim Bezahlvorgang angezeigt "
+"wird."
+
+#: includes/class-wc-gateway-twint-regular-checkout.php:89
+msgid "This controls the title which the user sees during checkout."
+msgstr "Dies steuert den Titel, den der Benutzer beim Bezahlvorgang sieht."
+
+#: includes/class-wc-gateway-twint-regular-checkout.php:87
+msgid "Title"
+msgstr "Titel"
+
+#: includes/class-wc-gateway-twint-regular-checkout.php:91
+msgid "TWINT"
+msgstr "TWINT"
+
+#: includes/class-wc-gateway-twint-express-checkout.php:68
+msgid "TWINT - Express Checkout | TBU - Twint Payment"
+msgstr "TWINT - Express Checkout | TBU - Twint Payment"
+
+#: includes/class-wc-gateway-twint-regular-checkout.php:56
+msgid "TWINT - Regular Checkout | TBU - Twint Payment"
+msgstr "TWINT - Regulärer Checkout | TBU - Twint Zahlung"
+
+#. Description of the plugin
+msgid ""
+"Twint Woocommerce Payment Method is a secure and user-friendly plugin that "
+"allows Swiss online merchants to accept payments via Twint, a popular mobile "
+"payment solution in Switzerland."
+msgstr ""
+
+#: src/Woo/Includes/Admin/Settings/Tabs/Credential.php:49
+msgid "Upload a certificate file (.p12)"
+msgstr "Laden Sie eine Zertifikatsdatei (.p12) hoch."
+
+#: src/Woo/Includes/Admin/Settings/Tabs/Credential.php:39
+msgid "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
+msgstr "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
+
+#: src/Woo/App/API/TwintApiWordpressAjax.php:141
+msgid "You need to provide P12 certificate file."
+msgstr "Sie müssen eine P12-Zertifikatsdatei bereitstellen."

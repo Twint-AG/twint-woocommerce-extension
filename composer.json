@@ -1,23 +1,24 @@
 {
-  "name": "twint-ag/twint-shopware-plugin",
-  "description": "TWINT payment plugin for Shopware 6",
+  "name": "twint-ag/twint-woocommerce-extension",
+  "description": "TWINT payment plugin for WooCommerce",
   "keywords": [
     "twint",
     "twint.ch",
     "switzerland",
     "checkout",
+    "regular checkout",
     "express checkout",
     "payment",
     "wordpress",
     "woocommerce",
     "woocommerce-extension"
   ],
-  "version": "0.0.1",
+  "version": "1.0.0",
   "type": "wordpress-plugin",
   "license": "GNU General Public License v3.0",
   "autoload": {
     "files": [
-      "src/Woo/App/Helpers/helpers.php"
+      "src/Plugin.php"
     ],
     "psr-4": {
       "Twint\\": "src/"
@@ -34,12 +35,21 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "twint-ag/sdk": "^1.0",
+    "php": ">=8.1",
+    "ext-dom": "*",
+    "ext-mysqli": "*",
+    "ext-openssl": "*",
+    "ext-xsl": "*",
     "guzzlehttp/guzzle": "^7.0",
-    "twig/twig": "^3.10",
-    "chillerlan/php-qrcode": "^5.0",
-    "symfony/var-dumper": "^6.4",
-    "ext-xsl": "*"
+    "symfony/console": ">=6.4",
+    "symfony/process": ">=6.4",
+    "twint-ag/sdk": "dev-develop"
+  },
+  "require-dev": {
+    "symfony/var-dumper": ">=6.1",
+    "symplify/easy-coding-standard": "^12.1",
+    "slevomat/coding-standard": "^8.15",
+    "rector/rector": "^1.2"
   },
   "repositories": [
     {
@@ -49,7 +59,9 @@
   ],
   "config": {
     "allow-plugins": {
-      "php-http/discovery": true
+      "php-http/discovery": true,
+      "composer/installers": false,
+      "dealerdirect/phpcodesniffer-composer-installer": true
     }
   }
 }

@@ -18,27 +18,19 @@ use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\PrefixedCashRegisterId;
 use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\Version;
+use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Exception\InvalidConfigException;
-use Twint\Woo\Services\SettingService;
-use Twint\Woo\Utility\Twint\CryptoHandler;
+use Twint\Woo\Service\SettingService;
+use Twint\Woo\Utility\CryptoHandler;
 
 class ClientBuilder
 {
-    public static $instance;
+    private static InvocationRecordingClient $instance;
 
-    /**
-     * @var CryptoHandler
-     */
-    private CryptoHandler $crypto;
-
-    /**
-     * @var SettingService
-     */
-    private SettingService $setting;
-
-    public function __construct() {
-        $this->crypto = new CryptoHandler();
-        $this->setting = new SettingService();
+    public function __construct(
+        private readonly CryptoHandler  $crypto,
+        private readonly SettingService $setting,
+    ) {
     }
 
     public function build(int $version = Version::LATEST): InvocationRecordingClient
@@ -50,12 +42,12 @@ class ClientBuilder
 
         $environment = $this->setting->isTestMode() ? Environment::TESTING() : Environment::PRODUCTION();
         $storeUuid = $this->setting->getStoreUuid();
-        if (empty($storeUuid)) {
+        if ($storeUuid === null || $storeUuid === '' || $storeUuid === '0') {
             throw new InvalidConfigException(InvalidConfigException::ERROR_INVALID_STORE_UUID);
         }
 
         $certificate = $this->setting->getCertificate();
-        if (empty($certificate)) {
+        if ($certificate === null || $certificate === []) {
             throw new InvalidConfigException(InvalidConfigException::ERROR_INVALID_CERTIFICATE);
         }
 
@@ -63,7 +55,7 @@ class ClientBuilder
             $cert = $this->crypto->decrypt($certificate['certificate']);
             $passphrase = $this->crypto->decrypt($certificate['passphrase']);
 
-            if (empty($passphrase) || empty($cert)) {
+            if ($passphrase === '' || $passphrase === '0' || ($cert === '' || $cert === '0')) {
                 throw new InvalidConfigException(InvalidConfigException::ERROR_INVALID_CERTIFICATE);
             }
             $messageRecorder = new MessageRecorder();
@@ -71,7 +63,7 @@ class ClientBuilder
             $client = new InvocationRecordingClient(
                 new Client(
                     CertificateContainer::fromPkcs12(new Pkcs12Certificate(new InMemoryStream($cert), $passphrase)),
-                    new PrefixedCashRegisterId(StoreUuid::fromString($storeUuid), SettingService::PLATFORM),
+                    new PrefixedCashRegisterId(StoreUuid::fromString($storeUuid), TwintConstant::PLATFORM),
                     new Version($version),
                     $environment,
                     soapEngineFactory: new DefaultSoapEngineFactory(
