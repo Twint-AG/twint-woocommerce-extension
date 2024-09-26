@@ -153,7 +153,6 @@ class RegularCheckoutGateway extends AbstractGateway
 
     public function appendValidStatusForOrderNeedPayment($statuses)
     {
-        $statuses[] = 'pending-payment';
         return $statuses;
     }
 
