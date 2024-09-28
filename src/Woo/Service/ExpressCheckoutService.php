@@ -27,26 +27,38 @@ class ExpressCheckoutService
      * @throws WC_Data_Exception
      * @throws Exception|Throwable
      */
-    public function checkout(): Pairing
+    public function checkout(bool $wholeCart): Pairing
     {
         // Get the current user
-        $user_id = get_current_user_id();
+        $customerId = get_current_user_id();
 
         // Create a new order
         $order = wc_create_order([
-            'customer_id' => $user_id,
+            'customer_id' => $customerId,
         ]);
 
-        // Get the cart items
+        $order->set_currency('CHF');
+
         $cart = WC()->cart->get_cart();
 
-        foreach ($cart as $cart_item) {
+        foreach ($cart as $item) {
             // Get the product
-            $product = $cart_item['data'];
-            $quantity = $cart_item['quantity'];
+            $product = $item['data'];
+            $quantity = $item['quantity'];
 
             // Add the product to the order
             $order->add_product($product, $quantity);
+        }
+
+        // clear cart when trying EC for single product
+        if(!$wholeCart){
+            WC()?->cart?->empty_cart();
+        }
+
+        if (!empty($coupons = WC()->cart->get_coupons())) {
+            foreach ($coupons as $code => $coupon) {
+                $order->add_coupon($code);
+            }
         }
 
         // Calculate totals
@@ -54,13 +66,13 @@ class ExpressCheckoutService
 
         // Add billing address
         $address = [
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-            'email' => 'john.doe@example.com',
+            'first_name' => 'First',
+            'last_name' => 'Last',
+            'email' => 'email@example.com',
             'phone' => '1234567890',
             'address_1' => '123 Main St',
-            'city' => 'New York',
-            'state' => 'NY',
+            'city' => 'City',
+            'state' => 'ST',
             'postcode' => '10001',
             'country' => 'CH',
         ];

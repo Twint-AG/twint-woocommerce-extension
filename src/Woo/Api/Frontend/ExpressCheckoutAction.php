@@ -51,7 +51,7 @@ class ExpressCheckoutAction
             }
         }
 
-        $pairing = $this->service->checkout();
+        $pairing = $this->service->checkout($full);
 
         return new WP_REST_Response([
             'pairing' => $pairing->getId(),
