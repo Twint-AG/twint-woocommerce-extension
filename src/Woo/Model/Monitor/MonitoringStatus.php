@@ -45,10 +45,13 @@ class MonitoringStatus
 
     private static function extractStatus(Pairing $pairing): string
     {
-        if ($pairing->isSuccessful()) {
+        $finished = $pairing->isFinished();
+
+        if ($finished && $pairing->isSuccessful()) {
             return self::STATUS_PAID;
         }
-        if ($pairing->isFailure()) {
+
+        if ($finished && $pairing->isFailure()) {
             return self::STATUS_CANCELLED;
         }
 

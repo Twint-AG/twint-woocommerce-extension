@@ -44,8 +44,9 @@ class ExpressCheckout {
   }
 
   onSuccessCallback(data) {
+    ExpressCheckout.modal.refreshMiniCart();
+
     if (data.openMiniCart) {
-      ExpressCheckout.modal.refreshMiniCart();
       return this.showMessageAndOpenMiniCart();
     }
 
