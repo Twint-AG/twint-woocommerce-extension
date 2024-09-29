@@ -10,13 +10,15 @@ use Twint\Woo\Template\Admin\Setting\Tab\ExpressCheckout;
 use Twint\Woo\Template\Admin\Setting\Tab\RegularCheckout;
 use Twint\Woo\Utility\CredentialsValidator;
 
+#[\AllowDynamicProperties]
 class SettingsLayoutViewAdapter
 {
     public function __construct(
         private readonly SettingService       $settingService,
         private readonly CredentialsValidator $validator,
         private array                         $data = []
-    ) {
+    )
+    {
     }
 
     public function render(): void

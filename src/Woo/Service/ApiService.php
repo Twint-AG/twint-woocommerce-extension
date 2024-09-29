@@ -83,10 +83,6 @@ class ApiService
                 $log = $callback($log, $returnValue);
             }
 
-            //            if (in_array($method, ['monitorOrder', 'monitorFastCheckOutCheckIn'], true)) {
-            //                dd($exception);
-            //            }
-
             if (!$exception && !$save) {
                 return $log;
             }
