@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Service;
 
-use Automattic\WooCommerce\StoreApi\Utilities\CartController;
 use Exception;
 use Throwable;
 use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
@@ -14,13 +13,18 @@ use WC_Data_Exception;
 use WC_Order;
 use WP_REST_Request;
 
+#[\AllowDynamicProperties]
 class ExpressCheckoutService
 {
-    private CartController $controller;
-
     public function __construct()
     {
-        $this->controller = new CartController();
+        $storeApiSupportCartController = 'Automattic\WooCommerce\StoreApi\Utilities\CartController';
+        $blockApiSupportCartController = 'Automattic\WooCommerce\Blocks\StoreApi\Utilities\CartController';
+        if (class_exists($storeApiSupportCartController)) {
+            $this->controller = new $storeApiSupportCartController();
+        } else if (class_exists($blockApiSupportCartController)) {
+            $this->controller = new $blockApiSupportCartController();
+        }
     }
 
     /**

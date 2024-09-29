@@ -6,13 +6,13 @@ namespace Twint\Woo\Setup;
 
 use Twint\Plugin;
 use Twint\Woo\CronJob\MonitorPairingCronJob;
-use function Psl\Filesystem\copy;
 
 class Installer
 {
     public function __construct(
         private readonly array $migrations
-    ) {
+    )
+    {
     }
 
     public function install(): void
@@ -47,9 +47,23 @@ class Installer
     {
         $pluginLanguagesPath = Plugin::abspath() . 'i18n/languages/';
         $wpLangPluginPath = WP_CONTENT_DIR . '/languages/plugins/';
+
+        if (!$this->folderExist($wpLangPluginPath)) {
+            mkdir($wpLangPluginPath, 0777, true);
+        }
         $pluginLanguagesDirectory = array_diff(scandir($pluginLanguagesPath), ['..', '.']);
         foreach ($pluginLanguagesDirectory as $language) {
-            copy($pluginLanguagesPath . $language, $wpLangPluginPath . $language, true);
+            @copy($pluginLanguagesPath . $language, $wpLangPluginPath . $language);
         }
+    }
+
+    public function folderExist($folder): bool|string
+    {
+        $path = realpath($folder);
+        if ($path !== false && is_dir($path)) {
+            return $path;
+        }
+
+        return false;
     }
 }
