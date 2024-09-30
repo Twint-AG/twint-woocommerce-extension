@@ -6,37 +6,10 @@ class ProductListingPageContext extends Context {
   }
 
   getParams() {
-    const box = this.button.previousElementSibling;
+    const box = this.button.closest('[data-block-name="woocommerce/product-button"]');
 
-    const dataBlockButton = box.getAttribute('data-block-name');
-    if (!dataBlockButton) {
-      /**
-       * `box` does not exist, then we need to handle to support NON-Blocks
-       * @type {HTMLCollection}
-       */
-      const children = this.button.parentElement.children;
-      let btnAddToCart = null;
-      for (let i = 0; i < children.length; i++) {
-        for (let j = 0; j < children[i].classList.length; j++) {
-          if (children[i].classList[j] === 'add_to_cart_button') {
-            btnAddToCart = children[i];
-            break;
-          }
-        }
-
-        if (btnAddToCart !== null) {
-          break;
-        }
-      }
-
-      const productId = btnAddToCart.attributes['data-product_id']?.value;
-      const quantity = btnAddToCart.attributes['data-quantity']?.value;
-
-      console.log(productId, quantity);
-      return {
-        quantity: quantity,
-        id: productId,
-      };
+    if (!box) {
+      throw new Error('Cannot find parent product box');
     }
 
     const json = box.getAttribute('data-wc-context');
@@ -44,7 +17,7 @@ class ProductListingPageContext extends Context {
     return this.mapping(JSON.parse(json));
   }
 
-  mapping(data) {
+  mapping(data){
     return {
       quantity: data.quantityToAdd,
       id: data.productId

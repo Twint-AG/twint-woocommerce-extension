@@ -23,7 +23,13 @@ class ExpressButton
 
     public function addExpressCheckoutButtonProductListing(): void
     {
-        echo $this->getButton('PLP');
+        /**
+         * This will get the current product
+         */
+        global $product;
+        if ($product->is_type(TwintConstant::SIMPLE_PRODUCT)) {
+            echo $this->getButton('PLP');
+        }
     }
 
     public function registerHooks(): void
@@ -116,8 +122,8 @@ class ExpressButton
             <button type="submit" class="twint twint-button ' . $additionalClasses . '">
                 <span class="twint icon-block">
                     <img class="twint twint-icon" src="' . Plugin::assets(
-            '/images/express.svg'
-        ) . '" alt="Express Checkout">
+                '/images/express.svg'
+            ) . '" alt="Express Checkout">
                 </span>
                 <span class="twint twint-label">Express Checkout</span>
             </button>
