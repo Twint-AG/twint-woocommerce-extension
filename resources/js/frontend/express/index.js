@@ -66,7 +66,7 @@ class ExpressCheckout {
     }
   }
 
-  showMessageAndOpenMiniCart(){
+  showMessageAndOpenMiniCart() {
     let messages = document.querySelector('.woocommerce-notices-wrapper');
     if (messages) {
       messages.innerHTML =

@@ -139,8 +139,8 @@ class TwintIntegration
         }
 
         $this->pageHookSetting = add_menu_page(
-            __('TWINT Settings', 'woocommerce-gateway-twint'),
-            __('TWINT Settings', 'woocommerce-gateway-twint'),
+            __('TWINT', 'woocommerce-gateway-twint'),
+            __('TWINT', 'woocommerce-gateway-twint'),
             'manage_options',
             'twint-payment-integration-settings',
             [$this, 'accessSettingsMenuCallback'],

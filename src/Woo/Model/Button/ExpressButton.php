@@ -21,6 +21,11 @@ class ExpressButton
         add_action('wp', [$this, 'registerHooks']);
     }
 
+    public function addExpressCheckoutButtonProductListing(): void
+    {
+        echo $this->getButton('PLP');
+    }
+
     public function registerHooks(): void
     {
         if (is_admin()) {
@@ -40,18 +45,26 @@ class ExpressButton
         foreach ($screens as $screen) {
             switch ($screen) {
                 case TwintConstant::CONFIG_SCREEN_PDP:
+                    /**
+                     * This Hook is used for both Blocks and Non-Blocks supported.
+                     */
                     add_action('woocommerce_after_add_to_cart_button', [$this, 'renderButton'], 20);
                     break;
 
                 case TwintConstant::CONFIG_SCREEN_PLP:
-                    add_filter('woocommerce_loop_add_to_cart_link', [$this, 'renderInProductBox']);
-
+                    add_action('woocommerce_after_shop_loop_item', [$this, 'addExpressCheckoutButtonProductListing']);
                     break;
 
                 case TwintConstant::CONFIG_SCREEN_CART:
                     add_filter(
                         'render_block_woocommerce/cart-express-payment-block',
                         [$this, 'renderExpressButtonInCartPage']
+                    );
+
+                    add_action(
+                        'woocommerce_proceed_to_checkout',
+                        [$this, 'renderExpressButtonInCartPageOldestVersion'],
+                        20
                     );
                     break;
 
@@ -63,6 +76,13 @@ class ExpressButton
                     break;
             }
         }
+    }
+
+    public function renderExpressButtonInCartPageOldestVersion(): void
+    {
+        $html = $this->getButton('cart');
+
+        echo $this->renderOrSection() . $html;
     }
 
     protected function getAvailableScreens(): array
@@ -96,8 +116,8 @@ class ExpressButton
             <button type="submit" class="twint twint-button ' . $additionalClasses . '">
                 <span class="twint icon-block">
                     <img class="twint twint-icon" src="' . Plugin::assets(
-            '/images/express.svg'
-        ) . '" alt="Express Checkout">
+                '/images/express.svg'
+            ) . '" alt="Express Checkout">
                 </span>
                 <span class="twint twint-label">Express Checkout</span>
             </button>

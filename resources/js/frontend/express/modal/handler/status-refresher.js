@@ -1,4 +1,4 @@
-import triggerFetch from '@wordpress/api-fetch';
+import apiFetch from '@wordpress/api-fetch';
 import IntervalHandler from "./interval-handler";
 
 class StatusRefresher {
@@ -20,7 +20,7 @@ class StatusRefresher {
     this.callbacks = {};
   }
 
-  setPairing(value){
+  setPairing(value) {
     this.pairing = value;
   }
 
@@ -80,7 +80,7 @@ class StatusRefresher {
     const self = this;
     this.processing = true;
 
-    triggerFetch({
+    apiFetch({
       path: '/twint/v1/payment/status',
       method: 'POST',
       data: {
@@ -91,7 +91,6 @@ class StatusRefresher {
     })
       .then(response => {
         self.processing = false;
-        triggerFetch.setNonce(response.headers);
 
         if (!response.ok) {
           throw new Error('Network response was not ok');

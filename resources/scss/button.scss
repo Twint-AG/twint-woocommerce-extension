@@ -16,6 +16,7 @@ $border-radius: 6px;
   background-color: $button-bg-color !important;
   height: 50px;
   transition: background-color .3s ease;
+  text-transform: unset;
 
   &:disabled {
     background-color: $button-bg-color-disabled !important;
@@ -30,6 +31,8 @@ $border-radius: 6px;
     margin-right: 6px;
     padding: 4px;
     height: 35px;
+    display: flex;
+    align-items: center;
 
     &:disabled {
       background-color: $button-bg-color-disabled;
@@ -66,9 +69,9 @@ $border-radius: 6px;
     container-type: inline-size;
   }
 
-  *:has(+ &){
+  /**:has(+ &){
     margin-bottom: 0 !important;
-  }
+  }*/
 
   *:has(> &.mini-cart) {
     flex-wrap: wrap;

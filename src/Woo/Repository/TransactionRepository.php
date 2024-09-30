@@ -69,7 +69,8 @@ class TransactionRepository
 
     public function get(int $id): ?TransactionLog
     {
-        $query = $this->db->prepare('SELECT * from %i WHERE id = %d ;', [self::tableName(), $id]);
+        $table = self::tableName();
+        $query = $this->db->prepare("SELECT * from $table WHERE id = %d ;", $id);
 
         $result = $this->db->get_results($query);
 

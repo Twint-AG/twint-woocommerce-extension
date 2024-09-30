@@ -69,7 +69,8 @@ class PairingRepository
     {
         $select = $this->getSelect();
 
-        $query = $this->db->prepare("SELECT {$select} FROM %i WHERE id = %s LIMIT 1;", [self::tableName(), $id]);
+        $table = self::tableName();
+        $query = $this->db->prepare("SELECT {$select} FROM {$table} WHERE id = %s LIMIT 1;", $id);
 
         return ($result = $this->db->get_results($query)) ? (new Pairing(false))->load((array) reset($result)) : null;
     }

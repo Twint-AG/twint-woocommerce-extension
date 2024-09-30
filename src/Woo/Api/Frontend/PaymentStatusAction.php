@@ -60,6 +60,7 @@ class PaymentStatusAction extends BaseAction
 
         $pairing = $this->getRepository()
             ->get($pairingId);
+
         if (!$pairing instanceof Pairing) {
             throw new Exception('The pairing for the the order does not exist.');
         }

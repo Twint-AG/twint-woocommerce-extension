@@ -37,6 +37,7 @@
 
   #twint-close {
     @apply focus:border-none focus:outline-none cursor-pointer border-none bg-inherit text-[#262626] flex items-center align-middle font-normal shadow-none;
+    text-transform: unset;
 
     span {
       display: inline-block;
