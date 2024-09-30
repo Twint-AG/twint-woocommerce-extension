@@ -17,13 +17,9 @@ class ExpressButton
         private readonly SettingService $setting,
         private readonly Modal          $modal,
         private readonly Spinner        $spinner,
-    ) {
-        add_action('wp', [$this, 'registerHooks']);
-    }
-
-    public function addExpressCheckoutButtonProductListing(): void
+    )
     {
-        echo $this->getButton('PLP');
+        add_action('wp', [$this, 'registerHooks']);
     }
 
     public function registerHooks(): void
@@ -52,7 +48,7 @@ class ExpressButton
                     break;
 
                 case TwintConstant::CONFIG_SCREEN_PLP:
-                    add_action('woocommerce_after_shop_loop_item', [$this, 'addExpressCheckoutButtonProductListing']);
+                    add_filter('woocommerce_loop_add_to_cart_link', [$this, 'renderInProductBox']);
                     break;
 
                 case TwintConstant::CONFIG_SCREEN_CART:
@@ -61,11 +57,7 @@ class ExpressButton
                         [$this, 'renderExpressButtonInCartPage']
                     );
 
-                    add_action(
-                        'woocommerce_proceed_to_checkout',
-                        [$this, 'renderExpressButtonInCartPageOldestVersion'],
-                        20
-                    );
+                    add_action('woocommerce_proceed_to_checkout', [$this, 'addToLegacyCartPage'], 1);
                     break;
 
                 case TwintConstant::CONFIG_SCREEN_CART_FLYOUT:
@@ -78,11 +70,9 @@ class ExpressButton
         }
     }
 
-    public function renderExpressButtonInCartPageOldestVersion(): void
+    public function addToLegacyCartPage(): void
     {
-        $html = $this->getButton('cart');
-
-        echo $this->renderOrSection() . $html;
+        echo $this->getButton('cart') . $this->renderOrSection();
     }
 
     protected function getAvailableScreens(): array
@@ -116,8 +106,8 @@ class ExpressButton
             <button type="submit" class="twint twint-button ' . $additionalClasses . '">
                 <span class="twint icon-block">
                     <img class="twint twint-icon" src="' . Plugin::assets(
-            '/images/express.svg'
-        ) . '" alt="Express Checkout">
+                '/images/express.svg'
+            ) . '" alt="Express Checkout">
                 </span>
                 <span class="twint twint-label">Express Checkout</span>
             </button>
@@ -147,6 +137,17 @@ class ExpressButton
     {
         $button = $this->getButton('PLP');
 
-        return str_replace('</button>', "</button> {$button}", $html);
+        // Attempt to replace within a button element
+        $buttonInserted = str_contains($html, '</button>');
+        if ($buttonInserted) {
+            $html = str_replace('</button>', "</button> {$button}", $html);
+        }
+
+        // If no button element is found and it's not a variable product, try replacing within an anchor tag
+        if (!$buttonInserted && !str_contains($html, 'product_type_variable') && !str_contains($html, 'product_type_grouped')) {
+            $html = str_replace('</a>', "</a> {$button}", $html);
+        }
+
+        return $html;
     }
 }
