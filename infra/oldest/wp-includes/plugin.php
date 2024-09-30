@@ -161,7 +161,6 @@ function add_filter( $hook_name, $callback, $priority = 10, $accepted_args = 1 )
  * @return mixed The filtered value after all hooked functions are applied to it.
  */
 function apply_filters( $hook_name, $value ) {
-//    file_put_contents('/var/www/html/wp-content/plugins/twint-woocommerce-extension/filter.txt', "\n$hook_name", FILE_APPEND);
 	global $wp_filter, $wp_current_filter;
 
 	$args = func_get_args();
@@ -438,7 +437,6 @@ function add_action( $hook_name, $callback, $priority = 10, $accepted_args = 1 )
  *                          functions hooked to the action. Default empty.
  */
 function do_action( $hook_name, ...$arg ) {
-//    file_put_contents('/var/www/html/wp-content/plugins/twint-woocommerce-extension/actions.txt', "\n$hook_name", FILE_APPEND);
 	global $wp_filter, $wp_actions, $wp_current_filter;
 
 	if ( ! isset( $wp_actions[ $hook_name ] ) ) {
