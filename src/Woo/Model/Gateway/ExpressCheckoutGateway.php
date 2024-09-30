@@ -83,6 +83,16 @@ class ExpressCheckoutGateway extends AbstractGateway
         return apply_filters('woocommerce_twint_order_status_paid', 'processing');
     }
 
+    public static function removeExpressCheckoutPaymentMethodInCheckoutPage($available_gateways)
+    {
+        // We don't need to display Express Checkout option in payment methods available in Checkout page.
+        if (is_checkout()) {
+            unset($available_gateways[self::UNIQUE_PAYMENT_ID]);
+        }
+
+        return $available_gateways;
+    }
+
     /**
      * Initialise Gateway Settings Form Fields.
      */
@@ -224,23 +234,16 @@ class ExpressCheckoutGateway extends AbstractGateway
         return $service->checkin($order);
     }
 
-    public static function removeExpressCheckoutPaymentMethodInCheckoutPage($available_gateways)
-    {
-        // We don't need to display Express Checkout option in payment methods available in Checkout page.
-        if (is_checkout()) {
-            unset($available_gateways[self::UNIQUE_PAYMENT_ID]);
-        }
-
-        return $available_gateways;
-    }
-
     protected function registerHooks()
     {
         // Actions.
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'saveConfigs']);
         add_filter('woocommerce_payment_complete_order_status', [$this, 'setCompleteOrderStatus'], 10, 3);
-        add_filter('woocommerce_available_payment_gateways', [$this, 'removeExpressCheckoutPaymentMethodInCheckoutPage']);
+        add_filter(
+            'woocommerce_available_payment_gateways',
+            [$this, 'removeExpressCheckoutPaymentMethodInCheckoutPage']
+        );
 
         if (!is_admin()) {
             FastCheckoutCheckinService::registerHooks();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Service;
 
+use AllowDynamicProperties;
 use Throwable;
 use Twint\Sdk\Value\CustomerDataScopes;
 use Twint\Sdk\Value\Money;
@@ -24,7 +25,7 @@ use WC_Shipping_Rate;
  * @method ClientBuilder getBuilder()
  * @method PairingService getPairingService()
  */
-#[\AllowDynamicProperties]
+#[AllowDynamicProperties]
 class FastCheckoutCheckinService
 {
     use LazyLoadTrait;
@@ -36,8 +37,7 @@ class FastCheckoutCheckinService
         private Lazy|ClientBuilder           $builder,
         private readonly ApiService          $api,
         private Lazy|PairingService          $pairingService,
-    )
-    {
+    ) {
         $legacyController = 'Automattic\WooCommerce\StoreApi\Utilities\CartController';
         $cartController = 'Automattic\WooCommerce\Blocks\StoreApi\Utilities\CartController';
         if (class_exists($legacyController)) {
@@ -88,7 +88,7 @@ class FastCheckoutCheckinService
                 $options[] = new ShippingMethod(
                     new ShippingMethodId($rate->get_method_id()),
                     $rate->get_label(),
-                    Money::CHF((float)$rate->get_cost())
+                    Money::CHF((float) $rate->get_cost())
                 );
             }
         }
@@ -109,7 +109,7 @@ class FastCheckoutCheckinService
             $client,
             'requestFastCheckOutCheckIn',
             [
-                Money::CHF((float)$order->get_total()),
+                Money::CHF((float) $order->get_total()),
                 new CustomerDataScopes(...CustomerDataScopes::all()),
                 $methods,
             ]

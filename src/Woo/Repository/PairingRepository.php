@@ -17,8 +17,7 @@ class PairingRepository
     public function __construct(
         private readonly wpdb                $db,
         private readonly WC_Logger_Interface $logger,
-    )
-    {
+    ) {
     }
 
     public static function tableName(): string
@@ -73,7 +72,7 @@ class PairingRepository
         $table = self::tableName();
         $query = $this->db->prepare("SELECT {$select} FROM {$table} WHERE id = %s LIMIT 1;", $id);
 
-        return ($result = $this->db->get_results($query)) ? (new Pairing(false))->load((array)reset($result)) : null;
+        return ($result = $this->db->get_results($query)) ? (new Pairing(false))->load((array) reset($result)) : null;
     }
 
     private function getSelect(): string
@@ -138,12 +137,15 @@ class PairingRepository
         $select = $this->getSelect();
         $table = self::tableName();
 
-        $query = $this->db->prepare("SELECT {$select} FROM {$table} WHERE status IN ( %s ) ORDER BY created_at ASC;", implode(',', ['PAIRING_IN_PROGRESS', 'IN_PROGRESS']));
+        $query = $this->db->prepare(
+            "SELECT {$select} FROM {$table} WHERE status IN ( %s ) ORDER BY created_at ASC;",
+            implode(',', ['PAIRING_IN_PROGRESS', 'IN_PROGRESS'])
+        );
 
         $results = $this->db->get_results($query);
         $pairings = [];
         foreach ($results as $result) {
-            $pairings[] = (new Pairing(false))->load((array)$result);
+            $pairings[] = (new Pairing(false))->load((array) $result);
         }
 
         return $pairings;
@@ -161,7 +163,7 @@ class PairingRepository
         }
 
         $instance = new Pairing();
-        return $instance->load((array)reset($result));
+        return $instance->load((array) reset($result));
     }
 
     public function getRefundableForOrder(int $orderId): ?Pairing
@@ -169,7 +171,9 @@ class PairingRepository
         $select = $this->getSelect();
         $table = self::tableName();
         $query = $this->db->prepare(
-            "SELECT {$select} FROM {$table} WHERE is_express = 0 AND wc_order_id = %d ORDER BY created_at DESC LIMIT 1;", $orderId);
+            "SELECT {$select} FROM {$table} WHERE is_express = 0 AND wc_order_id = %d ORDER BY created_at DESC LIMIT 1;",
+            $orderId
+        );
 
         $result = $this->db->get_results($query);
         if (empty($result)) {
@@ -177,7 +181,7 @@ class PairingRepository
         }
 
         $instance = new Pairing();
-        return $instance->load((array)reset($result));
+        return $instance->load((array) reset($result));
     }
 
     public function markAsOrdering(string $id): mysqli_result|bool|int|null
