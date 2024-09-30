@@ -27,6 +27,11 @@ $border-radius: 6px;
     text-decoration: none;
   }
 
+  &:focus{
+    outline: none !important;
+    border: none !important;
+  }
+
   .icon-block {
     border-radius: 4px;
     margin-right: 6px;
@@ -43,7 +48,10 @@ $border-radius: 6px;
   .twint-icon {
     height: $icon-size;
     width: $icon-size;
+
+    margin: 0 !important;
   }
+
   .twint-label {
     font-size: 15px;
     font-weight: 600;
@@ -70,7 +78,7 @@ $border-radius: 6px;
     container-type: inline-size;
   }
 
-  button[name="add-to-cart"] + &, a.add_to_cart_button + & , button.single_add_to_cart_button + & {
+  button[name="add-to-cart"] + &, a.add_to_cart_button + & , button.single_add_to_cart_button + &, a.checkout + & {
     @apply mt-2;
   }
 
@@ -80,5 +88,9 @@ $border-radius: 6px;
 
   *:has(> &.mini-cart) {
     flex-wrap: wrap;
+  }
+
+  .theme-storefront & {
+    height: 42px;
   }
 }
