@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Setup;
 
-use Symfony\Component\Process\Process;
-use Throwable;
-use Twint\Command\CliCommand;
 use Twint\Plugin;
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\CronJob\MonitorPairingCronJob;
@@ -14,7 +11,8 @@ use Twint\Woo\CronJob\MonitorPairingCronJob;
 class Installer
 {
     public function __construct(
-        private readonly array $migrations
+        private readonly array $migrations,
+        private readonly CliSupportTrigger $trigger
     ) {
     }
 
@@ -24,7 +22,7 @@ class Installer
 
         $this->setDefaultConfigs();
 
-        $this->detectCliSupport();
+        $this->trigger->handle();
 
         MonitorPairingCronJob::scheduleCronjob();
 
@@ -71,19 +69,5 @@ class Installer
         }
 
         return false;
-    }
-
-    private function detectCliSupport(): void
-    {
-        try {
-            $process = new Process(['php', Plugin::abspath() . 'bin/console', CliCommand::COMMAND]);
-            $process->setOptions([
-                'create_new_console' => true,
-            ]);
-            $process->disableOutput();
-            $process->start();
-        } catch (Throwable $e) {
-            // silence
-        }
     }
 }
