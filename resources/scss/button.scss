@@ -12,7 +12,6 @@ $padding: 10px;
 $border-radius: 6px;
 
 .twint-button {
-  @apply mt-2;
   @apply w-full cursor-pointer items-center justify-center border-none rounded-md  flex p-2.5 text-white;
   background-color: $button-bg-color !important;
   height: 50px;
@@ -71,9 +70,13 @@ $border-radius: 6px;
     container-type: inline-size;
   }
 
-  /**:has(+ &){
+  button[name="add-to-cart"] + &, a.add_to_cart_button + & {
+    @apply mt-2;
+  }
+
+  *:has(+ &){
     margin-bottom: 0 !important;
-  }*/
+  }
 
   *:has(> &.mini-cart) {
     flex-wrap: wrap;
