@@ -65,9 +65,15 @@ class ExpressButton
                         'render_block_woocommerce/mini-cart-checkout-button-block',
                         [$this, 'renderButtonInMiniCart']
                     );
+                    add_action( 'woocommerce_widget_shopping_cart_buttons', [$this, 'addToNonBlockMiniCart'], 30 );
                     break;
             }
         }
+    }
+
+    public function addToNonBlockMiniCart(): void
+    {
+        echo $this->getButton('mini-cart');
     }
 
     public function addToLegacyCartPage(): void
@@ -144,7 +150,8 @@ class ExpressButton
         }
 
         // If no button element is found and it's not a variable product, try replacing within an anchor tag
-        if (!$buttonInserted && !str_contains($html, 'product_type_variable') && !str_contains($html, 'product_type_grouped')) {
+        $text = __("Add to cart", 'woocommerce');
+        if (!$buttonInserted && str_contains($html, $text)) {
             $html = str_replace('</a>', "</a> {$button}", $html);
         }
 
