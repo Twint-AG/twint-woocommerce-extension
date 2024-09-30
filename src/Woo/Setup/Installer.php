@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Setup;
 
+use Symfony\Component\Process\Process;
+use Throwable;
+use Twint\Command\CliCommand;
 use Twint\Plugin;
+use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\CronJob\MonitorPairingCronJob;
 
 class Installer
 {
     public function __construct(
         private readonly array $migrations
-    )
-    {
+    ) {
     }
 
     public function install(): void
@@ -20,6 +23,8 @@ class Installer
         $this->upgradeSchema();
 
         $this->setDefaultConfigs();
+
+        $this->detectCliSupport();
 
         MonitorPairingCronJob::scheduleCronjob();
 
@@ -41,6 +46,7 @@ class Installer
             'title' => 'TWINT',
         ];
         update_option('woocommerce_twint_regular_settings', $initData);
+        update_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION, 'No');
     }
 
     private function copyLanguagePacks(): void
@@ -65,5 +71,19 @@ class Installer
         }
 
         return false;
+    }
+
+    private function detectCliSupport(): void
+    {
+        try {
+            $process = new Process(['php', Plugin::abspath() . 'bin/console', CliCommand::COMMAND]);
+            $process->setOptions([
+                'create_new_console' => true,
+            ]);
+            $process->disableOutput();
+            $process->start();
+        } catch (Throwable $e) {
+            // silence
+        }
     }
 }

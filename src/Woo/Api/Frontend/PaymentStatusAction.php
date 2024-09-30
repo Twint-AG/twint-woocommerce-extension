@@ -7,6 +7,7 @@ namespace Twint\Woo\Api\Frontend;
 use Exception;
 use Throwable;
 use Twint\Woo\Api\BaseAction;
+use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Model\Pairing;
@@ -63,7 +64,9 @@ class PaymentStatusAction extends BaseAction
             throw new Exception('The pairing for the the order does not exist.');
         }
 
-        $status = $this->service->status($pairing);
+        $cliSupport = get_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION) === 'Yes';
+        $status = $cliSupport ? $this->service->status($pairing) : $this->service->monitor($pairing);
+
         $response = $status->toArray();
 
         if ($status->paid()) {

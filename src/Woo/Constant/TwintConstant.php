@@ -12,6 +12,8 @@ class TwintConstant
 
     public const SUPPORTED_CURRENCY = 'CHF';
 
+    public const CONFIG_CLI_SUPPORT_OPTION = 'woocommerce_twint_cli_support';
+
     public const CONFIG_EXPRESS_SCREENS = 'twint_express_checkout_display_options';
 
     public const CONFIG_SCREEN_PDP = 'PDP';
