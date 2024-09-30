@@ -70,7 +70,7 @@ $border-radius: 6px;
     container-type: inline-size;
   }
 
-  button[name="add-to-cart"] + &, a.add_to_cart_button + & {
+  button[name="add-to-cart"] + &, a.add_to_cart_button + & , button.single_add_to_cart_button + & {
     @apply mt-2;
   }
 
