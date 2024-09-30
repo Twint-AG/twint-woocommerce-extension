@@ -60,11 +60,8 @@ class PollCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $id = $input->getArgument('pairing-id');
-        wc_get_logger()->info("[TWINT] - Pairing ID: {$id}");
         $pairing = $this->getRepository()
             ->get($id);
-
-        wc_get_logger()->info("[TWINT] - Pairing after got: {$pairing->getId()}");
 
         $count = 1;
         $startedAt = new DateTime();

@@ -116,8 +116,8 @@ class ExpressButton
             <button type="submit" class="twint twint-button ' . $additionalClasses . '">
                 <span class="twint icon-block">
                     <img class="twint twint-icon" src="' . Plugin::assets(
-                '/images/express.svg'
-            ) . '" alt="Express Checkout">
+            '/images/express.svg'
+        ) . '" alt="Express Checkout">
                 </span>
                 <span class="twint twint-label">Express Checkout</span>
             </button>
