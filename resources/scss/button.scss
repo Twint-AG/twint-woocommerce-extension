@@ -24,6 +24,7 @@ $border-radius: 6px;
 
   &:hover {
     background-color: $button-bg-color-hover !important;
+    text-decoration: none;
   }
 
   .icon-block {
@@ -69,9 +70,13 @@ $border-radius: 6px;
     container-type: inline-size;
   }
 
-  /**:has(+ &){
+  button[name="add-to-cart"] + &, a.add_to_cart_button + & {
+    @apply mt-2;
+  }
+
+  *:has(+ &){
     margin-bottom: 0 !important;
-  }*/
+  }
 
   *:has(> &.mini-cart) {
     flex-wrap: wrap;
