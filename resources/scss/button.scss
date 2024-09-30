@@ -12,7 +12,6 @@ $padding: 10px;
 $border-radius: 6px;
 
 .twint-button {
-  @apply mt-2;
   @apply w-full cursor-pointer items-center justify-center border-none rounded-md  flex p-2.5 text-white;
   background-color: $button-bg-color !important;
   height: 50px;
