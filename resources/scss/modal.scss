@@ -8,11 +8,6 @@
     .twint-logo{
       @apply hidden;
     }
-
-    #twint-close > span{
-      order: 9999;
-      margin-left: 1em;
-    }
   }
 
   .modal-inner-wrap {
@@ -46,8 +41,13 @@
 
     &:hover, &:focus {
       color: #262626;
-
+      text-decoration: none;
       @apply border-0 font-normal bg-inherit;
+    }
+
+    > span{
+      order: 9999;
+      margin-left: 1em;
     }
   }
 
