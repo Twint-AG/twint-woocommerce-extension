@@ -17,9 +17,19 @@ class ExpressButton
         private readonly SettingService $setting,
         private readonly Modal          $modal,
         private readonly Spinner        $spinner,
-    )
-    {
+    ) {
         add_action('wp', [$this, 'registerHooks']);
+    }
+
+    public function addExpressCheckoutButtonProductListing(): void
+    {
+        /**
+         * This will get the current product
+         */
+        global $product;
+        if ($product->is_type(TwintConstant::SIMPLE_PRODUCT)) {
+            echo $this->getButton('PLP');
+        }
     }
 
     public function registerHooks(): void
