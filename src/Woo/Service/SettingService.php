@@ -55,4 +55,16 @@ class SettingService
     {
         return get_option(TwintConstant::CONFIG_EXPRESS_SCREENS);
     }
+
+    /**
+     * Detect Version of WooCommerce
+     * Return true if Woo/Checkout/Cart using Block.
+     * Otherwise return false
+     * @return bool
+     */
+    public function isWooUsingBlockVersion(): bool
+    {
+        $post = get_post(get_option('woocommerce_checkout_page_id'));
+        return str_contains($post->post_content, '<!-- wp:woocommerce/checkout');
+    }
 }
