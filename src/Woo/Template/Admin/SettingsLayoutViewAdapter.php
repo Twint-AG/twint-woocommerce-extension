@@ -24,10 +24,7 @@ class SettingsLayoutViewAdapter
     public function render(): void
     {
         $tabs = $this->getTabsConfig();
-
         $html = '<div class="wrap">
-            <h1> ' . __('TWINT Settings', 'woocommerce-gateway-twint') . '</h1>
-
             <div id="notice-admin-success" class="hidden notice notice-success">
                 <p> ' . __('All settings have been saved.', 'woocommerce-gateway-twint') . '</p>
             </div>

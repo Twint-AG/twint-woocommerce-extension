@@ -1,5 +1,5 @@
 import Spinner from "../spinner";
-import triggerFetch from '@wordpress/api-fetch';
+import apiFetch from '@wordpress/api-fetch';
 
 class Action {
   static spinner;
@@ -12,7 +12,7 @@ class Action {
   handle(context, onSuccessCallback, onFailureCallback) {
     Action.spinner.start();
 
-    triggerFetch({
+    apiFetch({
       path: '/twint/v1/express/checkout',
       method: 'POST',
       data: context.getParams(),
@@ -20,9 +20,8 @@ class Action {
       parse: false,
     })
       .then(response => {
-        triggerFetch.setNonce(response.headers);
-
         Action.spinner.stop();
+        console.log(response);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

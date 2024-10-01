@@ -69,7 +69,8 @@ class PairingRepository
     {
         $select = $this->getSelect();
 
-        $query = $this->db->prepare("SELECT {$select} FROM %i WHERE id = %s LIMIT 1;", [self::tableName(), $id]);
+        $table = self::tableName();
+        $query = $this->db->prepare("SELECT {$select} FROM {$table} WHERE id = %s LIMIT 1;", $id);
 
         return ($result = $this->db->get_results($query)) ? (new Pairing(false))->load((array) reset($result)) : null;
     }
@@ -125,10 +126,8 @@ class PairingRepository
 
     public function updateCheckedAt(Pairing $pairing): mysqli_result|bool|int|null
     {
-        $query = $this->db->prepare('UPDATE %i SET checked_at = NOW() WHERE id = %s;', [
-            self::tableName(),
-            $pairing->getId(),
-        ]);
+        $table = self::tableName();
+        $query = $this->db->prepare("UPDATE {$table} SET checked_at = NOW() WHERE id = %s;", $pairing->getId());
 
         return $this->db->query($query);
     }
@@ -136,11 +135,12 @@ class PairingRepository
     public function loadInProcessPairings(): array
     {
         $select = $this->getSelect();
+        $table = self::tableName();
 
-        $query = $this->db->prepare("SELECT {$select} FROM %i WHERE status IN ( %s ) ORDER BY created_at ASC;", [
-            self::tableName(),
-            implode(',', ['PAIRING_IN_PROGRESS', 'IN_PROGRESS']),
-        ]);
+        $query = $this->db->prepare(
+            "SELECT {$select} FROM {$table} WHERE status IN ( %s ) ORDER BY created_at ASC;",
+            implode(',', ['PAIRING_IN_PROGRESS', 'IN_PROGRESS'])
+        );
 
         $results = $this->db->get_results($query);
         $pairings = [];
@@ -154,10 +154,8 @@ class PairingRepository
     public function findByWooOrderId(int $orderId): ?Pairing
     {
         $select = $this->getSelect();
-        $query = $this->db->prepare("SELECT {$select} FROM %i WHERE wc_order_id = %d LIMIT 1;", [
-            self::tableName(),
-            $orderId,
-        ]);
+        $table = self::tableName();
+        $query = $this->db->prepare("SELECT {$select} FROM {$table} WHERE wc_order_id = %d LIMIT 1;", $orderId);
 
         $result = $this->db->get_results($query);
         if (empty($result)) {
@@ -171,9 +169,10 @@ class PairingRepository
     public function getRefundableForOrder(int $orderId): ?Pairing
     {
         $select = $this->getSelect();
+        $table = self::tableName();
         $query = $this->db->prepare(
-            "SELECT {$select} FROM %i WHERE is_express = 0 AND wc_order_id = %d ORDER BY created_at DESC LIMIT 1;",
-            [self::tableName(), $orderId]
+            "SELECT {$select} FROM {$table} WHERE is_express = 0 AND wc_order_id = %d ORDER BY created_at DESC LIMIT 1;",
+            $orderId
         );
 
         $result = $this->db->get_results($query);
@@ -187,7 +186,7 @@ class PairingRepository
 
     public function markAsOrdering(string $id): mysqli_result|bool|int|null
     {
-        $query = $this->db->prepare('UPDATE %i SET is_ordering = 1 WHERE id = %s;', [self::tableName(), $id]);
+        $query = $this->db->prepare("UPDATE {$table} SET is_ordering = 1 WHERE id = %s;", $id);
 
         return $this->db->query($query);
     }
@@ -199,7 +198,8 @@ class PairingRepository
 
     private function updateStatus(string $id, string $status): mysqli_result|bool|int|null
     {
-        $query = $this->db->prepare('UPDATE %i SET status = %s WHERE id = %s;', [self::tableName(), $status, $id]);
+        $table = self::tableName();
+        $query = $this->db->prepare("UPDATE {$table} SET status = %s WHERE id = %s;", $status, $id);
 
         return $this->db->query($query);
     }

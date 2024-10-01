@@ -67,7 +67,7 @@ class PollCommand extends Command
         $startedAt = new DateTime();
 
         $output->writeln("Monitoring: <info>{$id}</info>");
-        $this->logger->info("Monitoring: {$id}");
+        $this->logger->info("[TWINT] - Monitoring: {$id}");
 
         while (!$pairing->isFinished()) {
             $this->getRepository()
