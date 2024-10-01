@@ -7,8 +7,8 @@ ENV WOO_VERSION=woocommerce.9.0.2
 # Install packages
 RUN apt-get update && apt-get install -y nginx git unzip vim
 RUN apt-get update && \
-    apt-get install -y libxml2-dev && \
-    docker-php-ext-install soap sendmail
+    apt-get install -y libxml2-dev sendmail && \
+    docker-php-ext-install soap
 
 # Config nginx
 COPY docker/nginx.conf /etc/nginx/conf.d/nginx.conf
