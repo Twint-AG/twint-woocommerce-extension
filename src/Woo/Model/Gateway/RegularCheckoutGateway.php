@@ -39,6 +39,8 @@ class RegularCheckoutGateway extends AbstractGateway
 
     private Lazy|PairingService $pairingService;
 
+    private SettingService $settingService;
+
     /**
      * Constructor for the gateway.
      */
@@ -52,6 +54,7 @@ class RegularCheckoutGateway extends AbstractGateway
         $this->pairingRepository = Plugin::di('pairing.repository');
         $this->paymentService = Plugin::di('payment.service');
         $this->pairingService = Plugin::di('pairing.service');
+        $this->settingService = Plugin::di('setting.service');
 
         $this->registerHooks();
     }
@@ -191,7 +194,11 @@ class RegularCheckoutGateway extends AbstractGateway
                 ];
             }
 
-            $order->update_status(self::getOrderStatusAfterFirstTimeCreatedOrder());
+            if ($this->settingService->isWooUsingBlockVersion()) {
+                $order->update_status(self::getOrderStatusAfterFirstTimeCreatedOrder());
+            } else {
+                $order->update_status('pending');
+            }
 
             /**
              * Need to reduce stock levels from Order
