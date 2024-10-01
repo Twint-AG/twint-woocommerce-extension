@@ -8,6 +8,8 @@ class TwintConstant
 {
     public const PLATFORM = 'WooCommerce';
 
+    public const SIMPLE_PRODUCT = 'simple';
+
     public const MINUTES_PENDING_WAIT = 'only_pick_order_from_minutes';
 
     public const SUPPORTED_CURRENCY = 'CHF';

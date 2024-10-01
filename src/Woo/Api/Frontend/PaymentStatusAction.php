@@ -74,14 +74,8 @@ class PaymentStatusAction extends BaseAction
             WC()->cart->empty_cart();
             $order = wc_get_order($pairing->getWcOrderId());
 
-            $url = wc_get_endpoint_url(
-                'order-received',
-                $order->get_id(),
-                wc_get_checkout_url()
-            ) . '?key=' . $order->get_order_key();
-
             $response['extra'] = [
-                'redirect' => $url,
+                'redirect' => $order->get_checkout_order_received_url(),
             ];
         }
 

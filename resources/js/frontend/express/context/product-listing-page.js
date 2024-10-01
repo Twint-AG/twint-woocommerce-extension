@@ -18,7 +18,7 @@ class ProductListingPageContext extends Context {
       let btnAddToCart = null;
       for (let i = 0; i < children.length; i++) {
         for (let j = 0; j < children[i].classList.length; j++) {
-          if (children[i].classList[j] === 'add_to_cart_button') {
+          if (children[i].classList[j] === 'ajax_add_to_cart') {
             btnAddToCart = children[i];
             break;
           }
@@ -29,14 +29,17 @@ class ProductListingPageContext extends Context {
         }
       }
 
-      const productId = btnAddToCart.attributes['data-product_id']?.value;
-      const quantity = btnAddToCart.attributes['data-quantity']?.value;
+      if (btnAddToCart !== null) {
+        const productId = btnAddToCart.attributes['data-product_id']?.value;
+        const quantity = btnAddToCart.attributes['data-quantity']?.value;
 
-      console.log(productId, quantity);
-      return {
-        quantity: quantity,
-        id: productId,
-      };
+        return {
+          quantity: quantity,
+          id: productId,
+        };
+      } else {
+        throw new Error('Cannot find parent product box');
+      }
     }
 
     const json = box.getAttribute('data-wc-context');
