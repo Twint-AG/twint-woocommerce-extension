@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Template\Admin;
 
+use AllowDynamicProperties;
 use Twint\Woo\Service\SettingService;
 use Twint\Woo\Template\Admin\Setting\Tab\Credentials;
 use Twint\Woo\Template\Admin\Setting\Tab\ExpressCheckout;
 use Twint\Woo\Template\Admin\Setting\Tab\RegularCheckout;
 use Twint\Woo\Utility\CredentialsValidator;
 
+#[AllowDynamicProperties]
 class SettingsLayoutViewAdapter
 {
     public function __construct(
@@ -22,10 +24,7 @@ class SettingsLayoutViewAdapter
     public function render(): void
     {
         $tabs = $this->getTabsConfig();
-
         $html = '<div class="wrap">
-            <h1> ' . __('TWINT Settings', 'woocommerce-gateway-twint') . '</h1>
-
             <div id="notice-admin-success" class="hidden notice notice-success">
                 <p> ' . __('All settings have been saved.', 'woocommerce-gateway-twint') . '</p>
             </div>

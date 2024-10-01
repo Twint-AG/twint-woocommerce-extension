@@ -79,7 +79,7 @@ class PaymentService
             return null;
         }
 
-        $reversalId = 'R-' . $pairing->getId() . '-' . time();
+        $reversalId = 'R-' . $pairing->getId() . '-' . wp_generate_password(4, false);
 
         return $this->api->call($client, 'reverseOrder', [
             new UnfiledMerchantTransactionReference($reversalId),

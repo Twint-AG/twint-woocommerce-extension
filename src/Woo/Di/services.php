@@ -25,6 +25,7 @@ use Twint\Woo\Service\MonitorService;
 use Twint\Woo\Service\PairingService;
 use Twint\Woo\Service\PaymentService;
 use Twint\Woo\Service\SettingService;
+use Twint\Woo\Setup\CliSupportTrigger;
 use Twint\Woo\Setup\Installer;
 use Twint\Woo\Setup\Migration\CreatePairingTable;
 use Twint\Woo\Setup\Migration\CreateTransactionLogTable;
@@ -37,9 +38,10 @@ use Twint\Woo\Utility\CryptoHandler;
 function twint_services()
 {
     return [
-        'installer' => static fn (ContainerInterface $container): Installer => new Installer($container->get(
-            'migrations'
-        )),
+        'installer' => static fn (ContainerInterface $container): Installer => new Installer(
+            $container->get('migrations'),
+            $container->get('cli.trigger')
+        ),
         'uninstaller' => static fn (ContainerInterface $container): UnInstaller => new UnInstaller($container->get(
             'migrations'
         )),
@@ -67,6 +69,7 @@ function twint_services()
 
             return wc_get_logger();
         },
+        'cli.trigger' => static fn (ContainerInterface $ci) => new CliSupportTrigger($ci->get('logger')),
         // Repositories
         'pairing.repository' => static fn (ContainerInterface $container) => new Lazy(
             static fn () => new PairingRepository($container->get('db'), $container->get('logger'))

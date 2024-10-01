@@ -25,7 +25,7 @@ class ButtonHandler {
         });
 
         let addToCartButton = button.previousElementSibling;
-        if(addToCartButton && addToCartButton.tagName === 'BUTTON' ) {
+        if(addToCartButton && (addToCartButton.tagName === 'BUTTON' || addToCartButton.tagName === 'A')) {
           // Observe the button's attribute changes (for 'disabled' attribute)
           observer.observe(addToCartButton, {attributes: true});
         }

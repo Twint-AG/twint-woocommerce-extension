@@ -69,7 +69,8 @@ class TransactionRepository
 
     public function get(int $id): ?TransactionLog
     {
-        $query = $this->db->prepare('SELECT * from %i WHERE id = %d ;', [self::tableName(), $id]);
+        $table = self::tableName();
+        $query = $this->db->prepare("SELECT * from {$table} WHERE id = %d ;", $id);
 
         $result = $this->db->get_results($query);
 
@@ -114,15 +115,15 @@ class TransactionRepository
      */
     public function getByOrderId(int $orderId): array
     {
-        $query = $this->db->prepare('
-            SELECT l.* from %i AS l
-            INNER JOIN %i AS p on p.id = l.pairing_id    
+        $transactionLogTable = self::tableName();
+        $pairingTable = PairingRepository::tableName();
+        $query = $this->db->prepare("
+            SELECT l.* from {$transactionLogTable} AS l
+            INNER JOIN {$pairingTable} AS p on p.id = l.pairing_id    
             WHERE l.order_id = %d 
-            ORDER BY p.created_at DESC, l.created_at DESC;', [
-            self::tableName(),
-            PairingRepository::tableName(),
+            ORDER BY p.created_at DESC, l.created_at DESC;",
             $orderId,
-        ]);
+        );
 
         $result = $this->db->get_results($query);
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Service;
 
-use Automattic\WooCommerce\StoreApi\Utilities\CartController;
+use AllowDynamicProperties;
 use Throwable;
 use Twint\Sdk\Value\CustomerDataScopes;
 use Twint\Sdk\Value\Money;
@@ -25,6 +25,7 @@ use WC_Shipping_Rate;
  * @method ClientBuilder getBuilder()
  * @method PairingService getPairingService()
  */
+#[AllowDynamicProperties]
 class FastCheckoutCheckinService
 {
     use LazyLoadTrait;
@@ -37,6 +38,13 @@ class FastCheckoutCheckinService
         private readonly ApiService          $api,
         private Lazy|PairingService          $pairingService,
     ) {
+        $legacyController = 'Automattic\WooCommerce\StoreApi\Utilities\CartController';
+        $cartController = 'Automattic\WooCommerce\Blocks\StoreApi\Utilities\CartController';
+        if (class_exists($legacyController)) {
+            $this->controller = new $legacyController();
+        } elseif (class_exists($cartController)) {
+            $this->controller = new $cartController();
+        }
     }
 
     public static function registerHooks(): void
@@ -62,18 +70,35 @@ class FastCheckoutCheckinService
      */
     public function checkin(WC_Order $order): Pairing
     {
-        $options = $this->getShippingOptions();
+        $options = $this->getShippingOptions($this->getTaxRate($order));
         $res = $this->callApi($order, $options);
 
         return $this->getPairingService()->createExpressPairing($res, $order);
     }
 
-    protected function getShippingOptions(): ShippingMethods
+    private function getTaxRate(WC_Order $order): float
     {
+        $taxes = $order->get_taxes();
+
+        // Get the first tax item, if available
+        $tax = reset($taxes);
+
+        // Check if tax is available and get the rate percentage
+        if ($tax) {
+            return floatval($tax->get_rate_percent());
+        }
+
+        // Return 0 if no tax is found
+        return 0.0;
+    }
+
+
+    protected function getShippingOptions(float $taxRate): ShippingMethods
+    {
+
         $options = [];
 
-        $controller = new CartController();
-        $packages = $controller->get_shipping_packages();
+        $packages = $this->controller->get_shipping_packages();
 
         foreach ($packages as $package) {
             /** @var WC_Shipping_Rate $rate */
@@ -81,7 +106,7 @@ class FastCheckoutCheckinService
                 $options[] = new ShippingMethod(
                     new ShippingMethodId($rate->get_method_id()),
                     $rate->get_label(),
-                    Money::CHF((float) $rate->get_cost())
+                    Money::CHF((float) $rate->get_cost() * (100 + $taxRate) / 100)
                 );
             }
         }

@@ -307,7 +307,10 @@ class MonitorService
 
             // Update order status after paid by TWINT application
             // AND Optionally, add an order note
-            $order->update_status(AbstractGateway::getOrderStatusAfterPaid(), 'The order was marked as paid programmatically.');
+            $order->update_status(
+                AbstractGateway::getOrderStatusAfterPaid(),
+                'The order was marked as paid programmatically.'
+            );
 
             // Mark the order as paid (completed)
             $order->payment_complete();

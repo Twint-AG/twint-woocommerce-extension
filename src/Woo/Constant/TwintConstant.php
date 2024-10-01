@@ -8,9 +8,13 @@ class TwintConstant
 {
     public const PLATFORM = 'WooCommerce';
 
+    public const SIMPLE_PRODUCT = 'simple';
+
     public const MINUTES_PENDING_WAIT = 'only_pick_order_from_minutes';
 
     public const SUPPORTED_CURRENCY = 'CHF';
+
+    public const CONFIG_CLI_SUPPORT_OPTION = 'woocommerce_twint_cli_support';
 
     public const CONFIG_EXPRESS_SCREENS = 'twint_express_checkout_display_options';
 

@@ -16,7 +16,6 @@ use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
-use Twint\Woo\Service\Express\ExpressOrderService;
 use Twint\Woo\Service\MonitorService;
 use WC_Logger_Interface;
 
@@ -67,15 +66,8 @@ class PollCommand extends Command
         $count = 1;
         $startedAt = new DateTime();
 
-        /** @var ExpressOrderService $service */
-        //        $service = Plugin::di('express_order.service', true);
-        //        $service->setMonitor(Plugin::di('monitor.service', true));
-        //        $service->update($pairing);
-        //
-        //        return 0;
-
         $output->writeln("Monitoring: <info>{$id}</info>");
-        $this->logger->info("Monitoring: {$id}");
+        $this->logger->info("[TWINT] - Monitoring: {$id}");
 
         while (!$pairing->isFinished()) {
             $this->getRepository()

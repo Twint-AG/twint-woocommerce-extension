@@ -84,8 +84,10 @@ class Modal {
 
   refreshMiniCart() {
     // Use vanilla JS if we can
+    jQuery( document.body ).trigger( 'added_to_cart' );
     jQuery( document.body ).trigger( 'removed_from_cart' );
-    // document.body.dispatchEvent(new CustomEvent('removed_from_cart'));
+    jQuery( document.body ).trigger( 'wc-blocks_removed_from_cart' );
+    jQuery( document.body ).trigger( 'wc-blocks_added_to_cart' );
   }
 
   onPaid(response){

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Service;
 
-use Automattic\WooCommerce\StoreApi\Utilities\CartController;
+use AllowDynamicProperties;
+use Automattic\WooCommerce\Blocks\StoreApi\Utilities\CartController;
 use Exception;
 use Throwable;
 use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
@@ -14,39 +15,61 @@ use WC_Data_Exception;
 use WC_Order;
 use WP_REST_Request;
 
+#[AllowDynamicProperties]
 class ExpressCheckoutService
 {
-    private CartController $controller;
+    /**
+     * @var CartController|\Automattic\WooCommerce\StoreApi\Utilities\CartController|mixed
+     */
+    private mixed $controller;
 
     public function __construct()
     {
-        $this->controller = new CartController();
+        $legacyController = 'Automattic\WooCommerce\StoreApi\Utilities\CartController';
+        $cartController = 'Automattic\WooCommerce\Blocks\StoreApi\Utilities\CartController';
+        if (class_exists($legacyController)) {
+            $this->controller = new $legacyController();
+        } elseif (class_exists($cartController)) {
+            $this->controller = new $cartController();
+        }
     }
 
     /**
      * @throws WC_Data_Exception
      * @throws Exception|Throwable
      */
-    public function checkout(): Pairing
+    public function checkout(bool $wholeCart): Pairing
     {
         // Get the current user
-        $user_id = get_current_user_id();
+        $customerId = get_current_user_id();
 
         // Create a new order
         $order = wc_create_order([
-            'customer_id' => $user_id,
+            'customer_id' => $customerId,
         ]);
 
-        // Get the cart items
+        $order->set_currency('CHF');
+
         $cart = WC()->cart->get_cart();
 
-        foreach ($cart as $cart_item) {
+        foreach ($cart as $item) {
             // Get the product
-            $product = $cart_item['data'];
-            $quantity = $cart_item['quantity'];
+            $product = $item['data'];
+            $quantity = $item['quantity'];
 
             // Add the product to the order
             $order->add_product($product, $quantity);
+        }
+
+        // clear cart when trying EC for single product
+        if (!$wholeCart) {
+            WC()?->cart?->empty_cart();
+        }
+
+        if (!empty($coupons = WC()->cart->get_coupons())) {
+            foreach ($coupons as $code => $coupon) {
+                $order->add_coupon($code);
+            }
         }
 
         // Calculate totals
@@ -54,13 +77,13 @@ class ExpressCheckoutService
 
         // Add billing address
         $address = [
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-            'email' => 'john.doe@example.com',
+            'first_name' => 'First',
+            'last_name' => 'Last',
+            'email' => 'email@example.com',
             'phone' => '1234567890',
             'address_1' => '123 Main St',
-            'city' => 'New York',
-            'state' => 'NY',
+            'city' => 'City',
+            'state' => 'ST',
             'postcode' => '10001',
             'country' => 'CH',
         ];

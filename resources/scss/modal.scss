@@ -8,11 +8,6 @@
     .twint-logo{
       @apply hidden;
     }
-
-    #twint-close > span{
-      order: 9999;
-      margin-left: 1em;
-    }
   }
 
   .modal-inner-wrap {
@@ -37,6 +32,8 @@
 
   #twint-close {
     @apply focus:border-none focus:outline-none cursor-pointer border-none bg-inherit text-[#262626] flex items-center align-middle font-normal shadow-none;
+    text-transform: unset;
+    padding: 0 !important;
 
     span {
       display: inline-block;
@@ -45,8 +42,13 @@
 
     &:hover, &:focus {
       color: #262626;
-
+      text-decoration: none;
       @apply border-0 font-normal bg-inherit;
+    }
+
+    > span{
+      order: 9999;
+      @apply ml-2;
     }
   }
 
@@ -56,14 +58,17 @@
 
   #qr-token {
     @apply text-center font-semibold text-[30px] leading-[41px] tracking-[4px] text-black border-none opacity-100 uppercase;
+    background-color: white !important;
+    box-shadow: none !important;
   }
 
   #twint-copy-btn {
-    @apply border;
+    border: 1px solid rgba(0, 0, 0, 0.25);
     color: #262626;
 
     &.copied {
       @apply text-green-500;
+      @apply border-green-500;
     }
   }
 
