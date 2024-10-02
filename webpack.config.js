@@ -37,6 +37,7 @@ module.exports = {
         // Frontend JS
         'checkout': '/resources/js/frontend/regular-checkout.js',
         'express': '/resources/js/frontend/express/index.js',
+        'legacy-regular': '/resources/js/frontend/regular/index.js',
 
         // Admin JS
         'credentials-setting': '/resources/js/admin/credentials-setting.js',

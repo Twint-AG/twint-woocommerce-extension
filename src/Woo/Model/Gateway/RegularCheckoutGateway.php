@@ -205,10 +205,6 @@ class RegularCheckoutGateway extends AbstractGateway
              */
             wc_reduce_stock_levels($order_id);
 
-            // Remove cart
-            // TODO Think about this cart
-            //            WC()->cart->empty_cart();
-
             $pairing = $this->getPairingRepository()->findByWooOrderId($order_id);
 
             return [

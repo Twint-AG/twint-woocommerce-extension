@@ -42,10 +42,16 @@ class TwintIntegration
         add_filter('woocommerce_locate_template', [$this, 'wooPluginTemplate'], 10, 3);
 
         add_action('woocommerce_before_thankyou', [$this, 'additionalWoocommerceBeforeThankyou'], 20);
+        add_action('woocommerce_after_checkout_form', [$this, 'additionalWoocommerceHandlerAfterCheckoutForm']);
 
         new TransactionLogMeta();
 
         $this->registerApiActions();
+    }
+
+    public function additionalWoocommerceHandlerAfterCheckoutForm(): void
+    {
+        Plugin::enqueueScript('store-legacy-checkout-modal', '/legacy-regular.js', false);
     }
 
     public static function install(): void
