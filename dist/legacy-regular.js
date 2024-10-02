@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",(function(){jQuery("form.checkout").on("checkout_place_order_success",(function(e,o){console.log(e,o)}))}));
