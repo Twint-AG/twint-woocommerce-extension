@@ -1,0 +1,31 @@
+$alert-default-bg-color: #262626;
+$alert-success-bg-color: #86ffab;
+$alert-color: #2b2d2f;
+$icon-size: 35px;
+$icon-size-small: 30px;
+$text-color: #fff;
+$font-size: 15px;
+$font-weight: 600;
+$line-height: 19px;
+$padding: 6px 15px;
+$border-radius: 6px;
+
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: $alert-default-bg-color;
+  padding: $padding;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  color: $alert-color;
+
+  &.alert-success {
+    background: $alert-success-bg-color;
+  }
+
+  .icon {
+    display: flex;
+    align-items: center;
+  }
+}

@@ -98,7 +98,7 @@ class RegularCheckoutGateway extends AbstractGateway
         ];
     }
 
-    protected function registerHooks()
+    protected function registerHooks(): void
     {
         // Actions.
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
