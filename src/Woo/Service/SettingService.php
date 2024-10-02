@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Woo\Service;
 
 use Twint\Woo\Constant\TwintConstant;
+use WC_Blocks_Utils;
 
 class SettingService
 {
@@ -59,12 +60,11 @@ class SettingService
     /**
      * Detect Version of WooCommerce
      * Return true if Woo/Checkout/Cart using Block.
-     * Otherwise return false
+     * Otherwise, return false
      * @return bool
      */
     public function isWooUsingBlockVersion(): bool
     {
-        $post = get_post(get_option('woocommerce_checkout_page_id'));
-        return str_contains($post->post_content, '<!-- wp:woocommerce/checkout');
+        return WC_Blocks_Utils::has_block_in_page(wc_get_page_id('checkout'), 'woocommerce/checkout');
     }
 }

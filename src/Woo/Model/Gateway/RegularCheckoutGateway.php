@@ -122,7 +122,17 @@ class RegularCheckoutGateway extends AbstractGateway
         add_action('woocommerce_view_order', [$this, 'addOrderPayButton']);
         add_filter('woocommerce_valid_order_statuses_for_payment', [$this, 'appendValidStatusForOrderNeedPayment']);
 
+        /**
+         * Add JS script into checkout page only
+         */
+        add_action('woocommerce_after_checkout_form', [$this, 'additionalWoocommerceHandlerAfterCheckoutForm']);
+
         $this->modal->registerHooks();
+    }
+
+    public function additionalWoocommerceHandlerAfterCheckoutForm(): void
+    {
+        Plugin::enqueueScript('store-legacy-checkout-modal', '/legacy-regular.js', false);
     }
 
     /**
@@ -205,15 +215,12 @@ class RegularCheckoutGateway extends AbstractGateway
              */
             wc_reduce_stock_levels($order_id);
 
-            // Remove cart
-            // TODO Think about this cart
-            //            WC()->cart->empty_cart();
-
             $pairing = $this->getPairingRepository()->findByWooOrderId($order_id);
 
             return [
                 'result' => 'success',
                 'redirect' => false,
+                'messages' => __('Thank you. Your order has been received.', 'woocommerce'),
                 'thankyouUrl' => $this->get_return_url($order),
                 'pairingId' => $pairing->getId(),
                 'pairingToken' => $pairing->getToken(),
