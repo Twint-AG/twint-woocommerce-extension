@@ -220,6 +220,7 @@ class RegularCheckoutGateway extends AbstractGateway
             return [
                 'result' => 'success',
                 'redirect' => false,
+                'messages' => __('Thank you. Your order has been received.', 'woocommerce'),
                 'thankyouUrl' => $this->get_return_url($order),
                 'pairingId' => $pairing->getId(),
                 'pairingToken' => $pairing->getToken(),
