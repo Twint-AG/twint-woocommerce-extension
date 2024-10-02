@@ -122,7 +122,17 @@ class RegularCheckoutGateway extends AbstractGateway
         add_action('woocommerce_view_order', [$this, 'addOrderPayButton']);
         add_filter('woocommerce_valid_order_statuses_for_payment', [$this, 'appendValidStatusForOrderNeedPayment']);
 
+        /**
+         * Add JS script into checkout page only
+         */
+        add_action('woocommerce_after_checkout_form', [$this, 'additionalWoocommerceHandlerAfterCheckoutForm']);
+
         $this->modal->registerHooks();
+    }
+
+    public function additionalWoocommerceHandlerAfterCheckoutForm(): void
+    {
+        Plugin::enqueueScript('store-legacy-checkout-modal', '/legacy-regular.js', false);
     }
 
     /**
