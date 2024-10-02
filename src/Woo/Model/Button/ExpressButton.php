@@ -17,8 +17,7 @@ class ExpressButton
         private readonly SettingService $setting,
         private readonly Modal          $modal,
         private readonly Spinner        $spinner,
-    )
-    {
+    ) {
         add_action('wp', [$this, 'registerHooks']);
     }
 
@@ -65,7 +64,7 @@ class ExpressButton
                         'render_block_woocommerce/mini-cart-checkout-button-block',
                         [$this, 'renderButtonInMiniCart']
                     );
-                    add_action( 'woocommerce_widget_shopping_cart_buttons', [$this, 'addToNonBlockMiniCart'], 30 );
+                    add_action('woocommerce_widget_shopping_cart_buttons', [$this, 'addToNonBlockMiniCart'], 30);
                     break;
             }
         }
@@ -112,8 +111,8 @@ class ExpressButton
             <button type="submit" class="twint twint-button ' . $additionalClasses . '">
                 <span class="twint icon-block">
                     <img class="twint twint-icon" src="' . Plugin::assets(
-                '/images/express.svg'
-            ) . '" alt="Express Checkout">
+            '/images/express.svg'
+        ) . '" alt="Express Checkout">
                 </span>
                 <span class="twint twint-label">Express Checkout</span>
             </button>
@@ -150,7 +149,7 @@ class ExpressButton
         }
 
         // If no button element is found and it's not a variable product, try replacing within an anchor tag
-        $text = __("Add to cart", 'woocommerce');
+        $text = __('Add to cart', 'woocommerce');
         if (!$buttonInserted && str_contains($html, $text)) {
             $html = str_replace('</a>', "</a> {$button}", $html);
         }

@@ -85,17 +85,15 @@ class FastCheckoutCheckinService
 
         // Check if tax is available and get the rate percentage
         if ($tax) {
-            return floatval($tax->get_rate_percent());
+            return (float) ($tax->get_rate_percent());
         }
 
         // Return 0 if no tax is found
         return 0.0;
     }
 
-
     protected function getShippingOptions(float $taxRate): ShippingMethods
     {
-
         $options = [];
 
         $packages = $this->controller->get_shipping_packages();

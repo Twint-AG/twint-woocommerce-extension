@@ -117,7 +117,8 @@ class TransactionRepository
     {
         $transactionLogTable = self::tableName();
         $pairingTable = PairingRepository::tableName();
-        $query = $this->db->prepare("
+        $query = $this->db->prepare(
+            "
             SELECT l.* from {$transactionLogTable} AS l
             INNER JOIN {$pairingTable} AS p on p.id = l.pairing_id    
             WHERE l.order_id = %d 

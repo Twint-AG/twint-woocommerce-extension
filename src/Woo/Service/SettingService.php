@@ -61,7 +61,6 @@ class SettingService
      * Detect Version of WooCommerce
      * Return true if Woo/Checkout/Cart using Block.
      * Otherwise, return false
-     * @return bool
      */
     public function isWooUsingBlockVersion(): bool
     {
