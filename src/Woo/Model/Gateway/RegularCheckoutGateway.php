@@ -105,18 +105,6 @@ class RegularCheckoutGateway extends AbstractGateway
         add_filter('woocommerce_payment_complete_order_status', [$this, 'setCompleteOrderStatus'], 10, 3);
 
         /**
-         * @support Classic Checkout
-         * Would be triggered after order created with CLASSIC Checkout
-         */
-        add_action('woocommerce_checkout_order_created', [$this, 'woocommerceCheckoutOrderCreated']);
-
-        /**
-         * @support Block Checkout
-         * Would be triggered after order created with BLOCK Checkout
-         */
-        add_action('woocommerce_store_api_checkout_order_processed', [$this, 'woocommerceCheckoutOrderCreated']);
-
-        /**
          * These 2 (action and filter) for "Pay" for the order in My account > Orders section.
          */
         add_action('woocommerce_view_order', [$this, 'addOrderPayButton']);
@@ -170,27 +158,10 @@ class RegularCheckoutGateway extends AbstractGateway
     }
 
     /**
-     * @param mixed $orderId
-     * @throws Throwable
-     */
-    public function woocommerceCheckoutOrderCreated($orderId): void
-    {
-        $order = wc_get_order($orderId);
-
-        if ($order->get_payment_method() === self::getId()) {
-            $pairing = $this->getPairingRepository()->findByWooOrderId($order->get_id());
-            if (!$pairing instanceof Pairing) {
-                $apiResponse = $this->getPaymentService()->createOrder($order);
-                $res = $this->getPairingService()->create($apiResponse, $order);
-            }
-        }
-    }
-
-    /**
      * Process the payment and return the result.
      *
      * @param int $order_id
-     * @throws Exception
+     * @throws Exception|Throwable
      */
     public function process_payment($order_id): array
     {
@@ -210,12 +181,16 @@ class RegularCheckoutGateway extends AbstractGateway
                 $order->update_status('pending');
             }
 
+            $pairing = $this->getPairingRepository()->findByWooOrderId($order->get_id());
+            if (!$pairing instanceof Pairing) {
+                $apiResponse = $this->getPaymentService()->createOrder($order);
+                $this->getPairingService()->create($apiResponse, $order);
+            }
+
             /**
              * Need to reduce stock levels from Order
              */
             wc_reduce_stock_levels($order_id);
-
-            $pairing = $this->getPairingRepository()->findByWooOrderId($order_id);
 
             return [
                 'result' => 'success',
