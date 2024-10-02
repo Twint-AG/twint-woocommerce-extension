@@ -48,7 +48,7 @@ class PaymentService
 
         try {
             $currency = $order->get_currency();
-            $orderNumber = $order->get_order_number();
+            $orderNumber = wp_generate_password() . '-' . $order->get_order_number();
 
             return $this->api->call($client, 'startOrder', [
                 new UnfiledMerchantTransactionReference($orderNumber),
