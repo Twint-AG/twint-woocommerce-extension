@@ -150,7 +150,7 @@ class StoreConfigurationAction extends BaseAction
 
             $response['error_level'] = 'error';
             $response['error_type'] = 'validate_credentials';
-            $response['message'] = __('Please check again. Your Certificate file, the Test / Production Mode, Store UUID or Certificate password is incorrect.', 'woocommerce-gateway-twint');
+            $response['message'] = __('Invalid credentials. Please check again: Store UUID, certificate and environment (mode)', 'woocommerce-gateway-twint');
         }
 
         return $response;
