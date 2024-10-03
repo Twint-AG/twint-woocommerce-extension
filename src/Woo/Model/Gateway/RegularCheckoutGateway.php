@@ -65,7 +65,7 @@ class RegularCheckoutGateway extends AbstractGateway
 
         $this->method_title = __('TWINT Checkout', 'woocommerce-gateway-twint');
         $this->title = __('TWINT', 'woocommerce-gateway-twint');
-        $this->method_description = __('Allows TWINT Checkout', 'woocommerce-gateway-twint');
+        $this->method_description = '';
 
         // Load the settings.
         $this->init_form_fields();
