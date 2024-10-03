@@ -26,7 +26,7 @@ class SettingsLayoutViewAdapter
         $tabs = $this->getTabsConfig();
         $html = '<div class="wrap">
             <div id="notice-admin-success" class="hidden notice notice-success">
-                <p> ' . __('All settings have been saved.', 'woocommerce-gateway-twint') . '</p>
+                <p> ' . __('Your certificate was successfully validated', 'default') . '</p>
             </div>
             <div id="notice-admin-error" class="hidden notice notice-error is-dismissible"></div>
 

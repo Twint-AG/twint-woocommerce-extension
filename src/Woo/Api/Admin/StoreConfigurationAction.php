@@ -76,7 +76,7 @@ class StoreConfigurationAction extends BaseAction
             if (!empty($password) && empty($_FILES[$certificateKey]['tmp_name'])) {
                 $response['status'] = false;
                 $response['error_level'] = 'error';
-                $response['message'] = __('You need to provide P12 certificate file.', 'woocommerce-gateway-twint');
+                $response['message'] = __('Upload a certificate file (.p12)', 'woocommerce-gateway-twint');
                 $response['error_type'] = 'upload_cert';
             }
 
@@ -98,7 +98,7 @@ class StoreConfigurationAction extends BaseAction
                     $response['status'] = false;
                     $response['flag_credentials'] = false;
                     $response['error_level'] = 'error';
-                    $response['message'] = __('Invalid certificate or password.', 'woocommerce-gateway-twint');
+                    $response['message'] = __('Certificate cannot be validated. Please try again', 'woocommerce-gateway-twint');
                     $response['error_type'] = 'upload_cert';
                 }
 

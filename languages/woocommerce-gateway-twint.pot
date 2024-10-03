@@ -1,0 +1,290 @@
+# Copyright (C) 2024 NFQ GROUP
+# This file is distributed under the GNU General Public License v3.0.
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Twint Payment 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/twint-woocommerce-extension\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-10-03T09:58:20+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: woocommerce-gateway-twint\n"
+
+#. Plugin Name of the plugin
+#: woocommerce-gateway-twint.php
+msgid "WooCommerce Twint Payment"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: woocommerce-gateway-twint.php
+msgid "https://www.nfq-asia.com/"
+msgstr ""
+
+#. Description of the plugin
+#: woocommerce-gateway-twint.php
+msgid "Twint Woocommerce Payment Method is a secure and user-friendly plugin that allows Swiss online merchants to accept payments via Twint, a popular mobile payment solution in Switzerland."
+msgstr ""
+
+#. Author of the plugin
+#: woocommerce-gateway-twint.php
+msgid "NFQ GROUP"
+msgstr ""
+
+#: src/Woo/Api/Admin/GetTransactionLogAction.php:33
+#: src/Woo/Template/Admin/MetaBox/TransactionLogMeta.php:54
+msgid "Order ID"
+msgstr ""
+
+#: src/Woo/Api/Admin/GetTransactionLogAction.php:34
+msgid "API Method"
+msgstr ""
+
+#: src/Woo/Api/Admin/GetTransactionLogAction.php:35
+msgid "Exception"
+msgstr ""
+
+#: src/Woo/Api/Admin/GetTransactionLogAction.php:52
+#: src/Woo/Api/Admin/GetTransactionLogAction.php:56
+#: src/Woo/Api/Admin/GetTransactionLogAction.php:76
+msgid "Request"
+msgstr ""
+
+#: src/Woo/Api/Admin/GetTransactionLogAction.php:52
+#: src/Woo/Api/Admin/GetTransactionLogAction.php:60
+#: src/Woo/Api/Admin/GetTransactionLogAction.php:81
+msgid "Response"
+msgstr ""
+
+#: src/Woo/Api/Admin/StoreConfigurationAction.php:51
+msgid "Invalid Store Uuid. Store Uuid needs to be a UUIDv4."
+msgstr ""
+
+#: src/Woo/Api/Admin/StoreConfigurationAction.php:80
+#: src/Woo/Template/Admin/Setting/Tab/Credentials.php:47
+msgid "Upload a certificate file (.p12)"
+msgstr ""
+
+#: src/Woo/Api/Admin/StoreConfigurationAction.php:102
+msgid "Certificate cannot be validated. Please try again"
+msgstr ""
+
+#: src/Woo/Api/Admin/StoreConfigurationAction.php:142
+msgid "Settings have been saved successfully."
+msgstr ""
+
+#: src/Woo/Api/Admin/StoreConfigurationAction.php:153
+msgid "Invalid credentials. Please check again: Store UUID, certificate and environment (mode)"
+msgstr ""
+
+#: src/Woo/Model/Button/ExpressButton.php:126
+msgid "Or"
+msgstr ""
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:56
+#: src/Woo/Template/Admin/Setting/Tab/ExpressCheckout.php:18
+msgid "TWINT Express Checkout"
+msgstr ""
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:57
+msgid "Allows TWINT Express Checkout"
+msgstr ""
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:103
+#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:86
+msgid "Enable/Disable"
+msgstr ""
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:105
+msgid "Enable TWINT Express Checkout"
+msgstr ""
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:118
+msgid "Cart page"
+msgstr ""
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:119
+msgid "Mini Cart"
+msgstr ""
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:120
+msgid "Product Detail Page"
+msgstr ""
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:121
+msgid "Product Listing Page"
+msgstr ""
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:141
+msgid "Display Screens"
+msgstr ""
+
+#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:66
+#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:92
+#: src/Woo/Template/Admin/Setting/Tab/RegularCheckout.php:18
+msgid "TWINT Checkout"
+msgstr ""
+
+#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:67
+#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:96
+#: src/Woo/TwintIntegration.php:142
+#: src/Woo/TwintIntegration.php:143
+#: dist/checkout.js:2
+#: resources/js/frontend/regular-checkout.js:11
+#: dist/checkout.js:498
+msgid "TWINT"
+msgstr ""
+
+#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:68
+msgid "Allows TWINT Checkout"
+msgstr ""
+
+#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:88
+msgid "Enable TWINT Checkout"
+msgstr ""
+
+#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:94
+msgid "This controls the title which the user sees during checkout."
+msgstr ""
+
+#: src/Woo/Model/Modal/Modal.php:78
+msgid "Cancel checkout"
+msgstr ""
+
+#: src/Woo/Model/Modal/Modal.php:79
+msgid "Continue shopping"
+msgstr ""
+
+#: src/Woo/Model/Modal/Modal.php:117
+msgid "Copy code"
+msgstr ""
+
+#: src/Woo/Model/Modal/Modal.php:118
+msgid "Copied"
+msgstr ""
+
+#: src/Woo/Model/Modal/Modal.php:154
+msgid "or"
+msgstr ""
+
+#: src/Woo/Model/Modal/Modal.php:162
+msgid "Enter this code in your TWINT app:"
+msgstr ""
+
+#: src/Woo/Model/Modal/Modal.php:179
+msgid "Scan this QR Code with your TWINT app to complete the checkout."
+msgstr ""
+
+#: src/Woo/Model/Modal/Modal.php:188
+msgid "Follow the instructions in the app to confirm your order."
+msgstr ""
+
+#: src/Woo/Model/Modal/Modal.php:221
+msgid "Switch to TWINT app now"
+msgstr ""
+
+#: src/Woo/Model/Modal/Modal.php:264
+msgid "Choose your TWINT app:"
+msgstr ""
+
+#: src/Woo/Model/Modal/Modal.php:272
+msgid "Other banks"
+msgstr ""
+
+#: src/Woo/Template/Admin/MetaBox/TransactionLogMeta.php:33
+#: src/Woo/Template/Admin/MetaBox/TransactionLogMeta.php:89
+msgid "Transaction logs"
+msgstr ""
+
+#: src/Woo/Template/Admin/MetaBox/TransactionLogMeta.php:55
+msgid "API method"
+msgstr ""
+
+#: src/Woo/Template/Admin/MetaBox/TransactionLogMeta.php:56
+msgid "SOAP actions"
+msgstr ""
+
+#: src/Woo/Template/Admin/MetaBox/TransactionLogMeta.php:57
+msgid "Created at"
+msgstr ""
+
+#: src/Woo/Template/Admin/MetaBox/TransactionLogMeta.php:58
+msgid "Actions"
+msgstr ""
+
+#: src/Woo/Template/Admin/MetaBox/TransactionLogMeta.php:78
+msgid "View details"
+msgstr ""
+
+#: src/Woo/Template/Admin/Setting/Tab/Credentials.php:21
+msgid "Credentials"
+msgstr ""
+
+#: src/Woo/Template/Admin/Setting/Tab/Credentials.php:29
+msgid "Switch to test mode"
+msgstr ""
+
+#: src/Woo/Template/Admin/Setting/Tab/Credentials.php:36
+msgid "Store UUID"
+msgstr ""
+
+#: src/Woo/Template/Admin/Setting/Tab/Credentials.php:37
+msgid "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
+msgstr ""
+
+#: src/Woo/Template/Admin/Setting/Tab/Credentials.php:48
+msgid "Certificate file is required"
+msgstr ""
+
+#: src/Woo/Template/Admin/Setting/Tab/Credentials.php:53
+#: src/Woo/Template/Admin/Setting/Tab/Credentials.php:55
+msgid "Certificate Password"
+msgstr ""
+
+#: src/Woo/Template/Admin/Setting/Tab/Credentials.php:56
+msgid "Certificate password is required"
+msgstr ""
+
+#: src/Woo/Template/Admin/SettingsLayoutViewAdapter.php:29
+msgid "Your certificate was successfully validated"
+msgstr ""
+
+#: src/Woo/Template/Admin/SettingsLayoutViewAdapter.php:116
+msgid "Save changes"
+msgstr ""
+
+#: src/Woo/Template/BeforeThankYouBoxViewAdapter.php:57
+msgid "Your payment was successful"
+msgstr ""
+
+#: src/Woo/Template/BeforeThankYouBoxViewAdapter.php:76
+msgid "Your order was cancelled."
+msgstr ""
+
+#: src/Woo/TwintIntegration.php:172
+msgid "Settings"
+msgstr ""
+
+#: src/Woo/View/Admin/credentials.php:4
+msgid "<b>Warning</b>: PHP CLI Not Available"
+msgstr ""
+
+#: src/Woo/View/Admin/credentials.php:6
+msgid "PHP CLI (Command Line Interface) is missing or misconfigured. This extension relies on PHP CLI for essential background processes. Without it, some features may not function properly."
+msgstr ""
+
+#: src/Woo/View/Admin/credentials.php:27
+msgid "Certificate encrypted and stored."
+msgstr ""
+
+#: src/Woo/View/Admin/credentials.php:32
+msgid "Upload new certificate"
+msgstr ""
+
+#: src/Woo/View/Admin/credentials.php:39
+msgid "Close"
+msgstr ""

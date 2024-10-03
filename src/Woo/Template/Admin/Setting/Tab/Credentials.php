@@ -45,7 +45,7 @@ class Credentials extends TabItem
                 'type' => 'file',
                 'multiple' => false,
                 'placeholder' => __('Upload a certificate file (.p12)', 'woocommerce-gateway-twint'),
-                'help_text' => __('Enter the certificate password for the Twint merchant certificate.', 'woocommerce-gateway-twint'),
+                'help_text' => __('Certificate file is required', 'woocommerce-gateway-twint'),
                 'need_populate' => false,
             ],
             [
@@ -53,7 +53,7 @@ class Credentials extends TabItem
                 'label' => __('Certificate Password', 'woocommerce-gateway-twint'),
                 'type' => 'password',
                 'placeholder' => __('Certificate Password', 'woocommerce-gateway-twint'),
-                'help_text' => __('Please enter the password for the certificate.', 'woocommerce-gateway-twint'),
+                'help_text' => __('Certificate password is required', 'woocommerce-gateway-twint'),
                 'need_populate' => false,
             ],
         ];

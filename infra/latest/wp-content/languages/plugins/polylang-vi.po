@@ -1,0 +1,2245 @@
+# Translation of Plugins - Polylang - Stable (latest release) in Vietnamese
+# This file is distributed under the same license as the Plugins - Polylang - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2024-08-01 06:25:33+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: GlotPress/4.0.1\n"
+"Language: vi_VN\n"
+"Project-Id-Version: Plugins - Polylang - Stable (latest release)\n"
+
+#: modules/machine-translation/settings-preview-machine-translation.php:40
+msgid "Allows linkage to DeepL Translate."
+msgstr "Cho phép liên kết đến DeepL Translate."
+
+#: modules/machine-translation/settings-preview-machine-translation.php:39
+msgid "Machine Translation"
+msgstr "Dịch máy"
+
+#: admin/admin-model.php:182
+msgid "The language does not seem to exist."
+msgstr "Ngôn ngữ này dường như không tồn tại."
+
+#. translators: 1 is a post type or taxonomy label, 2 is a post type or
+#. taxonomy key.
+#: settings/settings-cpt.php:115 settings/settings-cpt.php:146
+msgctxt "content type setting choice"
+msgid "%1$s (%2$s)"
+msgstr "%1$s (%2$s)"
+
+#: modules/site-health/admin-site-health.php:175
+msgid "Synchronization disabled"
+msgstr "Đồng bộ hóa bị vô hiệu hóa"
+
+#: modules/site-health/admin-site-health.php:170
+msgid "The media are translated"
+msgstr "Phương tiện được dịch"
+
+#: modules/site-health/admin-site-health.php:167
+msgid "The media are not translated"
+msgstr "Phương tiện không được dịch"
+
+#: modules/site-health/admin-site-health.php:162
+msgid "The front page URL contains the page name or page id instead of the language code"
+msgstr "URL trang chủ chứa tên trang hoặc ID trang thay vì mã ngôn ngữ"
+
+#: modules/site-health/admin-site-health.php:139
+msgid "Display URL language information for default language"
+msgstr "Hiển thị thông tin ngôn ngữ URL cho ngôn ngữ mặc định"
+
+#: modules/site-health/admin-site-health.php:125
+msgid "Detect browser language activated"
+msgstr "Phát hiện ngôn ngữ trình duyệt được kích hoạt"
+
+#: modules/site-health/admin-site-health.php:122
+msgid "Detect browser language deactivated"
+msgstr "Phát hiện ngôn ngữ trình duyệt bị vô hiệu hóa"
+
+#. translators: placeholder is the plugin name
+#: modules/site-health/admin-site-health.php:441
+msgid "%s information"
+msgstr "Thông tin %s"
+
+#: modules/site-health/admin-site-health.php:433
+msgid "Not loaded. Contact your host provider."
+msgstr "Không tải được. Liên hệ với nhà cung cấp dịch vụ lưu trữ của bạn."
+
+#: modules/site-health/admin-site-health.php:432
+msgid "PHP SimpleXML extension"
+msgstr "Phần mở rộng PHP SimpleXML"
+
+#: install/plugin-updater.php:256
+msgid "Update now."
+msgstr "Cập nhật ngay."
+
+#. translators: 1. and 4. are opening anchor tags 2. the new plugin version 3.
+#. and 5. are closing anchor tags.
+#: install/plugin-updater.php:245
+msgid "%1$sView version %2$s details%3$s or %4$supdate now%5$s."
+msgstr "%1$sXem chi tiết phiên bản %2$s%3$s hoặc %4$scập nhật ngay%5$s."
+
+#. translators: 1. opening anchor tag, do not translate 2. the new plugin
+#. version 3. closing anchor tag, do not translate.
+#: install/plugin-updater.php:236
+msgid "%1$sView version %2$s details%3$s."
+msgstr "%1$sXem chi tiết phiên bản %2$s%3$s."
+
+#: install/plugin-updater.php:231
+msgid "Contact your network administrator to install the update."
+msgstr "Liên hệ với quản trị mạng của bạn để cài đặt bản cập nhật."
+
+#. translators: the plugin name.
+#: install/plugin-updater.php:225
+msgid "There is a new version of %1$s available."
+msgstr "Có phiên bản mới của %1$s có sẵn."
+
+#: settings/settings-url.php:55
+msgid "Some themes or plugins may not be fully compatible with the language defined by the content or by domains."
+msgstr "Một số chủ đề hoặc plugin có thể không hoàn toàn tương thích với ngôn ngữ được xác định bởi nội dung hoặc miền."
+
+#: settings/settings-media.php:32
+msgid "Activate languages and translations for media only if you need to translate the text attached to the media: the title, the alternative text, the caption, the description... Note that the file is not duplicated."
+msgstr "Kích hoạt ngôn ngữ và bản dịch cho phương tiện chỉ khi bạn cần dịch văn bản được đính kèm với phương tiện: tiêu đề, văn bản thay thế, chú thích, mô tả ... Lưu ý rằng tệp không được nhân đôi."
+
+#: settings/settings-browser.php:35
+msgid "When the front page is visited, redirects to itself in the browser preferred language. As this doesn't work if it is cached, Polylang will attempt to disable the front page cache for known cache plugins."
+msgstr "Khi trang chủ được truy cập, nó sẽ tự động chuyển hướng về chính nó trong ngôn ngữ được trình duyệt ưu tiên. Bởi vì điều này không hoạt động nếu nó được lưu vào bộ nhớ cache, Polylang sẽ cố gắng vô hiệu hóa bộ nhớ cache trang chủ cho các plugin bộ nhớ cache đã biết."
+
+#: modules/site-health/admin-site-health.php:421
+msgid "Terms without language"
+msgstr "Thuật ngữ không có ngôn ngữ"
+
+#: modules/site-health/admin-site-health.php:414
+msgid "Posts without language"
+msgstr "Bài viết không có ngôn ngữ"
+
+#: modules/site-health/admin-site-health.php:393
+msgid "The homepage is not translated in all languages"
+msgstr "Trang chủ không được dịch sang tất cả các ngôn ngữ"
+
+#: modules/site-health/admin-site-health.php:383
+msgid "It is mandatory to translate the static front page in all languages."
+msgstr "Bắt buộc phải dịch trang đầu tĩnh sang tất cả các ngôn ngữ."
+
+#: modules/site-health/admin-site-health.php:375
+msgid "All languages have a translated homepage"
+msgstr "Tất cả các ngôn ngữ đều có trang chủ được dịch"
+
+#: modules/site-health/admin-site-health.php:359
+msgid "Homepage translated"
+msgstr "Trang chủ đã dịch"
+
+#: modules/site-health/admin-site-health.php:344
+msgid "Undefined"
+msgstr "Chưa xác định"
+
+#. translators: placeholder is the flag image
+#: modules/site-health/admin-site-health.php:296
+msgid "Flag used in the language switcher: %s"
+msgstr "Cờ được sử dụng trong trình chuyển đổi ngôn ngữ:%s"
+
+#. translators: placeholder is the language name
+#: modules/site-health/admin-site-health.php:294
+msgid "Language: %s"
+msgstr "Ngôn ngữ:%s"
+
+#. translators: placeholder is the plugin name
+#: modules/site-health/admin-site-health.php:251
+msgid "%s options"
+msgstr "%s Tùy chọn"
+
+#: include/widget-calendar.php:248
+msgid "Previous and next months"
+msgstr "Tháng trước và tháng sau"
+
+#. translators: %s: is the translated label of the 'Ignore' button
+#: modules/wizard/view-wizard-step-languages.php:130
+msgid "%s: stay at this step"
+msgstr "%s: ở lại bước này"
+
+#. translators: %s: is the translated label of the 'No' button
+#: modules/wizard/view-wizard-step-languages.php:121
+msgid "%s: don't add this language and continue to the next step"
+msgstr "%s: không thêm ngôn ngữ này và tiếp tục bước tiếp theo"
+
+#. translators: %s: is the translated label of the 'Yes' button
+#: modules/wizard/view-wizard-step-languages.php:112
+msgid "%s: add this language and continue to the next step"
+msgstr "%s: thêm ngôn ngữ này và tiếp tục bước tiếp theo"
+
+#: modules/wizard/view-wizard-step-languages.php:105
+msgid "Do you want to add this language before continuing to the next step?"
+msgstr "Bạn có muốn thêm ngôn ngữ này trước khi tiếp tục bước tiếp theo không?"
+
+#. translators: %1$s: is a language flag image, %2$s: is a language native name
+#: modules/wizard/view-wizard-step-languages.php:98
+msgid "You selected %1$s %2$s but you didn't add it to the list before continuing to the next step."
+msgstr "Bạn đã chọn%1$s%2$s nhưng bạn chưa thêm nó vào danh sách trước khi tiếp tục bước tiếp theo."
+
+#: modules/wizard/view-wizard-step-languages.php:75
+msgid "Languages already defined"
+msgstr "Các ngôn ngữ đã được xác định"
+
+#: modules/wizard/view-wizard-step-languages.php:63
+msgid "Remove"
+msgstr "Xóa"
+
+#: modules/wizard/view-wizard-step-languages.php:32
+msgid "Select a language to be added"
+msgstr "Chọn một ngôn ngữ để thêm vào"
+
+#: modules/wizard/view-wizard-step-languages.php:26
+msgid "First we are going to define the languages that you will use on your website."
+msgstr "Trước tiên, chúng tôi sẽ xác định các ngôn ngữ mà bạn sẽ sử dụng trên trang web của mình."
+
+#: modules/wizard/view-wizard-step-languages.php:23
+msgid "This wizard will help you configure your Polylang settings, and get you started quickly with your multilingual website."
+msgstr "Trình hướng dẫn này sẽ giúp bạn định cấu hình cài đặt Polylang và giúp bạn bắt đầu nhanh chóng với trang web đa ngôn ngữ của mình."
+
+#: modules/wizard/html-wizard-notice.php:47
+msgid "Skip setup"
+msgstr "Bỏ qua thiết lập"
+
+#: modules/wizard/html-wizard-notice.php:41
+msgid "Run the Setup Wizard"
+msgstr "Chạy trình hướng dẫn cài đặt"
+
+#: modules/wizard/html-wizard-notice.php:33
+msgid "You&lsquo;re almost ready to translate your contents!"
+msgstr "Bạn & lsquo; gần như đã sẵn sàng để dịch nội dung của mình!"
+
+#. translators: %s is the plugin name
+#: modules/wizard/html-wizard-notice.php:26
+msgid "Welcome to %s"
+msgstr "Chào mừng đến với%s"
+
+#: modules/wizard/view-wizard-step-licenses.php:24
+msgid "There is an error with a license key."
+msgstr "Đã xảy ra lỗi với khóa cấp phép."
+
+#: modules/wizard/view-wizard-step-licenses.php:19
+msgid "Please enter your license key:"
+msgid_plural "Please enter your license keys:"
+msgstr[0] "Nhập mã xác nhận của bạn:"
+
+#: modules/wizard/view-wizard-step-licenses.php:18
+msgid "You are using plugins which require a license key."
+msgstr "Bạn đang sử dụng các plugin yêu cầu khóa cấp phép."
+
+#: modules/wizard/view-wizard-page.php:103
+msgid "Not right now"
+msgstr "Không phải bây giờ"
+
+#: modules/wizard/view-wizard-page.php:91
+msgid "Continue"
+msgstr "Tiếp tục"
+
+#. translators: %s is the plugin name
+#: modules/wizard/view-wizard-page.php:27
+msgid "%s &rsaquo; Setup"
+msgstr "%s & rsaquo; Thiết lập"
+
+#: modules/wizard/view-wizard-step-media.php:54
+msgid "Help"
+msgstr "Hỗ trợ"
+
+#: modules/wizard/view-wizard-step-media.php:45
+msgid "Allow Polylang to translate media"
+msgstr "Cho phép Polylang dịch media"
+
+#: modules/wizard/view-wizard-step-media.php:28
+msgid "You must activate media translation if you want to translate the title, the alternative text, the caption, or the description. Otherwise you can safely deactivate it."
+msgstr "Bạn phải kích hoạt dịch đa phương tiện nếu bạn muốn dịch tiêu đề, văn bản thay thế, chú thích hoặc mô tả. Nếu không, bạn có thể hủy kích hoạt nó một cách an toàn."
+
+#: modules/wizard/view-wizard-step-media.php:25
+msgid "When you want to insert media in a post, only the media in the language of the current post will be displayed."
+msgstr "Khi bạn muốn chèn phương tiện vào một bài đăng, chỉ phương tiện bằng ngôn ngữ của bài đăng hiện tại mới được hiển thị."
+
+#: modules/wizard/view-wizard-step-media.php:24
+msgid "When you translate a media, the file is not duplicated on your disk, however you will see one entry per language in the media library."
+msgstr "Khi bạn dịch một phương tiện, tệp không bị sao chép trên đĩa của bạn, tuy nhiên, bạn sẽ thấy một mục nhập cho mỗi ngôn ngữ trong thư viện phương tiện."
+
+#: modules/wizard/view-wizard-step-media.php:23
+msgid "Polylang allows you to translate the text attached to your media, for example the title, the alternative text, the caption, or the description."
+msgstr "Polylang cho phép bạn dịch văn bản được đính kèm với phương tiện của bạn, ví dụ như tiêu đề, văn bản thay thế, chú thích hoặc mô tả."
+
+#: modules/wizard/view-wizard-step-last.php:109
+msgid "Return to the Dashboard"
+msgstr "Quay lại trang tổng quan"
+
+#: modules/wizard/view-wizard-step-last.php:91
+msgid "Polylang Business Pack"
+msgstr "Gói doanh nghiệp Polylang"
+
+#. translators: %s is the name of Polylang Business Pack product
+#: modules/wizard/view-wizard-step-last.php:90
+msgid "We have noticed that you are using Polylang with WooCommerce. To ensure a better compatibility, we recommend you use %s which includes both Polylang Pro and Polylang For WooCommerce."
+msgstr "Chúng tôi nhận thấy rằng bạn đang sử dụng Polylang với WooCommerce. Để đảm bảo khả năng tương thích tốt hơn, chúng tôi khuyên bạn nên sử dụng%s bao gồm cả Polylang Pro và Polylang For WooCommerce."
+
+#: modules/wizard/view-wizard-step-last.php:85
+msgid "Purchase Polylang Business Pack"
+msgstr "Mua gói doanh nghiệp Polylang"
+
+#: modules/wizard/view-wizard-step-last.php:84
+msgid "WooCommerce"
+msgstr "WooCommerce"
+
+#: modules/wizard/view-wizard-step-last.php:75
+#: modules/wizard/view-wizard-step-last.php:99
+msgid "Buy now"
+msgstr "Mua ngay"
+
+#: modules/wizard/view-wizard-step-last.php:69
+msgid "Thank you for activating Polylang. If you want more advanced features - duplication, synchronization, REST API support, integration with other plugins, etc. - or further help provided by our Premium support, we recommend you upgrade to Polylang Pro."
+msgstr "Cảm ơn bạn đã kích hoạt Polylang. Nếu bạn muốn các tính năng nâng cao hơn - sao chép, đồng bộ hóa, hỗ trợ REST API, tích hợp với các plugin khác, v.v. - hoặc trợ giúp thêm do bộ phận hỗ trợ Cao cấp của chúng tôi cung cấp, chúng tôi khuyên bạn nên nâng cấp lên Polylang Pro."
+
+#: modules/wizard/view-wizard-step-last.php:67
+msgid "Upgrade to Polylang Pro"
+msgstr "Nâng cấp lên Polylang Pro"
+
+#: modules/wizard/view-wizard-step-last.php:66
+msgid "Polylang Pro"
+msgstr "Polylang Pro"
+
+#: modules/wizard/view-wizard-step-last.php:58
+msgid "View pages"
+msgstr "Xem các trang"
+
+#: modules/wizard/view-wizard-step-last.php:53
+msgid "You're ready to translate the posts on your website."
+msgstr "Bạn đã sẵn sàng dịch các bài đăng trên trang web của mình."
+
+#: modules/wizard/view-wizard-step-last.php:52
+msgid "Translate some pages"
+msgstr "Dịch một số trang"
+
+#: modules/wizard/view-wizard-step-last.php:38
+msgid "To get your website ready, there are still two steps you need to perform manually: add menus in each language, and add a language switcher to allow your visitors to select their preferred language."
+msgstr "Để trang web của bạn sẵn sàng, vẫn còn hai bước bạn cần thực hiện theo cách thủ công: thêm menu bằng từng ngôn ngữ và thêm trình chuyển đổi ngôn ngữ để cho phép khách truy cập của bạn chọn ngôn ngữ ưa thích của họ."
+
+#: modules/wizard/view-wizard-step-last.php:36
+msgid "Create menus"
+msgstr "Tạo menu"
+
+#: modules/wizard/view-wizard-step-last.php:35
+#: modules/wizard/view-wizard-step-last.php:51
+msgid "Next step"
+msgstr "Bước tiếp theo"
+
+#: modules/wizard/view-wizard-step-last.php:26
+#: modules/wizard/view-wizard-step-last.php:44
+msgid "Read documentation"
+msgstr "Đọc tài liệu"
+
+#: modules/wizard/view-wizard-step-last.php:18
+msgid "You're now able to translate your contents such as posts, pages, categories and tags. You can learn how to use Polylang by reading the documentation."
+msgstr "Giờ đây, bạn có thể dịch nội dung của mình như bài đăng, trang, danh mục và thẻ. Bạn có thể học cách sử dụng Polylang bằng cách đọc tài liệu."
+
+#: modules/wizard/view-wizard-step-last.php:15
+msgid "You're ready to translate your contents!"
+msgstr "Bạn đã sẵn sàng dịch nội dung của mình!"
+
+#: modules/wizard/view-wizard-step-home-page.php:107
+msgid "If you add a new language, don't forget to translate your homepage."
+msgstr "Nếu bạn thêm một ngôn ngữ mới, đừng quên dịch trang chủ của bạn."
+
+#: modules/wizard/view-wizard-step-home-page.php:103
+msgid "One language is well defined and assigned to your home page."
+msgstr "Một ngôn ngữ được xác định rõ ràng và được gán cho trang chủ của bạn."
+
+#: modules/wizard/view-wizard-step-home-page.php:97
+msgid "We are going to prepare this page in"
+msgstr "Chúng tôi sẽ chuẩn bị trang này trong"
+
+#: modules/wizard/view-wizard-step-home-page.php:60
+msgid "Your static homepage is already translated in"
+msgstr "Trang chủ tĩnh của bạn đã được dịch sang"
+
+#: modules/wizard/view-wizard-step-home-page.php:54
+msgid "After the pages is created, it is up to you to put the translated content in each page linked to each language."
+msgstr "Sau khi trang được tạo, bạn phải đặt nội dung dịch trong mỗi trang được liên kết với mỗi ngôn ngữ."
+
+#: modules/wizard/view-wizard-step-home-page.php:51
+msgid "For your site to work correctly, this page must be translated in all available languages."
+msgstr "Để trang web của bạn hoạt động chính xác, trang này phải được dịch sang tất cả các ngôn ngữ có sẵn."
+
+#. translators: %s is the language of the front page ( flag, native name and
+#. locale )
+#: modules/wizard/view-wizard-step-home-page.php:46
+msgid "Its language is : %s."
+msgstr "Ngôn ngữ của nó là: %s."
+
+#. translators: %s is the post title of the front page
+#: modules/wizard/view-wizard-step-home-page.php:38
+msgid "You defined this page as your static homepage: %s."
+msgstr "Bạn đã xác định trang này là trang chủ tĩnh của bạn: %s."
+
+#: modules/wizard/wizard.php:820
+msgid "Ready!"
+msgstr "Sẵn sàng!"
+
+#: modules/wizard/view-wizard-step-home-page.php:33
+#: modules/wizard/wizard.php:727 modules/wizard/wizard.php:760
+msgid "Homepage"
+msgstr "Trang chủ"
+
+#: modules/wizard/wizard.php:664
+msgid "Content"
+msgstr "Nội dung"
+
+#: modules/wizard/wizard.php:492
+msgid "Remove this language"
+msgstr "Xóa ngôn ngữ này"
+
+#: modules/wizard/view-wizard-step-languages.php:131
+#: modules/wizard/wizard.php:491
+msgid "Ignore"
+msgstr "Bỏ qua"
+
+#: modules/wizard/view-wizard-step-languages.php:122
+#: modules/wizard/wizard.php:490
+msgid "No"
+msgstr "Không"
+
+#: modules/wizard/view-wizard-step-languages.php:113
+#: modules/wizard/wizard.php:489
+msgid "Yes"
+msgstr "Có"
+
+#: modules/wizard/wizard.php:488
+msgid "A language wasn't added."
+msgstr "Một ngôn ngữ đã không được thêm vào."
+
+#: modules/wizard/wizard.php:481
+msgid "You selected a language, however, to be able to continue, you need to add it."
+msgstr "Bạn đã chọn một ngôn ngữ, tuy nhiên, để có thể tiếp tục, bạn cần thêm nó."
+
+#: modules/wizard/wizard.php:480
+msgid "You need to add at least one language."
+msgstr "Bạn cần thêm ít nhất một ngôn ngữ."
+
+#: modules/wizard/wizard.php:479
+msgid "You already added this language."
+msgstr "Bạn đã thêm ngôn ngữ này."
+
+#: modules/wizard/wizard.php:478
+msgid "You need to select a language to be added."
+msgstr "Bạn cần chọn một ngôn ngữ để thêm."
+
+#: modules/wizard/view-wizard-step-licenses.php:21
+#: modules/wizard/wizard.php:375
+msgid "Licenses"
+msgstr "Giấy phép"
+
+#: modules/wizard/wizard.php:195
+msgid "Sorry, you are not allowed to manage options for this site."
+msgstr "Xin lỗi, bạn không được phép quản lý các tùy chọn cho trang web này."
+
+#: modules/wizard/wizard.php:137
+msgid "Setup"
+msgstr "Cài đặt"
+
+#: modules/wizard/view-wizard-step-untranslated-contents.php:23
+msgid "Choose the language to be assigned"
+msgstr "Chọn ngôn ngữ cần được gán"
+
+#: modules/wizard/view-wizard-step-untranslated-contents.php:20
+msgid "The selected language below will be applied to all your content without an assigned language."
+msgstr "Ngôn ngữ được chọn bên dưới sẽ được áp dụng cho tất cả nội dung của bạn mà không có ngôn ngữ được gán."
+
+#: modules/wizard/view-wizard-step-untranslated-contents.php:19
+msgid "For your site to work correctly, you need to assign a language to all your contents."
+msgstr "Để trang web của bạn hoạt động chính xác, bạn cần gán ngôn ngữ cho tất cả nội dung của bạn."
+
+#: modules/wizard/view-wizard-step-untranslated-contents.php:16
+msgid "Content without language"
+msgstr "Nội dung không có ngôn ngữ"
+
+#: include/license.php:286
+msgid "Your license key has been disabled."
+msgstr "Khóa giấy phép của bạn đã bị vô hiệu hóa."
+
+#: admin/admin-filters.php:122
+msgid "Privacy Policy Page"
+msgstr "Trang Chính sách bảo mật"
+
+#. translators: 1: Plugin name 2: Current WordPress version 3: Required
+#. WordPress version
+#: install/install.php:74
+msgid "%1$s has deactivated itself because you are using an old version of WordPress. You are using using WordPress %2$s. %1$s requires at least WordPress %3$s."
+msgstr "%1$s đã tự động tắt vì bạn đang sử dụng phiên bản WordPress cũ. Bạn đang sử dụng WordPress %2$s. %1$s yêu cầu ít nhất WordPress %3$s."
+
+#. translators: 1: Plugin name 2: Current PHP version 3: Required PHP version
+#: install/install.php:50
+msgid "%1$s has deactivated itself because you are using an old version of PHP. You are using using PHP %2$s. %1$s requires PHP %3$s."
+msgstr "%1$s đã tự động tắt vì bạn đang sử dụng phiên bản PHP cũ. Bạn đang sử dụng PHP %2$s. %1$s yêu cầu PHP %3$s."
+
+#: settings/flags.php:159
+msgid "North Macedonia"
+msgstr "Bắc Macedonia"
+
+#. translators: %1$s is a date, %2$s is link start tag, %3$s is link end tag.
+#: include/license.php:334
+msgid "Your license key will expire soon! Precisely, it will expire on %1$s. %2$sRenew your license key today!%3$s"
+msgstr "Khóa cấp phép của bạn sắp hết hạn! Chính xác là, nó sẽ hết hạn vào %1$s. %2$sGia hạn khóa cấp phép của bạn ngay hôm nay!%3$s"
+
+#: settings/settings-module.php:352
+msgid "To enable this feature, you need Polylang Pro."
+msgstr "Để kích hoạt tính năng này, bạn cần Polylang Pro."
+
+#: admin/admin-classic-editor.php:364
+msgid "If you attempt to modify them anyway, your changes will not be saved."
+msgstr "Nếu bạn cố gắng sửa đổi chúng, các thay đổi của bạn sẽ không được lưu."
+
+#: admin/admin-classic-editor.php:362
+msgid "Some taxonomies or metadata may be synchronized with existing translations that you are not allowed to modify."
+msgstr "Một số phân loại hoặc siêu dữ liệu có thể được đồng bộ hóa với các bản dịch hiện có mà bạn không được phép sửa đổi."
+
+#. translators: %s is a comma separated list of native language names
+#: admin/admin-static-pages.php:144
+msgid "You must translate your static front page in %s."
+msgstr "Bạn phải dịch trang chủ tĩnh của mình bằng %s."
+
+#. translators: %1$s is link start tag, %2$s is link end tag.
+#: admin/admin-notices.php:261
+msgid "We have noticed that you have been using Polylang for some time. We hope you love it, and we would really appreciate it if you would %1$sgive us a 5 stars rating%2$s."
+msgstr "Chúng tôi nhận thấy bạn đã sử dụng Polylang trong một thời gian. Chúng tôi hy vọng bạn yêu thích nó và chúng tôi thực sự đánh giá cao nếu bạn có thể %1$sđánh giá cho chúng tôi 5 sao%2$s."
+
+#. translators: %1$s is link start tag, %2$s is link end tag.
+#: admin/admin-notices.php:236
+msgid "We have noticed that you are using Polylang with WooCommerce. To ensure compatibility, we recommend you use %1$sPolylang for WooCommerce%2$s."
+msgstr "Chúng tôi nhận thấy bạn đang sử dụng Polylang với WooCommerce. Để đảm bảo khả năng tương thích, chúng tôi khuyên bạn nên sử dụng %1$sPolylang cho WooCommerce%2$s."
+
+#. translators: %1$s and %2$s are Polylang version numbers
+#: install/upgrade.php:92
+msgid "Before upgrading to %2$s, please upgrade to %1$s."
+msgstr "Trước khi nâng cấp lên %2$s, vui lòng nâng cấp lên %1$s."
+
+#. Author of the plugin
+#: polylang.php
+msgid "WP SYNTEX"
+msgstr "WP SYNTEX"
+
+#. translators: accessibility text
+#: admin/admin-notices.php:217 modules/wizard/wizard.php:371
+#: modules/wizard/wizard.php:472 modules/wizard/wizard.php:661
+#: settings/settings.php:323
+msgid "Dismiss this notice."
+msgstr "Bỏ qua thông báo này."
+
+#: include/filters.php:432
+msgid "User"
+msgstr "Người dùng"
+
+#. translators: %s is a language native name
+#: include/filters.php:423
+msgid "User description - %s"
+msgstr "Mô tả người dùng - %s"
+
+#: include/filters.php:399
+msgid "Translated user descriptions"
+msgstr "Mô tả người dùng được dịch"
+
+#: settings/flags.php:234
+msgid "Tibet"
+msgstr "Tibet"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: polylang.php
+msgid "https://polylang.pro"
+msgstr "https://polylang.pro"
+
+#. translators: %1$s is link start tag, %2$s is link end tag.
+#: settings/view-about.php:24
+msgid "Support and extra features are available to %1$sPolylang Pro%2$s users."
+msgstr "Hỗ trợ và tính năng bổ sung có sẵn cho người dùng %1$sPolylang Pro%2$s."
+
+#: settings/settings-module.php:354
+msgid "Upgrade now."
+msgstr "Cập nhật ngay."
+
+#. translators: %s is a date
+#: include/license.php:342
+msgid "Your license key expires on %s."
+msgstr "Key bản quyền của bạn hết hạn vào ngày %s."
+
+#: include/license.php:329
+msgid "The license key never expires."
+msgstr "Khóa bản quyền không bao giờ hết hạn."
+
+#. translators: %1$s is link start tag, %2$s is link end tag
+#: include/license.php:317
+msgid "Your license key has reached its activation limit. %1$sView possible upgrades%2$s now."
+msgstr "Khóa bản quyền của bạn đã đạt giới hạn kích hoạt. %1$sXem các nâng cấp có thể%2$s ngay bây giờ."
+
+#. translators: %s is a product name
+#: include/license.php:311
+msgid "This is not a %s license key."
+msgstr "Đây không phải là khóa bản quyền %s."
+
+#. translators: %1$s is a product name, %2$s is link start tag, %3$s is link
+#. end tag.
+#: include/license.php:302
+msgid "Your %1$s license key is not active for this URL. Please %2$svisit your account page%3$s to manage your license key URLs."
+msgstr "Khóa bản quyền %1$s của bạn không hoạt động cho URL này. Vui lòng %2$stham quan trang tài khoản của bạn%3$s để quản lý URL khóa bản quyền của bạn."
+
+#. translators: %1$s is link start tag, %2$s is link end tag.
+#: include/license.php:292
+msgid "Invalid license. Please %1$svisit your account page%2$s and verify it."
+msgstr "Giấy phép không hợp lệ. Vui lòng %1$stham quan trang tài khoản của bạn%2$s và xác minh nó."
+
+#. translators: %1$s is a date, %2$s is link start tag, %3$s is link end tag.
+#: include/license.php:277
+msgid "Your license key expired on %1$s. Please %2$srenew your license key%3$s."
+msgstr "Khóa bản quyền của bạn đã hết hạn vào %1$s. Vui lòng %2$snâng cấp khóa bản quyền của bạn%3$s."
+
+#: settings/settings-licenses.php:39
+msgid "Manage licenses for Polylang Pro and add-ons."
+msgstr "Quản lý giấy phép cho Polylang Pro và tiện ích mở rộng."
+
+#: settings/settings-licenses.php:38
+msgid "License keys"
+msgstr "Khóa bản quyền"
+
+#: modules/translate-slugs/settings-preview-translate-slugs.php:54
+msgid "Allows to translate custom post types and taxonomies slugs in URLs."
+msgstr "Cho phép dịch các loại bài đăng tùy chỉnh và slug phân loại trong URL."
+
+#: modules/translate-slugs/settings-preview-translate-slugs.php:38
+msgid "Translate slugs"
+msgstr "Dịch slug"
+
+#: modules/share-slug/settings-preview-share-slug.php:54
+msgid "Allows to share the same URL slug across languages for posts and terms."
+msgstr "Cho phép chia sẻ cùng một slug URL trên nhiều ngôn ngữ cho bài đăng và thuật ngữ."
+
+#: modules/share-slug/settings-preview-share-slug.php:38
+msgid "Share slugs"
+msgstr "Chia sẻ slug"
+
+#: install/plugin-updater.php:488
+msgid "Error"
+msgstr "Lỗi"
+
+#: install/plugin-updater.php:488
+msgid "You do not have permission to install plugin updates"
+msgstr "Bạn không có quyền cài đặt các bản cập nhật các plugin"
+
+#. translators: Post calendar label. %s: Date.
+#: include/widget-calendar.php:221
+msgid "Posts published on %s"
+msgstr "Bài đăng được xuất bản trên %s"
+
+#: include/widget-calendar.php:219
+msgctxt "daily archives date format"
+msgid "F j, Y"
+msgstr "F j, Y"
+
+#: settings/view-tab-lang.php:140
+msgid "Choose a flag for the language."
+msgstr "Chọn cờ cho ngôn ngữ."
+
+#. translators: accessibility text
+#: settings/table-string.php:349
+msgid "Filter by group"
+msgstr "Lọc theo nhóm"
+
+#. translators:  accessibility text, %s is a string potentially in any language
+#: settings/table-string.php:102
+msgid "Select %s"
+msgstr "Chọn %s"
+
+#: settings/table-settings.php:149
+msgid "Description"
+msgstr "Mô Tả (Sản Phẩm)"
+
+#: settings/table-settings.php:148
+msgid "Module"
+msgstr "Mô-đun"
+
+#: settings/settings-module.php:170
+msgid "Save Changes"
+msgstr "Lưu cài đặt"
+
+#: settings/settings-module.php:169 js/build/block-editor.js:80
+#: js/build/classic-editor.js:80
+msgid "Cancel"
+msgstr "Huỷ"
+
+#: settings/table-languages.php:211
+msgid "Delete this language and all its associated data"
+msgstr "nhomsXoas ngôn ngữ này và tất cả các dữ liệu liên quan"
+
+#. translators: accessibility text, %s is a native language name
+#: settings/table-languages.php:117
+msgid "Choose %s as default language"
+msgstr "Chọn ngôn ngữ %s làm mặc định"
+
+#: settings/table-languages.php:114
+msgid "Select as default language"
+msgstr "Chọn làm ngôn ngữ mặc định"
+
+#: settings/table-languages.php:93 settings/table-languages.php:205
+msgid "Edit this language"
+msgstr "Chỉnh sửa ngôn ngữ này"
+
+#: settings/settings.php:341
+msgid "You can set them all to the default language."
+msgstr "Bạn có thể đặt tất cả chúng thành ngôn ngữ mặc định."
+
+#: modules/wizard/view-wizard-step-untranslated-contents.php:18
+#: settings/settings.php:339
+msgid "There are posts, pages, categories or tags without language."
+msgstr "Có bài viết, trang, danh mục hoặc thẻ không có ngôn ngữ."
+
+#. translators: %s is an url
+#: settings/settings-url.php:324
+msgid "Polylang was unable to access the %s URL. Please check that the URL is valid."
+msgstr "Polylang không thể truy cập URL %s. Vui lòng kiểm tra xem URL có hợp lệ không."
+
+#. translators: %s is a native language name
+#: settings/settings-url.php:269
+msgid "Please enter a valid URL for %s."
+msgstr "Vui lòng nhập URL hợp lệ cho %s."
+
+#: settings/settings-url.php:39
+msgid "Decide how your URLs will look like."
+msgstr "Quyết định cách URL của bạn sẽ trông như thế nào."
+
+#: settings/settings-module.php:165
+msgid "Deactivated"
+msgstr "Bị vô hiệu hóa"
+
+#: settings/settings-module.php:160
+msgid "Activate this module"
+msgstr "Kích hoạt mô-đun này"
+
+#: include/license.php:326 settings/settings-module.php:156
+msgid "Deactivate"
+msgstr "Tắt"
+
+#: settings/settings-module.php:154
+msgid "Deactivate this module"
+msgstr "Vô hiệu hóa mô-đun này"
+
+#: settings/settings-module.php:148
+msgid "Configure this module"
+msgstr "Cấu hình mô-đun này"
+
+#: settings/settings-cpt.php:60
+msgid "Activate languages and translations management for the custom post types and the taxonomies."
+msgstr "Kích hoạt quản lý ngôn ngữ và bản dịch cho các loại bài đăng tùy chỉnh và phân loại."
+
+#: settings/settings-cpt.php:59
+msgid "Custom post types and Taxonomies"
+msgstr "Loại bài đăng tùy chỉnh và Phân loại"
+
+#: settings/flags.php:266
+msgid "Zimbabwe"
+msgstr "Dim-ba-bu-ê"
+
+#: settings/flags.php:265
+msgid "Zambia"
+msgstr "Dăm-bi-a"
+
+#: settings/flags.php:264
+msgid "South Africa"
+msgstr "Nam Phi"
+
+#: settings/flags.php:263
+msgid "Mayotte"
+msgstr "Mayotte"
+
+#: settings/flags.php:262
+msgid "Yemen"
+msgstr "Y-ê-men"
+
+#: settings/flags.php:261
+msgid "Western Samoa"
+msgstr "Western Samoa"
+
+#: settings/flags.php:260
+msgid "Wallis and Futuna"
+msgstr "Wallis và Futuna"
+
+#: settings/flags.php:259
+msgid "Wales"
+msgstr "Xứ Wales"
+
+#: settings/flags.php:258
+msgid "Vanuatu"
+msgstr "Va-nu-a-tu"
+
+#: settings/flags.php:257
+msgid "Vietnam"
+msgstr "Việt Nam"
+
+#: settings/flags.php:256
+msgid "United States Virgin Islands"
+msgstr "Quần đảo Virgin thuộc Hoa Kỳ"
+
+#: settings/flags.php:255
+msgid "British Virgin Islands"
+msgstr "Quần đảo British Virgin"
+
+#: settings/flags.php:254
+msgid "Veneto"
+msgstr "Veneto"
+
+#: settings/flags.php:253
+msgid "Venezuela"
+msgstr "Vê-nê-zu-ê-la"
+
+#: settings/flags.php:252
+msgid "Saint Vincent and the Grenadines"
+msgstr "Xan Vin-xen và Grê-na-din"
+
+#: settings/flags.php:251
+msgid "Vatican"
+msgstr "Vatican"
+
+#: settings/flags.php:250
+msgid "Uzbekistan"
+msgstr "U-dơ-bê-ki-xtan"
+
+#: settings/flags.php:249
+msgid "Uruguay"
+msgstr "U-ru-goay"
+
+#: settings/flags.php:248
+msgid "United States"
+msgstr "Hoa Kỳ"
+
+#: settings/flags.php:247
+msgid "Uganda"
+msgstr "U-gan-đa"
+
+#: settings/flags.php:246
+msgid "Ukraine"
+msgstr "U-crai-na"
+
+#: settings/flags.php:245
+msgid "Tanzania"
+msgstr "Tan-da-ni-a"
+
+#: settings/flags.php:244
+msgid "Taiwan"
+msgstr "Đài Loan"
+
+#: settings/flags.php:243
+msgid "Tuvalu"
+msgstr "Tu-va-lu"
+
+#: settings/flags.php:242
+msgid "Trinidad and Tobago"
+msgstr "Tri-ni-đát và Tô-ba-gô"
+
+#: settings/flags.php:241
+msgid "Turkey"
+msgstr "Thổ Nhĩ Kỳ"
+
+#: settings/flags.php:240
+msgid "Tonga"
+msgstr "Tông-ga"
+
+#: settings/flags.php:239
+msgid "Tunisia"
+msgstr "Tuy-ni-di"
+
+#: settings/flags.php:238
+msgid "Turkmenistan"
+msgstr "Tuốc-mê-ni-xtan"
+
+#: settings/flags.php:237
+msgid "Timor-Leste"
+msgstr "Đông Timo"
+
+#: settings/flags.php:236
+msgid "Tokelau"
+msgstr "Tokelau"
+
+#: settings/flags.php:235
+msgid "Tajikistan"
+msgstr "Tát-gi-ki-xtan"
+
+#: settings/flags.php:233
+msgid "Thailand"
+msgstr "Thái Lan"
+
+#: settings/flags.php:232
+msgid "Togo"
+msgstr "Tô-gô"
+
+#: settings/flags.php:231
+msgid "French Southern Territories"
+msgstr "Lãnh thổ miền Nam nước Pháp"
+
+#: settings/flags.php:230
+msgid "Chad"
+msgstr "Sát"
+
+#: settings/flags.php:229
+msgid "Turks and Caicos Islands"
+msgstr "Turks và quần đảo Caicos"
+
+#: settings/flags.php:228
+msgid "Swaziland"
+msgstr "Xoa-di-len"
+
+#: settings/flags.php:227
+msgid "Syria"
+msgstr "Syria"
+
+#: settings/flags.php:226
+msgid "El Salvador"
+msgstr "En-san-va-đo"
+
+#: settings/flags.php:225
+msgid "São Tomé and Príncipe"
+msgstr "São Tomé và Príncipe"
+
+#: settings/flags.php:224
+msgid "South Sudan"
+msgstr "Nam Sudan"
+
+#: settings/flags.php:223
+msgid "Suriname"
+msgstr "Xu-ri-nam"
+
+#: settings/flags.php:222
+msgid "Somalia"
+msgstr "Xô-ma-li"
+
+#: settings/flags.php:221
+msgid "Senegal"
+msgstr "Xê-nê-gan"
+
+#: settings/flags.php:220
+msgid "San Marino"
+msgstr "Xan Ma-ri-nô"
+
+#: settings/flags.php:219
+msgid "Sierra Leone"
+msgstr "Xi-ê-ra Lê-ôn"
+
+#: settings/flags.php:218
+msgid "Slovakia"
+msgstr "Xlô-va-ki-a"
+
+#: settings/flags.php:217
+msgid "Slovenia"
+msgstr "Xlô-ven-ni-a"
+
+#: settings/flags.php:216
+msgid "Saint Helena"
+msgstr "Saint Helena"
+
+#: settings/flags.php:215
+msgid "Singapore"
+msgstr "Xin-ga-po"
+
+#: settings/flags.php:214
+msgid "Sweden"
+msgstr "Thụy Điển"
+
+#: settings/flags.php:213
+msgid "Sudan"
+msgstr "Xu-đăng"
+
+#: settings/flags.php:212
+msgid "Scotland"
+msgstr "Scotland"
+
+#: settings/flags.php:211
+msgid "Seychelles"
+msgstr "Xây-sen"
+
+#: settings/flags.php:210
+msgid "Solomon Islands"
+msgstr "Quần đảo Xô-lô-mông"
+
+#: settings/flags.php:209
+msgid "Saudi Arabia"
+msgstr "A-rập Xê-út"
+
+#: settings/flags.php:208
+msgid "Rwanda"
+msgstr "Ru-an-đa"
+
+#: settings/flags.php:207
+msgid "Russia"
+msgstr "Nga"
+
+#: settings/flags.php:206
+msgid "Serbia"
+msgstr "Xéc-bi"
+
+#: settings/flags.php:205
+msgid "Romania"
+msgstr "Ru-ma-ni"
+
+#: settings/flags.php:204
+msgid "Quebec"
+msgstr "Quebec"
+
+#: settings/flags.php:203
+msgid "Qatar"
+msgstr "Ca-ta"
+
+#: settings/flags.php:202
+msgid "Paraguay"
+msgstr "Pa-ra-goay"
+
+#: settings/flags.php:201
+msgid "Belau"
+msgstr "Belau"
+
+#: settings/flags.php:200
+msgid "Portugal"
+msgstr "Bồ Đào Nha"
+
+#: settings/flags.php:199
+msgid "Palestinian Territory"
+msgstr "Palestinian Territory"
+
+#: settings/flags.php:198
+msgid "Puerto Rico"
+msgstr "Puerto Rico"
+
+#: settings/flags.php:197
+msgid "Pitcairn"
+msgstr "Pitcairn"
+
+#: settings/flags.php:196
+msgid "Saint Pierre and Miquelon"
+msgstr "Saint Pierre và Miquelon"
+
+#: settings/flags.php:195
+msgid "Poland"
+msgstr "Ba Lan"
+
+#: settings/flags.php:194
+msgid "Pakistan"
+msgstr "Pa-ki-xtan"
+
+#: settings/flags.php:193
+msgid "Philippines"
+msgstr "Phi-lip-pin"
+
+#: settings/flags.php:192
+msgid "Papua New Guinea"
+msgstr "Pa-pu-a Niu Ghi-nê"
+
+#: settings/flags.php:191
+msgid "French Polynesia"
+msgstr "Polynesia thuộc Pháp"
+
+#: settings/flags.php:190
+msgid "Peru"
+msgstr "Pê-ru"
+
+#: settings/flags.php:189
+msgid "Panama"
+msgstr "Pa-na-ma"
+
+#: settings/flags.php:188
+msgid "Oman"
+msgstr "Ô-man"
+
+#: settings/flags.php:187
+msgid "Occitania"
+msgstr "Occitanie"
+
+#: settings/flags.php:186
+msgid "New Zealand"
+msgstr "Niu Di-lân"
+
+#: settings/flags.php:185
+msgid "Niue"
+msgstr "Niue"
+
+#: settings/flags.php:184
+msgid "Nauru"
+msgstr "Nauru"
+
+#: settings/flags.php:183
+msgid "Nepal"
+msgstr "Nê-pan"
+
+#: settings/flags.php:182
+msgid "Norway"
+msgstr "Na Uy"
+
+#: settings/flags.php:181
+msgid "Netherlands"
+msgstr "Hà Lan"
+
+#: settings/flags.php:180
+msgid "Nicaragua"
+msgstr "Ni-ca-ra-goa"
+
+#: settings/flags.php:179
+msgid "Nigeria"
+msgstr "Ni-giê-ri-a"
+
+#: settings/flags.php:178
+msgid "Norfolk Island"
+msgstr "Norfolk Island"
+
+#: settings/flags.php:177
+msgid "Niger"
+msgstr "Ni-giê"
+
+#: settings/flags.php:176
+msgid "New Caledonia"
+msgstr "New Caledonia"
+
+#: settings/flags.php:175
+msgid "Namibia"
+msgstr "Nam-mi-bi-a"
+
+#: settings/flags.php:174
+msgid "Mozambique"
+msgstr "Mô-dăm-bích"
+
+#: settings/flags.php:173
+msgid "Malaysia"
+msgstr "Ma-lay-xi-a"
+
+#: settings/flags.php:172
+msgid "Mexico"
+msgstr "Mê-hi-cô"
+
+#: settings/flags.php:171
+msgid "Malawi"
+msgstr "Ma-la-uy"
+
+#: settings/flags.php:170
+msgid "Maldives"
+msgstr "Man-đi-vơ"
+
+#: settings/flags.php:169
+msgid "Mauritius"
+msgstr "Mô-ri-xơ"
+
+#: settings/flags.php:168
+msgid "Malta"
+msgstr "Man-ta"
+
+#: settings/flags.php:167
+msgid "Montserrat"
+msgstr "Montserrat"
+
+#: settings/flags.php:166
+msgid "Mauritania"
+msgstr "Mô-ri-ta-ni"
+
+#: settings/flags.php:165
+msgid "Martinique"
+msgstr "Martinique"
+
+#: settings/flags.php:164
+msgid "Northern Mariana Islands"
+msgstr "Quần đảo Bắc Mariana"
+
+#: settings/flags.php:163
+msgid "Macao"
+msgstr "Macao"
+
+#: settings/flags.php:162
+msgid "Mongolia"
+msgstr "Mông Cổ"
+
+#: settings/flags.php:161
+msgid "Myanmar"
+msgstr "Myanmar"
+
+#: settings/flags.php:160
+msgid "Mali"
+msgstr "Ma-li"
+
+#: settings/flags.php:158
+msgid "Marshall Islands"
+msgstr "Quần đảo Mác-san"
+
+#: settings/flags.php:157
+msgid "Madagascar"
+msgstr "Ma-đa-gát-xca"
+
+#: settings/flags.php:156
+msgid "Montenegro"
+msgstr "Montenegro"
+
+#: settings/flags.php:155
+msgid "Moldova"
+msgstr "Môn-đô-va"
+
+#: settings/flags.php:154
+msgid "Monaco"
+msgstr "Mô-na-cô"
+
+#: settings/flags.php:153
+msgid "Morocco"
+msgstr "Ma-rốc"
+
+#: settings/flags.php:152
+msgid "Libya"
+msgstr "Li-bi"
+
+#: settings/flags.php:151
+msgid "Latvia"
+msgstr "Lát-vi-a"
+
+#: settings/flags.php:150
+msgid "Luxembourg"
+msgstr "Lúc-xăm-bua"
+
+#: settings/flags.php:149
+msgid "Lithuania"
+msgstr "Li-tu-a-ni-a"
+
+#: settings/flags.php:148
+msgid "Lesotho"
+msgstr "Lê-xô-thô"
+
+#: settings/flags.php:147
+msgid "Liberia"
+msgstr "Li-bê-ri-a"
+
+#: settings/flags.php:146
+msgid "Sri Lanka"
+msgstr "Xri Lan-ca"
+
+#: settings/flags.php:145
+msgid "Liechtenstein"
+msgstr "Lich-ten-xtên"
+
+#: settings/flags.php:144
+msgid "Saint Lucia"
+msgstr "Xan Lu-xi"
+
+#: settings/flags.php:143
+msgid "Lebanon"
+msgstr "Li-băng"
+
+#: settings/flags.php:142
+msgid "Laos"
+msgstr "Lào"
+
+#: settings/flags.php:141
+msgid "Kazakhstan"
+msgstr "Ka-dắc-xtan"
+
+#: settings/flags.php:140
+msgid "Cayman Islands"
+msgstr "Quần đảo Cayman"
+
+#: settings/flags.php:139
+msgid "Kuwait"
+msgstr "Cô-oét"
+
+#: settings/flags.php:138
+msgid "Kurdistan"
+msgstr "Kurdistan"
+
+#: settings/flags.php:137
+msgid "South Korea"
+msgstr "Hàn Quốc"
+
+#: settings/flags.php:136
+msgid "North Korea"
+msgstr "Bắc Triều Tiên"
+
+#: settings/flags.php:135
+msgid "Saint Kitts and Nevis"
+msgstr "Xan-kít và Nê-vi"
+
+#: settings/flags.php:134
+msgid "Comoros"
+msgstr "Cô-mô"
+
+#: settings/flags.php:133
+msgid "Kiribati"
+msgstr "Ki-ri-ba-ti"
+
+#: settings/flags.php:132
+msgid "Cambodia"
+msgstr "Campuchia"
+
+#: settings/flags.php:131
+msgid "Kyrgyzstan"
+msgstr "Cư-rơ-gư-xtan"
+
+#: settings/flags.php:130
+msgid "Kenya"
+msgstr "Kê-ni-a"
+
+#: settings/flags.php:129
+msgid "Japan"
+msgstr "Nhật Bản"
+
+#: settings/flags.php:128
+msgid "Jordan"
+msgstr "Gióc-đa-ni"
+
+#: settings/flags.php:127
+msgid "Jamaica"
+msgstr "Ha-mai-ca"
+
+#: settings/flags.php:126
+msgid "Italy"
+msgstr "Ý"
+
+#: settings/flags.php:125
+msgid "Iceland"
+msgstr "Ai-xơ-len"
+
+#: settings/flags.php:124
+msgid "Iran"
+msgstr "I-ran"
+
+#: settings/flags.php:123
+msgid "Iraq"
+msgstr "I-rắc"
+
+#: settings/flags.php:122
+msgid "British Indian Ocean Territory"
+msgstr "Lãnh thổ Ấn Độ Dương thuộc Anh"
+
+#: settings/flags.php:121
+msgid "India"
+msgstr "Ấn Độ"
+
+#: settings/flags.php:120
+msgid "Israel"
+msgstr "I-xra-en"
+
+#: settings/flags.php:119
+msgid "Republic of Ireland"
+msgstr "Cộng hòa Ireland"
+
+#: settings/flags.php:118
+msgid "Indonesia"
+msgstr "Nam Dương"
+
+#: settings/flags.php:117
+msgid "Hungary"
+msgstr "Hung-ga-ri"
+
+#: settings/flags.php:116
+msgid "Haiti"
+msgstr "Ha-i-ti"
+
+#: settings/flags.php:115
+msgid "Croatia"
+msgstr "Crô-a-ti-a"
+
+#: settings/flags.php:114
+msgid "Honduras"
+msgstr "Hôn-đu-rát"
+
+#: settings/flags.php:113
+msgid "Heard Island and McDonald Islands"
+msgstr "Đảo Heard và quần đảo McDonald"
+
+#: settings/flags.php:112
+msgid "Hong Kong"
+msgstr "Đặc khu hành chính Hồng Kông thuộc CHND Trung Hoa"
+
+#: settings/flags.php:111
+msgid "Guyana"
+msgstr "Guy-a-na"
+
+#: settings/flags.php:110
+msgid "Guinea-Bissau"
+msgstr "Ghi-nê Bít-xao"
+
+#: settings/flags.php:109
+msgid "Guam"
+msgstr "Guam"
+
+#: settings/flags.php:108
+msgid "Guatemala"
+msgstr "Goa-tê-ma-la"
+
+#: settings/flags.php:107
+msgid "South Georgia and the South Sandwich Islands"
+msgstr "Quần đảo Nam Georgia và Quần đảo Sandwich Nam"
+
+#: settings/flags.php:106
+msgid "Greece"
+msgstr "Hy Lạp"
+
+#: settings/flags.php:105
+msgid "Equatorial Guinea"
+msgstr "Ghi-nê Xích-đạo"
+
+#: settings/flags.php:104
+msgid "Guadeloupe"
+msgstr "Guadeloupe"
+
+#: settings/flags.php:103
+msgid "Guinea"
+msgstr "Ghi-nê"
+
+#: settings/flags.php:102
+msgid "Gambia"
+msgstr "Găm-bi-a"
+
+#: settings/flags.php:101
+msgid "Greenland"
+msgstr "Greenland"
+
+#: settings/flags.php:100
+msgid "Gibraltar"
+msgstr "Gibraltar"
+
+#: settings/flags.php:99
+msgid "Ghana"
+msgstr "Gha-na"
+
+#: settings/flags.php:98
+msgid "Georgia"
+msgstr "Gru-di-a"
+
+#: settings/flags.php:97
+msgid "Grenada"
+msgstr "Grê-na-đa"
+
+#: settings/flags.php:96
+msgid "United Kingdom"
+msgstr "Vương quốc Anh"
+
+#: settings/flags.php:95
+msgid "Galicia"
+msgstr "Galicia"
+
+#: settings/flags.php:94
+msgid "Gabon"
+msgstr "Ga-bông"
+
+#: settings/flags.php:93
+msgid "France"
+msgstr "Pháp"
+
+#: settings/flags.php:92
+msgid "Faroe Islands"
+msgstr "Quần đảo Faroe"
+
+#: settings/flags.php:91
+msgid "Micronesia"
+msgstr "Mi-crô-nê-xi-a"
+
+#: settings/flags.php:90
+msgid "Falkland Islands"
+msgstr "Quần đảo Falkland"
+
+#: settings/flags.php:89
+msgid "Fiji"
+msgstr "Phi-gi"
+
+#: settings/flags.php:88
+msgid "Finland"
+msgstr "Phần Lan"
+
+#: settings/flags.php:87
+msgid "Ethiopia"
+msgstr "Ê-ti-ô-pi-a"
+
+#: settings/flags.php:86
+msgid "Esperanto"
+msgstr "Esperanto"
+
+#: settings/flags.php:85
+msgid "Spain"
+msgstr "Tây Ban Nha"
+
+#: settings/flags.php:84
+msgid "Eritrea"
+msgstr "Ê-ri-tơ-rê-a"
+
+#: settings/flags.php:83
+msgid "England"
+msgstr "Anh"
+
+#: settings/flags.php:82
+msgid "Western Sahara"
+msgstr "Tây Sahara"
+
+#: settings/flags.php:81
+msgid "Egypt"
+msgstr "Ai Cập"
+
+#: settings/flags.php:80
+msgid "Estonia"
+msgstr "E-xtô-ni-a"
+
+#: settings/flags.php:79
+msgid "Ecuador"
+msgstr "Ê-cu-a-đo"
+
+#: settings/flags.php:78
+msgid "Algeria"
+msgstr "An-giê-ri"
+
+#: settings/flags.php:77
+msgid "Dominican Republic"
+msgstr "Cộng hoà Đô-mi-ni-ca"
+
+#: settings/flags.php:76
+msgid "Dominica"
+msgstr "Dominica"
+
+#: settings/flags.php:75
+msgid "Denmark"
+msgstr "Đan Mạch"
+
+#: settings/flags.php:74
+msgid "Djibouti"
+msgstr "Gi-bu-ti"
+
+#: settings/flags.php:73
+msgid "Germany"
+msgstr "Đức"
+
+#: settings/flags.php:72
+msgid "Czech Republic"
+msgstr "Cộng hòa Séc"
+
+#: settings/flags.php:71
+msgid "Cyprus"
+msgstr "Síp"
+
+#: settings/flags.php:70
+msgid "Christmas Island"
+msgstr "Christmas Island"
+
+#: settings/flags.php:69
+msgid "Cape Verde"
+msgstr "Cáp-ve"
+
+#: settings/flags.php:68
+msgid "Cuba"
+msgstr "Cu Ba"
+
+#: settings/flags.php:67
+msgid "Costa Rica"
+msgstr "Cốt-xta Ri-ca"
+
+#: settings/flags.php:66
+msgid "Colombia"
+msgstr "Cô-lôm-bi-a"
+
+#: settings/flags.php:65
+msgid "China"
+msgstr "Trung Quốc"
+
+#: settings/flags.php:64
+msgid "Cameroon"
+msgstr "Ca-mơ-run"
+
+#: settings/flags.php:63
+msgid "Chile"
+msgstr "Chi-lê"
+
+#: settings/flags.php:62
+msgid "Cook Islands"
+msgstr "Quần đảo Cook"
+
+#: settings/flags.php:61
+msgid "Ivory Coast"
+msgstr "Bờ biển Ngà"
+
+#: settings/flags.php:60
+msgid "Switzerland"
+msgstr "Thụy Sĩ"
+
+#: settings/flags.php:59
+msgid "Congo"
+msgstr "Congo"
+
+#: settings/flags.php:58
+msgid "Central African Republic"
+msgstr "Cộng hòa Trung Phi"
+
+#: settings/flags.php:57
+msgid "Democratic Republic of the Congo"
+msgstr "Cộng hoà dân chủ Côngô"
+
+#: settings/flags.php:56
+msgid "Cocos"
+msgstr "Cocos"
+
+#: settings/flags.php:55
+msgid "Catalonia"
+msgstr "Catalonia"
+
+#: settings/flags.php:54
+msgid "Canada"
+msgstr "Ca-na-đa"
+
+#: settings/flags.php:53
+msgid "Belize"
+msgstr "Bê-li-xê"
+
+#: settings/flags.php:52
+msgid "Belarus"
+msgstr "Bê-la-rút"
+
+#: settings/flags.php:51
+msgid "Botswana"
+msgstr "Bốt-xoa-na"
+
+#: settings/flags.php:50
+msgid "Bhutan"
+msgstr "Bu-tan (Bhutan)"
+
+#: settings/flags.php:49
+msgid "Bahamas"
+msgstr "Ba-ha-ma"
+
+#: settings/flags.php:48
+msgid "Brazil"
+msgstr "Bra-xin"
+
+#: settings/flags.php:47
+msgid "Bolivia"
+msgstr "Bô-li-vi-a"
+
+#: settings/flags.php:46
+msgid "Brunei"
+msgstr "Bru-nây"
+
+#: settings/flags.php:45
+msgid "Bermuda"
+msgstr "Bermuda"
+
+#: settings/flags.php:44
+msgid "Benin"
+msgstr "Bê-nanh"
+
+#: settings/flags.php:43
+msgid "Burundi"
+msgstr "Bu-run-đi"
+
+#: settings/flags.php:42
+msgid "Bahrain"
+msgstr "Ba-ren"
+
+#: settings/flags.php:41
+msgid "Bulgaria"
+msgstr "Bun-ga-ri"
+
+#: settings/flags.php:40
+msgid "Burkina Faso"
+msgstr "Buốc-ki-na Pha-xô"
+
+#: settings/flags.php:39
+msgid "Belgium"
+msgstr "Bỉ"
+
+#: settings/flags.php:38
+msgid "Bangladesh"
+msgstr "Băng-la-đét"
+
+#: settings/flags.php:37
+msgid "Barbados"
+msgstr "Bác-ba-đốt"
+
+#: settings/flags.php:36
+msgid "Basque Country"
+msgstr "Xứ Basque"
+
+#: settings/flags.php:35
+msgid "Bosnia and Herzegovina"
+msgstr "Bô-xni-a Héc-xê-gô-vi-na"
+
+#: settings/flags.php:34
+msgid "Azerbaijan"
+msgstr "Ai-déc-bai-gian"
+
+#: settings/flags.php:33
+msgid "Åland Islands"
+msgstr "Quần đảo Åland"
+
+#: settings/flags.php:32
+msgid "Aruba"
+msgstr "Aruba"
+
+#: settings/flags.php:31
+msgid "Australia"
+msgstr "Úc"
+
+#: settings/flags.php:30
+msgid "Austria"
+msgstr "Áo"
+
+#: settings/flags.php:29
+msgid "American Samoa"
+msgstr "American Samoa"
+
+#: settings/flags.php:28
+msgid "Arab league"
+msgstr "Liên đoàn Ả Rập"
+
+#: settings/flags.php:27
+msgid "Argentina"
+msgstr "Ác-hen-ti-na"
+
+#: settings/flags.php:26
+msgid "Angola"
+msgstr "Ăng-gô-la"
+
+#: settings/flags.php:25
+msgid "Netherlands Antilles"
+msgstr "Antille thuộc Hà Lan"
+
+#: settings/flags.php:24
+msgid "Armenia"
+msgstr "Ác-mê-ni-a"
+
+#: settings/flags.php:23
+msgid "Albania"
+msgstr "An-ba-ni"
+
+#: settings/flags.php:22
+msgid "Anguilla"
+msgstr "Anguilla"
+
+#: settings/flags.php:21
+msgid "Antigua and Barbuda"
+msgstr "An-ti-gu-a và Ba-bu-đa"
+
+#: settings/flags.php:20
+msgid "Afghanistan"
+msgstr "Áp-ga-ni-xtan"
+
+#: settings/flags.php:19
+msgid "United Arab Emirates"
+msgstr "Các Tiểu Vương quốc A-rập Thống nhất"
+
+#: settings/flags.php:18
+msgid "Andorra"
+msgstr "Andorra"
+
+#. translators: accessibility text
+#: admin/view-translations-post.php:57 admin/view-translations-term.php:77
+msgid "Translation"
+msgstr "Bản dịch"
+
+#: admin/admin-static-pages.php:56
+msgid "Posts Page"
+msgstr "Trang bài viết"
+
+#: admin/admin-static-pages.php:52
+msgid "Front Page"
+msgstr "Trang Chủ"
+
+#: admin/admin-nav-menu.php:82
+msgid "Add to Menu"
+msgstr "Thêm vào menu"
+
+#: admin/admin-model.php:397 modules/wizard/wizard.php:487
+msgid "The flag does not exist"
+msgstr "Cờ không tồn tại"
+
+#. translators: accessibility text, %s is a native language name
+#: admin/admin-links.php:27
+msgid "Add a translation in %s"
+msgstr "Thêm bản dịch trong %s"
+
+#. translators: accessibility text, %s is a native language name
+#: admin/admin-filters-columns.php:196 admin/admin-filters-columns.php:333
+msgid "This item is in %s"
+msgstr "Mục này nằm trong %s"
+
+#. translators: accessibility text, %s is a native language name
+#: admin/admin-filters-columns.php:177 admin/admin-filters-columns.php:319
+#: admin/admin-links.php:54
+msgid "Edit the translation in %s"
+msgstr "Chỉnh sửa bản dịch trong %s"
+
+#. translators: accessibility text, %s is a native language name
+#: admin/admin-filters-columns.php:173 admin/admin-filters-columns.php:315
+msgid "Edit this item in %s"
+msgstr "Chỉnh sửa mục này trong %s"
+
+#. Description of the plugin
+#: polylang.php
+msgid "Adds multilingual capability to WordPress"
+msgstr "Thêm khả năng đa ngôn ngữ cho WordPress"
+
+#. Plugin Name of the plugin
+#: polylang.php
+msgid "Polylang"
+msgstr "Polylang"
+
+#: settings/settings-module.php:162
+msgid "Activate"
+msgstr "Kích hoạt captcha"
+
+#: settings/settings-module.php:164
+msgid "Activated"
+msgstr "Đã kích hoạt"
+
+#: settings/settings-licenses.php:43
+msgid "Close"
+msgstr "Đóng"
+
+#: install/upgrade.php:89
+msgid "Polylang has been deactivated because you upgraded from a too old version."
+msgstr "Polylang đã bị vô hiệu hóa vì bạn đã nâng cấp từ một phiên bản quá cũ."
+
+#: include/widget-languages.php:121
+msgid "Title:"
+msgstr "Tiêu đề:"
+
+#: include/widget-languages.php:23
+msgid "Displays a language switcher"
+msgstr "Hiển thị bộ chuyển đổi ngôn ngữ"
+
+#. translators: Calendar caption: 1: Month name, 2: 4-digit year.
+#: include/widget-calendar.php:149
+msgctxt "calendar caption"
+msgid "%1$s %2$s"
+msgstr "%1$s %2$s"
+
+#: include/switcher.php:46
+msgid "Displays as a dropdown"
+msgstr "Hiển thị dưới dạng menu thả xuống"
+
+#: include/switcher.php:51
+msgid "Hides languages with no translation"
+msgstr "Ẩn các ngôn ngư không có bản dịch"
+
+#: include/switcher.php:50
+msgid "Hides the current language"
+msgstr "Ẩn ngông ngữ hiên tại"
+
+#: include/switcher.php:49
+msgid "Forces link to front page"
+msgstr "Buộc liên kết đến trang chủ"
+
+#: include/switcher.php:48
+msgid "Displays flags"
+msgstr "Hiển thị cờ"
+
+#: include/switcher.php:47
+msgid "Displays language names"
+msgstr "Hiện thị tên ngôn ngữ"
+
+#: integrations/wp-importer/wordpress-importer.php:45
+msgid "Import <strong>posts, pages, comments, custom fields, categories, and tags</strong> from a WordPress export file."
+msgstr "Nhập <strong>bài đăng, trang, bình luận, trường tùy chỉnh, danh mục và thẻ</strong> từ tệp xuất của WordPress."
+
+#: admin/admin-default-term.php:135
+msgid "Uncategorized"
+msgstr "Chưa phân loại"
+
+#. translators: Hidden accessibility text.
+#: frontend/frontend-filters-search.php:122
+#: frontend/frontend-filters-search.php:124
+msgid "Search"
+msgstr "Tìm kiếm"
+
+#: settings/view-tab-strings.php:21
+msgid "Use this to remove unused strings from database, for example after a plugin has been uninstalled."
+msgstr "Sử dụng để xóa các chuỗi không sử dụng khỏi cơ sở dữ liệu, ví dụ sau khi plugin đã được gỡ cài đặt."
+
+#: settings/view-tab-strings.php:19
+msgid "Clean strings translation database"
+msgstr "Làm sạch cơ sở dữ liệu bản dịch chuỗi"
+
+#: settings/view-tab-strings.php:16
+msgid "Search translations"
+msgstr "Tìm kiếm bản dịch"
+
+#: modules/sync/settings-sync.php:32
+msgid "The synchronization options allow to maintain exact same values (or translations in the case of taxonomies and page parent) of meta content between the translations of a post or page."
+msgstr "Các tùy chọn đồng bộ hóa cho phép duy trì các giá trị giống hệt nhau (hoặc bản dịch trong trường hợp phân loại và trang cha) của nội dung siêu dữ liệu giữa các bản dịch của bài đăng hoặc trang."
+
+#: modules/sync/settings-sync.php:31
+msgid "Synchronization"
+msgstr "Đồng bộ hóa"
+
+#: settings/settings-cpt.php:156
+msgid "Activate languages and translations for custom taxonomies."
+msgstr "Kích hoạt ngôn ngữ và bản dịch cho các phân loại tùy chỉnh."
+
+#: settings/settings-cpt.php:131
+msgid "Custom taxonomies"
+msgstr "Phân loại tùy chỉnh"
+
+#: settings/settings-cpt.php:125
+msgid "Activate languages and translations for custom post types."
+msgstr "Kích hoạt ngôn ngữ và bản dịch cho các loại bài đăng tùy chỉnh."
+
+#: settings/settings-cpt.php:100
+msgid "Custom post types"
+msgstr "Kiểu bài đăng tùy chỉnh"
+
+#: modules/wizard/view-wizard-step-media.php:21 modules/wizard/wizard.php:607
+#: settings/settings-media.php:31
+msgid "Media"
+msgstr "Đa phương tiện"
+
+#: settings/settings-browser.php:34
+msgid "Detect browser language"
+msgstr "Kiểm tra nguôn ngữ của trình duyệt"
+
+#. translators: %1$s example url when the option is active. %2$s example url
+#. when the option is not active
+#: settings/settings-url.php:195
+msgid "Example: %1$s instead of %2$s"
+msgstr "Ví dụ: %1$s thay vì %2$s"
+
+#: modules/site-health/admin-site-health.php:159 settings/settings-url.php:183
+msgid "The front page URL contains the language code instead of the page name or page id"
+msgstr "URL trang chủ chứa mã ngôn ngữ thay vì tên hoặc ID trang"
+
+#: modules/site-health/admin-site-health.php:132 settings/settings-url.php:161
+msgid "Keep /language/ in pretty permalinks"
+msgstr "Giữ /language/ trong liên kết đẹp"
+
+#: modules/site-health/admin-site-health.php:129 settings/settings-url.php:150
+msgid "Remove /language/ in pretty permalinks"
+msgstr "Loại bỏ /language/ trong liên kết đẹp"
+
+#: modules/site-health/admin-site-health.php:136 settings/settings-url.php:128
+msgid "Hide URL language information for default language"
+msgstr "Ẩn thông tin ngôn ngữ URL cho ngôn ngữ mặc định"
+
+#: modules/site-health/admin-site-health.php:153 settings/settings-url.php:93
+msgid "The language is set from different domains"
+msgstr "Ngôn ngữ được đặt từ các miền khác nhau"
+
+#: modules/site-health/admin-site-health.php:150 settings/settings-url.php:82
+msgid "The language is set from the subdomain name in pretty permalinks"
+msgstr "Ngôn ngữ được đặt từ tên miền phụ trong liên kết đẹp"
+
+#: settings/settings-url.php:75 settings/settings-url.php:86
+#: settings/settings-url.php:154 settings/settings-url.php:165
+msgid "Example:"
+msgstr "Vi dụ:"
+
+#: settings/settings-url.php:71
+msgid "The language is set from the code in the URL"
+msgstr "Ngôn ngữ được đặt từ mã trong URL"
+
+#: modules/site-health/admin-site-health.php:147 settings/settings-url.php:71
+msgid "The language is set from the directory name in pretty permalinks"
+msgstr "Ngôn ngữ được đặt từ tên thư mục trong liên kết đẹp"
+
+#: settings/settings-url.php:65
+msgid "Posts, pages, categories and tags URLs will not be modified."
+msgstr "URL của bài đăng, trang, danh mục và thẻ sẽ không bị sửa đổi."
+
+#: modules/site-health/admin-site-health.php:144 settings/settings-url.php:61
+msgid "The language is set from content"
+msgstr "Ngôn ngữ được đặt từ nội dung"
+
+#: settings/settings-url.php:38
+msgid "URL modifications"
+msgstr "Thay đổi URL"
+
+#. translators: accessibility text
+#: modules/wizard/view-wizard-step-home-page.php:77
+#: modules/wizard/view-wizard-step-home-page.php:92
+#: modules/wizard/view-wizard-step-home-page.php:124
+#: modules/wizard/view-wizard-step-languages.php:71
+#: modules/wizard/view-wizard-step-languages.php:86
+#: settings/table-languages.php:133 settings/table-languages.php:152
+msgid "Default language"
+msgstr "Ngôn ngữ mặc định"
+
+#: settings/view-tab-lang.php:172
+msgid "Update"
+msgstr "Cập nhật"
+
+#: settings/view-tab-lang.php:151
+msgid "Position of the language in the language switcher"
+msgstr "Vị trí của ngôn ngữ trong công cụ chuyển đổi ngôn ngữ"
+
+#: settings/view-tab-lang.php:120
+msgid "Choose the text direction for the language"
+msgstr "Chọn hướng văn bản cho ngôn ngữ"
+
+#: settings/view-tab-lang.php:117
+msgid "right to left"
+msgstr "phải qua trái"
+
+#: settings/view-tab-lang.php:112
+msgid "left to right"
+msgstr "trái qua phải"
+
+#: settings/view-tab-lang.php:107
+msgid "Text direction"
+msgstr "Hướng văn bản"
+
+#: settings/view-tab-lang.php:103
+msgid "Language code - preferably 2-letters ISO 639-1  (for example: en)"
+msgstr "Mã ngôn ngữ - ưu tiên 2 chữ cái ISO 639-1 (ví dụ: en)"
+
+#: settings/view-tab-lang.php:96
+msgid "Language code"
+msgstr "Mã ngôn ngữ"
+
+#: settings/view-tab-lang.php:92
+msgid "WordPress Locale for the language (for example: en_US). You will need to install the .mo file for this language."
+msgstr "Vùng miền WordPress cho ngôn ngữ (ví dụ: en_US). Bạn sẽ cần cài đặt tệp .mo cho ngôn ngữ này."
+
+#: settings/view-tab-lang.php:81
+msgid "The name is how it is displayed on your site (for example: English)."
+msgstr "Tên được hiển thị trên trang web của bạn như thế nào (ví dụ: Tiếng Anh)."
+
+#: settings/view-tab-lang.php:70
+msgid "You can choose a language in the list or directly edit it below."
+msgstr "Bạn có thể chọn một ngôn ngữ trong danh sách hoặc sửa trực tiếp ở phía dưới."
+
+#: include/widget-languages.php:60 settings/view-tab-lang.php:53
+msgid "Choose a language"
+msgstr "Chọn một ngôn ngữ"
+
+#: modules/wizard/view-wizard-step-languages.php:50
+#: modules/wizard/view-wizard-step-languages.php:54
+#: settings/view-tab-lang.php:32 settings/view-tab-lang.php:172
+msgid "Add new language"
+msgstr "Thêm ngôn ngữ mới"
+
+#: settings/view-tab-lang.php:32
+msgid "Edit language"
+msgstr "Sửa ngông ngữ"
+
+#. translators: %1$s is link start tag, %2$s is link end tag.
+#: settings/view-about.php:16
+msgid "Polylang is provided with an extensive %1$sdocumentation%2$s (in English). It includes information on how to set up your multilingual site and use it on a daily basis; FAQs, and documentation for developers to adapt their plugins and themes."
+msgstr "Polylang được cung cấp với %1$stài liệu%2$s phong phú (bằng tiếng Anh). Nó bao gồm thông tin về cách thiết lập trang web đa ngôn ngữ của bạn và sử dụng hàng ngày; các câu hỏi thường gặp (FAQ), và tài liệu cho các nhà phát triển để điều chỉnh plugin và giao diện của họ."
+
+#: settings/table-string.php:368
+msgid "Filter"
+msgstr "Lọc"
+
+#: settings/table-string.php:355
+msgid "View all groups"
+msgstr "Xem tất cả các nhóm"
+
+#: admin/admin-base.php:129 admin/view-translations-media.php:13
+#: admin/view-translations-post.php:10 admin/view-translations-term.php:14
+#: admin/view-translations-term.php:21 settings/table-string.php:164
+msgid "Translations"
+msgstr "Các bản dịch"
+
+#: settings/table-string.php:163
+msgid "Group"
+msgstr "Nhóm"
+
+#: settings/table-string.php:162
+msgid "Name"
+msgstr "Tên"
+
+#: settings/table-string.php:161
+msgid "String"
+msgstr "Ký tự"
+
+#: settings/table-languages.php:155
+msgid "Posts"
+msgstr "Bài viết"
+
+#: settings/table-languages.php:154 settings/view-tab-lang.php:124
+msgid "Flag"
+msgstr "Đánh dấu"
+
+#: settings/table-languages.php:153 settings/view-tab-lang.php:144
+msgid "Order"
+msgstr "Thứ tự"
+
+#: settings/table-languages.php:151
+msgid "Code"
+msgstr "Mã"
+
+#: settings/table-languages.php:150 settings/view-tab-lang.php:85
+msgid "Locale"
+msgstr "Vùng miền"
+
+#: settings/table-languages.php:149 settings/view-tab-lang.php:74
+msgid "Full name"
+msgstr "Họ tên đầy đủ"
+
+#: settings/table-languages.php:214 settings/table-string.php:317
+msgid "Delete"
+msgstr "Xóa"
+
+#: settings/table-languages.php:213
+msgid "You are about to permanently delete this language. Are you sure?"
+msgstr "Bạn muốn xóa vĩnh viễn ngôn ngữ này. Bạn có chắc không?"
+
+#: modules/sync/settings-sync.php:112
+msgid "Featured image"
+msgstr "Ảnh nổi bật"
+
+#: modules/sync/settings-sync.php:111
+msgid "Page order"
+msgstr "Thứ tự trang"
+
+#: modules/sync/settings-sync.php:110
+msgid "Page template"
+msgstr "Mẫu trang"
+
+#: modules/sync/settings-sync.php:109
+msgid "Page parent"
+msgstr "Trang cha"
+
+#: modules/sync/settings-sync.php:108
+msgid "Post format"
+msgstr "Định dạng bài viết"
+
+#: modules/sync/settings-sync.php:107
+msgid "Published date"
+msgstr "Ngày đăng"
+
+#: modules/sync/settings-sync.php:106
+msgid "Sticky posts"
+msgstr "Ghim bài viết"
+
+#: modules/sync/settings-sync.php:105
+msgid "Ping status"
+msgstr "Trạng thái ping"
+
+#: modules/sync/settings-sync.php:104
+msgid "Comment status"
+msgstr "Trạng thái bình luận"
+
+#: modules/sync/settings-sync.php:103
+msgid "Custom fields"
+msgstr "Trường tùy chọn"
+
+#: modules/sync/settings-sync.php:102
+msgid "Taxonomies"
+msgstr "Nguyên tắc phân loại"
+
+#: settings/settings-licenses.php:113 settings/settings-module.php:293
+msgid "Settings saved."
+msgstr "Đã lưu mọi cài đặt."
+
+#: settings/table-string.php:422
+msgid "Translations updated."
+msgstr "Bản dịch đã được cập nhật"
+
+#: settings/settings.php:147
+msgid "Strings translations"
+msgstr "Dịch chuỗi"
+
+#: settings/settings.php:117
+msgid "About Polylang"
+msgstr "Giới thiệu về Polylang"
+
+#: settings/settings.php:192
+msgid "The language was created, but the WordPress language file was not downloaded. Please install it manually."
+msgstr "Ngôn ngữ đã được tạo, nhưng tệp ngôn ngữ WordPress chưa được tải xuống. Vui lòng cài đặt thủ công."
+
+#: admin/admin-base.php:505 admin/admin-base.php:523
+msgid "Filters content by language"
+msgstr "Lọc nội dung theo ngôn ngữ"
+
+#: admin/admin-base.php:496
+msgid "Show all languages"
+msgstr "Hiển thị tất cả ngôn ngữ"
+
+#: admin/admin-base.php:132 admin/admin.php:104
+#: settings/settings-module.php:150
+msgid "Settings"
+msgstr "Thiết lập"
+
+#: admin/admin-strings.php:70
+msgid "Widget text"
+msgstr "Nội dung tiện ích"
+
+#: admin/admin-strings.php:69
+msgid "Widget title"
+msgstr "Tiêu đề tiện ích"
+
+#: admin/admin-nav-menu.php:49 include/nav-menu.php:72
+#: include/widget-languages.php:21
+msgid "Language switcher"
+msgstr "Chuyển ngôn ngữ"
+
+#: admin/admin-model.php:385 modules/wizard/wizard.php:486
+msgid "The language must have a name"
+msgstr "Ngôn ngữ phải có tên"
+
+#: admin/admin-model.php:378 modules/wizard/wizard.php:485
+msgid "The language code must be unique"
+msgstr "Mã ngôn ngữ phải là duy nhất"
+
+#: admin/admin-model.php:372 modules/wizard/wizard.php:484
+msgid "The language code contains invalid characters"
+msgstr "Mã ngôn ngữ chứa các ký tự không hợp lệ"
+
+#: admin/admin-model.php:367 modules/wizard/wizard.php:483
+msgid "Enter a valid WordPress locale"
+msgstr "Nhập một vị trí WordPress hợp lệ"
+
+#: settings/settings.php:220
+msgid "Language updated."
+msgstr "Ngôn ngữ đã được cập nhật."
+
+#: settings/settings.php:207
+msgid "Language deleted."
+msgstr "Ngôn ngữ đã được xóa."
+
+#: settings/settings.php:185
+msgid "Language added."
+msgstr "Ngôn ngữ đã được thêm."
+
+#: admin/admin-model.php:48 modules/wizard/wizard.php:482
+msgid "Impossible to add the language."
+msgstr "Không thể thêm ngôn ngữ."
+
+#: include/filters-widgets-options.php:51 include/translated-post.php:188
+msgid "All languages"
+msgstr "Tất cả ngôn ngữ"
+
+#: include/filters-widgets-options.php:66
+msgid "The widget is displayed for:"
+msgstr "Tiện ích được hiển thị cho:"
+
+#: admin/admin-filters-term.php:465
+msgid "None"
+msgstr "Không mục nào"
+
+#: admin/admin-filters-term.php:140 admin/admin-filters-term.php:213
+msgid "Sets the language"
+msgstr "Thiết lập ngôn ngữ"
+
+#: settings/table-languages.php:207
+msgid "Edit"
+msgstr "Sửa"
+
+#: admin/admin-classic-editor.php:243
+msgid "(no parent)"
+msgstr "(không có cha)"
+
+#: admin/admin-base.php:125 admin/admin-base.php:149
+#: admin/admin-classic-editor.php:75 admin/admin-nav-menu.php:72
+#: admin/admin-nav-menu.php:75 admin/admin-nav-menu.php:108
+#: admin/admin-notices.php:110 include/nav-menu.php:71
+#: include/translated-post.php:186
+#: modules/wizard/view-wizard-step-languages.php:28
+#: modules/wizard/wizard.php:498 settings/settings.php:127
+msgid "Languages"
+msgstr "Ngôn ngữ"
+
+#: admin/admin-classic-editor.php:127 admin/admin-filters-columns.php:234
+#: admin/admin-filters-media.php:62 admin/admin-filters-term.php:138
+#: admin/admin-filters-term.php:211 include/translated-post.php:187
+#: modules/wizard/view-wizard-step-languages.php:62
+msgid "Language"
+msgstr "Ngôn ngữ"
+
+#: admin/admin-filters-columns.php:220
+msgid "&mdash; No Change &mdash;"
+msgstr "&mdash; Không thay đổi &mdash;"

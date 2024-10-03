@@ -115,7 +115,7 @@ class ExpressCheckoutGateway extends AbstractGateway
     {
         $getOptions = function () {
             $options = [
-                TwintConstant::CONFIG_SCREEN_CART => __('Cart', 'woocommerce-gateway-twint'),
+                TwintConstant::CONFIG_SCREEN_CART => __('Cart page', 'woocommerce-gateway-twint'),
                 TwintConstant::CONFIG_SCREEN_CART_FLYOUT => __('Mini Cart', 'woocommerce-gateway-twint'),
                 TwintConstant::CONFIG_SCREEN_PDP => __('Product Detail Page', 'woocommerce-gateway-twint'),
                 TwintConstant::CONFIG_SCREEN_PLP => __('Product Listing Page', 'woocommerce-gateway-twint'),

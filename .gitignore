@@ -40,7 +40,6 @@ Thumbs.db
 # Build assets.
 select2.scss
 #/assets/
-/languages/
 composer.lock
 auth.json
 
