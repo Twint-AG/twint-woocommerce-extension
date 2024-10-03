@@ -67,8 +67,7 @@ if (!$cliSupport) { ?>
                            placeholder="<?= $field['placeholder']; ?>"
                            class="regular-text"/>
                     <div class="notify-box notify-error hidden"
-                         id="<?php echo 'error-state_' . $field['name']; ?>"
-                         style="max-width: 25em; margin-top: 5px">
+                         id="<?php echo 'error-state_' . $field['name']; ?>">
                         <?php if ($field['name'] === SettingService::STORE_UUID): ?>
                             <?php echo __('Invalid Store UUID. Store UUID needs to be a UUIDv4', 'woocommerce-gateway-twint'); ?>
                         <?php endif; ?>
