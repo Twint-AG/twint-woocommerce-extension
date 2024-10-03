@@ -98,8 +98,12 @@ class StoreConfigurationAction extends BaseAction
                     $response['status'] = false;
                     $response['flag_credentials'] = false;
                     $response['error_level'] = 'error';
-                    $response['message'] = __('Certificate cannot be validated. Please try again', 'woocommerce-gateway-twint');
+                    $response['message'] = __('Invalid password', 'woocommerce-gateway-twint');
                     $response['error_type'] = 'upload_cert';
+
+                    $result = json_encode($response);
+                    echo $result;
+                    die();
                 }
 
                 // Call SDK to check system [testMode, certificate, storeUuid]
