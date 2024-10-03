@@ -1,4 +1,6 @@
-<?php if (!$cliSupport) { ?>
+<?php use Twint\Woo\Service\SettingService;
+
+if (!$cliSupport) { ?>
     <div class="woocommerce-message notice notice-warning">
         <p>
             <?= wp_kses_post(__('<b>Warning</b>: PHP CLI Not Available', 'woocommerce-gateway-twint')); ?> <br>
@@ -64,6 +66,13 @@
                         <?php endif; ?>
                            placeholder="<?= $field['placeholder']; ?>"
                            class="regular-text"/>
+                    <div class="notify-box notify-error hidden"
+                         id="<?php echo 'error-state_' . $field['name']; ?>"
+                         style="max-width: 25em; margin-top: 5px">
+                        <?php if ($field['name'] === SettingService::STORE_UUID): ?>
+                            <?php echo __('Invalid Store UUID. Store UUID needs to be a UUIDv4', 'woocommerce-gateway-twint'); ?>
+                        <?php endif; ?>
+                    </div>
                 <?php elseif ($field['type'] === 'file'): ?>
                     <input class="twint-file-upload"
                            name="<?= $field['name']; ?>"
@@ -97,7 +106,6 @@
                         </label>
                     </fieldset>
                 <?php endif; ?>
-
 
                 <?php if ($field['help_text'] !== ''): ?>
                     <div style="margin-top: 5px;">

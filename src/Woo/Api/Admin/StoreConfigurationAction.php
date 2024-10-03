@@ -57,7 +57,6 @@ class StoreConfigurationAction extends BaseAction
         }
         $storeUuid = $_POST[SettingService::STORE_UUID];
 
-
         try {
             $pwdKey = SettingService::CERTIFICATE_PASSWORD;
             if ($_POST[$pwdKey] === 'null') {

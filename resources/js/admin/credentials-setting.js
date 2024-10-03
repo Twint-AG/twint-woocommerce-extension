@@ -324,6 +324,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
             console.log(this.state.plugin_twint_settings_store_uuid);
             if (!this.isValidUUIDv4(this.state.plugin_twint_settings_store_uuid)) {
                 this.storeUuidInput?.classList?.add('has-error');
+                const uuidStateError = document.getElementById('error-state_plugin_twint_settings_store_uuid');
+                if (uuidStateError) {
+                    uuidStateError.classList?.remove('hidden');
+
+                    setTimeout(() => {
+                        uuidStateError.classList?.add('hidden');
+                    }, 3000);
+                }
                 return false;
             }
 
