@@ -1,5 +1,6 @@
 import axios from "axios";
 import jquery from "jquery";
+import {__} from "@wordpress/i18n";
 
 document.addEventListener("DOMContentLoaded", function (event) {
     class CredentialsSetting {
@@ -328,9 +329,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 if (uuidStateError) {
                     uuidStateError.classList?.remove('hidden');
 
-                    setTimeout(() => {
-                        uuidStateError.classList?.add('hidden');
-                    }, 3000);
+                    this.clearValidationErrorState(uuidStateError);
                 }
                 return false;
             }
@@ -350,10 +349,22 @@ document.addEventListener("DOMContentLoaded", function (event) {
             const certificateIsIncorrectType = !certificateIsNull && plugin_twint_settings_certificate?.type !== 'application/x-pkcs12';
             const passwordIsProvided = plugin_twint_settings_certificate_password?.length > 0;
             const passwordIsNull = plugin_twint_settings_certificate_password === null;
-            const passwordIsEmpty = plugin_twint_settings_certificate_password?.length === 0;
+            const passwordIsEmpty = plugin_twint_settings_certificate_password === null;
 
             const addErrorToDropArea = () => jQuery('.kwt-file__drop-area').addClass('has-error');
-            const addErrorToPasswordInput = () => this.passwordInput?.classList?.add('has-error');
+            const addErrorToPasswordInput = () => {
+                this.passwordInput?.classList?.add('has-error');
+                const passwordInputErrorState = document.getElementById('error-state_plugin_twint_settings_certificate_password');
+                if (passwordInputErrorState) {
+                    if (passwordIsEmpty) {
+                        passwordInputErrorState.innerHTML = (__('Password field is required.', 'woocommerce-gateway-twint'))
+
+                        this.clearValidationErrorState(passwordInputErrorState);
+                    }
+
+                    passwordInputErrorState.classList?.remove('hidden');
+                }
+            }
 
             if (plugin_twint_settings_certificate_password?.length > 0 && certificateIsNull) {
                 addErrorToDropArea();
@@ -378,6 +389,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
             }
 
             return checked;
+        }
+
+        clearValidationErrorState(ele) {
+            setTimeout(() => {
+                ele.classList?.add('hidden');
+            }, 3000);
         }
 
         onDeleteCertificateFile() {

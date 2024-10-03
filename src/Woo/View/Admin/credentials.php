@@ -76,8 +76,13 @@ if (!$cliSupport) { ?>
                     <input class="twint-file-upload"
                            name="<?= $field['name']; ?>"
                            type="<?= $field['type']; ?>"
-                           placeholder="<?= $field['placeholder']; ?>"/>
-
+                           placeholder="<?= $field['placeholder']; ?>"/
+                    <div class="notify-box notify-error hidden"
+                         id="<?php echo 'error-state_' . $field['name']; ?>">
+                        <?php if ($field['name'] === SettingService::STORE_UUID): ?>
+                            <?php echo __('Test', 'woocommerce-gateway-twint'); ?>
+                        <?php endif; ?>
+                    </div>
                 <?php elseif ($field['type'] === 'textarea'): ?>
                     <textarea id="<?= $field['name']; ?>"
                               name="<?= $field['name']; ?>"
