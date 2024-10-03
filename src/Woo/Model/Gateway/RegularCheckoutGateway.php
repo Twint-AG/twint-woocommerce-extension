@@ -182,9 +182,10 @@ class RegularCheckoutGateway extends AbstractGateway
             }
 
             $pairing = $this->getPairingRepository()->findByWooOrderId($order->get_id());
+
             if (!$pairing instanceof Pairing) {
                 $apiResponse = $this->getPaymentService()->createOrder($order);
-                $this->getPairingService()->create($apiResponse, $order);
+                $pairing = $this->getPairingService()->create($apiResponse, $order);
             }
 
             /**
