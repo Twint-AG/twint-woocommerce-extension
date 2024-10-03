@@ -1,5 +1,8 @@
 .notify-success {
-  @apply bg-green-100 border border-solid border-green-500 text-green-700 p-4 rounded;
+  @apply bg-green-100 border border-solid border-green-500 text-green-700 p-2 rounded;
+}
+.notify-error {
+  @apply bg-red-100 border border-solid border-red-500 p-2 rounded;
 }
 
 .twint-table-setting {
