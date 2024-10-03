@@ -3,6 +3,8 @@
 }
 .notify-error {
   @apply bg-red-100 border border-solid border-red-500 p-2 rounded;
+  max-width: 25em;
+  margin-top: 5px;
 }
 
 .twint-table-setting {
