@@ -5,7 +5,7 @@ ENV TWINT_BRANCH=$TWINT_BRANCH
 ENV WOO_VERSION=woocommerce.9.0.2
 
 # Install packages
-RUN apt-get update && apt-get install -y nginx git unzip vim
+RUN apt-get update && apt-get install -y nginx git unzip vim sendmail
 RUN apt-get update && \
     apt-get install -y libxml2-dev && \
     docker-php-ext-install soap
