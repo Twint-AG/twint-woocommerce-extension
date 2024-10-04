@@ -86,8 +86,8 @@ class ExpressCheckoutService
             'phone' => '1234567890',
             'address_1' => '123 Main St',
             'city' => 'City',
-            'state' => 'ST',
-            'postcode' => '10001',
+            'state' => '',
+            'postcode' => '',
             'country' => 'CH',
         ];
         $order->set_address($address, 'billing');

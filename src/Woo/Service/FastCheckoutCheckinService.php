@@ -19,6 +19,7 @@ use Twint\Woo\Model\ApiResponse;
 use Twint\Woo\Model\Pairing;
 use WC_Logger_Interface;
 use WC_Order;
+use WC_Order_Item_Shipping;
 use WC_Shipping_Rate;
 
 /**
@@ -70,30 +71,18 @@ class FastCheckoutCheckinService
      */
     public function checkin(WC_Order $order): Pairing
     {
-        $options = $this->getShippingOptions($this->getTaxRate($order));
+        $options = $this->getShippingOptions($order);
         $res = $this->callApi($order, $options);
 
         return $this->getPairingService()->createExpressPairing($res, $order);
     }
 
-    private function getTaxRate(WC_Order $order): float
+    protected function getShippingOptions(WC_Order $order): ShippingMethods
     {
-        $taxes = $order->get_taxes();
+        $order->remove_order_items('shipping');
+        $order->calculate_totals();
+        $base = $order->get_total();
 
-        // Get the first tax item, if available
-        $tax = reset($taxes);
-
-        // Check if tax is available and get the rate percentage
-        if ($tax) {
-            return (float) ($tax->get_rate_percent());
-        }
-
-        // Return 0 if no tax is found
-        return 0.0;
-    }
-
-    protected function getShippingOptions(float $taxRate): ShippingMethods
-    {
         $options = [];
 
         $packages = $this->controller->get_shipping_packages();
@@ -101,13 +90,25 @@ class FastCheckoutCheckinService
         foreach ($packages as $package) {
             /** @var WC_Shipping_Rate $rate */
             foreach ($package['rates'] as $rate) {
+                $order->remove_order_items('shipping');
+                $item = new WC_Order_Item_Shipping();
+                $item->set_method_id( $rate->get_method_id() ); // The shipping method ID (e.g., 'flat_rate')
+                $item->set_total( $rate->get_cost() );
+
+                $order->add_item( $item );
+                $order->calculate_totals();
+
                 $options[] = new ShippingMethod(
                     new ShippingMethodId($rate->get_method_id()),
                     $rate->get_label(),
-                    Money::CHF((float) $rate->get_cost() * (100 + $taxRate) / 100)
+                    Money::CHF((float) max($order->get_total() - $base, 0))
                 );
             }
         }
+
+        $order->remove_order_items('shipping');
+        $order->calculate_totals();
+        $order->save();
 
         return new ShippingMethods(...$options);
     }
