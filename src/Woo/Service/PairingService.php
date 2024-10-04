@@ -6,16 +6,20 @@ namespace Twint\Woo\Service;
 
 use Exception;
 use Throwable;
+use Twint\Sdk\InvocationRecorder\InvocationRecordingClient;
 use Twint\Sdk\Value\FastCheckoutCheckIn;
 use Twint\Sdk\Value\InteractiveFastCheckoutCheckIn;
 use Twint\Sdk\Value\Order;
+use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\PairingStatus;
+use Twint\Sdk\Value\Uuid;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Exception\DatabaseException;
 use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Model\ApiResponse;
 use Twint\Woo\Model\Pairing;
+use Twint\Woo\Model\TransactionLog;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Repository\TransactionRepository;
 use WC_Logger_Interface;
@@ -54,6 +58,7 @@ class PairingService
         $pairing->setToken($tOrder->pairingToken()?->__toString());
         $pairing->setAmount($tOrder->amount()->amount());
         $pairing->setWcOrderId($order->get_id());
+        $pairing->setRefId($tOrder->merchantTransactionReference()->__toString());
         $pairing->setId($tOrder->id()->__toString());
         $pairing->setTransactionStatus($tOrder->transactionStatus()->__toString());
         $pairing->setPairingStatus($tOrder->pairingStatus()->__toString());
@@ -131,5 +136,43 @@ class PairingService
         $this->logger->info("TWINT update: {$pairing->getId()} {$pairing->getPairingStatus()}");
 
         return $this->getRepository()->save($pairing);
+    }
+
+
+    /**
+     * @throws Throwable
+     */
+    public function cancelRemainingPairings(int $orderId, ?InvocationRecordingClient $client = null): void
+    {
+        $pairings = $this->getRepository()->findByWooOrderId($orderId);
+
+        /** @var Pairing $p */
+        foreach ($pairings as $p){
+            if(!$p->isFinished() && $p->getStatus() !== Pairing::EXPRESS_STATUS_MERCHANT_CANCELLED) {
+                $res = $this->cancelOrder($p, $client);
+
+                $this->getRepository()->markAsMerchantCancelled($p->getId());
+
+                $log = $res->getLog();
+                $log->setPairingId($p->getId());
+                $log->setOrderId($p->getWcOrderId());
+                $this->logRepository->save($log);
+            }
+        }
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function cancelOrder(Pairing $pairing, InvocationRecordingClient $client): ApiResponse
+    {
+        $this->logger->info("TWINT cancel order: {$pairing->getId()}");
+
+        return $this->apiService->call($client, 'cancelOrder', [new OrderId(new Uuid($pairing->getId()))], true, function (TransactionLog $log) use ($pairing){
+            $log->setPairingId($pairing->getId());
+            $log->setOrderId($pairing->getWcOrderId());
+
+            return $log;
+        });
     }
 }

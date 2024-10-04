@@ -27,6 +27,7 @@ use Twint\Woo\Service\PaymentService;
 use Twint\Woo\Service\SettingService;
 use Twint\Woo\Setup\CliSupportTrigger;
 use Twint\Woo\Setup\Installer;
+use Twint\Woo\Setup\Migration\AddReferenceIdColumnToPairingTable;
 use Twint\Woo\Setup\Migration\CreatePairingTable;
 use Twint\Woo\Setup\Migration\CreateTransactionLogTable;
 use Twint\Woo\Setup\UnInstaller;
@@ -59,6 +60,7 @@ function twint_services()
         'migrations' => static fn (ContainerInterface $container): array => [
             $container->get('pairing.migration'),
             $container->get('log.migration'),
+            new AddReferenceIdColumnToPairingTable($container->get('db'))
         ],
 
         //Logger

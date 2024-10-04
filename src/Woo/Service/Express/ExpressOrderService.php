@@ -235,9 +235,11 @@ class ExpressOrderService
     {
         $client = $this->getBuilder()->build(Version::NEXT);
 
+        $refId = $order->get_id().'-'.wp_generate_password(4, false);
+
         $res = $this->api->call($client, 'startFastCheckoutOrder', [
             PairingUuid::fromString($pairing->getId()),
-            new UnfiledMerchantTransactionReference((string) $order->get_id()),
+            new UnfiledMerchantTransactionReference($refId),
             new Money(TwintConstant::SUPPORTED_CURRENCY, (float) $order->get_total()),
         ], true, static function (TransactionLog $log) use ($order) {
             $log->setOrderId($order->get_id());

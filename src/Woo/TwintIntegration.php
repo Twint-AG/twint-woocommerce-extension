@@ -7,6 +7,7 @@ namespace Twint\Woo;
 use Twint\Plugin;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
+use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Service\ApiService;
@@ -78,7 +79,7 @@ class TwintIntegration
             $order = wc_get_order($orderId);
         }
 
-        if ($order->get_payment_method() !== RegularCheckoutGateway::getId()) {
+        if (!in_array($order->get_payment_method(), [RegularCheckoutGateway::getId(), ExpressCheckoutGateway::getId()])) {
             return;
         }
 

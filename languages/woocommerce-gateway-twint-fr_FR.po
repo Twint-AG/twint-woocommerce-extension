@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/twint-woocommerce-"
 "extension\n"
-"POT-Creation-Date: 2024-10-03T09:58:20+00:00\n"
-"PO-Revision-Date: 2024-10-03 18:00+0700\n"
+"POT-Creation-Date: 2024-10-04T11:21:53+00:00\n"
+"PO-Revision-Date: 2024-10-04 18:23+0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -64,24 +64,26 @@ msgid "Response"
 msgstr "Réponse"
 
 #: src/Woo/Api/Admin/StoreConfigurationAction.php:51
-msgid "Invalid Store Uuid. Store Uuid needs to be a UUIDv4."
+#, fuzzy
+#| msgid "Invalid Store Uuid. Store Uuid needs to be a UUIDv4."
+msgid "Invalid Store UUID. Store UUID needs to be a UUIDv4."
 msgstr ""
 "UUID de votre commerce invalide. L’UUID de votre commerce doit être un UUIDv4"
 
-#: src/Woo/Api/Admin/StoreConfigurationAction.php:80
+#: src/Woo/Api/Admin/StoreConfigurationAction.php:79
 #: src/Woo/Template/Admin/Setting/Tab/Credentials.php:47
 msgid "Upload a certificate file (.p12)"
 msgstr "Télécharger un fichier de certificat (.p12)"
 
-#: src/Woo/Api/Admin/StoreConfigurationAction.php:102
-msgid "Certificate cannot be validated. Please try again"
-msgstr "Le certificat ne peut pas être validé. Veuillez réessayer"
+#: src/Woo/Api/Admin/StoreConfigurationAction.php:101
+msgid "Invalid password"
+msgstr ""
 
-#: src/Woo/Api/Admin/StoreConfigurationAction.php:142
+#: src/Woo/Api/Admin/StoreConfigurationAction.php:145
 msgid "Settings have been saved successfully."
 msgstr ""
 
-#: src/Woo/Api/Admin/StoreConfigurationAction.php:153
+#: src/Woo/Api/Admin/StoreConfigurationAction.php:156
 msgid ""
 "Invalid credentials. Please check again: Store UUID, certificate and "
 "environment (mode)"
@@ -99,59 +101,62 @@ msgid "TWINT Express Checkout"
 msgstr "TWINT Express Checkout"
 
 #: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:57
-msgid "Allows TWINT Express Checkout"
-msgstr "Permet TWINT Express Checkout"
-
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:103
-#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:86
-msgid "Enable/Disable"
-msgstr "Activer/Désactiver"
-
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:105
-msgid "Enable TWINT Express Checkout"
-msgstr "Activer TWINT Express Checkout"
-
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:118
-msgid "Cart page"
-msgstr "Page du panier"
-
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:119
-msgid "Mini Cart"
-msgstr "Affichage du panier"
-
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:120
-msgid "Product Detail Page"
-msgstr "Page de détail des produits"
-
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:121
-msgid "Product Listing Page"
-msgstr "Page de liste des produits"
-
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:141
-msgid "Display Screens"
-msgstr "Écrans d’affichage"
-
-#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:66
-#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:92
-#: src/Woo/Template/Admin/Setting/Tab/RegularCheckout.php:18
-msgid "TWINT Checkout"
-msgstr "TWINT Checkout"
-
 #: src/Woo/Model/Gateway/RegularCheckoutGateway.php:67
 #: src/Woo/Model/Gateway/RegularCheckoutGateway.php:96
 #: src/Woo/TwintIntegration.php:142 src/Woo/TwintIntegration.php:143
 #: dist/checkout.js:2 resources/js/frontend/regular-checkout.js:11
-#: dist/checkout.js:498
 msgid "TWINT"
 msgstr "TWINT"
 
-#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:68
-msgid "Allows TWINT Checkout"
-msgstr "Allows TWINT Checkout"
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:104
+#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:86
+msgid "Enable/Disable"
+msgstr "Activer/Désactiver"
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:106
+msgid "Enable TWINT Express Checkout"
+msgstr "Activer TWINT Express Checkout"
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:119
+msgid "Cart page"
+msgstr "Page du panier"
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:120
+msgid "Mini Cart"
+msgstr "Affichage du panier"
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:121
+msgid "Product Detail Page"
+msgstr "Page de détail des produits"
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:122
+msgid "Product Listing Page"
+msgstr "Page de liste des produits"
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:142
+msgid "Display Screens"
+msgstr "Écrans d’affichage"
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:164
+msgid "Button config"
+msgstr ""
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:170
+msgid "Button Preview"
+msgstr ""
+
+#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:66
+#: src/Woo/Template/Admin/Setting/Tab/RegularCheckout.php:18
+msgid "TWINT Checkout"
+msgstr "TWINT Checkout"
 
 #: src/Woo/Model/Gateway/RegularCheckoutGateway.php:88
 msgid "Enable TWINT Checkout"
 msgstr "Activer TWINT Checkout"
+
+#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:92
+msgid "Title"
+msgstr ""
 
 #: src/Woo/Model/Gateway/RegularCheckoutGateway.php:94
 msgid "This controls the title which the user sees during checkout."
@@ -253,14 +258,16 @@ msgid "Certificate Password"
 msgstr "Mot de passe du certificat"
 
 #: src/Woo/Template/Admin/Setting/Tab/Credentials.php:56
+#: resources/js/admin/credentials-setting.js:366
 msgid "Certificate password is required"
 msgstr "Le mot de passe du certificat est requis"
 
 #: src/Woo/Template/Admin/SettingsLayoutViewAdapter.php:29
-msgid "Your certificate was successfully validated"
-msgstr "Votre certificat a été validé avec succès"
+msgid "Certificate validation successful"
+msgstr "Validation du certificat réussie"
 
 #: src/Woo/Template/Admin/SettingsLayoutViewAdapter.php:116
+#: dist/credentials-setting.js:1 resources/js/admin/credentials-setting.js:110
 msgid "Save changes"
 msgstr "Enregistrer les modifications"
 
@@ -276,11 +283,11 @@ msgstr ""
 msgid "Settings"
 msgstr "Paramètres"
 
-#: src/Woo/View/Admin/credentials.php:4
+#: src/Woo/View/Admin/credentials.php:6
 msgid "<b>Warning</b>: PHP CLI Not Available"
 msgstr "<b>Avertissement</b> : PHP CLI n’est pas disponible"
 
-#: src/Woo/View/Admin/credentials.php:6
+#: src/Woo/View/Admin/credentials.php:8
 msgid ""
 "PHP CLI (Command Line Interface) is missing or misconfigured. This extension "
 "relies on PHP CLI for essential background processes. Without it, some "
@@ -291,14 +298,57 @@ msgstr ""
 "essentiels. Sans elle, certaines fonctionnalités pourraient ne pas "
 "fonctionner correctement."
 
-#: src/Woo/View/Admin/credentials.php:27
+#: src/Woo/View/Admin/credentials.php:29
 msgid "Certificate encrypted and stored."
 msgstr "Certificat crypté et enregistré"
 
-#: src/Woo/View/Admin/credentials.php:32
+#: src/Woo/View/Admin/credentials.php:34
 msgid "Upload new certificate"
 msgstr "Télécharger un nouveau certificat"
 
-#: src/Woo/View/Admin/credentials.php:39
+#: src/Woo/View/Admin/credentials.php:41
 msgid "Close"
 msgstr "Fermer"
+
+#: src/Woo/View/Admin/credentials.php:72
+#, fuzzy
+#| msgid "Invalid Store Uuid. Store Uuid needs to be a UUIDv4."
+msgid "Invalid Store UUID. Store UUID needs to be a UUIDv4"
+msgstr ""
+"UUID de votre commerce invalide. L’UUID de votre commerce doit être un UUIDv4"
+
+#: src/Woo/View/Admin/credentials.php:83
+msgid "Test"
+msgstr ""
+
+#: dist/credentials-setting.js:1 resources/js/admin/credentials-setting.js:114
+msgid "Verifying the credentials..."
+msgstr ""
+
+#: dist/credentials-setting.js:1
+#, fuzzy
+#| msgid "Certificate password is required"
+msgid "Password field is required."
+msgstr "Le mot de passe du certificat est requis"
+
+#: resources/js/frontend/express/index.js:73
+msgid ""
+"You have existing products in the shopping cart. Please review your shopping "
+"cart before continue."
+msgstr ""
+"Votre panier contient déjà des produits. Veuillez vérifier votre panier "
+"avant de continuer."
+
+#~ msgid "Invalid Store Uuid. Store Uuid needs to be a UUIDv4."
+#~ msgstr ""
+#~ "UUID de votre commerce invalide. L’UUID de votre commerce doit être un "
+#~ "UUIDv4"
+
+#~ msgid "Certificate cannot be validated. Please try again"
+#~ msgstr "Le certificat ne peut pas être validé. Veuillez réessayer"
+
+#~ msgid "Allows TWINT Express Checkout"
+#~ msgstr "Permet TWINT Express Checkout"
+
+#~ msgid "Allows TWINT Checkout"
+#~ msgstr "Allows TWINT Checkout"

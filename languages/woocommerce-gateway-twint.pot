@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-10-03T09:58:20+00:00\n"
+"POT-Creation-Date: 2024-10-04T11:21:53+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: woocommerce-gateway-twint\n"
@@ -61,23 +61,23 @@ msgid "Response"
 msgstr ""
 
 #: src/Woo/Api/Admin/StoreConfigurationAction.php:51
-msgid "Invalid Store Uuid. Store Uuid needs to be a UUIDv4."
+msgid "Invalid Store UUID. Store UUID needs to be a UUIDv4."
 msgstr ""
 
-#: src/Woo/Api/Admin/StoreConfigurationAction.php:80
+#: src/Woo/Api/Admin/StoreConfigurationAction.php:79
 #: src/Woo/Template/Admin/Setting/Tab/Credentials.php:47
 msgid "Upload a certificate file (.p12)"
 msgstr ""
 
-#: src/Woo/Api/Admin/StoreConfigurationAction.php:102
-msgid "Certificate cannot be validated. Please try again"
+#: src/Woo/Api/Admin/StoreConfigurationAction.php:101
+msgid "Invalid password"
 msgstr ""
 
-#: src/Woo/Api/Admin/StoreConfigurationAction.php:142
+#: src/Woo/Api/Admin/StoreConfigurationAction.php:145
 msgid "Settings have been saved successfully."
 msgstr ""
 
-#: src/Woo/Api/Admin/StoreConfigurationAction.php:153
+#: src/Woo/Api/Admin/StoreConfigurationAction.php:156
 msgid "Invalid credentials. Please check again: Store UUID, certificate and environment (mode)"
 msgstr ""
 
@@ -91,60 +91,63 @@ msgid "TWINT Express Checkout"
 msgstr ""
 
 #: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:57
-msgid "Allows TWINT Express Checkout"
-msgstr ""
-
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:103
-#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:86
-msgid "Enable/Disable"
-msgstr ""
-
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:105
-msgid "Enable TWINT Express Checkout"
-msgstr ""
-
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:118
-msgid "Cart page"
-msgstr ""
-
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:119
-msgid "Mini Cart"
-msgstr ""
-
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:120
-msgid "Product Detail Page"
-msgstr ""
-
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:121
-msgid "Product Listing Page"
-msgstr ""
-
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:141
-msgid "Display Screens"
-msgstr ""
-
-#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:66
-#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:92
-#: src/Woo/Template/Admin/Setting/Tab/RegularCheckout.php:18
-msgid "TWINT Checkout"
-msgstr ""
-
 #: src/Woo/Model/Gateway/RegularCheckoutGateway.php:67
 #: src/Woo/Model/Gateway/RegularCheckoutGateway.php:96
 #: src/Woo/TwintIntegration.php:142
 #: src/Woo/TwintIntegration.php:143
 #: dist/checkout.js:2
 #: resources/js/frontend/regular-checkout.js:11
-#: dist/checkout.js:498
 msgid "TWINT"
 msgstr ""
 
-#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:68
-msgid "Allows TWINT Checkout"
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:104
+#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:86
+msgid "Enable/Disable"
+msgstr ""
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:106
+msgid "Enable TWINT Express Checkout"
+msgstr ""
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:119
+msgid "Cart page"
+msgstr ""
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:120
+msgid "Mini Cart"
+msgstr ""
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:121
+msgid "Product Detail Page"
+msgstr ""
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:122
+msgid "Product Listing Page"
+msgstr ""
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:142
+msgid "Display Screens"
+msgstr ""
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:164
+msgid "Button config"
+msgstr ""
+
+#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:170
+msgid "Button Preview"
+msgstr ""
+
+#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:66
+#: src/Woo/Template/Admin/Setting/Tab/RegularCheckout.php:18
+msgid "TWINT Checkout"
 msgstr ""
 
 #: src/Woo/Model/Gateway/RegularCheckoutGateway.php:88
 msgid "Enable TWINT Checkout"
+msgstr ""
+
+#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:92
+msgid "Title"
 msgstr ""
 
 #: src/Woo/Model/Gateway/RegularCheckoutGateway.php:94
@@ -246,14 +249,17 @@ msgid "Certificate Password"
 msgstr ""
 
 #: src/Woo/Template/Admin/Setting/Tab/Credentials.php:56
+#: resources/js/admin/credentials-setting.js:366
 msgid "Certificate password is required"
 msgstr ""
 
 #: src/Woo/Template/Admin/SettingsLayoutViewAdapter.php:29
-msgid "Your certificate was successfully validated"
+msgid "Certificate validation successful"
 msgstr ""
 
 #: src/Woo/Template/Admin/SettingsLayoutViewAdapter.php:116
+#: dist/credentials-setting.js:1
+#: resources/js/admin/credentials-setting.js:110
 msgid "Save changes"
 msgstr ""
 
@@ -269,22 +275,43 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: src/Woo/View/Admin/credentials.php:4
+#: src/Woo/View/Admin/credentials.php:6
 msgid "<b>Warning</b>: PHP CLI Not Available"
 msgstr ""
 
-#: src/Woo/View/Admin/credentials.php:6
+#: src/Woo/View/Admin/credentials.php:8
 msgid "PHP CLI (Command Line Interface) is missing or misconfigured. This extension relies on PHP CLI for essential background processes. Without it, some features may not function properly."
 msgstr ""
 
-#: src/Woo/View/Admin/credentials.php:27
+#: src/Woo/View/Admin/credentials.php:29
 msgid "Certificate encrypted and stored."
 msgstr ""
 
-#: src/Woo/View/Admin/credentials.php:32
+#: src/Woo/View/Admin/credentials.php:34
 msgid "Upload new certificate"
 msgstr ""
 
-#: src/Woo/View/Admin/credentials.php:39
+#: src/Woo/View/Admin/credentials.php:41
 msgid "Close"
+msgstr ""
+
+#: src/Woo/View/Admin/credentials.php:72
+msgid "Invalid Store UUID. Store UUID needs to be a UUIDv4"
+msgstr ""
+
+#: src/Woo/View/Admin/credentials.php:83
+msgid "Test"
+msgstr ""
+
+#: dist/credentials-setting.js:1
+#: resources/js/admin/credentials-setting.js:114
+msgid "Verifying the credentials..."
+msgstr ""
+
+#: dist/credentials-setting.js:1
+msgid "Password field is required."
+msgstr ""
+
+#: resources/js/frontend/express/index.js:73
+msgid "You have existing products in the shopping cart. Please review your shopping cart before continue."
 msgstr ""

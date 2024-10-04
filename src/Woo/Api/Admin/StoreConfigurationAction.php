@@ -48,7 +48,7 @@ class StoreConfigurationAction extends BaseAction
         $response = [];
         if (!StringHelper::isValidUuid($_POST[SettingService::STORE_UUID])) {
             $response['status'] = false;
-            $response['message'] = __('Invalid Store Uuid. Store Uuid needs to be a UUIDv4.', 'woocommerce-gateway-twint');
+            $response['message'] = __('Invalid Store UUID. Store UUID needs to be a UUIDv4.', 'woocommerce-gateway-twint');
 
             $result = json_encode($response);
             echo $result;

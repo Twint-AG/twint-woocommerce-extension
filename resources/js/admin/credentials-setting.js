@@ -363,7 +363,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         const passwordInputErrorState = document.getElementById('error-state_plugin_twint_settings_certificate_password');
         if (passwordInputErrorState) {
           if (passwordIsEmpty) {
-            passwordInputErrorState.innerHTML = (__('Password field is required.', 'woocommerce-gateway-twint'))
+            passwordInputErrorState.innerHTML = (__('Certificate password is required', 'woocommerce-gateway-twint'))
 
             this.clearValidationErrorState(passwordInputErrorState);
           }

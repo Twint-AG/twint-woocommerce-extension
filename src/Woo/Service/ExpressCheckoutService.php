@@ -48,6 +48,9 @@ class ExpressCheckoutService
             'customer_id' => $customerId,
         ]);
 
+        $order->update_meta_data('_wc_order_attribution_source_type', 'typein');
+        $order->update_meta_data('_wc_order_attribution_utm_source', '(direct)');
+
         $order->set_currency('CHF');
 
         $cart = WC()->cart->get_cart();

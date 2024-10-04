@@ -167,31 +167,18 @@ class RegularCheckoutGateway extends AbstractGateway
     {
         $order = wc_get_order($order_id);
         try {
-            $currency = get_woocommerce_currency();
-
-            if ($currency !== static::SUPPORTED_CURRENCY) {
+            if (get_woocommerce_currency() !== static::SUPPORTED_CURRENCY) {
                 return [
                     'result' => 'Payment method only support for ' . static::SUPPORTED_CURRENCY,
                 ];
             }
 
-            if ($this->settingService->isWooUsingBlockVersion()) {
-                $order->update_status(self::getOrderStatusAfterFirstTimeCreatedOrder());
-            } else {
-                $order->update_status('pending');
-            }
+            // Cancel all old pairings
+            $client = Plugin::di('client.builder', true)->build();
+            $this->getPairingService()->cancelRemainingPairings((int) $order_id, $client);
 
-            $pairing = $this->getPairingRepository()->findByWooOrderId($order->get_id());
-
-            if (!$pairing instanceof Pairing) {
-                $apiResponse = $this->getPaymentService()->createOrder($order);
-                $pairing = $this->getPairingService()->create($apiResponse, $order);
-            }
-
-            /**
-             * Need to reduce stock levels from Order
-             */
-            wc_reduce_stock_levels($order_id);
+            $apiResponse = $this->getPaymentService()->createOrder($order);
+            $pairing = $this->getPairingService()->create($apiResponse, $order);
 
             return [
                 'result' => 'success',
