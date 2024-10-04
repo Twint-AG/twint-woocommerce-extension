@@ -33,6 +33,10 @@ COPY woocommerce-gateway-twint /usr/src/wordpress/wp-content/plugins/woocommerce
 # Copy source code of website
 RUN cp -a /usr/src/wordpress/. /var/www/html
 
+RUN apt-get update && \
+    apt-get install -y libxslt-dev && \
+    docker-php-ext-install xsl
+
 # GitLab Repo Config
 ARG GITLAB_USERNAME
 ARG GITLAB_TOKEN
