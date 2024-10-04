@@ -69,13 +69,12 @@ class ExpressCheckout {
   showMessageAndOpenMiniCart() {
     let messages = document.querySelector('.woocommerce-notices-wrapper');
     if (messages) {
-      let viewCart = __('View cart', 'woocommerce');
-      let content = __('You have existing products in the shopping cart. Please review your shopping cart before continue.', 'woocommerce-gateway-twint');
+      let data = ExpressCheckout.modal.getData();
       messages.innerHTML =
         `<div class="woocommerce-info woocommerce-message is-success" role="alert">              
             <div class="wc-block-components-notice-banner__content">
-              <a href="/cart/" tabindex="1" class="button wc-forward wp-element-button">`+ viewCart +`</a>
-              `+ content +`
+              <a href="/cart/" tabindex="1" class="button wc-forward wp-element-button">`+ data.label +`</a>
+              `+ data.message +`
             </div>
           </div>`;
 

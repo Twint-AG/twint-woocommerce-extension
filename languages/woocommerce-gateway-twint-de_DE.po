@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: WooCommerce Twint Payment 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/twint-woocommerce-"
 "extension\n"
-"POT-Creation-Date: 2024-10-04T11:16:21+00:00\n"
-"PO-Revision-Date: 2024-10-04 18:19+0700\n"
+"POT-Creation-Date: 2024-10-04T15:04:25+00:00\n"
+"PO-Revision-Date: 2024-10-04 22:07+0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -70,8 +70,10 @@ msgid "Response"
 msgstr "Antwort"
 
 #: src/Woo/Api/Admin/StoreConfigurationAction.php:51
-msgid "Invalid Store Uuid. Store Uuid needs to be a UUIDv4."
-msgstr "Ungültige UUID Ihres Stores. UUID Ihres Stores muss eine UUIDv4 sein."
+#, fuzzy
+#| msgid "Invalid Store UUID. Store UUID needs to be a UUIDv4"
+msgid "Invalid Store UUID. Store UUID needs to be a UUIDv4."
+msgstr "Ungültige UUID Ihres Stores. UUID Ihres Stores muss eine UUIDv4 sein"
 
 #: src/Woo/Api/Admin/StoreConfigurationAction.php:79
 #: src/Woo/Template/Admin/Setting/Tab/Credentials.php:47
@@ -106,7 +108,7 @@ msgstr "TWINT Express Checkout"
 #: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:57
 #: src/Woo/Model/Gateway/RegularCheckoutGateway.php:67
 #: src/Woo/Model/Gateway/RegularCheckoutGateway.php:96
-#: src/Woo/TwintIntegration.php:142 src/Woo/TwintIntegration.php:143
+#: src/Woo/TwintIntegration.php:143 src/Woo/TwintIntegration.php:144
 #: dist/checkout.js:2 resources/js/frontend/regular-checkout.js:11
 msgid "TWINT"
 msgstr "TWINT"
@@ -262,7 +264,7 @@ msgid "Certificate Password"
 msgstr "Zertifikatspasswort"
 
 #: src/Woo/Template/Admin/Setting/Tab/Credentials.php:56
-#: resources/js/admin/credentials-setting.js:366
+#: dist/credentials-setting.js:1 resources/js/admin/credentials-setting.js:366
 msgid "Certificate password is required"
 msgstr "Zertifikatspasswort erforderlich"
 
@@ -283,7 +285,7 @@ msgstr "Ihre Zahlung war erfolgreich"
 msgid "Your order was cancelled."
 msgstr "Ihre Bestellung wurde storniert."
 
-#: src/Woo/TwintIntegration.php:172
+#: src/Woo/TwintIntegration.php:173
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -326,18 +328,17 @@ msgstr ""
 msgid "Verifying the credentials..."
 msgstr ""
 
-#: dist/credentials-setting.js:1
-#| msgid "Certificate password is required"
-msgid "Password field is required."
-msgstr ""
-
-#: resources/js/frontend/express/index.js:73
+#: dist/express.js:1 resources/js/frontend/express/index.js:73
 msgid ""
 "You have existing products in the shopping cart. Please review your shopping "
 "cart before continue."
 msgstr ""
 "Es sind bereits Produkte im Warenkorb. Bitte überprüfen Sie Ihren Warenkorb, "
 "bevor Sie fortfahren."
+
+#~ msgid "Invalid Store Uuid. Store Uuid needs to be a UUIDv4."
+#~ msgstr ""
+#~ "Ungültige UUID Ihres Stores. UUID Ihres Stores muss eine UUIDv4 sein."
 
 #~ msgid "Certificate cannot be validated. Please try again"
 #~ msgstr "Zertifikat kann nicht validiert werden. Bitte erneut versuchen"

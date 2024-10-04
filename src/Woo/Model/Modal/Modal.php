@@ -66,7 +66,10 @@ class Modal
     private function getContent(): string
     {
         return '
-            <div id="twint-modal" class="!hidden">
+            <div id="twint-modal" class="!hidden"
+                data-exist-label="' . __('View cart', 'woocommerce') . '"
+                data-exist-message="' . __('You have existing products in the shopping cart. Please review your shopping cart before continue.', 'woocommerce-gateway-twint') . '"
+                >
                 <div class="fixed inset-0 bg-black opacity-50"></div>
                 <div class="modal-inner-wrap shadow-lg w-screen h-screen p-6 z-10 overflow-y-auto ' . $this->getMdClasses(
             'md:rounded-lg md:h-auto md:max-h-[95vh]'

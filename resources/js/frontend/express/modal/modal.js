@@ -23,6 +23,13 @@ class Modal {
     this.callbacks = {};
   }
 
+  getData(){
+    return {
+      label: this.element.getAttribute('data-exist-label'),
+      message: this.element.getAttribute('data-exist-message')
+    };
+  }
+
   setContent(content){
     this.content = content;
   }

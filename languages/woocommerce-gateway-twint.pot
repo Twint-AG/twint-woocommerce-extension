@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-10-04T11:21:53+00:00\n"
+"POT-Creation-Date: 2024-10-04T15:15:50+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: woocommerce-gateway-twint\n"
@@ -93,8 +93,8 @@ msgstr ""
 #: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:57
 #: src/Woo/Model/Gateway/RegularCheckoutGateway.php:67
 #: src/Woo/Model/Gateway/RegularCheckoutGateway.php:96
-#: src/Woo/TwintIntegration.php:142
 #: src/Woo/TwintIntegration.php:143
+#: src/Woo/TwintIntegration.php:144
 #: dist/checkout.js:2
 #: resources/js/frontend/regular-checkout.js:11
 msgid "TWINT"
@@ -154,47 +154,52 @@ msgstr ""
 msgid "This controls the title which the user sees during checkout."
 msgstr ""
 
-#: src/Woo/Model/Modal/Modal.php:78
+#: src/Woo/Model/Modal/Modal.php:71
+#: dist/express.js:1
+msgid "You have existing products in the shopping cart. Please review your shopping cart before continue."
+msgstr ""
+
+#: src/Woo/Model/Modal/Modal.php:81
 msgid "Cancel checkout"
 msgstr ""
 
-#: src/Woo/Model/Modal/Modal.php:79
+#: src/Woo/Model/Modal/Modal.php:82
 msgid "Continue shopping"
 msgstr ""
 
-#: src/Woo/Model/Modal/Modal.php:117
+#: src/Woo/Model/Modal/Modal.php:120
 msgid "Copy code"
 msgstr ""
 
-#: src/Woo/Model/Modal/Modal.php:118
+#: src/Woo/Model/Modal/Modal.php:121
 msgid "Copied"
 msgstr ""
 
-#: src/Woo/Model/Modal/Modal.php:154
+#: src/Woo/Model/Modal/Modal.php:157
 msgid "or"
 msgstr ""
 
-#: src/Woo/Model/Modal/Modal.php:162
+#: src/Woo/Model/Modal/Modal.php:165
 msgid "Enter this code in your TWINT app:"
 msgstr ""
 
-#: src/Woo/Model/Modal/Modal.php:179
+#: src/Woo/Model/Modal/Modal.php:182
 msgid "Scan this QR Code with your TWINT app to complete the checkout."
 msgstr ""
 
-#: src/Woo/Model/Modal/Modal.php:188
+#: src/Woo/Model/Modal/Modal.php:191
 msgid "Follow the instructions in the app to confirm your order."
 msgstr ""
 
-#: src/Woo/Model/Modal/Modal.php:221
+#: src/Woo/Model/Modal/Modal.php:224
 msgid "Switch to TWINT app now"
 msgstr ""
 
-#: src/Woo/Model/Modal/Modal.php:264
+#: src/Woo/Model/Modal/Modal.php:267
 msgid "Choose your TWINT app:"
 msgstr ""
 
-#: src/Woo/Model/Modal/Modal.php:272
+#: src/Woo/Model/Modal/Modal.php:275
 msgid "Other banks"
 msgstr ""
 
@@ -249,6 +254,7 @@ msgid "Certificate Password"
 msgstr ""
 
 #: src/Woo/Template/Admin/Setting/Tab/Credentials.php:56
+#: dist/credentials-setting.js:1
 #: resources/js/admin/credentials-setting.js:366
 msgid "Certificate password is required"
 msgstr ""
@@ -271,7 +277,7 @@ msgstr ""
 msgid "Your order was cancelled."
 msgstr ""
 
-#: src/Woo/TwintIntegration.php:172
+#: src/Woo/TwintIntegration.php:173
 msgid "Settings"
 msgstr ""
 
@@ -306,12 +312,4 @@ msgstr ""
 #: dist/credentials-setting.js:1
 #: resources/js/admin/credentials-setting.js:114
 msgid "Verifying the credentials..."
-msgstr ""
-
-#: dist/credentials-setting.js:1
-msgid "Password field is required."
-msgstr ""
-
-#: resources/js/frontend/express/index.js:73
-msgid "You have existing products in the shopping cart. Please review your shopping cart before continue."
 msgstr ""
