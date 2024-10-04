@@ -22,7 +22,7 @@ Please refer to the `README.md` for the installation steps.
 > 🚩 **Note:** 
 >
 > After clicking the `Save changes` button:
-> - Please wait for the message `Certificate encrypted and stored` to shows up in the `Certificate` field.
+> - Please wait for the message `Certificate encrypted and stored` to show up in the `Certificate` field.
 > - And the flash message `Your certificate is successfully validated` should be displayed above the header tabs.
 
 ### Configure the payment methods
