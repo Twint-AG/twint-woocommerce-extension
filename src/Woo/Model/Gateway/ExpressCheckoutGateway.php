@@ -54,7 +54,8 @@ class ExpressCheckoutGateway extends AbstractGateway
         $this->icon = apply_filters('woocommerce_twint_gateway_express_icon', '');
 
         $this->method_title = __('TWINT Express Checkout', 'woocommerce-gateway-twint');
-        $this->method_description = __('Allows TWINT Express Checkout', 'woocommerce-gateway-twint');
+        $this->title = __('TWINT', 'woocommerce-gateway-twint');
+        $this->method_description = '';
 
         // Load the settings.
         $this->init_form_fields();
@@ -115,7 +116,7 @@ class ExpressCheckoutGateway extends AbstractGateway
     {
         $getOptions = function () {
             $options = [
-                TwintConstant::CONFIG_SCREEN_CART => __('Cart', 'woocommerce-gateway-twint'),
+                TwintConstant::CONFIG_SCREEN_CART => __('Cart page', 'woocommerce-gateway-twint'),
                 TwintConstant::CONFIG_SCREEN_CART_FLYOUT => __('Mini Cart', 'woocommerce-gateway-twint'),
                 TwintConstant::CONFIG_SCREEN_PDP => __('Product Detail Page', 'woocommerce-gateway-twint'),
                 TwintConstant::CONFIG_SCREEN_PLP => __('Product Listing Page', 'woocommerce-gateway-twint'),

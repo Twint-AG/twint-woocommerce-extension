@@ -86,7 +86,7 @@ class TransactionLogMeta
         <div class="modal twint-modal">
             <div class="modal-content" style="width: 70%;">
                 <div class="modal-header">
-                    <h3><?= __('Twint transaction log', 'woocommerce-gateway-twint'); ?></h3>
+                    <h3><?= __('Transaction logs', 'woocommerce-gateway-twint'); ?></h3>
                     <span class="close-button">&times;</span>
                 </div>
                 <div class="modal-body">

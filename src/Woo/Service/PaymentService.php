@@ -48,10 +48,10 @@ class PaymentService
 
         try {
             $currency = $order->get_currency();
-            $orderNumber = $order->get_order_number();
+            $refId = $order->get_order_number() . '-'. wp_generate_password(4, false);
 
             return $this->api->call($client, 'startOrder', [
-                new UnfiledMerchantTransactionReference($orderNumber),
+                new UnfiledMerchantTransactionReference($refId),
                 new Money($currency, (float) $order->get_total()),
             ], true, static function (TransactionLog $log, mixed $return) use ($order) {
                 if ($return instanceof Order) {
@@ -73,7 +73,7 @@ class PaymentService
     {
         $client = $this->getBuilder()->build();
 
-        $pairing = $this->getRepository()->getRefundableForOrder($order->get_id());
+        $pairing = $this->getRepository()->get((string)$order->get_transaction_id());
         if (!$pairing instanceof Pairing) {
             $this->logger->error('Cannot refund due to non-exist pairing');
             return null;

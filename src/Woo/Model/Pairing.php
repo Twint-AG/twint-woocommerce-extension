@@ -28,6 +28,8 @@ class Pairing extends Entity
 
     protected int $wcOrderId;
 
+    protected ?string $refId = null;
+
     protected ?string $customerData = null;
 
     protected bool $isExpress = false;
@@ -135,6 +137,17 @@ class Pairing extends Entity
     public function setToken(?string $token): self
     {
         $this->token = $token;
+        return $this;
+    }
+
+    public function getRefId(): ?string
+    {
+        return $this->refId;
+    }
+
+    public function setRefId(?string $value): self
+    {
+        $this->refId = $value;
         return $this;
     }
 
@@ -374,6 +387,7 @@ class Pairing extends Entity
                 static fn ($value) => (bool) $value,
             ],
             'customer_data' => 'customerData',
+            'ref_id' => 'refId',
         ];
     }
 }

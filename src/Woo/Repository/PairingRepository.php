@@ -7,6 +7,8 @@ namespace Twint\Woo\Repository;
 use Exception;
 use mysqli_result;
 use Throwable;
+use Twint\Sdk\Value\OrderStatus;
+use Twint\Sdk\Value\PairingStatus;
 use Twint\Woo\Exception\DatabaseException;
 use Twint\Woo\Model\Pairing;
 use WC_Logger_Interface;
@@ -47,6 +49,7 @@ class PairingRepository
                 'token' => $pairing->getToken(),
                 'shipping_method_id' => $pairing->getShippingMethodId(),
                 'wc_order_id' => $pairing->getWcOrderId(),
+                'ref_id' => $pairing->getRefId(),
                 'customer_data' => $pairing->getCustomerData(),
                 'is_express' => $pairing->getIsExpress(),
                 'amount' => $pairing->getAmount(),
@@ -96,6 +99,7 @@ class PairingRepository
                 'token' => $pairing->getToken(),
                 'shipping_method_id' => $pairing->getShippingMethodId(),
                 'wc_order_id' => $pairing->getWcOrderId(),
+                'ref_id' => $pairing->getRefId(),
                 'customer_data' => $customerData === [] ? null : json_encode($customerData),
                 'is_express' => $pairing->getIsExpress(),
                 'amount' => $pairing->getAmount(),
@@ -151,19 +155,19 @@ class PairingRepository
         return $pairings;
     }
 
-    public function findByWooOrderId(int $orderId): ?Pairing
+    public function findByWooOrderId(int $orderId): array
     {
         $select = $this->getSelect();
         $table = self::tableName();
-        $query = $this->db->prepare("SELECT {$select} FROM {$table} WHERE wc_order_id = %d LIMIT 1;", $orderId);
+        $query = $this->db->prepare("SELECT {$select} FROM {$table} WHERE wc_order_id = %d ORDER BY created_at DESC;", $orderId);
 
-        $result = $this->db->get_results($query);
-        if (empty($result)) {
-            return null;
+        $results = $this->db->get_results($query);
+        $pairings = [];
+        foreach ($results as $result) {
+            $pairings[] = (new Pairing(false))->load((array) $result);
         }
 
-        $instance = new Pairing();
-        return $instance->load((array) reset($result));
+        return $pairings;
     }
 
     public function getRefundableForOrder(int $orderId): ?Pairing
@@ -186,6 +190,7 @@ class PairingRepository
 
     public function markAsOrdering(string $id): mysqli_result|bool|int|null
     {
+        $table = self::tableName();
         $query = $this->db->prepare("UPDATE {$table} SET is_ordering = 1 WHERE id = %s;", $id);
 
         return $this->db->query($query);
@@ -194,6 +199,11 @@ class PairingRepository
     public function markAsCancelled(string $id): mysqli_result|bool|int|null
     {
         return $this->updateStatus($id, Pairing::EXPRESS_STATUS_CANCELLED);
+    }
+
+    public function markAsFailed(string $id): mysqli_result|bool|int|null
+    {
+        return $this->updateStatus($id, OrderStatus::FAILURE);
     }
 
     private function updateStatus(string $id, string $status): mysqli_result|bool|int|null

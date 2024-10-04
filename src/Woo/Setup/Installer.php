@@ -25,8 +25,6 @@ class Installer
         $this->trigger->handle();
 
         MonitorPairingCronJob::scheduleCronjob();
-
-        $this->copyLanguagePacks();
     }
 
     private function upgradeSchema(): void

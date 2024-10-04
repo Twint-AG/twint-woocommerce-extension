@@ -48,7 +48,7 @@ class StoreConfigurationAction extends BaseAction
         $response = [];
         if (!StringHelper::isValidUuid($_POST[SettingService::STORE_UUID])) {
             $response['status'] = false;
-            $response['message'] = __('Invalid Store Uuid. Store Uuid needs to be a UUIDv4.', 'woocommerce-gateway-twint');
+            $response['message'] = __('Invalid Store UUID. Store UUID needs to be a UUIDv4.', 'woocommerce-gateway-twint');
 
             $result = json_encode($response);
             echo $result;
@@ -56,7 +56,6 @@ class StoreConfigurationAction extends BaseAction
             die();
         }
         $storeUuid = $_POST[SettingService::STORE_UUID];
-
 
         try {
             $pwdKey = SettingService::CERTIFICATE_PASSWORD;
@@ -77,7 +76,7 @@ class StoreConfigurationAction extends BaseAction
             if (!empty($password) && empty($_FILES[$certificateKey]['tmp_name'])) {
                 $response['status'] = false;
                 $response['error_level'] = 'error';
-                $response['message'] = __('You need to provide P12 certificate file.', 'woocommerce-gateway-twint');
+                $response['message'] = __('Upload a certificate file (.p12)', 'woocommerce-gateway-twint');
                 $response['error_type'] = 'upload_cert';
             }
 
@@ -99,8 +98,12 @@ class StoreConfigurationAction extends BaseAction
                     $response['status'] = false;
                     $response['flag_credentials'] = false;
                     $response['error_level'] = 'error';
-                    $response['message'] = __('Invalid certificate or password.', 'woocommerce-gateway-twint');
+                    $response['message'] = __('Invalid password', 'woocommerce-gateway-twint');
                     $response['error_type'] = 'upload_cert';
+
+                    $result = json_encode($response);
+                    echo $result;
+                    die();
                 }
 
                 // Call SDK to check system [testMode, certificate, storeUuid]
@@ -150,7 +153,7 @@ class StoreConfigurationAction extends BaseAction
 
             $response['error_level'] = 'error';
             $response['error_type'] = 'validate_credentials';
-            $response['message'] = __('Please check again. Your Certificate file, the Test / Production Mode, Store UUID or Certificate password is incorrect.', 'woocommerce-gateway-twint');
+            $response['message'] = __('Invalid credentials. Please check again: Store UUID, certificate and environment (mode)', 'woocommerce-gateway-twint');
         }
 
         return $response;

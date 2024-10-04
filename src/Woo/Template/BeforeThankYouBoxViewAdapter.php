@@ -19,12 +19,12 @@ class BeforeThankYouBoxViewAdapter
 
     public function render(): void
     {
-        $pairing = $this->pairingRepository->findByWooOrderId($this->order->get_id());
+        $pairing = $this->pairingRepository->get($this->order->get_transaction_id());
         if (!$pairing instanceof Pairing) {
             return;
         }
 
-        $paid = !empty($_GET['twint_order_paid']) || $this->order->get_status() === RegularCheckoutGateway::getOrderStatusAfterPaid();
+        $paid = $pairing->isSuccessful();
         $cancelled = !empty($_GET['twint_order_cancelled']) && filter_var(
             $_GET['twint_order_cancelled'],
             FILTER_VALIDATE_BOOLEAN

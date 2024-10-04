@@ -112,6 +112,8 @@ class Plugin
             exit;
         }
 
+        self::loadTranslations();
+
         $instance = self::di('twint.integration', true);
         add_filter(
             'plugin_action_links_' . plugin_basename(self::pluginFile()),
@@ -119,6 +121,11 @@ class Plugin
         );
 
         self::di('express.button', true);
+    }
+
+    private static function loadTranslations(): void
+    {
+        load_theme_textdomain( 'woocommerce-gateway-twint', plugin_dir_path(self::pluginFile()) . 'languages' );
     }
 
     /**

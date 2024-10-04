@@ -280,16 +280,26 @@ class MonitorService
 
         if ($tOrder->isPending()) {
             if ($tOrder->isConfirmationPending()) {
-                $confirmRes = $this->api->call($client, 'confirmOrder', [
-                    new UnfiledMerchantTransactionReference((string) $pairing->getWcOrderId()),
-                    new Money(Money::CHF, $pairing->getAmount()),
-                ]);
+                try {
+                    $confirmRes = $this->api->call($client, 'confirmOrder', [
+                        new UnfiledMerchantTransactionReference((string)$pairing->getRefId()),
+                        new Money(Money::CHF, $pairing->getAmount())
+                    ], true, function (TransactionLog $log) use ($pairing) {
+                        $log->setOrderId($pairing->getWcOrderId());
+                        $log->setPairingId($pairing->getId());
+
+                        return $log;
+                    });
+                }catch (Throwable $e){
+                    $this->getRepository()->markAsFailed($pairing->getId());
+                    throw $e;
+                }
 
                 return $this->recursiveMonitor($orgPairing, $pairing, $client, $confirmRes);
             }
 
             if ($orgPairing->isTimedOut()) {
-                $cancellationRes = $this->cancelOrder($pairing, $client);
+                $cancellationRes = $this->getPairingService()->cancelOrder($pairing, $client);
 
                 return $this->recursiveMonitor($orgPairing, $pairing, $client, $cancellationRes);
             }
@@ -313,9 +323,11 @@ class MonitorService
             );
 
             // Mark the order as paid (completed)
-            $order->payment_complete();
+            $order->payment_complete($orgPairing->getId());
+            $order->set_transaction_id($orgPairing->getId());
 
             $order->add_order_note('The order was marked as paid programmatically.');
+            $order->save();
 
             return MonitoringStatus::fromValues(true, MonitoringStatus::STATUS_PAID);
         }
@@ -329,16 +341,6 @@ class MonitorService
         }
 
         return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
-    }
-
-    /**
-     * @throws Throwable
-     */
-    public function cancelOrder(Pairing $pairing, InvocationRecordingClient $client): ApiResponse
-    {
-        $this->logger->info("TWINT cancel order: {$pairing->getId()}");
-
-        return $this->api->call($client, 'cancelOrder', [new OrderId(new Uuid($pairing->getId()))]);
     }
 
     /**

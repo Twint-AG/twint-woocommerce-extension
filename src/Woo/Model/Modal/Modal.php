@@ -185,7 +185,7 @@ class Modal
             '/images/icon-contact.svg'
         ) . '" alt="contact">
                                     </div>
-                                    <div class="text-center mt-4">' . __('Follow the instructions in the app to confirm your order.') . '</div>
+                                    <div class="text-center mt-4">' . __('Follow the instructions in the app to confirm your order.', 'woocommerce-gateway-twint' ) . '</div>
                                 </div>
                             </div>
                         </div>
@@ -218,7 +218,7 @@ class Modal
                 <a id="twint-addroid-button"
                    data-href="javascript:window.location = \'' . $link . '\'"
                    href="javascript:window.location = \'' . $link . '\'">
-                    ' . __('Switch to TWINT app now') . '
+                    ' . __('Switch to TWINT app now', 'woocommerce-gateway-twint') . '
                 </a>
             </div>
         ';
@@ -261,7 +261,7 @@ class Modal
         return '
             <div id="twint-ios-container">
                 <div class="my-6 text-center">
-                    ' . __('Choose your TWINT app:') . '
+                    ' . __('Choose your TWINT app:', 'woocommerce-gateway-twint') . '
                 </div>
     
                 <div class="twint-app-container w-3/4 mx-auto justify-center max-w-screen-md mx-auto grid grid-cols-3 gap-4">
@@ -269,7 +269,7 @@ class Modal
                 </div>
                 
                 <select class="twint-select">
-                    <option>' . __('Other banks') . '</option>
+                    <option>' . __('Other banks', 'woocommerce-gateway-twint') . '</option>
                     ' . $else . '
                 </select>    
             </div>        
