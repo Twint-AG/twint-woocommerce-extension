@@ -186,6 +186,7 @@ class PairingRepository
 
     public function markAsOrdering(string $id): mysqli_result|bool|int|null
     {
+        $table = self::tableName();
         $query = $this->db->prepare("UPDATE {$table} SET is_ordering = 1 WHERE id = %s;", $id);
 
         return $this->db->query($query);
