@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/twint-woocommerce-"
 "extension\n"
-"POT-Creation-Date: 2024-10-04T11:21:53+00:00\n"
-"PO-Revision-Date: 2024-10-04 18:23+0700\n"
+"POT-Creation-Date: 2024-10-04T15:15:50+00:00\n"
+"PO-Revision-Date: 2024-10-04 22:59+0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -103,7 +103,7 @@ msgstr "TWINT Express Checkout"
 #: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:57
 #: src/Woo/Model/Gateway/RegularCheckoutGateway.php:67
 #: src/Woo/Model/Gateway/RegularCheckoutGateway.php:96
-#: src/Woo/TwintIntegration.php:142 src/Woo/TwintIntegration.php:143
+#: src/Woo/TwintIntegration.php:143 src/Woo/TwintIntegration.php:144
 #: dist/checkout.js:2 resources/js/frontend/regular-checkout.js:11
 msgid "TWINT"
 msgstr "TWINT"
@@ -162,48 +162,56 @@ msgstr ""
 msgid "This controls the title which the user sees during checkout."
 msgstr ""
 
-#: src/Woo/Model/Modal/Modal.php:78
+#: src/Woo/Model/Modal/Modal.php:71 dist/express.js:1
+msgid ""
+"You have existing products in the shopping cart. Please review your shopping "
+"cart before continue."
+msgstr ""
+"Votre panier contient déjà des produits. Veuillez vérifier votre panier "
+"avant de continuer."
+
+#: src/Woo/Model/Modal/Modal.php:81
 msgid "Cancel checkout"
 msgstr "Annuler le check-out "
 
-#: src/Woo/Model/Modal/Modal.php:79
+#: src/Woo/Model/Modal/Modal.php:82
 msgid "Continue shopping"
 msgstr "Poursuivre les achats"
 
-#: src/Woo/Model/Modal/Modal.php:117
+#: src/Woo/Model/Modal/Modal.php:120
 msgid "Copy code"
 msgstr "Copiez le code"
 
-#: src/Woo/Model/Modal/Modal.php:118
+#: src/Woo/Model/Modal/Modal.php:121
 msgid "Copied"
 msgstr "copié"
 
-#: src/Woo/Model/Modal/Modal.php:154
+#: src/Woo/Model/Modal/Modal.php:157
 msgid "or"
 msgstr "ou"
 
-#: src/Woo/Model/Modal/Modal.php:162
+#: src/Woo/Model/Modal/Modal.php:165
 msgid "Enter this code in your TWINT app:"
 msgstr "Entrez ce code dans votre app TWINT:"
 
-#: src/Woo/Model/Modal/Modal.php:179
+#: src/Woo/Model/Modal/Modal.php:182
 msgid "Scan this QR Code with your TWINT app to complete the checkout."
 msgstr "Scannez ce code QR avec votre app TWINT pour terminer le paiement."
 
-#: src/Woo/Model/Modal/Modal.php:188
+#: src/Woo/Model/Modal/Modal.php:191
 msgid "Follow the instructions in the app to confirm your order."
 msgstr ""
 "Suivez les instructions dans l’application pour confirmer votre commande."
 
-#: src/Woo/Model/Modal/Modal.php:221
+#: src/Woo/Model/Modal/Modal.php:224
 msgid "Switch to TWINT app now"
 msgstr "Passez à l’app TWINT maintenant"
 
-#: src/Woo/Model/Modal/Modal.php:264
+#: src/Woo/Model/Modal/Modal.php:267
 msgid "Choose your TWINT app:"
 msgstr "Choisissez votre app TWINT"
 
-#: src/Woo/Model/Modal/Modal.php:272
+#: src/Woo/Model/Modal/Modal.php:275
 msgid "Other banks"
 msgstr "Autres banques"
 
@@ -258,7 +266,7 @@ msgid "Certificate Password"
 msgstr "Mot de passe du certificat"
 
 #: src/Woo/Template/Admin/Setting/Tab/Credentials.php:56
-#: resources/js/admin/credentials-setting.js:366
+#: dist/credentials-setting.js:1 resources/js/admin/credentials-setting.js:366
 msgid "Certificate password is required"
 msgstr "Le mot de passe du certificat est requis"
 
@@ -279,7 +287,7 @@ msgstr ""
 msgid "Your order was cancelled."
 msgstr ""
 
-#: src/Woo/TwintIntegration.php:172
+#: src/Woo/TwintIntegration.php:173
 msgid "Settings"
 msgstr "Paramètres"
 
@@ -325,19 +333,10 @@ msgstr ""
 msgid "Verifying the credentials..."
 msgstr ""
 
-#: dist/credentials-setting.js:1
 #, fuzzy
-#| msgid "Certificate password is required"
-msgid "Password field is required."
-msgstr "Le mot de passe du certificat est requis"
-
-#: resources/js/frontend/express/index.js:73
-msgid ""
-"You have existing products in the shopping cart. Please review your shopping "
-"cart before continue."
-msgstr ""
-"Votre panier contient déjà des produits. Veuillez vérifier votre panier "
-"avant de continuer."
+#~| msgid "Certificate password is required"
+#~ msgid "Password field is required."
+#~ msgstr "Le mot de passe du certificat est requis"
 
 #~ msgid "Invalid Store Uuid. Store Uuid needs to be a UUIDv4."
 #~ msgstr ""

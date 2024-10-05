@@ -125,7 +125,13 @@ class Plugin
 
     private static function loadTranslations(): void
     {
-        load_theme_textdomain( 'woocommerce-gateway-twint', plugin_dir_path(self::pluginFile()) . 'languages' );
+        // Compatible for old WP versions
+        $locale = determine_locale();
+        $locale = apply_filters( 'plugin_locale', $locale, 'woocommerce' );
+        load_textdomain( 'woocommerce-gateway-twint', plugin_dir_path(self::pluginFile()) . 'languages/woocommerce-gateway-twint-' . $locale . '.mo' );
+
+        // from WP 6.5 only need this
+        load_plugin_textdomain('woocommerce-gateway-twint', false, plugin_dir_path(self::pluginFile()) . 'languages');
     }
 
     /**
