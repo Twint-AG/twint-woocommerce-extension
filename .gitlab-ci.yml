@@ -17,6 +17,7 @@ build-archive:
   before_script:
     - apt-get update
     - apt-get install -qq zip # installs zip utility in Alpine Linux
+    - export npm_config_loglevel=silent
   script:
     - |
       #!/bin/bash
