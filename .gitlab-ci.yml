@@ -1,4 +1,4 @@
-image: shivammathur/node:jammy
+image: shivammathur/node:latest
 
 stages:
   - sync
@@ -15,7 +15,7 @@ sync-repository:
   only:
     - feature/sync-repo
   before_script:
-    - apk add --no-cache zip # installs zip utility in Alpine Linux
+    - apt-get install -qq zip # installs zip utility in Alpine Linux
   script:
     - |
       #!/bin/bash
