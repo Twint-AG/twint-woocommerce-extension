@@ -60,6 +60,7 @@ class ExpressButton
                     break;
 
                 case TwintConstant::CONFIG_SCREEN_CART_FLYOUT:
+                    add_filter('body_class', [$this, 'addBodyClass']);
                     add_filter(
                         'render_block_woocommerce/mini-cart-checkout-button-block',
                         [$this, 'renderButtonInMiniCart']
@@ -70,9 +71,16 @@ class ExpressButton
         }
     }
 
+    public function addBodyClass($classes): array
+    {
+        $classes[] = 'twint-enabled';
+
+        return $classes;
+    }
+
     public function addToNonBlockMiniCart(): void
     {
-        echo $this->getButton('mini-cart');
+        echo $this->getButton('mini-cart dynamic');
     }
 
     public function addToLegacyCartPage(): void
@@ -130,7 +138,7 @@ class ExpressButton
 
     public function renderButtonInMiniCart(string $html): string
     {
-        return $html . $this->getButton('mini-cart');
+        return $html . $this->getButton('mini-cart dynamic');
     }
 
     public function renderButton(): void

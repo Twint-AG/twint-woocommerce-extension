@@ -19,6 +19,14 @@ $border-radius: 6px;
   transition: background-color .3s ease;
   text-transform: unset;
 
+  &.dynamic{
+    display: none;
+
+    .twint-enabled &{
+      display: inline-flex !important;
+    }
+  }
+
   &:disabled {
     background-color: $button-bg-color-disabled !important;
   }
