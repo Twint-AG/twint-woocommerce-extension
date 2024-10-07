@@ -1,7 +1,7 @@
 image: shivammathur/node:latest
 
 stages:
-  - sync
+  - release
 
 .base:
   before_script:
@@ -9,9 +9,9 @@ stages:
   tags:
     - d13-runner
 
-sync-repository:
+build-archive:
   extends: .base
-  stage: sync
+  stage: release
   only:
     - feature/sync-repo
   before_script:
@@ -28,7 +28,7 @@ sync-repository:
   
       composer install --no-dev --optimize-autoloader;
       
-      npm install > /dev/null 2>&1
+      npm install --silent > /dev/null 2>&1
       npm run build;
       
       rm -rf infra/ resources/ docs/ auth.json;
