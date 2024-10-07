@@ -19,6 +19,12 @@ sync-repository:
     - |
       #!/bin/bash
   
+      - spc -U
+  
+      # Setup PHP
+      - spc --php-version 8.1
+      --extensions "mbstring, curl, dom, fileinfo, gd, iconv, intl, json, xml, mbstring, pdo, phar, zip, sodium, pdo_mysql, bcmath, soap"
+  
       composer install --no-dev --optimize-autoloader
     
   artifacts:
