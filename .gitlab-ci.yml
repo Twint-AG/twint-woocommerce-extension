@@ -1,3 +1,5 @@
+image: shivammathur/node:jammy
+
 stages:
   - sync
 
@@ -16,6 +18,9 @@ sync-repository:
   script:
     - |
       #!/bin/bash
-      
-      pwd
+  
+      composer install --no-dev --optimize-autoloader
     
+  artifacts:
+    paths:
+      - twint.zip
