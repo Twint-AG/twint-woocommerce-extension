@@ -1,8 +1,10 @@
 .notify-success {
   @apply bg-green-100 border border-solid border-green-500 text-green-700 p-2 rounded;
 }
+
 .notify-error {
-  @apply bg-red-100 border border-solid border-red-500 p-2 rounded;
+  @apply bg-red-100 border border-solid p-2 rounded;
+  border-color: #ff7474 !important;
   max-width: 333px;
   margin-top: 5px;
 }
