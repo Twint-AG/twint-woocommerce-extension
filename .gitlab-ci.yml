@@ -28,6 +28,8 @@ sync-repository:
   
       composer install --no-dev --optimize-autoloader;
       
+      npm run build;
+      
       rm -rf infra/ resources/ docs/;
   
       zip -r twint.zip ./
