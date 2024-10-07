@@ -28,7 +28,7 @@ build-archive:
   
       composer install --no-dev --optimize-autoloader;
       
-      npm install --silent --loglevel error > /dev/null 2>&1
+      npm install --quiet --loglevel error > /dev/null
       npm run build;
       
       rm -rf infra/ resources/ docs/ auth.json;
