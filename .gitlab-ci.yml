@@ -28,7 +28,13 @@ build-archive:
       spc --php-version 8.1 --extensions "mbstring, curl, dom, fileinfo, gd, iconv, intl, json, xml, mbstring, pdo, phar, zip, sodium, pdo_mysql, bcmath, soap";
       
       npm install --quiet 2>&1 ;
-      npm run build 2>&1 ;
+      echo "Starting build..."
+      if npm run build > /dev/null 2>&1; then
+         echo "Build completed successfully"
+      else
+         echo "Build failed"
+         exit 1
+      fi
       
       rm -rf infra/ resources/ docs/ auth.json;
       
