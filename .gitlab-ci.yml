@@ -28,7 +28,8 @@ sync-repository:
   
       composer install --no-dev --optimize-autoloader;
       
-      npm install && npm run build;
+      npm install > /dev/null 2>&1
+      npm run build;
       
       rm -rf infra/ resources/ docs/ auth.json;
   
