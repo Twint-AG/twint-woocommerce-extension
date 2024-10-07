@@ -28,9 +28,9 @@ sync-repository:
   
       composer install --no-dev --optimize-autoloader;
       
-      npm run build;
+      npm install && npm run build;
       
-      rm -rf infra/ resources/ docs/;
+      rm -rf infra/ resources/ docs/ auth.json;
   
       zip -r twint.zip ./
     
