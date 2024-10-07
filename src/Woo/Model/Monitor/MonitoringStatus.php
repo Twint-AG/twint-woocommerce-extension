@@ -51,7 +51,7 @@ class MonitoringStatus
             return self::STATUS_PAID;
         }
 
-        if ($finished && $pairing->isFailure()) {
+        if ($finished) {
             return self::STATUS_CANCELLED;
         }
 
