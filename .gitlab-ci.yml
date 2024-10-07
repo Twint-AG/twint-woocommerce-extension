@@ -1,0 +1,66 @@
+image: shivammathur/node:latest
+
+stages:
+  - release
+
+.base:
+  before_script:
+    - set -euo pipefail
+  tags:
+    - d13-runner
+
+build-archive:
+  extends: .base
+  stage: release
+  only:
+    - feature/sync-repo
+  before_script:
+    - apt-get update
+    - apt-get install -qq zip # installs zip utility in Alpine Linux
+    - export npm_config_loglevel=silent
+  script:
+    - |
+      #!/bin/bash
+      
+      spc -U
+      
+      # Setup PHP
+      spc --php-version 8.1 --extensions "mbstring, curl, dom, fileinfo, gd, iconv, intl, json, xml, mbstring, pdo, phar, zip, sodium, pdo_mysql, bcmath, soap";
+      
+      npm install --quiet 2>&1 ;
+      
+      rm -rf dist/ ;
+      
+      echo "Starting build..."
+      
+      if npm run build > /dev/null 2>&1; then
+         echo "Build completed successfully"
+      else
+         echo "Build failed"
+         exit 1
+      fi
+      
+      composer install --no-dev --optimize-autoloader;
+  
+      # Set up a temporary directory
+      TEMP_DIR="/tmp/$CI_COMMIT_SHA"
+  
+      # Create the temporary directory
+      mkdir -p "$TEMP_DIR"
+  
+  
+      cp woocommerce-gateway-twint.php "$TEMP_DIR"
+      cp -r dist "$TEMP_DIR"
+      cp -r src "$TEMP_DIR"
+      cp -r assets "$TEMP_DIR"
+      cp -r bin "$TEMP_DIR"
+      cp -r vendor "$TEMP_DIR"
+      
+      cd "$TEMP_DIR"
+      zip -r woocommerce-gateway-twint.zip .  > /dev/null 2>&1;
+      
+      cd -
+      mv "$TEMP_DIR/woocommerce-gateway-twint.zip" .
+  artifacts:
+    paths:
+      - "woocommerce-gateway-twint.zip"
