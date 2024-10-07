@@ -38,7 +38,7 @@ build-archive:
       
       rm -rf infra/ resources/ docs/ auth.json;
       
-      zip -r twint.zip ./
+      zip -r twint.zip ./  > /dev/null 2>&1;
   
   artifacts:
     paths:
