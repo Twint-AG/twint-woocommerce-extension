@@ -1,0 +1,14 @@
+stages:
+  - sync
+
+sync-repository:
+  stage: sync
+  only:
+    - feature/sync-repo
+  
+  script:
+    - |
+      #!/bin/bash
+      
+      pwd
+    
