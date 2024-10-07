@@ -1,7 +1,14 @@
 stages:
   - sync
 
+.base:
+  before_script:
+    - set -euo pipefail
+  tags:
+    - d13-runner
+
 sync-repository:
+  extends: .base
   stage: sync
   only:
     - feature/sync-repo
