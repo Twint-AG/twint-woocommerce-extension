@@ -28,7 +28,11 @@ build-archive:
       spc --php-version 8.1 --extensions "mbstring, curl, dom, fileinfo, gd, iconv, intl, json, xml, mbstring, pdo, phar, zip, sodium, pdo_mysql, bcmath, soap";
       
       npm install --quiet 2>&1 ;
+      
+      rm -rf dist/ ;
+      
       echo "Starting build..."
+      
       if npm run build > /dev/null 2>&1; then
          echo "Build completed successfully"
       else
@@ -36,7 +40,11 @@ build-archive:
          exit 1
       fi
       
-      rm -rf infra/ resources/ docs/ auth.json;
+      rm -rf node_modules;
+  
+      composer install --no-dev --optimize-autoloader;
+      
+      rm -rf infra/ resources/ docs/ auth.json .git;
       
       zip -r twint.zip ./  > /dev/null 2>&1;
   
