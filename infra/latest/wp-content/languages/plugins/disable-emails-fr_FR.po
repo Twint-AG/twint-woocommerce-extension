@@ -1,0 +1,234 @@
+# Translation of Plugins - Disable Emails - Stable (latest release) in French (France)
+# This file is distributed under the same license as the Plugins - Disable Emails - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2024-07-22 10:21:14+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: GlotPress/4.0.1\n"
+"Language: fr\n"
+"Project-Id-Version: Plugins - Disable Emails - Stable (latest release)\n"
+
+#: views/requires-plugin-notice.php:11
+msgid "This plugin is not fully active."
+msgstr "Cette extension n’est pas complètement active."
+
+#: views/requires-admin-notice.php:8
+msgid "Disable Emails is not fully active."
+msgstr "Disable Emails n’est pas entièrement actif."
+
+#: includes/functions.php:64
+msgid "Unable to create folder for Disable Emails must-use plugin."
+msgstr "Impossible de créer un dossier pour l’extension indispensable Disable Emails."
+
+#: includes/class.Plugin.php:153
+msgctxt "admin indicator setting"
+msgid "notice and Toolbar indicator"
+msgstr "notification et indicateur de barre d’outils"
+
+#: views/settings-form.php:28
+msgid "Select how you would like to indicate in the WordPress admin that emails are disabled."
+msgstr "Sélectionnez comment vous souhaitez indiquer dans la barre d’admin WordPress que les e-mails sont désactivés."
+
+#: views/settings-form.php:21
+msgid "Indicator"
+msgstr "Indicateur"
+
+#: views/indicator-notice.php:8
+msgid "Emails are disabled by the Disable Emails plugin."
+msgstr "Les e-mails sont désactivés par l’extension Disable Emails."
+
+#: includes/class.Plugin.php:170
+msgctxt "settings error"
+msgid "Indicator is invalid"
+msgstr "L’indicateur est invalide"
+
+#: includes/class.Plugin.php:154
+msgctxt "admin indicator setting"
+msgid "no indicator"
+msgstr "pas d’indicateur"
+
+#: includes/class.Plugin.php:152
+msgctxt "admin indicator setting"
+msgid "notice on all admin pages"
+msgstr "notification sur toutes les pages d’administration"
+
+#: includes/class.Plugin.php:151
+msgctxt "admin indicator setting"
+msgid "Toolbar indicator"
+msgstr "Indicateur dans la barre d’outils"
+
+#. translators: %s: minimum recommended version number
+#: includes/functions-global.php:26
+msgid "Please upgrade your website hosting. At least PHP %s is recommended."
+msgstr "Veuillez mettre à niveau l’hébergement de votre site Web. Au moins PHP %s est recommandé."
+
+#. translators: %1$s: minimum required version number, %2$s: installed version
+#. number
+#: includes/functions-global.php:19
+msgid "It requires PHP %1$s or higher; your website has PHP %2$s which is {{a}}old, obsolete, and unsupported{{/a}}."
+msgstr "Ceci requiert PHP %1$s ou supérieur ; votre site web utilise PHP %2$s qui est {{a}} ancien, obsolète et non supporté{{/a}}."
+
+#: includes/class.Plugin.php:232
+msgid "Try enabling the must-use plugin from the settings page."
+msgstr "Essayez d’activer l’extension indispensable à partir de la page des réglages."
+
+#: views/settings-form.php:98
+msgid "To activate or deactivate the must-use plugin, please {{a}}enable JavaScript in your browser{{/a}}."
+msgstr "Pour activer ou désactiver l’extension indispensable, veuillez {{a}}activer JavaScript dans votre navigateur{{/a}}."
+
+#: views/settings-form.php:90
+msgid "Activate must-use plugin"
+msgstr "Activer l’extension indispensable"
+
+#: views/settings-form.php:87
+msgid "This website is in a multisite network. Enabling the must-use plugin will disable emails for all sites."
+msgstr "Ce site Web fait partie d’un réseau multisite. Activer l’extension indispensable désactivera les e-mails pour tous les sites."
+
+#: views/settings-form.php:84
+msgid "The must-use plugin is currently disabled."
+msgstr "L’extension indispensable est actuellement désactivée."
+
+#: views/settings-form.php:80
+msgid "Deactivate must-use plugin"
+msgstr "Désactiver l’extension indispensable"
+
+#: views/settings-form.php:77
+msgid "This website is in a multisite network. Disabling the must-use plugin will enable emails for all sites that have not activated the plugin separately."
+msgstr "Ce site est dans un réseau multisite. La désactivation de l’extension indispensable permettra d’envoyer des e-mails pour tous les sites qui n’ont pas activé l’extension séparément."
+
+#: views/settings-form.php:74
+msgid "The must-use plugin is currently enabled."
+msgstr "L’extension indispensable est actuellement activée."
+
+#: views/settings-form.php:69
+msgid "When enabled as a must-use plugin, also known as mu-plugin, Disable Emails is always activated. This is recommended for development websites, in which plugins might be deactivated when refreshing the database from a source website. It can also help when another plugin has already declared wp_mail(), preventing Disable Emails from functioning correctly."
+msgstr "Lorsqu’elle est activée en tant qu’extension indispensable, également connue sous le nom de mu-plugin, Disable Emails est toujours activée. C’est recommandé pour les sites Web de développement, dans lesquels les extensions peuvent être désactivées lors du rafraîchissement de la base de données à partir d’un site Web source. Cela peut également être utile lorsqu’une autre extension a déjà déclaré wp_mail(), empêchant Disable Emails de fonctionner correctement."
+
+#: views/settings-form.php:67
+msgctxt "settings"
+msgid "Must-use plugin"
+msgstr "Extension indispensable (mu-plugins)"
+
+#: includes/functions.php:89
+msgid "Invalid action for Disable Emails must-use plugin."
+msgstr "Action invalide pour l’extension indispensable (mu-plugin) Disable Emails."
+
+#: includes/functions.php:83
+msgid "Unable to uninstall Disable Emails must-use plugin."
+msgstr "Impossible de désinstaller l’extension indispensable (mu-plugin) Disable Emails."
+
+#: includes/functions.php:76
+msgid "Unable to install Disable Emails must-use plugin."
+msgstr "Impossible d’installer l’extension indispensable (mu-plugin) Disable Emails."
+
+#: includes/functions.php:54
+msgid "No permission to manage Disable Emails must-use plugin."
+msgstr "Aucune autorisation pour gérer l’extension indispensable (mu-plugin) Disable Emails."
+
+#. translators: shown when emails are disabled for all sites in a multisite
+#. network, by network-activating the plugin
+#: includes/functions.php:109
+msgid "Emails are disabled on this network."
+msgstr "Les e-mails sont désactivés sur ce réseau."
+
+#. translators: shown when emails are disabled for all sites in all networks in
+#. a multisite, with the must-use plugin
+#: includes/functions.php:105
+msgid "Emails are disabled for all sites."
+msgstr "Les e-mails sont désactivés pour tous les sites."
+
+#: includes/class.Plugin.php:199
+msgctxt "plugin details links"
+msgid "Settings"
+msgstr "Réglages"
+
+#: includes/class.Plugin.php:131
+msgctxt "settings"
+msgid "Deactivate the must-use plugin?"
+msgstr "Désactiver la fonction extensions indispensables (mu-plugins) ?"
+
+#: includes/class.Plugin.php:130
+msgctxt "settings"
+msgid "Activate the must-use plugin?"
+msgstr "Activer la fonction extensions indispensables (mu-plugins) ?"
+
+#: views/settings-form.php:57
+msgid "force Events Manager to use WordPress emails so that they can be blocked"
+msgstr "forcer le gestionnaire d’événements à utiliser les e-mails WordPress afin qu’ils puissent être bloqués"
+
+#: views/settings-form.php:54
+msgid "Events Manager"
+msgstr "Gestionnaire d’événements"
+
+#. Author URI of the plugin
+msgid "https://shop.webaware.com.au/"
+msgstr "https://shop.webaware.com.au/"
+
+#: views/settings-form.php:49
+msgid "force BuddyPress to use WordPress emails so that they can be blocked"
+msgstr "forcer BuddyPress à utiliser les e-mails WordPress afin qu’ils puissent être bloqués"
+
+#: views/settings-form.php:46
+msgid "BuddyPress"
+msgstr "BuddyPress"
+
+#. Author of the plugin
+msgid "WebAware"
+msgstr "WebAware"
+
+#. Description of the plugin
+msgid "Stop WordPress from sending any emails. ANY!"
+msgstr "Empêchez WordPress d’envoyer des e-mails. Aucun !"
+
+#. Plugin URI of the plugin
+msgid "https://shop.webaware.com.au/downloads/disable-emails/"
+msgstr "https://shop.webaware.com.au/downloads/disable-emails/"
+
+#. Plugin Name of the plugin
+#: includes/class.Plugin.php:254
+msgid "Disable Emails"
+msgstr "Disable Emails"
+
+#: includes/class.Plugin.php:227
+msgid "Emails are not disabled! Something else has already declared wp_mail(), so Disable Emails cannot stop emails being sent!"
+msgstr "Les e-mails ne sont pas désactivés ! Quelque chose d’autre a déjà déclaré wp_mail (), de sorte que désactiver les e-mails ne peut pas arrêter les e-mails envoyés !"
+
+#: views/settings-form.php:41
+msgid "call WordPress hooks so that listeners can act, e.g. log emails"
+msgstr "appeler les crochets WordPress afin que les auditeurs puissent agir, par exemple.log courriels"
+
+#: views/settings-form.php:33
+msgid "Call WordPress hooks"
+msgstr "Appeler les crochets WordPress"
+
+#: views/settings-form.php:13
+msgid "Disable Emails settings"
+msgstr "Désactiver les réglages des e-mails"
+
+#. translators: shown when emails are disabled for the current site
+#: includes/functions.php:113
+msgid "Emails are disabled."
+msgstr "Les e-mails sont désactivés."
+
+#: includes/class.Plugin.php:214
+msgctxt "plugin details links"
+msgid "Donate"
+msgstr "Faire une donation"
+
+#: includes/class.Plugin.php:213
+msgctxt "plugin details links"
+msgid "Translate"
+msgstr "Traduire"
+
+#: includes/class.Plugin.php:212
+msgctxt "plugin details links"
+msgid "Rating"
+msgstr "Note"
+
+#: includes/class.Plugin.php:211
+msgctxt "plugin details links"
+msgid "Get help"
+msgstr "Obtenir de l’aide"

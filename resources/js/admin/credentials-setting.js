@@ -246,15 +246,24 @@ document.addEventListener("DOMContentLoaded", function (event) {
             location.reload();
           }, 1000);
         } else {
-          const {flag_credentials} = response.data;
+          const {flag_credentials, error_type} = response.data;
           if (flag_credentials === false) {
             const {message} = response.data;
-            this.showNoticeError(message);
 
-            this.configNoticeError?.classList?.remove('hidden');
-            if (this.state.plugin_twint_settings_certificate !== null) {
-              this.configNoticeSuccess?.classList?.remove('hidden');
-              this.showUploadCertificateArea();
+            if (error_type !== null && error_type === 'upload_cert') {
+              this.passwordInput?.classList?.add('has-error');
+              const passwordInputErrorState = document.getElementById('error-state_plugin_twint_settings_certificate_password');
+              if (passwordInputErrorState) {
+                passwordInputErrorState.innerHTML = message;
+                passwordInputErrorState.classList?.remove('hidden');
+              }
+            } else {
+              this.showNoticeError(message);
+              this.configNoticeError?.classList?.remove('hidden');
+              if (this.state.plugin_twint_settings_certificate !== null) {
+                this.configNoticeSuccess?.classList?.remove('hidden');
+                this.showUploadCertificateArea();
+              }
             }
           }
         }
