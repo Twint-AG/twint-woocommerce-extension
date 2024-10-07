@@ -40,13 +40,23 @@ build-archive:
          exit 1
       fi
       
-      rm -rf node_modules;
-  
       composer install --no-dev --optimize-autoloader;
+  
+      # Set up a temporary directory
+      TEMP_DIR="/tmp/$CI_COMMIT_SHA"
+  
+      # Create the temporary directory
+      mkdir -p "$TEMP_DIR"
+  
+  
+      cp woocommerce-gateway-twint.php "$TEMP_DIR"
+      cp -r dist "$TEMP_DIR"
+      cp -r src "$TEMP_DIR"
+      cp -r assets "$TEMP_DIR"
+      cp -r bin "$TEMP_DIR"
+      cp -r vendor "$TEMP_DIR"
       
-      rm -rf infra/ resources/ docs/ auth.json .git;
-      
-      zip -r twint.zip ./  > /dev/null 2>&1;
+      zip -r twint.zip "$TEMP_DIR"  > /dev/null 2>&1;
   
   artifacts:
     paths:
