@@ -58,7 +58,9 @@ build-archive:
       
       cd "$TEMP_DIR"
       zip -r woocommerce-gateway-twint.zip .  > /dev/null 2>&1;
-  
+      
+      cd -
+      mv "$TEMP_DIR/woocommerce-gateway-twint.zip" .
   artifacts:
     paths:
-      - "$TEMP_DIR/woocommerce-gateway-twint.zip"
+      - "woocommerce-gateway-twint.zip"
