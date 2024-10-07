@@ -14,7 +14,8 @@ sync-repository:
   stage: sync
   only:
     - feature/sync-repo
-  
+  before_script:
+    - apk add --no-cache zip # installs zip utility in Alpine Linux
   script:
     - |
       #!/bin/bash
