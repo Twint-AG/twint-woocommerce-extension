@@ -22,7 +22,7 @@ if (!$cliSupport) { ?>
                     <th></th>
                     <td>
                         <div class="notify-box notify-success <?= $data['needHideCertificateUpload'] === false ? 'hidden' : '' ?>"
-                             style="max-width: 25em;"
+                             style="max-width: 333px;"
                              id="notice_success_configuration_settings">
                             <div class="notify-box__content">
                                 <div style="margin-bottom: 10px;">
