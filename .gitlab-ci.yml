@@ -64,3 +64,4 @@ build-archive:
   artifacts:
     paths:
       - "woocommerce-gateway-twint.zip"
+    expire_in: 1 week
