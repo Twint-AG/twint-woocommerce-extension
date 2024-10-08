@@ -73,8 +73,8 @@ class ExpressCheckout {
       messages.innerHTML =
         `<div class="woocommerce-info woocommerce-message is-success" role="alert">              
             <div class="wc-block-components-notice-banner__content">
-              <a href="/cart/" tabindex="1" class="button wc-forward wp-element-button">`+ data.label +`</a>
-              `+ data.message +`
+              <a href="/cart/" tabindex="1" class="button wc-forward wp-element-button">` + data.label + `</a>
+              ` + data.message + `
             </div>
           </div>`;
 
@@ -85,6 +85,12 @@ class ExpressCheckout {
     }
 
     jQuery('.wc-block-mini-cart__button ').click();
+
+    // Refresh mini-cart if not in cart page to prevent reload the whole page
+    if (!document.body.classList.contains('woocommerce-cart')) {
+      jQuery(document.body).trigger('wc_fragment_refresh');
+    }
+
   }
 }
 

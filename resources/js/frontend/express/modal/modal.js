@@ -6,7 +6,7 @@ import IosConnector from "./connector/ios-connector";
 class Modal {
   static EVENT_CLOSED = 'CLOSED';
 
-  constructor(){
+  constructor() {
     this.element = document.getElementById('twint-modal');
     this.closeBtn = this.element.querySelector('#twint-close');
 
@@ -23,24 +23,24 @@ class Modal {
     this.callbacks = {};
   }
 
-  getData(){
+  getData() {
     return {
       label: this.element.getAttribute('data-exist-label'),
       message: this.element.getAttribute('data-exist-message')
     };
   }
 
-  setContent(content){
+  setContent(content) {
     this.content = content;
   }
 
-  addCallback(event, callback){
-    if(typeof callback === 'function') {
+  addCallback(event, callback) {
+    if (typeof callback === 'function') {
       this.callbacks[event] = callback;
     }
   }
 
-  show(){
+  show() {
     // Display
     let span = this.closeBtn.querySelector('span');
     span.innerHTML = this.closeBtn.getAttribute('data-default');
@@ -66,7 +66,7 @@ class Modal {
     this.statusRefresher.start();
   }
 
-  close(){
+  close() {
     // Display
     this.element.classList.add('!hidden');
 
@@ -74,11 +74,9 @@ class Modal {
     this.statusRefresher.stop();
 
     let callback = this.callbacks[Modal.EVENT_CLOSED];
-    if(callback){
+    if (callback) {
       callback();
     }
-
-
   }
 
   registerEvents() {
@@ -88,15 +86,15 @@ class Modal {
   refreshMiniCart() {
     // Refresh mini-cart if not in cart page to prevent reload the whole page
     if (!document.body.classList.contains('woocommerce-cart')) {
-      jQuery( document.body ).trigger( 'wc_fragment_refresh' );
-      jQuery( document.body ).trigger( 'added_to_cart' );
-      jQuery( document.body ).trigger( 'removed_from_cart' );
-      jQuery( document.body ).trigger( 'wc-blocks_removed_from_cart' );
-      jQuery( document.body ).trigger( 'wc-blocks_added_to_cart' );
+      jQuery(document.body).trigger('wc_fragment_refresh');
+      jQuery(document.body).trigger('added_to_cart');
+      jQuery(document.body).trigger('removed_from_cart');
+      jQuery(document.body).trigger('wc-blocks_removed_from_cart');
+      jQuery(document.body).trigger('wc-blocks_added_to_cart');
     }
   }
 
-  onPaid(response){
+  onPaid(response) {
     this.refreshMiniCart();
 
     let span = this.closeBtn.querySelector('span');
@@ -105,7 +103,7 @@ class Modal {
     location.href = response.extra.redirect;
   }
 
-  continue(){
+  continue() {
     this.closeBtn.innerHTML = this.closeBtn.getAttribute('data-success');
   }
 }
