@@ -1,0 +1,236 @@
+.form-table th {
+    width: 230px;
+}
+
+.gray-box {
+    display: inline-block;
+    padding: 15px;
+    background-color: #e6e6e6;
+}
+
+
+.support-ticket {
+    text-align: center;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+    padding: 20px;
+
+
+    h2 {
+        font-size: 25px;
+    }
+
+    a {
+        text-decoration: none;
+        font-size: 16px;
+        background: #6d0eff;
+        padding: 9px 23px;
+        color: #fff;
+        border-radius: 20px;
+        display: inline-block;
+    }
+
+
+}
+
+
+.wmufs_support_btn {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #525252 !important;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 20px 10px;
+
+    .dashicons {
+        padding-right: 10px
+    }
+}
+
+
+
+.wmufs_mb_50 {
+    margin-bottom: 50px;
+}
+
+.wmufs_mb_20 {
+    margin-bottom: 20px;
+}
+
+.wmufs_row {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    justify-content: space-between;
+}
+
+.wmufs_card {
+    background: #fff;
+    border: 1px solid #eee;
+    box-shadow: 1px 3px 9px 1px #eee;
+    padding: 10px 20px
+}
+
+.wmufs-col-8 {
+    width: 100%;
+    margin-right: 20px;
+}
+
+.wmufs-col-4 {
+    width: 21.3333333333%;
+    flex: 0 0 auto;
+    margin-right: 20px
+}
+
+
+
+.wmufs_card_mini {
+    border: 1px solid #eee;
+    padding: 10px
+}
+
+.wmufs-title h3 {
+    border: 1px solid #eee;
+    padding: 10px;
+    text-align: center;
+    background: #f5f5f5;
+    margin: 0px 0px 10px 0px;
+    font-size: 18px;
+
+}
+
+/**
+Button Design
+*/
+
+.wmufs-btn {
+    background: #6d0eff;
+    text-align: center;
+
+    .wmufs-btn a {
+        color: #fff;
+        text-decoration: none;
+        padding: 10px;
+        display: inline-block;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    a:hover,
+    a:focus,
+    a:active {
+        outline: 0;
+        box-shadow: none;
+    }
+
+
+}
+
+
+
+.wmufs-recommended-content img {
+    width: 100%
+}
+
+.wmufs-recommended-content a {
+    text-decoration: none;
+}
+
+
+
+
+/******** System Status ******************/
+
+.wmufs-system-status {
+    width: 100%;
+
+    .dashicons-warning {
+        color: #cd5c5c;
+        font-size: 20px;
+    }
+
+    .dashicons-yes {
+        color: green;
+        font-size: 20px;
+    }
+
+    tr td:first-child {
+        text-align: left;
+    }
+
+
+    th {
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-bottom: none;
+    }
+
+    th:first-child {
+        border-right: none;
+    }
+
+
+
+    th:last-child {
+        border-left: none;
+    }
+
+    td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-bottom: none;
+    }
+
+    td:nth-child(2) {
+        border-left: none;
+        text-align: center;
+    }
+
+
+    td:last-child {
+        border-left: none;
+    }
+
+    tr:last-child td {
+        border-bottom: 1px solid #ccc;
+    }
+
+
+
+}
+
+
+
+.wpifw_status_message {
+    margin: 0;
+}
+
+
+
+@media(max-width: 786px) {
+    .wmufs_row {
+        display: block
+    }
+
+    .wmufs-col-8 {
+        width: 100%;
+    }
+
+    .wmufs-col-4 {
+        width: 100%;
+    }
+
+
+}
+
+
+@import "./promotion";
+
+
+
+
+
+
+
