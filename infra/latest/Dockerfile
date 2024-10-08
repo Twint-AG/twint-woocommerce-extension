@@ -24,7 +24,7 @@ COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Copy php config
-COPY docker/zz-php.init /usr/local/etc/php/conf.d/zz-php.ini
+COPY docker/zz-php.ini /usr/local/etc/php/conf.d/zz-php.ini
 
 # Copy Plugins
 COPY wordpress/. /usr/src/wordpress
