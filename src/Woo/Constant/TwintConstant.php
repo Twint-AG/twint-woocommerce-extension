@@ -26,9 +26,9 @@ class TwintConstant
 
     public const CONFIG_SCREEN_CART_FLYOUT = 'CART_FLYOUT';
 
-    public const PAIRING_TIMEOUT_REGULAR = 60 * 3; //3 mins
+    public const PAIRING_TIMEOUT_REGULAR = 60 * 10; //10 minutes
 
-    public const PAIRING_TIMEOUT_EXPRESS = 60 * 5; //5 mins
+    public const PAIRING_TIMEOUT_EXPRESS = 60 * 10; //10 minutes
 
     public const EXCEPTION_VERSION_CONFLICT = 'Version conflict detected. Update aborted.';
 }
