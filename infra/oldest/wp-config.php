@@ -106,10 +106,11 @@ $table_prefix = getenv_docker('WORDPRESS_TABLE_PREFIX', 'wp_');
  *
  * @link https://wordpress.org/support/article/debugging-in-wordpress/
  */
+define('FS_METHOD', 'direct');
 define('WP_DEBUG', !!getenv_docker('WORDPRESS_DEBUG', ''));
 define('WP_AUTO_UPDATE_CORE', false);
 
-define( 'WP_DEVELOPMENT_MODE', 'plugin' );
+define('WP_DEVELOPMENT_MODE', 'plugin');
 define('WP_DEBUG_DISPLAY', false);
 define('WP_DEBUG_LOG', true);
 
