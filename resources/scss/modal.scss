@@ -11,6 +11,7 @@
   }
 
   .modal-inner-wrap {
+    @apply h-full;
     @apply p-0;
     background-color: rgb(243 244 246);
 
