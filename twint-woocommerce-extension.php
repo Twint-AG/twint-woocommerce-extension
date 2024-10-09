@@ -1,13 +1,13 @@
 <?php
 /**
- * Plugin Name: WooCommerce Twint Payment
- * Plugin URI: https://www.nfq-asia.com/
- * Description: Twint Woocommerce Payment Method is a secure and user-friendly plugin that allows Swiss online merchants to accept payments via Twint, a popular mobile payment solution in Switzerland.
+ * Plugin Name: WooCommerce TWINT Payment
+ * Plugin URI: https://twint.ch
+ * Description: TWINT Payment Plugin for WooCommerce
  * Version: 1.0.0
- * Author: NFQ GROUP
- * Author URI: https://www.nfq-asia.com/
- * Developer:NFQ GROUP
- * Developer URI: https://www.nfq-asia.com/
+ * Author: TWINT
+ * Author URI: https://twint.ch
+ * Developer: TWINT
+ * Developer URI: https://twint.ch
  * Text Domain: woocommerce-gateway-twint
  * Domain Path: /i18n/languages
  * Copyright: © 2024 NFQ.
