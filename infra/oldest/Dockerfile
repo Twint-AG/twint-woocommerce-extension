@@ -39,6 +39,7 @@ RUN apt-get update && \
 
 # Copy source code of website
 RUN cp -a /usr/src/wordpress/. /var/www/html
+RUN chown -R www-data:www-data /var/www/html/wp-content
 
 # GitLab Repo Config
 ARG GITLAB_USERNAME
