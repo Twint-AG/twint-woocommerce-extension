@@ -56,11 +56,11 @@ build-archive:
       cp -r vendor "$TEMP_DIR"
       
       cd "$TEMP_DIR"
-      zip -r woocommerce-gateway-twint.zip .  > /dev/null 2>&1;
+      zip -r twint-woocommerce-extension.zip .  > /dev/null 2>&1;
       
       cd -
-      mv "$TEMP_DIR/woocommerce-gateway-twint.zip" .
+      mv "$TEMP_DIR/twint-woocommerce-extension.zip" .
   artifacts:
     paths:
-      - "woocommerce-gateway-twint.zip"
+      - "twint-woocommerce-extension.zip"
     expire_in: 1 week
