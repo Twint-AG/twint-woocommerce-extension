@@ -41,14 +41,13 @@ build-archive:
       fi
       
       composer install --no-dev --optimize-autoloader;
-  
+      
       # Set up a temporary directory
       TEMP_DIR="/tmp/$CI_COMMIT_SHA"
-  
+      
       # Create the temporary directory
       mkdir -p "$TEMP_DIR"
-  
-  
+      
       cp twint-woocommerce-extension.php "$TEMP_DIR"
       cp -r dist "$TEMP_DIR"
       cp -r src "$TEMP_DIR"
