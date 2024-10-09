@@ -49,7 +49,7 @@ build-archive:
       mkdir -p "$TEMP_DIR"
   
   
-      cp woocommerce-gateway-twint.php "$TEMP_DIR"
+      cp twint-woocommerce-extension.php "$TEMP_DIR"
       cp -r dist "$TEMP_DIR"
       cp -r src "$TEMP_DIR"
       cp -r assets "$TEMP_DIR"
