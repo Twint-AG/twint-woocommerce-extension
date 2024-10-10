@@ -180,6 +180,11 @@ class RegularCheckoutGateway extends AbstractGateway
             $apiResponse = $this->getPaymentService()->createOrder($order);
             $pairing = $this->getPairingService()->create($apiResponse, $order);
 
+            // Start monitoring in background
+            if (get_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION) === 'Yes') {
+                Plugin::di('monitor.service', true)->status($pairing);
+            }
+
             return [
                 'result' => 'success',
                 'redirect' => false,

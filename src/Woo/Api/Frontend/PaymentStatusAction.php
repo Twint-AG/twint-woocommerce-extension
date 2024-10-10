@@ -26,8 +26,6 @@ class PaymentStatusAction extends BaseAction
     use LazyLoadTrait;
     use CartInitTrait;
 
-    // 10 seconds
-
     protected static array $lazyLoads = ['repository', 'service'];
 
     public function __construct(

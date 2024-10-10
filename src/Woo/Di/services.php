@@ -181,7 +181,8 @@ function twint_services()
             );
         },
         'express_checkout.action' => static fn (ContainerInterface $container) => new ExpressCheckoutAction(
-            $container->get('express_checkout.service')
+            $container->get('express_checkout.service'),
+            $container->get('monitor.service'),
         ),
 
         // Express Checkout
