@@ -137,6 +137,9 @@ class StatusRefresher {
     const self = this;
     this.processing = true;
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 seconds timeout
+
     apiFetch({
       path: '/twint/v1/payment/status',
       method: 'POST',
@@ -145,8 +148,10 @@ class StatusRefresher {
       },
       cache: 'no-store',
       parse: false,
+      signal: controller.signal
     })
       .then(response => {
+        clearTimeout(timeoutId);
         self.processing = false;
 
         if (!response.ok) {
@@ -162,15 +167,18 @@ class StatusRefresher {
         !oneTime && self.onProcessing();
       })
       .catch((error) => {
+        clearTimeout(timeoutId);
         self.processing = false;
-        console.error('Error:', error);
+
+        if(error.name === 'AbortError'){
+          self.check();
+        }
       });
   }
 
   onRegularCheckoutCloseModal(){
     if(!this.finished){
       this.cancelPayment(function(data){
-        console.log(data);
         if(data.success === true){
           location.reload();
         }else {
