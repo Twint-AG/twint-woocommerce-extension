@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Setup;
 
-use Twint\Plugin;
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\CronJob\MonitorPairingCronJob;
 

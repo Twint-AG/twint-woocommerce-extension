@@ -1,5 +1,4 @@
 <?php use Twint\Woo\Constant\TwintConstant;
-use Twint\Woo\Service\SettingService;
 
 if (!$cliSupport) { ?>
     <div class="woocommerce-message notice notice-warning">

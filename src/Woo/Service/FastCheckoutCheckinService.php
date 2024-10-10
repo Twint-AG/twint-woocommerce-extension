@@ -29,6 +29,7 @@ use WC_Shipping_Rate;
 #[AllowDynamicProperties]
 class FastCheckoutCheckinService
 {
+    use CartTrait;
     use LazyLoadTrait;
 
     protected static array $lazyLoads = ['builder', 'pairingService'];
@@ -39,13 +40,7 @@ class FastCheckoutCheckinService
         private readonly ApiService          $api,
         private Lazy|PairingService          $pairingService,
     ) {
-        $legacyController = 'Automattic\WooCommerce\StoreApi\Utilities\CartController';
-        $cartController = 'Automattic\WooCommerce\Blocks\StoreApi\Utilities\CartController';
-        if (class_exists($legacyController)) {
-            $this->controller = new $legacyController();
-        } elseif (class_exists($cartController)) {
-            $this->controller = new $cartController();
-        }
+        $this->getCartController();
     }
 
     public static function registerHooks(): void
@@ -85,9 +80,7 @@ class FastCheckoutCheckinService
 
         $options = [];
 
-        $packages = $this->controller->get_shipping_packages();
-
-        foreach ($packages as $package) {
+        foreach (ExpressCheckoutService::$packages as $package) {
             /** @var WC_Shipping_Rate $rate */
             foreach ($package['rates'] as $rate) {
                 $order->remove_order_items('shipping');

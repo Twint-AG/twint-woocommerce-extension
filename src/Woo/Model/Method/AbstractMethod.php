@@ -8,7 +8,6 @@ use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodTyp
 use Twint\Plugin;
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Model\Gateway\AbstractGateway;
-use Twint\Woo\Service\SettingService;
 
 abstract class AbstractMethod extends AbstractPaymentMethodType
 {

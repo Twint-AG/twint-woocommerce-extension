@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Twint\Woo\Service;
 
 use AllowDynamicProperties;
-use Automattic\WooCommerce\Blocks\StoreApi\Utilities\CartController;
 use Exception;
 use Throwable;
 use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
@@ -18,20 +17,13 @@ use WP_REST_Request;
 #[AllowDynamicProperties]
 class ExpressCheckoutService
 {
-    /**
-     * @var CartController|\Automattic\WooCommerce\StoreApi\Utilities\CartController|mixed
-     */
-    private mixed $controller;
+    use CartTrait;
+
+    public static array $packages = [];
 
     public function __construct()
     {
-        $legacyController = 'Automattic\WooCommerce\StoreApi\Utilities\CartController';
-        $cartController = 'Automattic\WooCommerce\Blocks\StoreApi\Utilities\CartController';
-        if (class_exists($legacyController)) {
-            $this->controller = new $legacyController();
-        } elseif (class_exists($cartController)) {
-            $this->controller = new $cartController();
-        }
+        $this->getCartController();
     }
 
     /**
@@ -63,6 +55,8 @@ class ExpressCheckoutService
             // Add the product to the order
             $order->add_product($product, $quantity);
         }
+
+        self::$packages = $this->controller->get_shipping_packages();
 
         // clear cart when trying EC for single product
         if (!$wholeCart) {

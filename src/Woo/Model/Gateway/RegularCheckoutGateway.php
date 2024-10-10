@@ -190,7 +190,7 @@ class RegularCheckoutGateway extends AbstractGateway
                 'currency' => $order->get_currency(),
                 'nonce' => wp_create_nonce('twint_check_pairing_status'),
                 'shopName' => get_bloginfo('name'),
-                'amount' => wc_price( number_format(
+                'amount' => wc_price(number_format(
                     (float) $order->get_total(),
                     (int) get_option('woocommerce_price_num_decimals'),
                     get_option('woocommerce_price_decimal_sep'),
