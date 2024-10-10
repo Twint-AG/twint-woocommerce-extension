@@ -18,6 +18,26 @@ class TwintConstant
 
     public const CONFIG_EXPRESS_SCREENS = 'twint_express_checkout_display_options';
 
+    public const CONFIG_EXPRESS_ORG_SCREENS = 'woocommerce_twint_express_settings';
+
+    public const KEY_PRIMARY_SETTING = 'woocommerce_twint_regular_settings';
+
+    public const STORE_UUID = 'plugin_twint_settings_store_uuid';
+
+    public const CERTIFICATE = 'plugin_twint_settings_certificate';
+
+    public const CERTIFICATE_PASSWORD = 'plugin_twint_settings_certificate_password';
+
+    public const REMOVE_DB_TABLE_WHEN_DISABLING_PLUGIN = '_twint_auto_remove_db_table_when_disabling';
+
+    public const FLAG_VALIDATED_CREDENTIAL_CONFIG = 'plugin_twint_credential_settings_flag_validated';
+
+    public const TEST_MODE = 'plugin_twint_test_mode';
+
+    public const YES = 'yes';
+
+    public const NO = 'no';
+
     public const CONFIG_SCREEN_PDP = 'PDP';
 
     public const CONFIG_SCREEN_PLP = 'PLP';

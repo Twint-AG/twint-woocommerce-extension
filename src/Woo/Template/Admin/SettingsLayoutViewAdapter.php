@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Woo\Template\Admin;
 
 use AllowDynamicProperties;
+use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Service\SettingService;
 use Twint\Woo\Template\Admin\Setting\Tab\Credentials;
 use Twint\Woo\Template\Admin\Setting\Tab\ExpressCheckout;
@@ -90,10 +91,10 @@ class SettingsLayoutViewAdapter
 
     public function getTabContent(): string
     {
-        $validated = get_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG);
+        $validated = get_option(TwintConstant::FLAG_VALIDATED_CREDENTIAL_CONFIG);
 
         $this->data['flag_credentials'] = $validated;
-        $this->data['needHideCertificateUpload'] = $validated === SettingService::YES;
+        $this->data['needHideCertificateUpload'] = $validated === TwintConstant::YES;
         $this->data['status'] = $this->validateCredentials();
         $this->data['fields'] = Credentials::fields();
 
@@ -127,8 +128,8 @@ class SettingsLayoutViewAdapter
 
         return $this->validator->validate(
             $certificateCheck,
-            get_option(SettingService::STORE_UUID, ''),
-            get_option(SettingService::TEST_MODE) === SettingService::YES
+            get_option(TwintConstant::STORE_UUID, ''),
+            get_option(TwintConstant::TEST_MODE) === TwintConstant::YES
         );
     }
 }

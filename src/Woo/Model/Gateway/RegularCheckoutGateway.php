@@ -7,6 +7,7 @@ namespace Twint\Woo\Model\Gateway;
 use Exception;
 use Throwable;
 use Twint\Plugin;
+use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Model\Modal\Modal;
@@ -86,7 +87,7 @@ class RegularCheckoutGateway extends AbstractGateway
                 'title' => __('Enable/Disable', 'woocommerce-gateway-twint'),
                 'type' => 'checkbox',
                 'label' => __('Enable TWINT Checkout', 'woocommerce-gateway-twint'),
-                'default' => SettingService::YES,
+                'default' => TwintConstant::YES,
             ],
             'title' => [
                 'title' => __('Title', 'woocommerce-gateway-twint'),

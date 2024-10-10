@@ -93,7 +93,7 @@ class TwintIntegration
             'admin_url' => admin_url('admin-ajax.php'),
         ]);
 
-        wp_enqueue_style('css-woocommerce-gateway-twint-frontend', Plugin::dist('/frontend.css'));
+        wp_enqueue_style('css-woocommerce-gateway-twint-frontend', Plugin::dist('/frontend.css'), [], '1.0.0');
     }
 
     public function wooPluginTemplate($template, $template_name, $template_path)
@@ -162,7 +162,7 @@ class TwintIntegration
 
     public function enqueueStyles(): void
     {
-        wp_enqueue_style('css-woocommerce-gateway-twint', Plugin::dist('/admin.css'));
+        wp_enqueue_style('css-woocommerce-gateway-twint', Plugin::dist('/admin.css'), [], '1.0.0');
     }
 
     public function adminPluginSettingsLink($links)

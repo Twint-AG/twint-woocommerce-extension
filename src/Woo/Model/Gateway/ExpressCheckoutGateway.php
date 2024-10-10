@@ -104,7 +104,7 @@ class ExpressCheckoutGateway extends AbstractGateway
                 'title' => __('Enable/Disable', 'woocommerce-gateway-twint'),
                 'type' => 'checkbox',
                 'label' => __('Enable TWINT Express Checkout', 'woocommerce-gateway-twint'),
-                'default' => SettingService::NO,
+                'default' => TwintConstant::NO,
             ],
             'display_options' => [
                 'type' => 'display_options',

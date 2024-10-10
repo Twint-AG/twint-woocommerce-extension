@@ -7,6 +7,7 @@ namespace Twint\Woo\Api\Admin;
 use Exception;
 use Twint\Sdk\Certificate\Pkcs12Certificate;
 use Twint\Woo\Api\BaseAction;
+use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Helper\StringHelper;
@@ -46,7 +47,7 @@ class StoreConfigurationAction extends BaseAction
 
         $certificateResult = [];
         $response = [];
-        if (!StringHelper::isValidUuid($_POST[SettingService::STORE_UUID])) {
+        if (!StringHelper::isValidUuid($_POST[TwintConstant::STORE_UUID])) {
             $response['status'] = false;
             $response['message'] = __('Invalid Store UUID. Store UUID needs to be a UUIDv4.', 'woocommerce-gateway-twint');
 
@@ -55,14 +56,14 @@ class StoreConfigurationAction extends BaseAction
 
             die();
         }
-        $storeUuid = $_POST[SettingService::STORE_UUID];
+        $storeUuid = $_POST[TwintConstant::STORE_UUID];
 
         try {
-            $pwdKey = SettingService::CERTIFICATE_PASSWORD;
+            $pwdKey = TwintConstant::CERTIFICATE_PASSWORD;
             if ($_POST[$pwdKey] === 'null') {
                 $_POST[$pwdKey] = null;
             }
-            $certificateKey = SettingService::CERTIFICATE;
+            $certificateKey = TwintConstant::CERTIFICATE;
             if ($_POST[$certificateKey] === 'null') {
                 $_POST[$certificateKey] = null;
             }
@@ -80,7 +81,7 @@ class StoreConfigurationAction extends BaseAction
                 $response['error_type'] = 'upload_cert';
             }
 
-            $testMode = $_POST[SettingService::TEST_MODE] === 'on' ? SettingService::YES : SettingService::NO;
+            $testMode = $_POST[TwintConstant::TEST_MODE] === 'on' ? TwintConstant::YES : TwintConstant::NO;
 
             $alreadyCheckedSystemCertificate = false;
             if (!empty($_FILES[$certificateKey]['tmp_name'])) {
@@ -108,7 +109,7 @@ class StoreConfigurationAction extends BaseAction
 
                 // Call SDK to check system [testMode, certificate, storeUuid]
                 $response = $this->checkConfiguration(
-                    $testMode === SettingService::YES,
+                    $testMode === TwintConstant::YES,
                     $storeUuid,
                     $certificateResult
                 );
@@ -120,7 +121,7 @@ class StoreConfigurationAction extends BaseAction
                 if ($certificateCheck === null) {
                     $certificateCheck = [];
                 }
-                $response = $this->checkConfiguration($testMode === SettingService::YES, $storeUuid, $certificateCheck);
+                $response = $this->checkConfiguration($testMode === TwintConstant::YES, $storeUuid, $certificateCheck);
             }
         } catch (Exception $exception) {
             $this->logger->error('Error when saving setting ' . PHP_EOL . $exception->getMessage());
@@ -137,16 +138,16 @@ class StoreConfigurationAction extends BaseAction
     public function checkConfiguration($testMode, string $storeUuid, array $certificate): array
     {
         $response = [];
-        $certificateKey = SettingService::CERTIFICATE;
+        $certificateKey = TwintConstant::CERTIFICATE;
         $isValidTwintConfiguration = $this->getValidator()->validate($certificate, $storeUuid, $testMode);
 
         if ($isValidTwintConfiguration) {
             $response['status'] = true;
             $response['message'] = __('Settings have been saved successfully.', 'woocommerce-gateway-twint');
             update_option($certificateKey, $certificate);
-            update_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG, SettingService::YES);
-            update_option(SettingService::TEST_MODE, $testMode ? 'yes' : 'no');
-            update_option(SettingService::STORE_UUID, $storeUuid);
+            update_option(TwintConstant::FLAG_VALIDATED_CREDENTIAL_CONFIG, TwintConstant::YES);
+            update_option(TwintConstant::TEST_MODE, $testMode ? 'yes' : 'no');
+            update_option(TwintConstant::STORE_UUID, $storeUuid);
         } else {
             $response['status'] = false;
             $response['flag_credentials'] = false;

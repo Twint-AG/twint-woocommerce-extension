@@ -1,4 +1,5 @@
-<?php use Twint\Woo\Service\SettingService;
+<?php use Twint\Woo\Constant\TwintConstant;
+use Twint\Woo\Service\SettingService;
 
 if (!$cliSupport) { ?>
     <div class="woocommerce-message notice notice-warning">
@@ -68,7 +69,7 @@ if (!$cliSupport) { ?>
                            class="regular-text"/>
                     <div class="notify-box notify-error hidden"
                          id="<?php echo 'error-state_' . $field['name']; ?>">
-                        <?php if ($field['name'] === SettingService::STORE_UUID): ?>
+                        <?php if ($field['name'] === TwintConstant::STORE_UUID): ?>
                             <?php echo __('Invalid Store UUID. Store UUID needs to be a UUIDv4', 'woocommerce-gateway-twint'); ?>
                         <?php endif; ?>
                     </div>
@@ -79,7 +80,7 @@ if (!$cliSupport) { ?>
                            placeholder="<?= $field['placeholder']; ?>"/
                     <div class="notify-box notify-error hidden"
                          id="<?php echo 'error-state_' . $field['name']; ?>">
-                        <?php if ($field['name'] === SettingService::STORE_UUID): ?>
+                        <?php if ($field['name'] === TwintConstant::STORE_UUID): ?>
                             <?php echo __('Test', 'woocommerce-gateway-twint'); ?>
                         <?php endif; ?>
                     </div>

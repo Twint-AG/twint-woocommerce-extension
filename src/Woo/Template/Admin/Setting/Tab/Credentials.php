@@ -25,14 +25,14 @@ class Credentials extends TabItem
     {
         return [
             [
-                'name' => SettingService::TEST_MODE,
+                'name' => TwintConstant::TEST_MODE,
                 'label' => __('Switch to test mode', 'woocommerce-gateway-twint'),
                 'type' => 'checkbox',
                 'help_text' => '',
                 'need_populate' => true,
             ],
             [
-                'name' => SettingService::STORE_UUID,
+                'name' => TwintConstant::STORE_UUID,
                 'label' => __('Store UUID', 'woocommerce-gateway-twint'),
                 'placeholder' => __('xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx', 'woocommerce-gateway-twint'),
                 'type' => 'text',
@@ -40,7 +40,7 @@ class Credentials extends TabItem
                 'need_populate' => true,
             ],
             [
-                'name' => SettingService::CERTIFICATE,
+                'name' => TwintConstant::CERTIFICATE,
                 'label' => 'Certificate',
                 'type' => 'file',
                 'multiple' => false,
@@ -49,7 +49,7 @@ class Credentials extends TabItem
                 'need_populate' => false,
             ],
             [
-                'name' => SettingService::CERTIFICATE_PASSWORD,
+                'name' => TwintConstant::CERTIFICATE_PASSWORD,
                 'label' => __('Certificate Password', 'woocommerce-gateway-twint'),
                 'type' => 'password',
                 'placeholder' => __('Certificate Password', 'woocommerce-gateway-twint'),

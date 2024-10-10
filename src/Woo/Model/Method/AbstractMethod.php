@@ -6,6 +6,7 @@ namespace Twint\Woo\Model\Method;
 
 use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
 use Twint\Plugin;
+use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Model\Gateway\AbstractGateway;
 use Twint\Woo\Service\SettingService;
 
@@ -18,11 +19,11 @@ abstract class AbstractMethod extends AbstractPaymentMethodType
 
     public function initialize(): void
     {
-        $this->settings = get_option(SettingService::KEY_PRIMARY_SETTING, []);
+        $this->settings = get_option(TwintConstant::KEY_PRIMARY_SETTING, []);
         $gateways = WC()->payment_gateways()->payment_gateways();
 
-        $validated = get_option(SettingService::FLAG_VALIDATED_CREDENTIAL_CONFIG);
-        if (isset($gateways[$this->name]) && $validated === SettingService::YES) {
+        $validated = get_option(TwintConstant::FLAG_VALIDATED_CREDENTIAL_CONFIG);
+        if (isset($gateways[$this->name]) && $validated === TwintConstant::YES) {
             $this->gateway = $gateways[$this->name];
         }
     }
