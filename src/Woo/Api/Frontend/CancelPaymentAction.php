@@ -7,7 +7,6 @@ namespace Twint\Woo\Api\Frontend;
 use Exception;
 use Throwable;
 use Twint\Woo\Api\BaseAction;
-use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Model\Pairing;
@@ -21,7 +20,7 @@ use WP_REST_Response;
  * @method PairingRepository getRepository()
  * @method MonitorService getService()
  */
-class PaymentStatusAction extends BaseAction
+class CancelPaymentAction extends BaseAction
 {
     use LazyLoadTrait;
     use CartInitTrait;
@@ -41,7 +40,7 @@ class PaymentStatusAction extends BaseAction
     protected function registerHooks(): void
     {
         add_action('rest_api_init', function () {
-            register_rest_route('twint/v1', '/payment/status', [
+            register_rest_route('twint/v1', '/payment/cancel', [
                 'methods' => 'POST',
                 'callback' => [$this, 'handle'],
                 'permission_callback' => '__return_true',
@@ -59,26 +58,15 @@ class PaymentStatusAction extends BaseAction
 
         $pairingId = $request->get_param('pairingId');
 
-        $pairing = $this->getRepository()->get($pairingId);
+        $pairing = $this->getRepository()
+            ->get($pairingId);
 
         if (!$pairing instanceof Pairing) {
             throw new Exception('The pairing for the the order does not exist.');
         }
 
-        $cliSupport = get_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION) === 'Yes';
-        $status = $cliSupport ? $this->getService()->status($pairing) : $this->getService()->monitor($pairing);
-
-        $response = $status->toArray();
-
-        if ($status->paid()) {
-            WC()->cart->empty_cart();
-            $order = wc_get_order($pairing->getWcOrderId());
-
-            $response['extra'] = [
-                'redirect' => $order->get_checkout_order_received_url(),
-            ];
-        }
-
-        return new WP_REST_Response($response, 200);
+        return new WP_REST_Response([
+            'success' => $this->getService()->cancel($pairing),
+        ], 200);
     }
 }

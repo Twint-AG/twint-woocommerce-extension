@@ -62,7 +62,7 @@ class ExpressCheckout {
 
   init() {
     if (!ExpressCheckout.modal) {
-      ExpressCheckout.modal = new Modal();
+      ExpressCheckout.modal = new Modal(Modal.TYPE_EXPRESS_CHECKOUT);
     }
   }
 
@@ -85,12 +85,6 @@ class ExpressCheckout {
     }
 
     jQuery('.wc-block-mini-cart__button ').click();
-
-    // Refresh mini-cart if not in cart page to prevent reload the whole page
-    if (!document.body.classList.contains('woocommerce-cart')) {
-      jQuery(document.body).trigger('wc_fragment_refresh');
-    }
-
   }
 }
 

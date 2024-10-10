@@ -4,14 +4,16 @@ import AndroidConnector from "./connector/android-connector";
 import IosConnector from "./connector/ios-connector";
 
 class Modal {
-  static EVENT_CLOSED = 'CLOSED';
+  static EVENT_MODAL_CLOSED = 'CLOSED';
+  static TYPE_EXPRESS_CHECKOUT = 'EC';
+  static TYPE_REGULAR_CHECKOUT = 'RC';
 
-  constructor() {
+  constructor(checkoutType) {
     this.element = document.getElementById('twint-modal');
     this.closeBtn = this.element.querySelector('#twint-close');
 
     // Handlers
-    this.statusRefresher = new StatusRefresher();
+    this.statusRefresher = new StatusRefresher(this);
     this.tokenCopier = new TokenCopier();
 
     this.connectors = [];
@@ -19,8 +21,12 @@ class Modal {
     this.connectors.push(new IosConnector());
 
     this.registerEvents();
-
+    this.checkout = checkoutType;
     this.callbacks = {};
+  }
+
+  isExpress(){
+    return this.checkout === Modal.TYPE_EXPRESS_CHECKOUT;
   }
 
   getData() {
@@ -37,6 +43,7 @@ class Modal {
   addCallback(event, callback) {
     if (typeof callback === 'function') {
       this.callbacks[event] = callback;
+      console.log('callback update');
     }
   }
 
@@ -70,10 +77,7 @@ class Modal {
     // Display
     this.element.classList.add('!hidden');
 
-    // Default handlers
-    this.statusRefresher.stop();
-
-    let callback = this.callbacks[Modal.EVENT_CLOSED];
+    let callback = this.callbacks[Modal.EVENT_MODAL_CLOSED];
     if (callback) {
       callback();
     }

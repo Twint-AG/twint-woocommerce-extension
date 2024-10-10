@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (data.result === 'success') {
         let modal = new Modal();
 
-        modal.addCallback(Modal.EVENT_CLOSED, ()=> {
+        modal.addCallback(Modal.EVENT_MODAL_CLOSED, ()=> {
           location.reload();
         });
 

@@ -123,17 +123,6 @@ class Plugin
         self::di('express.button', true);
     }
 
-    private static function loadTranslations(): void
-    {
-        // Compatible for old WP versions
-        $locale = determine_locale();
-        $locale = apply_filters( 'plugin_locale', $locale, 'woocommerce' );
-        load_textdomain( 'woocommerce-gateway-twint', plugin_dir_path(self::pluginFile()) . 'languages/woocommerce-gateway-twint-' . $locale . '.mo' );
-
-        // from WP 6.5 only need this
-        load_plugin_textdomain('woocommerce-gateway-twint', false, plugin_dir_path(self::pluginFile()) . 'languages');
-    }
-
     /**
      * Plugin url.
      */
@@ -205,6 +194,20 @@ class Plugin
 
         // Return the full asset path
         return $localPath . $fileName;
+    }
+
+    private static function loadTranslations(): void
+    {
+        // Compatible for old WP versions
+        $locale = determine_locale();
+        $locale = apply_filters('plugin_locale', $locale, 'woocommerce');
+        load_textdomain(
+            'woocommerce-gateway-twint',
+            plugin_dir_path(self::pluginFile()) . 'languages/woocommerce-gateway-twint-' . $locale . '.mo'
+        );
+
+        // from WP 6.5 only need this
+        load_plugin_textdomain('woocommerce-gateway-twint', false, plugin_dir_path(self::pluginFile()) . 'languages');
     }
 
     protected static function pluginFile(): string

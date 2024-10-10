@@ -70,6 +70,7 @@ class TwintIntegration
         //Frontend
         Plugin::di('payment_status.action', true);
         Plugin::di('express_checkout.action', true);
+        Plugin::di('payment_cancel.action', true);
     }
 
     public function additionalWoocommerceBeforeThankyou(WC_Order|int $order): void
@@ -79,7 +80,11 @@ class TwintIntegration
             $order = wc_get_order($orderId);
         }
 
-        if (!in_array($order->get_payment_method(), [RegularCheckoutGateway::getId(), ExpressCheckoutGateway::getId()])) {
+        if (!in_array(
+            $order->get_payment_method(),
+            [RegularCheckoutGateway::getId(), ExpressCheckoutGateway::getId()],
+            true
+        )) {
             return;
         }
 

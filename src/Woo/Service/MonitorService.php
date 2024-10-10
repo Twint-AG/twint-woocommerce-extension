@@ -9,6 +9,7 @@ use Symfony\Component\Process\Process;
 use Throwable;
 use Twint\Command\PollCommand;
 use Twint\Plugin;
+use Twint\Sdk\Exception\CancellationFailed;
 use Twint\Sdk\InvocationRecorder\InvocationRecordingClient;
 use Twint\Sdk\Value\FastCheckoutCheckIn;
 use Twint\Sdk\Value\Money;
@@ -16,6 +17,7 @@ use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\PairingStatus;
 use Twint\Sdk\Value\PairingUuid;
+use Twint\Sdk\Value\TransactionStatus;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Uuid;
 use Twint\Sdk\Value\Version;
@@ -282,15 +284,15 @@ class MonitorService
             if ($tOrder->isConfirmationPending()) {
                 try {
                     $confirmRes = $this->api->call($client, 'confirmOrder', [
-                        new UnfiledMerchantTransactionReference((string)$pairing->getRefId()),
-                        new Money(Money::CHF, $pairing->getAmount())
-                    ], true, function (TransactionLog $log) use ($pairing) {
+                        new UnfiledMerchantTransactionReference((string) $pairing->getRefId()),
+                        new Money(Money::CHF, $pairing->getAmount()),
+                    ], true, static function (TransactionLog $log) use ($pairing) {
                         $log->setOrderId($pairing->getWcOrderId());
                         $log->setPairingId($pairing->getId());
 
                         return $log;
                     });
-                }catch (Throwable $e){
+                } catch (Throwable $e) {
                     $this->getRepository()->markAsFailed($pairing->getId());
                     throw $e;
                 }
@@ -372,5 +374,41 @@ class MonitorService
         }
 
         return MonitoringStatus::fromPairing($pairing);
+    }
+
+    public function cancel(Pairing $pairing): bool
+    {
+        $client = $this->getBuilder()->build(Version::NEXT);
+        if ($pairing->getIsExpress()) {
+            try {
+                $this->cancelFastCheckoutCheckIn($pairing, $client);
+                $pairing->setStatus(Pairing::EXPRESS_STATUS_MERCHANT_CANCELLED);
+                $this->getRepository()->markAsMerchantCancelled($pairing->getId());
+            } catch (CancellationFailed $e) {
+                dd($e);
+                $this->logger->error(
+                    "MonitorService::cancel TWINT cancel checkin failed {$pairing->getId()}" . $e->getMessage()
+                );
+                return false;
+            } catch (Throwable $e) {
+                dd($e);
+                return false;
+            }
+        } else {
+            try {
+                $res = $this->getPairingService()->cancelOrder($pairing, $client);
+                /** @var Order $order */
+                $order = $res->getReturn();
+
+                $this->getPairingService()->update($pairing, $res);
+
+                return $order->transactionStatus()->equals(TransactionStatus::MERCHANT_ABORT());
+            } catch (Throwable $e) {
+                $this->logger->error("PairingService::cancel: {$pairing->getId()}" . $e->getMessage());
+                return false;
+            }
+        }
+
+        return true;
     }
 }

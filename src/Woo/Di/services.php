@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Twint\Command\PollCommand;
 use Twint\Woo\Api\Admin\GetTransactionLogAction;
 use Twint\Woo\Api\Admin\StoreConfigurationAction;
+use Twint\Woo\Api\Frontend\CancelPaymentAction;
 use Twint\Woo\Api\Frontend\ExpressCheckoutAction;
 use Twint\Woo\Api\Frontend\PaymentStatusAction;
 use Twint\Woo\Container\ContainerInterface;
@@ -60,7 +61,7 @@ function twint_services()
         'migrations' => static fn (ContainerInterface $container): array => [
             $container->get('pairing.migration'),
             $container->get('log.migration'),
-            new AddReferenceIdColumnToPairingTable($container->get('db'))
+            new AddReferenceIdColumnToPairingTable($container->get('db')),
         ],
 
         //Logger
@@ -167,6 +168,13 @@ function twint_services()
         ),
         'payment_status.action' => static function (ContainerInterface $container) {
             return new PaymentStatusAction(
+                $container->get('pairing.repository'),
+                $container->get('monitor.service'),
+                $container->get('logger')
+            );
+        },
+        'payment_cancel.action' => static function (ContainerInterface $container) {
+            return new CancelPaymentAction(
                 $container->get('pairing.repository'),
                 $container->get('monitor.service'),
                 $container->get('logger')

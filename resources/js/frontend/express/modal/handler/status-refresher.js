@@ -1,11 +1,12 @@
 import apiFetch from '@wordpress/api-fetch';
 import IntervalHandler from "./interval-handler";
+import Modal from "../modal";
 
 class StatusRefresher {
   static EVENT_CANCELLED = 'cancelled';
   static EVENT_PAID = 'paid';
 
-  constructor() {
+  constructor(modal) {
     this.intervalHanlder = new IntervalHandler({
       0: 5000,
       5: 2000,
@@ -13,7 +14,11 @@ class StatusRefresher {
       3600: 0 // 1 hour
     });
 
+    this.modal = modal;
+
     this.processing = false;
+    this.finished = false;
+    this.stopped = false;
 
     this.pairing = null;
 
@@ -30,9 +35,55 @@ class StatusRefresher {
 
   start() {
     this.stopped = false;
+    this.finished = false;
     this.intervalHanlder.begin();
-
+    if(this.modal.isExpress()) {
+      this.modal.addCallback(Modal.EVENT_MODAL_CLOSED, this.onModalClosed.bind(this));
+    }else {
+      this.modal.addCallback(Modal.EVENT_MODAL_CLOSED, this.onRegularCheckoutCloseModal.bind(this));
+    }
     this.onProcessing();
+  }
+
+  onModalClosed(){
+    this.stop();
+
+    if(!this.finished){
+      const  self = this;
+
+      this.cancelPayment(data => {
+        if (data.success !== true) {
+          return self.check(true);
+        }
+      });
+    }
+  }
+
+  cancelPayment(callback){
+    this.processing = true;
+
+    apiFetch({
+      path: '/twint/v1/payment/cancel',
+      method: 'POST',
+      data: {
+        pairingId: this.pairing
+      },
+      cache: 'no-store',
+      parse: false,
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        return response.json();
+      })
+      .then(data => {
+        return callback(data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   }
 
   stop() {
@@ -40,6 +91,7 @@ class StatusRefresher {
   }
 
   onProcessing() {
+    this.finished = false;
     if (this.processing || this.stopped)
       return;
 
@@ -50,6 +102,7 @@ class StatusRefresher {
   }
 
   onPaid(response) {
+    this.finished = true;
     let callback = this.callbacks[StatusRefresher.EVENT_PAID];
     if (callback) {
       callback(response);
@@ -57,6 +110,8 @@ class StatusRefresher {
   }
 
   onCancelled() {
+    this.finished = true;
+
     let callback = this.callbacks[StatusRefresher.EVENT_CANCELLED];
     if (callback && typeof callback === 'function') {
       callback();
@@ -64,6 +119,8 @@ class StatusRefresher {
   }
 
   onFinish(response) {
+    this.finished = true;
+
     if (response.finish && response.status === 'PAID') {
       return this.onPaid(response);
     }
@@ -73,8 +130,8 @@ class StatusRefresher {
     }
   }
 
-  check() {
-    if (this.stopped || this.processing)
+  check(oneTime = false) {
+    if (!oneTime && (this.stopped || this.processing))
       return;
 
     const self = this;
@@ -102,12 +159,25 @@ class StatusRefresher {
         if (data.finish === true)
           return self.onFinish(data);
 
-        self.onProcessing();
+        !oneTime && self.onProcessing();
       })
       .catch((error) => {
         self.processing = false;
         console.error('Error:', error);
       });
+  }
+
+  onRegularCheckoutCloseModal(){
+    if(!this.finished){
+      this.cancelPayment(function(data){
+        console.log(data);
+        if(data.success === true){
+          location.reload();
+        }else {
+          this.check(true);
+        }
+      })
+    }
   }
 }
 

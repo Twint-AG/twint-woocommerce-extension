@@ -11,7 +11,6 @@ use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Model\Modal\Modal;
-use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Service\PairingService;
 use Twint\Woo\Service\PaymentService;
@@ -191,12 +190,12 @@ class RegularCheckoutGateway extends AbstractGateway
                 'currency' => $order->get_currency(),
                 'nonce' => wp_create_nonce('twint_check_pairing_status'),
                 'shopName' => get_bloginfo('name'),
-                'amount' => number_format(
+                'amount' => wc_price( number_format(
                     (float) $order->get_total(),
                     (int) get_option('woocommerce_price_num_decimals'),
                     get_option('woocommerce_price_decimal_sep'),
                     get_option('woocommerce_price_thousand_sep')
-                ),
+                )),
             ];
         } catch (Exception $e) {
             $this->logger->error('Twint RegularCheckoutGateway::process_payment ' . PHP_EOL . $e->getMessage(), [
