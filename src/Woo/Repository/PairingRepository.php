@@ -8,7 +8,6 @@ use Exception;
 use mysqli_result;
 use Throwable;
 use Twint\Sdk\Value\OrderStatus;
-use Twint\Sdk\Value\PairingStatus;
 use Twint\Woo\Exception\DatabaseException;
 use Twint\Woo\Model\Pairing;
 use WC_Logger_Interface;
@@ -159,7 +158,10 @@ class PairingRepository
     {
         $select = $this->getSelect();
         $table = self::tableName();
-        $query = $this->db->prepare("SELECT {$select} FROM {$table} WHERE wc_order_id = %d ORDER BY created_at DESC;", $orderId);
+        $query = $this->db->prepare(
+            "SELECT {$select} FROM {$table} WHERE wc_order_id = %d ORDER BY created_at DESC;",
+            $orderId
+        );
 
         $results = $this->db->get_results($query);
         $pairings = [];

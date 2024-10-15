@@ -9,7 +9,6 @@ use Twint\Plugin;
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Service\FastCheckoutCheckinService;
-use Twint\Woo\Service\SettingService;
 
 class ExpressCheckoutGateway extends AbstractGateway
 {

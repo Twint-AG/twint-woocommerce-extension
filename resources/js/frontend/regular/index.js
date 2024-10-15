@@ -7,21 +7,16 @@ document.addEventListener('DOMContentLoaded', function () {
     function (type, data) {
       console.log(type, data);
       if (data.result === 'success') {
-        let modal = new Modal();
-
-        modal.addCallback(Modal.EVENT_CLOSED, ()=> {
-          location.reload();
-        });
+        let modal = new Modal(Modal.TYPE_REGULAR_CHECKOUT);
 
         const {
           pairingToken,
           amount,
           pairingId,
-          currency,
         } = data;
         modal.setContent(new ModalContent(
           pairingToken,
-          amount + currency,
+          amount,
           pairingId,
           false
         ));

@@ -188,7 +188,7 @@ class Modal
             '/images/icon-contact.svg'
         ) . '" alt="contact">
                                     </div>
-                                    <div class="text-center mt-4">' . __('Follow the instructions in the app to confirm your order.', 'woocommerce-gateway-twint' ) . '</div>
+                                    <div class="text-center mt-4">' . __('Follow the instructions in the app to confirm your order.', 'woocommerce-gateway-twint') . '</div>
                                 </div>
                             </div>
                         </div>

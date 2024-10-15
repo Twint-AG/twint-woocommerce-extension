@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Setup;
 
-use Twint\Plugin;
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\CronJob\MonitorPairingCronJob;
 
@@ -43,20 +42,6 @@ class Installer
         ];
         update_option('woocommerce_twint_regular_settings', $initData);
         update_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION, 'No');
-    }
-
-    private function copyLanguagePacks(): void
-    {
-        $pluginLanguagesPath = Plugin::abspath() . 'i18n/languages/';
-        $wpLangPluginPath = WP_CONTENT_DIR . '/languages/plugins/';
-
-        if (!$this->folderExist($wpLangPluginPath)) {
-            mkdir($wpLangPluginPath, 0777, true);
-        }
-        $pluginLanguagesDirectory = array_diff(scandir($pluginLanguagesPath), ['..', '.']);
-        foreach ($pluginLanguagesDirectory as $language) {
-            @copy($pluginLanguagesPath . $language, $wpLangPluginPath . $language);
-        }
     }
 
     public function folderExist($folder): bool|string

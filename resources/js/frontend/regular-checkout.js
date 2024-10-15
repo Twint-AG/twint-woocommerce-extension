@@ -23,12 +23,9 @@ const ModalTwintPayment = ({eventRegistration, emitResponse}) => {
     const unsubscribe = onCheckoutAfterProcessingWithSuccess(async ({processingResponse}) => {
       const details = processingResponse.paymentDetails;
       if (details.result === 'success') {
-        let modal = new Modal();
-        modal.addCallback(Modal.EVENT_CLOSED, ()=> {
-          location.reload();
-        });
+        let modal = new Modal(Modal.TYPE_REGULAR_CHECKOUT);
         modal.setContent(new ModalContent(details.pairingToken,
-          details.amount + details.currency,
+          details.amount,
           details.pairingId,
           false));
         modal.show();

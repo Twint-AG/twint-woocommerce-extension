@@ -138,7 +138,6 @@ class PairingService
         return $this->getRepository()->save($pairing);
     }
 
-
     /**
      * @throws Throwable
      */
@@ -147,8 +146,8 @@ class PairingService
         $pairings = $this->getRepository()->findByWooOrderId($orderId);
 
         /** @var Pairing $p */
-        foreach ($pairings as $p){
-            if(!$p->isFinished() && $p->getStatus() !== Pairing::EXPRESS_STATUS_MERCHANT_CANCELLED) {
+        foreach ($pairings as $p) {
+            if (!$p->isFinished() && $p->getStatus() !== Pairing::EXPRESS_STATUS_MERCHANT_CANCELLED) {
                 $res = $this->cancelOrder($p, $client);
 
                 $this->getRepository()->markAsMerchantCancelled($p->getId());
@@ -168,11 +167,17 @@ class PairingService
     {
         $this->logger->info("TWINT cancel order: {$pairing->getId()}");
 
-        return $this->apiService->call($client, 'cancelOrder', [new OrderId(new Uuid($pairing->getId()))], true, function (TransactionLog $log) use ($pairing){
-            $log->setPairingId($pairing->getId());
-            $log->setOrderId($pairing->getWcOrderId());
+        return $this->apiService->call(
+            $client,
+            'cancelOrder',
+            [new OrderId(new Uuid($pairing->getId()))],
+            true,
+            static function (TransactionLog $log) use ($pairing) {
+                $log->setPairingId($pairing->getId());
+                $log->setOrderId($pairing->getWcOrderId());
 
-            return $log;
-        });
+                return $log;
+            }
+        );
     }
 }

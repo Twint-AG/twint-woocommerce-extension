@@ -9,7 +9,6 @@ use WC_Blocks_Utils;
 
 class SettingService
 {
-
     public static function getAutoRemoveDBTableWhenDisabling()
     {
         return get_option(TwintConstant::REMOVE_DB_TABLE_WHEN_DISABLING_PLUGIN, TwintConstant::NO);

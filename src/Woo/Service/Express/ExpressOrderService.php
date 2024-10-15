@@ -235,7 +235,7 @@ class ExpressOrderService
     {
         $client = $this->getBuilder()->build(Version::NEXT);
 
-        $refId = $order->get_id().'-'.wp_generate_password(4, false);
+        $refId = $order->get_id() . '-' . wp_generate_password(4, false);
 
         $res = $this->api->call($client, 'startFastCheckoutOrder', [
             PairingUuid::fromString($pairing->getId()),
