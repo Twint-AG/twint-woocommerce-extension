@@ -385,13 +385,11 @@ class MonitorService
                 $pairing->setStatus(Pairing::EXPRESS_STATUS_MERCHANT_CANCELLED);
                 $this->getRepository()->markAsMerchantCancelled($pairing->getId());
             } catch (CancellationFailed $e) {
-                dd($e);
                 $this->logger->error(
                     "MonitorService::cancel TWINT cancel checkin failed {$pairing->getId()}" . $e->getMessage()
                 );
                 return false;
             } catch (Throwable $e) {
-                dd($e);
                 return false;
             }
         } else {
