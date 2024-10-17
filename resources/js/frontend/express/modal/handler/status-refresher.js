@@ -37,19 +37,19 @@ class StatusRefresher {
     this.stopped = false;
     this.finished = false;
     this.intervalHanlder.begin();
-    if(this.modal.isExpress()) {
+    if (this.modal.isExpress()) {
       this.modal.addCallback(Modal.EVENT_MODAL_CLOSED, this.onModalClosed.bind(this));
-    }else {
+    } else {
       this.modal.addCallback(Modal.EVENT_MODAL_CLOSED, this.onRegularCheckoutCloseModal.bind(this));
     }
     this.onProcessing();
   }
 
-  onModalClosed(){
+  onModalClosed() {
     this.stop();
 
-    if(!this.finished){
-      const  self = this;
+    if (!this.finished) {
+      const self = this;
 
       this.cancelPayment(data => {
         if (data.success !== true) {
@@ -59,7 +59,7 @@ class StatusRefresher {
     }
   }
 
-  cancelPayment(callback){
+  cancelPayment(callback) {
     this.processing = true;
 
     apiFetch({
@@ -96,6 +96,7 @@ class StatusRefresher {
       return;
 
     let interval = this.intervalHanlder.interval();
+    console.log('Interval time: ', interval);
     if (interval > 0) {
       setTimeout(this.check.bind(this), interval);
     }
@@ -170,18 +171,18 @@ class StatusRefresher {
         clearTimeout(timeoutId);
         self.processing = false;
 
-        if(error.name === 'AbortError'){
+        if (error.name === 'AbortError') {
           self.check();
         }
       });
   }
 
-  onRegularCheckoutCloseModal(){
-    if(!this.finished){
-      this.cancelPayment(function(data){
-        if(data.success === true){
+  onRegularCheckoutCloseModal() {
+    if (!this.finished) {
+      this.cancelPayment(function (data) {
+        if (data.success === true) {
           location.reload();
-        }else {
+        } else {
           this.check(true);
         }
       })

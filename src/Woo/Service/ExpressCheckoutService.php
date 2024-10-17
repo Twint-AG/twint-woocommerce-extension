@@ -126,7 +126,7 @@ class ExpressCheckoutService
         return WC()->cart ?? new WC_Cart();
     }
 
-    public function addToCart(WP_REST_Request $request): void
+    public function addToCart(WP_REST_Request $request): array
     {
         $item = apply_filters(
             'woocommerce_store_api_add_to_cart_data',
@@ -138,6 +138,17 @@ class ExpressCheckoutService
             $request
         );
 
-        $this->controller->add_to_cart($item);
+        try {
+            $this->controller->add_to_cart($item);
+
+            return [
+                'success' => true,
+            ];
+        } catch (\Exception $exception) {
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ];
+        }
     }
 }

@@ -4,7 +4,7 @@ class IntervalHandler {
     this.start = null;
   }
 
-  begin(){
+  begin() {
     this.start = new Date();
   }
 

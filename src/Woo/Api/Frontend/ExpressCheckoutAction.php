@@ -53,7 +53,11 @@ class ExpressCheckoutAction
 
         if (!$full) {
             $empty = $this->service->isEmptyCart();
-            $this->service->addToCart($request);
+            $result = $this->service->addToCart($request);
+
+            if (!$result['success']) {
+                return new WP_REST_Response($result, 200);
+            }
 
             if (!$empty) {
                 return new WP_REST_Response([

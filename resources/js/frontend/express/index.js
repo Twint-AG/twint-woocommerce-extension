@@ -49,6 +49,19 @@ class ExpressCheckout {
     if (data.openMiniCart) {
       return this.showMessageAndOpenMiniCart();
     }
+    if (!data.success) {
+      let messages = document.querySelector('.woocommerce-notices-wrapper');
+      const {message} = data;
+      if (messages) {
+        messages.innerHTML =
+          `<div class="woocommerce-info woocommerce-message is-success" role="alert">              
+            <div class="wc-block-components-notice-banner__content">
+              ` + message + `
+            </div>
+          </div>`;
+      }
+      return;
+    }
 
     ExpressCheckout.modal.setContent(
       new ModalContent(data.token, data.amount, data.pairing, true)
