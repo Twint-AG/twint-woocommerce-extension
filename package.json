@@ -1,49 +1,56 @@
 {
-	"name": "woocommerce-gateway-twint",
-	"title": "WooCommerce Twint Payment",
-	"version": "1.0.6",
-	"author": "WooCommerce",
-	"license": "GPL-3.0+",
-	"keywords": [],
-	"devDependencies": {
-		"@babel/plugin-syntax-jsx": "^7.24.7",
-		"@babel/preset-react": "^7.24.7",
-		"@woocommerce/dependency-extraction-webpack-plugin": "2.2.0",
-		"@wordpress/scripts": "^28.1.0",
-		"autoprefixer": "^10.4.20",
-		"cross-env": "7.0.3",
-		"css-loader": "^7.1.2",
-		"css-minimizer-webpack-plugin": "^7.0.0",
-		"file-loader": "^6.2.0",
-		"mini-css-extract-plugin": "^2.9.1",
-		"postcss-loader": "^8.1.1",
-		"sass": "^1.78.0",
-		"sass-loader": "^16.0.1",
-		"style-loader": "^4.0.0",
-		"tailwindcss": "^3.4.11",
-		"webpack": "^5.94.0",
-		"webpack-cli": "^5.1.4"
-	},
-	"scripts": {
-		"start": "wp-scripts start",
-		"build": "wp-scripts build",
-		"i18n": "npm run i18n:build",
-		"i18n:build": "npm run i18n:pot && ./bin/build_i18n.sh",
-		"i18n:pot": "php -d xdebug.max_nesting_level=512 $(which wp) i18n make-pot --exclude=\"node_modules/,languages/,assets/\" --headers='{\"Report-Msgid-Bugs-To\":\"https://woocommerce.com/my-account/create-a-ticket/\", \"language-team\":\"LANGUAGE <EMAIL@ADDRESS>\"}' . languages/woocommerce-gateway-twint.pot",
-		"i18n:json": "$(which wp) i18n make-json languages --no-purge",
-		"packages-update": "wp-scripts packages-update",
-		"check-engines": "wp-scripts check-engines"
-	},
-	"dependencies": {
-		"@woocommerce/settings": "^1.0.0",
-		"@wordpress/api-fetch": "^7.8.0",
-		"@wordpress/element": "^6.6.0",
-		"@wordpress/html-entities": "^4.1.0",
-		"@wordpress/i18n": "^5.1.0",
-		"axios": "^1.7.2"
-	},
-	"engines": {
-		"node": ">=20.0.0",
-		"npm": ">=10.0.0"
-	}
+  "name": "woocommerce-gateway-twint",
+  "title": "WooCommerce Twint Payment",
+  "version": "1.0.6",
+  "author": "WooCommerce",
+  "license": "GPL-3.0+",
+  "keywords": [],
+  "devDependencies": {
+    "@babel/plugin-syntax-jsx": "^7.24.7",
+    "@babel/preset-react": "^7.24.7",
+    "@eslint/js": "^9.12.0",
+    "@woocommerce/dependency-extraction-webpack-plugin": "2.2.0",
+    "@wordpress/scripts": "^28.1.0",
+    "autoprefixer": "^10.4.20",
+    "cross-env": "7.0.3",
+    "css-loader": "^7.1.2",
+    "css-minimizer-webpack-plugin": "^7.0.0",
+    "eslint": "^8.57.1",
+    "eslint-plugin-react": "^7.37.1",
+    "file-loader": "^6.2.0",
+    "globals": "^15.11.0",
+    "mini-css-extract-plugin": "^2.9.1",
+    "postcss-loader": "^8.1.1",
+    "prettier": "3.3.3",
+    "sass": "^1.78.0",
+    "sass-loader": "^16.0.1",
+    "style-loader": "^4.0.0",
+    "tailwindcss": "^3.4.11",
+    "typescript-eslint": "^8.10.0",
+    "webpack": "^5.94.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "scripts": {
+    "start": "wp-scripts start",
+    "build": "wp-scripts build",
+    "i18n": "npm run i18n:build",
+    "i18n:build": "npm run i18n:pot && ./bin/build_i18n.sh",
+    "i18n:pot": "php -d xdebug.max_nesting_level=512 $(which wp) i18n make-pot --exclude=\"node_modules/,languages/,assets/\" --headers='{\"Report-Msgid-Bugs-To\":\"https://woocommerce.com/my-account/create-a-ticket/\", \"language-team\":\"LANGUAGE <EMAIL@ADDRESS>\"}' . languages/woocommerce-gateway-twint.pot",
+    "i18n:json": "$(which wp) i18n make-json languages --no-purge",
+    "packages-update": "wp-scripts packages-update",
+    "check-engines": "wp-scripts check-engines",
+    "format-code": "npx prettier --write ./resources"
+  },
+  "dependencies": {
+    "@woocommerce/settings": "^1.0.0",
+    "@wordpress/api-fetch": "^7.8.0",
+    "@wordpress/element": "^6.6.0",
+    "@wordpress/html-entities": "^4.1.0",
+    "@wordpress/i18n": "^5.1.0",
+    "axios": "^1.7.2"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  }
 }

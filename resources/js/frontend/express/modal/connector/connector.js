@@ -1,14 +1,13 @@
-class Connector{
-  constructor() {
-  }
+class Connector {
+  constructor() {}
 
-  init(){
+  init() {
     // in child classes
   }
 
-  setToken(token){
-    this.token = token;
+  setToken(token) {
+    this.token = token
   }
 }
 
-export default Connector;
+export default Connector
