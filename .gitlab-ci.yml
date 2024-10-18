@@ -16,7 +16,8 @@ tests:
   stage: check
   extends: .base
   only:
-    - feature/ci-test
+    - master
+    - staging
   parallel:
     matrix:
       - PHP_VERSION: [ "8.1", "8.2", "8.3" ]
