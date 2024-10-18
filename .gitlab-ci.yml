@@ -34,6 +34,7 @@ tests:
     # Run coding standard
     - ./vendor/bin/ecs --no-progress-bar
     - vendor/bin/rector process --dry-run
+    - vendor/bin/phpstan analyse --memory-limit=1024M
     
     - npm install
     - npx prettier --check ./resources/
