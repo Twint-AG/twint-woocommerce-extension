@@ -29,7 +29,10 @@ class Action {
         return response.json();
       })
       .then(data => {
-        onSuccessCallback(data);
+        if('success' in data && data.success === false)
+          return onFailureCallback(data);
+
+        return onSuccessCallback(data);
       })
       .catch((error) => {
         Action.spinner.stop();
