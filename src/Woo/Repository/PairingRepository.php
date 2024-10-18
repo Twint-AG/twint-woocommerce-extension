@@ -64,6 +64,7 @@ class PairingRepository
             return $this->get($pairing->getId());
         } catch (Exception $e) {
             $this->logger->error('TWINT PairingRepository::insert: ' . $e->getMessage());
+            throw $e;
         }
     }
 

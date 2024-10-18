@@ -151,7 +151,7 @@ class TwintIntegration
             'twint-payment-integration-settings',
             [$this, 'accessSettingsMenuCallback'],
             Plugin::assets('/images/twint_icon.svg'),
-            '30.5'
+            30
         );
     }
 

@@ -1,0 +1,14 @@
+parameters:
+    level: 1  # Choose the strictness level (0 is the loosest, 9 is the strictest)
+    paths:
+        - src/Woo
+
+    bootstrapFiles:
+        - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
+
+    excludePaths:
+        - src/Woo/View/*
+
+    ignoreErrors:
+        - '#Constant DB_NAME not found#'
+        - '#Action callback returns bool but should not return anything.#'

@@ -9,8 +9,9 @@ use WC_Logger_Interface;
 
 class NullLogger implements WC_Logger_Interface
 {
-    public function add($handle, $message, $level = WC_Log_Levels::NOTICE)
+    public function add($handle, $message, $level = WC_Log_Levels::NOTICE): bool
     {
+        return true;
     }
 
     public function log($level, $message, $context = [])
