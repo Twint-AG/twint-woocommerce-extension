@@ -1,6 +1,7 @@
 image: shivammathur/node:latest
 
 stages:
+  - check
   - release
 
 .base:
@@ -8,6 +9,27 @@ stages:
     - set -euo pipefail
   tags:
     - d13-runner
+tests:
+  stage: check
+  extends: .base
+  only:
+    - feature/ci-test
+  
+  script:
+    # Update spc (See https://github.com/shivammathur/spc for options)
+    - spc -U
+  
+    # Setup PHP
+    - spc --php-version "$PHP_VERSION" --extensions "bcmath, ctype, curl, dom, fileinfo, filter,gd, hash, iconv, intl, json, libxml, mbstring, openssl, pcre, pdo_mysql, simplexml, soap, sockets, sodium, xsl, tokenizer, xmlwriter, xsl, zlib, libxml"
+
+    - composer config --global gitlab-token.git.nfq.asia $GITLAB_ACCESS_TOKEN
+    - composer install --prefer-dist --no-progress --no-interaction
+  
+    # Run coding standard
+    - ./vendor/bin/ecs --no-progress-bar
+    - vendor/bin/rector process --dry-run
+    
+    - npm install
 
 build-archive:
   extends: .base
