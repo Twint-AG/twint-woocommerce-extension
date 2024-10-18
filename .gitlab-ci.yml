@@ -72,6 +72,7 @@ build-archive:
       cd build
       
       sed -i "s|vendor/autoload.php';|vendor/scoper-autoload.php';|g" bin/console
+      sed -i "s|vendor/autoload.php';|vendor/scoper-autoload.php';|g" twint-woocommerce-extension.php
       
       npm install --quiet 2>&1 ;
       

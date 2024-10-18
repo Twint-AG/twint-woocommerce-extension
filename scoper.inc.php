@@ -27,7 +27,7 @@ $excludedFiles = [
 
 function getWpExcludedSymbols(string $fileName): array
 {
-    $filePath = __DIR__.'/vendor/sniccowp/php-scoper-wordpress-excludes/generated/'.$fileName;
+    $filePath = __DIR__ . '/vendor/sniccowp/php-scoper-wordpress-excludes/generated/' . $fileName;
 
     return json_decode(
         file_get_contents($filePath),
@@ -35,7 +35,7 @@ function getWpExcludedSymbols(string $fileName): array
     );
 }
 
-$wp_classes   = getWpExcludedSymbols('exclude-wordpress-classes.json');
+$wp_classes = getWpExcludedSymbols('exclude-wordpress-classes.json');
 $wp_functions = getWpExcludedSymbols('exclude-wordpress-functions.json');
 $wp_constants = getWpExcludedSymbols('exclude-wordpress-constants.json');
 
@@ -58,25 +58,15 @@ return [
     //
     // For more see: https://github.com/humbug/php-scoper/blob/master/docs/configuration.md#finders-and-paths
     'finders' => [
-        /*
+
         Finder::create()->files()->in('src'),
-        Finder::create()
-            ->files()
-            ->ignoreVCS(true)
-            ->notName('/LICENSE|.*\\.md|.*\\.dist|Makefile|composer\\.json|composer\\.lock/')
-            ->exclude([
-                'doc',
-                'test',
-                'test_old',
-                'tests',
-                'Tests',
-                'vendor-bin',
-            ])
-            ->in('vendor'),
+        Finder::create()->files()->in('vendor'),
+        Finder::create()->files()->in('dist'),
+        Finder::create()->files()->in('assets'),
         Finder::create()->append([
+            'twint-woocommerce-extension.php',
             'composer.json',
-        ]),
-        */
+        ])
     ],
 
     // List of excluded files, i.e. files for which the content will be left untouched.
@@ -120,11 +110,16 @@ return [
         'Twint\Woo',
         'Twint\Sdk',
         'Twint\Command',
-        'Twint'
+        'Twint',
+        'Composer\Autoload',
+        'Psl'
     ],
     'exclude-classes' => array_merge($wp_classes, [
+        'ComposerAutoloaderInit*'
     ]),
-    'exclude-functions' => $wp_functions,
+    'exclude-functions' => [
+        ...$wp_functions,
+    ],
     'exclude-constants' => $wp_constants,
 
     // List of symbols to expose.

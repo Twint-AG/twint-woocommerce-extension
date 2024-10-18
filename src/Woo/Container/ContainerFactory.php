@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Container;
 
+use Twint\Woo\Di\ServiceDefinition;
+
 class ContainerFactory
 {
     private static ?ContainerInterface $container = null;
@@ -15,8 +17,6 @@ class ContainerFactory
 
     private static function loadRegisteredServices(): array
     {
-        require_once __DIR__ . '/../Di/services.php';
-
-        return twint_services();
+        return ServiceDefinition::services();
     }
 }
