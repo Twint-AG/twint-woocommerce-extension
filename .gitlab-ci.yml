@@ -64,3 +64,16 @@ build-archive:
     paths:
       - "twint-woocommerce-extension.zip"
     expire_in: 1 week
+
+
+release:
+  only:
+    - tags
+  stage: release
+  image: alpine:3
+  extends: .base
+  variables:
+    GIT_DEPTH: 0
+  script:
+    - apk add --no-cache git openssh bash
+    - ./bin/sync.sh
