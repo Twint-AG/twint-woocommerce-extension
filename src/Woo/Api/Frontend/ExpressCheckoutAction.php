@@ -26,7 +26,7 @@ class ExpressCheckoutAction
 
     public function __construct(
         private readonly ExpressCheckoutService $service,
-        private readonly Lazy|MonitorService      $monitor,
+        private readonly Lazy|MonitorService    $monitor,
     ) {
         $this->registerHooks();
     }
@@ -66,7 +66,14 @@ class ExpressCheckoutAction
             }
         }
 
-        $pairing = $this->service->checkout($full);
+        try {
+            $pairing = $this->service->checkout($full);
+        } catch (Throwable $e) {
+            return new WP_REST_Response([
+                'success' => false,
+                'message' => __('Error processing checkout. Please try again.', 'woocommerce'),
+            ], 200);
+        }
 
         // Start monitoring in background
         if (get_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION) === 'Yes') {
