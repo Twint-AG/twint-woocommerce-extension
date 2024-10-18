@@ -1,5 +1,8 @@
 image: shivammathur/node:latest
 
+variables:
+  COMPOSER_ALLOW_SUPERUSER: "1"
+
 stages:
   - check
   - release
