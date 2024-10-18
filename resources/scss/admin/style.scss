@@ -23,7 +23,7 @@ $clr-info: #007cba;
     margin-bottom: 15px;
 
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       left: 0;
       width: 20px;
@@ -43,7 +43,3 @@ $clr-info: #007cba;
 @import './modal.scss';
 @import './certificate.scss';
 @import './transaction.scss';
-
-
-
-

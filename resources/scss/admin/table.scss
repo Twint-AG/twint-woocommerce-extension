@@ -89,7 +89,7 @@
     cursor: pointer;
 
     &:before {
-      content: "";
+      content: '';
       @include absolute-fill;
       transition: 0.3s;
       z-index: 1;
@@ -98,7 +98,7 @@
     }
 
     &:after {
-      content: "";
+      content: '';
       position: absolute;
       opacity: 0;
       left: 50%;

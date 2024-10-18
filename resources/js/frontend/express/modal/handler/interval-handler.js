@@ -1,29 +1,29 @@
 class IntervalHandler {
   constructor(stages) {
-    this.stages = stages;
-    this.start = null;
+    this.stages = stages
+    this.start = null
   }
 
   begin() {
-    this.start = new Date();
+    this.start = new Date()
   }
 
   interval() {
-    let now = new Date();
-    const seconds = Math.floor((now - this.start) / 1000);
+    let now = new Date()
+    const seconds = Math.floor((now - this.start) / 1000)
 
-    let currentInterval = 1000; // Default to the first interval
+    let currentInterval = 1000 // Default to the first interval
 
     for (const [second, interval] of Object.entries(this.stages)) {
       if (seconds >= parseInt(second)) {
-        currentInterval = interval;
+        currentInterval = interval
       } else {
-        break;
+        break
       }
     }
 
-    return currentInterval;
+    return currentInterval
   }
 }
 
-export default IntervalHandler;
+export default IntervalHandler

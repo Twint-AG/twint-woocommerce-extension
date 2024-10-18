@@ -1,16 +1,15 @@
-import Spinner from "../spinner";
-import apiFetch from '@wordpress/api-fetch';
+import Spinner from '../spinner'
+import apiFetch from '@wordpress/api-fetch'
 
 class Action {
-  static spinner;
+  static spinner
 
   constructor() {
-    if (!Action.spinner)
-      Action.spinner = new Spinner();
+    if (!Action.spinner) Action.spinner = new Spinner()
   }
 
   handle(context, onSuccessCallback, onFailureCallback) {
-    Action.spinner.start();
+    Action.spinner.start()
 
     apiFetch({
       path: '/twint/v1/express/checkout',
@@ -19,27 +18,27 @@ class Action {
       cache: 'no-store',
       parse: false,
     })
-      .then(response => {
-        Action.spinner.stop();
-        console.log(response);
+      .then((response) => {
+        Action.spinner.stop()
+        console.log(response)
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error('Network response was not ok')
         }
 
-        return response.json();
+        return response.json()
       })
-      .then(data => {
-        if('success' in data && data.success === false)
-          return onFailureCallback(data);
+      .then((data) => {
+        if ('success' in data && data.success === false)
+          return onFailureCallback(data)
 
-        return onSuccessCallback(data);
+        return onSuccessCallback(data)
       })
       .catch((error) => {
-        Action.spinner.stop();
-        console.error('Error:', error);
+        Action.spinner.stop()
+        console.error('Error:', error)
         onFailureCallback(error)
-      });
+      })
   }
 }
 
-export default Action;
+export default Action
