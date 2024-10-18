@@ -14,6 +14,9 @@ tests:
   extends: .base
   only:
     - feature/ci-test
+  parallel:
+    matrix:
+      - PHP_VERSION: [ "8.1", "8.2", "8.3" ]
   
   script:
     # Update spc (See https://github.com/shivammathur/spc for options)
