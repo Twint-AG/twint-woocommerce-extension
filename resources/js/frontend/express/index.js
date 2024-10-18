@@ -52,15 +52,15 @@ class ExpressCheckout {
     if (!data.success) {
       let messages = document.querySelector('.woocommerce-notices-wrapper');
       const {message} = data;
-      if (messages) {
+      if (messages && message !== undefined) {
         messages.innerHTML =
           `<div class="woocommerce-info woocommerce-message is-success" role="alert">              
             <div class="wc-block-components-notice-banner__content">
               ` + message + `
             </div>
           </div>`;
+        return;
       }
-      return;
     }
 
     ExpressCheckout.modal.setContent(
