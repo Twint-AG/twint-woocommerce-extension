@@ -49,19 +49,6 @@ class ExpressCheckout {
     if (data.openMiniCart) {
       return this.showMessageAndOpenMiniCart();
     }
-    if (!data.success) {
-      let messages = document.querySelector('.woocommerce-notices-wrapper');
-      const {message} = data;
-      if (messages && message !== undefined) {
-        messages.innerHTML =
-          `<div class="woocommerce-info woocommerce-message is-success" role="alert">              
-            <div class="wc-block-components-notice-banner__content">
-              ` + message + `
-            </div>
-          </div>`;
-        return;
-      }
-    }
 
     ExpressCheckout.modal.setContent(
       new ModalContent(data.token, data.amount, data.pairing, true)
@@ -69,8 +56,13 @@ class ExpressCheckout {
     ExpressCheckout.modal.show();
   }
 
-  onFailureCallback() {
+  onFailureCallback(data) {
     console.log("Cannot perform express checkout");
+
+    if ('success' in data && data.success === false) {
+      const {message} = data;
+      this.showMessage(message, 'woocommerce-error');
+    }
   }
 
   init() {
@@ -79,15 +71,13 @@ class ExpressCheckout {
     }
   }
 
-  showMessageAndOpenMiniCart() {
+  showMessage(message, type = '') {
     let messages = document.querySelector('.woocommerce-notices-wrapper');
     if (messages) {
-      let data = ExpressCheckout.modal.getData();
       messages.innerHTML =
-        `<div class="woocommerce-info woocommerce-message is-success" role="alert">              
+        `<div class="woocommerce-message ` + type + `" role="alert">              
             <div class="wc-block-components-notice-banner__content">
-              <a href="/cart/" tabindex="1" class="button wc-forward wp-element-button">` + data.label + `</a>
-              ` + data.message + `
+              ` + message + `
             </div>
           </div>`;
 
@@ -96,6 +86,16 @@ class ExpressCheckout {
         block: 'start'      // Aligns the element to the top of the viewport
       });
     }
+  }
+
+  showMessageAndOpenMiniCart() {
+    let data = ExpressCheckout.modal.getData();
+    let message = `<a href="/cart/" tabindex="1" class="button wc-forward wp-element-button">
+                      ${data.label}
+                    </a>
+                    ${data.message}`;
+
+    this.showMessage(message, 'woocommerce-info is-success');
 
     jQuery('.wc-block-mini-cart__button ').click();
   }

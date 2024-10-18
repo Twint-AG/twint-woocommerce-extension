@@ -94,7 +94,7 @@ class FastCheckoutCheckinService
                 $options[] = new ShippingMethod(
                     new ShippingMethodId($rate->get_method_id()),
                     $rate->get_label(),
-                    Money::CHF((float) max($order->get_total() - $base, 0))
+                    Money::CHF((float) wc_format_decimal(max($order->get_total() - $base, 0)))
                 );
             }
         }
