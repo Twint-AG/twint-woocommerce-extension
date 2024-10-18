@@ -144,7 +144,7 @@ class ExpressCheckoutService
             return [
                 'success' => true,
             ];
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return [
                 'success' => false,
                 'message' => $exception->getMessage(),
