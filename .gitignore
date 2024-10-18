@@ -44,3 +44,4 @@ composer.lock
 auth.json
 
 dist/**/*.js.map
+build
