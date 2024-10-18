@@ -45,6 +45,9 @@ build-archive:
   stage: release
   only:
     - feature/php-scoper
+  parallel:
+    matrix:
+      - PHP_VERSION: [ "8.1", "8.2", "8.3" ]
   before_script:
     - apt-get update
     - apt-get install -qq zip # installs zip utility in Alpine Linux
@@ -56,7 +59,7 @@ build-archive:
       spc -U
       
       # Setup PHP
-      spc --php-version 8.2 --extensions "mbstring, curl, dom, fileinfo, gd, iconv, intl, json, xml, mbstring, pdo, phar, zip, sodium, pdo_mysql, bcmath, soap";
+      spc --php-version "$PHP_VERSION" --extensions "mbstring, curl, dom, fileinfo, gd, iconv, intl, json, xml, mbstring, pdo, phar, zip, sodium, pdo_mysql, bcmath, soap";
   
       rootdir=$(pwd)
       
@@ -99,12 +102,10 @@ build-archive:
       zip -r twint-woocommerce-extension.zip .  > /dev/null 2>&1;
       
       cd "$rootdir"
-      ls -al .
-      ls -al build
-      mv "$TEMP_DIR/twint-woocommerce-extension.zip" .
+      mv "$TEMP_DIR/twint-woocommerce-extension.zip" "./twint-woocommerce-extension-php-$PHP_VERSION.zip"
   artifacts:
     paths:
-      - "twint-woocommerce-extension.zip"
+      - "twint-woocommerce-extension-php-$PHP_VERSION.zip"
     expire_in: 1 week
 
 
