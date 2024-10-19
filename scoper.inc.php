@@ -83,7 +83,7 @@ return [
     // PHP version (e.g. `'7.2'`) in which the PHP parser and printer will be configured into. This will affect what
     // level of code it will understand and how the code will be printed.
     // If none (or `null`) is configured, then the host version will be used.
-    'php-version' => '8.1',
+    //    'php-version' => '8.1',
 
     // When scoping PHP files, there will be scenarios where some of the code being scoped indirectly references the
     // original namespace. These will include, for example, strings or string manipulations. PHP-Scoper has limited
