@@ -80,7 +80,7 @@ build-archive:
       sed -i "s|vendor/autoload.php';|vendor/scoper-autoload.php';|g" twint-woocommerce-extension.php
       
       cd "$rootdir"
-      zip -r "./twint-woocommerce-extension-php-$PHP_VERSION.zip" ./build  > /dev/null 2>&1;
+      zip -r "./twint-woocommerce-extension-php-$PHP_VERSION.zip" ./build/* -x "build/" > /dev/null 2>&1;
   artifacts:
     paths:
       - "twint-woocommerce-extension-php-$PHP_VERSION.zip"
