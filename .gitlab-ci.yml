@@ -63,6 +63,12 @@ build-archive:
       spc --php-version "$PHP_VERSION" --extensions "mbstring, curl, dom, fileinfo, gd, iconv, intl, json, xml, mbstring, pdo, phar, zip, sodium, pdo_mysql, bcmath, soap";
   
       rootdir=$(pwd)
+  
+      npm install --quiet 2>&1 ;
+  
+#      Rebuild dist files
+      rm -rf dist/
+      npm run build > /dev/null 2>&1
       
       composer global require humbug/php-scoper
       composer install --no-dev --optimize-autoloader;
@@ -70,41 +76,11 @@ build-archive:
       php -d memory_limit=-1 /root/.composer/vendor/bin/php-scoper add-prefix --working-dir ./ --config scoper.inc.php --output-dir ./build
       
       cd build
-      
       sed -i "s|vendor/autoload.php';|vendor/scoper-autoload.php';|g" bin/console
       sed -i "s|vendor/autoload.php';|vendor/scoper-autoload.php';|g" twint-woocommerce-extension.php
       
-      npm install --quiet 2>&1 ;
-      
-      rm -rf dist/ ;
-      
-      echo "Starting build..."
-      
-      if npm run build > /dev/null 2>&1; then
-         echo "Build completed successfully"
-      else
-         echo "Build failed"
-         exit 1
-      fi
-      
-      # Set up a temporary directory
-      TEMP_DIR="/tmp/$CI_COMMIT_SHA"
-      
-      # Create the temporary directory
-      mkdir -p "$TEMP_DIR"
-      
-      cp twint-woocommerce-extension.php "$TEMP_DIR"
-      cp -r dist "$TEMP_DIR"
-      cp -r src "$TEMP_DIR"
-      cp -r assets "$TEMP_DIR"
-      cp -r bin "$TEMP_DIR"
-      cp -r vendor "$TEMP_DIR"
-      
-      cd "$TEMP_DIR"
-      zip -r twint-woocommerce-extension.zip .  > /dev/null 2>&1;
-      
       cd "$rootdir"
-      mv "$TEMP_DIR/twint-woocommerce-extension.zip" "./twint-woocommerce-extension-php-$PHP_VERSION.zip"
+      zip -r "./twint-woocommerce-extension-php-$PHP_VERSION.zip" ./build  > /dev/null 2>&1;
   artifacts:
     paths:
       - "twint-woocommerce-extension-php-$PHP_VERSION.zip"

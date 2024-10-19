@@ -63,6 +63,8 @@ return [
         Finder::create()->files()->in('vendor'),
         Finder::create()->files()->in('dist'),
         Finder::create()->files()->in('assets'),
+        Finder::create()->files()->in('bin'),
+        Finder::create()->files()->in('languages'),
         Finder::create()->append([
             'twint-woocommerce-extension.php',
             'composer.json',
