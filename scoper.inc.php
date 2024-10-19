@@ -20,10 +20,7 @@ use Isolated\Symfony\Component\Finder\Finder;
 //         false,
 //     ),
 // );
-$excludedFiles = [
-
-];
-
+$excludedFiles = [];
 
 function getWpExcludedSymbols(string $fileName): array
 {
@@ -35,9 +32,9 @@ function getWpExcludedSymbols(string $fileName): array
     );
 }
 
-$wp_classes = getWpExcludedSymbols('exclude-wordpress-classes.json');
-$wp_functions = getWpExcludedSymbols('exclude-wordpress-functions.json');
-$wp_constants = getWpExcludedSymbols('exclude-wordpress-constants.json');
+$wpClasses = getWpExcludedSymbols('exclude-wordpress-classes.json');
+$wpFunctions = getWpExcludedSymbols('exclude-wordpress-functions.json');
+$wpConstants = getWpExcludedSymbols('exclude-wordpress-constants.json');
 
 return [
     // The prefix configuration. If a non-null value is used, a random prefix
@@ -58,7 +55,6 @@ return [
     //
     // For more see: https://github.com/humbug/php-scoper/blob/master/docs/configuration.md#finders-and-paths
     'finders' => [
-
         Finder::create()->files()->in('src'),
         Finder::create()->files()->in('vendor'),
         Finder::create()->files()->in('dist'),
@@ -93,7 +89,11 @@ return [
     // For more see: https://github.com/humbug/php-scoper/blob/master/docs/configuration.md#patchers
     'patchers' => [
         static function (string $filePath, string $prefix, string $contents): string {
-            // Change the contents here.
+            if(strpos($filePath, '/psl/') !== false) {
+                if(strpos($contents, 'namespace TwintWoo\\') !== 0 && strpos($contents, ' Psl\\') !== 0 ) {
+                    $contents = str_replace(' Psl\\', ' \\TwintWoo\Psl\\', $contents);
+                }
+            }
 
             return $contents;
         },
@@ -112,17 +112,15 @@ return [
         'Twint\Woo',
         'Twint\Sdk',
         'Twint\Command',
-        'Twint',
-        'Composer\Autoload',
-        'Psl'
+        'Twint'
     ],
-    'exclude-classes' => array_merge($wp_classes, [
+    'exclude-classes' => array_merge($wpClasses, [
         'ComposerAutoloaderInit*'
     ]),
     'exclude-functions' => [
-        ...$wp_functions,
+        ...$wpFunctions,
     ],
-    'exclude-constants' => $wp_constants,
+    'exclude-constants' => $wpConstants,
 
     // List of symbols to expose.
     //
