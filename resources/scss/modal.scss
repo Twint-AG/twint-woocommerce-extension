@@ -1,11 +1,11 @@
-#twint-modal{
+#twint-modal {
   @apply text-16 flex fixed inset-0 top-0 left-0 items-center justify-center w-full h-full z-[99999] overflow-y-auto;
   @apply transition-all duration-300 ease-out;
 
-  &:has(.twint-mobile){
+  &:has(.twint-mobile) {
     @apply w-full h-full m-0 max-h-full overflow-y-scroll;
 
-    .twint-logo{
+    .twint-logo {
       @apply hidden;
     }
   }
@@ -42,13 +42,14 @@
       box-shadow: none !important;
     }
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       color: #262626;
       text-decoration: none;
       @apply border-0 font-normal bg-inherit;
     }
 
-    > span{
+    > span {
       order: 9999;
       @apply ml-2;
     }
@@ -74,16 +75,16 @@
     }
   }
 
-  #twint-addroid-button{
+  #twint-addroid-button {
     @apply no-underline block mb-1 bg-black text-white font-bold p-4 rounded-lg text-center hover:bg-gray-800 focus:outline-none focus:ring-gray-600 focus:ring-opacity-75
     hover:text-white hover:no-underline;
   }
 
-  #twint-amount{
+  #twint-amount {
     @apply text-center inline-block p-3 px-6 text-white bg-black font-semibold;
   }
 
-  .twint-app-container{
+  .twint-app-container {
     @apply w-3/4 mx-auto justify-center max-w-screen-md mx-auto grid grid-cols-3 gap-4;
   }
 
@@ -96,8 +97,8 @@
   }
 }
 
-.twint-mobile{
-  #qrcode{
+.twint-mobile {
+  #qrcode {
     @apply hidden;
   }
 

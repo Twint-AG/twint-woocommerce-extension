@@ -43,8 +43,7 @@ class ExpressOrderService
         private readonly ApiService          $api,
         private readonly WC_Logger_Interface $logger,
         private Lazy|ClientBuilder           $builder,
-        private Lazy|PairingService          $pairingService,
-        MonitorService                       $monitor = null
+        private Lazy|PairingService          $pairingService
     ) {
     }
 

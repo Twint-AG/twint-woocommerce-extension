@@ -1,193 +1,196 @@
-import apiFetch from '@wordpress/api-fetch';
-import IntervalHandler from "./interval-handler";
-import Modal from "../modal";
+import apiFetch from '@wordpress/api-fetch'
+import IntervalHandler from './interval-handler'
+import Modal from '../modal'
 
 class StatusRefresher {
-  static EVENT_CANCELLED = 'cancelled';
-  static EVENT_PAID = 'paid';
+  static EVENT_CANCELLED = 'cancelled'
+  static EVENT_PAID = 'paid'
 
   constructor(modal) {
     this.intervalHanlder = new IntervalHandler({
       0: 5000,
       5: 2000,
       600: 10000, //10 mins
-      3600: 0 // 1 hour
-    });
+      3600: 0, // 1 hour
+    })
 
-    this.modal = modal;
+    this.modal = modal
 
-    this.processing = false;
-    this.finished = false;
-    this.stopped = false;
+    this.processing = false
+    this.finished = false
+    this.stopped = false
 
-    this.pairing = null;
+    this.pairing = null
 
-    this.callbacks = {};
+    this.callbacks = {}
   }
 
   setPairing(value) {
-    this.pairing = value;
+    this.pairing = value
   }
 
   addCallBack(name, callback) {
-    this.callbacks[name] = callback;
+    this.callbacks[name] = callback
   }
 
   start() {
-    this.stopped = false;
-    this.finished = false;
-    this.intervalHanlder.begin();
+    this.stopped = false
+    this.finished = false
+    this.intervalHanlder.begin()
     if (this.modal.isExpress()) {
-      this.modal.addCallback(Modal.EVENT_MODAL_CLOSED, this.onModalClosed.bind(this));
+      this.modal.addCallback(
+        Modal.EVENT_MODAL_CLOSED,
+        this.onModalClosed.bind(this),
+      )
     } else {
-      this.modal.addCallback(Modal.EVENT_MODAL_CLOSED, this.onRegularCheckoutCloseModal.bind(this));
+      this.modal.addCallback(
+        Modal.EVENT_MODAL_CLOSED,
+        this.onRegularCheckoutCloseModal.bind(this),
+      )
     }
-    this.onProcessing();
+    this.onProcessing()
   }
 
   onModalClosed() {
-    this.stop();
+    this.stop()
 
     if (!this.finished) {
-      const self = this;
+      const self = this
 
-      this.cancelPayment(data => {
+      this.cancelPayment((data) => {
         if (data.success !== true) {
-          return self.check(true);
+          return self.check(true)
         }
-      });
+      })
     }
   }
 
   cancelPayment(callback) {
-    this.processing = true;
+    this.processing = true
 
     apiFetch({
       path: '/twint/v1/payment/cancel',
       method: 'POST',
       data: {
-        pairingId: this.pairing
+        pairingId: this.pairing,
       },
       cache: 'no-store',
       parse: false,
     })
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error('Network response was not ok')
         }
 
-        return response.json();
+        return response.json()
       })
-      .then(data => {
-        return callback(data);
+      .then((data) => {
+        return callback(data)
       })
       .catch((error) => {
-        console.error('Error:', error);
-      });
+        console.error('Error:', error)
+      })
   }
 
   stop() {
-    this.stopped = true;
+    this.stopped = true
   }
 
   onProcessing() {
-    this.finished = false;
-    if (this.processing || this.stopped)
-      return;
+    this.finished = false
+    if (this.processing || this.stopped) return
 
-    let interval = this.intervalHanlder.interval();
-    console.log('Interval time: ', interval);
+    let interval = this.intervalHanlder.interval()
+    console.log('Interval time: ', interval)
     if (interval > 0) {
-      setTimeout(this.check.bind(this), interval);
+      setTimeout(this.check.bind(this), interval)
     }
   }
 
   onPaid(response) {
-    this.finished = true;
-    let callback = this.callbacks[StatusRefresher.EVENT_PAID];
+    this.finished = true
+    let callback = this.callbacks[StatusRefresher.EVENT_PAID]
     if (callback) {
-      callback(response);
+      callback(response)
     }
   }
 
   onCancelled() {
-    this.finished = true;
+    this.finished = true
 
-    let callback = this.callbacks[StatusRefresher.EVENT_CANCELLED];
+    let callback = this.callbacks[StatusRefresher.EVENT_CANCELLED]
     if (callback && typeof callback === 'function') {
-      callback();
+      callback()
     }
   }
 
   onFinish(response) {
-    this.finished = true;
+    this.finished = true
 
     if (response.finish && response.status === 'PAID') {
-      return this.onPaid(response);
+      return this.onPaid(response)
     }
 
     if (response.finish && response.status === 'FAILED') {
-      return this.onCancelled();
+      return this.onCancelled()
     }
   }
 
   check(oneTime = false) {
-    if (!oneTime && (this.stopped || this.processing))
-      return;
+    if (!oneTime && (this.stopped || this.processing)) return
 
-    const self = this;
-    this.processing = true;
+    const self = this
+    this.processing = true
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 seconds timeout
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 3000) // 3 seconds timeout
 
     apiFetch({
       path: '/twint/v1/payment/status',
       method: 'POST',
       data: {
-        pairingId: this.pairing
+        pairingId: this.pairing,
       },
       cache: 'no-store',
       parse: false,
-      signal: controller.signal
+      signal: controller.signal,
     })
-      .then(response => {
-        clearTimeout(timeoutId);
-        self.processing = false;
+      .then((response) => {
+        clearTimeout(timeoutId)
+        self.processing = false
 
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error('Network response was not ok')
         }
 
-        return response.json();
+        return response.json()
       })
-      .then(data => {
-        if (data.finish === true)
-          return self.onFinish(data);
+      .then((data) => {
+        if (data.finish === true) return self.onFinish(data)
 
-        !oneTime && self.onProcessing();
+        !oneTime && self.onProcessing()
       })
       .catch((error) => {
-        clearTimeout(timeoutId);
-        self.processing = false;
+        clearTimeout(timeoutId)
+        self.processing = false
 
         if (error.name === 'AbortError') {
-          self.check();
+          self.check()
         }
-      });
+      })
   }
 
   onRegularCheckoutCloseModal() {
     if (!this.finished) {
       this.cancelPayment(function (data) {
         if (data.success === true) {
-          location.reload();
+          location.reload()
         } else {
-          this.check(true);
+          this.check(true)
         }
       })
     }
   }
 }
 
-export default StatusRefresher;
+export default StatusRefresher

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Model\Monitor;
 
-use JetBrains\PhpStorm\ArrayShape;
 use Twint\Woo\Model\Pairing;
 
 class MonitoringStatus
@@ -73,11 +72,6 @@ class MonitoringStatus
         return $this->finish;
     }
 
-    #[ArrayShape([
-        'finish' => 'bool',
-        'status' => 'string',
-        'extra' => 'array',
-    ])]
     public function toArray(): array
     {
         return [

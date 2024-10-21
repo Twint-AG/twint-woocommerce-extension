@@ -1,19 +1,20 @@
-import Connector from './connector';
+import Connector from './connector'
 
-class AndroidConnector extends Connector{
+class AndroidConnector extends Connector {
   constructor() {
-    super();
-    this.button = document.getElementById('twint-addroid-button');
+    super()
+    this.button = document.getElementById('twint-addroid-button')
   }
 
   init() {
-    if (!this.button)
-      return;
+    if (!this.button) return
 
-    this.button.href = this.button.getAttribute('data-href').replace('--TOKEN--', this.token);
+    this.button.href = this.button
+      .getAttribute('data-href')
+      .replace('--TOKEN--', this.token)
 
-    this.button.click();
+    this.button.click()
   }
 }
 
-export default AndroidConnector;
+export default AndroidConnector

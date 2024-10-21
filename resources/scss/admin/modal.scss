@@ -1,6 +1,6 @@
 .modal {
   position: fixed;
-  top:0;
+  top: 0;
   left: 0;
   width: 100%;
   height: 100%;
@@ -8,7 +8,10 @@
   opacity: 0;
   visibility: hidden;
   transform: scale(1.1);
-  transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+  transition:
+    visibility 0s linear 0.25s,
+    opacity 0.25s 0s,
+    transform 0.25s;
 
   &-content {
     position: absolute;
@@ -26,8 +29,11 @@
 .show-modal {
   opacity: 1;
   visibility: visible;
-  transform: scale(1.0);
-  transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+  transform: scale(1);
+  transition:
+    visibility 0s linear 0s,
+    opacity 0.25s 0s,
+    transform 0.25s;
   z-index: 999999;
 }
 
@@ -47,7 +53,7 @@
     justify-content: right;
   }
 
-  .modal-header{
+  .modal-header {
     display: inline-flex;
     justify-content: space-between;
     width: 97%;
@@ -56,14 +62,14 @@
     left: 0;
     z-index: 10;
     background-color: white;
-    border-bottom: 1px solid #DDD;
+    border-bottom: 1px solid #ddd;
     padding-left: 20px;
     padding-right: 10px;
     align-items: center;
 
     .close-button {
       background-color: #2271b1;
-      border-radius: .25rem;
+      border-radius: 0.25rem;
       color: #fff;
       cursor: pointer;
       float: right;
@@ -71,7 +77,7 @@
       line-height: 1;
       padding: 9px;
       text-align: center;
-      transition: color .12s ease-in-out;
+      transition: color 0.12s ease-in-out;
       height: 10px;
       width: 15px;
       padding-bottom: 16px;

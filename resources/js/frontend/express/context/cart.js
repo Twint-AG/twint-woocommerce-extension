@@ -1,16 +1,15 @@
-import Context from "./context";
+import Context from './context'
 
 class CartContext extends Context {
   constructor(button) {
-    super(button);
+    super(button)
   }
 
   getParams() {
     return {
-      full: true
+      full: true,
     }
   }
 }
 
-
-export default CartContext;
+export default CartContext

@@ -1,11 +1,11 @@
 class Context {
   constructor(button = null) {
-    this.button = button;
+    this.button = button
   }
 
   getParams() {
-    return {};
+    return {}
   }
 }
 
-export default Context;
+export default Context

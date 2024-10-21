@@ -7,7 +7,7 @@ $text-color: #fff;
 $font-size: 15px;
 $font-weight: 600;
 $line-height: 19px;
-$letter-spacing: .43px;
+$letter-spacing: 0.43px;
 $padding: 10px;
 $border-radius: 6px;
 
@@ -16,13 +16,13 @@ $border-radius: 6px;
   @apply w-full cursor-pointer items-center justify-center border-none rounded-md  inline-flex p-2.5 text-white;
   background-color: $button-bg-color !important;
   height: 50px;
-  transition: background-color .3s ease;
+  transition: background-color 0.3s ease;
   text-transform: unset;
 
-  &.dynamic{
+  &.dynamic {
     display: none;
 
-    .twint-enabled &{
+    .twint-enabled & {
       display: inline-flex !important;
     }
   }
@@ -36,7 +36,7 @@ $border-radius: 6px;
     text-decoration: none;
   }
 
-  &:focus{
+  &:focus {
     outline: none !important;
     border: none !important;
   }
@@ -73,7 +73,7 @@ $border-radius: 6px;
     text-overflow: ellipsis;
 
     &:before {
-      content: "TWINT ";
+      content: 'TWINT ';
 
       @container (width < 258px) {
         & {
@@ -87,11 +87,14 @@ $border-radius: 6px;
     container-type: inline-size;
   }
 
-  button[name="add-to-cart"] + &, a.add_to_cart_button + & , button.single_add_to_cart_button + &, a.checkout + & {
+  button[name='add-to-cart'] + &,
+  a.add_to_cart_button + &,
+  button.single_add_to_cart_button + &,
+  a.checkout + & {
     @apply mt-2;
   }
 
-  *:has(+ &){
+  *:has(+ &) {
     margin-bottom: 0 !important;
   }
 

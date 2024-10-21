@@ -1,107 +1,115 @@
-import Modal from './modal/modal';
-import ButtonHandler from './button/button-handler';
-import ModalContent from './modal/content';
-import Action from './checkout/action';
-import ContextFactory from './context/factory';
-import {__} from "@wordpress/i18n";
+import Modal from './modal/modal'
+import ButtonHandler from './button/button-handler'
+import ModalContent from './modal/content'
+import Action from './checkout/action'
+import ContextFactory from './context/factory'
+import { __ } from '@wordpress/i18n'
 
 class ExpressCheckout {
   // Singleton instance
-  static modal;
+  static modal
 
   constructor() {
-    this.buttonManager = new ButtonHandler();
-    this.checkoutAction = new Action();
+    this.buttonManager = new ButtonHandler()
+    this.checkoutAction = new Action()
   }
 
   handle() {
-    this.init();
-    this.registerEvents();
+    this.init()
+    this.registerEvents()
   }
 
   registerEvents() {
-    let self = this;
+    let self = this
 
     this.buttonManager.buttons.forEach(function (button) {
-      button.addEventListener('click', self.onButtonClicked.bind(self));
+      button.addEventListener('click', self.onButtonClicked.bind(self))
     })
 
-    let body = document.querySelector('body');
+    let body = document.querySelector('body')
     body.addEventListener('click', function (event) {
       if (event.target && event.target.matches('.twint')) {
-        self.onButtonClicked(event);
+        self.onButtonClicked(event)
       }
-    });
+    })
   }
 
   onButtonClicked(e) {
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault()
+    e.stopPropagation()
 
-    const button = e.target.closest('.twint-button');
+    const button = e.target.closest('.twint-button')
 
-    this.checkoutAction.handle(ContextFactory.getContext(button), this.onSuccessCallback.bind(this), this.onFailureCallback.bind(this));
+    this.checkoutAction.handle(
+      ContextFactory.getContext(button),
+      this.onSuccessCallback.bind(this),
+      this.onFailureCallback.bind(this),
+    )
   }
 
   onSuccessCallback(data) {
-    ExpressCheckout.modal.refreshMiniCart();
+    ExpressCheckout.modal.refreshMiniCart()
 
     if (data.openMiniCart) {
-      return this.showMessageAndOpenMiniCart();
+      return this.showMessageAndOpenMiniCart()
     }
 
     ExpressCheckout.modal.setContent(
-      new ModalContent(data.token, data.amount, data.pairing, true)
-    );
-    ExpressCheckout.modal.show();
+      new ModalContent(data.token, data.amount, data.pairing, true),
+    )
+    ExpressCheckout.modal.show()
   }
 
   onFailureCallback(data) {
-    console.log("Cannot perform express checkout");
+    console.log('Cannot perform express checkout')
 
     if ('success' in data && data.success === false) {
-      const {message} = data;
-      this.showMessage(message, 'woocommerce-error');
+      const { message } = data
+      this.showMessage(message, 'woocommerce-error')
     }
   }
 
   init() {
     if (!ExpressCheckout.modal) {
-      ExpressCheckout.modal = new Modal(Modal.TYPE_EXPRESS_CHECKOUT);
+      ExpressCheckout.modal = new Modal(Modal.TYPE_EXPRESS_CHECKOUT)
     }
   }
 
   showMessage(message, type = '') {
-    let messages = document.querySelector('.woocommerce-notices-wrapper');
+    let messages = document.querySelector('.woocommerce-notices-wrapper')
     if (messages) {
       messages.innerHTML =
-        `<div class="woocommerce-message ` + type + `" role="alert">              
+        `<div class="woocommerce-message ` +
+        type +
+        `" role="alert">              
             <div class="wc-block-components-notice-banner__content">
-              ` + message + `
+              ` +
+        message +
+        `
             </div>
-          </div>`;
+          </div>`
 
       messages.scrollIntoView({
         behavior: 'smooth', // Enables smooth scrolling
-        block: 'start'      // Aligns the element to the top of the viewport
-      });
+        block: 'start', // Aligns the element to the top of the viewport
+      })
     }
   }
 
   showMessageAndOpenMiniCart() {
-    let data = ExpressCheckout.modal.getData();
+    let data = ExpressCheckout.modal.getData()
     let message = `<a href="/cart/" tabindex="1" class="button wc-forward wp-element-button">
                       ${data.label}
                     </a>
-                    ${data.message}`;
+                    ${data.message}`
 
-    this.showMessage(message, 'woocommerce-info is-success');
+    this.showMessage(message, 'woocommerce-info is-success')
 
-    jQuery('.wc-block-mini-cart__button ').click();
+    jQuery('.wc-block-mini-cart__button ').click()
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  let handler = new ExpressCheckout();
-  handler.handle();
-});
+  let handler = new ExpressCheckout()
+  handler.handle()
+})

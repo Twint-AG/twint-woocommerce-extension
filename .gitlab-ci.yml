@@ -1,6 +1,10 @@
 image: shivammathur/node:latest
 
+variables:
+  COMPOSER_ALLOW_SUPERUSER: "1"
+
 stages:
+  - check
   - release
 
 .base:
@@ -8,12 +12,43 @@ stages:
     - set -euo pipefail
   tags:
     - d13-runner
+tests:
+  stage: check
+  extends: .base
+  only:
+    - master
+    - staging
+  parallel:
+    matrix:
+      - PHP_VERSION: [ "8.1", "8.2", "8.3" ]
+  
+  script:
+    # Update spc (See https://github.com/shivammathur/spc for options)
+    - spc -U
+  
+    # Setup PHP
+    - spc --php-version "$PHP_VERSION" --extensions "bcmath, ctype, curl, dom, fileinfo, filter,gd, hash, iconv, intl, json, libxml, mbstring, openssl, pcre, pdo_mysql, simplexml, soap, sockets, sodium, xsl, tokenizer, xmlwriter, xsl, zlib, libxml"
+
+    - composer config --global gitlab-token.git.nfq.asia $GITLAB_ACCESS_TOKEN
+    - composer install --prefer-dist --no-progress --no-interaction
+  
+    # Run coding standard
+    - ./vendor/bin/ecs --no-progress-bar
+    - vendor/bin/rector process --dry-run
+    - vendor/bin/phpstan analyse --memory-limit=1024M
+    
+    - npm install
+    - npx prettier --check ./resources/
 
 build-archive:
   extends: .base
   stage: release
   only:
     - master
+    - staging
+  parallel:
+    matrix:
+      - PHP_VERSION: [ "8.1", "8.2", "8.3" ]
   before_script:
     - apt-get update
     - apt-get install -qq zip # installs zip utility in Alpine Linux
@@ -25,44 +60,26 @@ build-archive:
       spc -U
       
       # Setup PHP
-      spc --php-version 8.1 --extensions "mbstring, curl, dom, fileinfo, gd, iconv, intl, json, xml, mbstring, pdo, phar, zip, sodium, pdo_mysql, bcmath, soap";
-      
+      spc --php-version "$PHP_VERSION" --extensions "mbstring, curl, dom, fileinfo, gd, iconv, intl, json, xml, mbstring, pdo, phar, zip, sodium, pdo_mysql, bcmath, soap";
+  
+      rootdir=$(pwd)
+  
       npm install --quiet 2>&1 ;
+  
+      # Rebuild dist files
+      rm -rf dist/
+      npm run build > /dev/null 2>&1
       
-      rm -rf dist/ ;
-      
-      echo "Starting build..."
-      
-      if npm run build > /dev/null 2>&1; then
-         echo "Build completed successfully"
-      else
-         echo "Build failed"
-         exit 1
-      fi
-      
+      composer global require humbug/php-scoper
       composer install --no-dev --optimize-autoloader;
+      rm -rf infra
+      php -d memory_limit=-1 /root/.composer/vendor/bin/php-scoper add-prefix --working-dir ./ --config scoper.inc.php --output-dir ./build
       
-      # Set up a temporary directory
-      TEMP_DIR="/tmp/$CI_COMMIT_SHA"
-      
-      # Create the temporary directory
-      mkdir -p "$TEMP_DIR"
-      
-      cp twint-woocommerce-extension.php "$TEMP_DIR"
-      cp -r dist "$TEMP_DIR"
-      cp -r src "$TEMP_DIR"
-      cp -r assets "$TEMP_DIR"
-      cp -r bin "$TEMP_DIR"
-      cp -r vendor "$TEMP_DIR"
-      
-      cd "$TEMP_DIR"
-      zip -r twint-woocommerce-extension.zip .  > /dev/null 2>&1;
-      
-      cd -
-      mv "$TEMP_DIR/twint-woocommerce-extension.zip" .
+      cd "$rootdir"
+      zip -r "./twint-woocommerce-extension-php-$PHP_VERSION.zip" ./build/* -x "build/" > /dev/null 2>&1;
   artifacts:
     paths:
-      - "twint-woocommerce-extension.zip"
+      - "twint-woocommerce-extension-php-$PHP_VERSION.zip"
     expire_in: 1 week
 
 
