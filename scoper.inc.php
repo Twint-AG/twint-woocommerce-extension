@@ -6,7 +6,7 @@ use Isolated\Symfony\Component\Finder\Finder;
 
 // You can do your own things here, e.g. collecting symbols to expose dynamically
 // or files to exclude.
-// However beware that this file is executed by PHP-Scoper, hence if you are using
+// However, beware that this file is executed by PHP-Scoper, hence if you are using
 // the PHAR it will be loaded by the PHAR. So it is highly recommended to avoid
 // to auto-load any code here: it can result in a conflict or even corrupt
 // the PHP-Scoper analysis.
@@ -47,7 +47,7 @@ return [
     // This will be overridden by the 'output-dir' command line option if present.
     'output-dir' => null,
 
-    // By default when running php-scoper add-prefix, it will prefix all relevant code found in the current working
+    // By default, when running php-scoper add-prefix, it will prefix all relevant code found in the current working
     // directory. You can however define which files should be scoped by defining a collection of Finders in the
     // following configuration key.
     //
@@ -90,15 +90,11 @@ return [
     'patchers' => [
         static function (string $filePath, string $prefix, string $contents): string {
             if(strpos($filePath, 'bin/console') !== false) {
-                $contents = str_replace('vendor/autoload.php', 'vendor/scoper-autoload.php', $contents);
-
-                return $contents;
+                return str_replace('vendor/autoload.php', 'vendor/scoper-autoload.php', $contents);
             }
 
             if(strpos($filePath, 'twint-woocommerce-extension.php') !== false) {
-                $contents = str_replace('vendor/autoload.php', 'vendor/scoper-autoload.php', $contents);
-
-                return $contents;
+                return str_replace('vendor/autoload.php', 'vendor/scoper-autoload.php', $contents);
             }
 
             if(strpos($filePath, '/psl/') !== false) {
