@@ -11,8 +11,8 @@ if(!file_exists($file)){
 require_once $file;
 
 use Symfony\Component\Console\Application;
-use Twint\Command\CliCommand;
-use Twint\Command\PollCommand;
+use Twint\Woo\Command\CliCommand;
+use Twint\Woo\Command\PollCommand;
 
 $application = new Application();
 $application->add(new PollCommand());

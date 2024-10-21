@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Twint\Woo\Model\Gateway;
 
 use Throwable;
-use Twint\Plugin;
 use Twint\Woo\Model\ApiResponse;
+use Twint\Woo\Plugin;
 use Twint\Woo\Service\PaymentService;
 use WC_Payment_Gateway;
 use WP_Error;
-use function Psl\PseudoRandom\float;
 
 abstract class AbstractGateway extends WC_Payment_Gateway
 {

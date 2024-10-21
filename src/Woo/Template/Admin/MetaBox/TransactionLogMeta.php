@@ -5,8 +5,8 @@ namespace Twint\Woo\Template\Admin\MetaBox;
 use Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Twint\Plugin;
 use Twint\Woo\Model\TransactionLog;
+use Twint\Woo\Plugin;
 use Twint\Woo\Repository\TransactionRepository;
 use WC_Order;
 

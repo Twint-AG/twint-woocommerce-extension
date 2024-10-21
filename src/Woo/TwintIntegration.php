@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Woo;
 
-use Twint\Plugin;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;

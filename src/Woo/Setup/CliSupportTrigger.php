@@ -6,8 +6,8 @@ namespace Twint\Woo\Setup;
 
 use Symfony\Component\Process\Process;
 use Throwable;
-use Twint\Command\CliCommand;
-use Twint\Plugin;
+use Twint\Woo\Command\CliCommand;
+use Twint\Woo\Plugin;
 use WC_Logger_Interface;
 
 class CliSupportTrigger

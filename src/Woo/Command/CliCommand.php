@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Twint\Command;
+namespace Twint\Woo\Command;
 
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
-use Twint\Plugin;
 use Twint\Woo\Constant\TwintConstant;
+use Twint\Woo\Plugin;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Service\MonitorService;
 use WC_Logger_Interface;

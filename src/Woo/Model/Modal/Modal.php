@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Model\Modal;
 
-use Twint\Plugin;
+use Twint\Woo\Plugin;
 use Twint\Woo\Service\AppsService;
 
 class Modal

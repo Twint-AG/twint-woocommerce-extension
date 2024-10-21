@@ -24,6 +24,6 @@ if (!defined('ABSPATH')) {
 
 require __DIR__ . '/vendor/autoload.php';
 
-use Twint\Plugin;
+use Twint\Woo\Plugin;
 
 Plugin::init(__FILE__);
