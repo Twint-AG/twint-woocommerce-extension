@@ -75,10 +75,6 @@ build-archive:
       rm -rf infra
       php -d memory_limit=-1 /root/.composer/vendor/bin/php-scoper add-prefix --working-dir ./ --config scoper.inc.php --output-dir ./build
       
-      cd build
-      sed -i "s|vendor/autoload.php';|vendor/scoper-autoload.php';|g" bin/console
-      sed -i "s|vendor/autoload.php';|vendor/scoper-autoload.php';|g" twint-woocommerce-extension.php
-      
       cd "$rootdir"
       zip -r "./twint-woocommerce-extension-php-$PHP_VERSION.zip" ./build/* -x "build/" > /dev/null 2>&1;
   artifacts:

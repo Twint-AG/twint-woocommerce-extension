@@ -89,6 +89,18 @@ return [
     // For more see: https://github.com/humbug/php-scoper/blob/master/docs/configuration.md#patchers
     'patchers' => [
         static function (string $filePath, string $prefix, string $contents): string {
+            if(strpos($filePath, 'bin/console') !== false) {
+                $contents = str_replace('vendor/autoload.php', 'vendor/scoper-autoload.php', $contents);
+
+                return $contents;
+            }
+
+            if(strpos($filePath, 'twint-woocommerce-extension.php') !== false) {
+                $contents = str_replace('vendor/autoload.php', 'vendor/scoper-autoload.php', $contents);
+
+                return $contents;
+            }
+
             if(strpos($filePath, '/psl/') !== false) {
                 if(strpos($contents, 'namespace TwintWoo\\') !== 0 && strpos($contents, ' Psl\\') !== 0 ) {
                     $contents = str_replace(' Psl\\', ' \\TwintWoo\Psl\\', $contents);
