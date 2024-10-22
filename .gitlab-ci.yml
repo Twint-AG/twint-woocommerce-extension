@@ -82,7 +82,6 @@ build-archive:
     - FILE_NAME="twint-woocommerce-extension-$(echo $CI_COMMIT_REF_NAME | sed 's/\//-/g').zip"
   
     - zip -r "./$FILE_NAME" ./build/* -x "build/" > /dev/null 2>&1;
-    - ls -al
   artifacts:
     paths:
       - "*.zip"
