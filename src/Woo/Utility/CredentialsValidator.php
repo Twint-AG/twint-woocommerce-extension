@@ -23,8 +23,7 @@ class CredentialsValidator implements CredentialValidatorInterface
 
     public function __construct(
         private readonly CryptoHandler $crypto
-    )
-    {
+    ) {
     }
 
     public function validate(?array $certificate, string $storeUuid, bool $testMode): bool
