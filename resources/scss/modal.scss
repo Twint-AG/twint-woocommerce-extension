@@ -105,6 +105,10 @@
     @apply flex;
   }
 
+  .twint-scan {
+    @apply hidden;
+  }
+
   @media (orientation: landscape) {
     @apply justify-center;
 

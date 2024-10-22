@@ -171,7 +171,7 @@ class Modal
 
                         <div class="container mx-auto mt-4 text-16 p-4">
                             <div class="grid grid-cols-1 md:grid-cols-2">
-                                <div class="hidden flex-col items-center ' . $this->getMdClasses('md:flex') . '">
+                                <div class="twint-scan flex-col items-center ' . $this->getMdClasses('md:flex') . '">
                                     <div class="flex justify-center">
                                         <img class="w-55 h-55"
                                              src="' . Plugin::assets('/images/icon-scan.svg') . '"
