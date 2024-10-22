@@ -61,7 +61,7 @@ build-archive:
       
       # Setup PHP
       spc --php-version "$PHP_VERSION" --extensions "mbstring, curl, dom, fileinfo, gd, iconv, intl, json, xml, mbstring, pdo, phar, zip, sodium, pdo_mysql, bcmath, soap";
-  
+      composer config --global gitlab-token.git.nfq.asia $GITLAB_ACCESS_TOKEN
       rootdir=$(pwd)
   
       npm install --quiet 2>&1 ;
