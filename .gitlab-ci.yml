@@ -74,6 +74,7 @@ build-archive:
       composer install --no-dev --optimize-autoloader;
       rm -rf infra
       php -d memory_limit=-1 /root/.composer/vendor/bin/php-scoper add-prefix --working-dir ./ --config scoper.inc.php --output-dir ./build
+      composer dump-autoload --working-dir build --classmap-authoritative
   
       PLUGIN_VERSION=$(jq -r '.version' composer.json)
       sed -i "s/@version@/$PLUGIN_VERSION/g" build/src/Woo/Constant/TwintConstant.php
