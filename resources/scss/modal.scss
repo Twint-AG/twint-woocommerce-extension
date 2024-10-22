@@ -11,7 +11,6 @@
   }
 
   .modal-inner-wrap {
-    @apply h-full;
     @apply p-0;
     background-color: rgb(243 244 246);
 
@@ -89,7 +88,7 @@
   }
 
   .twint-select {
-    @apply h-55 block my-4 w-full p-4 bg-white text-center appearance-none border-none focus:outline-none focus:ring-0 bg-no-repeat;
+    @apply h-55 block my-4 w-full px-4 bg-white text-center appearance-none border-none focus:outline-none focus:ring-0 bg-no-repeat;
 
     background-image: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTYgMTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTE0Ljg3NSAxLjU2MjVMOCA4LjQzNzVMMS4xMjUgMS41NjI1IiBzdHJva2U9IiMyNjI2MjYiIHN0cm9rZS13aWR0aD0iMiIvPjwvc3ZnPg==');
     background-position: right 1rem center;
@@ -102,11 +101,15 @@
     @apply hidden;
   }
 
+  .or-section{
+    @apply flex;
+  }
+
   @media (orientation: landscape) {
-    @apply flex justify-center;
+    @apply justify-center;
 
     & > * {
-      @apply w-1/2 max-w-full;
+      @apply w-1/2 max-w-full mx-auto;
     }
   }
 }

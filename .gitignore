@@ -40,7 +40,6 @@ Thumbs.db
 # Build assets.
 select2.scss
 #/assets/
-composer.lock
 auth.json
 
 dist/**/*.js.map

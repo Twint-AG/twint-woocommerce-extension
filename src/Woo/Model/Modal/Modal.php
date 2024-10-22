@@ -123,7 +123,7 @@ class Modal
                                         </button>
                                     </div>
 
-                                    <div id="qrcode" class="hidden text-center items-center justify-center m-4 
+                                    <div id="qrcode" class="text-center items-center justify-center m-4 
                                     ' . $this->getMdClasses('md:flex') . '"
                                         title={pairingToken}>
                                     </div>
@@ -150,14 +150,13 @@ class Modal
                                     ' . $this->getAndroidHtml() . '
                                     ' . $this->getIosHtml() . '
                                     <div class="text-center ' . $this->getMdClasses('md:hidden') . '">
-                                        <div class="flex items-center justify-center mx-4">
+                                        <div class="or-section hidden items-center justify-center mx-4">
                                             <div
                                                 class="flex-grow border-b-0 border-t border-solid border-gray-300"></div>
                                             <span class="mx-4 text-black">
                                                 ' . __('or', 'woocommerce-gateway-twint') . '
                                             </span>
-                                            <div
-                                                class="flex-grow border-b-0 border-t border-solid border-gray-300"></div>
+                                            <div class="flex-grow border-b-0 border-t border-solid border-gray-300"></div>
                                         </div>
 
                                         <div class="row my-3">
