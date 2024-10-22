@@ -16,8 +16,8 @@ tests:
   stage: check
   extends: .base
   only:
-    - master
-    - staging
+    - branches
+    - tags
   parallel:
     matrix:
       - PHP_VERSION: [ "8.1", "8.2", "8.3" ]
@@ -48,10 +48,10 @@ build-archive:
     - staging
   parallel:
     matrix:
-      - PHP_VERSION: [ "8.1", "8.2", "8.3" ]
+      - PHP_VERSION: [ "8.1"]
   before_script:
     - apt-get update
-    - apt-get install -qq zip # installs zip utility in Alpine Linux
+    - apt-get install -qq jq zip # installs zip utility in Alpine Linux
     - export npm_config_loglevel=silent
   script:
     - |
@@ -74,12 +74,17 @@ build-archive:
       composer install --no-dev --optimize-autoloader;
       rm -rf infra
       php -d memory_limit=-1 /root/.composer/vendor/bin/php-scoper add-prefix --working-dir ./ --config scoper.inc.php --output-dir ./build
-      
-      cd "$rootdir"
-      zip -r "./twint-woocommerce-extension-php-$PHP_VERSION.zip" ./build/* -x "build/" > /dev/null 2>&1;
+  
+      PLUGIN_VERSION=$(jq -r '.version' composer.json)
+      sed -i "s/@version@/$PLUGIN_VERSION/g" build/src/Woo/Constant/TwintConstant.php
+      sed -i "s/InstallSource::DIRECT/InstallSource::STORE/g" src/Woo/Constant/TwintConstant.php
+    
+    - FILE_NAME="twint-woocommerce-extension-$(echo $CI_COMMIT_REF_NAME | sed 's/\//-/g').zip"
+  
+    - zip -r "./$FILE_NAME" ./build/* -x "build/" > /dev/null 2>&1;
   artifacts:
     paths:
-      - "twint-woocommerce-extension-php-$PHP_VERSION.zip"
+      - "$FILE_NAME"
     expire_in: 1 week
 
 

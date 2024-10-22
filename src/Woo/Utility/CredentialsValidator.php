@@ -11,16 +11,20 @@ use Twint\Sdk\Client;
 use Twint\Sdk\Exception\SdkError;
 use Twint\Sdk\Io\InMemoryStream;
 use Twint\Sdk\Value\Environment;
-use Twint\Sdk\Value\PrefixedCashRegisterId;
+use Twint\Sdk\Value\ShopPlatform;
+use Twint\Sdk\Value\ShopPluginInformation;
 use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\Version;
 use Twint\Woo\Constant\TwintConstant;
 
 class CredentialsValidator implements CredentialValidatorInterface
 {
+    use VersionTrait;
+
     public function __construct(
         private readonly CryptoHandler $crypto
-    ) {
+    )
+    {
     }
 
     public function validate(?array $certificate, string $storeUuid, bool $testMode): bool
@@ -35,7 +39,13 @@ class CredentialsValidator implements CredentialValidatorInterface
 
             $client = new Client(
                 CertificateContainer::fromPkcs12(new Pkcs12Certificate(new InMemoryStream($cert), $passphrase)),
-                new PrefixedCashRegisterId(StoreUuid::fromString($storeUuid), TwintConstant::PLATFORM),
+                new ShopPluginInformation(
+                    StoreUuid::fromString($storeUuid),
+                    ShopPlatform::WOOCOMMERCE(),
+                    $this->getSystemVersions(),
+                    TwintConstant::PLUGIN_VERSION,
+                    TwintConstant::installSource()
+                ),
                 Version::latest(),
                 $testMode ? Environment::TESTING() : Environment::PRODUCTION(),
             );

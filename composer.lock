@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f90d1148ff661d04389951bca78749ec",
+    "content-hash": "c9cbdf26272817b52cbac92c82b01f1c",
     "packages": [
         {
             "name": "azjezz/psl",
@@ -145,6 +145,65 @@
                 }
             ],
             "time": "2023-12-20T15:40:13+00:00"
+        },
+        {
+            "name": "danielburger1337/sha3-shake",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/danielburger1337/sha3-shake-php.git",
+                "reference": "71d64273df7f9d6adec2075ee3e585d9c8f36236"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/danielburger1337/sha3-shake-php/zipball/71d64273df7f9d6adec2075ee3e585d9c8f36236",
+                "reference": "71d64273df7f9d6adec2075ee3e585d9c8f36236",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.50.0",
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "danielburger1337\\SHA3Shake\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Burger",
+                    "homepage": "https://github.com/danielburger1337"
+                }
+            ],
+            "description": "SHA-3 SHAKE implementation in PHP",
+            "homepage": "https://github.com/danielburger1337/sha3-shake-php",
+            "keywords": [
+                "sha-3",
+                "sha3",
+                "shake",
+                "shake-128",
+                "shake-256"
+            ],
+            "support": {
+                "issues": "https://github.com/danielburger1337/sha3-shake-php/issues",
+                "source": "https://github.com/danielburger1337/sha3-shake-php/tree/v1.1.1"
+            },
+            "time": "2024-09-08T15:49:44+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -2623,20 +2682,15 @@
         },
         {
             "name": "twint-ag/sdk",
-            "version": "1.2.0",
+            "version": "dev-dev/advanced-tracking",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Twint-AG/sdk.git",
-                "reference": "4b539c4a2610ab30f9ade9f39f78ce5fd8fedf67"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Twint-AG/sdk/zipball/4b539c4a2610ab30f9ade9f39f78ce5fd8fedf67",
-                "reference": "4b539c4a2610ab30f9ade9f39f78ce5fd8fedf67",
-                "shasum": ""
+                "url": "https://git.nfq.asia/twint-ag/sdk",
+                "reference": "712f80e78756352613d742b7e2b9d39bb61b5a62"
             },
             "require": {
                 "azjezz/psl": "^2.5.0",
+                "danielburger1337/sha3-shake": "^1.0",
                 "ext-dom": "*",
                 "ext-openssl": "*",
                 "ext-xsl": "*",
@@ -2659,9 +2713,9 @@
                 "php-soap/wsdl-reader": "^0.17.0",
                 "php-standard-library/phpstan-extension": "^1.1.0",
                 "phpro/soap-client": "^3.3.0",
-                "phpstan/phpstan": "^1.12.6",
+                "phpstan/phpstan": "^1.12.7",
                 "phpstan/phpstan-strict-rules": "^1.6.1",
-                "phpunit/phpunit": "^10.5.36",
+                "phpunit/phpunit": "^10.5.37",
                 "roave/better-reflection": "^6.25.0",
                 "slevomat/coding-standard": "^8.15.0",
                 "symfony/clock": "^6.4.8",
@@ -2681,7 +2735,13 @@
                     "Phpro\\SoapClient\\": "vendor-bundled/phpro/soap-client-minimal/src/Phpro/SoapClient"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Twint\\Sdk\\Tests\\Integration\\": "tests/integration",
+                    "Twint\\Sdk\\Tests\\Unit\\": "tests/unit",
+                    "Twint\\Sdk\\Tools\\": "tools/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -2705,11 +2765,7 @@
                 "twint",
                 "twint.ch"
             ],
-            "support": {
-                "issues": "https://github.com/Twint-AG/sdk/issues",
-                "source": "https://github.com/Twint-AG/sdk/tree/1.2.0"
-            },
-            "time": "2024-10-18T09:21:38+00:00"
+            "time": "2024-10-21T13:51:38+00:00"
         },
         {
             "name": "veewee/xml",
@@ -3722,7 +3778,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "twint-ag/sdk": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
