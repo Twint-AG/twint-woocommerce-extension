@@ -98,7 +98,10 @@ class Plugin
             include_once ABSPATH . 'wp-admin/includes/plugin.php';
         }
 
-        return is_plugin_active($plugin);
+        // Test to see if WooCommerce is active (including network activated).
+        $pluginPath = trailingslashit(WP_PLUGIN_DIR) . $plugin;
+
+        return (in_array($pluginPath, wp_get_active_and_valid_plugins()) || in_array($pluginPath, wp_get_active_network_plugins()));
     }
 
     /**
