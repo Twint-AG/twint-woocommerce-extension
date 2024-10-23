@@ -10,6 +10,7 @@ use Twint\Woo\Api\BaseAction;
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
+use Twint\Woo\Model\Monitor\MonitoringStatus;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Service\MonitorService;
@@ -74,6 +75,11 @@ class PaymentStatusAction extends BaseAction
 
             $response['extra'] = [
                 'redirect' => $order->get_checkout_order_received_url(),
+            ];
+        } elseif ($status->isCancelled()) {
+            $response['extra'] = [
+                'success' => false,
+                'message' => __('Error processing checkout. Please try again.', 'woocommerce'),
             ];
         }
 
