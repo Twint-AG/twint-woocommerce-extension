@@ -43,9 +43,6 @@ tests:
 build-archive:
   extends: .base
   stage: release
-#  only:
-#    - master
-#    - staging
   parallel:
     matrix:
       - PHP_VERSION: [ "8.1" ]
