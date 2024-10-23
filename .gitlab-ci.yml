@@ -79,7 +79,7 @@ build-archive:
       zip -r "./twint-woocommerce-extension-$CI_COMMIT_REF_SLUG.zip" ./build/* -x "build/" > /dev/null 2>&1;
   artifacts:
     paths:
-      - "twint-woocommerce-extension-php-$PHP_VERSION.zip"
+      - "twint-woocommerce-extension-php-$CI_COMMIT_REF_SLUG.zip"
     expire_in: 1 week
 
 release:
