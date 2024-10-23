@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Model\Modal;
 
-use Twint\Plugin;
+use Twint\Woo\Plugin;
 use Twint\Woo\Service\AppsService;
 
 class Modal
@@ -123,7 +123,7 @@ class Modal
                                         </button>
                                     </div>
 
-                                    <div id="qrcode" class="hidden text-center items-center justify-center m-4 
+                                    <div id="qrcode" class="text-center items-center justify-center m-4 
                                     ' . $this->getMdClasses('md:flex') . '"
                                         title={pairingToken}>
                                     </div>
@@ -150,14 +150,13 @@ class Modal
                                     ' . $this->getAndroidHtml() . '
                                     ' . $this->getIosHtml() . '
                                     <div class="text-center ' . $this->getMdClasses('md:hidden') . '">
-                                        <div class="flex items-center justify-center mx-4">
+                                        <div class="or-section hidden items-center justify-center mx-4">
                                             <div
                                                 class="flex-grow border-b-0 border-t border-solid border-gray-300"></div>
                                             <span class="mx-4 text-black">
                                                 ' . __('or', 'woocommerce-gateway-twint') . '
                                             </span>
-                                            <div
-                                                class="flex-grow border-b-0 border-t border-solid border-gray-300"></div>
+                                            <div class="flex-grow border-b-0 border-t border-solid border-gray-300"></div>
                                         </div>
 
                                         <div class="row my-3">
@@ -172,7 +171,7 @@ class Modal
 
                         <div class="container mx-auto mt-4 text-16 p-4">
                             <div class="grid grid-cols-1 md:grid-cols-2">
-                                <div class="hidden flex-col items-center ' . $this->getMdClasses('md:flex') . '">
+                                <div class="twint-scan flex-col items-center ' . $this->getMdClasses('md:flex') . '">
                                     <div class="flex justify-center">
                                         <img class="w-55 h-55"
                                              src="' . Plugin::assets('/images/icon-scan.svg') . '"

@@ -17,9 +17,6 @@
   "type": "wordpress-plugin",
   "license": "GNU General Public License v3.0",
   "autoload": {
-    "files": [
-      "src/Plugin.php"
-    ],
     "psr-4": {
       "Twint\\": "src/"
     }

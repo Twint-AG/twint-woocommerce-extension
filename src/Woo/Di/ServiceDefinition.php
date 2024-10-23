@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Di;
 
-use Twint\Command\PollCommand;
 use Twint\Woo\Api\Admin\GetTransactionLogAction;
 use Twint\Woo\Api\Admin\StoreConfigurationAction;
 use Twint\Woo\Api\Frontend\CancelPaymentAction;
 use Twint\Woo\Api\Frontend\ExpressCheckoutAction;
 use Twint\Woo\Api\Frontend\PaymentStatusAction;
+use Twint\Woo\Command\PollCommand;
 use Twint\Woo\Container\ContainerInterface;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Factory\ClientBuilder;

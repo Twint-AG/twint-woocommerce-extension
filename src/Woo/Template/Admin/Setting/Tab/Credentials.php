@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Template\Admin\Setting\Tab;
 
-use Twint\Plugin;
 use Twint\Woo\Constant\TwintConstant;
+use Twint\Woo\Plugin;
 use Twint\Woo\Template\Admin\Setting\TabItem;
 
 class Credentials extends TabItem

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Twint\Command;
+namespace Twint\Woo\Command;
 
 use DateTime;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -11,10 +11,10 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
-use Twint\Plugin;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Model\Pairing;
+use Twint\Woo\Plugin;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Service\MonitorService;
 use WC_Logger_Interface;

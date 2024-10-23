@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Twint;
+namespace Twint\Woo;
 
 use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
@@ -12,7 +12,6 @@ use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 use Twint\Woo\Model\Method\ExpressCheckout;
 use Twint\Woo\Model\Method\RegularCheckout;
-use Twint\Woo\TwintIntegration;
 use WC_Payment_Gateway;
 
 class Plugin

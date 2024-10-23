@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Model\Button;
 
-use Twint\Plugin;
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
 use Twint\Woo\Model\Modal\Modal;
 use Twint\Woo\Model\Modal\Spinner;
+use Twint\Woo\Plugin;
 use Twint\Woo\Service\SettingService;
 
 class ExpressButton

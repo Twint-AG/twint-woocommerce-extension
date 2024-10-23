@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Twint\Woo\Model\Method;
 
 use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
-use Twint\Plugin;
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Model\Gateway\AbstractGateway;
+use Twint\Woo\Plugin;
 
 abstract class AbstractMethod extends AbstractPaymentMethodType
 {

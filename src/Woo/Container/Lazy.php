@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Container;
 
-use Twint\Plugin;
+use Twint\Woo\Plugin;
 
 class Lazy
 {

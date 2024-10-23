@@ -6,11 +6,11 @@ namespace Twint\Woo\Model\Gateway;
 
 use Exception;
 use Throwable;
-use Twint\Plugin;
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Model\Modal\Modal;
+use Twint\Woo\Plugin;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Service\PairingService;
 use Twint\Woo\Service\PaymentService;
