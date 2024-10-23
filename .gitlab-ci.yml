@@ -43,12 +43,9 @@ tests:
 build-archive:
   extends: .base
   stage: release
-  only:
-    - master
-    - staging
   parallel:
     matrix:
-      - PHP_VERSION: [ "8.1", "8.2", "8.3" ]
+      - PHP_VERSION: [ "8.1" ]
   before_script:
     - apt-get update
     - apt-get install -qq zip # installs zip utility in Alpine Linux
@@ -76,12 +73,11 @@ build-archive:
       php -d memory_limit=-1 /root/.composer/vendor/bin/php-scoper add-prefix --working-dir ./ --config scoper.inc.php --output-dir ./build
       
       cd "$rootdir"
-      zip -r "./twint-woocommerce-extension-php-$PHP_VERSION.zip" ./build/* -x "build/" > /dev/null 2>&1;
+      zip -r "./twint-woocommerce-extension-$CI_COMMIT_REF_SLUG.zip" ./build/* -x "build/" > /dev/null 2>&1;
   artifacts:
     paths:
-      - "twint-woocommerce-extension-php-$PHP_VERSION.zip"
+      - "twint-woocommerce-extension-$CI_COMMIT_REF_SLUG.zip"
     expire_in: 1 week
-
 
 release:
   only:
