@@ -101,7 +101,11 @@ class Plugin
         // Test to see if WooCommerce is active (including network activated).
         $pluginPath = trailingslashit(WP_PLUGIN_DIR) . $plugin;
 
-        return (in_array($pluginPath, wp_get_active_and_valid_plugins()) || in_array($pluginPath, wp_get_active_network_plugins()));
+        return in_array($pluginPath, wp_get_active_and_valid_plugins(), true) || in_array(
+            $pluginPath,
+            wp_get_active_network_plugins(),
+            true
+        );
     }
 
     /**
