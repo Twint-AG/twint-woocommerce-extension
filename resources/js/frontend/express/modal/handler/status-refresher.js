@@ -134,9 +134,9 @@ class StatusRefresher {
     }
 
     if (response.finish && response.status === 'FAILED') {
-      const {message} = response.extra;
+      const { message } = response.extra
 
-      const ecInstance = new ExpressCheckout;
+      const ecInstance = new ExpressCheckout()
       ecInstance.showMessage(message, 'woocommerce-error')
       return this.onCancelled(response)
     }
