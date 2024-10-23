@@ -79,8 +79,12 @@ class ExpressCheckout {
     let messages = document.querySelector('.woocommerce-notices-wrapper')
     if (messages) {
       messages.innerHTML =
-        `<div class="woocommerce-message ` + type + `" role="alert">              
-            <div class="wc-block-components-notice-banner__content">` + message + `</div>
+        `<div class="woocommerce-message ` +
+        type +
+        `" role="alert">              
+            <div class="wc-block-components-notice-banner__content">` +
+        message +
+        `</div>
         </div>`
 
       messages.scrollIntoView({
