@@ -5,7 +5,8 @@ variables:
 
 stages:
   - check
-  - release
+  - archive
+  - publish
 
 .base:
   before_script:
@@ -21,7 +22,6 @@ tests:
   parallel:
     matrix:
       - PHP_VERSION: [ "8.1", "8.2", "8.3" ]
-  
   script:
     # Update spc (See https://github.com/shivammathur/spc for options)
     - spc -U
@@ -33,7 +33,7 @@ tests:
     - composer install --prefer-dist --no-progress --no-interaction
 
     # Run coding standard
-    - ./vendor/bin/ecs --no-progress-bar
+    - vendor/bin/ecs --no-progress-bar
     - vendor/bin/rector process --dry-run
     - vendor/bin/phpstan analyse --memory-limit=1024M
 
@@ -42,17 +42,15 @@ tests:
 
 build-archive:
   extends: .base
-  stage: release
+  stage: archive
   only:
     - branches
     - tags
   parallel:
     matrix:
-      - PHP_VERSION: [ "8.3" ] # Build on latest PHP version to have access to the latest php-scoper
-  before_script:
-    - apt-get update
-    - apt-get install -qq jq zip # installs zip utility in Alpine Linux
+      - PHP_VERSION: [ "8.3" ] # Build on latest PHP version to have access to the latest PHP-scoper
   script:
+    - apt-get update && apt-get install -qq zip
     - spc -U
     - spc --php-version "$PHP_VERSION" --extensions "mbstring, curl, dom, fileinfo, gd, iconv, intl, json, xml, mbstring, pdo, phar, zip, sodium, pdo_mysql, bcmath, soap";
     - composer config --global gitlab-token.git.nfq.asia $GITLAB_ACCESS_TOKEN
@@ -65,11 +63,14 @@ build-archive:
 release:
   only:
     - tags
-  stage: release
+  stage: publish
   image: alpine:3
   extends: .base
   variables:
     GIT_DEPTH: 0
+  needs:
+    - job: build-archive
+      artifacts: true
   script:
     - apk add --no-cache git openssh bash
     - ./bin/sync.sh
