@@ -89,18 +89,12 @@ return [
     // For more see: https://github.com/humbug/php-scoper/blob/master/docs/configuration.md#patchers
     'patchers' => [
         static function (string $filePath, string $prefix, string $contents): string {
-            if(strpos($filePath, 'bin/console') !== false) {
+            if (str_ends_with($filePath, 'bin/console')) {
                 return str_replace('vendor/autoload.php', 'vendor/scoper-autoload.php', $contents);
             }
 
-            if(strpos($filePath, 'twint-woocommerce-extension.php') !== false) {
+            if (str_ends_with($filePath, 'twint-woocommerce-extension.php')) {
                 return str_replace('vendor/autoload.php', 'vendor/scoper-autoload.php', $contents);
-            }
-
-            if(strpos($filePath, '/psl/') !== false) {
-                if(strpos($contents, 'namespace TwintWoo\\') !== 0 && strpos($contents, ' Psl\\') !== 0 ) {
-                    $contents = str_replace(' Psl\\', ' \\TwintWoo\Psl\\', $contents);
-                }
             }
 
             return $contents;
@@ -111,16 +105,9 @@ return [
     //
     // For more information see: https://github.com/humbug/php-scoper/blob/master/docs/configuration.md#excluded-symbols
     'exclude-namespaces' => [
-        // 'Acme\Foo'                     // The Acme\Foo namespace (and sub-namespaces)
-        // '~^PHPUnit\\\\Framework$~',    // The whole namespace PHPUnit\Framework (but not sub-namespaces)
-        // '~^$~',                        // The root namespace only
-        // '',                            // Any namespace
-        'Automattic\WooCommerce',
-        '~^$~',
-        'Twint\Woo',
-        'Twint\Sdk',
-        'Twint\Command',
-        'Twint'
+        'Automattic\WooCommerce',         // WooCommerce namespace
+        '~^$~',                           // Root naespace
+        'Twint\Woo',                      // TWINT WooCommerce extension namespace
     ],
     'exclude-classes' => array_merge($wpClasses, [
         'ComposerAutoloaderInit*'
