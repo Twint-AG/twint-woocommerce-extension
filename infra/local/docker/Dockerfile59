@@ -22,5 +22,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Confirm Composer installation
 RUN composer --version
 
+COPY custom.ini $PHP_INI_DIR/conf.d/
+
 # Set up WordPress (if required)
 COPY . /var/www/html

@@ -53,6 +53,26 @@ services:
       - ./docker/latest.conf:/etc/apache2/sites-enabled/000-default.conf
       - /var/www/html/wp-content/plugins/twint-woocommerce-extension
   
+  oldest_wp_zip:
+    container_name: wp-oldest-zip
+    build:
+      context: ./docker
+      dockerfile: Dockerfile59
+    restart: always
+    depends_on:
+      - mysql
+    extra_hosts:
+      - "oldest.wordpress.local:127.0.0.1"
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: rootpass
+      WORDPRESS_DB_NAME: wpoldest
+    volumes:
+      - ./../oldest:/var/www/html
+      - ./docker/oldest.conf:/etc/apache2/sites-enabled/000-default.conf
+      - /var/www/html/wp-content/plugins/twint-woocommerce-extension
+  
   oldest_wp:
     container_name: wp-oldest
     build:

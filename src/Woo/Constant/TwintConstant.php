@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Constant;
 
+use Twint\Sdk\Value\InstallSource;
+
 class TwintConstant
 {
-    public const PLATFORM = 'WooCommerce';
+    public const PLUGIN_VERSION = '@version@';
 
-    public const SIMPLE_PRODUCT = 'simple';
-
-    public const MINUTES_PENDING_WAIT = 'only_pick_order_from_minutes';
+    public const INSTALL_SOURCE = InstallSource::DIRECT;
 
     public const SUPPORTED_CURRENCY = 'CHF';
 
@@ -51,4 +51,9 @@ class TwintConstant
     public const PAIRING_TIMEOUT_EXPRESS = 60 * 10; //10 minutes
 
     public const EXCEPTION_VERSION_CONFLICT = 'Version conflict detected. Update aborted.';
+
+    public static function installSource(): InstallSource
+    {
+        return new InstallSource(self::INSTALL_SOURCE);
+    }
 }
