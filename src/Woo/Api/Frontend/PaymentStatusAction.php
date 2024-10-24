@@ -75,6 +75,11 @@ class PaymentStatusAction extends BaseAction
             $response['extra'] = [
                 'redirect' => $order->get_checkout_order_received_url(),
             ];
+        } elseif ($status->isCancelled()) {
+            $response['extra'] = [
+                'success' => false,
+                'message' => __('Error processing checkout. Please try again.', 'woocommerce'),
+            ];
         }
 
         return new WP_REST_Response($response, 200);

@@ -82,12 +82,10 @@ class ExpressCheckout {
         `<div class="woocommerce-message ` +
         type +
         `" role="alert">              
-            <div class="wc-block-components-notice-banner__content">
-              ` +
+            <div class="wc-block-components-notice-banner__content">` +
         message +
-        `
-            </div>
-          </div>`
+        `</div>
+        </div>`
 
       messages.scrollIntoView({
         behavior: 'smooth', // Enables smooth scrolling
@@ -113,3 +111,5 @@ document.addEventListener('DOMContentLoaded', () => {
   let handler = new ExpressCheckout()
   handler.handle()
 })
+
+export default ExpressCheckout

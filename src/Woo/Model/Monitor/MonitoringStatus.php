@@ -67,6 +67,11 @@ class MonitoringStatus
         return $this->status === self::STATUS_PAID;
     }
 
+    public function isCancelled(): bool
+    {
+        return $this->status === self::STATUS_CANCELLED;
+    }
+
     public function finished(): bool
     {
         return $this->finish;

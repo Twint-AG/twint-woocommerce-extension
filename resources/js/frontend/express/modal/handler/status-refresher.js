@@ -1,12 +1,14 @@
 import apiFetch from '@wordpress/api-fetch'
 import IntervalHandler from './interval-handler'
 import Modal from '../modal'
+import ExpressCheckout from '../../index'
 
 class StatusRefresher {
   static EVENT_CANCELLED = 'cancelled'
   static EVENT_PAID = 'paid'
 
   constructor(modal) {
+    this.element = document.getElementById('twint-modal')
     this.intervalHanlder = new IntervalHandler({
       0: 5000,
       5: 2000,
@@ -132,7 +134,11 @@ class StatusRefresher {
     }
 
     if (response.finish && response.status === 'FAILED') {
-      return this.onCancelled()
+      const { message } = response.extra
+
+      const ecInstance = new ExpressCheckout()
+      ecInstance.showMessage(message, 'woocommerce-error')
+      return this.onCancelled(response)
     }
   }
 

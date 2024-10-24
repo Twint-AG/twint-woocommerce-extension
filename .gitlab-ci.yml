@@ -25,18 +25,18 @@ tests:
   script:
     # Update spc (See https://github.com/shivammathur/spc for options)
     - spc -U
-  
+
     # Setup PHP
     - spc --php-version "$PHP_VERSION" --extensions "bcmath, ctype, curl, dom, fileinfo, filter,gd, hash, iconv, intl, json, libxml, mbstring, openssl, pcre, pdo_mysql, simplexml, soap, sockets, sodium, xsl, tokenizer, xmlwriter, xsl, zlib, libxml"
 
     - composer config --global gitlab-token.git.nfq.asia $GITLAB_ACCESS_TOKEN
     - composer install --prefer-dist --no-progress --no-interaction
-  
+
     # Run coding standard
     - ./vendor/bin/ecs --no-progress-bar
     - vendor/bin/rector process --dry-run
     - vendor/bin/phpstan analyse --memory-limit=1024M
-    
+
     - npm install
     - npx prettier --check ./resources/
 
@@ -48,7 +48,7 @@ build-archive:
     - tags
   parallel:
     matrix:
-      - PHP_VERSION: [ "8.1"]
+      - PHP_VERSION: [ "8.1" ]
   before_script:
     - apt-get update
     - apt-get install -qq jq zip # installs zip utility in Alpine Linux
@@ -63,9 +63,9 @@ build-archive:
       spc --php-version "$PHP_VERSION" --extensions "mbstring, curl, dom, fileinfo, gd, iconv, intl, json, xml, mbstring, pdo, phar, zip, sodium, pdo_mysql, bcmath, soap";
       composer config --global gitlab-token.git.nfq.asia $GITLAB_ACCESS_TOKEN
       rootdir=$(pwd)
-  
+      
       npm install --quiet 2>&1 ;
-  
+      
       # Rebuild dist files
       rm -rf dist/
       npm run build > /dev/null 2>&1
@@ -75,13 +75,13 @@ build-archive:
       rm -rf infra
       php -d memory_limit=-1 /root/.composer/vendor/bin/php-scoper add-prefix --working-dir ./ --config scoper.inc.php --output-dir ./build
       composer dump-autoload --working-dir build --classmap-authoritative
-  
+      
       PLUGIN_VERSION=$(jq -r '.version' composer.json)
       sed -i "s/@version@/$PLUGIN_VERSION/g" build/src/Woo/Constant/TwintConstant.php
       sed -i "s/InstallSource::DIRECT/InstallSource::STORE/g" build/src/Woo/Constant/TwintConstant.php
-    
+
     - FILE_NAME="twint-woocommerce-extension-$(echo $CI_COMMIT_REF_NAME | sed 's/\//-/g').zip"
-  
+
     - zip -r "./$FILE_NAME" ./build/* -x "build/" > /dev/null 2>&1;
   artifacts:
     paths:
