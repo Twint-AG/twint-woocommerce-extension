@@ -11,6 +11,8 @@ use Twint\Sdk\Client;
 use Twint\Sdk\Exception\SdkError;
 use Twint\Sdk\Io\InMemoryStream;
 use Twint\Sdk\Value\Environment;
+use Twint\Sdk\Value\PlatformVersion;
+use Twint\Sdk\Value\PluginVersion;
 use Twint\Sdk\Value\ShopPlatform;
 use Twint\Sdk\Value\ShopPluginInformation;
 use Twint\Sdk\Value\StoreUuid;
@@ -41,8 +43,8 @@ class CredentialsValidator implements CredentialValidatorInterface
                 new ShopPluginInformation(
                     StoreUuid::fromString($storeUuid),
                     ShopPlatform::WOOCOMMERCE(),
-                    $this->getSystemVersions(),
-                    TwintConstant::PLUGIN_VERSION,
+                    new PlatformVersion(...$this->getSystemVersions()),
+                    new PluginVersion(TwintConstant::PLUGIN_VERSION),
                     TwintConstant::installSource()
                 ),
                 Version::latest(),

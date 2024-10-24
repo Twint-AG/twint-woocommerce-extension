@@ -13,7 +13,7 @@ test "git rev-parse --short HEAD" = "master"
 git diff --exit-code
 git diff --exit-code --cached
 
-FILES=("${PWD}/src/Woo/Constant/TwintConstant.php" "${PWD}/package.json")
+FILES=("${PWD}/src/Constant/TwintConstant.php" "${PWD}/package.json")
 
 for FILE in "${FILES[@]}"; do
   sed -e "s@9.9.9-dev@${VERSION}@g" -i "${FILE}"

@@ -43,6 +43,8 @@ return [
     // For more see: https://github.com/humbug/php-scoper/blob/master/docs/configuration.md#prefix
     'prefix' => 'TwintWoo',
 
+    'php-version' => '8.1',
+
     // The base output directory for the prefixed files.
     // This will be overridden by the 'output-dir' command line option if present.
     'output-dir' => null,
@@ -110,7 +112,9 @@ return [
         'Twint\Woo',                      // TWINT WooCommerce extension namespace
     ],
     'exclude-classes' => array_merge($wpClasses, [
-        'ComposerAutoloaderInit*'
+        'ComposerAutoloaderInit*',
+        'Deprecated',
+        'Override',
     ]),
     'exclude-functions' => [
         ...$wpFunctions,

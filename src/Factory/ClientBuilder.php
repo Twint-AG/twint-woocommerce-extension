@@ -15,6 +15,8 @@ use Twint\Sdk\InvocationRecorder\Soap\MessageRecorder;
 use Twint\Sdk\InvocationRecorder\Soap\RecordingTransport;
 use Twint\Sdk\Io\InMemoryStream;
 use Twint\Sdk\Value\Environment;
+use Twint\Sdk\Value\PlatformVersion;
+use Twint\Sdk\Value\PluginVersion;
 use Twint\Sdk\Value\ShopPlatform;
 use Twint\Sdk\Value\ShopPluginInformation;
 use Twint\Sdk\Value\StoreUuid;
@@ -70,8 +72,8 @@ class ClientBuilder
                     new ShopPluginInformation(
                         StoreUuid::fromString($storeUuid),
                         ShopPlatform::WOOCOMMERCE(),
-                        $this->getSystemVersions(),
-                        TwintConstant::PLUGIN_VERSION,
+                        new PlatformVersion($this->getSystemVersions()),
+                        new PluginVersion(TwintConstant::PLUGIN_VERSION),
                         TwintConstant::installSource()
                     ),
                     new Version($version),

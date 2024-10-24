@@ -6,11 +6,11 @@ namespace Twint\Woo\Utility;
 
 trait VersionTrait
 {
-    private function getSystemVersions(): string
+    private function getSystemVersions(): array
     {
         global $wp_version;
         $wooVersion = WC()->version;
 
-        return "{$wp_version}-{$wooVersion}";
+        return [$wooVersion, $wp_version];
     }
 }

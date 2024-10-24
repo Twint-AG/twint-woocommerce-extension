@@ -7,7 +7,7 @@ parameters:
         - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
 
     excludePaths:
-        - src/Woo/View/*
+        - src/View/*
 
     ignoreErrors:
         - '#Constant DB_NAME not found#'

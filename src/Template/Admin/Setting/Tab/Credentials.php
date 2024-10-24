@@ -68,7 +68,7 @@ class Credentials extends TabItem
         $isShowedTheButtonUploadNewCert = false;
 
         ob_start();
-        require Plugin::abspath() . 'src/Woo/View/Admin/credentials.php';
+        require Plugin::abspath() . 'src/View/Admin/credentials.php';
 
         return ob_get_clean();
     }
