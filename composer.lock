@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c9cbdf26272817b52cbac92c82b01f1c",
+    "content-hash": "a6f6dde4750c5ff23b34c605f0569e17",
     "packages": [
         {
             "name": "azjezz/psl",
@@ -2681,11 +2681,11 @@
         },
         {
             "name": "twint-ag/sdk",
-            "version": "dev-dev/advanced-tracking",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
-                "url": "https://git.nfq.asia/twint-ag/sdk",
-                "reference": "712f80e78756352613d742b7e2b9d39bb61b5a62"
+                "url": "https://github.com/Twint-AG/sdk.git",
+                "reference": "3540a97e64331aefebf82e11199ff21431cc3faa"
             },
             "require": {
                 "azjezz/psl": "^2.5.0",
@@ -2764,7 +2764,7 @@
                 "twint",
                 "twint.ch"
             ],
-            "time": "2024-10-21T13:51:38+00:00"
+            "time": "2024-10-23T15:23:43+00:00"
         },
         {
             "name": "veewee/xml",
@@ -3777,9 +3777,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "twint-ag/sdk": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
