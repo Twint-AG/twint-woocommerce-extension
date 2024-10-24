@@ -7,7 +7,7 @@ RELEASE_BOT_NAME="TWINT Release Bot"
 RELEASE_BOT_EMAIL="plugin@twint.ch"
 
 # We are on the correct branch
-test "git rev-parse --short HEAD" = "master"
+test "`git rev-parse --abbrev-ref HEAD`" == "master"
 
 # There are no pending changes
 git diff --exit-code
