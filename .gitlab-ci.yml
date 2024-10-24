@@ -72,5 +72,5 @@ release:
     - job: build-archive
       artifacts: true
   script:
-    - apk add --no-cache git openssh bash
+    - apk add --no-cache git openssh bash github-cli
     - ./bin/sync.sh
