@@ -378,7 +378,7 @@ class MonitorService
 
     public function cancel(Pairing $pairing): bool
     {
-        $client = $this->getBuilder()->build(Version::LATEST);
+        $client = $this->getBuilder()->build(Version::NEXT);
         if ($pairing->getIsExpress()) {
             try {
                 $this->cancelFastCheckoutCheckIn($pairing, $client);
