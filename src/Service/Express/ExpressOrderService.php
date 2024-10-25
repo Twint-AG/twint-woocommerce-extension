@@ -176,7 +176,7 @@ class ExpressOrderService
 
         // Get all shipping methods
         $zone = WC_Shipping_Zones::get_zone_matching_package($package);
-        if ($zone instanceof  WC_Shipping_Zone) {
+        if ($zone instanceof WC_Shipping_Zone) {
             $rawMethods = $zone->get_shipping_methods(true);
 
             foreach ($rawMethods as $method) {

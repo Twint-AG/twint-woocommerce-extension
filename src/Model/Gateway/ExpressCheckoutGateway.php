@@ -6,7 +6,6 @@ namespace Twint\Woo\Model\Gateway;
 
 use Throwable;
 use Twint\Woo\Constant\TwintConstant;
-use Twint\Woo\Model\Pairing;
 use Twint\Woo\Plugin;
 use Twint\Woo\Service\FastCheckoutCheckinService;
 
@@ -231,7 +230,9 @@ class ExpressCheckoutGateway extends AbstractGateway
 
         $order = wc_get_order($order_id);
 
-        return ['pairing' => $service->checkin($order)];
+        return [
+            'pairing' => $service->checkin($order),
+        ];
     }
 
     protected function registerHooks()
