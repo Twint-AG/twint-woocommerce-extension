@@ -230,9 +230,7 @@ class ExpressCheckoutGateway extends AbstractGateway
 
         $order = wc_get_order($order_id);
 
-        return [
-            'pairing' => $service->checkin($order),
-        ];
+        return [$service->checkin($order)];
     }
 
     protected function registerHooks()
