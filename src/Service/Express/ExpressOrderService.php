@@ -22,7 +22,11 @@ use Twint\Woo\Service\MonitorService;
 use Twint\Woo\Service\PairingService;
 use WC_Logger_Interface;
 use WC_Order;
+use WC_Order_Item;
+use WC_Order_Item_Product;
 use WC_Order_Item_Shipping;
+use WC_Product;
+use WC_Shipping_Zone;
 use WC_Shipping_Zones;
 
 /**
@@ -68,7 +72,7 @@ class ExpressOrderService
 
         $order->payment_complete($new->getId());
 
-        $this->cleanCart();
+        @$this->cleanCart();
     }
 
     protected function updateAddress(WC_Order $order, Pairing $pairing): void
@@ -106,9 +110,10 @@ class ExpressOrderService
         list($methodTitle, $rate) = $this->getShippingInfo($pairing, $order);
 
         $shippingItems = $order->get_items('shipping');
+        /** @var WC_Order_Item_Shipping $item */
         $item = reset($shippingItems);
 
-        if (!$item) {
+        if (!($item instanceof WC_Order_Item_Shipping)) {
             // If no shipping item exists, create a new one
             $item = new WC_Order_Item_Shipping();
 
@@ -171,7 +176,7 @@ class ExpressOrderService
 
         // Get all shipping methods
         $zone = WC_Shipping_Zones::get_zone_matching_package($package);
-        if ($zone) {
+        if ($zone instanceof  WC_Shipping_Zone) {
             $rawMethods = $zone->get_shipping_methods(true);
 
             foreach ($rawMethods as $method) {
@@ -201,13 +206,15 @@ class ExpressOrderService
         $items = [];
         $cost = 0;
 
+        /** @var WC_Order_Item_Product $item */
         foreach ($order->get_items() as $item) {
             if (!$item->is_type('line_item')) {
                 continue;
             }
 
+            /** @var WC_Product $product */
             $product = $item->get_product();
-            if (!$product) {
+            if (!($product instanceof WC_Product)) {
                 continue;
             }
 
@@ -291,6 +298,6 @@ class ExpressOrderService
      */
     private function cleanCart(): void
     {
-        WC()?->cart?->empty_cart();
+        WC()->cart->empty_cart();
     }
 }

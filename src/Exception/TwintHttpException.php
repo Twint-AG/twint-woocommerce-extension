@@ -64,7 +64,7 @@ abstract class TwintHttpException extends HttpException implements TwintExceptio
         $error = [
             'status' => (string) $this->getStatusCode(),
             'code' => $this->getErrorCode(),
-            'title' => $this->getStatusCode() ?? 'unknown status',
+            'title' => $this->getStatusCode(),
             'detail' => $this->getMessage(),
             'meta' => [
                 'parameters' => $this->getParameters(),

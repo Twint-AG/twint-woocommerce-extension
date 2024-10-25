@@ -209,7 +209,7 @@ class PairingRepository
         return $this->updateStatus($id, OrderStatus::FAILURE);
     }
 
-    private function updateStatus(string $id, string $status): mysqli_result|bool|int|null
+    private function updateStatus(string $id, string $status): bool|int
     {
         $table = self::tableName();
         $query = $this->db->prepare("UPDATE {$table} SET status = %s WHERE id = %s;", $status, $id);

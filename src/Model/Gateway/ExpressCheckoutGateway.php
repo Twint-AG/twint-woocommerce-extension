@@ -221,7 +221,7 @@ class ExpressCheckoutGateway extends AbstractGateway
     /**
      * @param mixed $order_id
      * @throws Throwable
-     * @return Pairing
+     * @return array
      */
     public function process_payment($order_id)
     {
@@ -231,7 +231,7 @@ class ExpressCheckoutGateway extends AbstractGateway
 
         $order = wc_get_order($order_id);
 
-        return $service->checkin($order);
+        return ['pairing' => $service->checkin($order)];
     }
 
     protected function registerHooks()

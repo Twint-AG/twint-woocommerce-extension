@@ -18,7 +18,7 @@ abstract class Entity
         return $this->isNewRecord;
     }
 
-    public function load($data = []): self
+    public function load($data = []): static
     {
         $map = $this->mapping();
 

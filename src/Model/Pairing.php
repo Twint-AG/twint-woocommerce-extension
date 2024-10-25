@@ -195,6 +195,7 @@ class Pairing extends Entity
     public function setIsOrdering($isOrdering): self
     {
         $this->isOrdering = $isOrdering;
+
         return $this;
     }
 
@@ -279,7 +280,7 @@ class Pairing extends Entity
     public function hasDiffs(FastCheckoutCheckIn|Order $target): bool
     {
         if ($target instanceof FastCheckoutCheckIn) {
-            return $this->getPairingStatus() !== ($target->pairingStatus()->__toString() ?? '')
+            return $this->getPairingStatus() !== $target->pairingStatus()->__toString()
                 || $this->getShippingMethodId() !== ($target->hasShippingMethodId() ? (string) $target->shippingMethodId() : null)
                 || ($this->getCustomerData() === [] && $target->hasCustomerData())
                 || ($this->getCustomerData() !== [] && !$target->hasCustomerData());

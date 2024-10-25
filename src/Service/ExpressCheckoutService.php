@@ -60,7 +60,7 @@ class ExpressCheckoutService
 
         // clear cart when trying EC for single product
         if (!$wholeCart) {
-            WC()?->cart?->empty_cart();
+            WC()->cart->empty_cart();
         }
 
         if (!empty($coupons = WC()->cart->get_coupons())) {
@@ -103,6 +103,7 @@ class ExpressCheckoutService
      */
     private function handlePayment(WC_Order $order): Pairing
     {
+        // @phpstan-ignore-next-line
         $gateways = WC()->payment_gateways->payment_gateways();
 
         /** @var ExpressCheckoutGateway $gatewayInstance */
@@ -111,7 +112,9 @@ class ExpressCheckoutService
             throw new Exception('Payment gateway is not available');
         }
 
-        return $gatewayInstance->process_payment($order->get_id());
+        list($pairing) = $gatewayInstance->process_payment($order->get_id());
+
+        return $pairing;
     }
 
     public function isEmptyCart(): bool
@@ -123,7 +126,7 @@ class ExpressCheckoutService
 
     private function getCart(): WC_Cart
     {
-        return WC()->cart ?? new WC_Cart();
+        return WC()->cart;
     }
 
     public function addToCart(WP_REST_Request $request): array

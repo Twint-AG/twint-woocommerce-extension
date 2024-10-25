@@ -17,9 +17,6 @@ abstract class AbstractGateway extends WC_Payment_Gateway
 
     public const SUPPORTED_CURRENCY = 'CHF';
 
-    /**
-     * @var mixed
-     */
     public $icon;
 
     /**
@@ -32,16 +29,10 @@ abstract class AbstractGateway extends WC_Payment_Gateway
      */
     public $supports = ['refunds', 'products'];
 
-    /**
-     * @var mixed
-     */
     public $method_title;
 
     public $title;
 
-    /**
-     * @var mixed
-     */
     public $method_description;
 
     public $description;

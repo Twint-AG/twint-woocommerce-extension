@@ -42,7 +42,7 @@ use wpdb;
 
 class ServiceDefinition
 {
-    public static function services()
+    public static function services(): array
     {
         return [
             'installer' => static fn (ContainerInterface $container): Installer => new Installer(
