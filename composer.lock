@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a6f6dde4750c5ff23b34c605f0569e17",
+    "content-hash": "149023b3002ba993af88fb5d1864ddf4",
     "packages": [
         {
             "name": "azjezz/psl",
@@ -2684,7 +2684,7 @@
             "version": "1.3.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Twint-AG/sdk.git",
+                "url": "https://git.nfq.asia/twint-ag/sdk",
                 "reference": "3540a97e64331aefebf82e11199ff21431cc3faa"
             },
             "require": {
