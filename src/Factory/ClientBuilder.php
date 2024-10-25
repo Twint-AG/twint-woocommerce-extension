@@ -72,7 +72,7 @@ class ClientBuilder
                     new ShopPluginInformation(
                         StoreUuid::fromString($storeUuid),
                         ShopPlatform::WOOCOMMERCE(),
-                        new PlatformVersion($this->getSystemVersions()),
+                        PlatformVersion::multiple(...$this->getSystemVersions()),
                         new PluginVersion(TwintConstant::PLUGIN_VERSION),
                         TwintConstant::installSource()
                     ),
