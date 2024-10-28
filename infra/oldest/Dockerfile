@@ -58,11 +58,16 @@ RUN git config --global --add safe.directory /var/www/html/wp-content/plugins/wo
     && git config --global --add safe.directory /var/www/html/wp-content/plugins/woocommerce-gateway-twint/vendor/twint-ag/sdk 
 
 USER www-data
-RUN cd /var/www/html/wp-content/plugins/woocommerce-gateway-twint \
-    && rm -f composer.lock \
+WORKDIR /var/www/html/wp-content/plugins/woocommerce-gateway-twint
+RUN rm -rf node_modules \
+    && npm install --quiet \
+    && rm -rf dist \
+    && npm run build 
+RUN rm -f composer.lock \
     && composer install --no-interaction \
     && chown -R www-data:www-data /var/www/html/wp-content
 USER root
+WORKDIR /var/www/html
 
 EXPOSE 80
 
