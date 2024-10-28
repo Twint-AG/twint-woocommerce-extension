@@ -298,6 +298,7 @@ class ExpressOrderService
      */
     private function cleanCart(): void
     {
-        WC()->cart->empty_cart();
+        // @phpstan-ignore-next-line
+        WC()?->cart?->empty_cart();
     }
 }
