@@ -28,11 +28,12 @@ COPY docker/zz-php.ini /usr/local/etc/php/conf.d/zz-php.ini
 
 # Copy Plugins
 COPY --chown=www-data wordpress/. /var/www/html
+USER www-data
 RUN curl -k -L --output ${WOO_VERSION}.zip https://downloads.wordpress.org/plugin/${WOO_VERSION}.zip && \
     unzip -o ${WOO_VERSION}.zip -d /var/www/html/wp-content/plugins && \
     rm ${WOO_VERSION}.zip
-COPY woocommerce-gateway-twint /var/www/html/wp-content/plugins/woocommerce-gateway-twint
-RUN chown -R www-data:www-data /var/www/html/wp-content/plugins
+USER root
+COPY --chown=www-data woocommerce-gateway-twint /var/www/html/wp-content/plugins/woocommerce-gateway-twint
 
 ENV NVM_DIR /usr/local/nvm
 ENV NODE_VERSION v18.12.0
