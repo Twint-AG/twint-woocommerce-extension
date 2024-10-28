@@ -26,6 +26,8 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 # Copy php config
 COPY docker/zz-php.ini /usr/local/etc/php/conf.d/zz-php.ini
 
+RUN chown -R www-data:www-data /var/www
+
 # Copy Plugins
 COPY --chown=www-data wordpress/. /var/www/html
 USER www-data
@@ -46,10 +48,6 @@ ENV PATH $NODE_PATH:$PATH
 RUN apt-get update && \
     apt-get install -y libxslt-dev && \
     docker-php-ext-install xsl
-
-RUN mkdir -p /var/www/.npm /var/www/.composer && \
-    chown -R www-data:www-data /var/www/.npm && \
-    chown -R www-data:www-data /var/www/.composer
 
 USER www-data
 WORKDIR /var/www/html/wp-content/plugins/woocommerce-gateway-twint
