@@ -33,6 +33,8 @@ RUN curl -k -L --output ${WOO_VERSION}.zip https://downloads.wordpress.org/plugi
     rm ${WOO_VERSION}.zip
 COPY woocommerce-gateway-twint /var/www/html/wp-content/plugins/woocommerce-gateway-twint
 
+RUN chown -R www-data:www-data /var/www/html/wp-content/plugins
+
 ENV NVM_DIR /usr/local/nvm
 ENV NODE_VERSION v18.12.0
 RUN mkdir -p /usr/local/nvm && apt-get update && echo "y" | apt-get install curl
@@ -53,6 +55,7 @@ RUN composer config --global http-basic.git.nfq.asia ${GITLAB_USERNAME} ${GITLAB
 RUN git config --global --add safe.directory /var/www/html/wp-content/plugins/woocommerce-gateway-twint/vendor/twint-ch/twint-sdk \
     && git config --global --add safe.directory /var/www/html/wp-content/plugins/woocommerce-gateway-twint/vendor/twint-ag/sdk 
 
+USER www-data
 WORKDIR /var/www/html/wp-content/plugins/woocommerce-gateway-twint
 RUN rm -rf node_modules \
     && npm config set cache ~/.npm \
@@ -60,10 +63,9 @@ RUN rm -rf node_modules \
     && rm -rf dist \
     && npm run build 
 RUN rm -f composer.lock \
-    && composer install --no-interaction \
-    && chown -R www-data:www-data /var/www/html/wp-content
+    && composer install --no-interaction 
+USER root
 WORKDIR /var/www/html
-RUN chown -R www-data:www-data /var/www/html/wp-content
 
 EXPOSE 80
 
