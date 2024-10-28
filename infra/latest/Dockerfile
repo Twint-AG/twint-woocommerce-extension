@@ -55,10 +55,11 @@ RUN composer config --global http-basic.git.nfq.asia ${GITLAB_USERNAME} ${GITLAB
 RUN git config --global --add safe.directory /var/www/html/wp-content/plugins/woocommerce-gateway-twint/vendor/twint-ch/twint-sdk \
     && git config --global --add safe.directory /var/www/html/wp-content/plugins/woocommerce-gateway-twint/vendor/twint-ag/sdk 
 
+RUN sudo chown -R www-data:www-data /var/www/.npm
+
 USER www-data
 WORKDIR /var/www/html/wp-content/plugins/woocommerce-gateway-twint
 RUN rm -rf node_modules \
-    && npm config set cache ~/.npm \
     && npm install --quiet \
     && rm -rf dist \
     && npm run build 
