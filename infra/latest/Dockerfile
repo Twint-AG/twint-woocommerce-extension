@@ -27,11 +27,11 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 COPY docker/zz-php.ini /usr/local/etc/php/conf.d/zz-php.ini
 
 # Copy Plugins
-COPY wordpress/. /usr/src/wordpress
+COPY --chown=www-data wordpress/. /var/www/html
 RUN curl -k -L --output ${WOO_VERSION}.zip https://downloads.wordpress.org/plugin/${WOO_VERSION}.zip && \
-    unzip -o ${WOO_VERSION}.zip -d /usr/src/wordpress/wp-content/plugins && \
+    unzip -o ${WOO_VERSION}.zip -d /var/www/html/wp-content/plugins && \
     rm ${WOO_VERSION}.zip
-COPY woocommerce-gateway-twint /usr/src/wordpress/wp-content/plugins/woocommerce-gateway-twint
+COPY woocommerce-gateway-twint /var/www/html/wp-content/plugins/woocommerce-gateway-twint
 
 ENV NVM_DIR /usr/local/nvm
 ENV NODE_VERSION v18.12.0
@@ -50,14 +50,9 @@ ARG GITLAB_USERNAME
 ARG GITLAB_TOKEN
 RUN composer config --global http-basic.git.nfq.asia ${GITLAB_USERNAME} ${GITLAB_TOKEN}
 
-# Copy source code of website
-RUN cp -a /usr/src/wordpress/. /var/www/html
-RUN chown -R www-data:www-data /var/www/html/wp-content
-
 RUN git config --global --add safe.directory /var/www/html/wp-content/plugins/woocommerce-gateway-twint/vendor/twint-ch/twint-sdk \
     && git config --global --add safe.directory /var/www/html/wp-content/plugins/woocommerce-gateway-twint/vendor/twint-ag/sdk 
 
-USER www-data
 WORKDIR /var/www/html/wp-content/plugins/woocommerce-gateway-twint
 RUN rm -rf node_modules \
     && npm install --quiet \
@@ -66,8 +61,8 @@ RUN rm -rf node_modules \
 RUN rm -f composer.lock \
     && composer install --no-interaction \
     && chown -R www-data:www-data /var/www/html/wp-content
-USER root
 WORKDIR /var/www/html
+RUN chown -R www-data:www-data /var/www/html/wp-content
 
 EXPOSE 80
 
