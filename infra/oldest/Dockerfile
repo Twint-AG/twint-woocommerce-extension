@@ -55,6 +55,7 @@ RUN git config --global --add safe.directory /var/www/html/wp-content/plugins/wo
 
 WORKDIR /var/www/html/wp-content/plugins/woocommerce-gateway-twint
 RUN rm -rf node_modules \
+    && npm config set cache ~/.npm \
     && npm install --quiet \
     && rm -rf dist \
     && npm run build 
