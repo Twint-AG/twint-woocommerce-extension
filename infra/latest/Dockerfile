@@ -47,14 +47,6 @@ RUN apt-get update && \
     apt-get install -y libxslt-dev && \
     docker-php-ext-install xsl
 
-# GitLab Repo Config
-ARG GITLAB_USERNAME
-ARG GITLAB_TOKEN
-RUN composer config --global http-basic.git.nfq.asia ${GITLAB_USERNAME} ${GITLAB_TOKEN}
-
-RUN git config --global --add safe.directory /var/www/html/wp-content/plugins/woocommerce-gateway-twint/vendor/twint-ch/twint-sdk \
-    && git config --global --add safe.directory /var/www/html/wp-content/plugins/woocommerce-gateway-twint/vendor/twint-ag/sdk 
-
 RUN mkdir -p /var/www/.npm /var/www/.composer && \
     chown -R www-data:www-data /var/www/.npm && \
     chown -R www-data:www-data /var/www/.composer
@@ -65,6 +57,13 @@ RUN rm -rf node_modules \
     && npm install --quiet \
     && rm -rf dist \
     && npm run build 
+# GitLab Repo Config
+ARG GITLAB_USERNAME
+ARG GITLAB_TOKEN
+RUN composer config --global http-basic.git.nfq.asia ${GITLAB_USERNAME} ${GITLAB_TOKEN}
+
+RUN git config --global --add safe.directory /var/www/html/wp-content/plugins/woocommerce-gateway-twint/vendor/twint-ch/twint-sdk \
+    && git config --global --add safe.directory /var/www/html/wp-content/plugins/woocommerce-gateway-twint/vendor/twint-ag/sdk 
 RUN rm -f composer.lock \
     && composer install --no-interaction 
 USER root
