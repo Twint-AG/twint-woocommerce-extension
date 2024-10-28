@@ -37,7 +37,7 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | b
 
 RUN apt-get update && \
     apt-get install -y libxslt-dev && \
-    docker-php-ext-install xsl \
+    docker-php-ext-install xsl && \
     nvm install 20
 
 # GitLab Repo Config
