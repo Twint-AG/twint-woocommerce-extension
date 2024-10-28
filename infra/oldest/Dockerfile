@@ -55,8 +55,9 @@ RUN composer config --global http-basic.git.nfq.asia ${GITLAB_USERNAME} ${GITLAB
 RUN git config --global --add safe.directory /var/www/html/wp-content/plugins/woocommerce-gateway-twint/vendor/twint-ch/twint-sdk \
     && git config --global --add safe.directory /var/www/html/wp-content/plugins/woocommerce-gateway-twint/vendor/twint-ag/sdk 
 
-RUN mkdir -p /var/www/.npm && \
-    chown -R www-data:www-data /var/www/.npm
+RUN mkdir -p /var/www/.npm /var/www/.composer && \
+    chown -R www-data:www-data /var/www/.npm && \
+    chown -R www-data:www-data /var/www/.composer
 
 USER www-data
 WORKDIR /var/www/html/wp-content/plugins/woocommerce-gateway-twint
