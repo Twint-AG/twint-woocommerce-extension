@@ -33,12 +33,17 @@ RUN curl -k -L --output ${WOO_VERSION}.zip https://downloads.wordpress.org/plugi
     rm ${WOO_VERSION}.zip
 COPY woocommerce-gateway-twint /usr/src/wordpress/wp-content/plugins/woocommerce-gateway-twint
 
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+ENV NVM_DIR /usr/local/nvm
+ENV NODE_VERSION v18.12.0
+RUN mkdir -p /usr/local/nvm && apt-get update && echo "y" | apt-get install curl
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+RUN /bin/bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION && nvm use --delete-prefix $NODE_VERSION"
+ENV NODE_PATH $NVM_DIR/versions/node/$NODE_VERSION/bin
+ENV PATH $NODE_PATH:$PATH
 
 RUN apt-get update && \
     apt-get install -y libxslt-dev && \
-    docker-php-ext-install xsl && \
-    nvm install 20
+    docker-php-ext-install xsl
 
 # GitLab Repo Config
 ARG GITLAB_USERNAME
