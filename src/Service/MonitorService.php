@@ -105,9 +105,10 @@ class MonitorService
                     $this->getRepository()->markAsPaid($pairing->getId());
                 } catch (PaymentException $e) {
                     $this->logger->error('TWINT MonitorService::monitor: ' . $e->getMessage());
-                    $cloned->setStatus(Pairing::EXPRESS_STATUS_CANCELLED);
-                    $this->getRepository()->markAsCancelled($pairing->getId());
+                    $cloned->setStatus(Pairing::EXPRESS_STATUS_FAILED);
+                    $this->getRepository()->markAsFailed($pairing->getId());
                 } catch (Throwable $e) {
+                    $this->getRepository()->markAsFailed($pairing->getId());
                     $this->logger->error($e->getMessage());
                 }
             }

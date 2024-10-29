@@ -57,6 +57,12 @@ class Modal {
     // prepare modal content
     this.content.render()
 
+    let pay = this.element.querySelector('#qr-modal-content')
+    let errorContent = this.element.querySelector('#payment-error')
+
+    errorContent.style.display = 'none'
+    pay.style.display = 'block'
+
     //Show modal
     this.element.classList.remove('!hidden')
 
@@ -76,6 +82,11 @@ class Modal {
       StatusRefresher.EVENT_PAID,
       this.onPaid.bind(this),
     )
+    this.statusRefresher.addCallBack(
+      StatusRefresher.EVENT_FAILED,
+      this.onFailed.bind(this),
+    )
+
     this.statusRefresher.start()
   }
 
@@ -111,6 +122,18 @@ class Modal {
     span.innerHTML = this.closeBtn.getAttribute('data-success')
 
     location.href = response.extra.redirect
+  }
+
+  onFailed() {
+    // Display
+    let span = this.closeBtn.querySelector('span')
+    span.innerHTML = this.closeBtn.getAttribute('data-success')
+
+    let pay = this.element.querySelector('#qr-modal-content')
+    let errorContent = this.element.querySelector('#payment-error')
+
+    errorContent.style.display = 'block'
+    pay.style.display = 'none'
   }
 
   continue() {

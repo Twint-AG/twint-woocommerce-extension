@@ -94,7 +94,7 @@ class Modal
                     <div class="modal-content twint-modal-content p-0 ' . $this->getMobileClass() . $this->getMdClasses(
             'md:p-4'
         ) . '">
-                        <div id="qr-modal-success"></div>
+                        <div id="payment-error" class="p-4">' . __('Payment did not succeed, please try another payment method.', 'woocommerce-gateway-twint') . '</div>
                         <div id="qr-modal-content" class="text-20">
                         <input type="hidden" name="twint_wp_nonce" value={nonce} id="twint_wp_nonce"/>
                         <div class="flex flex-col  gap-4 bg-gray-100 ' . $this->getMdClasses('md:flex-row') . '">

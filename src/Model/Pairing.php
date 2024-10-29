@@ -20,6 +20,8 @@ class Pairing extends Entity
 
     public const EXPRESS_STATUS_MERCHANT_CANCELLED = 'MERCHANT_CANCELLED';
 
+    public const EXPRESS_STATUS_FAILED = 'FAILED';
+
     protected string $id; // uuid - twint order uuid
 
     protected ?string $token;
@@ -74,7 +76,12 @@ class Pairing extends Entity
         if ($this->isExpress) {
             return in_array(
                 $this->getStatus(),
-                [self::EXPRESS_STATUS_PAID, self::EXPRESS_STATUS_CANCELLED, self::EXPRESS_STATUS_MERCHANT_CANCELLED],
+                [
+                    self::EXPRESS_STATUS_PAID,
+                    self::EXPRESS_STATUS_CANCELLED,
+                    self::EXPRESS_STATUS_MERCHANT_CANCELLED,
+                    self::EXPRESS_STATUS_FAILED,
+                ],
                 true
             );
         }

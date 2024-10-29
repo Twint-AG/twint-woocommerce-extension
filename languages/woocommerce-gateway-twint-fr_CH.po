@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/twint-woocommerce-"
 "extension\n"
-"POT-Creation-Date: 2024-10-04T11:21:53+00:00\n"
-"PO-Revision-Date: 2024-10-04 18:24+0700\n"
+"POT-Creation-Date: 2024-10-29T15:43:56+00:00\n"
+"PO-Revision-Date: 2024-10-29 22:48+0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -15,28 +15,30 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 
 #. Plugin Name of the plugin
-#: woocommerce-gateway-twint.php
-msgid "WooCommerce Twint Payment"
+#: twint-woocommerce-extension.php
+msgid "WooCommerce TWINT Payment"
 msgstr ""
 
 #. Plugin URI of the plugin
 #. Author URI of the plugin
-#: woocommerce-gateway-twint.php
-msgid "https://www.nfq-asia.com/"
+#: twint-woocommerce-extension.php
+msgid "https://twint.ch"
 msgstr ""
 
 #. Description of the plugin
-#: woocommerce-gateway-twint.php
-msgid ""
-"Twint Woocommerce Payment Method is a secure and user-friendly plugin that "
-"allows Swiss online merchants to accept payments via Twint, a popular mobile "
-"payment solution in Switzerland."
+#: twint-woocommerce-extension.php
+msgid "TWINT Payment Plugin for WooCommerce"
 msgstr ""
 
 #. Author of the plugin
-#: woocommerce-gateway-twint.php
-msgid "NFQ GROUP"
-msgstr ""
+#: twint-woocommerce-extension.php
+#: src/Model/Gateway/ExpressCheckoutGateway.php:55
+#: src/Model/Gateway/RegularCheckoutGateway.php:67
+#: src/Model/Gateway/RegularCheckoutGateway.php:96 src/TwintIntegration.php:147
+#: src/TwintIntegration.php:148 dist/checkout.js:2
+#: resources/js/frontend/regular-checkout.js:11 dist/checkout.js:1170
+msgid "TWINT"
+msgstr "TWINT"
 
 #: src/Api/Admin/GetTransactionLogAction.php:33
 #: src/Template/Admin/MetaBox/TransactionLogMeta.php:54
@@ -63,27 +65,27 @@ msgstr "Demande"
 msgid "Response"
 msgstr "Réponse"
 
-#: src/Api/Admin/StoreConfigurationAction.php:51
+#: src/Api/Admin/StoreConfigurationAction.php:52
 #, fuzzy
 #| msgid "Invalid Store Uuid. Store Uuid needs to be a UUIDv4."
 msgid "Invalid Store UUID. Store UUID needs to be a UUIDv4."
 msgstr ""
 "UUID de votre commerce invalide. L’UUID de votre commerce doit être un UUIDv4"
 
-#: src/Api/Admin/StoreConfigurationAction.php:79
-#: src/Template/Admin/Setting/Tab/Credentials.php:47
+#: src/Api/Admin/StoreConfigurationAction.php:80
+#: src/Template/Admin/Setting/Tab/Credentials.php:46
 msgid "Upload a certificate file (.p12)"
 msgstr "Télécharger un fichier de certificat (.p12)"
 
-#: src/Api/Admin/StoreConfigurationAction.php:101
+#: src/Api/Admin/StoreConfigurationAction.php:102
 msgid "Invalid password"
 msgstr ""
 
-#: src/Api/Admin/StoreConfigurationAction.php:145
+#: src/Api/Admin/StoreConfigurationAction.php:146
 msgid "Settings have been saved successfully."
 msgstr ""
 
-#: src/Api/Admin/StoreConfigurationAction.php:156
+#: src/Api/Admin/StoreConfigurationAction.php:157
 msgid ""
 "Invalid credentials. Please check again: Store UUID, certificate and "
 "environment (mode)"
@@ -91,57 +93,49 @@ msgstr ""
 "Identifiants invalides. Veuillez vérifier à nouveau: UUID de votre commerce, "
 "certificat et environnement (mode)"
 
-#: src/Model/Button/ExpressButton.php:126
+#: src/Model/Button/ExpressButton.php:134
 msgid "Or"
 msgstr "ou"
 
-#: src/Model/Gateway/ExpressCheckoutGateway.php:56
+#: src/Model/Gateway/ExpressCheckoutGateway.php:54
 #: src/Template/Admin/Setting/Tab/ExpressCheckout.php:18
 msgid "TWINT Express Checkout"
 msgstr "TWINT Express Checkout"
 
-#: src/Model/Gateway/ExpressCheckoutGateway.php:57
-#: src/Model/Gateway/RegularCheckoutGateway.php:67
-#: src/Model/Gateway/RegularCheckoutGateway.php:96
-#: src/TwintIntegration.php:142 src/TwintIntegration.php:143
-#: dist/checkout.js:2 resources/js/frontend/regular-checkout.js:11
-msgid "TWINT"
-msgstr "TWINT"
-
-#: src/Model/Gateway/ExpressCheckoutGateway.php:104
+#: src/Model/Gateway/ExpressCheckoutGateway.php:102
 #: src/Model/Gateway/RegularCheckoutGateway.php:86
 msgid "Enable/Disable"
 msgstr "Activer/Désactiver"
 
-#: src/Model/Gateway/ExpressCheckoutGateway.php:106
+#: src/Model/Gateway/ExpressCheckoutGateway.php:104
 msgid "Enable TWINT Express Checkout"
 msgstr "Activer TWINT Express Checkout"
 
-#: src/Model/Gateway/ExpressCheckoutGateway.php:119
+#: src/Model/Gateway/ExpressCheckoutGateway.php:117
 msgid "Cart page"
 msgstr "Page du panier"
 
-#: src/Model/Gateway/ExpressCheckoutGateway.php:120
+#: src/Model/Gateway/ExpressCheckoutGateway.php:118
 msgid "Mini Cart"
 msgstr "Affichage du panier"
 
-#: src/Model/Gateway/ExpressCheckoutGateway.php:121
+#: src/Model/Gateway/ExpressCheckoutGateway.php:119
 msgid "Product Detail Page"
 msgstr "Page de détail des produits"
 
-#: src/Model/Gateway/ExpressCheckoutGateway.php:122
+#: src/Model/Gateway/ExpressCheckoutGateway.php:120
 msgid "Product Listing Page"
 msgstr "Page de liste des produits"
 
-#: src/Model/Gateway/ExpressCheckoutGateway.php:142
+#: src/Model/Gateway/ExpressCheckoutGateway.php:140
 msgid "Display Screens"
 msgstr "Écrans d’affichage"
 
-#: src/Model/Gateway/ExpressCheckoutGateway.php:164
+#: src/Model/Gateway/ExpressCheckoutGateway.php:162
 msgid "Button config"
 msgstr ""
 
-#: src/Model/Gateway/ExpressCheckoutGateway.php:170
+#: src/Model/Gateway/ExpressCheckoutGateway.php:168
 msgid "Button Preview"
 msgstr ""
 
@@ -162,48 +156,61 @@ msgstr ""
 msgid "This controls the title which the user sees during checkout."
 msgstr ""
 
-#: src/Model/Modal/Modal.php:78
+#: src/Model/Modal/Modal.php:71
+msgid ""
+"You have existing products in the shopping cart. Please review your shopping "
+"cart before continue."
+msgstr ""
+"Votre panier contient déjà des produits. Veuillez vérifier votre panier "
+"avant de continuer."
+
+#: src/Model/Modal/Modal.php:81
 msgid "Cancel checkout"
 msgstr "Annuler le check-out "
 
-#: src/Model/Modal/Modal.php:79
+#: src/Model/Modal/Modal.php:82
 msgid "Continue shopping"
 msgstr "Poursuivre les achats"
 
-#: src/Model/Modal/Modal.php:117
+#: src/Model/Modal/Modal.php:97
+msgid "Payment did not succeed, please try another payment method."
+msgstr ""
+"Le paiement n’a pas abouti, veuillez essayer un autre mode de paiement."
+
+#: src/Model/Modal/Modal.php:120
 msgid "Copy code"
 msgstr "Copiez le code"
 
-#: src/Model/Modal/Modal.php:118
+#: src/Model/Modal/Modal.php:121
 msgid "Copied"
 msgstr "copié"
 
-#: src/Model/Modal/Modal.php:154
+#: src/Model/Modal/Modal.php:157
 msgid "or"
 msgstr "ou"
 
-#: src/Model/Modal/Modal.php:162
+#: src/Model/Modal/Modal.php:164
 msgid "Enter this code in your TWINT app:"
 msgstr "Entrez ce code dans votre app TWINT:"
 
-#: src/Model/Modal/Modal.php:179
+#: src/Model/Modal/Modal.php:181
 msgid "Scan this QR Code with your TWINT app to complete the checkout."
 msgstr "Scannez ce code QR avec votre app TWINT pour terminer le paiement."
 
-#: src/Model/Modal/Modal.php:188
+#: src/Model/Modal/Modal.php:190
 msgid "Follow the instructions in the app to confirm your order."
 msgstr ""
 "Suivez les instructions dans l’application pour confirmer votre commande."
 
-#: src/Model/Modal/Modal.php:221
+#: src/Model/Modal/Modal.php:223
 msgid "Switch to TWINT app now"
 msgstr "Passez à l’app TWINT maintenant"
 
-#: src/Model/Modal/Modal.php:264
+#: src/Model/Modal/Modal.php:266
 msgid "Choose your TWINT app:"
 msgstr "Choisissez votre app TWINT"
 
-#: src/Model/Modal/Modal.php:272
+#: src/Model/Modal/Modal.php:274
 msgid "Other banks"
 msgstr "Autres banques"
 
@@ -232,42 +239,44 @@ msgstr "Actes"
 msgid "View details"
 msgstr "Voir les détails"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:21
+#: src/Template/Admin/Setting/Tab/Credentials.php:20
 msgid "Credentials"
 msgstr "Identifiants"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:29
+#: src/Template/Admin/Setting/Tab/Credentials.php:28
 msgid "Switch to test mode"
 msgstr "Passer en mode test"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:36
+#: src/Template/Admin/Setting/Tab/Credentials.php:35
 msgid "Store UUID"
 msgstr "UUID de votre commerce"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:37
+#: src/Template/Admin/Setting/Tab/Credentials.php:36
 msgid "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
 msgstr "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:48
+#: src/Template/Admin/Setting/Tab/Credentials.php:47
 msgid "Certificate file is required"
 msgstr "Le fichier de certificat est requis"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:53
-#: src/Template/Admin/Setting/Tab/Credentials.php:55
+#: src/Template/Admin/Setting/Tab/Credentials.php:52
+#: src/Template/Admin/Setting/Tab/Credentials.php:54
 msgid "Certificate Password"
 msgstr "Mot de passe du certificat"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:56
-#: resources/js/admin/credentials-setting.js:366
+#: src/Template/Admin/Setting/Tab/Credentials.php:55
+#: dist/credentials-setting.js:1 resources/js/admin/credentials-setting.js:462
+#: dist/credentials-setting.js:4355
 msgid "Certificate password is required"
 msgstr "Le mot de passe du certificat est requis"
 
-#: src/Template/Admin/SettingsLayoutViewAdapter.php:29
+#: src/Template/Admin/SettingsLayoutViewAdapter.php:30
 msgid "Certificate validation successful"
 msgstr "Validation du certificat réussie"
 
-#: src/Template/Admin/SettingsLayoutViewAdapter.php:116
-#: dist/credentials-setting.js:1 resources/js/admin/credentials-setting.js:110
+#: src/Template/Admin/SettingsLayoutViewAdapter.php:117
+#: dist/credentials-setting.js:1 resources/js/admin/credentials-setting.js:147
+#: dist/credentials-setting.js:4040
 msgid "Save changes"
 msgstr "Enregistrer les modifications"
 
@@ -279,7 +288,7 @@ msgstr ""
 msgid "Your order was cancelled."
 msgstr ""
 
-#: src/TwintIntegration.php:172
+#: src/TwintIntegration.php:177
 msgid "Settings"
 msgstr "Paramètres"
 
@@ -321,23 +330,15 @@ msgstr ""
 msgid "Test"
 msgstr ""
 
-#: dist/credentials-setting.js:1 resources/js/admin/credentials-setting.js:114
+#: dist/credentials-setting.js:1 resources/js/admin/credentials-setting.js:151
+#: dist/credentials-setting.js:4044
 msgid "Verifying the credentials..."
 msgstr ""
 
-#: dist/credentials-setting.js:1
 #, fuzzy
-#| msgid "Certificate password is required"
-msgid "Password field is required."
-msgstr "Le mot de passe du certificat est requis"
-
-#: resources/js/frontend/express/index.js:73
-msgid ""
-"You have existing products in the shopping cart. Please review your shopping "
-"cart before continue."
-msgstr ""
-"Votre panier contient déjà des produits. Veuillez vérifier votre panier "
-"avant de continuer."
+#~| msgid "Certificate password is required"
+#~ msgid "Password field is required."
+#~ msgstr "Le mot de passe du certificat est requis"
 
 #~ msgid "Invalid Store Uuid. Store Uuid needs to be a UUIDv4."
 #~ msgstr ""

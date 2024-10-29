@@ -7,7 +7,6 @@ namespace Twint\Woo\Repository;
 use Exception;
 use mysqli_result;
 use Throwable;
-use Twint\Sdk\Value\OrderStatus;
 use Twint\Woo\Exception\DatabaseException;
 use Twint\Woo\Model\Pairing;
 use WC_Logger_Interface;
@@ -173,24 +172,6 @@ class PairingRepository
         return $pairings;
     }
 
-    public function getRefundableForOrder(int $orderId): ?Pairing
-    {
-        $select = $this->getSelect();
-        $table = self::tableName();
-        $query = $this->db->prepare(
-            "SELECT {$select} FROM {$table} WHERE is_express = 0 AND wc_order_id = %d ORDER BY created_at DESC LIMIT 1;",
-            $orderId
-        );
-
-        $result = $this->db->get_results($query);
-        if (empty($result)) {
-            return null;
-        }
-
-        $instance = new Pairing();
-        return $instance->load((array) reset($result));
-    }
-
     public function markAsOrdering(string $id): mysqli_result|bool|int|null
     {
         $table = self::tableName();
@@ -206,7 +187,7 @@ class PairingRepository
 
     public function markAsFailed(string $id): mysqli_result|bool|int|null
     {
-        return $this->updateStatus($id, OrderStatus::FAILURE);
+        return $this->updateStatus($id, Pairing::EXPRESS_STATUS_FAILED);
     }
 
     private function updateStatus(string $id, string $status): bool|int

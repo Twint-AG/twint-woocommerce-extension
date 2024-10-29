@@ -6,6 +6,7 @@ import ExpressCheckout from '../../index'
 class StatusRefresher {
   static EVENT_CANCELLED = 'cancelled'
   static EVENT_PAID = 'paid'
+  static EVENT_FAILED = 'failed'
 
   constructor(modal) {
     this.element = document.getElementById('twint-modal')
@@ -129,6 +130,15 @@ class StatusRefresher {
     }
   }
 
+  onFailed() {
+    this.finished = true
+
+    let callback = this.callbacks[StatusRefresher.EVENT_FAILED]
+    if (callback && typeof callback === 'function') {
+      callback()
+    }
+  }
+
   onFinish(response) {
     this.finished = true
 
@@ -137,12 +147,10 @@ class StatusRefresher {
     }
 
     if (response.finish && response.status === 'FAILED') {
-      const { message } = response.extra
-
-      const ecInstance = new ExpressCheckout()
-      ecInstance.showMessage(message, 'woocommerce-error')
-      return this.onCancelled(response)
+      return this.onFailed()
     }
+
+    return this.onCancelled(response)
   }
 
   check(oneTime = false) {

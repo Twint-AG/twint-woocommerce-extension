@@ -10,7 +10,9 @@ class MonitoringStatus
 {
     public const STATUS_PAID = 'PAID';
 
-    public const STATUS_CANCELLED = 'FAILED';
+    public const STATUS_CANCELLED = 'CANCELLED';
+
+    public const STATUS_FAILED = 'FAILED';
 
     public const STATUS_IN_PROGRESS = 'IN_PROGRESS';
 
@@ -27,7 +29,11 @@ class MonitoringStatus
     {
         $instance = new self();
         $instance->status = self::extractStatus($pairing);
-        $instance->finish = in_array($instance->status, [self::STATUS_PAID, self::STATUS_CANCELLED], true);
+        $instance->finish = in_array(
+            $instance->status,
+            [self::STATUS_PAID, self::STATUS_CANCELLED, self::STATUS_FAILED],
+            true
+        );
 
         return $instance;
     }
@@ -50,6 +56,10 @@ class MonitoringStatus
             return self::STATUS_PAID;
         }
 
+        if ($finished && $pairing->getStatus() === Pairing::EXPRESS_STATUS_FAILED) {
+            return self::STATUS_FAILED;
+        }
+
         if ($finished) {
             return self::STATUS_CANCELLED;
         }
@@ -70,6 +80,11 @@ class MonitoringStatus
     public function isCancelled(): bool
     {
         return $this->status === self::STATUS_CANCELLED;
+    }
+
+    public function isFailed(): bool
+    {
+        return $this->status === self::STATUS_FAILED;
     }
 
     public function finished(): bool
