@@ -44,51 +44,51 @@ msgstr ""
 msgid "NFQ GROUP"
 msgstr "NFQ GROUP"
 
-#: src/Woo/Api/Admin/GetTransactionLogAction.php:33
-#: src/Woo/Template/Admin/MetaBox/TransactionLogMeta.php:54
+#: src/Api/Admin/GetTransactionLogAction.php:33
+#: src/Template/Admin/MetaBox/TransactionLogMeta.php:54
 msgid "Order ID"
 msgstr "Order ID"
 
-#: src/Woo/Api/Admin/GetTransactionLogAction.php:34
+#: src/Api/Admin/GetTransactionLogAction.php:34
 msgid "API Method"
 msgstr "API-method"
 
-#: src/Woo/Api/Admin/GetTransactionLogAction.php:35
+#: src/Api/Admin/GetTransactionLogAction.php:35
 msgid "Exception"
 msgstr "Exception"
 
-#: src/Woo/Api/Admin/GetTransactionLogAction.php:52
-#: src/Woo/Api/Admin/GetTransactionLogAction.php:56
-#: src/Woo/Api/Admin/GetTransactionLogAction.php:76
+#: src/Api/Admin/GetTransactionLogAction.php:52
+#: src/Api/Admin/GetTransactionLogAction.php:56
+#: src/Api/Admin/GetTransactionLogAction.php:76
 msgid "Request"
 msgstr "Anfrage"
 
-#: src/Woo/Api/Admin/GetTransactionLogAction.php:52
-#: src/Woo/Api/Admin/GetTransactionLogAction.php:60
-#: src/Woo/Api/Admin/GetTransactionLogAction.php:81
+#: src/Api/Admin/GetTransactionLogAction.php:52
+#: src/Api/Admin/GetTransactionLogAction.php:60
+#: src/Api/Admin/GetTransactionLogAction.php:81
 msgid "Response"
 msgstr "Antwort"
 
-#: src/Woo/Api/Admin/StoreConfigurationAction.php:51
+#: src/Api/Admin/StoreConfigurationAction.php:51
 #, fuzzy
 #| msgid "Invalid Store UUID. Store UUID needs to be a UUIDv4"
 msgid "Invalid Store UUID. Store UUID needs to be a UUIDv4."
 msgstr "Ungültige UUID Ihres Stores. UUID Ihres Stores muss eine UUIDv4 sein"
 
-#: src/Woo/Api/Admin/StoreConfigurationAction.php:79
-#: src/Woo/Template/Admin/Setting/Tab/Credentials.php:47
+#: src/Api/Admin/StoreConfigurationAction.php:79
+#: src/Template/Admin/Setting/Tab/Credentials.php:47
 msgid "Upload a certificate file (.p12)"
 msgstr "Zertifikatsdatei hochladen (.p12)"
 
-#: src/Woo/Api/Admin/StoreConfigurationAction.php:101
+#: src/Api/Admin/StoreConfigurationAction.php:101
 msgid "Invalid password"
 msgstr ""
 
-#: src/Woo/Api/Admin/StoreConfigurationAction.php:145
+#: src/Api/Admin/StoreConfigurationAction.php:145
 msgid "Settings have been saved successfully."
 msgstr ""
 
-#: src/Woo/Api/Admin/StoreConfigurationAction.php:156
+#: src/Api/Admin/StoreConfigurationAction.php:156
 msgid ""
 "Invalid credentials. Please check again: Store UUID, certificate and "
 "environment (mode)"
@@ -96,204 +96,204 @@ msgstr ""
 "Ungültige Zugangsdaten. Bitte überprüfen: UUID Ihres Stores, Zertifikat und "
 "Umfeld (Modus)"
 
-#: src/Woo/Model/Button/ExpressButton.php:126
+#: src/Model/Button/ExpressButton.php:126
 msgid "Or"
 msgstr "Oder"
 
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:56
-#: src/Woo/Template/Admin/Setting/Tab/ExpressCheckout.php:18
+#: src/Model/Gateway/ExpressCheckoutGateway.php:56
+#: src/Template/Admin/Setting/Tab/ExpressCheckout.php:18
 msgid "TWINT Express Checkout"
 msgstr "TWINT Express Checkout"
 
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:57
-#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:67
-#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:96
-#: src/Woo/TwintIntegration.php:143 src/Woo/TwintIntegration.php:144
+#: src/Model/Gateway/ExpressCheckoutGateway.php:57
+#: src/Model/Gateway/RegularCheckoutGateway.php:67
+#: src/Model/Gateway/RegularCheckoutGateway.php:96
+#: src/TwintIntegration.php:143 src/TwintIntegration.php:144
 #: dist/checkout.js:2 resources/js/frontend/regular-checkout.js:11
 msgid "TWINT"
 msgstr "TWINT"
 
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:104
-#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:86
+#: src/Model/Gateway/ExpressCheckoutGateway.php:104
+#: src/Model/Gateway/RegularCheckoutGateway.php:86
 msgid "Enable/Disable"
 msgstr "Aktivieren/Deaktivieren"
 
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:106
+#: src/Model/Gateway/ExpressCheckoutGateway.php:106
 msgid "Enable TWINT Express Checkout"
 msgstr "Aktivieren TWINT Express Checkout"
 
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:119
+#: src/Model/Gateway/ExpressCheckoutGateway.php:119
 msgid "Cart page"
 msgstr "Warenkorb"
 
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:120
+#: src/Model/Gateway/ExpressCheckoutGateway.php:120
 msgid "Mini Cart"
 msgstr "Warenkorb-Flyout"
 
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:121
+#: src/Model/Gateway/ExpressCheckoutGateway.php:121
 msgid "Product Detail Page"
 msgstr "Zur Produktdetailseite"
 
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:122
+#: src/Model/Gateway/ExpressCheckoutGateway.php:122
 msgid "Product Listing Page"
 msgstr "Zur Produktliste"
 
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:142
+#: src/Model/Gateway/ExpressCheckoutGateway.php:142
 msgid "Display Screens"
 msgstr "Screens anzeigen"
 
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:164
+#: src/Model/Gateway/ExpressCheckoutGateway.php:164
 msgid "Button config"
 msgstr ""
 
-#: src/Woo/Model/Gateway/ExpressCheckoutGateway.php:170
+#: src/Model/Gateway/ExpressCheckoutGateway.php:170
 msgid "Button Preview"
 msgstr ""
 
-#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:66
-#: src/Woo/Template/Admin/Setting/Tab/RegularCheckout.php:18
+#: src/Model/Gateway/RegularCheckoutGateway.php:66
+#: src/Template/Admin/Setting/Tab/RegularCheckout.php:18
 msgid "TWINT Checkout"
 msgstr ""
 
-#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:88
+#: src/Model/Gateway/RegularCheckoutGateway.php:88
 msgid "Enable TWINT Checkout"
 msgstr ""
 
-#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:92
+#: src/Model/Gateway/RegularCheckoutGateway.php:92
 msgid "Title"
 msgstr ""
 
-#: src/Woo/Model/Gateway/RegularCheckoutGateway.php:94
+#: src/Model/Gateway/RegularCheckoutGateway.php:94
 msgid "This controls the title which the user sees during checkout."
 msgstr ""
 
-#: src/Woo/Model/Modal/Modal.php:78
+#: src/Model/Modal/Modal.php:78
 msgid "Cancel checkout"
 msgstr "Bestellung abbrechen"
 
-#: src/Woo/Model/Modal/Modal.php:79
+#: src/Model/Modal/Modal.php:79
 msgid "Continue shopping"
 msgstr "Weiter einkaufen"
 
-#: src/Woo/Model/Modal/Modal.php:117
+#: src/Model/Modal/Modal.php:117
 msgid "Copy code"
 msgstr "Code kopieren"
 
-#: src/Woo/Model/Modal/Modal.php:118
+#: src/Model/Modal/Modal.php:118
 msgid "Copied"
 msgstr "Kopiert"
 
-#: src/Woo/Model/Modal/Modal.php:154
+#: src/Model/Modal/Modal.php:154
 msgid "or"
 msgstr "order"
 
-#: src/Woo/Model/Modal/Modal.php:162
+#: src/Model/Modal/Modal.php:162
 msgid "Enter this code in your TWINT app:"
 msgstr "Diesen Code in der TWINT App eingeben:"
 
-#: src/Woo/Model/Modal/Modal.php:179
+#: src/Model/Modal/Modal.php:179
 msgid "Scan this QR Code with your TWINT app to complete the checkout."
 msgstr ""
 "Diesen QR-Code mit der TWINT App  scannen, um den Bestellvorgang "
 "abzuschliessen."
 
-#: src/Woo/Model/Modal/Modal.php:188
+#: src/Model/Modal/Modal.php:188
 msgid "Follow the instructions in the app to confirm your order."
 msgstr "Folge den Anweisungen in der App, um deine Bestellung zu bestätigen."
 
-#: src/Woo/Model/Modal/Modal.php:221
+#: src/Model/Modal/Modal.php:221
 msgid "Switch to TWINT app now"
 msgstr "Jetzt zur TWINT App wechseln"
 
-#: src/Woo/Model/Modal/Modal.php:264
+#: src/Model/Modal/Modal.php:264
 msgid "Choose your TWINT app:"
 msgstr "TWINT App auswählen:"
 
-#: src/Woo/Model/Modal/Modal.php:272
+#: src/Model/Modal/Modal.php:272
 msgid "Other banks"
 msgstr "Andere Banken"
 
-#: src/Woo/Template/Admin/MetaBox/TransactionLogMeta.php:33
-#: src/Woo/Template/Admin/MetaBox/TransactionLogMeta.php:89
+#: src/Template/Admin/MetaBox/TransactionLogMeta.php:33
+#: src/Template/Admin/MetaBox/TransactionLogMeta.php:89
 msgid "Transaction logs"
 msgstr "Transaktionsverlauf (Logs)"
 
-#: src/Woo/Template/Admin/MetaBox/TransactionLogMeta.php:55
+#: src/Template/Admin/MetaBox/TransactionLogMeta.php:55
 msgid "API method"
 msgstr "API-Methode"
 
-#: src/Woo/Template/Admin/MetaBox/TransactionLogMeta.php:56
+#: src/Template/Admin/MetaBox/TransactionLogMeta.php:56
 msgid "SOAP actions"
 msgstr "SOAP-Aktion"
 
-#: src/Woo/Template/Admin/MetaBox/TransactionLogMeta.php:57
+#: src/Template/Admin/MetaBox/TransactionLogMeta.php:57
 msgid "Created at"
 msgstr "Erstellt am"
 
-#: src/Woo/Template/Admin/MetaBox/TransactionLogMeta.php:58
+#: src/Template/Admin/MetaBox/TransactionLogMeta.php:58
 msgid "Actions"
 msgstr "Aktionen"
 
-#: src/Woo/Template/Admin/MetaBox/TransactionLogMeta.php:78
+#: src/Template/Admin/MetaBox/TransactionLogMeta.php:78
 msgid "View details"
 msgstr "Details ansehen"
 
-#: src/Woo/Template/Admin/Setting/Tab/Credentials.php:21
+#: src/Template/Admin/Setting/Tab/Credentials.php:21
 msgid "Credentials"
 msgstr "Zugangsdaten"
 
-#: src/Woo/Template/Admin/Setting/Tab/Credentials.php:29
+#: src/Template/Admin/Setting/Tab/Credentials.php:29
 msgid "Switch to test mode"
 msgstr "Zum Testmodus wechseln"
 
-#: src/Woo/Template/Admin/Setting/Tab/Credentials.php:36
+#: src/Template/Admin/Setting/Tab/Credentials.php:36
 msgid "Store UUID"
 msgstr "UUID Ihres Stores"
 
-#: src/Woo/Template/Admin/Setting/Tab/Credentials.php:37
+#: src/Template/Admin/Setting/Tab/Credentials.php:37
 msgid "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
 msgstr "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
 
-#: src/Woo/Template/Admin/Setting/Tab/Credentials.php:48
+#: src/Template/Admin/Setting/Tab/Credentials.php:48
 msgid "Certificate file is required"
 msgstr "Zertifikatsdatei erforderlich"
 
-#: src/Woo/Template/Admin/Setting/Tab/Credentials.php:53
-#: src/Woo/Template/Admin/Setting/Tab/Credentials.php:55
+#: src/Template/Admin/Setting/Tab/Credentials.php:53
+#: src/Template/Admin/Setting/Tab/Credentials.php:55
 msgid "Certificate Password"
 msgstr "Zertifikatspasswort"
 
-#: src/Woo/Template/Admin/Setting/Tab/Credentials.php:56
+#: src/Template/Admin/Setting/Tab/Credentials.php:56
 #: dist/credentials-setting.js:1 resources/js/admin/credentials-setting.js:366
 msgid "Certificate password is required"
 msgstr "Zertifikatspasswort erforderlich"
 
-#: src/Woo/Template/Admin/SettingsLayoutViewAdapter.php:29
+#: src/Template/Admin/SettingsLayoutViewAdapter.php:29
 msgid "Certificate validation successful"
 msgstr "Zertifikat erfolgreich validiert"
 
-#: src/Woo/Template/Admin/SettingsLayoutViewAdapter.php:116
+#: src/Template/Admin/SettingsLayoutViewAdapter.php:116
 #: dist/credentials-setting.js:1 resources/js/admin/credentials-setting.js:110
 msgid "Save changes"
 msgstr "Änderungen speichern"
 
-#: src/Woo/Template/BeforeThankYouBoxViewAdapter.php:57
+#: src/Template/BeforeThankYouBoxViewAdapter.php:57
 msgid "Your payment was successful"
 msgstr "Ihre Zahlung war erfolgreich"
 
-#: src/Woo/Template/BeforeThankYouBoxViewAdapter.php:76
+#: src/Template/BeforeThankYouBoxViewAdapter.php:76
 msgid "Your order was cancelled."
 msgstr "Ihre Bestellung wurde storniert."
 
-#: src/Woo/TwintIntegration.php:173
+#: src/TwintIntegration.php:173
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: src/Woo/View/Admin/credentials.php:6
+#: src/View/Admin/credentials.php:6
 msgid "<b>Warning</b>: PHP CLI Not Available"
 msgstr "<b>Warnung</b>: PHP CLI nicht verfügbar"
 
-#: src/Woo/View/Admin/credentials.php:8
+#: src/View/Admin/credentials.php:8
 msgid ""
 "PHP CLI (Command Line Interface) is missing or misconfigured. This extension "
 "relies on PHP CLI for essential background processes. Without it, some "
@@ -304,23 +304,23 @@ msgstr ""
 "Ohne diese Funktionalität könnten einige Funktionen nicht richtig "
 "funktionieren."
 
-#: src/Woo/View/Admin/credentials.php:29
+#: src/View/Admin/credentials.php:29
 msgid "Certificate encrypted and stored."
 msgstr "Zertifikat verschlüsselt und gespeichert."
 
-#: src/Woo/View/Admin/credentials.php:34
+#: src/View/Admin/credentials.php:34
 msgid "Upload new certificate"
 msgstr "Neues Zertifikat hochladen"
 
-#: src/Woo/View/Admin/credentials.php:41
+#: src/View/Admin/credentials.php:41
 msgid "Close"
 msgstr "Schließen"
 
-#: src/Woo/View/Admin/credentials.php:72
+#: src/View/Admin/credentials.php:72
 msgid "Invalid Store UUID. Store UUID needs to be a UUIDv4"
 msgstr "Ungültige UUID Ihres Stores. UUID Ihres Stores muss eine UUIDv4 sein"
 
-#: src/Woo/View/Admin/credentials.php:83
+#: src/View/Admin/credentials.php:83
 msgid "Test"
 msgstr ""
 

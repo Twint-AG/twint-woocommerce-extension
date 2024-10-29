@@ -1,13 +1,15 @@
 parameters:
-    level: 1  # Choose the strictness level (0 is the loosest, 9 is the strictest)
+    level: 5  # Choose the strictness level (0 is the loosest, 9 is the strictest)
     paths:
         - src
+
+    treatPhpDocTypesAsCertain: false
 
     bootstrapFiles:
         - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
 
     excludePaths:
-        - src/Woo/View/*
+        - src/View/*
 
     ignoreErrors:
         - '#Constant DB_NAME not found#'

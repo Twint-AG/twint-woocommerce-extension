@@ -38,6 +38,8 @@ class StatusRefresher {
   start() {
     this.stopped = false
     this.finished = false
+    this.processing = false
+
     this.intervalHanlder.begin()
     if (this.modal.isExpress()) {
       this.modal.addCallback(
@@ -50,6 +52,7 @@ class StatusRefresher {
         this.onRegularCheckoutCloseModal.bind(this),
       )
     }
+
     this.onProcessing()
   }
 

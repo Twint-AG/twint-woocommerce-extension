@@ -1,7 +1,7 @@
 {
   "name": "woocommerce-gateway-twint",
   "title": "WooCommerce Twint Payment",
-  "version": "1.0.6",
+  "version": "9.9.9-dev",
   "author": "WooCommerce",
   "license": "GPL-3.0+",
   "keywords": [],

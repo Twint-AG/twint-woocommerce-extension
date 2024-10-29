@@ -26,25 +26,46 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 # Copy php config
 COPY docker/zz-php.ini /usr/local/etc/php/conf.d/zz-php.ini
 
+RUN chown -R www-data:www-data /var/www
+
 # Copy Plugins
-COPY wordpress/. /usr/src/wordpress
+COPY --chown=www-data wordpress/. /var/www/html
+USER www-data
 RUN curl -k -L --output ${WOO_VERSION}.zip https://downloads.wordpress.org/plugin/${WOO_VERSION}.zip && \
-    unzip -o ${WOO_VERSION}.zip -d /usr/src/wordpress/wp-content/plugins && \
+    unzip -o ${WOO_VERSION}.zip -d /var/www/html/wp-content/plugins && \
     rm ${WOO_VERSION}.zip
-COPY woocommerce-gateway-twint /usr/src/wordpress/wp-content/plugins/woocommerce-gateway-twint
+USER root
+COPY --chown=www-data woocommerce-gateway-twint /var/www/html/wp-content/plugins/woocommerce-gateway-twint
+
+ENV NVM_DIR /usr/local/nvm
+ENV NODE_VERSION v18.12.0
+RUN mkdir -p /usr/local/nvm && apt-get update && echo "y" | apt-get install curl
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+RUN /bin/bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION && nvm use --delete-prefix $NODE_VERSION"
+ENV NODE_PATH $NVM_DIR/versions/node/$NODE_VERSION/bin
+ENV PATH $NODE_PATH:$PATH
 
 RUN apt-get update && \
     apt-get install -y libxslt-dev && \
     docker-php-ext-install xsl
 
-# Copy source code of website
-RUN cp -a /usr/src/wordpress/. /var/www/html
-RUN chown -R www-data:www-data /var/www/html/wp-content
-
+USER www-data
+WORKDIR /var/www/html/wp-content/plugins/woocommerce-gateway-twint
+RUN rm -rf node_modules \
+    && npm install --quiet \
+    && rm -rf dist \
+    && npm run build 
 # GitLab Repo Config
 ARG GITLAB_USERNAME
 ARG GITLAB_TOKEN
 RUN composer config --global http-basic.git.nfq.asia ${GITLAB_USERNAME} ${GITLAB_TOKEN}
+
+RUN git config --global --add safe.directory /var/www/html/wp-content/plugins/woocommerce-gateway-twint/vendor/twint-ch/twint-sdk \
+    && git config --global --add safe.directory /var/www/html/wp-content/plugins/woocommerce-gateway-twint/vendor/twint-ag/sdk 
+RUN rm -f composer.lock \
+    && composer install --no-interaction 
+USER root
+WORKDIR /var/www/html
 
 EXPOSE 80
 
