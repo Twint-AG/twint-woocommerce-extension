@@ -1,8 +1,28 @@
 <p align="center" style="font-size:150%"><b>TWINT Payment Plugin Guideline</b></p>
 
-## Install the plugin
+## installation
 
-Please refer to the `README.md` for the installation steps.
+### Download the plugin
+
+- Download the latest plugin `Releases` ZIP file (named `twint-woocommerce-extension-[RELEASE_VERSION].zip`) from the plugin's [Git repository.](https://github.com/Twint-AG/twint-woocommerce-extension/releases)
+
+<img src="./screenshots/twint-woo-releases.png" alt="TWINT Releases for WooCommerce" width="900" height="auto">
+
+### Install the plugin
+
+- Go to the WooCommerce Admin panel and login.
+- Go to `Plugins -> Add New`
+- Click the `Upload Plugin` button -> `Choose File` -> Browse to the downloaded plugin ZIP file
+
+<img src="./screenshots/twint-install-plugin.png" alt="Install TWINT Plugin" width="900" height="auto">
+
+- Once the Plugin was installed -> Click the `Activate Plugin` button
+
+<img src="./screenshots/twint-plugin-installing.png" alt="TWINT Plugin installed" width="900" height="auto">
+
+- `Plugin activated.` notification should be displayed
+
+<img src="./screenshots/twint-plugin-activated.png" alt="TWINT Plugin activated" width="900" height="auto">
 
 ## Configure the plugin
 
