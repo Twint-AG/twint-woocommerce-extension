@@ -17,4 +17,4 @@ gh release create \
   --title "${CI_COMMIT_TAG}" \
   --verify-tag \
   --notes "Release ${CI_COMMIT_TAG}" \
-  "build/twint-woocommerce-extension-${CI_COMMIT_TAG}.zip"
+  "build/twint-woocommerce-extension-${CI_COMMIT_REF_SLUG}.zip"
