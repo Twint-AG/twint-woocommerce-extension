@@ -16,7 +16,7 @@ git diff --exit-code --cached
 FILES=("${PWD}/src/Constant/TwintConstant.php" "${PWD}/package.json" "${PWD}/twint-woocommerce-extension.php" "${PWD}/composer.json" )
 
 for FILE in "${FILES[@]}"; do
-  sed -e "s@9.9.9-dev@${VERSION}@g" -i "${FILE}"
+  sed -i -e "s@9.9.9-dev@${VERSION}@g" "${FILE}"
 done
 
 export GIT_COMMITTER_NAME="${RELEASE_BOT_NAME}"
