@@ -71,13 +71,6 @@ release:
   needs:
     - job: build-archive
       artifacts: true
-  before_script:
-    - apk add --no-cache curl go make
-    - curl -fsSL https://github.com/cli/cli/archive/refs/tags/v2.60.1.tar.gz | tar -xz
-    - cd cli-2.60.1
-    - make
-    - mv bin/gh /usr/local/bin/
-    - cd ..
   script:
     - apk add --no-cache git openssh bash github-cli
     - ./bin/sync.sh
