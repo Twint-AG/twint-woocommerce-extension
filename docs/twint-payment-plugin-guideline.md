@@ -1,6 +1,6 @@
-<p align="center" style="font-size:150%"><b>TWINT Payment Plugin Guideline</b></p>
+# TWINT WooCommerce Extension Guide
 
-## installation
+## Installation
 
 ### Download the plugin
 
