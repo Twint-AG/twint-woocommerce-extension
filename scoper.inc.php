@@ -99,6 +99,10 @@ return [
                 return str_replace('vendor/autoload.php', 'vendor/scoper-autoload.php', $contents);
             }
 
+            if(strpos($filePath, '/psl/') !== false) {
+                $contents = str_replace('use Psl;', 'use TwintWoo\\Psl;', $contents);
+            }
+
             return $contents;
         },
     ],
