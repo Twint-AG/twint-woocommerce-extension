@@ -64,6 +64,7 @@ class ExpressOrderService
         $this->getPairingRepository()->markAsOrdering($pairing->getId());
 
         $order = wc_get_order($pairing->getWcOrderId());
+
         $this->updateAddress($order, $pairing);
         $this->updateShippingMethod($order, $pairing);
 
@@ -71,6 +72,7 @@ class ExpressOrderService
 
         $order->payment_complete($new->getId());
 
+        $order->update_status('pending', 'TWINT Express Checkout', true);
         $order->update_status('processing', 'TWINT Express Checkout', true);
 
         @$this->cleanCart();
