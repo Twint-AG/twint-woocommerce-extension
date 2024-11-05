@@ -52,7 +52,7 @@ class ExpressCheckoutGateway extends AbstractGateway
         $this->icon = apply_filters('woocommerce_twint_gateway_express_icon', '');
 
         $this->method_title = __('TWINT Express Checkout', 'woocommerce-gateway-twint');
-        $this->title = __('TWINT', 'woocommerce-gateway-twint');
+        $this->title = __('TWINT Express Checkout', 'woocommerce-gateway-twint');
         $this->method_description = '';
 
         // Load the settings.
