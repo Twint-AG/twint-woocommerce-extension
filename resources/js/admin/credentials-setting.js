@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
       this.testMode = document.querySelector(this.options.testModeSelector)
       if (this.testMode) {
         // Init test mode value
-        this.state.plugin_twint_test_mode = this.testMode.value
+        this.state.plugin_twint_test_mode = this.testMode.checked ? 'on' : ''
 
         this.testMode.addEventListener(
           'change',
@@ -342,7 +342,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
     }
 
     onChangeTestMode(e) {
-      console.log(e.target.checked, this.state.plugin_twint_test_mode)
       this.state.plugin_twint_test_mode = e.target.checked ? 'on' : ''
     }
 

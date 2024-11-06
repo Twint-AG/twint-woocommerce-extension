@@ -146,7 +146,7 @@ class StoreConfigurationAction extends BaseAction
             $response['message'] = __('Settings have been saved successfully.', 'woocommerce-gateway-twint');
             update_option($certificateKey, $certificate);
             update_option(TwintConstant::FLAG_VALIDATED_CREDENTIAL_CONFIG, TwintConstant::YES);
-            update_option(TwintConstant::TEST_MODE, $testMode ? 'yes' : 'no');
+            update_option(TwintConstant::TEST_MODE, $testMode ? TwintConstant::YES : TwintConstant::NO);
             update_option(TwintConstant::STORE_UUID, $storeUuid);
         } else {
             $response['status'] = false;
