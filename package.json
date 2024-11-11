@@ -42,12 +42,12 @@
     "format-code": "npx prettier --write ./resources"
   },
   "dependencies": {
-    "@woocommerce/settings": "^1.0.0",
     "@wordpress/api-fetch": "^7.8.0",
     "@wordpress/element": "^6.6.0",
     "@wordpress/html-entities": "^4.1.0",
     "@wordpress/i18n": "^5.1.0",
-    "axios": "^1.7.2"
+    "axios": "^1.7.2",
+    "dompurify": "^3.1.7"
   },
   "engines": {
     "node": ">=20.0.0",

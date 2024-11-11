@@ -1,12 +1,8 @@
 import { __ } from '@wordpress/i18n'
 import { registerPaymentMethod } from '@woocommerce/blocks-registry'
-import { getSetting } from '@woocommerce/settings'
 import { useEffect } from '@wordpress/element'
-
 import Modal from './express/modal/modal'
 import ModalContent from './express/modal/content'
-
-const settings = getSetting('twint_regular_data', {})
 
 const label = __('TWINT', 'woocommerce-gateway-twint')
 
@@ -79,7 +75,7 @@ const TwintRegular = {
   canMakePayment: () => true,
   ariaLabel: label,
   supports: {
-    features: settings.supports,
+    features: ['products', 'refunds', 'captured_payments'],
   },
 }
 

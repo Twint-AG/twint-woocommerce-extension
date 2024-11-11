@@ -1,3 +1,5 @@
+import DOMPurify from "dompurify";
+
 class ModalContent {
   constructor(token, amount, pairing, isExpress = true) {
     this.token = token
@@ -16,7 +18,7 @@ class ModalContent {
   renderAmount() {
     let element = document.getElementById('twint-amount')
     if (element) {
-      element.innerHTML = this.amount
+      element.innerHTML = DOMPurify.sanitize(this.amount)
     }
   }
 

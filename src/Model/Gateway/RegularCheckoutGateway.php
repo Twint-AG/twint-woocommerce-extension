@@ -211,4 +211,14 @@ class RegularCheckoutGateway extends AbstractGateway
             throw $e;
         }
     }
+
+    public function validate_title_field($key, $value): string
+    {
+        return $this->validate_text_field($key, $value);
+    }
+
+    public function validate_enabled_field($key, $value): string
+    {
+        return $value === 1 ? TwintConstant::YES : TwintConstant::NO;
+    }
 }

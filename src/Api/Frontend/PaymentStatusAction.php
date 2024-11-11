@@ -57,6 +57,12 @@ class PaymentStatusAction extends BaseAction
 
         $pairingId = $request->get_param('pairingId');
 
+        if (strlen($pairingId) !== 36) {
+            return new WP_REST_Response([
+                'message' => 'Invalid input',
+            ], 400);
+        }
+
         $pairing = $this->getRepository()->get($pairingId);
 
         if (!$pairing instanceof Pairing) {

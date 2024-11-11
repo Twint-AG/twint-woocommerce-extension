@@ -1,6 +1,6 @@
 import axios from 'axios'
-import jquery from 'jquery'
 import { __ } from '@wordpress/i18n'
+import DOMPurify from "dompurify";
 
 document.addEventListener('DOMContentLoaded', function (event) {
   class CredentialsSetting {
@@ -144,14 +144,14 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
     toggleLoadingButton() {
       if (this.button?.classList?.contains('button-loading')) {
-        this.button.innerHTML = __('Save changes', 'woocommerce-gateway-twint')
+        this.button.innerHTML = DOMPurify.sanitize(__('Save changes', 'woocommerce-gateway-twint'))
         this.button.disabled = false
         this.button?.classList?.remove('button-loading')
       } else {
-        this.button.innerHTML = __(
+        this.button.innerHTML = DOMPurify.sanitize(__(
           'Verifying the credentials...',
           'woocommerce-gateway-twint',
-        )
+        ))
         this.button.disabled = true
         this.button?.classList?.add('button-loading')
       }
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
     appendHtml(el, msg) {
       let div = document.createElement('div') //container to append to
-      div.innerHTML = msg
+      div.innerHTML = DOMPurify.sanitize(msg)
       el.innerHTML = ''
       el.appendChild(div.children[0])
     }
@@ -294,7 +294,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
       axios
         .post(this.options.adminUrl, formData)
         .then((response) => {
-          console.log(response.data)
           const { status } = response.data
           if (status === true) {
             this.showNoticeSuccess(response.data.message)
@@ -321,7 +320,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
                   'error-state_plugin_twint_settings_certificate_password',
                 )
                 if (passwordInputErrorState) {
-                  passwordInputErrorState.innerHTML = message
+                  passwordInputErrorState.innerHTML = DOMPurify.sanitize(message)
                   passwordInputErrorState.classList?.remove('hidden')
                 }
               } else {
@@ -411,7 +410,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
     }
 
     checkStoreUuidField() {
-      console.log(this.state.plugin_twint_settings_store_uuid)
       if (!this.isValidUUIDv4(this.state.plugin_twint_settings_store_uuid)) {
         this.storeUuidInput?.classList?.add('has-error')
         const uuidStateError = document.getElementById(
@@ -458,10 +456,10 @@ document.addEventListener('DOMContentLoaded', function (event) {
         )
         if (passwordInputErrorState) {
           if (passwordIsEmpty) {
-            passwordInputErrorState.innerHTML = __(
+            passwordInputErrorState.innerHTML = DOMPurify.sanitize(__(
               'Certificate password is required',
               'woocommerce-gateway-twint',
-            )
+            ))
 
             this.clearValidationErrorState(passwordInputErrorState)
           }

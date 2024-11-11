@@ -2,6 +2,7 @@ import StatusRefresher from './handler/status-refresher'
 import TokenCopier from './handler/token-copier'
 import AndroidConnector from './connector/android-connector'
 import IosConnector from './connector/ios-connector'
+import DOMPurify from "dompurify";
 
 class Modal {
   static EVENT_MODAL_CLOSED = 'CLOSED'
@@ -43,14 +44,13 @@ class Modal {
   addCallback(event, callback) {
     if (typeof callback === 'function') {
       this.callbacks[event] = callback
-      console.log('callback update')
     }
   }
 
   show() {
     // Display
     let span = this.closeBtn.querySelector('span')
-    span.innerHTML = this.closeBtn.getAttribute('data-default')
+    span.innerHTML = DOMPurify.sanitize(this.closeBtn.getAttribute('data-default'))
 
     this.tokenCopier.reset()
 
@@ -119,7 +119,7 @@ class Modal {
     this.refreshMiniCart()
 
     let span = this.closeBtn.querySelector('span')
-    span.innerHTML = this.closeBtn.getAttribute('data-success')
+    span.innerHTML = DOMPurify.sanitize(this.closeBtn.getAttribute('data-success'))
 
     location.href = response.extra.redirect
   }
@@ -127,7 +127,7 @@ class Modal {
   onFailed() {
     // Display
     let span = this.closeBtn.querySelector('span')
-    span.innerHTML = this.closeBtn.getAttribute('data-success')
+    span.innerHTML = DOMPurify.sanitize(this.closeBtn.getAttribute('data-success'))
 
     let pay = this.element.querySelector('#qr-modal-content')
     let errorContent = this.element.querySelector('#payment-error')
@@ -137,7 +137,7 @@ class Modal {
   }
 
   continue() {
-    this.closeBtn.innerHTML = this.closeBtn.getAttribute('data-success')
+    this.closeBtn.innerHTML = DOMPurify.sanitize(this.closeBtn.getAttribute('data-success'))
   }
 }
 

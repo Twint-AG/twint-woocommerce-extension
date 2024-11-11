@@ -73,10 +73,9 @@ return [
     // Paths are relative to the configuration file unless if they are already absolute
     //
     // For more see: https://github.com/humbug/php-scoper/blob/master/docs/configuration.md#patchers
-    'exclude-files' => [
-        // 'src/an-excluded-file.php',
-        ...$excludedFiles,
-    ],
+    'exclude-files' => array_merge($excludedFiles, [
+        'vendor/twint-ag/sdk/src/polyfill.php'
+    ]),
 
     // PHP version (e.g. `'7.2'`) in which the PHP parser and printer will be configured into. This will affect what
     // level of code it will understand and how the code will be printed.

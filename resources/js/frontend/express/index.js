@@ -3,7 +3,7 @@ import ButtonHandler from './button/button-handler'
 import ModalContent from './modal/content'
 import Action from './checkout/action'
 import ContextFactory from './context/factory'
-import { __ } from '@wordpress/i18n'
+import DOMPurify from 'dompurify';
 
 class ExpressCheckout {
   // Singleton instance
@@ -78,14 +78,14 @@ class ExpressCheckout {
   showMessage(message, type = '') {
     let messages = document.querySelector('.woocommerce-notices-wrapper')
     if (messages) {
-      messages.innerHTML =
+      messages.innerHTML = DOMPurify.sanitize(
         `<div class="woocommerce-message ` +
         type +
         `" role="alert">              
             <div class="wc-block-components-notice-banner__content">` +
         message +
         `</div>
-        </div>`
+        </div>`)
 
       messages.scrollIntoView({
         behavior: 'smooth', // Enables smooth scrolling

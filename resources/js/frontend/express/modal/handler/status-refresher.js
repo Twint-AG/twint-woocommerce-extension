@@ -107,7 +107,6 @@ class StatusRefresher {
     if (this.processing || this.stopped) return
 
     let interval = this.intervalHanlder.interval()
-    console.log('Interval time: ', interval)
     if (interval > 0) {
       setTimeout(this.check.bind(this), interval)
     }
