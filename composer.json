@@ -44,7 +44,7 @@
     "sniccowp/php-scoper-wordpress-excludes": "^6.6"
   },
   "require-dev": {
-    "symfony/var-dumper": ">=7.1",
+    "symfony/var-dumper": ">=6.4",
     "symplify/easy-coding-standard": ">=12.3",
     "slevomat/coding-standard": ">=8.15",
     "rector/rector": ">=1.2.10",

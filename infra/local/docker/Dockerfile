@@ -1,4 +1,4 @@
-FROM wordpress:latest
+FROM wordpress:6.6.2-php8.1
 
 # Install required packages and PHP extensions
 RUN apt-get update && apt-get install -y \
