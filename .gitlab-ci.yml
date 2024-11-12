@@ -31,6 +31,7 @@ tests:
 
     - composer config --global gitlab-token.git.nfq.asia $GITLAB_ACCESS_TOKEN
     - composer install --prefer-dist --no-progress --no-interaction
+    - composer outdated --no-dev || true
 
     # Run coding standard
     - vendor/bin/ecs --no-progress-bar
@@ -38,6 +39,7 @@ tests:
     - vendor/bin/phpstan analyse --memory-limit=1024M
 
     - npm install
+    - npm outdated --omit=dev || true
     - npx prettier --check ./resources/
 
 build-archive:
