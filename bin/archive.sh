@@ -17,6 +17,13 @@ npm run build
 rm -rf "${PWD}/vendor"
 composer install --no-dev --optimize-autoloader --prefer-dist
 
+VERSION="${CI_COMMIT_TAG:-9.9.9-dev}"
+FILES=("${PWD}/src/Constant/TwintConstant.php" "${PWD}/composer.json" "${PWD}/twint-woocommerce-extension.php")
+
+for FILE in "${FILES[@]}"; do
+  sed -i -e "s@9.9.9-dev@${VERSION}@g" "${FILE}"
+done
+
 # Run PHP-Scoper
 composer global require humbug/php-scoper
 rm -rf "${ARCHIVE_BUILD_DIR}"
@@ -24,13 +31,6 @@ composer global exec php-scoper -- add-prefix --working-dir "${PWD}" --output-di
 
 # Dump autoloader for rewritten classes
 composer dump-autoload --working-dir "${ARCHIVE_BUILD_DIR}" --classmap-authoritative
-
-VERSION="${CI_COMMIT_TAG:-9.9.9-dev}"
-FILES=("${ARCHIVE_BUILD_BASE_DIR}/src/Constant/TwintConstant.php" "${ARCHIVE_BUILD_BASE_DIR}/composer.json" "${ARCHIVE_BUILD_BASE_DIR}/twint-woocommerce-extension.php")
-
-for FILE in "${FILES[@]}"; do
-  sed -i -e "s@9.9.9-dev@${VERSION}@g" "${FILE}"
-done
 
 # Create archive
 rm -f "${ARCHIVE_PATH}"
