@@ -1,3 +1,4 @@
+@use './variable' as vars;
 // Mixins
 @mixin flex-center {
   display: flex;
@@ -37,7 +38,7 @@
 
   &__choose-file {
     flex-shrink: 0;
-    background-color: $clr-primary;
+    background-color: vars.$clr-primary;
     border-radius: 100%;
     margin-right: 10px;
     color: #ffffff;
@@ -61,7 +62,7 @@
   }
 
   &__msg {
-    color: $clr-primary;
+    color: vars.$clr-primary;
     font-size: 16px;
     font-weight: 400;
     line-height: 1.4;
@@ -106,7 +107,7 @@
       width: 100%;
       height: 100%;
       transform: translate(-50%, -50%) scale(0);
-      background-color: $clr-primary;
+      background-color: vars.$clr-primary;
       border-radius: 50%;
       transition: 0.3s;
     }
@@ -129,7 +130,7 @@
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 
   thead tr {
-    background-color: $clr-info;
+    background-color: vars.$clr-info;
     color: #ffffff;
     text-align: left;
     font-weight: bold;
@@ -149,7 +150,7 @@
       }
 
       &:last-of-type {
-        border-bottom: 2px solid $clr-info;
+        border-bottom: 2px solid vars.$clr-info;
       }
 
       &.active-row {

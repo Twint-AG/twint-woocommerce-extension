@@ -15,7 +15,7 @@
     "cross-env": "7.0.3",
     "css-loader": "^7.1.2",
     "css-minimizer-webpack-plugin": "^7.0.0",
-    "eslint": "^9.14.0",
+    "eslint": "*",
     "eslint-plugin-react": "^7.37.1",
     "file-loader": "^6.2.0",
     "globals": "^15.11.0",

@@ -1,13 +1,11 @@
-@tailwind utilities;
+@use './variable' as vars;
+@use './menu';
+@use './table';
+@use './modal';
+@use './certificate';
+@use './transaction';
 
-// Variables
-$clr-main: #d75b4c;
-$clr-dark: #333;
-$clr-neutral: #ddd;
-$clr-light: #fff;
-$clr-primary: #1d3557;
-$clr-success: #3cb371;
-$clr-info: #007cba;
+@tailwind utilities;
 
 .components-truncate.components-text {
   font-size: 1.3em !important;
@@ -32,14 +30,8 @@ $clr-info: #007cba;
       background-size: 14px;
       background-repeat: no-repeat;
       background-position: center center;
-      background-color: $clr-success;
+      background-color: vars.$clr-success;
       border-radius: 100%;
     }
   }
 }
-
-@import './menu.scss';
-@import './table.scss';
-@import './modal.scss';
-@import './certificate.scss';
-@import './transaction.scss';
