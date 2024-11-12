@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { __ } from '@wordpress/i18n'
-import DOMPurify from "dompurify";
+import DOMPurify from 'dompurify'
 
 document.addEventListener('DOMContentLoaded', function (event) {
   class CredentialsSetting {
@@ -144,14 +144,15 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
     toggleLoadingButton() {
       if (this.button?.classList?.contains('button-loading')) {
-        this.button.innerHTML = DOMPurify.sanitize(__('Save changes', 'woocommerce-gateway-twint'))
+        this.button.innerHTML = DOMPurify.sanitize(
+          __('Save changes', 'woocommerce-gateway-twint'),
+        )
         this.button.disabled = false
         this.button?.classList?.remove('button-loading')
       } else {
-        this.button.innerHTML = DOMPurify.sanitize(__(
-          'Verifying the credentials...',
-          'woocommerce-gateway-twint',
-        ))
+        this.button.innerHTML = DOMPurify.sanitize(
+          __('Verifying the credentials...', 'woocommerce-gateway-twint'),
+        )
         this.button.disabled = true
         this.button?.classList?.add('button-loading')
       }
@@ -320,7 +321,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
                   'error-state_plugin_twint_settings_certificate_password',
                 )
                 if (passwordInputErrorState) {
-                  passwordInputErrorState.innerHTML = DOMPurify.sanitize(message)
+                  passwordInputErrorState.innerHTML =
+                    DOMPurify.sanitize(message)
                   passwordInputErrorState.classList?.remove('hidden')
                 }
               } else {
@@ -456,10 +458,12 @@ document.addEventListener('DOMContentLoaded', function (event) {
         )
         if (passwordInputErrorState) {
           if (passwordIsEmpty) {
-            passwordInputErrorState.innerHTML = DOMPurify.sanitize(__(
-              'Certificate password is required',
-              'woocommerce-gateway-twint',
-            ))
+            passwordInputErrorState.innerHTML = DOMPurify.sanitize(
+              __(
+                'Certificate password is required',
+                'woocommerce-gateway-twint',
+              ),
+            )
 
             this.clearValidationErrorState(passwordInputErrorState)
           }

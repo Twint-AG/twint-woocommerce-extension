@@ -1,4 +1,4 @@
-import DOMPurify from "dompurify";
+import DOMPurify from 'dompurify'
 
 class TokenCopier {
   constructor() {
@@ -22,7 +22,9 @@ class TokenCopier {
 
   onCopied(e) {
     e.clearSelection()
-    this.button.innerHTML = DOMPurify.sanitize(this.button.getAttribute('data-copied'))
+    this.button.innerHTML = DOMPurify.sanitize(
+      this.button.getAttribute('data-copied'),
+    )
     this.button.classList.add('copied')
     this.button.classList.add('border-green-500')
     this.button.classList.add('text-green-500')
@@ -37,7 +39,9 @@ class TokenCopier {
   }
 
   reset() {
-    this.button.innerHTML = DOMPurify.sanitize(this.button.getAttribute('data-default'))
+    this.button.innerHTML = DOMPurify.sanitize(
+      this.button.getAttribute('data-default'),
+    )
     this.button.classList.remove('copied')
     this.button.classList.remove('border-green-500')
     this.button.classList.remove('text-green-500')

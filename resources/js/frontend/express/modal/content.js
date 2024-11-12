@@ -1,4 +1,4 @@
-import DOMPurify from "dompurify";
+import DOMPurify from 'dompurify'
 
 class ModalContent {
   constructor(token, amount, pairing, isExpress = true) {
