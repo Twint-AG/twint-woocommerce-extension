@@ -56,7 +56,6 @@ class PairingRepository
                 'pairing_status' => $pairing->getPairingStatus(),
                 'is_ordering' => $pairing->getIsOrdering(),
                 'checked_at' => $pairing->getCheckedAt(),
-                'created_at' => $pairing->getCreatedAt(),
                 'captured' => $pairing->isCaptured(),
             ]);
 
