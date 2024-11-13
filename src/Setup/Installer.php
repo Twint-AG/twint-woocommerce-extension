@@ -37,7 +37,7 @@ class Installer
     {
         // Init setting for payment gateway
         $initData = [
-            'enabled' => 'no',
+            'enabled' => 'yes',
             'title' => 'TWINT',
         ];
         update_option('woocommerce_twint_regular_settings', $initData);
