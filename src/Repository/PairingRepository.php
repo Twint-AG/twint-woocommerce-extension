@@ -45,7 +45,7 @@ class PairingRepository
             $this->db->insert(self::tableName(), [
                 'id' => $pairing->getId(),
                 'token' => $pairing->getToken(),
-                'shipping_method_id' => $pairing->getShippingMethodId(),
+                'shipping_method_id' => $pairing->getShippingMethod(),
                 'wc_order_id' => $pairing->getWcOrderId(),
                 'ref_id' => $pairing->getRefId(),
                 'customer_data' => $pairing->getCustomerData(),
@@ -96,7 +96,7 @@ class PairingRepository
             $result = $this->db->update(self::tableName(), [
                 'version' => $pairing->getVersion(),
                 'token' => $pairing->getToken(),
-                'shipping_method_id' => $pairing->getShippingMethodId(),
+                'shipping_method_id' => $pairing->getShippingMethod(),
                 'wc_order_id' => $pairing->getWcOrderId(),
                 'ref_id' => $pairing->getRefId(),
                 'customer_data' => $customerData === [] ? null : json_encode($customerData),

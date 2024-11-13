@@ -288,7 +288,7 @@ class Pairing extends Entity
     {
         if ($target instanceof FastCheckoutCheckIn) {
             return $this->getPairingStatus() !== $target->pairingStatus()->__toString()
-                || $this->getShippingMethodId() !== ($target->hasShippingMethodId() ? (string) $target->shippingMethodId() : null)
+                || $this->getShippingMethod() !== ($target->hasShippingMethodId() ? (string) $target->shippingMethodId() : null)
                 || ($this->getCustomerData() === [] && $target->hasCustomerData())
                 || ($this->getCustomerData() !== [] && !$target->hasCustomerData());
         }
@@ -302,9 +302,29 @@ class Pairing extends Entity
                 ->__toString();
     }
 
-    public function getShippingMethodId(): ?string
+    public function getShippingMethod(): ?string
     {
         return $this->shippingMethodId;
+    }
+
+    public function getShippingMethodId(): ?string
+    {
+        if ($this->shippingMethodId === null || $this->shippingMethodId === '' || $this->shippingMethodId === '0') {
+            return null;
+        }
+
+        $parts = explode(TwintConstant::SHIPPING_SEPARATOR, $this->shippingMethodId);
+        return $parts[0] ?: null;
+    }
+
+    public function getShippingMethodInstanceId(): ?string
+    {
+        if ($this->shippingMethodId === null || $this->shippingMethodId === '' || $this->shippingMethodId === '0') {
+            return null;
+        }
+
+        $parts = explode(TwintConstant::SHIPPING_SEPARATOR, $this->shippingMethodId);
+        return $parts[1] ?: null;
     }
 
     public function setShippingMethodId($shippingMethodId): self

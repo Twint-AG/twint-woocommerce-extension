@@ -219,6 +219,6 @@ class RegularCheckoutGateway extends AbstractGateway
 
     public function validate_enabled_field($key, $value): string
     {
-        return $value === 1 ? TwintConstant::YES : TwintConstant::NO;
+        return $value === 1 || $value === '1' ? TwintConstant::YES : TwintConstant::NO;
     }
 }

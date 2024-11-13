@@ -12,6 +12,7 @@ use Twint\Sdk\Value\ShippingMethod;
 use Twint\Sdk\Value\ShippingMethodId;
 use Twint\Sdk\Value\ShippingMethods;
 use Twint\Sdk\Value\Version;
+use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Factory\ClientBuilder;
@@ -91,8 +92,10 @@ class FastCheckoutCheckinService
                 $order->add_item($item);
                 $order->calculate_totals();
 
+                $id = $rate->get_method_id() . TwintConstant::SHIPPING_SEPARATOR . $rate->get_instance_id();
+
                 $options[] = new ShippingMethod(
-                    new ShippingMethodId($rate->get_method_id()),
+                    new ShippingMethodId($id),
                     $rate->get_label(),
                     Money::CHF((float) wc_format_decimal(max($order->get_total() - $base, 0)))
                 );

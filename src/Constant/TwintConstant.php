@@ -52,6 +52,8 @@ class TwintConstant
 
     public const EXCEPTION_VERSION_CONFLICT = 'Version conflict detected. Update aborted.';
 
+    public const SHIPPING_SEPARATOR = '++';
+
     public static function installSource(): InstallSource
     {
         return new InstallSource(self::INSTALL_SOURCE);

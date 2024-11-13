@@ -106,7 +106,7 @@ class ExpressOrderService
 
     private function updateShippingMethod(WC_Order $order, Pairing $pairing): void
     {
-        if ($pairing->getShippingMethodId() === null || $pairing->getShippingMethodId() === '' || $pairing->getShippingMethodId() === '0') {
+        if ($pairing->getShippingMethod() === null || $pairing->getShippingMethod() === '' || $pairing->getShippingMethod() === '0') {
             return;
         }
 
@@ -125,17 +125,15 @@ class ExpressOrderService
 
             // Set method ID and method title
             $item->set_method_id($pairing->getShippingMethodId());
+            $item->set_instance_id($pairing->getShippingMethodInstanceId());
             $item->set_method_title($methodTitle);
             $item->set_shipping_rate($rate);
 
-
             // Add the item to the order
             $order->add_item($item);
-
-
-            // Save the item
         } else {
             $item->set_method_id($pairing->getShippingMethodId());
+            $item->set_instance_id($pairing->getShippingMethodInstanceId());
             $item->set_method_title($methodTitle);
             $item->set_shipping_rate($rate);
         }
@@ -183,10 +181,10 @@ class ExpressOrderService
             $rawMethods = $zone->get_shipping_methods(true);
 
             foreach ($rawMethods as $method) {
-                $methods[$method->id] = $method;
+                $methods[$method->instance_id] = $method;
             }
 
-            $method = $methods[$pairing->getShippingMethodId()] ?? null;
+            $method = $methods[$pairing->getShippingMethodInstanceId()] ?? null;
         }
 
         if (!$method) {
