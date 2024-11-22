@@ -63,8 +63,8 @@ class RegularCheckoutGateway extends AbstractGateway
     {
         $this->icon = apply_filters('woocommerce_twint_gateway_regular_icon', '');
 
-        $this->method_title = __('TWINT Checkout', 'woocommerce-gateway-twint');
-        $this->title = __('TWINT', 'woocommerce-gateway-twint');
+        $this->method_title = __('TWINT Checkout', 'twint-woocommerce-extension');
+        $this->title = __('TWINT', 'twint-woocommerce-extension');
         $this->method_description = '';
 
         // Load the settings.
@@ -83,17 +83,17 @@ class RegularCheckoutGateway extends AbstractGateway
     {
         $this->form_fields = [
             'enabled' => [
-                'title' => __('Enable/Disable', 'woocommerce-gateway-twint'),
+                'title' => __('Enable/Disable', 'twint-woocommerce-extension'),
                 'type' => 'checkbox',
-                'label' => __('Enable TWINT Checkout', 'woocommerce-gateway-twint'),
+                'label' => __('Enable TWINT Checkout', 'twint-woocommerce-extension'),
                 'default' => TwintConstant::YES,
             ],
             'title' => [
-                'title' => __('Title', 'woocommerce-gateway-twint'),
+                'title' => __('Title', 'twint-woocommerce-extension'),
                 'type' => 'safe_text',
-                'description' => __('This controls the title which the user sees during checkout.', 'woocommerce-gateway-twint'),
+                'description' => __('This controls the title which the user sees during checkout.', 'twint-woocommerce-extension'),
                 'desc_tip' => true,
-                'default' => __('TWINT', 'woocommerce-gateway-twint'),
+                'default' => __('TWINT', 'twint-woocommerce-extension'),
             ],
         ];
     }
@@ -145,9 +145,9 @@ class RegularCheckoutGateway extends AbstractGateway
 
         if ('wc-' . $order->get_status() === self::getOrderStatusAfterFirstTimeCreatedOrder()) {
             printf(
-                '<a class="woocommerce-button wp-element-button button pay" href="%s">%s</a>',
-                $order->get_checkout_payment_url(),
-                __('Pay for this order', 'woocommerce')
+                esc_html('<a class="woocommerce-button wp-element-button button pay" href="%s">%s</a>'),
+                esc_url($order->get_checkout_payment_url()),
+                esc_html(__('Pay for this order', 'woocommerce'))
             );
         }
     }

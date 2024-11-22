@@ -15,7 +15,9 @@
   ],
   "version": "9.9.9-dev",
   "type": "wordpress-plugin",
-  "license": "GNU General Public License v3.0",
+  "license": [
+    "MIT"
+  ],
   "autoload": {
     "psr-4": {
       "Twint\\Woo\\": "src/"

@@ -15,7 +15,7 @@ class RegularCheckout extends TabItem
 
     public static function getLabel(): string
     {
-        return __('TWINT Checkout', 'woocommerce-gateway-twint');
+        return __('TWINT Checkout', 'twint-woocommerce-extension');
     }
 
     public static function fields(): array

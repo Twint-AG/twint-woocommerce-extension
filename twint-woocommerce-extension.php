@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: WooCommerce TWINT Payment
+ * Plugin Name: TWINT Payment for WooCommerce
  * Plugin URI: https://twint.ch
  * Description: TWINT Payment Plugin for WooCommerce
  * Version: 9.9.9-dev
@@ -8,11 +8,10 @@
  * Author URI: https://twint.ch
  * Developer: TWINT
  * Developer URI: https://www.twint.ch/en/lp/express-checkout-installation-guide-for-woocommerce/
- * Text Domain: woocommerce-gateway-twint
+ * Text Domain: twint-payment-extension
  * Domain Path: /languages
  * Copyright: © 2024 NFQ.
- * License: GNU General Public License v3.0
- * License URI: http://www.gnu.org/licenses/gpl-3.0.html
+ * License: MIT
  * WC requires at least: 6.0
  * WC tested up to: 9.3
  */

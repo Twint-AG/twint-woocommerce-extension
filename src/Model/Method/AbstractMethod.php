@@ -62,7 +62,7 @@ abstract class AbstractMethod extends AbstractPaymentMethodType
         if (function_exists('wp_set_script_translations')) {
             wp_set_script_translations(
                 'wc-twint-payments-blocks',
-                'woocommerce-gateway-twint',
+                'twint-woocommerce-extension',
                 Plugin::abspath() . 'languages/'
             );
         }

@@ -42,6 +42,9 @@ module.exports = {
     // Admin JS
     'credentials-setting': '/resources/js/admin/credentials-setting.js',
     'admin-utilities': '/resources/js/admin/admin-utilities.js',
+
+    //Libraries
+    'clipboard-min': '/resources/js/frontend/library/clipboard-min.js'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),

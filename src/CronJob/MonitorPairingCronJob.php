@@ -46,7 +46,7 @@ class MonitorPairingCronJob
     {
         $schedules['every_minute'] = [
             'interval' => 60, // 60 seconds = 1 minute
-            'display' => __('Every Minute'),
+            'display' => __('Every Minute', 'twint-woocommerce-extension'),
         ];
 
         return $schedules;

@@ -20,6 +20,6 @@ trait LazyLoadTrait
             return $this->{$property};
         }
 
-        throw new BadMethodCallException($name);
+        throw new BadMethodCallException(esc_html($name));
     }
 }

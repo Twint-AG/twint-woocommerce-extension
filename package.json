@@ -1,5 +1,5 @@
 {
-  "name": "woocommerce-gateway-twint",
+  "name": "twint-woocommerce-extension",
   "title": "WooCommerce Twint Payment",
   "version": "9.9.9-dev",
   "author": "WooCommerce",
@@ -35,7 +35,7 @@
     "build": "wp-scripts build",
     "i18n": "npm run i18n:build",
     "i18n:build": "npm run i18n:pot && ./bin/build_i18n.sh",
-    "i18n:pot": "php -d xdebug.max_nesting_level=512 $(which wp) i18n make-pot --exclude=\"node_modules/,languages/,assets/\" --headers='{\"Report-Msgid-Bugs-To\":\"https://woocommerce.com/my-account/create-a-ticket/\", \"language-team\":\"LANGUAGE <EMAIL@ADDRESS>\"}' . languages/woocommerce-gateway-twint.pot",
+    "i18n:pot": "php -d xdebug.max_nesting_level=512 $(which wp) i18n make-pot --exclude=\"node_modules/,languages/,assets/\" --headers='{\"Report-Msgid-Bugs-To\":\"https://woocommerce.com/my-account/create-a-ticket/\", \"language-team\":\"LANGUAGE <EMAIL@ADDRESS>\"}' . languages/twint-woocommerce-extension.pot",
     "i18n:json": "$(which wp) i18n make-json languages --no-purge",
     "packages-update": "wp-scripts packages-update",
     "check-engines": "wp-scripts check-engines",
@@ -47,7 +47,8 @@
     "@wordpress/html-entities": "^4.1.0",
     "@wordpress/i18n": "^5.1.0",
     "axios": "^1.7.2",
-    "dompurify": "^3.1.7"
+    "dompurify": "^3.1.7",
+    "qrcode": "^1.5.4"
   },
   "engines": {
     "node": ">=20.0.0",

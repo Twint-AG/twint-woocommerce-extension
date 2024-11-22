@@ -44,20 +44,26 @@ class StoreConfigurationAction extends BaseAction
 
     public function saveSettings(): void
     {
-        if (!wp_verify_nonce($_REQUEST['nonce'], 'store_twint_settings')) {
+        if (!isset($_REQUEST['nonce']) || !wp_verify_nonce(
+            //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+            wp_unslash($_REQUEST['nonce']),
+            'store_twint_settings'
+        )) {
             exit('The WP Nonce is invalid, please check again!');
         }
 
         $certificateResult = [];
         $response = [];
         $storedCertificate = $this->getSettingService()->getCertificate() ?? [];
-        $storeUuid = $this->getStoreUuid();
-        $password = $this->getPassword(!empty($storedCertificate));
-        $testMode = $_POST[TwintConstant::TEST_MODE] === 'on' ? TwintConstant::YES : TwintConstant::NO;
+        $storeUuid = $this->getStoreUuid(sanitize_text_field(wp_unslash($_POST[TwintConstant::STORE_UUID] ?? '')));
+        $password = $this->getPassword(sanitize_text_field(wp_unslash($_POST[TwintConstant::CERTIFICATE_PASSWORD] ?? '')),!empty($storedCertificate));
+        $testMode = isset($_POST[TwintConstant::TEST_MODE]) && $_POST[TwintConstant::TEST_MODE] === 'on' ? TwintConstant::YES : TwintConstant::NO;
 
         try {
             if ($password !== null && $password !== '' && $password !== '0') {
-                $certificateContent = $this->getCertificateContent();
+                $file = $_FILES[TwintConstant::CERTIFICATE] ?? null;
+
+                $certificateContent = $this->getCertificateContent($file);
                 $certificate = $this->getCertificateHandler()->read($certificateContent, $password);
 
                 if ($certificate instanceof Pkcs12Certificate) {
@@ -69,11 +75,11 @@ class StoreConfigurationAction extends BaseAction
                     $response['status'] = false;
                     $response['flag_credentials'] = false;
                     $response['error_level'] = 'error';
-                    $response['message'] = __('Invalid password', 'woocommerce-gateway-twint');
+                    $response['message'] = __('Invalid password', 'twint-woocommerce-extension');
                     $response['error_type'] = 'upload_cert';
 
-                    $result = json_encode($response);
-                    echo $result;
+                    $result = wp_json_encode($response);
+                    echo esc_html($result);
                     die();
                 }
 
@@ -89,46 +95,49 @@ class StoreConfigurationAction extends BaseAction
             $response['message'] = $exception->getMessage();
         }
 
-        $result = json_encode($response);
-        echo $result;
+        $result = wp_json_encode($response);
+        echo esc_html($result);
         die();
     }
 
-    private function getCertificateContent(): string
+    private function getCertificateContent($file): string
     {
-        $file = $_FILES[TwintConstant::CERTIFICATE] ?? null;
         if ($file['size'] > self::CERTIFICATE_FILE_SIZE || $file['type'] !== self::CERTIFICATE_FILE_TYPE) {
             $this->sendErrorResponse(
-                __('Upload a certificate file (.p12)', 'woocommerce-gateway-twint'),
+                __('Upload a certificate file (.p12)', 'twint-woocommerce-extension'),
                 'upload_cert'
             );
         }
 
-        return file_get_contents($file['tmp_name']);
+        // Use WP_Filesystem to read the file content
+        global $wp_filesystem;
+
+        WP_Filesystem();
+
+        return $wp_filesystem->get_contents(sanitize_file_name($file['tmp_name']));
     }
 
-    private function getStoreUuid(): string
+    private function getStoreUuid(string $string): string
     {
-        if (!StringHelper::isValidUuid($_POST[TwintConstant::STORE_UUID])) {
+        if (!StringHelper::isValidUuid($string)) {
             $response['status'] = false;
-            $response['message'] = __('Invalid Store UUID. Store UUID needs to be a UUIDv4.', 'woocommerce-gateway-twint');
+            $response['message'] = __('Invalid Store UUID. Store UUID needs to be a UUIDv4.', 'twint-woocommerce-extension');
 
-            $result = json_encode($response);
-            echo $result;
+            $result = wp_json_encode($response);
+            echo esc_html($result);
 
             die();
         }
 
-        return $_POST[TwintConstant::STORE_UUID];
+        return $string;
     }
 
-    private function getPassword(bool $allowEmpty): ?string
+    private function getPassword(string $password, bool $allowEmpty): ?string
     {
-        $password = $_POST[TwintConstant::CERTIFICATE_PASSWORD] ?? '';
         $password = $password === 'null' ? null : $password;
 
         if ($this->isInvalidPassword($password, $allowEmpty)) {
-            $this->sendErrorResponse(__('Invalid password', 'woocommerce-gateway-twint'), 'upload_cert');
+            $this->sendErrorResponse(__('Invalid password', 'twint-woocommerce-extension'), 'upload_cert');
         }
 
         return $password;
@@ -156,7 +165,7 @@ class StoreConfigurationAction extends BaseAction
             'error_type' => $errorType,
         ];
 
-        echo json_encode($response);
+        echo wp_json_encode($response);
         die();
     }
 
@@ -168,7 +177,7 @@ class StoreConfigurationAction extends BaseAction
 
         if ($isValid) {
             $response['status'] = true;
-            $response['message'] = __('Settings have been saved successfully.', 'woocommerce-gateway-twint');
+            $response['message'] = __('Settings have been saved successfully.', 'twint-woocommerce-extension');
             update_option($certificateKey, $certificate);
             update_option(TwintConstant::FLAG_VALIDATED_CREDENTIAL_CONFIG, TwintConstant::YES);
             update_option(TwintConstant::TEST_MODE, $testMode ? TwintConstant::YES : TwintConstant::NO);
@@ -179,7 +188,7 @@ class StoreConfigurationAction extends BaseAction
 
             $response['error_level'] = 'error';
             $response['error_type'] = 'validate_credentials';
-            $response['message'] = __('Invalid credentials. Please check again: Store UUID, certificate and environment (mode)', 'woocommerce-gateway-twint');
+            $response['message'] = __('Invalid credentials. Please check again: Store UUID, certificate and environment (mode)', 'twint-woocommerce-extension');
         }
 
         return $response;

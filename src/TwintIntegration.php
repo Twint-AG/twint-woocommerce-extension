@@ -93,11 +93,11 @@ class TwintIntegration
 
     public function wpEnqueueScriptsFrontend(): void
     {
-        wp_localize_script('js-woocommerce-gateway-twint-frontend', 'twint_api', [
+        wp_localize_script('js-twint-woocommerce-extension-frontend', 'twint_api', [
             'admin_url' => admin_url('admin-ajax.php'),
         ]);
 
-        wp_enqueue_style('css-woocommerce-gateway-twint-frontend', Plugin::dist('/frontend.css'), [], '1.0.0');
+        wp_enqueue_style('css-twint-woocommerce-extension-main', Plugin::dist('/frontend.css'), [], '1.0.0');
     }
 
     public function wooPluginTemplate($template, $template_name, $template_path)
@@ -144,8 +144,8 @@ class TwintIntegration
         }
 
         $this->pageHookSetting = add_menu_page(
-            __('TWINT', 'woocommerce-gateway-twint'),
-            __('TWINT', 'woocommerce-gateway-twint'),
+            __('TWINT', 'twint-woocommerce-extension'),
+            __('TWINT', 'twint-woocommerce-extension'),
             'manage_options',
             'twint-payment-integration-settings',
             [$this, 'accessSettingsMenuCallback'],
@@ -159,14 +159,14 @@ class TwintIntegration
         Plugin::enqueueScript('admin-credentials', '/credentials-setting.js', false);
         Plugin::enqueueScript('admin-utilities', '/admin-utilities.js', false);
 
-        wp_localize_script('woocommerce-gateway-twint-admin-credentials', 'twint_api', [
+        wp_localize_script('twint-woocommerce-extension-admin-credentials', 'twint_api', [
             'admin_url' => admin_url('admin-ajax.php'),
         ]);
     }
 
     public function enqueueStyles(): void
     {
-        wp_enqueue_style('css-woocommerce-gateway-twint', Plugin::dist('/admin.css'), [], '1.0.0');
+        wp_enqueue_style('css-twint-woocommerce-extension', Plugin::dist('/admin.css'), [], '1.0.0');
     }
 
     public function adminPluginSettingsLink($links)
@@ -174,7 +174,7 @@ class TwintIntegration
         $link = sprintf(
             '<a href="%s">%s</a>',
             esc_url('admin.php?page=twint-payment-integration-settings'),
-            __('Settings', 'woocommerce-gateway-twint')
+            __('Settings', 'twint-woocommerce-extension')
         );
 
         array_unshift($links, $link);

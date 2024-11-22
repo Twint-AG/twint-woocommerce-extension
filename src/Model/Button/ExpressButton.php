@@ -80,12 +80,12 @@ class ExpressButton
 
     public function addToNonBlockMiniCart(): void
     {
-        echo $this->getButton('mini-cart dynamic');
+        echo esc_html($this->getButton('mini-cart dynamic'));
     }
 
     public function addToLegacyCartPage(): void
     {
-        echo $this->getButton('cart') . $this->renderOrSection();
+        echo esc_html($this->getButton('cart') . $this->renderOrSection());
     }
 
     protected function getAvailableScreens(): array
@@ -131,7 +131,7 @@ class ExpressButton
     {
         return '
             <div class="wc-block-components-express-payment-continue-rule wc-block-components-express-payment-continue-rule--cart">
-               ' . __('Or', 'woocommerce-gateway-twint') . '
+               ' . __('Or', 'twint-woocommerce-extension') . '
             </div> 
         ';
     }
@@ -143,7 +143,7 @@ class ExpressButton
 
     public function renderButton(): void
     {
-        echo $this->getButton('PDP');
+        echo esc_html($this->getButton('PDP'));
     }
 
     public function renderInProductBox(string $html): string

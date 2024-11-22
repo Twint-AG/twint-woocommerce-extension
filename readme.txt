@@ -1,9 +1,24 @@
-=== WooCommerce TWINT Payment ===
-Contributors:
-Tags: twint, twint.ch, switzerland, checkout, regular checkout, express checkout, payment, wordpress, woocommerce, woocommerce-extension
-Requires at least: 5.9.1
-Tested up to: 6.6.2
-Requires PHP: >= 8.1
-Stable tag: 5.9.1
-License: GPLv3 or later License
-URI: http://www.gnu.org/licenses/gpl-3.0.html
+=== TWINT Payment for WooCommerce ===
+Contributors: TWINT
+Tags: TWINT, WooCommerce, payment gateway, express checkout
+Requires at least: 6.0
+Tested up to: 6.7
+Requires PHP: 8.1
+Stable tag: 9.9.9-dev
+License: MIT
+License URI: https://opensource.org/licenses/MIT
+Text Domain: twint-payment-extension
+Domain Path: /languages
+
+== Short Description ==
+A seamless payment integration for WooCommerce, enabling TWINT Express Checkout for fast, secure transactions.
+
+== Description ==
+The TWINT Payment for WooCommerce plugin integrates the TWINT payment system into your WooCommerce store, enabling customers to pay via TWINT’s Express Checkout. The plugin provides a seamless and secure checkout experience for users who prefer using TWINT as a payment method.
+
+Features include:
+- Support for TWINT Express Checkout.
+- Easy setup and configuration.
+- Secure and fast payment processing.
+- Multi-language support.
+- Customizable settings for testing and live environments.
