@@ -34,15 +34,12 @@ class ModalContent {
     let qr = document.getElementById('qrcode')
     qr.innerHTML = ''
 
-    QRCode.toCanvas(qr,
-      this.token,
-    {
+    QRCode.toCanvas(qr, this.token, {
       width: 300,
       height: 300,
       colorDark: '#000000',
       colorLight: '#ffffff',
-    }
-    )
+    })
   }
 
   adjustGuides() {
