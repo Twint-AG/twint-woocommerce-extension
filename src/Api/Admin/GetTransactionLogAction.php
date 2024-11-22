@@ -42,7 +42,7 @@ class GetTransactionLogAction extends BaseAction
             </thead>
             <tbody>
             <tr>
-                <td><?php echo esc_html((string)$log->getId()) ?></td>
+                <td><?php echo esc_html((string) $log->getId()) ?></td>
                 <td><span class="badge bg-primary"><?php echo esc_html($log->getApiMethod()); ?></span></td>
                 <td><span><?php echo esc_html($log->getExceptionText()); ?></span></td>
             </tr>
