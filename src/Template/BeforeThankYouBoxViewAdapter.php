@@ -26,7 +26,10 @@ class BeforeThankYouBoxViewAdapter
         }
 
         $paid = $pairing->isSuccessful();
+
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $cancelled = !empty($_GET['twint_order_cancelled']) && filter_var(
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_unslash($_GET['twint_order_cancelled']),
             FILTER_VALIDATE_BOOLEAN
         ) || $this->order->get_status() === RegularCheckoutGateway::getOrderStatusAfterCancelled();

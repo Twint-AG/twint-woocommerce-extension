@@ -3,11 +3,13 @@ function getMdClasses(string $classes)
 {
     return $modal->isMobile ? '' : $classes;
 }
+//phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
 ?>
 
 <div id="twint-modal" class="!hidden"
      data-exist-label="<?php use Twint\Woo\Plugin;
 
+// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- need to match on translated value from core.
 echo esc_html__('View cart', 'woocommerce') ?>"
      data-exist-message="<?php echo esc_html__(
          'You have existing products in the shopping cart. Please review your shopping cart before continue.',

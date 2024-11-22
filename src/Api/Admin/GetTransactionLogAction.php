@@ -18,12 +18,17 @@ class GetTransactionLogAction extends BaseAction
 
     public function getLogTransactionDetails(): void
     {
-        if (!isset($_REQUEST['nonce']) || !wp_verify_nonce($_REQUEST['nonce'], 'get_log_transaction_details')) {
+        if (!isset($_REQUEST['nonce']) || !wp_verify_nonce(
+            sanitize_text_field(wp_unslash($_REQUEST['nonce'])),
+            'get_log_transaction_details'
+        )) {
             exit('The WP Nonce is invalid, please check again!');
         }
 
+        $id = empty($_REQUEST['record_id']) ? '' : sanitize_text_field(wp_unslash($_REQUEST['record_id']));
+
         /** @var TransactionLog $log */
-        $log = $this->repository->get($_REQUEST['record_id']);
+        $log = $this->repository->get((int) $id);
 
         ob_start();
         ?>
@@ -37,7 +42,7 @@ class GetTransactionLogAction extends BaseAction
             </thead>
             <tbody>
             <tr>
-                <td><?php echo esc_html($log->getId()) ?></td>
+                <td><?php echo esc_html((string)$log->getId()) ?></td>
                 <td><span class="badge bg-primary"><?php echo esc_html($log->getApiMethod()); ?></span></td>
                 <td><span><?php echo esc_html($log->getExceptionText()); ?></span></td>
             </tr>

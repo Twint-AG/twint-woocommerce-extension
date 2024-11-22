@@ -147,6 +147,7 @@ class RegularCheckoutGateway extends AbstractGateway
             printf(
                 esc_html('<a class="woocommerce-button wp-element-button button pay" href="%s">%s</a>'),
                 esc_url($order->get_checkout_payment_url()),
+                // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- need to match on translated value from core.
                 esc_html(__('Pay for this order', 'woocommerce'))
             );
         }
@@ -188,6 +189,7 @@ class RegularCheckoutGateway extends AbstractGateway
             return [
                 'result' => 'success',
                 'redirect' => false,
+                // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- need to match on translated value from core.
                 'messages' => __('Thank you. Your order has been received.', 'woocommerce'),
                 'thankyouUrl' => $this->get_return_url($order),
                 'pairingId' => $pairing->getId(),

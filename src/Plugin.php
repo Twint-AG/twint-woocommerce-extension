@@ -58,6 +58,7 @@ class Plugin
         register_post_status(
             RegularCheckoutGateway::getOrderStatusAfterFirstTimeCreatedOrder(),
             [
+                // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- need to match on translated value from core.
                 'label' => __('Pending payment', 'woocommerce'),
                 'public' => true,
                 'show_in_admin_all_list' => true,
@@ -68,6 +69,7 @@ class Plugin
 
     public static function addCustomWooCommerceStatusToList($orderStatuses): array
     {
+        // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- need to match on translated value from core.
         $orderStatuses[RegularCheckoutGateway::getOrderStatusAfterFirstTimeCreatedOrder()] = __('Pending payment', 'woocommerce');
 
         return $orderStatuses;

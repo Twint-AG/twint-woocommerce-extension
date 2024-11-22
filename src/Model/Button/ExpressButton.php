@@ -115,12 +115,15 @@ class ExpressButton
 
     private function getButton(string $additionalClasses = ''): string
     {
+        //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
         return '
             <button type="submit" class="twint twint-button ' . $additionalClasses . '">
                 <span class="twint icon-block">
-                    <img class="twint twint-icon" src="' . Plugin::assets(
-            '/images/express.svg'
-        ) . '" alt="Express Checkout">
+                    <img class="twint twint-icon" src="' .
+                //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+                Plugin::assets(
+                    '/images/express.svg'
+                ) . '" alt="Express Checkout">
                 </span>
                 <span class="twint twint-label">Express Checkout</span>
             </button>
@@ -157,6 +160,7 @@ class ExpressButton
         }
 
         // If no button element is found and it's not a variable product, try replacing within an anchor tag
+        // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- need to match on translated value from core.
         $text = __('Add to cart', 'woocommerce');
         if (!$buttonInserted && str_contains($html, $text)) {
             $html = str_replace('</a>', "</a> {$button}", $html);

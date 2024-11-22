@@ -86,6 +86,7 @@ class PaymentStatusAction extends BaseAction
         if ($status->isFailed()) {
             $response['extra'] = [
                 'success' => false,
+                // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- need to match on translated value from core.
                 'message' => __('Error processing checkout. Please try again.', 'woocommerce'),
             ];
         }

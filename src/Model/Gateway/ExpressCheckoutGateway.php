@@ -156,6 +156,7 @@ class ExpressCheckoutGateway extends AbstractGateway
 
     public function generate_button_express_checkout_html(): string
     {
+        //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
         return '
         <tr valign="top">
             <th scope="row" class="titledesc">
@@ -169,9 +170,7 @@ class ExpressCheckoutGateway extends AbstractGateway
                     </div>
                     <a href="javascript:void(0)" class="twint-button">
                         <span class="twint-button_icon_block">
-                            <img class="twint-button_icon" src="' . wp_get_attachment_image(
-            __FILE__
-        ) . 'assets/images/express.svg' . '">
+                            <img class="twint-button_icon" src="' . esc_url(Plugin::assets('images/express.svg')) . '">
                         </span>
                         <span class="twint-button_label">' . $this->button . '</span>
                     </a>
@@ -198,7 +197,8 @@ class ExpressCheckoutGateway extends AbstractGateway
      */
     public function saveConfigs(): void
     {
-        $displayOptions = $_POST['display_options'] ?? [];
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        $displayOptions = wp_unslash($_POST['display_options'] ?? []);
 
         update_option('twint_express_checkout_display_options', $displayOptions);
     }

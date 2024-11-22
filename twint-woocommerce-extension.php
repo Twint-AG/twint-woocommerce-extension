@@ -8,7 +8,7 @@
  * Author URI: https://twint.ch
  * Developer: TWINT
  * Developer URI: https://www.twint.ch/en/lp/express-checkout-installation-guide-for-woocommerce/
- * Text Domain: twint-payment-extension
+ * Text Domain: twint-woocommerce-extension
  * Domain Path: /languages
  * Copyright: © 2024 NFQ.
  * License: MIT

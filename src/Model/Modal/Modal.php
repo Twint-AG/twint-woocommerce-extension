@@ -86,6 +86,7 @@ class Modal
         foreach ($links as $link) {
             $icon = $refinedApps[$link['name']] ?? null;
             if ($icon) {
+                //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
                 $app .= '<img src="' . esc_url(Plugin::assets("/images/{$icon}.png")) . '" 
                     class="shadow-2xl w-64 h-64 rounded-2xl mx-auto"
                     data-link="' . htmlentities($link['link']) . '"

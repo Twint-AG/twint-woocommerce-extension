@@ -29,10 +29,12 @@ class AppsService
         $payLinks = [];
         try {
             $client = $this->getBuilder()->build();
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
             $device = $client->detectDevice(
                 string()->assert(
                     !empty($_SERVER['HTTP_USER_AGENT']) &&
-                    wp_unslash(sanitize_text_field($_SERVER['HTTP_USER_AGENT'])) ?? ''
+                    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+                    wp_unslash(sanitize_text_field($_SERVER['HTTP_USER_AGENT']))
                 )
             );
             if ($device->isAndroid()) {
