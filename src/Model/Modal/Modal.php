@@ -101,7 +101,7 @@ class Modal
         return '
             <div id="twint-ios-container">
                 <div class="my-6 text-center">
-                    ' . __('Choose your TWINT app:', 'twint-woocommerce-extension') . '
+                    ' . esc_html__('Choose your TWINT app:', 'twint-woocommerce-extension') . '
                 </div>
     
                 <div class="twint-app-container w-3/4 mx-auto justify-center max-w-screen-md mx-auto grid grid-cols-3 gap-4">
@@ -109,10 +109,15 @@ class Modal
                 </div>
                 
                 <select class="twint-select">
-                    <option>' . __('Other banks', 'twint-woocommerce-extension') . '</option>
+                    <option>' . esc_html__('Other banks', 'twint-woocommerce-extension') . '</option>
                     ' . $else . '
                 </select>    
             </div>        
         ';
+    }
+
+    public function getMdClasses(string $classes): string
+    {
+        return $this->isMobile ? '' : $classes;
     }
 }

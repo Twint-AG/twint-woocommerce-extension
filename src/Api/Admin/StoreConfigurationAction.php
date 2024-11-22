@@ -83,8 +83,7 @@ class StoreConfigurationAction extends BaseAction
                     $response['message'] = __('Invalid password', 'twint-woocommerce-extension');
                     $response['error_type'] = 'upload_cert';
 
-                    $result = wp_json_encode($response);
-                    echo esc_html($result);
+                    echo wp_json_encode($response);
                     die();
                 }
 
@@ -100,8 +99,7 @@ class StoreConfigurationAction extends BaseAction
             $response['message'] = $exception->getMessage();
         }
 
-        $result = wp_json_encode($response);
-        echo esc_html($result);
+        echo wp_json_encode($response);
         die();
     }
 
@@ -119,7 +117,7 @@ class StoreConfigurationAction extends BaseAction
 
         WP_Filesystem();
 
-        return $wp_filesystem->get_contents(sanitize_file_name($file['tmp_name']));
+        return $wp_filesystem->get_contents($file['tmp_name']);
     }
 
     private function getStoreUuid(string $string): string
@@ -128,9 +126,7 @@ class StoreConfigurationAction extends BaseAction
             $response['status'] = false;
             $response['message'] = __('Invalid Store UUID. Store UUID needs to be a UUIDv4.', 'twint-woocommerce-extension');
 
-            $result = wp_json_encode($response);
-            echo esc_html($result);
-
+            echo wp_json_encode($response);
             die();
         }
 

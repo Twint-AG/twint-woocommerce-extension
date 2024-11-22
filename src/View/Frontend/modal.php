@@ -1,8 +1,4 @@
 <?php
-function getMdClasses(string $classes)
-{
-    return $modal->isMobile ? '' : $classes;
-}
 //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
 ?>
 
@@ -17,10 +13,10 @@ echo esc_html__('View cart', 'woocommerce') ?>"
      ) ?>"
 >
     <div class="fixed inset-0 bg-black opacity-50"></div>
-    <div class="modal-inner-wrap shadow-lg w-screen h-screen p-6 z-10 overflow-y-auto <?php echo esc_attr(getMdClasses(
+    <div class="modal-inner-wrap shadow-lg w-screen h-screen p-6 z-10 overflow-y-auto <?php echo esc_attr($this->getMdClasses(
         'md:rounded-lg md:h-auto md:max-h-[95vh]'
     )) ?>">
-        <header class="twint-modal-header sticky top-0 flex justify-between items-center bg-white py-2 px-4 <?php echo esc_attr(getMdClasses(
+        <header class="twint-modal-header sticky top-0 flex justify-between items-center bg-white py-2 px-4 <?php echo esc_attr($this->getMdClasses(
             'md:rounded-t-lg'
         )) ?>">
             <button id="twint-close"
@@ -32,12 +28,12 @@ echo esc_html__('View cart', 'woocommerce') ?>"
                 </svg>
                 <span class="ml-2"></span>
             </button>
-            <img class="twint-logo hidden <?php echo esc_attr(getMdClasses('md:block')) ?>" src="<?php echo esc_attr(Plugin::assets(
+            <img class="twint-logo hidden <?php echo esc_attr($this->getMdClasses('md:block')) ?>" src="<?php echo esc_attr(Plugin::assets(
                 '/images/twint_logo.png'
             )) ?>"
                  alt="TWINT Logo">
         </header>
-        <div class="modal-content twint-modal-content p-0 <?php echo esc_attr($this->getMobileClass() . getMdClasses(
+        <div class="modal-content twint-modal-content p-0 <?php echo esc_attr($this->getMobileClass() . $this->getMdClasses(
             'md:p-4'
         )) ?>">
             <div id="payment-error" class="p-4"><?php echo esc_html__(
@@ -46,11 +42,11 @@ echo esc_html__('View cart', 'woocommerce') ?>"
             ) ?></div>
             <div id="qr-modal-content" class="text-20">
                 <input type="hidden" name="twint_wp_nonce" value={nonce} id="twint_wp_nonce"/>
-                <div class="flex flex-col  gap-4 bg-gray-100 <?php echo esc_attr(getMdClasses('md:flex-row')) ?>">
-                    <div class="flex flex-1 order-1 bg-white items-center justify-center <?php echo esc_attr(getMdClasses(
+                <div class="flex flex-col  gap-4 bg-gray-100 <?php echo esc_attr($this->getMdClasses('md:flex-row')) ?>">
+                    <div class="flex flex-1 order-1 bg-white items-center justify-center <?php echo esc_attr($this->getMdClasses(
                         'md:flex md:order-none md:rounded-lg'
                     )) ?>">
-                        <div class="flex flex-col text-center <?php echo esc_attr(getMdClasses(
+                        <div class="flex flex-col text-center <?php echo esc_attr($this->getMdClasses(
                             'md:flex-col-reverse'
                         )) ?>">
                             <div class="qr-token text-center my-3">
@@ -62,7 +58,7 @@ echo esc_html__('View cart', 'woocommerce') ?>"
                                 />
                             </div>
 
-                            <div class="text-center my-4 <?php echo esc_attr(getMdClasses('md:hidden')) ?>">
+                            <div class="text-center my-4 <?php echo esc_attr($this->getMdClasses('md:hidden')) ?>">
                                 <button id="twint-copy-btn"
                                         data-clipboard-action="copy"
                                         data-clipboard-target="#qr-token"
@@ -73,29 +69,29 @@ echo esc_html__('View cart', 'woocommerce') ?>"
                             </div>
 
                             <canvas id="qrcode" class="text-center items-center justify-center m-4
-                                    <?php echo esc_attr(getMdClasses('md:flex')) ?>"
+                                    <?php echo esc_attr($this->getMdClasses('md:flex')) ?>"
                                  title={pairingToken}>
                             </canvas>
                         </div>
                     </div>
 
-                    <div class="flex-1 order-0 flex flex-col gap-1 <?php echo esc_attr(getMdClasses(
+                    <div class="flex-1 order-0 flex flex-col gap-1 <?php echo esc_attr($this->getMdClasses(
                         'md:gap-4 md:order-1'
                     )) ?>">
-                        <div class="flex flex-1 bg-white p-4 items-center justify-center <?php echo esc_attr(getMdClasses(
+                        <div class="flex flex-1 bg-white p-4 items-center justify-center <?php echo esc_attr($this->getMdClasses(
                             'md:rounded-lg'
                         )) ?>">
                                         <span id="twint-amount">
                                             {price}
                                         </span>
                         </div>
-                        <div class="flex flex-1 bg-white p-4 items-center justify-center <?php echo esc_attr(getMdClasses(
+                        <div class="flex flex-1 bg-white p-4 items-center justify-center <?php echo esc_attr($this->getMdClasses(
                             'md:rounded-lg'
                         )) ?>">
                             <?php echo esc_html(get_bloginfo('name')) ?>
                         </div>
 
-                        <div class="app-selector <?php echo esc_attr(getMdClasses('md:hidden')) ?>">
+                        <div class="app-selector <?php echo esc_attr($this->getMdClasses('md:hidden')) ?>">
                             <?php if ($this->isAndroid) {
                                 $link = $this->links['android']; ?>
 
@@ -110,7 +106,7 @@ echo esc_html__('View cart', 'woocommerce') ?>"
 
                             <?php //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The HTML is safe and intended for raw output.
                             echo $this->getIosHtml() ?>
-                            <div class="text-center <?php echo esc_attr(getMdClasses('md:hidden')) ?>">
+                            <div class="text-center <?php echo esc_attr($this->getMdClasses('md:hidden')) ?>">
                                 <div class="or-section hidden items-center justify-center mx-4">
                                     <div
                                         class="flex-grow border-b-0 border-t border-solid border-gray-300"></div>
@@ -132,7 +128,7 @@ echo esc_html__('View cart', 'woocommerce') ?>"
 
                 <div class="container mx-auto mt-4 text-16 p-4">
                     <div class="grid grid-cols-1 md:grid-cols-2">
-                        <div class="twint-scan flex-col items-center <?php echo esc_attr(getMdClasses('md:flex')) ?>">
+                        <div class="twint-scan flex-col items-center <?php echo esc_attr($this->getMdClasses('md:flex')) ?>">
                             <div class="flex justify-center">
                                 <img class="w-55 h-55"
                                      src="<?php echo esc_attr(Plugin::assets('/images/icon-scan.svg')) ?>"
