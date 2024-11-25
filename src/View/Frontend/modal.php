@@ -126,11 +126,11 @@ echo esc_html__('View cart', 'woocommerce') ?>"
                     </div>
                 </div>
 
-                <div class="container mx-auto mt-4 text-16 p-4">
+                <div class="mx-auto mt-4 text-16 p-4">
                     <div class="grid grid-cols-1 md:grid-cols-2">
                         <div class="twint-scan flex-col items-center <?php echo esc_attr($this->getMdClasses('md:flex')) ?>">
                             <div class="flex justify-center">
-                                <img class="w-55 h-55"
+                                <img class="!w-55 !h-55"
                                      src="<?php echo esc_attr(Plugin::assets('/images/icon-scan.svg')) ?>"
                                      alt="scan"/>
                             </div>
@@ -143,7 +143,7 @@ echo esc_html__('View cart', 'woocommerce') ?>"
                         </div>
                         <div id="twint-guide-contact" class="flex flex-col items-center">
                             <div class="flex justify-center">
-                                <img class="w-55 h-55" src="<?php echo esc_attr(Plugin::assets(
+                                <img class="!w-55 !h-55" src="<?php echo esc_attr(Plugin::assets(
                                     '/images/icon-contact.svg'
                                 )) ?>" alt="contact">
                             </div>
