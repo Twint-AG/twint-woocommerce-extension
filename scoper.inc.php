@@ -106,6 +106,8 @@ return [
                 $contents = str_replace('use Psl;', 'use TwintWoo\\Psl;', $contents);
             }
 
+            $contents = str_replace('\\false,', 'false,', $contents);
+
             return $contents;
         },
     ],
