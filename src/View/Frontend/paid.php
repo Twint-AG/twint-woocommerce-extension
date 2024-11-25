@@ -1,3 +1,4 @@
+<?php ?>
 <div class="flashbags">
     <div role="alert" class="alert alert-success alert-has-icon">
                     <span class="icon icon-checkmark-circle">

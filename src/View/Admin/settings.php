@@ -1,3 +1,4 @@
+<?php ?>
 <div class="wrap">
     <div id="notice-admin-success" class="hidden notice notice-success">
         <p> <?php echo esc_html__('Certificate validation successful', 'twint-woocommerce-extension') ?></p>
