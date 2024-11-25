@@ -51,8 +51,8 @@ class ExpressCheckoutGateway extends AbstractGateway
 
         $this->icon = apply_filters('woocommerce_twint_gateway_express_icon', '');
 
-        $this->method_title = __('TWINT Express Checkout', 'woocommerce-gateway-twint');
-        $this->title = __('TWINT Express Checkout', 'woocommerce-gateway-twint');
+        $this->method_title = __('TWINT Express Checkout', 'twint-woocommerce-extension');
+        $this->title = __('TWINT Express Checkout', 'twint-woocommerce-extension');
         $this->method_description = '';
 
         // Load the settings.
@@ -99,9 +99,9 @@ class ExpressCheckoutGateway extends AbstractGateway
     {
         $this->form_fields = [
             'enabled' => [
-                'title' => __('Enable/Disable', 'woocommerce-gateway-twint'),
+                'title' => __('Enable/Disable', 'twint-woocommerce-extension'),
                 'type' => 'checkbox',
-                'label' => __('Enable TWINT Express Checkout', 'woocommerce-gateway-twint'),
+                'label' => __('Enable TWINT Express Checkout', 'twint-woocommerce-extension'),
                 'default' => TwintConstant::NO,
             ],
             'display_options' => [
@@ -114,10 +114,10 @@ class ExpressCheckoutGateway extends AbstractGateway
     {
         $getOptions = function () {
             $options = [
-                TwintConstant::CONFIG_SCREEN_CART => __('Cart page', 'woocommerce-gateway-twint'),
-                TwintConstant::CONFIG_SCREEN_CART_FLYOUT => __('Mini Cart', 'woocommerce-gateway-twint'),
-                TwintConstant::CONFIG_SCREEN_PDP => __('Product Detail Page', 'woocommerce-gateway-twint'),
-                TwintConstant::CONFIG_SCREEN_PLP => __('Product Listing Page', 'woocommerce-gateway-twint'),
+                TwintConstant::CONFIG_SCREEN_CART => __('Cart page', 'twint-woocommerce-extension'),
+                TwintConstant::CONFIG_SCREEN_CART_FLYOUT => __('Mini Cart', 'twint-woocommerce-extension'),
+                TwintConstant::CONFIG_SCREEN_PDP => __('Product Detail Page', 'twint-woocommerce-extension'),
+                TwintConstant::CONFIG_SCREEN_PLP => __('Product Listing Page', 'twint-woocommerce-extension'),
             ];
 
             $html = '';
@@ -137,7 +137,7 @@ class ExpressCheckoutGateway extends AbstractGateway
 
         return '<tr valign="top">
                     <th scope="row" class="titledesc">
-                        <label>' . __('Display Screens', 'woocommerce-gateway-twint') . '</label>
+                        <label>' . __('Display Screens', 'twint-woocommerce-extension') . '</label>
                     </th>
                     <td class="forminp" id="display_options">
                         <div class="wc_input_table_wrapper">
@@ -156,20 +156,21 @@ class ExpressCheckoutGateway extends AbstractGateway
 
     public function generate_button_express_checkout_html(): string
     {
+        //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
         return '
         <tr valign="top">
             <th scope="row" class="titledesc">
-                <label>' . __('Button config', 'woocommerce-gateway-twint') . '</label>
+                <label>' . __('Button config', 'twint-woocommerce-extension') . '</label>
             </th>
             <td class="forminp" id="button_express_checkout_label">
                 <div class="wc_input_table_wrapper">
                     <input type="text" name="twint_button_label" value="<?php echo $this->button; ?>">
                     <div class="preview-btn" style="margin-top: 15px; font-size: 14px; font-weight: bold">
-                        ' . __('Button Preview', 'woocommerce-gateway-twint') . '
+                        ' . __('Button Preview', 'twint-woocommerce-extension') . '
                     </div>
                     <a href="javascript:void(0)" class="twint-button">
                         <span class="twint-button_icon_block">
-                            <img class="twint-button_icon" src="' . Plugin::assets('/images/express.svg') . '">
+                            <img class="twint-button_icon" src="' . esc_url(Plugin::assets('images/express.svg')) . '">
                         </span>
                         <span class="twint-button_label">' . $this->button . '</span>
                     </a>
@@ -196,7 +197,8 @@ class ExpressCheckoutGateway extends AbstractGateway
      */
     public function saveConfigs(): void
     {
-        $displayOptions = $_POST['display_options'] ?? [];
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        $displayOptions = wp_unslash($_POST['display_options'] ?? []);
 
         update_option('twint_express_checkout_display_options', $displayOptions);
     }

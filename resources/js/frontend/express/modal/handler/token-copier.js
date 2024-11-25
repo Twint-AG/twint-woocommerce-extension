@@ -1,3 +1,4 @@
+import Clipboard from './../../../library/clipboard-min'
 import DOMPurify from 'dompurify'
 
 class TokenCopier {

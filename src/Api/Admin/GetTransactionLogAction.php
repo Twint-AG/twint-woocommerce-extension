@@ -18,28 +18,33 @@ class GetTransactionLogAction extends BaseAction
 
     public function getLogTransactionDetails(): void
     {
-        if (!wp_verify_nonce($_REQUEST['nonce'], 'get_log_transaction_details')) {
+        if (!isset($_REQUEST['nonce']) || !wp_verify_nonce(
+            sanitize_text_field(wp_unslash($_REQUEST['nonce'])),
+            'get_log_transaction_details'
+        )) {
             exit('The WP Nonce is invalid, please check again!');
         }
 
+        $id = empty($_REQUEST['record_id']) ? '' : sanitize_text_field(wp_unslash($_REQUEST['record_id']));
+
         /** @var TransactionLog $log */
-        $log = $this->repository->get($_REQUEST['record_id']);
+        $log = $this->repository->get((int) $id);
 
         ob_start();
         ?>
         <table class="content-table">
             <thead>
             <tr>
-                <th><?= __('Order ID', 'woocommerce-gateway-twint'); ?></th>
-                <th><?= __('API Method', 'woocommerce-gateway-twint'); ?></th>
-                <th><?= __('Exception', 'woocommerce-gateway-twint'); ?></th>
+                <th><?php echo esc_html__('Order ID', 'twint-woocommerce-extension'); ?></th>
+                <th><?php echo esc_html__('API Method', 'twint-woocommerce-extension'); ?></th>
+                <th><?php echo esc_html__('Exception', 'twint-woocommerce-extension'); ?></th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td><?= $log->getId() ?></td>
-                <td><span class="badge bg-primary"><?= $log->getApiMethod(); ?></span></td>
-                <td><span><?= $log->getExceptionText(); ?></span></td>
+                <td><?php echo esc_html((string) $log->getId()) ?></td>
+                <td><span class="badge bg-primary"><?php echo esc_html($log->getApiMethod()); ?></span></td>
+                <td><span><?php echo esc_html($log->getExceptionText()); ?></span></td>
             </tr>
             </tbody>
         </table>
@@ -49,16 +54,19 @@ class GetTransactionLogAction extends BaseAction
             <div class="">
                 <div class="components-flex components-card__header components-card-header">
                     <h2 class="components-truncate components-text" style="padding-left: 0;">
-                        <?= __('Request', 'woocommerce-gateway-twint') . ' ' . __('Response', 'woocommerce-gateway-twint'); ?>
+                        <?php echo esc_html__('Request', 'twint-woocommerce-extension') . ' ' . esc_html__(
+                            'Response',
+                            'twint-woocommerce-extension'
+                        ); ?>
                     </h2>
 
                     <div id="request">
-                        <label for="request"><?= __('Request', 'woocommerce-gateway-twint'); ?></label>
-                        <textarea cols="30" rows="6" id="request" disabled><?= $log->getRequest(); ?></textarea>
+                        <label for="request"><?php echo esc_html__('Request', 'twint-woocommerce-extension'); ?></label>
+                        <textarea cols="30" rows="6" id="request" disabled><?php echo esc_html($log->getRequest()); ?></textarea>
                     </div>
                     <div id="response">
-                        <label for="request"><?= __('Response', 'woocommerce-gateway-twint'); ?></label>
-                        <textarea cols="30" rows="6" id="request" disabled><?= $log->getResponse(); ?></textarea>
+                        <label for="request"><?php echo esc_html__('Response', 'twint-woocommerce-extension'); ?></label>
+                        <textarea cols="30" rows="6" id="request" disabled><?php echo esc_html($log->getResponse()); ?></textarea>
                     </div>
                 </div>
             </div>
@@ -69,18 +77,18 @@ class GetTransactionLogAction extends BaseAction
             <div class="">
                 <div class="components-flex components-card__header components-card-header">
                     <h2 class="components-truncate components-text" style="padding-left: 0;">
-                        <?= $log->getSoapAction(true)[$index] ?>
+                        <?php echo esc_html($log->getSoapAction(true)[$index]) ?>
                     </h2>
 
                     <div id="request">
-                        <label for="request"><?= __('Request', 'woocommerce-gateway-twint'); ?></label>
+                        <label for="request"><?php echo esc_html__('Request', 'twint-woocommerce-extension'); ?></label>
                         <textarea cols="30" rows="6" id="request"
-                                  disabled><?= XmlHelper::format($request); ?></textarea>
+                                  disabled><?php echo esc_html(XmlHelper::format($request)); ?></textarea>
                     </div>
                     <div id="response">
-                        <label for="response"><?= __('Response', 'woocommerce-gateway-twint'); ?></label>
+                        <label for="response"><?php echo esc_html__('Response', 'twint-woocommerce-extension'); ?></label>
                         <textarea cols="30" rows="6" id="request"
-                                  disabled><?= XmlHelper::format($log->getSoapResponse(true)[$index]); ?></textarea>
+                                  disabled><?php echo esc_html(XmlHelper::format($log->getSoapResponse(true)[$index])); ?></textarea>
                     </div>
                 </div>
             </div>
@@ -89,7 +97,7 @@ class GetTransactionLogAction extends BaseAction
         $result = ob_get_contents();
         ob_end_clean();
 
-        echo json_encode($result);
+        echo wp_json_encode($result);
         die();
     }
 }

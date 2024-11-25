@@ -206,9 +206,9 @@ class Pairing extends Entity
         return $this;
     }
 
-    public function getCreatedAt(): string
+    public function getCreatedAt(): ?string
     {
-        return $this->createdAt ?? date('Y-m-d H:i:s');
+        return $this->createdAt ?? null;
     }
 
     public function setCreatedAt(string $createdAt): self
@@ -217,9 +217,9 @@ class Pairing extends Entity
         return $this;
     }
 
-    public function getUpdatedAt(): string
+    public function getUpdatedAt(): ?string
     {
-        return $this->updatedAt ?? date('Y-m-d H:i:s');
+        return $this->updatedAt ?? null;
     }
 
     public function setUpdatedAt(?string $updatedAt): self

@@ -6,6 +6,7 @@ namespace Twint\Woo\Template\Admin;
 
 use AllowDynamicProperties;
 use Twint\Woo\Constant\TwintConstant;
+use Twint\Woo\Plugin;
 use Twint\Woo\Service\SettingService;
 use Twint\Woo\Template\Admin\Setting\Tab\Credentials;
 use Twint\Woo\Template\Admin\Setting\Tab\ExpressCheckout;
@@ -25,25 +26,8 @@ class SettingsLayoutViewAdapter
     public function render(): void
     {
         $tabs = $this->getTabsConfig();
-        $html = '<div class="wrap">
-            <div id="notice-admin-success" class="hidden notice notice-success">
-                <p> ' . __('Certificate validation successful', 'woocommerce-gateway-twint') . '</p>
-            </div>
-            <div id="notice-admin-error" class="hidden notice notice-error is-dismissible"></div>
 
-            <form method="post" action="" novalidate="novalidate" enctype="multipart/form-data" autocomplete="off">
-                <nav class="nav-tab-wrapper woo-nav-tab-wrapper">
-                    ' . $this->getTabHtml($tabs) . '
-                </nav>
-
-                <div class="tab-content">
-                    ' . $this->getTabContent() . '
-                </div>
-
-            </form>
-        </div>';
-
-        echo $html;
+        require Plugin::abspath() . 'src/View/Admin/settings.php';
     }
 
     /**
@@ -114,7 +98,7 @@ class SettingsLayoutViewAdapter
         if (Credentials::allowSaveChanges()) {
             $html .= '<p class="submit">';
             $html .= '<button type="submit" id="js_twint_button_save" class="button button-primary">';
-            $html .= '<span class="button-text">' . __('Save changes', 'woocommerce-gateway-twint') . '</span>';
+            $html .= '<span class="button-text">' . __('Save changes', 'twint-woocommerce-extension') . '</span>';
             $html .= '</button>';
             $html .= '</p>';
         }

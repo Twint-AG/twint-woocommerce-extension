@@ -80,12 +80,12 @@ class ExpressButton
 
     public function addToNonBlockMiniCart(): void
     {
-        echo $this->getButton('mini-cart dynamic');
+        echo esc_html($this->getButton('mini-cart dynamic'));
     }
 
     public function addToLegacyCartPage(): void
     {
-        echo $this->getButton('cart') . $this->renderOrSection();
+        echo esc_html($this->getButton('cart') . $this->renderOrSection());
     }
 
     protected function getAvailableScreens(): array
@@ -115,12 +115,15 @@ class ExpressButton
 
     private function getButton(string $additionalClasses = ''): string
     {
+        //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
         return '
             <button type="submit" class="twint twint-button ' . $additionalClasses . '">
                 <span class="twint icon-block">
-                    <img class="twint twint-icon" src="' . Plugin::assets(
-            '/images/express.svg'
-        ) . '" alt="Express Checkout">
+                    <img class="twint twint-icon" src="' .
+                //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+                Plugin::assets(
+                    '/images/express.svg'
+                ) . '" alt="Express Checkout">
                 </span>
                 <span class="twint twint-label">Express Checkout</span>
             </button>
@@ -131,7 +134,7 @@ class ExpressButton
     {
         return '
             <div class="wc-block-components-express-payment-continue-rule wc-block-components-express-payment-continue-rule--cart">
-               ' . __('Or', 'woocommerce-gateway-twint') . '
+               ' . __('Or', 'twint-woocommerce-extension') . '
             </div> 
         ';
     }
@@ -143,7 +146,7 @@ class ExpressButton
 
     public function renderButton(): void
     {
-        echo $this->getButton('PDP');
+        echo esc_html($this->getButton('PDP'));
     }
 
     public function renderInProductBox(string $html): string
@@ -157,6 +160,7 @@ class ExpressButton
         }
 
         // If no button element is found and it's not a variable product, try replacing within an anchor tag
+        // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- need to match on translated value from core.
         $text = __('Add to cart', 'woocommerce');
         if (!$buttonInserted && str_contains($html, $text)) {
             $html = str_replace('</a>', "</a> {$button}", $html);

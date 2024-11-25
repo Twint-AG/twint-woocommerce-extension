@@ -49,12 +49,12 @@ class ClientBuilder
         $environment = $this->setting->isTestMode() ? Environment::TESTING() : Environment::PRODUCTION();
         $storeUuid = $this->setting->getStoreUuid();
         if ($storeUuid === null || $storeUuid === '' || $storeUuid === '0') {
-            throw new InvalidConfigException(InvalidConfigException::ERROR_INVALID_STORE_UUID);
+            throw new InvalidConfigException(esc_html(InvalidConfigException::ERROR_INVALID_STORE_UUID));
         }
 
         $certificate = $this->setting->getCertificate();
         if ($certificate === null || $certificate === []) {
-            throw new InvalidConfigException(InvalidConfigException::ERROR_INVALID_CERTIFICATE);
+            throw new InvalidConfigException(esc_html(InvalidConfigException::ERROR_INVALID_CERTIFICATE));
         }
 
         try {
@@ -92,7 +92,7 @@ class ClientBuilder
 
             return $client;
         } catch (Throwable $e) {
-            throw new InvalidConfigException(InvalidConfigException::ERROR_UNDEFINED, 0, $e);
+            throw new InvalidConfigException(esc_html(InvalidConfigException::ERROR_UNDEFINED), 0);
         }
     }
 }

@@ -3,9 +3,9 @@
 if (!$cliSupport) { ?>
     <div class="woocommerce-message notice notice-warning">
         <p>
-            <?= wp_kses_post(__('<b>Warning</b>: PHP CLI Not Available', 'woocommerce-gateway-twint')); ?> <br>
-            <?= wp_kses_post(
-                __('PHP CLI (Command Line Interface) is missing or misconfigured. This extension relies on PHP CLI for essential background processes. Without it, some features may not function properly.', 'woocommerce-gateway-twint')
+            <?php echo wp_kses_post(__('<b>Warning</b>: PHP CLI Not Available', 'twint-woocommerce-extension')); ?> <br>
+            <?php echo wp_kses_post(
+                __('PHP CLI (Command Line Interface) is missing or misconfigured. This extension relies on PHP CLI for essential background processes. Without it, some features may not function properly.', 'twint-woocommerce-extension')
             ); ?>
         </p>
     </div>
@@ -21,24 +21,24 @@ if (!$cliSupport) { ?>
                 <tr class="">
                     <th></th>
                     <td>
-                        <div class="notify-box notify-success <?= $data['needHideCertificateUpload'] === false ? 'hidden' : '' ?>"
+                        <div class="notify-box notify-success <?php echo $data['needHideCertificateUpload'] === false ? 'hidden' : '' ?>"
                              style="max-width: 333px;"
                              id="notice_success_configuration_settings">
                             <div class="notify-box__content">
                                 <div style="margin-bottom: 10px;">
-                                    <?= __('Certificate encrypted and stored.', 'woocommerce-gateway-twint') ?>
+                                    <?php echo esc_html(__('Certificate encrypted and stored.', 'twint-woocommerce-extension')) ?>
                                 </div>
 
                                 <a href="javascript:void(0)" id="upload-new-certificate"
                                    style="margin-top: 7px;">
-                                    <?= __('Upload new certificate', 'woocommerce-gateway-twint') ?>
+                                    <?php echo esc_html(__('Upload new certificate', 'twint-woocommerce-extension')) ?>
                                 </a>
 
                                 <a href="javascript:void(0)"
                                    id="close-new-certificate"
                                    class="hidden"
                                    style="margin-top: 7px;">
-                                    <?= __('Close', 'woocommerce-gateway-twint') ?>
+                                    <?php echo esc_html(__('Close', 'twint-woocommerce-extension')) ?>
                                 </a>
                             </div>
                         </div>
@@ -46,74 +46,74 @@ if (!$cliSupport) { ?>
                 </tr>
             <?php endif; ?>
         <?php endif; ?>
-        <tr class="<?= $field['name']; ?> <?= (in_array(
+        <tr class="<?php echo esc_attr($field['name']); ?> <?php echo (in_array(
             $field['name'],
             ['plugin_twint_settings_certificate', 'plugin_twint_settings_certificate_password'],
             true
         ) && $data['needHideCertificateUpload']) ? 'hidden' : '' ?>">
             <th scope="row">
-                <label for="<?= $field['name']; ?>">
-                    <?= $field['label']; ?>
+                <label for="<?php echo esc_attr($field['name']); ?>">
+                    <?php echo esc_html($field['label']); ?>
                 </label>
             </th>
             <td>
                 <?php if ($field['type'] === 'text' || $field['type'] === 'password'): ?>
-                    <input name="<?= $field['type']; ?>" type="<?= $field['type']; ?>"
-                           id="<?= $field['name']; ?>"
+                    <input name="<?php echo esc_attr($field['type']); ?>" type="<?php echo esc_attr($field['type']); ?>"
+                           id="<?php echo esc_attr($field['name']); ?>"
                            aria-describedby="tagline-description"
                         <?php if ($field['need_populate'] === true): ?>
-                            value="<?= get_option($field['name']); ?>"
+                            value="<?php echo esc_attr(get_option($field['name'])); ?>"
                         <?php endif; ?>
-                           placeholder="<?= $field['placeholder']; ?>"
+                           placeholder="<?php echo esc_attr($field['placeholder']); ?>"
                            class="regular-text"/>
                     <div class="notify-box notify-error hidden"
-                         id="<?php echo 'error-state_' . $field['name']; ?>">
+                         id="<?php echo esc_attr('error-state_' . $field['name']); ?>">
                         <?php if ($field['name'] === TwintConstant::STORE_UUID): ?>
-                            <?php echo __('Invalid Store UUID. Store UUID needs to be a UUIDv4', 'woocommerce-gateway-twint'); ?>
+                            <?php echo esc_html(__('Invalid Store UUID. Store UUID needs to be a UUIDv4', 'twint-woocommerce-extension')); ?>
                         <?php endif; ?>
                     </div>
                 <?php elseif ($field['type'] === 'file'): ?>
                     <input class="twint-file-upload"
-                           name="<?= $field['name']; ?>"
-                           type="<?= $field['type']; ?>"
-                           placeholder="<?= $field['placeholder']; ?>"/
+                           name="<?php echo esc_attr($field['name']); ?>"
+                           type="<?php echo esc_attr($field['type']); ?>"
+                           placeholder="<?php echo esc_attr($field['placeholder']); ?>"/
                     <div class="notify-box notify-error hidden"
-                         id="<?php echo 'error-state_' . $field['name']; ?>">
+                         id="<?php echo esc_attr('error-state_' . $field['name']); ?>">
                         <?php if ($field['name'] === TwintConstant::STORE_UUID): ?>
-                            <?php echo __('Test', 'woocommerce-gateway-twint'); ?>
+                            <?php echo esc_html(__('Test', 'twint-woocommerce-extension')); ?>
                         <?php endif; ?>
                     </div>
                 <?php elseif ($field['type'] === 'textarea'): ?>
-                    <textarea id="<?= $field['name']; ?>"
-                              name="<?= $field['name']; ?>"
-                              rows="<?= $field['rows']; ?>"
-                              type="<?= $field['type']; ?>"
+                    <textarea id="<?php echo esc_attr($field['name']); ?>"
+                              name="<?php echo esc_attr($field['name']); ?>"
+                              rows="<?php echo esc_attr($field['rows']); ?>"
+                              type="<?php echo esc_attr($field['type']); ?>"
                               class="regular-text twint-field"
-                              placeholder="<?= $field['placeholder']; ?>"><?= $field['need_populate'] === true ? get_option(
-                                  $field['name']
-                              ) : ''; ?></textarea>
+                              placeholder="<?php echo esc_attr($field['placeholder']); ?>">
+                                <?php echo $field['need_populate'] === true ? esc_html(get_option($field['name'])) : ''; ?>
+                    </textarea>
                 <?php elseif ($field['type'] === 'checkbox'): ?>
                     <fieldset>
-                        <legend class="screen-reader-text"><span><?= $field['label']; ?></span></legend>
+                        <legend class="screen-reader-text"><span><?php echo esc_html($field['label']); ?></span></legend>
                         <label for="woocommerce_cod_enabled">
                             <input class=""
                                    type="checkbox"
-                                   name="<?= $field['name']; ?>"
-                                   id="<?= $field['name']; ?>"
+                                   name="<?php echo esc_attr($field['name']); ?>"
+                                   id="<?php echo esc_attr($field['name']); ?>"
                                 <?php if ($field['need_populate'] === true): ?>
                                     <?php if (get_option($field['name']) === 'yes'): ?>
                                         checked
                                     <?php endif; ?>
                                 <?php endif; ?>
                             />
-                            <?= $field['label']; ?>
+                            <?php echo esc_html($field['label']); ?>
                         </label>
                     </fieldset>
                 <?php endif; ?>
 
                 <?php if ($field['help_text'] !== ''): ?>
                     <div style="margin-top: 5px;">
-                        <small class="text-sm"><i><?= $field['help_text']; ?></i></small>
+                        <small class="text-sm"><i><?php echo esc_html($field['help_text']); ?></i></small>
                     </div>
                 <?php endif; ?>
             </td>

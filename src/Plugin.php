@@ -58,6 +58,7 @@ class Plugin
         register_post_status(
             RegularCheckoutGateway::getOrderStatusAfterFirstTimeCreatedOrder(),
             [
+                // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- need to match on translated value from core.
                 'label' => __('Pending payment', 'woocommerce'),
                 'public' => true,
                 'show_in_admin_all_list' => true,
@@ -68,6 +69,7 @@ class Plugin
 
     public static function addCustomWooCommerceStatusToList($orderStatuses): array
     {
+        // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- need to match on translated value from core.
         $orderStatuses[RegularCheckoutGateway::getOrderStatusAfterFirstTimeCreatedOrder()] = __('Pending payment', 'woocommerce');
 
         return $orderStatuses;
@@ -168,10 +170,10 @@ class Plugin
     public static function enqueueScript(string $id, string $path, bool $useHook = true): void
     {
         $func = function () use ($id, $path) {
-            $name = "woocommerce-gateway-twint-{$id}";
+            $name = "twint-woocommerce-extension-{$id}";
             $asset = require self::abspath() . 'dist' . str_replace('.js', '.asset.php', $path);
 
-            wp_enqueue_script($name, Plugin::dist($path), $asset['dependencies'], $asset['version']);
+            wp_enqueue_script($name, Plugin::dist($path), $asset['dependencies'], $asset['version'], false);
         };
 
         // Hook into wp_enqueue_scripts or another relevant hook
@@ -208,12 +210,12 @@ class Plugin
         $locale = determine_locale();
         $locale = apply_filters('plugin_locale', $locale, 'woocommerce');
         load_textdomain(
-            'woocommerce-gateway-twint',
-            plugin_dir_path(self::pluginFile()) . 'languages/woocommerce-gateway-twint-' . $locale . '.mo'
+            'twint-woocommerce-extension',
+            plugin_dir_path(self::pluginFile()) . 'languages/twint-woocommerce-extension-' . $locale . '.mo'
         );
 
         // from WP 6.5 only need this
-        load_plugin_textdomain('woocommerce-gateway-twint', false, plugin_dir_path(self::pluginFile()) . 'languages');
+        load_plugin_textdomain('twint-woocommerce-extension', false, plugin_dir_path(self::pluginFile()) . 'languages');
     }
 
     protected static function pluginFile(): string

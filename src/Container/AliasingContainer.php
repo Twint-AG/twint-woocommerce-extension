@@ -19,7 +19,7 @@ class AliasingContainer implements ContainerInterface
     public function get(string $id, bool $immediately = false): mixed
     {
         if (!$this->has($id)) {
-            throw new ContainerException("Container '{$id}' is not registered");
+            throw new ContainerException(esc_html("Container '{$id}' is not registered"));
         }
 
         $instance = $this->alias[$id];

@@ -98,7 +98,7 @@ class PairingRepository
                 'shipping_method_id' => $pairing->getShippingMethod(),
                 'wc_order_id' => $pairing->getWcOrderId(),
                 'ref_id' => $pairing->getRefId(),
-                'customer_data' => $customerData === [] ? null : json_encode($customerData),
+                'customer_data' => $customerData === [] ? null : wp_json_encode($customerData),
                 'is_express' => $pairing->getIsExpress(),
                 'amount' => $pairing->getAmount(),
                 'status' => $pairing->getStatus(),

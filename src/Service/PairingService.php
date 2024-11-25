@@ -129,7 +129,7 @@ class PairingService
      */
     public function updateForExpress(Pairing $pairing, FastCheckoutCheckIn $checkIn): Pairing
     {
-        $pairing->setCustomerData($checkIn->hasCustomerData() ? json_encode($checkIn->customerData()) : null);
+        $pairing->setCustomerData($checkIn->hasCustomerData() ? wp_json_encode($checkIn->customerData()) : null);
         $pairing->setShippingMethodId($checkIn->shippingMethodId()?->__toString() ?? null);
         $pairing->setPairingStatus((string) $checkIn->pairingStatus());
 

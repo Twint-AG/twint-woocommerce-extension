@@ -15,7 +15,7 @@ class ExpressCheckout extends TabItem
 
     public static function getLabel(): string
     {
-        return __('TWINT Express Checkout', 'woocommerce-gateway-twint');
+        return __('TWINT Express Checkout', 'twint-woocommerce-extension');
     }
 
     public static function fields(): array

@@ -76,7 +76,7 @@ class ApiService
                 'soap_request' => $soapRequests,
                 'soap_response' => $soapResponses,
                 'exception_text' => $exception,
-                'created_at' => date('Y-m-d H:i:s'),
+                'created_at' => gmdate('Y-m-d H:i:s'),
             ]);
 
             if (is_callable($callback)) {
@@ -99,14 +99,14 @@ class ApiService
      */
     protected function parse(array $invocations): array
     {
-        $request = json_encode($invocations[0]->arguments());
+        $request = wp_json_encode($invocations[0]->arguments());
         $exception = $invocations[0]->exception() ?? null;
 
         if ($exception instanceof ApiFailure) {
             $exception = $exception->getMessage();
         }
 
-        $response = json_encode($invocations[0]->returnValue());
+        $response = wp_json_encode($invocations[0]->returnValue());
         $soapMessages = $invocations[0]->messages();
         $soapRequests = [];
         $soapResponses = [];
@@ -118,9 +118,9 @@ class ApiService
             $soapActions[] = $soapMessage->request()->action();
         }
 
-        $soapRequests = json_encode($soapRequests);
-        $soapResponses = json_encode($soapResponses);
-        $soapActions = json_encode($soapActions);
+        $soapRequests = wp_json_encode($soapRequests);
+        $soapResponses = wp_json_encode($soapResponses);
+        $soapActions = wp_json_encode($soapActions);
 
         return [$request, $response, $soapRequests, $soapResponses, $soapActions, $exception];
     }
