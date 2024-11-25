@@ -1,7 +1,7 @@
 .twint-modal {
-  display: none;
+  display: none !important;
 
   &._show {
-    display: flex;
+    display: flex !important;
   }
 }

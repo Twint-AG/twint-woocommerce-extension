@@ -80,12 +80,14 @@ class ExpressButton
 
     public function addToNonBlockMiniCart(): void
     {
-        echo esc_html($this->getButton('mini-cart dynamic'));
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The HTML is safe and intended for raw output.
+        echo $this->getButton('mini-cart dynamic');
     }
 
     public function addToLegacyCartPage(): void
     {
-        echo esc_html($this->getButton('cart') . $this->renderOrSection());
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The HTML is safe and intended for raw output.
+        echo $this->getButton('cart') . $this->renderOrSection();
     }
 
     protected function getAvailableScreens(): array
@@ -118,7 +120,7 @@ class ExpressButton
         //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
         return '
             <button type="submit" class="twint twint-button ' . $additionalClasses . '">
-                <span class="twint icon-block">
+                <span class="twint twint-icon-block">
                     <img class="twint twint-icon" src="' .
                 //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
                 Plugin::assets(
@@ -146,7 +148,8 @@ class ExpressButton
 
     public function renderButton(): void
     {
-        echo esc_html($this->getButton('PDP'));
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The HTML is safe and intended for raw output.
+        echo $this->getButton('PDP');
     }
 
     public function renderInProductBox(string $html): string

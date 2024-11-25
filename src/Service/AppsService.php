@@ -30,13 +30,11 @@ class AppsService
         try {
             $client = $this->getBuilder()->build();
             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-            $device = $client->detectDevice(
-                string()->assert(
-                    !empty($_SERVER['HTTP_USER_AGENT']) &&
-                    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-                    wp_unslash(sanitize_text_field($_SERVER['HTTP_USER_AGENT']))
-                )
-            );
+            $agent = empty($_SERVER['HTTP_USER_AGENT']) ?
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+                '' : wp_unslash(sanitize_text_field($_SERVER['HTTP_USER_AGENT']));
+            $device = $client->detectDevice(string()->assert($agent));
+
             if ($device->isAndroid()) {
                 $payLinks['android'] = 'intent://payment#Intent;action=ch.twint.action.TWINT_PAYMENT;scheme=twint;S.code=' . $token . ';S.startingOrigin=EXTERNAL_WEB_BROWSER;S.browser_fallback_url=;end';
             } elseif ($device->isIos()) {
