@@ -30,9 +30,9 @@ class AppsService
         try {
             $client = $this->getBuilder()->build();
             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-            $agent = !empty($_SERVER['HTTP_USER_AGENT']) ?
+            $agent = empty($_SERVER['HTTP_USER_AGENT']) ?
                 // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-                wp_unslash(sanitize_text_field($_SERVER['HTTP_USER_AGENT'])) : '';
+                '' : wp_unslash(sanitize_text_field($_SERVER['HTTP_USER_AGENT']));
             $device = $client->detectDevice(string()->assert($agent));
 
             if ($device->isAndroid()) {
