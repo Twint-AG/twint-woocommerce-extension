@@ -75,7 +75,10 @@ return [
     //
     // For more see: https://github.com/humbug/php-scoper/blob/master/docs/configuration.md#patchers
     'exclude-files' => array_merge($excludedFiles, [
-        'vendor/twint-ag/sdk/src/polyfill.php'
+        'vendor/twint-ag/sdk/src/polyfill.php',
+        'src/View/Admin/settings.php',
+        'src/View/Frontend/paid.php',
+        'src/View/Frontend/unpaid.php'
     ]),
 
     // PHP version (e.g. `'7.2'`) in which the PHP parser and printer will be configured into. This will affect what
