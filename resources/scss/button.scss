@@ -12,15 +12,23 @@ $padding: 10px;
 $border-radius: 6px;
 
 .twint-button {
-  @apply mt-2;
-  @apply w-full cursor-pointer items-center justify-center border-none rounded-md  inline-flex p-2.5 text-white;
+  margin-top: 0.5rem !important;
+  width: 100% !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: none !important;
+  border-radius: 0.375rem !important; /* Matches Tailwind's rounded-md */
+  padding: 0.625rem !important; /* Matches Tailwind's p-2.5 */
+  color: #fff !important; /* Matches Tailwind's text-white */
   background-color: $button-bg-color !important;
-  height: 50px;
-  transition: background-color 0.3s ease;
-  text-transform: unset;
+  height: 50px !important;
+  transition: background-color 0.3s ease !important;
+  text-transform: unset !important;
 
   &.dynamic {
-    display: none;
+    display: none !important;
 
     .twint-enabled & {
       display: inline-flex !important;
@@ -33,7 +41,7 @@ $border-radius: 6px;
 
   &:hover {
     background-color: $button-bg-color-hover !important;
-    text-decoration: none;
+    text-decoration: none !important;
   }
 
   &:focus {
@@ -41,43 +49,43 @@ $border-radius: 6px;
     border: none !important;
   }
 
-  .icon-block {
-    border-radius: 4px;
-    margin-right: 6px;
-    padding: 4px;
-    height: 35px;
-    display: flex;
-    align-items: center;
+  .twint-icon-block {
+    border-radius: 4px !important;
+    margin-right: 6px !important;
+    padding: 4px !important;
+    height: 35px !important;
+    display: flex !important;
+    align-items: center !important;
 
     &:disabled {
-      background-color: $button-bg-color-disabled;
+      background-color: $button-bg-color-disabled !important;
     }
   }
 
   .twint-icon {
-    height: $icon-size;
-    width: $icon-size;
+    height: $icon-size !important;
+    width: $icon-size !important;
 
     margin: 0 !important;
   }
 
   .twint-label {
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 19px;
-    letter-spacing: 0.43px;
-    text-align: center;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    line-height: 19px !important;
+    letter-spacing: 0.43px !important;
+    text-align: center !important;
     color: #ffffff !important;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 
     &:before {
-      content: 'TWINT ';
+      content: 'TWINT ' !important;
 
       @container (width < 258px) {
         & {
-          content: none;
+          content: none !important;
         }
       }
     }
@@ -91,7 +99,7 @@ $border-radius: 6px;
   a.add_to_cart_button + &,
   button.single_add_to_cart_button + &,
   a.checkout + & {
-    @apply mt-2;
+    margin-top: 0.5rem !important;
   }
 
   *:has(+ &) {
@@ -99,10 +107,10 @@ $border-radius: 6px;
   }
 
   *:has(> &.mini-cart) {
-    flex-wrap: wrap;
+    flex-wrap: wrap !important;
   }
 
   .theme-storefront & {
-    height: 42px;
+    height: 42px !important;
   }
 }

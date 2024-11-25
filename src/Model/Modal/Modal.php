@@ -41,8 +41,6 @@ class Modal
     {
         $this->getVariables();
 
-        $modal = $this;
-
         require Plugin::abspath() . 'src/View/Frontend/modal.php';
     }
 

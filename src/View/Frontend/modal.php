@@ -99,7 +99,7 @@ echo esc_html__('View cart', 'woocommerce') ?>"
                                     <a id="twint-addroid-button"
                                        data-href="javascript:window.location = \'' . $link . '\'"
                                        href="javascript:window.location = \'' . $link . '\'">
-                                        ' . __('Switch to TWINT app now', 'twint-woocommerce-extension') . '
+                                        <?php echo esc_html__('Switch to TWINT app now', 'twint-woocommerce-extension') ?>
                                     </a>
                                 </div>
                             <?php }?>
