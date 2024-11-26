@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Woo\Service;
 
 use AllowDynamicProperties;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 use Throwable;
 use Twint\Sdk\Value\CustomerDataScopes;
 use Twint\Sdk\Value\Money;
@@ -96,7 +97,7 @@ class FastCheckoutCheckinService
 
                 $options[] = new ShippingMethod(
                     new ShippingMethodId($id),
-                    $rate->get_label(),
+                    $this->sanitizeString($rate->get_label()),
                     Money::CHF((float) wc_format_decimal(max($order->get_total() - $base, 0)))
                 );
             }
@@ -127,5 +128,14 @@ class FastCheckoutCheckinService
                 $methods,
             ]
         );
+    }
+
+    private function sanitizeString(string $string): string
+    {
+        $slugger = new AsciiSlugger();
+        // Transliterate non-Latin characters to ASCII
+        $sanitized = $slugger->slug($string, ' '); // Use space as separator
+
+        return $sanitized->toString();
     }
 }
