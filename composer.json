@@ -43,7 +43,9 @@
     "symfony/console": "*",
     "symfony/process": "*",
     "twint-ag/sdk": "1.4.1",
-    "sniccowp/php-scoper-wordpress-excludes": "^6.6"
+    "sniccowp/php-scoper-wordpress-excludes": "^6.6",
+    "symfony/string": "^6.4",
+    "symfony/translation-contracts": "^3.5"
   },
   "require-dev": {
     "symfony/var-dumper": ">=6.4",
