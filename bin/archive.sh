@@ -2,6 +2,7 @@
 
 set -euo pipefail
 
+ARCHIVE_PLUGIN_NAME="twint-woocommerce-extension"
 ARCHIVE_BASE_NAME="twint-woocommerce-extension-${CI_COMMIT_REF_SLUG}"
 ARCHIVE_BUILD_BASE_DIR="${PWD}/build"
 ARCHIVE_BUILD_DIR="${ARCHIVE_BUILD_BASE_DIR}/${ARCHIVE_BASE_NAME}"
@@ -34,4 +35,4 @@ composer dump-autoload --working-dir "${ARCHIVE_BUILD_DIR}" --classmap-authorita
 
 # Create archive
 rm -f "${ARCHIVE_PATH}"
-(cd "${PWD}/build" && zip -qr "${ARCHIVE_PATH}" "${ARCHIVE_BASE_NAME}")
+(cd "${PWD}/build" && zip -qr "${ARCHIVE_PATH}" "${ARCHIVE_PLUGIN_NAME}")
