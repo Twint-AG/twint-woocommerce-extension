@@ -74,6 +74,7 @@ class ExpressButton
     public function addBodyClass($classes): array
     {
         $classes[] = 'twint-enabled';
+        $classes[] = 'twint-version-'.TwintConstant::PLUGIN_VERSION;
 
         return $classes;
     }

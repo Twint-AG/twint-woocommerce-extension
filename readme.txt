@@ -10,7 +10,6 @@ License URI: https://opensource.org/licenses/MIT
 Text Domain: twint-payment-extension
 Domain Path: /languages
 
-== Short Description ==
 A seamless payment integration for WooCommerce, enabling TWINT Express Checkout for fast, secure transactions.
 
 == Description ==

@@ -41,7 +41,7 @@ class UnInstaller
         ];
 
         foreach ($configSettingKeys as $configSettingKey) {
-            delete_option($configSettingKey);
+            //            delete_option($configSettingKey);
         }
 
         MonitorPairingCronJob::removeCronjob();
