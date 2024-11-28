@@ -2,22 +2,24 @@
 # This file is distributed under the same license as the Themes - Twenty Twenty-One package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-04-14 18:32:05+0000\n"
+"PO-Revision-Date: 2024-11-06 02:43:40+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-alpha.4\n"
+"X-Generator: GlotPress/4.0.1\n"
 "Language: de\n"
 "Project-Id-Version: Themes - Twenty Twenty-One\n"
 
 #. Description of the theme
+#: style.css
 #, gp-priority: high
 msgid "Twenty Twenty-One is a blank canvas for your ideas and it makes the block editor your best brush. With new block patterns, which allow you to create a beautiful layout in a matter of seconds, this theme’s soft colors and eye-catching — yet timeless — design will let your work shine. Take it for a spin! See how Twenty Twenty-One elevates your portfolio, business website, or personal blog."
 msgstr "Twenty Twenty-One ist wie eine leere Leinwand für deine Ideen und macht den Block-Editor zu deinem besten Werkzeug. Mit den neuen Block-Vorlagen, mit denen du in Sekundenschnelle ein wunderschönes Layout erstellen kannst, lassen die sanften Farben und das ansprechende - und dennoch zeitlose - Design dieses Themes deine Arbeit erstrahlen. Nutze es für einen kreativen Ausflug! Und sieh, wie Twenty Twenty-One dein Portfolio, deine Business-Website oder deinen persönlichen Blog aufwertet."
 
 #. Theme Name of the theme
-#: classes/class-twenty-twenty-one-dark-mode.php:381 inc/block-patterns.php:24
+#: style.css classes/class-twenty-twenty-one-dark-mode.php:385
+#: inc/block-patterns.php:24
 #, gp-priority: high
 msgid "Twenty Twenty-One"
 msgstr "Twenty Twenty-One"
@@ -44,15 +46,15 @@ msgstr "Der Dark Mode ist eine Geräteeinstellung. Wenn ein Besucher deiner Webs
 msgid "Dark Mode can also be turned on and off with a button that you can find in the bottom corner of the page."
 msgstr "Der Dark Mode kann auch mit einem Button in der unteren Ecke der Seite an- und ausgeschaltet werden."
 
-#: classes/class-twenty-twenty-one-dark-mode.php:380
+#: classes/class-twenty-twenty-one-dark-mode.php:384
 msgid "This website uses LocalStorage to save the setting when Dark Mode support is turned on or off.<br> LocalStorage is necessary for the setting to work and is only used when a user clicks on the Dark Mode button.<br> No data is saved in the database or transferred."
 msgstr "Diese Website verwendet LocalStorage, um die Einstellung zu speichern, wenn die Unterstützung für den Dark Mode ein- oder ausgeschaltet wird.<br> LocalStorage ist notwendig, damit die Einstellung funktioniert, und wird nur verwendet, wenn ein Benutzer auf die Schaltfläche Dark Mode klickt.<br> Es werden keine Daten in die Datenbank gespeichert oder übertragen."
 
-#: classes/class-twenty-twenty-one-dark-mode.php:379
+#: classes/class-twenty-twenty-one-dark-mode.php:383
 msgid "Suggested text:"
 msgstr "Vorgeschlagener Text:"
 
-#: classes/class-twenty-twenty-one-dark-mode.php:378
+#: classes/class-twenty-twenty-one-dark-mode.php:382
 msgid "Twenty Twenty-One uses LocalStorage when Dark Mode support is enabled."
 msgstr "Twenty Twenty-One verwendet LocalStorage, wenn die Unterstützung für den Dark Mode aktiviert ist."
 
@@ -110,7 +112,7 @@ msgstr "+49-12-345-6789"
 #: inc/block-patterns.php:136
 msgctxt "Block pattern sample content"
 msgid "example@example.com"
-msgstr "mail@beispiel.de"
+msgstr "beispiel@example.com"
 
 #: classes/class-twenty-twenty-one-customize.php:138
 msgctxt "Customizer control"
@@ -129,37 +131,37 @@ msgstr "Für dieses Theme ist mindestens WordPress&nsbp;5.3 oder neuer erforderl
 msgid "Page %"
 msgstr "Seite %"
 
-#: functions.php:187
+#: functions.php:180
 msgctxt "Font size"
 msgid "XXXL"
 msgstr "XXXL"
 
-#: functions.php:181
+#: functions.php:174
 msgctxt "Font size"
 msgid "XXL"
 msgstr "XXL"
 
-#: functions.php:175
+#: functions.php:168
 msgctxt "Font size"
 msgid "XL"
 msgstr "XL"
 
-#: functions.php:169
+#: functions.php:162
 msgctxt "Font size"
 msgid "L"
 msgstr "L"
 
-#: functions.php:163
+#: functions.php:156
 msgctxt "Font size"
 msgid "M"
 msgstr "M"
 
-#: functions.php:157
+#: functions.php:150
 msgctxt "Font size"
 msgid "S"
 msgstr "S"
 
-#: functions.php:151
+#: functions.php:144
 msgctxt "Font size"
 msgid "XS"
 msgstr "XS"
@@ -180,16 +182,16 @@ msgstr[1] "%s Kommentare"
 msgid "1 comment"
 msgstr "Ein Kommentar"
 
-#: classes/class-twenty-twenty-one-dark-mode.php:334
+#: classes/class-twenty-twenty-one-dark-mode.php:338
 msgid "On"
 msgstr "An"
 
-#: classes/class-twenty-twenty-one-dark-mode.php:331
+#: classes/class-twenty-twenty-one-dark-mode.php:335
 msgid "Off"
 msgstr "Aus"
 
 #. translators: %s: On/Off
-#: classes/class-twenty-twenty-one-dark-mode.php:321
+#: classes/class-twenty-twenty-one-dark-mode.php:325
 msgid "Dark Mode: %s"
 msgstr "Dark Mode: %s"
 
@@ -198,7 +200,7 @@ msgid "This content is password protected. Please enter a password to view."
 msgstr "Dieser Inhalt ist passwortgeschützt. Bitte gib ein Passwort ein, um ihn anzuzeigen."
 
 #. translators: Hidden accessibility text.
-#: inc/menu-functions.php:35
+#: inc/menu-functions.php:37
 msgid "Open menu"
 msgstr "Menü öffnen"
 
@@ -421,7 +423,7 @@ msgid "Categorized as %s"
 msgstr "Kategorisiert in %s"
 
 #. translators: Used between list items, there is a space after the comma.
-#: functions.php:654
+#: functions.php:653
 msgid ", "
 msgstr ", "
 
@@ -509,7 +511,7 @@ msgstr "Bild mit Titel und Text"
 
 #: inc/block-patterns.php:64
 msgid "example@example.com"
-msgstr "mail@beispiel.de"
+msgstr "beispiel@example.com"
 
 #: inc/block-patterns.php:64
 msgid "Dribbble"
@@ -570,7 +572,7 @@ msgstr "Schließen"
 msgid "Menu"
 msgstr "Menü"
 
-#: functions.php:76 inc/starter-content.php:154
+#: functions.php:69 inc/starter-content.php:154
 #: template-parts/header/site-nav.php:13
 msgid "Primary menu"
 msgstr "Hauptmenü"
@@ -580,111 +582,111 @@ msgstr "Hauptmenü"
 msgid "Skip to content"
 msgstr "Zum Inhalt springen"
 
-#: functions.php:363
+#: functions.php:356
 msgid "Add widgets here to appear in your footer."
 msgstr "Füge hier Widgets hinzu, die im Footer erscheinen sollen."
 
-#: functions.php:361
+#: functions.php:354
 msgid "Footer"
 msgstr "Footer"
 
-#: functions.php:309
+#: functions.php:302
 msgid "Red to purple"
 msgstr "Rot zu Lila"
 
-#: functions.php:304
+#: functions.php:297
 msgid "Purple to red"
 msgstr "Lila zu Rot"
 
-#: functions.php:299
+#: functions.php:292
 msgid "Yellow to red"
 msgstr "Gelb zu Rot"
 
-#: functions.php:294
+#: functions.php:287
 msgid "Red to yellow"
 msgstr "Rot zu Gelb"
 
-#: functions.php:289
+#: functions.php:282
 msgid "Yellow to green"
 msgstr "Gelb zu Grün"
 
-#: functions.php:284
+#: functions.php:277
 msgid "Green to yellow"
 msgstr "Grün zu Gelb"
 
-#: functions.php:279
+#: functions.php:272
 msgid "Yellow to purple"
 msgstr "Gelb zu Lila"
 
-#: functions.php:274
+#: functions.php:267
 msgid "Purple to yellow"
 msgstr "Lila zu Gelb"
 
-#: functions.php:263
+#: functions.php:256
 msgid "White"
 msgstr "Weiß"
 
-#: functions.php:258
+#: functions.php:251
 msgid "Yellow"
 msgstr "Gelb"
 
-#: functions.php:253
+#: functions.php:246
 msgid "Orange"
 msgstr "Orange"
 
-#: functions.php:248
+#: functions.php:241
 msgid "Red"
 msgstr "Rot"
 
-#: functions.php:243
+#: functions.php:236
 msgid "Purple"
 msgstr "Violett"
 
-#: functions.php:238
+#: functions.php:231
 msgid "Blue"
 msgstr "Blau"
 
-#: functions.php:233
+#: functions.php:226
 msgid "Green"
 msgstr "Grün"
 
-#: functions.php:228
+#: functions.php:221
 msgid "Gray"
 msgstr "Grau"
 
-#: functions.php:223 inc/block-styles.php:107
+#: functions.php:216 inc/block-styles.php:107
 msgid "Dark gray"
 msgstr "Dunkelgrau"
 
-#: functions.php:218
+#: functions.php:211
 msgid "Black"
 msgstr "Schwarz"
 
-#: functions.php:186
+#: functions.php:179
 msgid "Gigantic"
 msgstr "Gigantisch"
 
-#: functions.php:180
+#: functions.php:173
 msgid "Huge"
 msgstr "Riesig"
 
-#: functions.php:174
+#: functions.php:167
 msgid "Extra large"
 msgstr "Extra groß"
 
-#: functions.php:168
+#: functions.php:161
 msgid "Large"
 msgstr "Groß"
 
-#: functions.php:162
+#: functions.php:155
 msgid "Normal"
 msgstr "Normal"
 
-#: functions.php:156
+#: functions.php:149
 msgid "Small"
 msgstr "Klein"
 
-#: functions.php:150
+#: functions.php:143
 msgid "Extra small"
 msgstr "Sehr klein"
 
@@ -693,7 +695,7 @@ msgstr "Sehr klein"
 msgid "Proudly powered by %s."
 msgstr "Powered by %s."
 
-#: footer.php:24 functions.php:77 inc/starter-content.php:165
+#: footer.php:24 functions.php:70 inc/starter-content.php:165
 msgid "Secondary menu"
 msgstr "Untermenü"
 
@@ -726,17 +728,19 @@ msgid "Nothing here"
 msgstr "Nichts vorhanden"
 
 #. Author URI of the theme
-#: footer.php:68
+#: style.css footer.php:68
 #, gp-priority: low
 msgid "https://wordpress.org/"
 msgstr "https://de.wordpress.org/"
 
 #. Author of the theme
+#: style.css
 #, gp-priority: low
 msgid "the WordPress team"
 msgstr "Das WordPress-Team"
 
 #. Theme URI of the theme
+#: style.css
 #, gp-priority: low
 msgid "https://wordpress.org/themes/twentytwentyone/"
 msgstr "https://de.wordpress.org/themes/twentytwentyone/"
