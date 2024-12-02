@@ -27,6 +27,8 @@ class ExpressButton
             return;
         }
 
+        add_filter('body_class', [$this, 'addPluginVersion']);
+
         $screens = $this->getAvailableScreens();
 
         if ($screens !== []) {
@@ -71,10 +73,16 @@ class ExpressButton
         }
     }
 
+    public function addPluginVersion($classes): array
+    {
+        $classes[] = 'twint-version-' . TwintConstant::PLUGIN_VERSION;
+
+        return $classes;
+    }
+
     public function addBodyClass($classes): array
     {
         $classes[] = 'twint-enabled';
-        $classes[] = 'twint-version-' . TwintConstant::PLUGIN_VERSION;
 
         return $classes;
     }
