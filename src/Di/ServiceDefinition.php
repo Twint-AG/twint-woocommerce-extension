@@ -8,6 +8,7 @@ use Twint\Woo\Api\Admin\GetTransactionLogAction;
 use Twint\Woo\Api\Admin\StoreConfigurationAction;
 use Twint\Woo\Api\Frontend\CancelPaymentAction;
 use Twint\Woo\Api\Frontend\ExpressCheckoutAction;
+use Twint\Woo\Api\Frontend\PaymentInformationAction;
 use Twint\Woo\Api\Frontend\PaymentStatusAction;
 use Twint\Woo\Command\PollCommand;
 use Twint\Woo\Container\ContainerInterface;
@@ -190,6 +191,9 @@ class ServiceDefinition
             'express_checkout.action' => static fn (ContainerInterface $container) => new ExpressCheckoutAction(
                 $container->get('express_checkout.service'),
                 $container->get('monitor.service'),
+            ),
+            'payment_information.action' => static fn (ContainerInterface $container) => new PaymentInformationAction(
+                $container->get('pairing.repository')
             ),
 
             // Express Checkout

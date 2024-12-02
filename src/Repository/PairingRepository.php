@@ -42,13 +42,15 @@ class PairingRepository
     public function insert(Pairing $pairing): Pairing
     {
         try {
+            $customer = $pairing->getCustomerData();
+
             $this->db->insert(self::tableName(), [
                 'id' => $pairing->getId(),
                 'token' => $pairing->getToken(),
                 'shipping_method_id' => $pairing->getShippingMethod(),
                 'wc_order_id' => $pairing->getWcOrderId(),
                 'ref_id' => $pairing->getRefId(),
-                'customer_data' => $pairing->getCustomerData(),
+                'customer_data' => $customer === [] ? null : wp_json_encode($customer),
                 'is_express' => $pairing->getIsExpress(),
                 'amount' => $pairing->getAmount(),
                 'status' => $pairing->getStatus(),
