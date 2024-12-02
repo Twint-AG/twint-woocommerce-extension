@@ -75,7 +75,6 @@ return [
     //
     // For more see: https://github.com/humbug/php-scoper/blob/master/docs/configuration.md#patchers
     'exclude-files' => array_merge($excludedFiles, [
-        'vendor/twint-ag/sdk/src/polyfill.php',
         'src/View/Admin/settings.php',
         'src/View/Frontend/paid.php',
         'src/View/Frontend/unpaid.php'
@@ -102,8 +101,12 @@ return [
                 return str_replace('vendor/autoload.php', 'vendor/scoper-autoload.php', $contents);
             }
 
-            if(strpos($filePath, '/psl/') !== false) {
+            if (str_contains($filePath, '/psl/')) {
                 $contents = str_replace('use Psl;', 'use TwintWoo\\Psl;', $contents);
+            }
+
+            if (str_ends_with($filePath, 'twint-ag/sdk/src/polyfill.php')) {
+                $contents = preg_replace('/\\\class_alias\(\'TwintWoo.*?\);$/m', '', $contents);
             }
 
             $contents = str_replace('\\false,', 'false,', $contents);
@@ -117,13 +120,14 @@ return [
     // For more information see: https://github.com/humbug/php-scoper/blob/master/docs/configuration.md#excluded-symbols
     'exclude-namespaces' => [
         'Automattic\WooCommerce',         // WooCommerce namespace
-        '~^$~',                           // Root naespace
+        '~^$~',                           // Root namespace
         'Twint\Woo',                      // TWINT WooCommerce extension namespace
     ],
     'exclude-classes' => array_merge($wpClasses, [
         'ComposerAutoloaderInit*',
         'Deprecated',
         'Override',
+        'Stringable',
     ]),
     'exclude-functions' => [
         ...$wpFunctions,
