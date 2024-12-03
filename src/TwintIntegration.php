@@ -70,6 +70,7 @@ class TwintIntegration
         Plugin::di('payment_status.action', true);
         Plugin::di('express_checkout.action', true);
         Plugin::di('payment_cancel.action', true);
+        Plugin::di('payment_information.action', true);
     }
 
     public function additionalWoocommerceBeforeThankyou(WC_Order|int $order): void

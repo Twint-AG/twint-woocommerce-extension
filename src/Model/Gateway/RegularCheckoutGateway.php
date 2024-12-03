@@ -115,6 +115,14 @@ class RegularCheckoutGateway extends AbstractGateway
          */
         add_action('woocommerce_after_checkout_form', [$this, 'additionalWoocommerceHandlerAfterCheckoutForm']);
 
+        add_action('wp_enqueue_scripts', static function () {
+            // Check if on the WooCommerce 'order-pay' page
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            if (is_checkout() && isset($_GET['pay_for_order'])) {
+                Plugin::enqueueScript('regular-order-pay', '/order-pay.js', false);
+            }
+        });
+
         $this->modal->registerHooks();
     }
 
@@ -186,9 +194,24 @@ class RegularCheckoutGateway extends AbstractGateway
                 Plugin::di('monitor.service', true)->status($pairing);
             }
 
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            if (isset($_GET['pay_for_order'])) {
+                $url = wc_get_endpoint_url('order-pay', (string) $order_id, wc_get_checkout_url());
+                $url = add_query_arg(
+                    [
+                        'pay_for_order' => 'true',
+                        'key' => $order->get_order_key(),
+                        'pairing' => $pairing->getId(),
+                    ],
+                    $url
+                );
+            } else {
+                $url = false;
+            }
+
             return [
                 'result' => 'success',
-                'redirect' => false,
+                'redirect' => $url,
                 // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- need to match on translated value from core.
                 'messages' => __('Thank you. Your order has been received.', 'woocommerce'),
                 'thankyouUrl' => $this->get_return_url($order),

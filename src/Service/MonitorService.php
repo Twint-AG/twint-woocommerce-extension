@@ -336,9 +336,9 @@ class MonitorService
         }
 
         if ($tOrder->isFailure() && !$orgPairing->isFailure()) {
-            if (!$orgPairing->isCaptured()) {
-                $this->getOrderService()->cancelOrder($pairing);
-            }
+            //            if (!$orgPairing->isCaptured()) {
+            //                $this->getOrderService()->cancelOrder($pairing);
+            //            }
 
             return MonitoringStatus::fromValues(true, MonitoringStatus::STATUS_CANCELLED);
         }
