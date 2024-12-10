@@ -1,0 +1,709 @@
+# Translation of Plugins - Plugin Check (PCP) - Stable (latest release) in Italian
+# This file is distributed under the same license as the Plugins - Plugin Check (PCP) - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2024-10-31 06:30:13+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/4.0.1\n"
+"Language: it\n"
+"Project-Id-Version: Plugins - Plugin Check (PCP) - Stable (latest release)\n"
+
+#: templates/admin-page.php:26
+msgid "Select a plugin to check it for best practices in several categories and security issues. For more information about the checks, use the Help tab at the top of this page."
+msgstr "Seleziona un plugin per verificarne le best practice in diverse categorie e i problemi di sicurezza. Per maggiori informazioni sui controlli, usa la scheda Help in alto a questa pagina."
+
+#: includes/CLI/Plugin_Check_Command.php:247
+msgid "Checks complete. No errors found."
+msgstr "Controlli completati. Nessun errore trovato."
+
+#. translators: 1: currently used version, 2: 'Tested up to'
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:228
+msgid "<strong>Tested up to: %1$s.</strong><br>The \"%2$s\" value in your plugin is not valid. This version of WordPress does not exist (yet)."
+msgstr "<strong>Testato fino a: %1$s.</strong><br>Il valore \"%2$s\" nel tuo plugin non è valido. Questa versione di WordPress non esiste (ancora)."
+
+#. translators: 1: Plugin name, 2: Name in plugin header
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:160
+msgid "Plugin name \"%1$s\" is different from the name declared in plugin header \"%2$s\"."
+msgstr "Il nome del plugin \"%1$s\" è diverso dal nome dichiarato nel header del plugin \"%2$s\"."
+
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Header_Fields_Check.php:407
+msgid "https://developer.wordpress.org/plugins/plugin-basics/header-requirements/"
+msgstr "https://developer.wordpress.org/plugins/plugin-basics/header-requirements/"
+
+#. translators: %s: header fields
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Header_Fields_Check.php:269
+msgid "Restricted plugin header field(s) found: %s"
+msgstr "Sono stati trovati campi nel header del plugin con restrizioni: %s"
+
+#: includes/Checker/Checks/Plugin_Repo/File_Type_Check.php:276
+msgid "Badly named files are not permitted."
+msgstr "Non sono ammessi file con nomi errati."
+
+#: includes/Checker/Checks/Plugin_Repo/Offloading_Files_Check.php:73
+msgid "Prevents using remote services that are not necessary."
+msgstr "Impedisce l'utilizzo di servizi remoti non necessari."
+
+#: includes/Checker/Checks/Plugin_Repo/Offloading_Files_Check.php:86
+msgid "https://developer.wordpress.org/plugins/wordpress-org/common-issues/#calling-files-remotely"
+msgstr "https://developer.wordpress.org/plugins/wordpress-org/common-issues/#calling-files-remotely"
+
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Header_Fields_Check.php:394
+msgid "Checks adherence to the Headers requirements."
+msgstr "Controlla la conformità ai requisiti degli header."
+
+#: includes/Checker/Checks/Plugin_Repo/File_Type_Check.php:298
+msgid "Detects the usage of hidden and compressed files, VCS directories, application files and badly named files."
+msgstr "Rilevato l'utilizzo di file nascosti e compressi, directory VCS, file applicativi e file con nomi errati."
+
+#: includes/Utilities/Plugin_Request_Utility.php:272
+msgid "Saving JSON file failed."
+msgstr "Salvataggio del file JSON non riuscito."
+
+#: includes/Utilities/Plugin_Request_Utility.php:266
+msgid "Invalid JSON content."
+msgstr "Contenuto JSON non valido."
+
+#: includes/Utilities/Plugin_Request_Utility.php:256
+msgid "Fetching data failed."
+msgstr "Recupero dati non riuscito."
+
+#: includes/Utilities/Plugin_Request_Utility.php:235
+msgid "Saving zip file failed."
+msgstr "Salvataggio del file zip non riuscito."
+
+#: includes/Utilities/Plugin_Request_Utility.php:207
+msgid "Downloading the zip file failed."
+msgstr "Il download del file zip non è riuscito."
+
+#: includes/Checker/Checks/Security/Late_Escaping_Check.php:79
+msgid "https://developer.wordpress.org/apis/security/escaping/"
+msgstr "https://developer.wordpress.org/apis/security/escaping/"
+
+#: includes/Checker/Checks/Security/Late_Escaping_Check.php:66
+msgid "Checks that all output is escaped before being sent to the browser."
+msgstr "Controlla che tutti gli output siano sottoposti a escape prima di essere inviati al browser."
+
+#: includes/Checker/Checks/Security/Direct_DB_Queries_Check.php:66
+msgid "Checks the usage of direct database queries, which should be avoided."
+msgstr "Controlla l'utilizzo di query dirette al database, che dovrebbero essere evitate."
+
+#: includes/Checker/Checks/Plugin_Repo/Trademarks_Check.php:518
+msgid "Checks the usage of trademarks or other projects in the plugin slug."
+msgstr "Controlla l'utilizzo di marchi o altri progetti nello slug del plugin."
+
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Updater_Check.php:249
+msgid "Prevents altering WordPress update routines or using custom updaters, which are not allowed on WordPress.org."
+msgstr "Impedisce di modificare le routine di aggiornamento di WordPress o di utilizzare programmi di aggiornamento personalizzati, che non sono consentiti su WordPress.org."
+
+#. translators: %s: The match file name.
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Updater_Check.php:225
+msgid "<strong>Plugin Updater detected.</strong><br>Detected code which may be altering WordPress update routines. Detected: %s"
+msgstr "<strong>Plugin Updater rilevato.</strong><br>Codice rilevato che potrebbe alterare le routine di aggiornamento di WordPress. Rilevato: %s"
+
+#. translators: %s: The match updater file name.
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Updater_Check.php:146
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Updater_Check.php:187
+msgid "<strong>Plugin Updater detected.</strong><br>These are not permitted in WordPress.org hosted plugins. Detected: %s"
+msgstr "<strong>Aggiornamento del plugin rilevato.</strong><br>Questi non sono consentiti nei plugin ospitati su WordPress.org. Rilevato: %s"
+
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Review_PHPCS_Check.php:75
+msgid "https://developer.wordpress.org/plugins/plugin-basics/best-practices/"
+msgstr "https://developer.wordpress.org/plugins/plugin-basics/best-practices/"
+
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:813
+msgid "https://developer.wordpress.org/plugins/wordpress-org/how-your-readme-txt-works/"
+msgstr "https://developer.wordpress.org/plugins/wordpress-org/how-your-readme-txt-works/"
+
+#. translators: %s: readme.txt
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:798
+msgid "Checks adherence to the %s requirements."
+msgstr "Controlla la conformità ai requisiti %s."
+
+#. translators: %s: warning code
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:650
+msgid "Readme parser warning detected: %s"
+msgstr "Rilevato avviso del parser Readme: %s"
+
+#: includes/Checker/Checks/Performance/Performant_WP_Query_Params_Check.php:80
+#: includes/Checker/Checks/Security/Direct_DB_Queries_Check.php:79
+msgid "https://developer.wordpress.org/apis/database/"
+msgstr "https://developer.wordpress.org/apis/database/"
+
+#: includes/Checker/Checks/Plugin_Repo/Localhost_Check.php:94
+#: includes/Checker/Checks/Plugin_Repo/No_Unfiltered_Uploads_Check.php:95
+msgid "https://make.wordpress.org/plugins/handbook/performing-reviews/review-checklist/"
+msgstr "https://make.wordpress.org/plugins/handbook/performing-reviews/review-checklist/"
+
+#: includes/Checker/Checks/Plugin_Repo/Code_Obfuscation_Check.php:204
+#: includes/Checker/Checks/Plugin_Repo/File_Type_Check.php:311
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Updater_Check.php:262
+#: includes/Checker/Checks/Plugin_Repo/Trademarks_Check.php:531
+msgid "https://developer.wordpress.org/plugins/wordpress-org/detailed-plugin-guidelines/"
+msgstr "https://developer.wordpress.org/plugins/wordpress-org/detailed-plugin-guidelines/"
+
+#: includes/Checker/Checks/Performance/Enqueued_Resources_Check.php:76
+#: includes/Checker/Checks/Performance/Enqueued_Scripts_In_Footer_Check.php:76
+#: includes/Checker/Checks/Performance/Enqueued_Scripts_Scope_Check.php:301
+#: includes/Checker/Checks/Performance/Enqueued_Scripts_Size_Check.php:295
+#: includes/Checker/Checks/Performance/Enqueued_Styles_Scope_Check.php:300
+#: includes/Checker/Checks/Performance/Enqueued_Styles_Size_Check.php:295
+#: includes/Checker/Checks/Performance/Non_Blocking_Scripts_Check.php:267
+msgid "https://developer.wordpress.org/plugins/"
+msgstr "https://developer.wordpress.org/plugins/"
+
+#: includes/Admin/Admin_Page.php:162 templates/results-row.php:19
+msgid "Learn more"
+msgstr "Approfondisci"
+
+#: includes/Checker/Checks/General/I18n_Usage_Check.php:82
+msgid "https://developer.wordpress.org/plugins/internationalization/how-to-internationalize-your-plugin/"
+msgstr "https://developer.wordpress.org/plugins/internationalization/how-to-internationalize-your-plugin/"
+
+#. translators: %s: Script size threshold.
+#: includes/Checker/Checks/Performance/Enqueued_Scripts_Size_Check.php:280
+msgid "Checks whether the cumulative size of all scripts enqueued on a page exceeds %s."
+msgstr "Controlla se la dimensione cumulativa di tutti gli script inseriti in coda in una pagina supera %s."
+
+#: includes/Checker/Checks/Performance/Enqueued_Scripts_Scope_Check.php:288
+msgid "Checks whether any scripts are loaded on all pages, which is usually not desirable and can lead to performance issues."
+msgstr "Controlla se sono caricati script su tutte le pagine, il che solitamente non è auspicabile e può causare problemi di prestazioni."
+
+#: includes/Plugin_Context.php:66
+msgid "Unknown environment, normalize_path function not found"
+msgstr "Ambiente sconosciuto, la funzione normalize_path non è stata trovata"
+
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:194
+msgid "Contributors"
+msgstr "Contributori"
+
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:190
+msgid "Tested up to"
+msgstr "Testato fino alla versione"
+
+#. translators: 1: version, 2: maximum limit.
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:521
+msgid "The upgrade notice for \"%1$s\" exceeds the limit of %2$d character."
+msgid_plural "The upgrade notice for \"%1$s\" exceeds the limit of %2$d characters."
+msgstr[0] "L'avviso di aggiornamento per \"%1$s\" supera il limite di %2$d carattere."
+msgstr[1] "L'avviso di aggiornamento per \"%1$s\" supera il limite di %2$d caratteri."
+
+#. translators: %d: maximum limit.
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:518
+msgid "The upgrade notice exceeds the limit of %d character."
+msgid_plural "The upgrade notice exceeds the limit of %d characters."
+msgstr[0] "L'avviso di aggiornamento supera il limite di %d carattere."
+msgstr[1] "L'avviso di aggiornamento supera il limite di %d caratteri."
+
+#. translators: 1: style file size. 2: tested URL. 3: threshold file size.
+#: includes/Checker/Checks/Performance/Enqueued_Styles_Size_Check.php:241
+msgid "This style has a size of %1$s which in combination with the other styles enqueued on %2$s exceeds the style size threshold of %3$s."
+msgstr "Questo stile ha una dimensione di %1$s che, in combinazione con gli altri stili accodati su %2$s, supera la soglia di dimensione dello stile di %3$s."
+
+#. translators: 1: style file size. 2: tested URL. 3: threshold file size.
+#: includes/Checker/Checks/Performance/Enqueued_Scripts_Size_Check.php:241
+msgid "This script has a size of %1$s which in combination with the other scripts enqueued on %2$s exceeds the script size threshold of %3$s."
+msgstr "Questo script ha una dimensione di %1$s che, in combinazione con gli altri script accodati su %2$s, supera la soglia della dimensione dello script di %3$s."
+
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:374
+msgid "<strong>Your plugin has a different license declared in the readme file and plugin header.</strong><br>Please update your readme with a valid GPL license identifier."
+msgstr "<strong>Il tuo plugin ha una licenza diversa dichiarata nel file readme e nel header del plugin.</strong><br>Aggiorna il tuo file Leggimi con una licenza GPL valida."
+
+#: includes/Checker/Checks/Performance/Enqueued_Scripts_Scope_Check.php:142
+msgid "This script is being loaded in all frontend contexts."
+msgstr "Questo script viene caricato in tutti i contesti nel frontend."
+
+#: runtime-content/themes/wp-empty-theme/searchform.php:17
+msgctxt "submit button"
+msgid "Search"
+msgstr "Cerca"
+
+#: runtime-content/themes/wp-empty-theme/searchform.php:14
+msgid "Search"
+msgstr "Cerca"
+
+#: runtime-content/themes/wp-empty-theme/index.php:109
+msgid "Previous post"
+msgstr "Articolo precedente"
+
+#: runtime-content/themes/wp-empty-theme/index.php:108
+msgid "Next post"
+msgstr "Articolo successivo"
+
+#. translators: %: Page number.
+#: runtime-content/themes/wp-empty-theme/index.php:87
+msgid "Page %"
+msgstr "Pagina %"
+
+#: runtime-content/themes/wp-empty-theme/index.php:43
+msgid "Nothing here"
+msgstr "Nessun risultato"
+
+#. translators: %s: List of tags.
+#: runtime-content/themes/wp-empty-theme/inc/template-tags.php:99
+#: runtime-content/themes/wp-empty-theme/inc/template-tags.php:143
+msgid "Tagged %s"
+msgstr "Tag %s"
+
+#. translators: %s: Name of current post. Only visible to screen readers.
+#: runtime-content/themes/wp-empty-theme/inc/template-tags.php:73
+#: runtime-content/themes/wp-empty-theme/inc/template-tags.php:116
+msgid "Edit %s"
+msgstr "Modifica %s"
+
+#: runtime-content/themes/wp-empty-theme/inc/template-tags.php:63
+msgctxt "Label for sticky posts"
+msgid "Featured post"
+msgstr "Articolo in evidenza"
+
+#. translators: %s: Author name.
+#: runtime-content/themes/wp-empty-theme/inc/template-tags.php:39
+msgid "By %s"
+msgstr "Di: %s"
+
+#. translators: %s: Publish date.
+#: runtime-content/themes/wp-empty-theme/inc/template-tags.php:23
+msgid "Published %s"
+msgstr "Pubblicato il %s"
+
+#. translators: %s: Name of current post.
+#: runtime-content/themes/wp-empty-theme/inc/template-functions.php:37
+msgid "Continue reading %s"
+msgstr "Continua a leggere %s"
+
+#. translators: %s: WordPress Version.
+#: runtime-content/themes/wp-empty-theme/inc/back-compat.php:32
+#: runtime-content/themes/wp-empty-theme/inc/back-compat.php:47
+#: runtime-content/themes/wp-empty-theme/inc/back-compat.php:68
+msgid "This theme requires WordPress 5.3 or newer. You are running version %s. Please upgrade."
+msgstr "Questo tema richiede WordPress 5.3 o versione successiva. Stai utilizzando la versione %s. Aggiorna."
+
+#: runtime-content/themes/wp-empty-theme/header.php:22
+msgid "Skip to content"
+msgstr "Salta al contenuto"
+
+#: runtime-content/themes/wp-empty-theme/footer.php:34
+msgid "https://wordpress.org/"
+msgstr "https://wordpress.org/"
+
+#. translators: %s: WordPress.
+#: runtime-content/themes/wp-empty-theme/footer.php:33
+msgid "Proudly powered by %s."
+msgstr "Proudly powered by %s."
+
+#: runtime-content/themes/wp-empty-theme/comments.php:71
+msgid "Leave a comment"
+msgstr "Lascia un commento"
+
+#. translators: %s: List of categories.
+#: runtime-content/themes/wp-empty-theme/inc/template-tags.php:89
+#: runtime-content/themes/wp-empty-theme/inc/template-tags.php:133
+msgid "Categorized as %s"
+msgstr "Categoria %s"
+
+#. translators: Used between list items, there is a space after the comma.
+#: runtime-content/themes/wp-empty-theme/inc/template-tags.php:85
+#: runtime-content/themes/wp-empty-theme/inc/template-tags.php:95
+#: runtime-content/themes/wp-empty-theme/inc/template-tags.php:129
+#: runtime-content/themes/wp-empty-theme/inc/template-tags.php:139
+msgid ", "
+msgstr ", "
+
+#: runtime-content/themes/wp-empty-theme/comments.php:63
+msgid "Comments are closed."
+msgstr "I commenti sono chiusi."
+
+#: runtime-content/themes/wp-empty-theme/comments.php:56
+msgid "Newer comments"
+msgstr "Commenti più recenti"
+
+#: runtime-content/themes/wp-empty-theme/comments.php:48
+#: runtime-content/themes/wp-empty-theme/index.php:84
+#: runtime-content/themes/wp-empty-theme/index.php:115
+msgid "Page"
+msgstr "Pagina"
+
+#. translators: %s: Comment count number.
+#: runtime-content/themes/wp-empty-theme/comments.php:26
+msgctxt "Comments title"
+msgid "%s comment"
+msgid_plural "%s comments"
+msgstr[0] "%s commento"
+msgstr[1] "%s commenti"
+
+#: runtime-content/themes/wp-empty-theme/comments.php:22
+msgid "1 comment"
+msgstr "1 commento"
+
+#: runtime-content/themes/wp-empty-theme/index.php:131
+msgid "Older <span class=\"nav-short\">posts</span>"
+msgstr "<span class=\"nav-short\">Articoli</span> meno recenti"
+
+#: runtime-content/themes/wp-empty-theme/index.php:120
+msgid "Newer <span class=\"nav-short\">posts</span>"
+msgstr "<span class=\"nav-short\">Articoli</span> più recenti"
+
+#: runtime-content/themes/wp-empty-theme/index.php:145
+msgid "It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help."
+msgstr "Non riusciamo a trovare quello che stai cercando. Prova con una nuova ricerca."
+
+#. translators: 1: plugin name, 2: found trademarked term
+#: includes/Checker/Checks/Plugin_Repo/Trademarks_Check.php:363
+msgid "The plugin name includes a restricted term. Your chosen plugin name - \"%1$s\" - contains the restricted term \"%2$s\" and cannot be used to begin your plugin name. We disallow the use of certain terms in ways that are abused, or potentially infringe on and/or are misleading with regards to trademarks. You may use the term \"%2$s\" elsewhere in your plugin name, such as \"... for %2$s\"."
+msgstr "Il nome del plugin include un termine riservato. Il nome che hai scelto per il plugin - \"%1$s\" - contiene il termine riservato \"%2$s\" e non può essere utilizzato come inizio per il nome del tuo plugin. Non consentiamo l'uso di determinati termini in modi che costituiscono un abuso o che potenzialmente violano e/o sono fuorvianti per quanto riguarda i marchi. Puoi utilizzare il termine \"%2$s\" altrove nel nome del plugin, ad esempio \"... per %2$s\"."
+
+#: runtime-content/themes/wp-empty-theme/comments.php:52
+msgid "Older comments"
+msgstr "Commenti più vecchi"
+
+#: templates/results-table.php:22
+msgid "Edit Link"
+msgstr "Modifica link"
+
+#: templates/results-row.php:11 templates/results-table.php:15
+msgid "Code"
+msgstr "Codice"
+
+#: templates/results-row.php:8 templates/results-table.php:12
+msgid "Type"
+msgstr "Tipo"
+
+#: templates/results-row.php:5 templates/results-table.php:9
+msgid "Column"
+msgstr "Colonna"
+
+#: templates/results-row.php:2 templates/results-table.php:6
+msgid "Line"
+msgstr "Linea"
+
+#: templates/results-table.php:1
+msgid "FILE:"
+msgstr "FILE:"
+
+#: templates/results-complete.php:2
+msgid "Checks complete."
+msgstr "Controllo completato."
+
+#: templates/admin-page.php:67
+msgid "No plugins available."
+msgstr "Nessun plugin disponibile."
+
+#: templates/admin-page.php:42
+msgid "Categories"
+msgstr "Categorie"
+
+#: templates/admin-page.php:40
+msgid "Check it!"
+msgstr "Verifica!"
+
+#: includes/Checker/Check_Categories.php:59
+msgid "Accessibility"
+msgstr "Accessibilità"
+
+#: includes/Checker/Check_Categories.php:58
+msgid "Performance"
+msgstr "Prestazioni"
+
+#: includes/Checker/Check_Categories.php:57
+msgid "Security"
+msgstr "Sicurezza"
+
+#: includes/Checker/Checks/Plugin_Repo/Code_Obfuscation_Check.php:169
+msgid "ionCube"
+msgstr "ionCube"
+
+#: includes/Checker/Checks/Plugin_Repo/Code_Obfuscation_Check.php:107
+msgid "Zend Guard"
+msgstr "Zend Guard"
+
+#. translators: 1: plugin basename, 2: error message
+#: includes/Checker/Preparations/Force_Single_Plugin_Preparation.php:60
+msgid "Invalid plugin %1$s: %2$s"
+msgstr "Plugin non valido %1$s: %2$s"
+
+#: includes/Checker/Check_Categories.php:56
+msgid "Plugin Repo"
+msgstr "Repo del plugin"
+
+#: includes/Checker/Check_Categories.php:55
+msgid "General"
+msgstr "Generale"
+
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:68
+msgid "The plugin readme.txt does not exist."
+msgstr "Il file readme.txt del plugin non esiste."
+
+#: includes/Admin/Admin_Page.php:204
+msgid "Errors were found."
+msgstr "Errori trovati."
+
+#: includes/Admin/Admin_Page.php:203
+msgid "No errors found."
+msgstr "Nessun errore trovato."
+
+#: includes/Admin/Admin_AJAX.php:299
+msgid "Invalid nonce"
+msgstr "Nonce non valido"
+
+#. Author of the plugin
+#: plugin.php
+msgid "WordPress Performance Team and Plugin Review Team"
+msgstr "WordPress Performance Team e Plugin Review Team"
+
+#: templates/admin-page.php:21
+msgid "Check the Plugin"
+msgstr "Verifica il plugin"
+
+#. translators: composer command.
+#: plugin.php:76
+msgid "Your installation of the Plugin Check plugin is incomplete. Please run %s."
+msgstr "L'installazione di Plugin Check è incompleta. Esegui %s."
+
+#. translators: 1: required version, 2: currently used version
+#: plugin.php:60
+msgid "Plugin Check requires at least PHP version %1$s. Your site is currently running on PHP %2$s."
+msgstr "Plugin Check richiede almeno la versione %1$s di PHP. Il tuo sito attualmente utilizza PHP %2$s."
+
+#. translators: %s: The Check slug.
+#: includes/Checker/Empty_Check_Repository.php:60
+msgid "Check slug \"%s\" is already in use."
+msgstr "Controlla che lo slug \"%s\" non sia già in uso."
+
+#: includes/Checker/Checks/Plugin_Repo/Localhost_Check.php:55
+msgid "Do not use Localhost/127.0.0.1 in your code."
+msgstr "Non usare Localhost/127.0.0.1 nel tuo codice."
+
+#: includes/Checker/Checks/Plugin_Repo/File_Type_Check.php:240
+msgid "Application files are not permitted."
+msgstr "Non sono ammessi file applicativi."
+
+#: includes/Checker/Checks/Plugin_Repo/File_Type_Check.php:114
+msgid "Compressed files are not permitted."
+msgstr "Non sono ammessi file compressi."
+
+#: includes/Checker/Checks/Plugin_Repo/File_Type_Check.php:211
+msgid "Hidden files are not permitted."
+msgstr "Non sono ammessi file nascosti."
+
+#: includes/Checker/Checks/Plugin_Repo/File_Type_Check.php:140
+msgid "Phar files are not permitted."
+msgstr "Non sono ammessi file Phar."
+
+#: includes/Admin/Admin_Page.php:314
+msgid "Check this plugin"
+msgstr "Controlla questo plugin"
+
+#: includes/Checker/Preparations/Use_Minimal_Theme_Preparation.php:136
+msgid "Invalid theme: Theme does not exist for some reason."
+msgstr "Tema non valido: Il tema non esiste per qualche motivo."
+
+#: includes/Checker/Checks/Plugin_Repo/Code_Obfuscation_Check.php:138
+msgid "Source Guardian"
+msgstr "Source Guardian"
+
+#: includes/Checker/Checks/Abstract_PHP_CodeSniffer_Check.php:77
+msgid "Unable to find PHPCS Runner class."
+msgstr "Impossibile trovare la classe PHPCS Runner."
+
+#: includes/Checker/AJAX_Runner.php:62 includes/Checker/CLI_Runner.php:79
+msgid "Invalid plugin: Plugin parameter must not be empty."
+msgstr "Plugin non valido: il parametro del plugin non deve essere vuoto."
+
+#. translators: %s: list of tags not supported
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:596
+msgid "One or more tags were ignored. The following tags are not permitted: %s"
+msgstr "Uno o più tag sono stati ignorati. I seguenti tag non sono consentiti: %s"
+
+#. translators: %d: maximum tags limit
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:589
+msgid "One or more tags were ignored. Please limit your plugin to %d tags."
+msgstr "Uno o più tag sono stati ignorati. Limita i tag per il tuo plugin a %d."
+
+#. translators: 1. Output formats.
+#: includes/CLI/Plugin_Check_Command.php:489
+msgid "Invalid format argument, valid value will be one of [%1$s]"
+msgstr "Argomento del formato non valido, il valore valido deve essere uno tra [%1$s]"
+
+#: includes/Checker/Checks/Performance/Enqueued_Styles_Scope_Check.php:142
+msgid "This style is being loaded in all contexts."
+msgstr "Questo stile viene caricato in tutti i contesti."
+
+#. translators: %s: The Post Type name.
+#: includes/Checker/Checks/Performance/Enqueued_Scripts_Scope_Check.php:204
+#: includes/Checker/Checks/Performance/Enqueued_Scripts_Size_Check.php:164
+#: includes/Checker/Checks/Performance/Enqueued_Styles_Scope_Check.php:204
+#: includes/Checker/Checks/Performance/Enqueued_Styles_Size_Check.php:164
+#: includes/Checker/Checks/Performance/Non_Blocking_Scripts_Check.php:145
+msgid "Unable to retrieve post URL for post type: %s"
+msgstr "Impossibile recuperare l'URL del post per il tipo di post: %s"
+
+#. translators: %s: categories
+#: includes/Checker/Abstract_Check_Runner.php:294
+msgid "Invalid categories: The %s value does not match the original request parameter."
+msgstr "Categorie non valide: il valore %s non corrisponde al parametro della richiesta originale."
+
+#. translators: %s: include-experimental
+#: includes/Checker/Abstract_Check_Runner.php:269
+msgid "Invalid flag: The %s value does not match the original request parameter."
+msgstr "Flag non valido: il valore %s non corrisponde al parametro della richiesta originale."
+
+#. Description of the plugin
+#: plugin.php
+msgid "Plugin Check is a WordPress.org tool which provides checks to help plugins meet the directory requirements and follow various best practices."
+msgstr "Plugin Check è uno strumento di WordPress.org che fornisce controlli per aiutare i plugin a soddisfare i requisiti della directory e a seguire varie best practice."
+
+#: includes/Admin/Admin_AJAX.php:282
+msgid "Checks run successfully"
+msgstr "I controlli sono stati eseguiti con successo"
+
+#: includes/Admin/Admin_AJAX.php:303
+msgid "Invalid user permissions, you are not allowed to perform this request."
+msgstr "Autorizzazione utente non valida, non sei autorizzato a eseguire questa richiesta."
+
+#: includes/Checker/Abstract_Check_Runner.php:246
+msgid "Invalid plugin: The plugin set does not match the original request parameter."
+msgstr "Plugin non valido: il plugin non corrisponde al parametro della richiesta originale."
+
+#: includes/Checker/Abstract_Check_Runner.php:202
+msgid "Invalid checks: The checks to run do not match the original request."
+msgstr "Controlli non validi: i controlli da eseguire non corrispondono alla richiesta originale."
+
+#: includes/Checker/Abstract_Check_Runner.php:224
+msgid "Invalid checks: The checks to exclude do not match the original request."
+msgstr "Controlli non validi: i controlli da escludere non corrispondono alla richiesta originale."
+
+#. translators: 1: plugin header tag; 2: Example version 5.2.4. 3: Example
+#. version 7.0.
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:561
+msgid "The \"%1$s\" field was ignored. This field should only contain a PHP version such as \"%2$s\" or \"%3$s\"."
+msgstr "Il campo \"%1$s\" è stato ignorato. Questo campo deve contenere solo una versione PHP come \"%2$s\" o \"%3$s\"."
+
+#. translators: 1: section title; 2: maximum limit
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:610
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:633
+msgid "The \"%1$s\" section is too long and was truncated. A maximum of %2$d character is supported."
+msgid_plural "The \"%1$s\" section is too long and was truncated. A maximum of %2$d characters is supported."
+msgstr[0] "La sezione \"%1$s\" è troppo lunga ed è stata troncata. È ammesso al massimo %2$d carattere."
+msgstr[1] "La sezione %1$s è troppo lunga ed è stata troncata. È ammesso un massimo di %2$d caratteri."
+
+#. translators: %s: section title
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:603
+msgid "The \"%s\" section is missing. An excerpt was generated from your main plugin description."
+msgstr "Manca la sezione \"%s\". Un riassunto è stato generato dalla descrizione principale del tuo plugin."
+
+#. translators: 1: plugin header tag; 2: Example version 5.0. 3: Example
+#. version 5.1.
+#. translators: 1: plugin header tag; 2: Example version 5.0. 3: Example
+#. version 4.9.
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:570
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:580
+msgid "The \"%1$s\" field was ignored. This field should only contain a valid WordPress version such as \"%2$s\" or \"%3$s\"."
+msgstr "Il campo \"%1$s\" è stato ignorato. Questo campo deve contenere solo una versione valida di WordPress come \"%2$s\" o \"%3$s\"."
+
+#. translators: %s: plugin header tag
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:554
+msgid "One or more contributors listed were ignored. The \"%s\" field should only contain WordPress.org usernames. Remember that usernames are case-sensitive."
+msgstr "Uno o più contributori elencati sono stati ignorati. Il campo \"%s\" deve contenere solo nomi utente WordPress.org. Ricorda che i nomi utente fanno distinzione tra maiuscole e minuscole."
+
+#. translators: 1: plugin slug, 2: found trademarked term
+#: includes/Checker/Checks/Plugin_Repo/Trademarks_Check.php:402
+msgid "The plugin slug includes a restricted term. Your plugin slug - \"%1$s\" - contains the restricted term \"%2$s\" which cannot be used at all in your plugin slug."
+msgstr "Lo slug del plugin include un termine riservato. Lo slug del tuo plugin - \"%1$s\" - contiene il termine riservato \"%2$s\" che non può essere utilizzato affatto nello slug del tuo plugin."
+
+#. translators: %s: Example plugin name header
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:139
+msgid "We cannot find a plugin name in your readme. Please update your readme with a valid plugin name header. Eg: \"%s\""
+msgstr "Non riusciamo a trovare il nome di un plugin nel tuo file readme. Aggiorna il tuo file Leggimi con un nome nel header del plugin valido. Esempio: \"%s\""
+
+#. translators: %s: The Check slug.
+#: includes/Checker/Empty_Check_Repository.php:70
+msgid "Check with slug \"%s\" has no categories associated with it."
+msgstr "Controlla con lo slug \"%s\" che non ci siano categorie ad esso associate."
+
+#. translators: %s: The Check slug.
+#: includes/Checker/Empty_Check_Repository.php:50
+msgid "Check with slug \"%s\" must be an instance of Runtime_Check or Static_Check."
+msgstr "Il controllo con slug \"%s\" deve essere un'istanza di Runtime_Check o Static_Check."
+
+#. translators: 1: plugin slug, 2: found trademarked term
+#: includes/Checker/Checks/Plugin_Repo/Trademarks_Check.php:394
+msgid "The plugin slug includes a restricted term. Your plugin slug - \"%1$s\" - contains the restricted term \"%2$s\" which cannot be used within in your plugin slug, unless your plugin slug ends with \"for %2$s\". The term must still not appear anywhere else in your plugin slug."
+msgstr "Lo slug del plugin contiene un termine riservato. Lo slug del plugin che hai scelto - \"%1$s\" - contiene il termine riservato \"%2$s\", che non può essere utilizzato nello slug del tuo plugin, a meno che lo slug del tuo plugin termini con \"for %2$s\". Il termine non deve comparire altrove nello slug del plugin."
+
+#. translators: 1: plugin name, 2: found trademarked term
+#: includes/Checker/Checks/Plugin_Repo/Trademarks_Check.php:355
+msgid "The plugin name includes a restricted term. Your chosen plugin name - \"%1$s\" - contains the restricted term \"%2$s\" which cannot be used at all in your plugin name."
+msgstr "Il nome del plugin include un termine riservato. Il nome del tuo plugin - \"%1$s\" - contiene il termine riservato \"%2$s\" che non può essere utilizzato affatto nel nome del tuo plugin."
+
+#. translators: 1: plugin header field, 2: plugin header text domain, 3: plugin
+#. slug
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Header_Fields_Check.php:290
+msgid "The \"%1$s\" header in the plugin file does not match the slug. Found \"%2$s\", expected \"%3$s\"."
+msgstr "Il \"%1$s\" header nel file del plugin non corrisponde allo slug. Trovato \"%2$s\", previsto \"%3$s\"."
+
+#: templates/admin-page.php:31
+msgid "Select Plugin"
+msgstr "Seleziona il plugin"
+
+#: templates/results-row.php:14 templates/results-table.php:18
+msgid "Message"
+msgstr "Messaggio"
+
+#: templates/results-row.php:20 templates/results-row.php:30
+msgid "(opens in a new tab)"
+msgstr "(apre in una nuova scheda)"
+
+#. Plugin Name of the plugin
+#: plugin.php
+msgid "Plugin Check (PCP)"
+msgstr "Plugin Check (PCP)"
+
+#: templates/results-row.php:29
+msgid "View in code editor"
+msgstr "Visualizza nell'editor del codice"
+
+#. translators: %s: tool name
+#: includes/Checker/Checks/Plugin_Repo/Code_Obfuscation_Check.php:106
+#: includes/Checker/Checks/Plugin_Repo/Code_Obfuscation_Check.php:137
+#: includes/Checker/Checks/Plugin_Repo/Code_Obfuscation_Check.php:168
+msgid "Code Obfuscation tools are not permitted. Detected: %s"
+msgstr "Non sono ammessi strumenti di offuscamento del codice. Rilevato: %s"
+
+#: includes/Admin/Admin_Page.php:71 includes/Admin/Admin_Page.php:72
+#: templates/admin-page.php:12
+msgid "Plugin Check"
+msgstr "Plugin Check"
+
+#. translators: %s: Search term.
+#: runtime-content/themes/wp-empty-theme/index.php:26
+msgid "Results for \"%s\""
+msgstr "Risultati per \"%s\""
+
+#: includes/Checker/Checks/Plugin_Repo/File_Type_Check.php:184
+msgid "Version control checkouts should not be present."
+msgstr "I checkout del controllo della versione non dovrebbero essere presenti."
+
+#. Plugin URI of the plugin
+#: plugin.php
+msgid "https://github.com/WordPress/plugin-check"
+msgstr "https://github.com/WordPress/plugin-check"
+
+#. translators: 1: plugin slug, 2: found trademarked term
+#: includes/Checker/Checks/Plugin_Repo/Trademarks_Check.php:410
+msgid "The plugin slug includes a restricted term. Your plugin slug - \"%1$s\" - contains the restricted term \"%2$s\" and cannot be used to begin your plugin slug. We disallow the use of certain terms in ways that are abused, or potentially infringe on and/or are misleading with regards to trademarks. You may use the term \"%2$s\" elsewhere in your plugin slug, such as \"... for %2$s\"."
+msgstr "Lo slug del plugin include un termine riservato. Il nome del tuo plugin - \"%1$s\" - contiene il termine riservato \"%2$s\" e non può essere utilizzato come inizio per lo slug del tuo plugin. Non consentiamo l'uso di determinati termini in modi che costituiscono un abuso o che potenzialmente violano e/o sono fuorvianti per quanto riguarda i marchi. Puoi utilizzare il termine \"%2$s\" altrove nel nome del plugin, ad esempio \"... per %2$s\"."
+
+#. translators: 1: plugin name, 2: found trademarked term
+#: includes/Checker/Checks/Plugin_Repo/Trademarks_Check.php:347
+msgid "The plugin name includes a restricted term. Your chosen plugin name - \"%1$s\" - contains the restricted term \"%2$s\" which cannot be used within in your plugin name, unless your plugin name ends with \"for %2$s\". The term must still not appear anywhere else in your name."
+msgstr "Il nome del plugin contiene un termine riservato. Il nome del plugin che hai scelto - \"%1$s\" - contiene il termine riservato \"%2$s\", che non può essere utilizzato nel nome del tuo plugin, a meno che il nome del tuo plugin termini con \"for %2$s\". Il termine non deve comparire altrove nel nome."
+
+#: includes/Admin/Admin_Page.php:116
+msgid "Checks"
+msgstr "Verifiche"
+
+#: includes/Checker/Checks/Plugin_Repo/Plugin_Readme_Check.php:329
+msgid "<strong>Your plugin has an invalid license declared.</strong><br>Please update your readme with a valid SPDX license identifier."
+msgstr "<strong>Per il tuo plugin è stata dichiarata una licenza non valida.</strong><br>Aggiorna il tuo readme con un identificatore di licenza SPDX valido."
