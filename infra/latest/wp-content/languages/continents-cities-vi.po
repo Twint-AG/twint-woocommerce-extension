@@ -1,5 +1,5 @@
-# Translation of WordPress - 6.6.x - Development - Continents & Cities in Vietnamese
-# This file is distributed under the same license as the WordPress - 6.6.x - Development - Continents & Cities package.
+# Translation of WordPress - 6.7.x - Development - Continents & Cities in Vietnamese
+# This file is distributed under the same license as the WordPress - 6.7.x - Development - Continents & Cities package.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2024-01-11 12:54:05+0000\n"
@@ -9,7 +9,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: GlotPress/4.0.1\n"
 "Language: vi_VN\n"
-"Project-Id-Version: WordPress - 6.6.x - Development - Continents & Cities\n"
+"Project-Id-Version: WordPress - 6.7.x - Development - Continents & Cities\n"
 
 #: wp-admin/includes/continents-cities.php:523
 msgid "Kanton"

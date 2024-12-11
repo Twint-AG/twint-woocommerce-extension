@@ -1,5 +1,5 @@
-# Translation of WordPress - 6.6.x - Development - Administration - Network Admin in French (France)
-# This file is distributed under the same license as the WordPress - 6.6.x - Development - Administration - Network Admin package.
+# Translation of WordPress - 6.7.x - Development - Administration - Network Admin in French (France)
+# This file is distributed under the same license as the WordPress - 6.7.x - Development - Administration - Network Admin package.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2024-06-28 14:16:02+0000\n"
@@ -9,7 +9,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: GlotPress/4.0.1\n"
 "Language: fr\n"
-"Project-Id-Version: WordPress - 6.6.x - Development - Administration - Network Admin\n"
+"Project-Id-Version: WordPress - 6.7.x - Development - Administration - Network Admin\n"
 
 #: wp-admin/network/upgrade.php:32
 msgid "<a href=\"https://developer.wordpress.org/advanced-administration/multisite/admin/#network-admin-updates-screen\">Documentation on Upgrade Network</a>"
@@ -43,7 +43,7 @@ msgstr "<a href=\"https://developer.wordpress.org/advanced-administration/multis
 msgid "https://developer.wordpress.org/advanced-administration/server/web-server/nginx/"
 msgstr "https://developer.wordpress.org/advanced-administration/server/web-server/nginx/"
 
-#: wp-admin/includes/class-wp-ms-sites-list-table.php:759
+#: wp-admin/includes/class-wp-ms-sites-list-table.php:761
 msgctxt "site"
 msgid "Activate"
 msgstr "Activer"
@@ -106,12 +106,12 @@ msgid "You should back up your existing %1$s and %2$s files."
 msgstr "Vous devriez sauvegarder vos fichiers %1$s et %2$s existants."
 
 #. translators: %s: Theme name.
-#: wp-admin/includes/class-wp-ms-themes-list-table.php:735
+#: wp-admin/includes/class-wp-ms-themes-list-table.php:738
 msgid "Visit theme site for %s"
 msgstr "Consultez le site du thème pour %s"
 
 #. translators: %s: Theme name.
-#: wp-admin/includes/class-wp-ms-themes-list-table.php:748
+#: wp-admin/includes/class-wp-ms-themes-list-table.php:751
 msgid "Child theme of %s"
 msgstr "Thème enfant de %s"
 
@@ -210,7 +210,7 @@ msgid_plural "Update Available <span class=\"count\">(%s)</span>"
 msgstr[0] "Mise à jour disponible <span class=\"count\">(%s)</span>"
 msgstr[1] "Mises à jour disponible <span class=\"count\">(%s)</span>"
 
-#: wp-admin/includes/class-wp-ms-sites-list-table.php:650
+#: wp-admin/includes/class-wp-ms-sites-list-table.php:652
 msgid "Main"
 msgstr "Principal"
 
@@ -248,7 +248,7 @@ msgstr "Installation en sous-domaine"
 msgid "Sub-directory Installation"
 msgstr "Installation en sous-répertoire"
 
-#: wp-admin/includes/class-wp-ms-themes-list-table.php:941
+#: wp-admin/includes/class-wp-ms-themes-list-table.php:944
 msgid "Active Child Theme"
 msgstr "Thème enfant actif"
 
@@ -391,36 +391,36 @@ msgctxt "user"
 msgid "Mark as spam"
 msgstr "Marquer comme indésirable"
 
-#: wp-admin/includes/class-wp-ms-themes-list-table.php:741
+#: wp-admin/includes/class-wp-ms-themes-list-table.php:744
 msgid "Visit Theme Site"
 msgstr "Aller sur le site du thème"
 
-#: wp-admin/includes/class-wp-ms-themes-list-table.php:704
+#: wp-admin/includes/class-wp-ms-themes-list-table.php:707
 msgid "Broken Theme:"
 msgstr "Thème cassé :"
 
 #. translators: %s: Theme name.
-#: wp-admin/includes/class-wp-ms-themes-list-table.php:610
+#: wp-admin/includes/class-wp-ms-themes-list-table.php:613
 msgid "Network Disable %s"
 msgstr "Désactiver %s pour le réseau"
 
 #. translators: %s: Theme name.
-#: wp-admin/includes/class-wp-ms-themes-list-table.php:607
+#: wp-admin/includes/class-wp-ms-themes-list-table.php:610
 msgid "Disable %s"
 msgstr "Désactiver %s"
 
 #. translators: %s: Theme name.
-#: wp-admin/includes/class-wp-ms-themes-list-table.php:584
+#: wp-admin/includes/class-wp-ms-themes-list-table.php:587
 msgid "Network Enable %s"
 msgstr "Activer %s sur le réseau"
 
 #. translators: %s: Theme name.
-#: wp-admin/includes/class-wp-ms-themes-list-table.php:581
+#: wp-admin/includes/class-wp-ms-themes-list-table.php:584
 msgid "Enable %s"
 msgstr "Activer %s"
 
 #: wp-admin/includes/class-wp-ms-themes-list-table.php:472
-#: wp-admin/includes/class-wp-ms-themes-list-table.php:617
+#: wp-admin/includes/class-wp-ms-themes-list-table.php:620
 msgid "Network Disable"
 msgstr "Désactiver du réseau"
 
@@ -460,12 +460,12 @@ msgstr[1] "Tous <span class=\"count\">(%s)</span>"
 msgid "No themes found."
 msgstr "Aucun thème trouvé."
 
-#: wp-admin/includes/class-wp-ms-sites-list-table.php:794
+#: wp-admin/includes/class-wp-ms-sites-list-table.php:796
 msgctxt "verb; site"
 msgid "Archive"
 msgstr "Archiver"
 
-#: wp-admin/includes/class-wp-ms-sites-list-table.php:783
+#: wp-admin/includes/class-wp-ms-sites-list-table.php:785
 msgid "Unarchive"
 msgstr "Désarchiver"
 
@@ -491,7 +491,7 @@ msgstr "Inscription"
 msgid "Last Updated"
 msgstr "Dernière mise à jour"
 
-#: wp-admin/includes/class-wp-ms-sites-list-table.php:807
+#: wp-admin/includes/class-wp-ms-sites-list-table.php:809
 msgctxt "site"
 msgid "Not Spam"
 msgstr "N’est pas un indésirable"
@@ -516,7 +516,7 @@ msgid "Deleted"
 msgstr "Supprimé"
 
 #: wp-admin/includes/class-wp-ms-sites-list-table.php:39
-#: wp-admin/includes/class-wp-ms-sites-list-table.php:818
+#: wp-admin/includes/class-wp-ms-sites-list-table.php:820
 #: wp-admin/network/site-info.php:202
 msgctxt "site"
 msgid "Spam"
