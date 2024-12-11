@@ -107,13 +107,17 @@ class Modal {
   }
 
   refreshMiniCart() {
-    // Refresh mini-cart if not in cart page to prevent reload the whole page
-    if (!document.body.classList.contains('woocommerce-cart')) {
-      jQuery(document.body).trigger('wc_fragment_refresh')
-      jQuery(document.body).trigger('added_to_cart')
-      jQuery(document.body).trigger('removed_from_cart')
-      jQuery(document.body).trigger('wc-blocks_removed_from_cart')
-      jQuery(document.body).trigger('wc-blocks_added_to_cart')
+    try {
+      // Refresh mini-cart if not in cart page to prevent reload the whole page
+      if (!document.body.classList.contains('woocommerce-cart')) {
+        jQuery(document.body).trigger('wc_fragment_refresh')
+        jQuery(document.body).trigger('added_to_cart')
+        jQuery(document.body).trigger('removed_from_cart')
+        jQuery(document.body).trigger('wc-blocks_removed_from_cart')
+        jQuery(document.body).trigger('wc-blocks_added_to_cart')
+      }
+    } catch (e) {
+      // Silence
     }
   }
 
