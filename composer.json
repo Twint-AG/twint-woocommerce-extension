@@ -13,7 +13,7 @@
     "woocommerce",
     "woocommerce-extension"
   ],
-  "version": "9.9.9-dev",
+  "version": "1.0.0-RC30",
   "type": "wordpress-plugin",
   "license": [
     "MIT"
