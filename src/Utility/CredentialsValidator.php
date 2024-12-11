@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Woo\Utility;
 
 use Exception;
+use Throwable;
 use Twint\Sdk\Certificate\CertificateContainer;
 use Twint\Sdk\Certificate\Pkcs12Certificate;
 use Twint\Sdk\Client;
@@ -52,9 +53,32 @@ class CredentialsValidator implements CredentialValidatorInterface
             );
             $status = $client->checkSystemStatus();
         } catch (Exception|SdkError $e) {
+            error_log($this->buildLogMessage($e));
             return false;
         }
 
         return $status->isOk();
+    }
+
+    private function buildLogMessage(Throwable $e, string $message = ''): string
+    {
+        // Set a default message if none is provided
+        if ($message === '' || $message === '0') {
+            $message = 'TWINT certificate error: ' . $e->getMessage();
+        }
+
+        // Append details about previous exceptions recursively
+        $previous = $e->getPrevious();
+        if ($previous instanceof Throwable) {
+            $message .= sprintf(
+                "\n %s:%d %s -> %s",
+                $previous->getFile(),
+                $previous->getLine(),
+                get_class($previous),
+                $this->buildLogMessage($previous)
+            );
+        }
+
+        return $message;
     }
 }
