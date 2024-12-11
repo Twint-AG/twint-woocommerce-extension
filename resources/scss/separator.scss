@@ -1,0 +1,27 @@
+.wc-block-components-express-payment-continue-rule {
+  align-items: center;
+  display: flex;
+  margin: 36px 0 28px;
+  padding: 0 24px;
+  text-align: center;
+
+  &:before,
+  &:after {
+    border-bottom: 1px solid hsla(0, 0%, 7%, 0.11);
+    content: " ";
+    flex: 1;
+  }
+
+  &:before {
+    margin-right: 10px;
+  }
+
+  &:after {
+    margin-left: 10px;
+  }
+
+  &--cart {
+    margin: 16px 0;
+    text-transform: uppercase;
+  }
+}
