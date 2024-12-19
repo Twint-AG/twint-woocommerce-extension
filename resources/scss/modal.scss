@@ -179,6 +179,18 @@
   #qrcode {
     margin: auto !important;
   }
+
+  .woocommerce-Price-amount,
+  .woocommerce-Price-currencySymbol {
+    color: white !important;
+  }
+
+  @media (min-width: 768px) {
+    .md\:block {
+      display: block !important;
+      visibility: visible !important;
+    }
+  }
 }
 
 .twint-mobile {

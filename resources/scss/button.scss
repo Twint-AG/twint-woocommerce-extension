@@ -26,6 +26,8 @@ $border-radius: 6px;
   height: 50px !important;
   transition: background-color 0.3s ease !important;
   text-transform: unset !important;
+  font-family: 'Roboto', sans-serif !important;
+  font-weight: 500 !important;
 
   &.dynamic {
     display: none !important;
@@ -70,8 +72,8 @@ $border-radius: 6px;
   }
 
   .twint-label {
-    font-size: 15px !important;
-    font-weight: 600 !important;
+    font-size: 17px !important;
+    font-weight: 500 !important;
     line-height: 19px !important;
     letter-spacing: 0.43px !important;
     text-align: center !important;
@@ -79,6 +81,7 @@ $border-radius: 6px;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
+    font-family: 'Roboto', sans-serif !important;
 
     &:before {
       content: 'TWINT ' !important;
