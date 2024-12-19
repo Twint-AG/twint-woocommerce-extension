@@ -12,8 +12,8 @@ echo esc_html__('View cart', 'woocommerce') ?>"
          'twint-woocommerce-extension'
      ) ?>"
 >
-    <div class="fixed inset-0 bg-black opacity-50"></div>
-    <div class="modal-inner-wrap shadow-lg w-screen h-screen p-6 z-10 overflow-y-auto <?php echo esc_attr($this->getMdClasses(
+    <div id="twint-overlay" class="fixed inset-0 bg-black opacity-50"></div>
+    <div id="twint-modal-content-box" class="modal-inner-wrap shadow-lg w-screen h-screen p-6 z-10 overflow-y-auto <?php echo esc_attr($this->getMdClasses(
         'md:rounded-lg md:h-auto md:max-h-[95vh]'
     )) ?>">
         <header class="twint-modal-header sticky top-0 flex justify-between items-center bg-white py-2 px-4 <?php echo esc_attr($this->getMdClasses(
