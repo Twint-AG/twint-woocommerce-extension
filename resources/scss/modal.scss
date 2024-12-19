@@ -191,6 +191,14 @@
       visibility: visible !important;
     }
   }
+
+  #twint-overlay {
+    z-index: 2 !important;
+  }
+
+  #twint-modal-content-box {
+    z-index: 3 !important;
+  }
 }
 
 .twint-mobile {
