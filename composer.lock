@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e563d500fb1629ac7d52a82b91eaf071",
+    "content-hash": "b3a42aaec20cbf0d29bca57614435a3d",
     "packages": [
         {
             "name": "azjezz/psl",
@@ -145,6 +145,82 @@
                 }
             ],
             "time": "2023-12-20T15:40:13+00:00"
+        },
+        {
+            "name": "composer/ca-bundle",
+            "version": "1.5.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/composer/ca-bundle.git",
+                "reference": "bc0593537a463e55cadf45fd938d23b75095b7e1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/bc0593537a463e55cadf45fd938d23b75095b7e1",
+                "reference": "bc0593537a463e55cadf45fd938d23b75095b7e1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-openssl": "*",
+                "ext-pcre": "*",
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^8 || ^9",
+                "psr/log": "^1.0 || ^2.0 || ^3.0",
+                "symfony/process": "^4.0 || ^5.0 || ^6.0 || ^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Composer\\CaBundle\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be"
+                }
+            ],
+            "description": "Lets you find a path to the system CA bundle, and includes a fallback to the Mozilla CA bundle.",
+            "keywords": [
+                "cabundle",
+                "cacert",
+                "certificate",
+                "ssl",
+                "tls"
+            ],
+            "support": {
+                "irc": "irc://irc.freenode.org/composer",
+                "issues": "https://github.com/composer/ca-bundle/issues",
+                "source": "https://github.com/composer/ca-bundle/tree/1.5.4"
+            },
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/composer",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-11-27T15:35:25+00:00"
         },
         {
             "name": "danielburger1337/sha3-shake",
@@ -2681,16 +2757,18 @@
         },
         {
             "name": "twint-ag/sdk",
-            "version": "1.4.2",
+            "version": "1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://git.nfq.asia/twint-ag/sdk",
-                "reference": "077edefe8a3fb444ce5d64558b2fabe7c9df42ce"
+                "reference": "ad212af93e50a45470feadb68d247609a69696a1"
             },
             "require": {
                 "azjezz/psl": "^2.5.0",
+                "composer/ca-bundle": "^1.5",
                 "danielburger1337/sha3-shake": "^1.0",
                 "ext-dom": "*",
+                "ext-intl": "*",
                 "ext-openssl": "*",
                 "ext-xsl": "*",
                 "guzzlehttp/guzzle": "^7.4",
@@ -2707,21 +2785,22 @@
             },
             "require-dev": {
                 "ext-xdebug": "*",
-                "laminas/laminas-code": "^4.15.1",
+                "laminas/laminas-code": "^4.16.0",
                 "nikic/php-parser": "^4.19.4",
                 "php-soap/wsdl-reader": "^0.17.0",
                 "php-standard-library/phpstan-extension": "^1.1.0",
                 "phpro/soap-client": "^3.3.0",
-                "phpstan/phpstan": "^1.12.7",
+                "phpstan/phpstan": "^1.12.12",
                 "phpstan/phpstan-strict-rules": "^1.6.1",
-                "phpunit/phpunit": "^10.5.37",
+                "phpunit/phpunit": "^10.5.38",
                 "roave/better-reflection": "^6.25.0",
                 "slevomat/coding-standard": "^8.15.0",
                 "symfony/clock": "^6.4.13",
-                "symfony/dotenv": "^6.4.13",
+                "symfony/dotenv": "^6.4.16",
                 "symfony/event-dispatcher": "^6.4.13",
+                "symfony/filesystem": "^6.4",
                 "symfony/finder": "^6.4.13",
-                "symplify/easy-coding-standard": "^12.3.6",
+                "symplify/easy-coding-standard": "^12.4.0",
                 "wiremock-php/wiremock-php": "dev-cloud-support as 2.39.0"
             },
             "type": "library",
@@ -2764,7 +2843,7 @@
                 "twint",
                 "twint.ch"
             ],
-            "time": "2024-11-26T10:31:33+00:00"
+            "time": "2024-12-12T10:38:25+00:00"
         },
         {
             "name": "veewee/xml",

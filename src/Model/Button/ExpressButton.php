@@ -27,6 +27,8 @@ class ExpressButton
             return;
         }
 
+        add_filter('wp_resource_hints', [$this, 'addReconnectForGoogleFonts'], 10, 2);
+
         add_filter('body_class', [$this, 'addPluginVersion']);
 
         $screens = $this->getAvailableScreens();
@@ -37,6 +39,14 @@ class ExpressButton
             $this->modal->registerHooks();
 
             Plugin::enqueueScript('frontend-express', '/express.js');
+
+            // Google Font
+            wp_enqueue_style(
+                'google-roboto-font',
+                'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap',
+                [],
+                TwintConstant::PLUGIN_VERSION
+            );
         }
 
         foreach ($screens as $screen) {
@@ -71,6 +81,22 @@ class ExpressButton
                     break;
             }
         }
+    }
+
+    public function addReconnectForGoogleFonts($hints, $relation_type): array
+    {
+        if ($relation_type === 'preconnect') {
+            $hints[] = [
+                'href' => 'https://fonts.gstatic.com',
+                'crossorigin' => '',
+            ];
+
+            $hints[] = [
+                'href' => 'https://fonts.googleapis.com',
+            ];
+        }
+
+        return $hints;
     }
 
     public function addPluginVersion($classes): array

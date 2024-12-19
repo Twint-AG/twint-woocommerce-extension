@@ -53,6 +53,7 @@ class CredentialsValidator implements CredentialValidatorInterface
             );
             $status = $client->checkSystemStatus();
         } catch (Exception|SdkError $e) {
+            //phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
             error_log($this->buildLogMessage($e));
             return false;
         }

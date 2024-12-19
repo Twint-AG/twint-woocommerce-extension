@@ -42,7 +42,7 @@
     "guzzlehttp/guzzle": "^7.0",
     "symfony/console": "*",
     "symfony/process": "*",
-    "twint-ag/sdk": "1.4.2",
+    "twint-ag/sdk": "^1.4",
     "sniccowp/php-scoper-wordpress-excludes": "^6.6"
   },
   "require-dev": {
