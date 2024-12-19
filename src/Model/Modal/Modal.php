@@ -4,20 +4,11 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Model\Modal;
 
-use Twint\Woo\Container\Lazy;
-use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Plugin;
 use Twint\Woo\Service\AppsService;
 
-/**
- * @method AppsService getService()
- */
 class Modal
 {
-    use LazyLoadTrait;
-
-    protected static array $lazyLoads = ['service'];
-
     private bool $registered = false;
 
     private array $links = [];
@@ -29,7 +20,7 @@ class Modal
     private bool $isMobile = false;
 
     public function __construct(
-        private Lazy|AppsService $service
+        private readonly AppsService $service
     ) {
     }
 
@@ -55,7 +46,7 @@ class Modal
 
     protected function getVariables(): void
     {
-        $links = $this->getService()->getPayLinks();
+        $links = $this->service->getPayLinks();
 
         $this->links = $links;
 
@@ -63,11 +54,6 @@ class Modal
         $this->isIos = isset($links['ios']);
 
         $this->isMobile = $this->isAndroid || $this->isIos;
-    }
-
-    public function getMdClasses(string $classes): string
-    {
-        return $this->isMobile ? '' : $classes;
     }
 
     protected function getMobileClass(): string
@@ -126,5 +112,10 @@ class Modal
                 </select>    
             </div>        
         ';
+    }
+
+    public function getMdClasses(string $classes): string
+    {
+        return $this->isMobile ? '' : $classes;
     }
 }

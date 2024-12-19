@@ -11,25 +11,22 @@ use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Service\ExpressCheckoutService;
 use Twint\Woo\Service\MonitorService;
 use WC_Data_Exception;
-use WC_Logger_Interface;
 use WP_REST_Request;
 use WP_REST_Response;
 
 /**
  * @method MonitorService getMonitor()
- * @method ExpressCheckoutService getService()
  */
 class ExpressCheckoutAction
 {
     use LazyLoadTrait;
     use CartInitTrait;
 
-    protected static array $lazyLoads = ['monitor', 'service'];
+    protected static array $lazyLoads = ['monitor'];
 
     public function __construct(
-        private Lazy|ExpressCheckoutService $service,
-        private Lazy|MonitorService         $monitor,
-        private readonly WC_Logger_Interface $logger
+        private readonly ExpressCheckoutService $service,
+        private readonly Lazy|MonitorService    $monitor,
     ) {
         $this->registerHooks();
     }
@@ -55,8 +52,8 @@ class ExpressCheckoutAction
         $full = $request->get_param('full') ?? false;
 
         if (!$full) {
-            $empty = $this->getService()->isEmptyCart();
-            $result = $this->getService()->addToCart($request);
+            $empty = $this->service->isEmptyCart();
+            $result = $this->service->addToCart($request);
 
             if (!$result['success']) {
                 return new WP_REST_Response($result, 200);
@@ -70,9 +67,8 @@ class ExpressCheckoutAction
         }
 
         try {
-            $pairing = $this->getService()->checkout($full);
+            $pairing = $this->service->checkout($full);
         } catch (Throwable $e) {
-            $this->logger->error('TWINT Express Checkout error: ' . $e->getMessage());
             return new WP_REST_Response([
                 'success' => false,
                 // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- need to match on translated value from core.

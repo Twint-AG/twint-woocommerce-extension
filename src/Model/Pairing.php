@@ -169,6 +169,20 @@ class Pairing extends Entity
         return $this;
     }
 
+    public function getCustomerData(): array
+    {
+        return $this->customerData === null || $this->customerData === '' || $this->customerData === '0' ? [] : json_decode(
+            $this->customerData,
+            true
+        );
+    }
+
+    public function setCustomerData(?string $value): self
+    {
+        $this->customerData = $value;
+        return $this;
+    }
+
     public function getAmount(): float
     {
         return $this->amount;
@@ -293,17 +307,29 @@ class Pairing extends Entity
         return $this->shippingMethodId;
     }
 
-    public function getCustomerData(): array
+    public function getShippingMethodId(): ?string
     {
-        return $this->customerData === null || $this->customerData === '' || $this->customerData === '0' ? [] : json_decode(
-            $this->customerData,
-            true
-        );
+        if ($this->shippingMethodId === null || $this->shippingMethodId === '' || $this->shippingMethodId === '0') {
+            return null;
+        }
+
+        $parts = explode(TwintConstant::SHIPPING_SEPARATOR, $this->shippingMethodId);
+        return $parts[0] ?: null;
     }
 
-    public function setCustomerData(?string $value): self
+    public function getShippingMethodInstanceId(): ?string
     {
-        $this->customerData = $value;
+        if ($this->shippingMethodId === null || $this->shippingMethodId === '' || $this->shippingMethodId === '0') {
+            return null;
+        }
+
+        $parts = explode(TwintConstant::SHIPPING_SEPARATOR, $this->shippingMethodId);
+        return $parts[1] ?: null;
+    }
+
+    public function setShippingMethodId($shippingMethodId): self
+    {
+        $this->shippingMethodId = $shippingMethodId;
         return $this;
     }
 
@@ -316,32 +342,6 @@ class Pairing extends Entity
     {
         $this->transactionStatus = $transactionStatus;
         return $this;
-    }
-
-    public function getShippingMethodId(): ?string
-    {
-        if ($this->shippingMethodId === null || $this->shippingMethodId === '' || $this->shippingMethodId === '0') {
-            return null;
-        }
-
-        $parts = explode(TwintConstant::SHIPPING_SEPARATOR, $this->shippingMethodId);
-        return $parts[0] ?: null;
-    }
-
-    public function setShippingMethodId($shippingMethodId): self
-    {
-        $this->shippingMethodId = $shippingMethodId;
-        return $this;
-    }
-
-    public function getShippingMethodInstanceId(): ?string
-    {
-        if ($this->shippingMethodId === null || $this->shippingMethodId === '' || $this->shippingMethodId === '0') {
-            return null;
-        }
-
-        $parts = explode(TwintConstant::SHIPPING_SEPARATOR, $this->shippingMethodId);
-        return $parts[1] ?: null;
     }
 
     public function isTimedOut(): bool

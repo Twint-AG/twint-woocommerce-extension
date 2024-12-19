@@ -27,7 +27,7 @@ class PaymentInformationAction extends BaseAction
     protected static array $lazyLoads = ['repository'];
 
     public function __construct(
-        private Lazy|PairingRepository $repository,
+        private Lazy|PairingRepository       $repository,
     ) {
         $this->registerHooks();
     }

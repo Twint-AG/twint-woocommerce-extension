@@ -24,15 +24,13 @@ echo esc_html__('View cart', 'woocommerce') ?>"
                     data-success="<?php echo esc_html__('Continue shopping', 'twint-woocommerce-extension') ?>"
             >
                 <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1.40001 12.8078L0.692261 12.1L6.29226 6.50001L0.692261 0.900011L1.40001 0.192261L7.00001 5.79226L12.6 0.192261L13.3078 0.900011L7.70776 6.50001L13.3078 12.1L12.6 12.8078L7.00001 7.20776L1.40001 12.8078Z"
-                          fill="#1C1B1F"></path>
+                    <path d="M1.40001 12.8078L0.692261 12.1L6.29226 6.50001L0.692261 0.900011L1.40001 0.192261L7.00001 5.79226L12.6 0.192261L13.3078 0.900011L7.70776 6.50001L13.3078 12.1L12.6 12.8078L7.00001 7.20776L1.40001 12.8078Z" fill="#1C1B1F"></path>
                 </svg>
                 <span class="ml-2"></span>
             </button>
-            <img class="twint-logo hidden <?php echo esc_attr($this->getMdClasses('md:block')) ?>"
-                 src="<?php echo esc_attr(Plugin::assets(
-                     '/images/twint_logo.png'
-                 )) ?>"
+            <img class="twint-logo hidden <?php echo esc_attr($this->getMdClasses('md:block')) ?>" src="<?php echo esc_attr(Plugin::assets(
+                '/images/twint_logo.png'
+            )) ?>"
                  alt="TWINT Logo">
         </header>
         <div class="modal-content twint-modal-content p-0 <?php echo esc_attr($this->getMobileClass() . $this->getMdClasses(
@@ -72,7 +70,7 @@ echo esc_html__('View cart', 'woocommerce') ?>"
 
                             <canvas id="qrcode" class="text-center items-center justify-center m-4
                                     <?php echo esc_attr($this->getMdClasses('md:flex')) ?>"
-                                    title={pairingToken}>
+                                 title={pairingToken}>
                             </canvas>
                         </div>
                     </div>
@@ -104,14 +102,14 @@ echo esc_html__('View cart', 'woocommerce') ?>"
                                         <?php echo esc_html__('Switch to TWINT app now', 'twint-woocommerce-extension') ?>
                                     </a>
                                 </div>
-                            <?php } ?>
+                            <?php }?>
 
                             <?php //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The HTML is safe and intended for raw output.
                             echo $this->getIosHtml() ?>
                             <div class="text-center <?php echo esc_attr($this->getMdClasses('md:hidden')) ?>">
                                 <div class="or-section hidden items-center justify-center mx-4">
                                     <div
-                                            class="flex-grow border-b-0 border-t border-solid border-gray-300"></div>
+                                        class="flex-grow border-b-0 border-t border-solid border-gray-300"></div>
                                     <span class="mx-4 text-black">
                                                 <?php echo esc_html__('or', 'twint-woocommerce-extension') ?>
                                             </span>

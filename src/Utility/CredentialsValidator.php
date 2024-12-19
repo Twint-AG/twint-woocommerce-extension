@@ -19,29 +19,21 @@ use Twint\Sdk\Value\ShopPluginInformation;
 use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\Version;
 use Twint\Woo\Constant\TwintConstant;
-use Twint\Woo\Container\Lazy;
-use Twint\Woo\Container\LazyLoadTrait;
 
-/**
- * @method CryptoHandler getCrypto()
- */
 class CredentialsValidator implements CredentialValidatorInterface
 {
     use VersionTrait;
-    use LazyLoadTrait;
-
-    protected static array $lazyLoads = ['crypto'];
 
     public function __construct(
-        private Lazy|CryptoHandler $crypto
+        private readonly CryptoHandler $crypto
     ) {
     }
 
     public function validate(?array $certificate, string $storeUuid, bool $testMode): bool
     {
         try {
-            $cert = $this->getCrypto()->decrypt($certificate['certificate'] ?? '');
-            $passphrase = $this->getCrypto()->decrypt($certificate['passphrase'] ?? '');
+            $cert = $this->crypto->decrypt($certificate['certificate'] ?? '');
+            $passphrase = $this->crypto->decrypt($certificate['passphrase'] ?? '');
 
             if ($passphrase === '' || $cert === '') {
                 return false;
@@ -61,7 +53,6 @@ class CredentialsValidator implements CredentialValidatorInterface
             );
             $status = $client->checkSystemStatus();
         } catch (Exception|SdkError $e) {
-            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
             error_log($this->buildLogMessage($e));
             return false;
         }

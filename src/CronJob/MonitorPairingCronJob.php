@@ -23,7 +23,7 @@ class MonitorPairingCronJob
 
     public function __construct(
         private readonly WC_Logger_Interface $logger,
-        private Lazy|MonitorService $monitor,
+        private readonly Lazy|MonitorService $monitor,
     ) {
         add_filter('cron_schedules', [$this, 'addMinuteInterval']);
 

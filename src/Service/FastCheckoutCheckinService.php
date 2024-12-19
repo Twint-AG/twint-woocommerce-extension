@@ -26,7 +26,6 @@ use WC_Shipping_Rate;
 /**
  * @method ClientBuilder getBuilder()
  * @method PairingService getPairingService()
- * @method getApi()
  */
 #[AllowDynamicProperties]
 class FastCheckoutCheckinService
@@ -34,12 +33,12 @@ class FastCheckoutCheckinService
     use CartTrait;
     use LazyLoadTrait;
 
-    protected static array $lazyLoads = ['builder', 'pairingService', 'api'];
+    protected static array $lazyLoads = ['builder', 'pairingService'];
 
     public function __construct(
         private readonly WC_Logger_Interface $logger,
         private Lazy|ClientBuilder           $builder,
-        private Lazy|ApiService     $api,
+        private readonly ApiService          $api,
         private Lazy|PairingService          $pairingService,
     ) {
         $this->getCartController();
@@ -119,7 +118,7 @@ class FastCheckoutCheckinService
 
         $this->logger->info("TWINT start EC {$order->get_id()}");
 
-        return $this->getApi()->call(
+        return $this->api->call(
             $client,
             'requestFastCheckOutCheckIn',
             [

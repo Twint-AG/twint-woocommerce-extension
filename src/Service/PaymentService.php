@@ -24,17 +24,16 @@ use WC_Order;
 /**
  * @method ClientBuilder getBuilder()
  * @method PairingRepository getRepository()
- * @method ApiService getApi()
  */
 class PaymentService
 {
     use LazyLoadTrait;
 
-    protected static array $lazyLoads = ['builder', 'repository', 'api'];
+    protected static array $lazyLoads = ['builder', 'repository'];
 
     public function __construct(
         private Lazy|ClientBuilder           $builder,
-        private Lazy|ApiService              $api,
+        private readonly ApiService          $api,
         private Lazy|PairingRepository       $repository,
         private readonly WC_Logger_Interface $logger
     ) {
@@ -51,7 +50,7 @@ class PaymentService
             $currency = $order->get_currency();
             $refId = $order->get_order_number() . '-' . wp_generate_password(4, false);
 
-            return $this->getApi()->call($client, 'startOrder', [
+            return $this->api->call($client, 'startOrder', [
                 new UnfiledMerchantTransactionReference($refId),
                 new Money($currency, (float) $order->get_total()),
             ], true, static function (TransactionLog $log, mixed $return) use ($order) {
@@ -82,7 +81,7 @@ class PaymentService
 
         $reversalId = 'R-' . $pairing->getId() . '-' . wp_generate_password(4, false);
 
-        return $this->getApi()->call($client, 'reverseOrder', [
+        return $this->api->call($client, 'reverseOrder', [
             new UnfiledMerchantTransactionReference($reversalId),
             new OrderId(new Uuid($pairing->getId())),
             new Money(Money::CHF, $amount),

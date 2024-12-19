@@ -28,21 +28,19 @@ use WC_Order;
 /**
  * @method ClientBuilder getBuilder()
  * @method PairingRepository getRepository()
- * @method TransactionRepository getLogRepository()
- * @method ApiService getApi()
  */
 class PairingService
 {
     use LazyLoadTrait;
 
-    protected static array $lazyLoads = ['builder', 'repository', 'logRepository', 'api'];
+    protected static array $lazyLoads = ['builder', 'repository'];
 
     public function __construct(
-        private Lazy|PairingRepository       $repository,
-        private Lazy|TransactionRepository   $logRepository,
-        private Lazy|ClientBuilder           $builder,
-        private Lazy|ApiService              $api,
-        private readonly WC_Logger_Interface $logger
+        private Lazy|PairingRepository         $repository,
+        private readonly TransactionRepository $logRepository,
+        private Lazy|ClientBuilder             $builder,
+        private readonly ApiService            $apiService,
+        private readonly WC_Logger_Interface   $logger
     ) {
     }
 
@@ -71,7 +69,7 @@ class PairingService
 
         $log = $response->getLog();
         $log->setPairingId($pairing->getId());
-        $this->getLogRepository()->updatePartial($log, [
+        $this->logRepository->updatePartial($log, [
             'pairing_id' => $pairing->getId(),
         ]);
 
@@ -118,7 +116,7 @@ class PairingService
 
         $log = $response->getLog();
         $log->setPairingId($pairing->getId());
-        $this->getLogRepository()->updatePartial($log, [
+        $this->logRepository->updatePartial($log, [
             'pairing_id' => $pairing->getId(),
             'order_id' => $pairing->getWcOrderId(),
         ]);
@@ -157,7 +155,7 @@ class PairingService
                 $log = $res->getLog();
                 $log->setPairingId($p->getId());
                 $log->setOrderId($p->getWcOrderId());
-                $this->getLogRepository()->save($log);
+                $this->logRepository->save($log);
             }
         }
     }
@@ -169,7 +167,7 @@ class PairingService
     {
         $this->logger->info("TWINT cancel order: {$pairing->getId()}");
 
-        return $this->getApi()->call(
+        return $this->apiService->call(
             $client,
             'cancelOrder',
             [new OrderId(new Uuid($pairing->getId()))],

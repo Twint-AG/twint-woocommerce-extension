@@ -186,17 +186,17 @@ class PairingRepository
         return $this->updateStatus($id, Pairing::EXPRESS_STATUS_CANCELLED);
     }
 
+    public function markAsFailed(string $id): mysqli_result|bool|int|null
+    {
+        return $this->updateStatus($id, Pairing::EXPRESS_STATUS_FAILED);
+    }
+
     private function updateStatus(string $id, string $status): bool|int
     {
         $table = self::tableName();
         $query = $this->db->prepare("UPDATE {$table} SET status = %s WHERE id = %s;", $status, $id);
 
         return $this->db->query($query);
-    }
-
-    public function markAsFailed(string $id): mysqli_result|bool|int|null
-    {
-        return $this->updateStatus($id, Pairing::EXPRESS_STATUS_FAILED);
     }
 
     public function markAsPaid(string $id): mysqli_result|bool|int|null
