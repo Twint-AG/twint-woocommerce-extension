@@ -94,7 +94,8 @@ if (!$cliSupport) { ?>
                     </textarea>
                 <?php elseif ($field['type'] === 'checkbox'): ?>
                     <fieldset>
-                        <legend class="screen-reader-text"><span><?php echo esc_html($field['label']); ?></span></legend>
+                        <legend class="screen-reader-text"><span><?php echo esc_html($field['label']); ?></span>
+                        </legend>
                         <label for="woocommerce_cod_enabled">
                             <input class=""
                                    type="checkbox"

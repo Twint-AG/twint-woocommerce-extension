@@ -30,7 +30,7 @@ class CliCommand extends Command
     {
         parent::__construct($name);
 
-        $this->logger = Plugin::di('logger', true);
+        $this->logger = Plugin::di('logger', false);
     }
 
     protected function configure(): void

@@ -16,7 +16,7 @@ class AliasingContainer implements ContainerInterface
     /**
      * @throws ContainerException
      */
-    public function get(string $id, bool $immediately = false): mixed
+    public function get(string $id, bool $lazyLoad = true): mixed
     {
         if (!$this->has($id)) {
             throw new ContainerException(esc_html("Container '{$id}' is not registered"));
@@ -31,7 +31,7 @@ class AliasingContainer implements ContainerInterface
         if ($instance instanceof Lazy) {
             $instance->setId($id);
 
-            if ($immediately) {
+            if (!$lazyLoad) {
                 $instance = $instance->get();
             }
         }

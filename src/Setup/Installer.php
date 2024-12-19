@@ -5,13 +5,22 @@ declare(strict_types=1);
 namespace Twint\Woo\Setup;
 
 use Twint\Woo\Constant\TwintConstant;
+use Twint\Woo\Container\Lazy;
+use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\CronJob\MonitorPairingCronJob;
 
+/**
+ * @method CliSupportTrigger getTrigger()
+ */
 class Installer
 {
+    use LazyLoadTrait;
+
+    protected static array $lazyLoads = ['trigger'];
+
     public function __construct(
-        private readonly array $migrations,
-        private readonly CliSupportTrigger $trigger
+        private readonly array                  $migrations,
+        private Lazy|CliSupportTrigger $trigger
     ) {
     }
 
@@ -21,7 +30,7 @@ class Installer
 
         $this->setDefaultConfigs();
 
-        $this->trigger->handle();
+        $this->getTrigger()->handle();
 
         MonitorPairingCronJob::scheduleCronjob();
     }

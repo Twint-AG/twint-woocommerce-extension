@@ -183,7 +183,7 @@ class RegularCheckoutGateway extends AbstractGateway
             }
 
             // Cancel all old pairings
-            $client = Plugin::di('client.builder', true)->build();
+            $client = Plugin::di('client.builder', false)->build();
             $this->getPairingService()->cancelRemainingPairings((int) $order_id, $client);
 
             $apiResponse = $this->getPaymentService()->createOrder($order);
@@ -191,7 +191,7 @@ class RegularCheckoutGateway extends AbstractGateway
 
             // Start monitoring in background
             if (get_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION) === 'Yes') {
-                Plugin::di('monitor.service', true)->status($pairing);
+                Plugin::di('monitor.service', false)->status($pairing);
             }
 
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended

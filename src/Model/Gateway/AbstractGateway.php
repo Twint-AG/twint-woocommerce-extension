@@ -115,7 +115,7 @@ abstract class AbstractGateway extends WC_Payment_Gateway
         $order = wc_get_order($order_id);
 
         /** @var PaymentService $service */
-        $service = Plugin::di('payment.service', true);
+        $service = Plugin::di('payment.service', false);
         $res = $service->reverseOrder($order, (float) $amount);
 
         return $res instanceof ApiResponse && $res->getReturn()->isSuccessful();

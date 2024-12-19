@@ -3,14 +3,23 @@
 namespace Twint\Woo\Api\Admin;
 
 use Twint\Woo\Api\BaseAction;
+use Twint\Woo\Container\Lazy;
+use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Helper\XmlHelper;
 use Twint\Woo\Model\TransactionLog;
 use Twint\Woo\Repository\TransactionRepository;
 
+/**
+ * @method TransactionRepository getRepository()
+ */
 class GetTransactionLogAction extends BaseAction
 {
+    use LazyLoadTrait;
+
+    protected static array $lazyLoads = ['repository'];
+
     public function __construct(
-        private readonly TransactionRepository $repository
+        private Lazy|TransactionRepository $repository
     ) {
         add_action('wp_ajax_get_log_transaction_details', [$this, 'getLogTransactionDetails']);
         add_action('wp_ajax_nopriv_get_log_transaction_details', [$this, 'requireLogin']);
@@ -28,7 +37,7 @@ class GetTransactionLogAction extends BaseAction
         $id = empty($_REQUEST['record_id']) ? '' : sanitize_text_field(wp_unslash($_REQUEST['record_id']));
 
         /** @var TransactionLog $log */
-        $log = $this->repository->get((int) $id);
+        $log = $this->getRepository()->get((int) $id);
 
         ob_start();
         ?>
@@ -62,11 +71,13 @@ class GetTransactionLogAction extends BaseAction
 
                     <div id="request">
                         <label for="request"><?php echo esc_html__('Request', 'twint-woocommerce-extension'); ?></label>
-                        <textarea cols="30" rows="6" id="request" disabled><?php echo esc_html($log->getRequest()); ?></textarea>
+                        <textarea cols="30" rows="6" id="request"
+                                  disabled><?php echo esc_html($log->getRequest()); ?></textarea>
                     </div>
                     <div id="response">
                         <label for="request"><?php echo esc_html__('Response', 'twint-woocommerce-extension'); ?></label>
-                        <textarea cols="30" rows="6" id="request" disabled><?php echo esc_html($log->getResponse()); ?></textarea>
+                        <textarea cols="30" rows="6" id="request"
+                                  disabled><?php echo esc_html($log->getResponse()); ?></textarea>
                     </div>
                 </div>
             </div>
