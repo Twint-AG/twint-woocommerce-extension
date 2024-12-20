@@ -54,7 +54,7 @@ class Plugin
     public static function addDebugInfo($info): array
     {
         $cliVersion = @shell_exec('php -r "echo PHP_VERSION;"');
-        $commandPermission = fileperms( self::abspath() . 'bin/console');
+        $commandPermission = fileperms(self::abspath() . 'bin/console');
         $cliInfo = @shell_exec('php ' . self::abspath() . 'bin/console ' . CliCommand::COMMAND);
 
         $info['wp-server']['fields'][] = [
