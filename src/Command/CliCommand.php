@@ -48,6 +48,8 @@ class CliCommand extends Command
 
         update_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION, 'Yes');
 
+        echo 'TWINT command (PHP CLI) is executable';
+
         return 0;
     }
 }
