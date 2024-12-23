@@ -1,8 +1,8 @@
 #twint-loading {
-  @apply fixed top-0 left-0 w-full h-full bg-[#FDFDFD] flex justify-center items-center z-[99999] hidden overflow-hidden opacity-95;
+  @apply tw-fixed tw-top-0 tw-left-0 tw-w-full tw-h-full tw-bg-[#FDFDFD] tw-flex tw-justify-center tw-items-center tw-z-[99999] tw-hidden tw-overflow-hidden tw-opacity-95;
 
   &.active {
-    @apply flex;
+    @apply tw-flex;
   }
 
   svg {

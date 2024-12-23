@@ -66,7 +66,7 @@ class Modal {
     pay.style.display = 'block'
 
     //Show modal
-    this.element.classList.remove('!hidden')
+    this.element.classList.remove('!tw-hidden')
 
     //Connector
     this.connectors.forEach((connector) => {
@@ -94,7 +94,7 @@ class Modal {
 
   close() {
     // Display
-    this.element.classList.add('!hidden')
+    this.element.classList.add('!tw-hidden')
 
     let callback = this.callbacks[Modal.EVENT_MODAL_CLOSED]
     if (callback) {

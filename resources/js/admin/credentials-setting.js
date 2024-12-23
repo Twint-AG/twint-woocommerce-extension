@@ -127,18 +127,18 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
     toggleCertificateArea() {
       const $certificate = jQuery('tr.plugin_twint_settings_certificate')
-      if ($certificate.hasClass('hidden')) {
-        $certificate.removeClass('hidden')
+      if ($certificate.hasClass('tw-hidden')) {
+        $certificate.removeClass('tw-hidden')
       } else {
-        $certificate.addClass('hidden')
+        $certificate.addClass('tw-hidden')
       }
       const $certificatePassword = jQuery(
         'tr.plugin_twint_settings_certificate_password',
       )
-      if ($certificatePassword.hasClass('hidden')) {
-        $certificatePassword.removeClass('hidden')
+      if ($certificatePassword.hasClass('tw-hidden')) {
+        $certificatePassword.removeClass('tw-hidden')
       } else {
-        $certificatePassword.addClass('hidden')
+        $certificatePassword.addClass('tw-hidden')
       }
     }
 
@@ -160,50 +160,50 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
     hideUploadCertificateArea() {
       const $certificate = jQuery('tr.plugin_twint_settings_certificate')
-      $certificate.addClass('hidden')
+      $certificate.addClass('tw-hidden')
 
       const $certificatePassword = jQuery(
         'tr.plugin_twint_settings_certificate_password',
       )
-      $certificatePassword.addClass('hidden')
+      $certificatePassword.addClass('tw-hidden')
 
-      this.closeUploadNewCertificateButton?.classList?.add('hidden')
-      this.uploadNewCertificateButton?.classList?.remove('hidden')
+      this.closeUploadNewCertificateButton?.classList?.add('tw-hidden')
+      this.uploadNewCertificateButton?.classList?.remove('tw-hidden')
     }
 
     showUploadCertificateArea() {
       const $certificate = jQuery('tr.plugin_twint_settings_certificate')
-      $certificate.removeClass('hidden')
+      $certificate.removeClass('tw-hidden')
 
       const $certificatePassword = jQuery(
         'tr.plugin_twint_settings_certificate_password',
       )
-      $certificatePassword.removeClass('hidden')
+      $certificatePassword.removeClass('tw-hidden')
 
-      this.closeUploadNewCertificateButton?.classList?.remove('hidden')
-      this.uploadNewCertificateButton?.classList?.add('hidden')
+      this.closeUploadNewCertificateButton?.classList?.remove('tw-hidden')
+      this.uploadNewCertificateButton?.classList?.add('tw-hidden')
     }
 
     uploadNewCertificate() {
       this.toggleCertificateArea()
 
-      this.uploadNewCertificateButton?.classList?.add('hidden')
-      this.closeUploadNewCertificateButton?.classList?.remove('hidden')
+      this.uploadNewCertificateButton?.classList?.add('tw-hidden')
+      this.closeUploadNewCertificateButton?.classList?.remove('tw-hidden')
     }
 
     toggleUploadNewCertBtn() {
       this.toggleCertificateArea()
 
-      this.closeUploadNewCertificateButton?.classList?.add('hidden')
-      this.uploadNewCertificateButton?.classList?.remove('hidden')
+      this.closeUploadNewCertificateButton?.classList?.add('tw-hidden')
+      this.uploadNewCertificateButton?.classList?.remove('tw-hidden')
     }
 
     showNoticeSuccess(msg = null) {
-      this.$noticeSuccess?.classList?.remove('hidden')
+      this.$noticeSuccess?.classList?.remove('tw-hidden')
     }
 
     hideNoticeSuccess() {
-      this.$noticeSuccess?.classList?.add('hidden')
+      this.$noticeSuccess?.classList?.add('tw-hidden')
     }
 
     appendHtml(el, msg) {
@@ -217,11 +217,11 @@ document.addEventListener('DOMContentLoaded', function (event) {
       const html = `<p>${msg}</p>`
       this.appendHtml(this.$noticeError, html)
 
-      this.$noticeError?.classList?.remove('hidden')
+      this.$noticeError?.classList?.remove('tw-hidden')
     }
 
     hideNoticeError() {
-      this.$noticeError?.classList?.add('hidden')
+      this.$noticeError?.classList?.add('tw-hidden')
     }
 
     resetErrorNotice() {
@@ -263,11 +263,11 @@ document.addEventListener('DOMContentLoaded', function (event) {
         this.state.plugin_twint_settings_certificate_password === null
       ) {
         const $certificate = jQuery('tr.plugin_twint_settings_certificate')
-        $certificate.addClass('hidden')
+        $certificate.addClass('tw-hidden')
         const $certificatePassword = jQuery(
           'tr.plugin_twint_settings_certificate_password',
         )
-        $certificatePassword.addClass('hidden')
+        $certificatePassword.addClass('tw-hidden')
       }
 
       formData.append('action', 'store_twint_settings')
@@ -299,11 +299,11 @@ document.addEventListener('DOMContentLoaded', function (event) {
           if (status === true) {
             this.showNoticeSuccess(response.data.message)
 
-            this.configNoticeError?.classList?.add('hidden')
+            this.configNoticeError?.classList?.add('tw-hidden')
 
-            this.configNoticeError?.classList?.remove('hidden')
+            this.configNoticeError?.classList?.remove('tw-hidden')
             if (this.state.plugin_twint_settings_certificate !== null) {
-              this.configNoticeSuccess?.classList?.remove('hidden')
+              this.configNoticeSuccess?.classList?.remove('tw-hidden')
             }
             this.hideUploadCertificateArea()
             this.hideNoticeError()
@@ -323,13 +323,13 @@ document.addEventListener('DOMContentLoaded', function (event) {
                 if (passwordInputErrorState) {
                   passwordInputErrorState.innerHTML =
                     DOMPurify.sanitize(message)
-                  passwordInputErrorState.classList?.remove('hidden')
+                  passwordInputErrorState.classList?.remove('tw-hidden')
                 }
               } else {
                 this.showNoticeError(message)
-                this.configNoticeError?.classList?.remove('hidden')
+                this.configNoticeError?.classList?.remove('tw-hidden')
                 if (this.state.plugin_twint_settings_certificate !== null) {
-                  this.configNoticeSuccess?.classList?.remove('hidden')
+                  this.configNoticeSuccess?.classList?.remove('tw-hidden')
                   this.showUploadCertificateArea()
                 }
               }
@@ -418,7 +418,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
           'error-state_plugin_twint_settings_store_uuid',
         )
         if (uuidStateError) {
-          uuidStateError.classList?.remove('hidden')
+          uuidStateError.classList?.remove('tw-hidden')
 
           this.clearValidationErrorState(uuidStateError)
         }
@@ -468,7 +468,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
             this.clearValidationErrorState(passwordInputErrorState)
           }
 
-          passwordInputErrorState.classList?.remove('hidden')
+          passwordInputErrorState.classList?.remove('tw-hidden')
         }
       }
 
@@ -502,7 +502,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
     clearValidationErrorState(ele) {
       setTimeout(() => {
-        ele.classList?.add('hidden')
+        ele.classList?.add('tw-hidden')
       }, 3000)
     }
 

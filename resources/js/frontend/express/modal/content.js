@@ -47,14 +47,14 @@ class ModalContent {
     let guides = selectContact.parentElement
 
     if (this.isExpress) {
-      selectContact.classList.remove('hidden')
+      selectContact.classList.remove('tw-hidden')
 
       if (!selectContact.closest('.twint-mobile'))
-        guides.classList.add('md:grid-cols-2')
-      else guides.classList.remove('md:grid-cols-2')
+        guides.classList.add('md:tw-grid-cols-2')
+      else guides.classList.remove('md:tw-grid-cols-2')
     } else {
-      selectContact.classList.add('hidden')
-      guides.classList.remove('md:grid-cols-2')
+      selectContact.classList.add('tw-hidden')
+      guides.classList.remove('md:tw-grid-cols-2')
     }
   }
 }
