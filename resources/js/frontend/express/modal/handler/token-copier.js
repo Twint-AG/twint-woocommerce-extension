@@ -27,8 +27,8 @@ class TokenCopier {
       this.button.getAttribute('data-copied'),
     )
     this.button.classList.add('copied')
-    this.button.classList.add('border-green-500')
-    this.button.classList.add('text-green-500')
+    this.button.classList.add('tw-border-green-500')
+    this.button.classList.add('tw-text-green-500')
     this.input.disabled = true
 
     setTimeout(this.reset.bind(this), 10000)
@@ -44,8 +44,8 @@ class TokenCopier {
       this.button.getAttribute('data-default'),
     )
     this.button.classList.remove('copied')
-    this.button.classList.remove('border-green-500')
-    this.button.classList.remove('text-green-500')
+    this.button.classList.remove('tw-border-green-500')
+    this.button.classList.remove('tw-text-green-500')
   }
 }
 

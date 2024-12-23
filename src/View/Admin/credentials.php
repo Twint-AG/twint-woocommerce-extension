@@ -21,7 +21,7 @@ if (!$cliSupport) { ?>
                 <tr class="">
                     <th></th>
                     <td>
-                        <div class="notify-box notify-success <?php echo $data['needHideCertificateUpload'] === false ? 'hidden' : '' ?>"
+                        <div class="notify-box notify-success <?php echo $data['needHideCertificateUpload'] === false ? 'tw-hidden' : '' ?>"
                              style="max-width: 333px;"
                              id="notice_success_configuration_settings">
                             <div class="notify-box__content">
@@ -36,7 +36,7 @@ if (!$cliSupport) { ?>
 
                                 <a href="javascript:void(0)"
                                    id="close-new-certificate"
-                                   class="hidden"
+                                   class="tw-hidden"
                                    style="margin-top: 7px;">
                                     <?php echo esc_html(__('Close', 'twint-woocommerce-extension')) ?>
                                 </a>
@@ -50,7 +50,7 @@ if (!$cliSupport) { ?>
             $field['name'],
             ['plugin_twint_settings_certificate', 'plugin_twint_settings_certificate_password'],
             true
-        ) && $data['needHideCertificateUpload']) ? 'hidden' : '' ?>">
+        ) && $data['needHideCertificateUpload']) ? 'tw-hidden' : '' ?>">
             <th scope="row">
                 <label for="<?php echo esc_attr($field['name']); ?>">
                     <?php echo esc_html($field['label']); ?>
@@ -66,7 +66,7 @@ if (!$cliSupport) { ?>
                         <?php endif; ?>
                            placeholder="<?php echo esc_attr($field['placeholder']); ?>"
                            class="regular-text"/>
-                    <div class="notify-box notify-error hidden"
+                    <div class="notify-box notify-error tw-hidden"
                          id="<?php echo esc_attr('error-state_' . $field['name']); ?>">
                         <?php if ($field['name'] === TwintConstant::STORE_UUID): ?>
                             <?php echo esc_html(__('Invalid Store UUID. Store UUID needs to be a UUIDv4', 'twint-woocommerce-extension')); ?>
@@ -77,7 +77,7 @@ if (!$cliSupport) { ?>
                            name="<?php echo esc_attr($field['name']); ?>"
                            type="<?php echo esc_attr($field['type']); ?>"
                            placeholder="<?php echo esc_attr($field['placeholder']); ?>"/
-                    <div class="notify-box notify-error hidden"
+                    <div class="notify-box notify-error tw-hidden"
                          id="<?php echo esc_attr('error-state_' . $field['name']); ?>">
                         <?php if ($field['name'] === TwintConstant::STORE_UUID): ?>
                             <?php echo esc_html(__('Test', 'twint-woocommerce-extension')); ?>

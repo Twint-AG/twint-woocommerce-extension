@@ -86,7 +86,7 @@ class Modal
             if ($icon) {
                 //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
                 $app .= '<img src="' . esc_url(Plugin::assets("/images/{$icon}.png")) . '" 
-                    class="shadow-2xl w-64 h-64 rounded-2xl mx-auto"
+                    class="tw-shadow-2xl tw-w-64 tw-h-64 tw-rounded-2xl tw-mx-auto"
                     data-link="' . htmlentities($link['link']) . '"
                     alt="' . htmlentities($link['name']) . '">';
             } else {
@@ -98,11 +98,11 @@ class Modal
 
         return '
             <div id="twint-ios-container">
-                <div class="my-6 text-center">
+                <div class="tw-my-6 tw-text-center">
                     ' . esc_html__('Choose your TWINT app:', 'twint-woocommerce-extension') . '
                 </div>
     
-                <div class="twint-app-container w-3/4 mx-auto justify-center max-w-screen-md mx-auto grid grid-cols-3 gap-4">
+                <div class="twint-app-container tw-w-3/4 tw-mx-auto tw-justify-center max-tw-w-screen-md tw-mx-auto tw-grid tw-grid-cols-3 tw-gap-4">
                     ' . $app . '
                 </div>
                 
