@@ -3,7 +3,8 @@ module.exports = {
   prefix: 'tw-',
   content: [
     './src/includes/Admin/**/*.php',
-    './resources/js/admin/**/*.js'
+    './resources/js/admin/**/*.js',
+    './resources/scss/admin/**/*.scss',
   ],
   theme: {
     extend: {},
