@@ -27,7 +27,7 @@ tests:
     - spc -U
 
     # Setup PHP
-    - spc --php-version "$PHP_VERSION" --extensions "bcmath, ctype, curl, dom, fileinfo, filter,gd, hash, iconv, intl, json, libxml, mbstring, openssl, pcre, pdo_mysql, simplexml, soap, sockets, sodium, xsl, tokenizer, xmlwriter, xsl, zlib, libxml"
+    - spc --php-version "$PHP_VERSION" --extensions "bcmath, ctype, curl, dom, fileinfo, filter,gd, hash, iconv, intl, json, libxml, mbstring, openssl, pcre, pdo_mysql, simplexml, soap, sockets, sodium, xsl, tokenizer, xmlwriter, xsl, zlib, libxml, bcmath"
 
     - composer config --global gitlab-token.git.nfq.asia $GITLAB_ACCESS_TOKEN
     - composer install --prefer-dist --no-progress --no-interaction
