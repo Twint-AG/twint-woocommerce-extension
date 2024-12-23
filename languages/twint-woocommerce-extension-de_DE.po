@@ -6,7 +6,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/twint-woocommerce-"
 "extension\n"
 "POT-Creation-Date: 2024-11-22T04:33:19+00:00\n"
-"PO-Revision-Date: 2024-11-22 11:43+0700\n"
+"PO-Revision-Date: 2024-12-23 17:28+0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -195,7 +195,7 @@ msgstr "Kopiert"
 
 #: src/Model/Modal/Modal.php:157
 msgid "or"
-msgstr "order"
+msgstr "oder"
 
 #: src/Model/Modal/Modal.php:164
 msgid "Enter this code in your TWINT app:"
