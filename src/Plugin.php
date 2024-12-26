@@ -7,6 +7,7 @@ namespace Twint\Woo;
 use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
 use Automattic\WooCommerce\Utilities\OrderUtil;
+use Twint\Woo\Command\CliCommand;
 use Twint\Woo\Container\ContainerFactory;
 use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
@@ -46,6 +47,35 @@ class Plugin
                 FeaturesUtil::declare_compatibility('custom_order_tables', (new Plugin())->pluginFile());
             }
         });
+
+        add_filter('debug_information', [self::class, 'addDebugInfo']);
+    }
+
+    public static function addDebugInfo($info): array
+    {
+        $cliVersion = @shell_exec('php -r "echo PHP_VERSION;"');
+        $commandPermission = fileperms(self::abspath() . 'bin/console');
+        $cliInfo = @shell_exec('php ' . self::abspath() . 'bin/console ' . CliCommand::COMMAND);
+
+        $info['wp-server']['fields'][] = [
+            'label' => 'PHP CLI version',
+            'value' => $cliVersion,
+            'debug' => '',
+        ];
+
+        $info['wp-server']['fields'][] = [
+            'label' => 'TWINT command permission',
+            'value' => $commandPermission,
+            'debug' => '',
+        ];
+
+        $info['wp-server']['fields'][] = [
+            'label' => 'PHP CLI (TWINT) information',
+            'value' => $cliInfo,
+            'debug' => '',
+        ];
+
+        return $info;
     }
 
     public static function di(string $container, bool $immediately = false): mixed
