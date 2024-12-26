@@ -220,12 +220,7 @@ class RegularCheckoutGateway extends AbstractGateway
                 'currency' => $order->get_currency(),
                 'nonce' => wp_create_nonce('twint_check_pairing_status'),
                 'shopName' => get_bloginfo('name'),
-                'amount' => wc_price((float) number_format(
-                    (float) $order->get_total(),
-                    (int) get_option('woocommerce_price_num_decimals'),
-                    get_option('woocommerce_price_decimal_sep'),
-                    get_option('woocommerce_price_thousand_sep')
-                )),
+                'amount' => wc_price($order->get_total()),
             ];
         } catch (Exception $e) {
             $this->logger->error('Twint RegularCheckoutGateway::process_payment ' . PHP_EOL . $e->getMessage(), [
