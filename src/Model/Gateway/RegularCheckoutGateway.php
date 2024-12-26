@@ -183,7 +183,7 @@ class RegularCheckoutGateway extends AbstractGateway
             }
 
             // Cancel all old pairings
-            $client = Plugin::di('client.builder', true)->build();
+            $client = Plugin::di('client.builder', false)->build();
             $this->getPairingService()->cancelRemainingPairings((int) $order_id, $client);
 
             $apiResponse = $this->getPaymentService()->createOrder($order);
@@ -191,7 +191,7 @@ class RegularCheckoutGateway extends AbstractGateway
 
             // Start monitoring in background
             if (get_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION) === 'Yes') {
-                Plugin::di('monitor.service', true)->status($pairing);
+                Plugin::di('monitor.service', false)->status($pairing);
             }
 
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -220,12 +220,7 @@ class RegularCheckoutGateway extends AbstractGateway
                 'currency' => $order->get_currency(),
                 'nonce' => wp_create_nonce('twint_check_pairing_status'),
                 'shopName' => get_bloginfo('name'),
-                'amount' => wc_price((float) number_format(
-                    (float) $order->get_total(),
-                    (int) get_option('woocommerce_price_num_decimals'),
-                    get_option('woocommerce_price_decimal_sep'),
-                    get_option('woocommerce_price_thousand_sep')
-                )),
+                'amount' => wc_price($order->get_total()),
             ];
         } catch (Exception $e) {
             $this->logger->error('Twint RegularCheckoutGateway::process_payment ' . PHP_EOL . $e->getMessage(), [

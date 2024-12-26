@@ -102,7 +102,6 @@ class ServiceDefinition
             'twint.integration' => static function (ContainerInterface $container) {
                 return new TwintIntegration(
                     $container->get('payment.service'),
-                    $container->get('api.service'),
                     $container->get('pairing.repository'),
                 );
             },
@@ -191,6 +190,7 @@ class ServiceDefinition
             'express_checkout.action' => static fn (ContainerInterface $container) => new ExpressCheckoutAction(
                 $container->get('express_checkout.service'),
                 $container->get('monitor.service'),
+                $container->get('logger')
             ),
             'payment_information.action' => static fn (ContainerInterface $container) => new PaymentInformationAction(
                 $container->get('pairing.repository')

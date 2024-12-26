@@ -22,20 +22,29 @@ use Twint\Sdk\Value\ShopPluginInformation;
 use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\Version;
 use Twint\Woo\Constant\TwintConstant;
+use Twint\Woo\Container\Lazy;
+use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Exception\InvalidConfigException;
 use Twint\Woo\Service\SettingService;
 use Twint\Woo\Utility\CryptoHandler;
 use Twint\Woo\Utility\VersionTrait;
 
+/**
+ * @method SettingService getSetting()
+ * @method CryptoHandler getCrypto()
+ */
 class ClientBuilder
 {
     use VersionTrait;
+    use LazyLoadTrait;
+
+    protected static array $lazyLoads = ['crypto', 'setting'];
 
     private static InvocationRecordingClient $instance;
 
     public function __construct(
-        private readonly CryptoHandler  $crypto,
-        private readonly SettingService $setting,
+        private Lazy|CryptoHandler  $crypto,
+        private Lazy|SettingService $setting,
     ) {
     }
 
@@ -46,20 +55,20 @@ class ClientBuilder
             return self::$instance;
         }
 
-        $environment = $this->setting->isTestMode() ? Environment::TESTING() : Environment::PRODUCTION();
-        $storeUuid = $this->setting->getStoreUuid();
+        $environment = $this->getSetting()->isTestMode() ? Environment::TESTING() : Environment::PRODUCTION();
+        $storeUuid = $this->getSetting()->getStoreUuid();
         if ($storeUuid === null || $storeUuid === '' || $storeUuid === '0') {
             throw new InvalidConfigException(esc_html(InvalidConfigException::ERROR_INVALID_STORE_UUID));
         }
 
-        $certificate = $this->setting->getCertificate();
+        $certificate = $this->getSetting()->getCertificate();
         if ($certificate === null || $certificate === []) {
             throw new InvalidConfigException(esc_html(InvalidConfigException::ERROR_INVALID_CERTIFICATE));
         }
 
         try {
-            $cert = $this->crypto->decrypt($certificate['certificate']);
-            $passphrase = $this->crypto->decrypt($certificate['passphrase']);
+            $cert = $this->getCrypto()->decrypt($certificate['certificate']);
+            $passphrase = $this->getCrypto()->decrypt($certificate['passphrase']);
 
             if ($passphrase === '' || $passphrase === '0' || ($cert === '' || $cert === '0')) {
                 throw new InvalidConfigException(InvalidConfigException::ERROR_INVALID_CERTIFICATE);

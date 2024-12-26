@@ -30,7 +30,7 @@ class PaymentStatusAction extends BaseAction
 
     public function __construct(
         private Lazy|PairingRepository       $repository,
-        private readonly Lazy|MonitorService      $service,
+        private Lazy|MonitorService          $service,
         private readonly WC_Logger_Interface $logger
     ) {
         $this->registerHooks();

@@ -10,7 +10,6 @@ use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 use Twint\Woo\Repository\PairingRepository;
-use Twint\Woo\Service\ApiService;
 use Twint\Woo\Service\PaymentService;
 use Twint\Woo\Template\Admin\MetaBox\TransactionLogMeta;
 use Twint\Woo\Template\Admin\SettingsLayoutViewAdapter;
@@ -31,7 +30,6 @@ class TwintIntegration
 
     public function __construct(
         private Lazy|PaymentService    $paymentService,
-        private readonly ApiService    $api,
         private Lazy|PairingRepository $pairingRepository,
     ) {
         add_action('admin_enqueue_scripts', [$this, 'enqueueStyles'], 19);
@@ -51,27 +49,27 @@ class TwintIntegration
 
     public static function install(): void
     {
-        $installer = Plugin::di('installer', true);
+        $installer = Plugin::di('installer', false);
         $installer->install();
     }
 
     public static function uninstall(): void
     {
-        $uninstaller = Plugin::di('uninstaller', true);
+        $uninstaller = Plugin::di('uninstaller', false);
         $uninstaller->uninstall();
     }
 
     private function registerApiActions(): void
     {
         // Admin
-        Plugin::di('get_transaction_log.action', true);
-        Plugin::di('store_configuration.action', true);
+        Plugin::di('get_transaction_log.action', false);
+        Plugin::di('store_configuration.action', false);
 
         //Frontend
-        Plugin::di('payment_status.action', true);
-        Plugin::di('express_checkout.action', true);
-        Plugin::di('payment_cancel.action', true);
-        Plugin::di('payment_information.action', true);
+        Plugin::di('payment_status.action', false);
+        Plugin::di('express_checkout.action', false);
+        Plugin::di('payment_cancel.action', false);
+        Plugin::di('payment_information.action', false);
     }
 
     public function additionalWoocommerceBeforeThankyou(WC_Order|int $order): void
@@ -89,7 +87,7 @@ class TwintIntegration
             return;
         }
 
-        $template = new BeforeThankYouBoxViewAdapter($order, Plugin::di('pairing.repository', true));
+        $template = new BeforeThankYouBoxViewAdapter($order, Plugin::di('pairing.repository', false));
         $template->render();
     }
 
@@ -136,8 +134,8 @@ class TwintIntegration
         $args['admin_url'] = admin_url();
 
         $adapter = new SettingsLayoutViewAdapter(
-            Plugin::di('setting.service', true),
-            Plugin::di('credentials.validator', true),
+            Plugin::di('setting.service', false),
+            Plugin::di('credentials.validator', false),
             $args
         );
 

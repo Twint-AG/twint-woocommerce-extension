@@ -1854,22 +1854,22 @@
         },
         {
             "name": "sniccowp/php-scoper-wordpress-excludes",
-            "version": "6.6.2",
+            "version": "6.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/snicco/php-scoper-wordpress-excludes.git",
-                "reference": "b87d7455bdf05c25f9a688fc3862bb3f2b7c8b15"
+                "reference": "d8e6b5fdc9e42300a8ab18b44b775836a7b52363"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/snicco/php-scoper-wordpress-excludes/zipball/b87d7455bdf05c25f9a688fc3862bb3f2b7c8b15",
-                "reference": "b87d7455bdf05c25f9a688fc3862bb3f2b7c8b15",
+                "url": "https://api.github.com/repos/snicco/php-scoper-wordpress-excludes/zipball/d8e6b5fdc9e42300a8ab18b44b775836a7b52363",
+                "reference": "d8e6b5fdc9e42300a8ab18b44b775836a7b52363",
                 "shasum": ""
             },
             "require-dev": {
                 "php": "^7.4",
                 "php-stubs/wordpress-globals": "0.2.0",
-                "php-stubs/wordpress-stubs": "6.6.2",
+                "php-stubs/wordpress-stubs": "6.7.1",
                 "sniccowp/php-scoper-excludes": "dev-master"
             },
             "type": "library",
@@ -1895,9 +1895,9 @@
             ],
             "support": {
                 "issues": "https://github.com/snicco/php-scoper-wordpress-excludes/issues",
-                "source": "https://github.com/snicco/php-scoper-wordpress-excludes/tree/6.6.2"
+                "source": "https://github.com/snicco/php-scoper-wordpress-excludes/tree/6.7.1"
             },
-            "time": "2024-10-01T00:32:14+00:00"
+            "time": "2024-11-25T00:31:50+00:00"
         },
         {
             "name": "symfony/console",
@@ -2757,14 +2757,14 @@
         },
         {
             "name": "twint-ag/sdk",
-            "version": "1.4.3",
+            "version": "1.4.4",
             "source": {
                 "type": "git",
                 "url": "https://git.nfq.asia/twint-ag/sdk",
-                "reference": "ad212af93e50a45470feadb68d247609a69696a1"
+                "reference": "b66daa449198d707ae91b32cbd0a3917bd256e7a"
             },
             "require": {
-                "azjezz/psl": "^2.5.0",
+                "azjezz/psl": "^2.5.0 || ^3.0",
                 "composer/ca-bundle": "^1.5",
                 "danielburger1337/sha3-shake": "^1.0",
                 "ext-dom": "*",
@@ -2786,21 +2786,21 @@
             "require-dev": {
                 "ext-xdebug": "*",
                 "laminas/laminas-code": "^4.16.0",
-                "nikic/php-parser": "^4.19.4",
-                "php-soap/wsdl-reader": "^0.17.0",
-                "php-standard-library/phpstan-extension": "^1.1.0",
+                "nikic/php-parser": "^4.19.4 || ^5.0.0",
+                "php-soap/wsdl-reader": "^0.17.0 || ^0.18.0 || ^0.19.0 || ^0.20.0",
+                "php-standard-library/phpstan-extension": "^2.0.0",
                 "phpro/soap-client": "^3.3.0",
-                "phpstan/phpstan": "^1.12.12",
-                "phpstan/phpstan-strict-rules": "^1.6.1",
-                "phpunit/phpunit": "^10.5.38",
+                "phpstan/phpstan": "^2.0.4",
+                "phpstan/phpstan-strict-rules": "^2.0.1",
+                "phpunit/phpunit": "^10.5.39",
                 "roave/better-reflection": "^6.25.0",
                 "slevomat/coding-standard": "^8.15.0",
                 "symfony/clock": "^6.4.13",
                 "symfony/dotenv": "^6.4.16",
                 "symfony/event-dispatcher": "^6.4.13",
-                "symfony/filesystem": "^6.4",
+                "symfony/filesystem": "^6.4.13",
                 "symfony/finder": "^6.4.13",
-                "symplify/easy-coding-standard": "^12.4.0",
+                "symplify/easy-coding-standard": "^12.5.4",
                 "wiremock-php/wiremock-php": "dev-cloud-support as 2.39.0"
             },
             "type": "library",
@@ -2843,7 +2843,7 @@
                 "twint",
                 "twint.ch"
             ],
-            "time": "2024-12-12T10:38:25+00:00"
+            "time": "2024-12-20T09:08:14+00:00"
         },
         {
             "name": "veewee/xml",

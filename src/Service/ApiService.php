@@ -9,16 +9,25 @@ use Throwable;
 use Twint\Sdk\Exception\ApiFailure;
 use Twint\Sdk\InvocationRecorder\InvocationRecordingClient;
 use Twint\Sdk\InvocationRecorder\Value\Invocation;
+use Twint\Woo\Container\Lazy;
+use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Model\ApiResponse;
 use Twint\Woo\Model\TransactionLog;
 use Twint\Woo\Repository\TransactionRepository;
 use WC_Logger_Interface;
 
+/**
+ * @method TransactionRepository getLogRepository()
+ */
 class ApiService
 {
+    use LazyLoadTrait;
+
+    protected static array $lazyLoads = ['logRepository'];
+
     public function __construct(
-        private readonly WC_Logger_Interface   $logger,
-        private readonly TransactionRepository $logRepository,
+        private readonly WC_Logger_Interface        $logger,
+        private readonly TransactionRepository|Lazy $logRepository,
     ) {
     }
 
@@ -87,7 +96,7 @@ class ApiService
                 return $log;
             }
 
-            return $this->logRepository->insert($log, true);
+            return $this->getLogRepository()->insert($log, true);
         } catch (Throwable $e) {
             $this->logger->error('TWINT ApiService::log: ' . $e->getMessage());
             throw $e;
@@ -130,6 +139,6 @@ class ApiService
      */
     public function saveLog(TransactionLog $log): TransactionLog
     {
-        return $this->logRepository->save($log);
+        return $this->getLogRepository()->save($log);
     }
 }

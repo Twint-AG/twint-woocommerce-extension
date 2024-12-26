@@ -42,21 +42,30 @@ use WC_Logger_Interface;
  * @method ClientBuilder getBuilder()
  * @method PairingRepository getRepository()
  * @method PairingService getPairingService()
+ * @method TransactionRepository getLogRepository()
+ * @method ApiService getApi()
  */
 class MonitorService
 {
     use LazyLoadTrait;
 
-    protected static array $lazyLoads = ['orderService', 'builder', 'repository', 'pairingService'];
+    protected static array $lazyLoads = [
+        'orderService',
+        'builder',
+        'repository',
+        'pairingService',
+        'logRepository',
+        'api',
+    ];
 
     public function __construct(
-        private Lazy|PairingRepository         $repository,
-        private readonly TransactionRepository $logRepository,
-        private Lazy|ClientBuilder             $builder,
-        private readonly WC_Logger_Interface   $logger,
-        private Lazy|PairingService            $pairingService,
-        private readonly ApiService            $api,
-        private Lazy|ExpressOrderService       $orderService,
+        private Lazy|PairingRepository       $repository,
+        private Lazy|TransactionRepository   $logRepository,
+        private Lazy|ClientBuilder           $builder,
+        private readonly WC_Logger_Interface $logger,
+        private Lazy|PairingService          $pairingService,
+        private Lazy|ApiService              $api,
+        private Lazy|ExpressOrderService     $orderService,
     ) {
     }
 
@@ -126,7 +135,7 @@ class MonitorService
     {
         $client = $this->getBuilder()->build(Version::NEXT);
 
-        $res = $this->api->call(
+        $res = $this->getApi()->call(
             $client,
             'monitorFastCheckOutCheckIn',
             [PairingUuid::fromString($cloned->getId())],
@@ -156,7 +165,7 @@ class MonitorService
             if ($state->pairingStatus()->__toString() === PairingStatus::PAIRING_IN_PROGRESS && $pairing->isTimedOut()) {
                 $cancellationRes = $this->cancelFastCheckoutCheckIn($cloned, $client);
                 $log = $cancellationRes->getLog();
-                $this->logRepository->updatePartial($log, [
+                $this->getLogRepository()->updatePartial($log, [
                     'pairing_id' => $cloned->getId(),
                     'order_id' => $cloned->getWcOrderId(),
                 ]);
@@ -184,9 +193,9 @@ class MonitorService
         $log->setOrderId($pairing->getWcOrderId());
         $log->setPairingId($pairing->getId());
         if ($log->isNewRecord()) {
-            $this->logRepository->insert($log);
+            $this->getLogRepository()->insert($log);
         } else {
-            $this->logRepository->updatePartial($log, [
+            $this->getLogRepository()->updatePartial($log, [
                 'pairing_id' => $pairing->getId(),
                 'order_id' => $pairing->getWcOrderId(),
             ]);
@@ -223,7 +232,7 @@ class MonitorService
     {
         $this->logger->info("TWINT cancel EC: {$pairing->getId()}");
 
-        return $this->api->call($client, 'cancelFastCheckoutCheckIn', [
+        return $this->getApi()->call($client, 'cancelFastCheckoutCheckIn', [
             PairingUuid::fromString($pairing->getId()),
         ], true, static function (TransactionLog $log) use ($pairing) {
             $log->setPairingId($pairing->getId());
@@ -241,7 +250,7 @@ class MonitorService
         $client = $this->getBuilder()->build();
 
         try {
-            $res = $this->api->call($client, 'monitorOrder', [new OrderId(new Uuid($pairing->getId()))], false);
+            $res = $this->getApi()->call($client, 'monitorOrder', [new OrderId(new Uuid($pairing->getId()))], false);
         } catch (Throwable $e) {
             $this->logger->error('TWINT cannot get pairing status: ' . $e->getMessage());
             throw $e;
@@ -278,13 +287,13 @@ class MonitorService
             $log = $res->getLog();
             $log->setPairingId($pairing->getId());
             $log->setOrderId($pairing->getWcOrderId());
-            $this->logRepository->save($log);
+            $this->getLogRepository()->save($log);
         }
 
         if ($tOrder->isPending()) {
             if ($tOrder->isConfirmationPending()) {
                 try {
-                    $confirmRes = $this->api->call($client, 'confirmOrder', [
+                    $confirmRes = $this->getApi()->call($client, 'confirmOrder', [
                         new UnfiledMerchantTransactionReference((string) $pairing->getRefId()),
                         new Money(Money::CHF, $pairing->getAmount()),
                     ], true, static function (TransactionLog $log) use ($pairing) {

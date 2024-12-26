@@ -110,6 +110,22 @@ class ExpressCheckoutGateway extends AbstractGateway
         ];
     }
 
+    protected function registerHooks()
+    {
+        // Actions.
+        add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
+        add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'saveConfigs']);
+        add_filter('woocommerce_payment_complete_order_status', [$this, 'setCompleteOrderStatus'], 10, 3);
+        add_filter(
+            'woocommerce_available_payment_gateways',
+            [$this, 'removeExpressCheckoutPaymentMethodInCheckoutPage']
+        );
+
+        if (!is_admin()) {
+            FastCheckoutCheckinService::registerHooks();
+        }
+    }
+
     public function generate_display_options_html(): string
     {
         $getOptions = function () {
@@ -227,27 +243,11 @@ class ExpressCheckoutGateway extends AbstractGateway
     public function process_payment($order_id)
     {
         /** @var FastCheckoutCheckinService $service */
-        $service = Plugin::di('fast_checkout_checkin.service', true);
+        $service = Plugin::di('fast_checkout_checkin.service', false);
 
 
         $order = wc_get_order($order_id);
 
         return [$service->checkin($order)];
-    }
-
-    protected function registerHooks()
-    {
-        // Actions.
-        add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
-        add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'saveConfigs']);
-        add_filter('woocommerce_payment_complete_order_status', [$this, 'setCompleteOrderStatus'], 10, 3);
-        add_filter(
-            'woocommerce_available_payment_gateways',
-            [$this, 'removeExpressCheckoutPaymentMethodInCheckoutPage']
-        );
-
-        if (!is_admin()) {
-            FastCheckoutCheckinService::registerHooks();
-        }
     }
 }

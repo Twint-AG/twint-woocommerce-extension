@@ -27,7 +27,7 @@ class PaymentInformationAction extends BaseAction
     protected static array $lazyLoads = ['repository'];
 
     public function __construct(
-        private Lazy|PairingRepository       $repository,
+        private Lazy|PairingRepository $repository,
     ) {
         $this->registerHooks();
     }
@@ -66,12 +66,7 @@ class PaymentInformationAction extends BaseAction
         return new WP_REST_Response([
             'id' => $pairing->getId(),
             'token' => $pairing->getToken(),
-            'amount' => wc_price((float) number_format(
-                $pairing->getAmount(),
-                (int) get_option('woocommerce_price_num_decimals'),
-                get_option('woocommerce_price_decimal_sep'),
-                get_option('woocommerce_price_thousand_sep')
-            )),
+            'amount' => wc_price($pairing->getAmount()),
             'finished' => $pairing->isFinished(),
         ], 200);
     }

@@ -11,7 +11,7 @@ interface ContainerInterface
      *
      * @throw
      */
-    public function get(string $id, bool $immediately = false): mixed;
+    public function get(string $id, bool $lazyLoad = true): mixed;
 
     public function has(string $id): bool;
 }
