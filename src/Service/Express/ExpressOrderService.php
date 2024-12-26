@@ -22,7 +22,6 @@ use Twint\Woo\Service\MonitorService;
 use Twint\Woo\Service\PairingService;
 use WC_Logger_Interface;
 use WC_Order;
-use WC_Order_Item;
 use WC_Order_Item_Product;
 use WC_Order_Item_Shipping;
 use WC_Product;
@@ -33,18 +32,19 @@ use WC_Shipping_Zones;
  * @method ClientBuilder getBuilder()
  * @method PairingRepository getPairingRepository()
  * @method PairingService getPairingService()
+ * @method ApiService getApi()
  */
 class ExpressOrderService
 {
     use LazyLoadTrait;
 
-    protected static array $lazyLoads = ['builder', 'pairingRepository', 'pairingService'];
+    protected static array $lazyLoads = ['builder', 'pairingRepository', 'pairingService', 'api'];
 
     private MonitorService $monitor;
 
     public function __construct(
         private Lazy|PairingRepository       $pairingRepository,
-        private readonly ApiService          $api,
+        private Lazy|ApiService              $api,
         private readonly WC_Logger_Interface $logger,
         private Lazy|ClientBuilder           $builder,
         private Lazy|PairingService          $pairingService
@@ -244,7 +244,7 @@ class ExpressOrderService
 
         $refId = $order->get_id() . '-' . wp_generate_password(4, false);
 
-        $res = $this->api->call($client, 'startFastCheckoutOrder', [
+        $res = $this->getApi()->call($client, 'startFastCheckoutOrder', [
             PairingUuid::fromString($pairing->getId()),
             new UnfiledMerchantTransactionReference($refId),
             new Money(TwintConstant::SUPPORTED_CURRENCY, (float) $order->get_total()),
@@ -283,6 +283,15 @@ class ExpressOrderService
         return $status->paid();
     }
 
+    /**
+     * Clean up cart if can
+     */
+    private function cleanCart(): void
+    {
+        // @phpstan-ignore-next-line
+        WC()?->cart?->empty_cart();
+    }
+
     public function cancelOrder(Pairing $pairing): void
     {
         $order = wc_get_order($pairing->getWcOrderId());
@@ -292,14 +301,5 @@ class ExpressOrderService
         $order->add_order_note('The order was cancelled via custom PHP code.');
 
         $order->save();
-    }
-
-    /**
-     * Clean up cart if can
-     */
-    private function cleanCart(): void
-    {
-        // @phpstan-ignore-next-line
-        WC()?->cart?->empty_cart();
     }
 }

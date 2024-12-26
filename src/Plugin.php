@@ -48,11 +48,6 @@ class Plugin
         });
     }
 
-    public static function di(string $container, bool $immediately = false): mixed
-    {
-        return ContainerFactory::instance()->get($container, $immediately);
-    }
-
     public static function createCustomWooCommerceStatus(): void
     {
         register_post_status(
@@ -94,22 +89,6 @@ class Plugin
         return $gateways;
     }
 
-    public static function isPluginActivated(string $plugin): bool
-    {
-        if (!function_exists('is_plugin_active')) {
-            include_once ABSPATH . 'wp-admin/includes/plugin.php';
-        }
-
-        // Test to see if WooCommerce is active (including network activated).
-        $pluginPath = trailingslashit(WP_PLUGIN_DIR) . $plugin;
-
-        return in_array($pluginPath, wp_get_active_and_valid_plugins(), true) || in_array(
-            $pluginPath,
-            wp_get_active_network_plugins(),
-            true
-        );
-    }
-
     /**
      * Plugin loaded.
      */
@@ -131,20 +110,25 @@ class Plugin
         self::di('express.button', true);
     }
 
-    /**
-     * Plugin url.
-     */
-    public static function pluginUrl(): string
+    public static function isPluginActivated(string $plugin): bool
     {
-        return untrailingslashit(plugins_url('/', self::pluginFile()));
+        if (!function_exists('is_plugin_active')) {
+            include_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
+
+        // Test to see if WooCommerce is active (including network activated).
+        $pluginPath = trailingslashit(WP_PLUGIN_DIR) . $plugin;
+
+        return in_array($pluginPath, wp_get_active_and_valid_plugins(), true) || in_array(
+            $pluginPath,
+            wp_get_active_network_plugins(),
+            true
+        );
     }
 
-    /**
-     * Plugin url.
-     */
-    public static function abspath(): string
+    public static function di(string $container, bool $lazyLoad = true): mixed
     {
-        return trailingslashit(plugin_dir_path(self::pluginFile()));
+        return ContainerFactory::instance()->get($container, $lazyLoad);
     }
 
     /**
@@ -180,16 +164,12 @@ class Plugin
         $useHook ? add_action('wp_enqueue_scripts', $func) : $func();
     }
 
-    public static function assets(string $asset): ?string
+    /**
+     * Plugin url.
+     */
+    public static function abspath(): string
     {
-        // Ensure the asset path starts with a slash
-        $asset = ltrim($asset, '/');
-
-        // Define the local path to the assets directory
-        $localPath = rtrim(self::pluginUrl(), '/') . '/assets/';
-
-        // Return the full asset path
-        return $localPath . $asset;
+        return trailingslashit(plugin_dir_path(self::pluginFile()));
     }
 
     public static function dist(string $fileName): ?string
@@ -204,6 +184,31 @@ class Plugin
         return $localPath . $fileName;
     }
 
+    /**
+     * Plugin url.
+     */
+    public static function pluginUrl(): string
+    {
+        return untrailingslashit(plugins_url('/', self::pluginFile()));
+    }
+
+    public static function assets(string $asset): ?string
+    {
+        // Ensure the asset path starts with a slash
+        $asset = ltrim($asset, '/');
+
+        // Define the local path to the assets directory
+        $localPath = rtrim(self::pluginUrl(), '/') . '/assets/';
+
+        // Return the full asset path
+        return $localPath . $asset;
+    }
+
+    protected static function pluginFile(): string
+    {
+        return self::$pluginFile;
+    }
+
     private static function loadTranslations(): void
     {
         // Compatible for old WP versions
@@ -216,10 +221,5 @@ class Plugin
 
         // from WP 6.5 only need this
         load_plugin_textdomain('twint-woocommerce-extension', false, plugin_dir_path(self::pluginFile()) . 'languages');
-    }
-
-    protected static function pluginFile(): string
-    {
-        return self::$pluginFile;
     }
 }

@@ -60,7 +60,7 @@ class Credentials extends TabItem
 
     public static function getContents(array $data = []): string
     {
-        $trigger = Plugin::di('cli.trigger', true);
+        $trigger = Plugin::di('cli.trigger', false);
         $trigger->handle();
 
         $cliSupport = get_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION) === 'Yes';

@@ -5,18 +5,29 @@ declare(strict_types=1);
 namespace Twint\Woo\Model\Button;
 
 use Twint\Woo\Constant\TwintConstant;
+use Twint\Woo\Container\Lazy;
+use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
 use Twint\Woo\Model\Modal\Modal;
 use Twint\Woo\Model\Modal\Spinner;
 use Twint\Woo\Plugin;
 use Twint\Woo\Service\SettingService;
 
+/**
+ * @method Spinner getSpinner()
+ * @method Modal getModal()
+ * @method SettingService getSetting()
+ */
 class ExpressButton
 {
+    use LazyLoadTrait;
+
+    protected static array $lazyLoads = ['setting', 'modal', 'spinner'];
+
     public function __construct(
-        private readonly SettingService $setting,
-        private readonly Modal          $modal,
-        private readonly Spinner        $spinner,
+        private Lazy|SettingService $setting,
+        private Lazy|Modal          $modal,
+        private Lazy|Spinner        $spinner,
     ) {
         add_action('wp', [$this, 'registerHooks']);
     }
@@ -35,8 +46,8 @@ class ExpressButton
 
         if ($screens !== []) {
             // render spinner
-            $this->spinner->registerHooks();
-            $this->modal->registerHooks();
+            $this->getSpinner()->registerHooks();
+            $this->getModal()->registerHooks();
 
             Plugin::enqueueScript('frontend-express', '/express.js');
 
@@ -99,6 +110,24 @@ class ExpressButton
         return $hints;
     }
 
+    protected function getAvailableScreens(): array
+    {
+        $validated = $this->getSetting()->isValidated();
+        $enabled = $this->isPaymentEnabled();
+        $currency = get_woocommerce_currency() === TwintConstant::SUPPORTED_CURRENCY;
+
+        return ($validated && $enabled && $currency) ? $this->getSetting()->getScreens() : [];
+    }
+
+    private function isPaymentEnabled(): bool
+    {
+        $gateways = WC()
+            ->payment_gateways()
+            ->get_available_payment_gateways();
+
+        return isset($gateways[ExpressCheckoutGateway::getId()]);
+    }
+
     public function addPluginVersion($classes): array
     {
         $classes[] = 'twint-version-' . TwintConstant::PLUGIN_VERSION;
@@ -119,37 +148,6 @@ class ExpressButton
         echo $this->getButton('mini-cart dynamic');
     }
 
-    public function addToLegacyCartPage(): void
-    {
-        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The HTML is safe and intended for raw output.
-        echo $this->getButton('cart') . $this->renderOrSection();
-    }
-
-    protected function getAvailableScreens(): array
-    {
-        $validated = $this->setting->isValidated();
-        $enabled = $this->isPaymentEnabled();
-        $currency = get_woocommerce_currency() === TwintConstant::SUPPORTED_CURRENCY;
-
-        return ($validated && $enabled && $currency) ? $this->setting->getScreens() : [];
-    }
-
-    private function isPaymentEnabled(): bool
-    {
-        $gateways = WC()
-            ->payment_gateways()
-            ->get_available_payment_gateways();
-
-        return isset($gateways[ExpressCheckoutGateway::getId()]);
-    }
-
-    public function renderExpressButtonInCartPage(string $html): string
-    {
-        $html .= $this->getButton('cart');
-
-        return $html . $this->renderOrSection();
-    }
-
     private function getButton(string $additionalClasses = ''): string
     {
         //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
@@ -157,14 +155,20 @@ class ExpressButton
             <button type="submit" class="twint twint-button ' . $additionalClasses . '">
                 <span class="twint twint-icon-block">
                     <img class="twint twint-icon" src="' .
-                //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
-                Plugin::assets(
-                    '/images/express.svg'
-                ) . '" alt="Express Checkout">
+            //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+            Plugin::assets(
+                '/images/express.svg'
+            ) . '" alt="Express Checkout">
                 </span>
                 <span class="twint twint-label">Express Checkout</span>
             </button>
         ';
+    }
+
+    public function addToLegacyCartPage(): void
+    {
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The HTML is safe and intended for raw output.
+        echo $this->getButton('cart') . $this->renderOrSection();
     }
 
     public function renderOrSection(): string
@@ -174,6 +178,13 @@ class ExpressButton
                ' . __('Or', 'twint-woocommerce-extension') . '
             </div> 
         ';
+    }
+
+    public function renderExpressButtonInCartPage(string $html): string
+    {
+        $html .= $this->getButton('cart');
+
+        return $html . $this->renderOrSection();
     }
 
     public function renderButtonInMiniCart(string $html): string

@@ -25,6 +25,7 @@ use WC_Logger_Interface;
 class StoreConfigurationAction extends BaseAction
 {
     use LazyLoadTrait;
+
     public const MAX_PASSWORD_LENGTH = 512;
     public const CERTIFICATE_FILE_SIZE = 128 * 1024;
     public const CERTIFICATE_FILE_TYPE = 'application/x-pkcs12';
@@ -103,23 +104,6 @@ class StoreConfigurationAction extends BaseAction
         die();
     }
 
-    private function getCertificateContent($file): string
-    {
-        if ($file['size'] > self::CERTIFICATE_FILE_SIZE || $file['type'] !== self::CERTIFICATE_FILE_TYPE) {
-            $this->sendErrorResponse(
-                __('Upload a certificate file (.p12)', 'twint-woocommerce-extension'),
-                'upload_cert'
-            );
-        }
-
-        // Use WP_Filesystem to read the file content
-        global $wp_filesystem;
-
-        WP_Filesystem();
-
-        return $wp_filesystem->get_contents($file['tmp_name']);
-    }
-
     private function getStoreUuid(string $string): string
     {
         if (!StringHelper::isValidUuid($string)) {
@@ -168,6 +152,23 @@ class StoreConfigurationAction extends BaseAction
 
         echo wp_json_encode($response);
         die();
+    }
+
+    private function getCertificateContent($file): string
+    {
+        if ($file['size'] > self::CERTIFICATE_FILE_SIZE || $file['type'] !== self::CERTIFICATE_FILE_TYPE) {
+            $this->sendErrorResponse(
+                __('Upload a certificate file (.p12)', 'twint-woocommerce-extension'),
+                'upload_cert'
+            );
+        }
+
+        // Use WP_Filesystem to read the file content
+        global $wp_filesystem;
+
+        WP_Filesystem();
+
+        return $wp_filesystem->get_contents($file['tmp_name']);
     }
 
     public function checkConfiguration($testMode, string $storeUuid, array $certificate): array

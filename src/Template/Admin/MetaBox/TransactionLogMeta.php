@@ -44,7 +44,7 @@ class TransactionLogMeta
         $order = wc_get_order($post instanceof WC_Order ? $post->get_id() : $post->ID);
 
         /** @var TransactionRepository $repository */
-        $repository = Plugin::di('transaction.repository', true);
+        $repository = Plugin::di('transaction.repository', false);
         $logs = $repository->getByOrderId($order->get_id());
 
         $nonce = wp_create_nonce('get_log_transaction_details');
