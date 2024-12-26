@@ -39,7 +39,7 @@ class FastCheckoutCheckinService
     public function __construct(
         private readonly WC_Logger_Interface $logger,
         private Lazy|ClientBuilder           $builder,
-        private Lazy|ApiService     $api,
+        private Lazy|ApiService              $api,
         private Lazy|PairingService          $pairingService,
     ) {
         $this->getCartController();

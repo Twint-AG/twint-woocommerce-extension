@@ -59,13 +59,13 @@ class MonitorService
     ];
 
     public function __construct(
-        private Lazy|PairingRepository              $repository,
-        private Lazy|TransactionRepository $logRepository,
-        private Lazy|ClientBuilder                  $builder,
-        private readonly WC_Logger_Interface        $logger,
-        private Lazy|PairingService                 $pairingService,
-        private Lazy|ApiService            $api,
-        private Lazy|ExpressOrderService            $orderService,
+        private Lazy|PairingRepository       $repository,
+        private Lazy|TransactionRepository   $logRepository,
+        private Lazy|ClientBuilder           $builder,
+        private readonly WC_Logger_Interface $logger,
+        private Lazy|PairingService          $pairingService,
+        private Lazy|ApiService              $api,
+        private Lazy|ExpressOrderService     $orderService,
     ) {
     }
 

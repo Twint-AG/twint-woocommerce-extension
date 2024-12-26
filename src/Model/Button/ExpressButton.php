@@ -94,22 +94,6 @@ class ExpressButton
         }
     }
 
-    public function addReconnectForGoogleFonts($hints, $relation_type): array
-    {
-        if ($relation_type === 'preconnect') {
-            $hints[] = [
-                'href' => 'https://fonts.gstatic.com',
-                'crossorigin' => '',
-            ];
-
-            $hints[] = [
-                'href' => 'https://fonts.googleapis.com',
-            ];
-        }
-
-        return $hints;
-    }
-
     protected function getAvailableScreens(): array
     {
         $validated = $this->getSetting()->isValidated();
@@ -126,6 +110,22 @@ class ExpressButton
             ->get_available_payment_gateways();
 
         return isset($gateways[ExpressCheckoutGateway::getId()]);
+    }
+
+    public function addReconnectForGoogleFonts($hints, $relation_type): array
+    {
+        if ($relation_type === 'preconnect') {
+            $hints[] = [
+                'href' => 'https://fonts.gstatic.com',
+                'crossorigin' => '',
+            ];
+
+            $hints[] = [
+                'href' => 'https://fonts.googleapis.com',
+            ];
+        }
+
+        return $hints;
     }
 
     public function addPluginVersion($classes): array

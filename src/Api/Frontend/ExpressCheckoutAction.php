@@ -27,8 +27,8 @@ class ExpressCheckoutAction
     protected static array $lazyLoads = ['monitor', 'service'];
 
     public function __construct(
-        private Lazy|ExpressCheckoutService $service,
-        private Lazy|MonitorService         $monitor,
+        private Lazy|ExpressCheckoutService  $service,
+        private Lazy|MonitorService          $monitor,
         private readonly WC_Logger_Interface $logger
     ) {
         $this->registerHooks();

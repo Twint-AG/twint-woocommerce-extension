@@ -19,7 +19,7 @@ class Installer
     protected static array $lazyLoads = ['trigger'];
 
     public function __construct(
-        private readonly array                  $migrations,
+        private readonly array         $migrations,
         private Lazy|CliSupportTrigger $trigger
     ) {
     }
