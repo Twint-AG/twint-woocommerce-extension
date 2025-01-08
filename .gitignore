@@ -44,3 +44,5 @@ auth.json
 
 dist/
 build/
+
+infra/latest/wp-content/languages/**/*.json
