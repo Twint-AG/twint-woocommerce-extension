@@ -4,7 +4,7 @@ Tags: TWINT, WooCommerce, payment gateway, express checkout
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 8.1
-Stable tag: 9.9.9-dev
+Stable tag: 1.0.1
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 Text Domain: twint-payment-extension
