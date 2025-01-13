@@ -100,6 +100,8 @@
     text-transform: uppercase !important; /* Matches uppercase */
     background-color: white !important;
     box-shadow: none !important;
+    width: auto !important;
+    display: inline-block !important;
   }
 
   #twint-copy-btn {
