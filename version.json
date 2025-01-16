@@ -1,0 +1,15 @@
+{
+  "name": "TWINT Payment for WooCommerce",
+  "version": "0.0.1-dev",
+  "download_url": "https://github.com/Twint-AG/twint-woocommerce-extension/releases/download/0.0.1-dev/twint-woocommerce-extension.zip",
+  "requires": "5.9",
+  "tested": "6.7.1",
+  "homepage": "https://www.twint.ch/",
+  "author": "TWINT",
+  "author_homepage": "https://www.twint.ch/",
+  "sections": {
+    "description": "TWINT Payment for WooCommerce",
+    "installation": "Upload the ZIP file or install it directly from the admin panel.",
+    "changelog": "Version 0.0.1-dev: Improved security and bug fixes."
+  }
+}

@@ -109,6 +109,14 @@ return [
                 $contents = preg_replace('/\\\class_alias\(\'TwintWoo.*?\);$/m', '', $contents);
             }
 
+            if(str_ends_with($filePath, 'plugin-update-checker/Puc/v5p5/PucFactory.php')){
+                $contents = str_replace(
+                    '$checkerClass = $type . \'\\UpdateChecker\';',
+                    '$checkerClass = "TwintWoo\\\" . $type . "\UpdateChecker";',
+                    $contents
+                );
+            }
+
             $contents = str_replace('\\false,', 'false,', $contents);
 
             return $contents;
