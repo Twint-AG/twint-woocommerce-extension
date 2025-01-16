@@ -1,9 +1,9 @@
 import Connector from './connector'
 
 class IosConnector extends Connector {
-  constructor() {
-    super()
-    this.container = document.getElementById('twint-ios-container')
+  constructor(shadow) {
+    super(shadow)
+    this.container = this.shadow.querySelector('#twint-ios-container')
 
     this.registeredEvents = false
   }

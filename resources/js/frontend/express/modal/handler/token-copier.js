@@ -1,28 +1,39 @@
-import Clipboard from './../../../library/clipboard-min'
 import DOMPurify from 'dompurify'
 
 class TokenCopier {
-  constructor() {
+  constructor(shadow) {
+    this.shadow = shadow
     let inputId = 'qr-token'
     let buttonId = 'twint-copy-btn'
 
-    this.input = document.getElementById(inputId)
-    this.button = document.getElementById(buttonId)
+    this.input = this.shadow.querySelector(`#${inputId}`)
+    this.button = this.shadow.querySelector(`#${buttonId}`)
 
     this.button.addEventListener('click', this.onClick.bind(this))
-
-    this.clipboard = new Clipboard('#' + buttonId)
-    this.clipboard.on('success', this.onCopied.bind(this))
-    this.clipboard.on('error', this.onError.bind(this))
   }
 
   onClick(event) {
     event.preventDefault()
-    this.input.disabled = false
+    this.copyToClipboard(this.input.value)
   }
 
-  onCopied(e) {
-    e.clearSelection()
+  copyToClipboard(text) {
+    try {
+      navigator.clipboard
+        .writeText(text)
+        .then(() => {
+          this.onCopied()
+        })
+        .catch((err) => {
+          console.error('Failed to copy text: ', err)
+        })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (_e) {
+      /* empty */
+    }
+  }
+
+  onCopied() {
     this.button.innerHTML = DOMPurify.sanitize(
       this.button.getAttribute('data-copied'),
     )
@@ -32,11 +43,6 @@ class TokenCopier {
     this.input.disabled = true
 
     setTimeout(this.reset.bind(this), 10000)
-  }
-
-  onError(e) {
-    console.error('Action:', e.action)
-    console.error('Trigger:', e.trigger)
   }
 
   reset() {

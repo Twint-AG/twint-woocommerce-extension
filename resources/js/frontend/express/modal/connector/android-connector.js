@@ -1,9 +1,9 @@
 import Connector from './connector'
 
 class AndroidConnector extends Connector {
-  constructor() {
-    super()
-    this.button = document.getElementById('twint-addroid-button')
+  constructor(shadow) {
+    super(shadow)
+    this.button = this.shadow.querySelector('#twint-addroid-button')
   }
 
   init() {

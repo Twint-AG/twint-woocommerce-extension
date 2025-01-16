@@ -2,7 +2,9 @@ import QRCode from 'qrcode'
 import DOMPurify from 'dompurify'
 
 class ModalContent {
-  constructor(token, amount, pairing, isExpress = true) {
+  constructor(shadow, token, amount, pairing, isExpress = true) {
+    this.shadow = shadow
+
     this.token = token
     this.amount = amount
     this.pairing = pairing
@@ -17,21 +19,21 @@ class ModalContent {
   }
 
   renderAmount() {
-    let element = document.getElementById('twint-amount')
+    let element = this.shadow.querySelector('#twint-amount')
     if (element) {
       element.innerHTML = DOMPurify.sanitize(this.amount)
     }
   }
 
   renderToken() {
-    let element = document.getElementById('qr-token')
+    let element = this.shadow.querySelector('#qr-token')
     if (element) {
       element.value = this.token
     }
   }
 
   renderQr() {
-    let qr = document.getElementById('qrcode')
+    let qr = this.shadow.querySelector('#qrcode')
     qr.innerHTML = ''
 
     QRCode.toCanvas(qr, this.token, {
@@ -43,7 +45,7 @@ class ModalContent {
   }
 
   adjustGuides() {
-    let selectContact = document.getElementById('twint-guide-contact')
+    let selectContact = this.shadow.querySelector('#twint-guide-contact')
     let guides = selectContact.parentElement
 
     if (this.isExpress) {

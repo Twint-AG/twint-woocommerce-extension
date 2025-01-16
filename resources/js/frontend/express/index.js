@@ -55,7 +55,13 @@ class ExpressCheckout {
     }
 
     ExpressCheckout.modal.setContent(
-      new ModalContent(data.token, data.amount, data.pairing, true),
+      new ModalContent(
+        this.shadow,
+        data.token,
+        data.amount,
+        data.pairing,
+        true,
+      ),
     )
     ExpressCheckout.modal.show()
   }
@@ -70,8 +76,13 @@ class ExpressCheckout {
   }
 
   init() {
+    this.shadow = window.twintShadowRoot
+
     if (!ExpressCheckout.modal) {
-      ExpressCheckout.modal = new Modal(Modal.TYPE_EXPRESS_CHECKOUT)
+      ExpressCheckout.modal = new Modal(
+        this.shadow,
+        Modal.TYPE_EXPRESS_CHECKOUT,
+      )
     }
   }
 

@@ -1,8 +1,20 @@
 #twint-loading {
-  @apply tw-fixed tw-top-0 tw-left-0 tw-w-full tw-h-full tw-bg-[#FDFDFD] tw-flex tw-justify-center tw-items-center tw-z-[99999] tw-hidden tw-overflow-hidden tw-opacity-95;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-color: #fdfdfd !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  z-index: 99999 !important;
+  display: none !important;
+  overflow: hidden !important;
+  opacity: 0.95 !important;
 
   &.active {
-    @apply tw-flex;
+    display: flex !important;
   }
 
   svg {

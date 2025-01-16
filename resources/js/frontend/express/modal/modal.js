@@ -9,17 +9,19 @@ class Modal {
   static TYPE_EXPRESS_CHECKOUT = 'EC'
   static TYPE_REGULAR_CHECKOUT = 'RC'
 
-  constructor(checkoutType) {
-    this.element = document.getElementById('twint-modal')
+  constructor(shadow, checkoutType) {
+    this.shadow = shadow
+
+    this.element = this.shadow.querySelector('#twint-modal')
     this.closeBtn = this.element.querySelector('#twint-close')
 
     // Handlers
     this.statusRefresher = new StatusRefresher(this)
-    this.tokenCopier = new TokenCopier()
+    this.tokenCopier = new TokenCopier(this.shadow)
 
     this.connectors = []
-    this.connectors.push(new AndroidConnector())
-    this.connectors.push(new IosConnector())
+    this.connectors.push(new AndroidConnector(this.shadow))
+    this.connectors.push(new IosConnector(this.shadow))
 
     this.registerEvents()
     this.checkout = checkoutType

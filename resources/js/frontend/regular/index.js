@@ -6,11 +6,20 @@ document.addEventListener('DOMContentLoaded', function () {
     'checkout_place_order_success',
     function (type, data) {
       if (data.result === 'success') {
-        let modal = new Modal(Modal.TYPE_REGULAR_CHECKOUT)
+        let modal = new Modal(
+          window.twintShadowRoot,
+          Modal.TYPE_REGULAR_CHECKOUT,
+        )
 
         const { pairingToken, amount, pairingId } = data
         modal.setContent(
-          new ModalContent(pairingToken, amount, pairingId, false),
+          new ModalContent(
+            window.twintShadowRoot,
+            pairingToken,
+            amount,
+            pairingId,
+            false,
+          ),
         )
 
         modal.show()
