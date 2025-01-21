@@ -3,7 +3,7 @@
  * Plugin Name: TWINT Payment for WooCommerce
  * Plugin URI: https://twint.ch
  * Description: TWINT Payment Plugin for WooCommerce
- * Version: 9.9.9-dev
+ * Version: 0.0.1-dev
  * Author: TWINT
  * Author URI: https://twint.ch
  * Developer: TWINT
@@ -24,5 +24,11 @@ if (!defined('ABSPATH')) {
 require __DIR__ . '/vendor/autoload.php';
 
 use Twint\Woo\Plugin;
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 Plugin::init(__FILE__);
+$myUpdateChecker = PucFactory::buildUpdateChecker(
+    'https://raw.githubusercontent.com/Twint-AG/twint-woocommerce-extension/refs/heads/latest/version.json',
+    __FILE__,
+    'twint-woocommerce-extension'
+);

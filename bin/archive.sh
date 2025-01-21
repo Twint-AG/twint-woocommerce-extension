@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
+set -x
 
 ARCHIVE_PLUGIN_NAME="twint-woocommerce-extension"
 ARCHIVE_BASE_NAME="twint-woocommerce-extension-${CI_COMMIT_REF_SLUG}"
@@ -18,17 +19,17 @@ npm run build
 rm -rf "${PWD}/vendor"
 composer install --no-dev --optimize-autoloader --prefer-dist
 
-VERSION="${CI_COMMIT_TAG:-9.9.9-dev}"
+VERSION="${CI_COMMIT_TAG:-0.0.1-dev}"
 VERSION_DISPLAY="${CI_COMMIT_TAG:-$(git rev-parse --short=6 HEAD)}"
 
-FILES=("${PWD}/src/Constant/TwintConstant.php" "${PWD}/package.json" "${PWD}/composer.json" "${PWD}/readme.txt" )
+FILES=("${PWD}/src/Constant/TwintConstant.php" "${PWD}/package.json" "${PWD}/composer.json" "${PWD}/readme.txt" "${PWD}/version.json" )
 
 for FILE in "${FILES[@]}"; do
-  sed -i -e "s@9.9.9-dev@${VERSION}@g" "${FILE}"
+  sed -i -e "s@0.0.1-dev@${VERSION}@g" "${FILE}"
 done
 
 # Replace version for plugin file, can see in plugin list
-sed -i -e "s@9.9.9-dev@${VERSION_DISPLAY}@g" "${PWD}/twint-woocommerce-extension.php"
+sed -i -e "s@0.0.1-dev@${VERSION_DISPLAY}@g" "${PWD}/twint-woocommerce-extension.php"
 
 # Run PHP-Scoper
 composer global require humbug/php-scoper
