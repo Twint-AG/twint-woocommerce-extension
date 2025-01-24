@@ -32,6 +32,7 @@ module.exports = {
   entry: {
     // Styling
     frontend: './resources/scss/style.scss',
+    modal: './resources/scss/modal.scss',
     admin: './resources/scss/admin/style.scss',
 
     // Frontend JS
@@ -43,9 +44,6 @@ module.exports = {
     // Admin JS
     'credentials-setting': '/resources/js/admin/credentials-setting.js',
     'admin-utilities': '/resources/js/admin/admin-utilities.js',
-
-    //Libraries
-    'clipboard-min': '/resources/js/frontend/library/clipboard-min.js'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),

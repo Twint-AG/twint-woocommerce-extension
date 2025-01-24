@@ -1,5 +1,7 @@
 class Connector {
-  constructor() {}
+  constructor(shadow) {
+    this.shadow = shadow
+  }
 
   init() {
     // in child classes

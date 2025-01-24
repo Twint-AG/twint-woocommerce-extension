@@ -4,10 +4,12 @@ import apiFetch from '@wordpress/api-fetch'
 
 class TwintOrderPay {
   render(data) {
-    let modal = new Modal(Modal.TYPE_REGULAR_CHECKOUT)
+    let modal = new Modal(window.twintShadowRoot, Modal.TYPE_REGULAR_CHECKOUT)
 
     const { token, amount, id } = data
-    modal.setContent(new ModalContent(token, amount, id, false))
+    modal.setContent(
+      new ModalContent(window.twintShadowRoot, token, amount, id, false),
+    )
 
     modal.show()
   }

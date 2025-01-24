@@ -94,7 +94,7 @@ $border-radius: 6px;
     }
   }
 
-  *:has(> &) {
+  *:has(> &:not(.PDP)) {
     container-type: inline-size;
   }
 

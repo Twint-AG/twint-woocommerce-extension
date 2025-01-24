@@ -10,6 +10,6 @@
   "sections": {
     "description": "TWINT Payment for WooCommerce",
     "installation": "Upload the ZIP file or install it directly from the admin panel.",
-    "changelog": "Version 0.0.1-dev: Improved security and bug fixes."
+    "changelog": "Version 1.0.0-dev: Apply scoped styling to the payment modal to prevent unintended overrides from themes.</br>Version 1.0.2: Improved security and bug fixes."
   }
 }

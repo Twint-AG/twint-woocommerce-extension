@@ -190,7 +190,10 @@ class StatusRefresher {
         clearTimeout(timeoutId)
         self.processing = false
 
-        if (error.name === 'AbortError') {
+        if (
+          error.name === 'AbortError' ||
+          (error.code && error.code === 'fetch_error')
+        ) {
           self.check()
         }
       })

@@ -20,9 +20,13 @@ const ModalTwintPayment = ({ eventRegistration, emitResponse }) => {
       async ({ processingResponse }) => {
         const details = processingResponse.paymentDetails
         if (details.result === 'success') {
-          let modal = new Modal(Modal.TYPE_REGULAR_CHECKOUT)
+          let modal = new Modal(
+            window.twintShadowRoot,
+            Modal.TYPE_REGULAR_CHECKOUT,
+          )
           modal.setContent(
             new ModalContent(
+              window.twintShadowRoot,
               details.pairingToken,
               details.amount,
               details.pairingId,
