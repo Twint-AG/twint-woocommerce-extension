@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ba695a51ea5941e40701fa801e0a1057",
+    "content-hash": "1b7b9fc190214b411d4e947c28e29a59",
     "packages": [
         {
             "name": "azjezz/psl",
@@ -2757,11 +2757,11 @@
         },
         {
             "name": "twint-ag/sdk",
-            "version": "1.4.5",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://git.nfq.asia/twint-ag/sdk",
-                "reference": "eb3d618e41a3b4c7736fc83ecfd9544a9fe31065"
+                "reference": "1799267ced06b2c211a870566a781735bda6b251"
             },
             "require": {
                 "azjezz/psl": "^2.5.0 || ^3.0",
@@ -2787,20 +2787,21 @@
                 "ext-xdebug": "*",
                 "laminas/laminas-code": "^4.16.0",
                 "nikic/php-parser": "^4.19.4 || ^5.0.0",
-                "php-soap/wsdl-reader": "^0.17.0 || ^0.18.0 || ^0.19.0 || ^0.20.0 || ^0.21.0",
+                "php-soap/wsdl-reader": "^0.17.0 || ^0.18.0 || ^0.19.0 || ^0.20.0 || ^0.21.0 || ^0.22.0",
                 "php-standard-library/phpstan-extension": "^2.0.0",
-                "phpro/soap-client": "^3.3.0",
-                "phpstan/phpstan": "^2.1.0",
-                "phpstan/phpstan-strict-rules": "^2.0.1",
-                "phpunit/phpunit": "^10.5.40",
+                "phpro/soap-client": "3.3.0 || 3.4.0",
+                "phpstan/phpstan": "^2.1.2",
+                "phpstan/phpstan-strict-rules": "^2.0.3",
+                "phpunit/phpunit": "^10.5.44",
                 "roave/better-reflection": "^6.25.0",
+                "rregeer/phpunit-coverage-check": "^0.3.1",
                 "slevomat/coding-standard": "^8.15.0",
                 "symfony/clock": "^6.4.13",
                 "symfony/dotenv": "^6.4.16",
                 "symfony/event-dispatcher": "^6.4.13",
                 "symfony/filesystem": "^6.4.13",
                 "symfony/finder": "^6.4.17",
-                "symplify/easy-coding-standard": "^12.5.5",
+                "symplify/easy-coding-standard": "^12.5.8",
                 "wiremock-php/wiremock-php": "dev-cloud-support as 2.39.0"
             },
             "type": "library",
@@ -2843,7 +2844,7 @@
                 "twint",
                 "twint.ch"
             ],
-            "time": "2025-01-07T10:07:52+00:00"
+            "time": "2025-02-04T12:42:27+00:00"
         },
         {
             "name": "veewee/xml",
