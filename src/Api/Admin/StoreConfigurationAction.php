@@ -57,18 +57,19 @@ class StoreConfigurationAction extends BaseAction
         $response = [];
         $storedCertificate = $this->getSettingService()->getCertificate() ?? [];
         $storeUuid = $this->getStoreUuid(sanitize_text_field(wp_unslash($_POST[TwintConstant::STORE_UUID] ?? '')));
+
+        // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        $file = $_FILES[TwintConstant::CERTIFICATE] ?? null;
+        // phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
         $password = $this->getPassword(
             sanitize_text_field(wp_unslash($_POST[TwintConstant::CERTIFICATE_PASSWORD] ?? '')),
-            !empty($storedCertificate)
+            !empty($storedCertificate) && $file === null
         );
         $testMode = isset($_POST[TwintConstant::TEST_MODE]) && $_POST[TwintConstant::TEST_MODE] === 'on' ? TwintConstant::YES : TwintConstant::NO;
 
         try {
             if ($password !== null && $password !== '' && $password !== '0') {
-                // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-                $file = $_FILES[TwintConstant::CERTIFICATE] ?? null;
-                // phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-
                 $certificateContent = $this->getCertificateContent($file);
                 $certificate = $this->getCertificateHandler()->read($certificateContent, $password);
 
