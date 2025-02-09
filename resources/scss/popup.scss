@@ -5,3 +5,8 @@
     display: flex !important;
   }
 }
+
+#twint-shadow-root {
+  position: fixed;
+  z-index: 99999;
+}
