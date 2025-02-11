@@ -1,16 +1,18 @@
-.notify-success {
-  @apply tw-bg-green-100 tw-border tw-border-solid tw-border-green-500 tw-text-green-700 tw-p-2 tw-rounded;
-}
+.twint-admin {
+  .notify-success {
+    @apply tw-bg-green-100 tw-border tw-border-solid tw-border-green-500 tw-text-green-700 tw-p-2 tw-rounded;
+  }
 
-.notify-error {
-  @apply tw-bg-red-100 tw-border tw-border-solid tw-p-2 tw-rounded;
-  border-color: #ff7474 !important; // Custom border color override
-  max-width: 333px;
-  margin-top: 5px;
-}
+  .notify-error {
+    @apply tw-bg-red-100 tw-border tw-border-solid tw-p-2 tw-rounded;
+    border-color: #ff7474 !important; // Custom border color override
+    max-width: 333px;
+    margin-top: 5px;
+  }
 
-.twint-table-setting {
-  .has-error {
-    border-color: #ff7474 !important; // Custom border color override for error state
+  .twint-table-setting {
+    .has-error {
+      border-color: #ff7474 !important; // Custom border color override for error state
+    }
   }
 }
