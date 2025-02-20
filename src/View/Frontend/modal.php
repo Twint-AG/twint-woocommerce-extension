@@ -1,18 +1,17 @@
 <?php
+
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Plugin;
 
 //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
 ?>
 
-<div id="twint-shadow-root">
-</div>
+<div id="twint-shadow-root"></div>
 <template id="twint-modal-template">
-    <div id="twint-modal" class="!tw-hidden"
-        data-exist-label="<?php
+    <div id="twint-modal" style="display: none;" data-exist-label="<?php
 
-                            // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- need to match on translated value from core.
-                            echo esc_html__('View cart', 'woocommerce') ?>"
+                                                                    // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- need to match on translated value from core.
+                                                                    echo esc_html__('View cart', 'woocommerce') ?>"
         data-exist-message="<?php echo esc_html__(
             'You have existing products in the shopping cart. Please review your shopping cart before continue.',
             'twint-woocommerce-extension'

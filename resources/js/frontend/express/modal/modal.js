@@ -50,6 +50,10 @@ class Modal {
   }
 
   show() {
+    if (!this.content.token) {
+      return
+    }
+
     // Display
     let span = this.closeBtn.querySelector('span')
     span.innerHTML = DOMPurify.sanitize(
@@ -68,7 +72,7 @@ class Modal {
     pay.style.display = 'block'
 
     //Show modal
-    this.element.classList.remove('!tw-hidden')
+    this.element.style.display = 'flex'
 
     //Connector
     this.connectors.forEach((connector) => {
@@ -96,7 +100,7 @@ class Modal {
 
   close() {
     // Display
-    this.element.classList.add('!tw-hidden')
+    this.element.style.display = 'none'
 
     let callback = this.callbacks[Modal.EVENT_MODAL_CLOSED]
     if (callback) {
