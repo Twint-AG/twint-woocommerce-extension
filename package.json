@@ -1,7 +1,7 @@
 {
   "name": "twint-woocommerce-extension",
   "title": "WooCommerce Twint Payment",
-  "version": "0.0.1-dev",
+  "version": "1.2.1",
   "author": "WooCommerce",
   "license": "GPL-3.0+",
   "keywords": [],
