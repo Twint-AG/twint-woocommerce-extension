@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Template\Admin\Setting\Tab;
 
+use Twint\Woo\Command\CliCommand;
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Plugin;
 use Twint\Woo\Template\Admin\Setting\TabItem;
@@ -64,6 +65,15 @@ class Credentials extends TabItem
         $trigger->handle();
 
         $cliSupport = get_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION) === 'Yes';
+        if (!$cliSupport) {
+            list($cliVersion, $isExecutable, $cliInfo) = Plugin::getCliInformation();
+
+            $cliVersionFlag = version_compare($cliVersion, '8.1.0', '>') ? 'passed' : 'error';
+            $isExecutableFlag = $isExecutable ? 'passed' : 'error';
+            $isExecutableText = $isExecutable ? 'True' : 'False';
+
+            $cliInfoFlag = ($cliInfo === __(CliCommand::MESSAGE, 'twint-woocommerce-extension')) ? 'passed' : 'error';
+        }
 
         $isShowedTheButtonUploadNewCert = false;
 
