@@ -38,9 +38,6 @@ class CryptoHandler
         }
 
         $hmac = hash_hmac('sha256', $ciphertextRaw, $this->key, true);
-        if ($hmac === '0') {
-            throw new InvalidArgumentException('Failed to compute HMAC.');
-        }
 
         return base64_encode($iv . $hmac . $ciphertextRaw);
     }
@@ -81,9 +78,6 @@ class CryptoHandler
         }
 
         $expectedHmac = hash_hmac('sha256', $ciphertextRaw, $this->key, true);
-        if ($expectedHmac === '0') {
-            throw new InvalidArgumentException('Failed to compute HMAC for verification.');
-        }
 
         $hmac = substr($c, $ivLen, $hmacLen);
         if (!hash_equals($hmac, $expectedHmac)) {

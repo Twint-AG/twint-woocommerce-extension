@@ -99,12 +99,10 @@ class ServiceDefinition
                 static fn () => new ClientBuilder($container->get('crypto.handler'), $container->get('setting.service'))
             ),
             // Base
-            'twint.integration' => static function (ContainerInterface $container) {
-                return new TwintIntegration(
-                    $container->get('payment.service'),
-                    $container->get('pairing.repository'),
-                );
-            },
+            'twint.integration' => static fn (ContainerInterface $container) => new TwintIntegration(
+                $container->get('payment.service'),
+                $container->get('pairing.repository'),
+            ),
 
             // Services
             'pairing.service' => static fn (ContainerInterface $container) => new Lazy(
@@ -131,28 +129,24 @@ class ServiceDefinition
                 'client.builder'
             )),
             'setting.service' => static fn (ContainerInterface $container) => new SettingService(),
-            'monitor.service' => static function (ContainerInterface $container) {
-                return new MonitorService(
-                    $container->get('pairing.repository'),
-                    $container->get('transaction.repository'),
-                    $container->get('client.builder'),
-                    $container->get('logger'),
-                    $container->get('pairing.service'),
-                    $container->get('api.service'),
-                    $container->get('express_order.service'),
-                );
-            },
+            'monitor.service' => static fn (ContainerInterface $container) => new MonitorService(
+                $container->get('pairing.repository'),
+                $container->get('transaction.repository'),
+                $container->get('client.builder'),
+                $container->get('logger'),
+                $container->get('pairing.service'),
+                $container->get('api.service'),
+                $container->get('express_order.service'),
+            ),
             'express_checkout.service' => static fn (ContainerInterface $container): ExpressCheckoutService => new ExpressCheckoutService(),
-            'fast_checkout_checkin.service' => static function (
+            'fast_checkout_checkin.service' => static fn (
                 ContainerInterface $container
-            ): FastCheckoutCheckinService {
-                return new FastCheckoutCheckinService(
-                    $container->get('logger'),
-                    $container->get('client.builder'),
-                    $container->get('api.service'),
-                    $container->get('pairing.service'),
-                );
-            },
+            ): FastCheckoutCheckinService => new FastCheckoutCheckinService(
+                $container->get('logger'),
+                $container->get('client.builder'),
+                $container->get('api.service'),
+                $container->get('pairing.service'),
+            ),
             'express_order.service' => static fn (ContainerInterface $container): Lazy => new Lazy(
                 static fn () => new ExpressOrderService(
                     $container->get('pairing.repository'),
@@ -173,20 +167,16 @@ class ServiceDefinition
                 $container->get('setting.service'),
                 $container->get('certificate.handler'),
             ),
-            'payment_status.action' => static function (ContainerInterface $container) {
-                return new PaymentStatusAction(
-                    $container->get('pairing.repository'),
-                    $container->get('monitor.service'),
-                    $container->get('logger')
-                );
-            },
-            'payment_cancel.action' => static function (ContainerInterface $container) {
-                return new CancelPaymentAction(
-                    $container->get('pairing.repository'),
-                    $container->get('monitor.service'),
-                    $container->get('logger')
-                );
-            },
+            'payment_status.action' => static fn (ContainerInterface $container) => new PaymentStatusAction(
+                $container->get('pairing.repository'),
+                $container->get('monitor.service'),
+                $container->get('logger')
+            ),
+            'payment_cancel.action' => static fn (ContainerInterface $container) => new CancelPaymentAction(
+                $container->get('pairing.repository'),
+                $container->get('monitor.service'),
+                $container->get('logger')
+            ),
             'express_checkout.action' => static fn (ContainerInterface $container) => new ExpressCheckoutAction(
                 $container->get('express_checkout.service'),
                 $container->get('monitor.service'),
@@ -197,13 +187,11 @@ class ServiceDefinition
             ),
 
             // Express Checkout
-            'express.button' => static function (ContainerInterface $container) {
-                return new ExpressButton(
-                    $container->get('setting.service'),
-                    $container->get('payment.modal'),
-                    $container->get('express.spinner'),
-                );
-            },
+            'express.button' => static fn (ContainerInterface $container) => new ExpressButton(
+                $container->get('setting.service'),
+                $container->get('payment.modal'),
+                $container->get('express.spinner'),
+            ),
             'express.spinner' => static fn (ContainerInterface $container): Spinner => new Spinner(),
             'payment.modal' => static fn (ContainerInterface $container): Modal => new Modal($container->get(
                 'apps.service'
