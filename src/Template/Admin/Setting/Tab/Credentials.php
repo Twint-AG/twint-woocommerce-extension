@@ -70,7 +70,7 @@ class Credentials extends TabItem
 
             $cliVersionFlag = version_compare($cliVersion, '8.1.0', '>') ? 'passed' : 'error';
             $isExecutableFlag = $isExecutable ? 'passed' : 'error';
-            $isExecutableText = $isExecutable ? 'True' : 'False';
+            $isExecutableText = $isExecutable ? 'Yes' : 'No';
 
             $cliInfoFlag = ($cliInfo === __(CliCommand::MESSAGE, 'twint-woocommerce-extension')) ? 'passed' : 'error';
         }

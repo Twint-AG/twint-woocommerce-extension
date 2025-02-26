@@ -18,7 +18,7 @@ if (!$cliSupport) { ?>
             <li data-status="<?php echo esc_html(
                 $isExecutableFlag
             ) ?>"><?php echo wp_kses_post(__('TWINT command is executable: ', 'twint-woocommerce-extension')) . esc_html(
-                $isExecutable
+                $isExecutableText
             ); ?></li>
             <li data-status="<?php echo esc_html(
                 $cliInfoFlag
