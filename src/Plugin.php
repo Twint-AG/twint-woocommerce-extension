@@ -53,29 +53,36 @@ class Plugin
 
     public static function addDebugInfo($info): array
     {
-        $cliVersion = @shell_exec('php -r "echo PHP_VERSION;"');
-        $commandPermission = fileperms(self::abspath() . 'bin/console');
-        $cliInfo = @shell_exec('php ' . self::abspath() . 'bin/console ' . CliCommand::COMMAND);
+        list($cliVersion, $isExecutable, $cliInfo) = self::getCliInformation();
 
         $info['wp-server']['fields'][] = [
-            'label' => 'PHP CLI version',
+            'label' => __('PHP CLI version ( >=8.1): ', 'twint-woocommerce-extension'),
             'value' => $cliVersion,
             'debug' => '',
         ];
 
         $info['wp-server']['fields'][] = [
-            'label' => 'TWINT command permission',
-            'value' => $commandPermission,
+            'label' => __('TWINT command is executable: ', 'twint-woocommerce-extension'),
+            'value' => (string) $isExecutable,
             'debug' => '',
         ];
 
         $info['wp-server']['fields'][] = [
-            'label' => 'PHP CLI (TWINT) information',
+            'label' => __('TWINT PHP CLI Command Execution Test: ', 'twint-woocommerce-extension'),
             'value' => $cliInfo,
             'debug' => '',
         ];
 
         return $info;
+    }
+
+    public static function getCliInformation(): array
+    {
+        $cliVersion = @shell_exec('php -r "echo PHP_VERSION;"');
+        $isExecutable = is_executable(self::abspath() . 'bin/console');
+        $cliInfo = @shell_exec('php ' . self::abspath() . 'bin/console ' . CliCommand::COMMAND);
+
+        return [$cliVersion, $isExecutable, $cliInfo];
     }
 
     public static function createCustomWooCommerceStatus(): void

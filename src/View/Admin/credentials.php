@@ -9,6 +9,23 @@ if (!$cliSupport) { ?>
             <?php echo wp_kses_post(
                 __('PHP CLI (Command Line Interface) is missing or misconfigured. This extension relies on PHP CLI for essential background processes. Without it, some features may not function properly.', 'twint-woocommerce-extension')
             ); ?>
+        <ul id="twint-cli-checks">
+            <li data-status="<?php echo esc_html(
+                $cliVersionFlag
+            ) ?>"><?php echo wp_kses_post(__('PHP CLI version ( >=8.1): ', 'twint-woocommerce-extension')) . esc_html(
+                $cliVersion
+            ); ?></li>
+            <li data-status="<?php echo esc_html(
+                $isExecutableFlag
+            ) ?>"><?php echo wp_kses_post(__('TWINT command is executable: ', 'twint-woocommerce-extension')) . esc_html(
+                $isExecutableText
+            ); ?></li>
+            <li data-status="<?php echo esc_html(
+                $cliInfoFlag
+            ) ?>"><?php echo wp_kses_post(__('TWINT PHP CLI Command Execution Test: ', 'twint-woocommerce-extension')) . esc_html(
+                $cliInfo
+            ); ?></li>
+        </ul>
         </p>
     </div>
 <?php } ?>
@@ -85,43 +102,43 @@ if (!$cliSupport) { ?>
                             <?php if ($field['name'] === TwintConstant::STORE_UUID): ?>
                                 <?php echo esc_html(__('Test', 'twint-woocommerce-extension')); ?>
                             <?php endif; ?>
-    </div>
-    <?php elseif ($field['type'] === 'textarea'): ?>
-        <textarea id="<?php echo esc_attr($field['name']); ?>"
-            name="<?php echo esc_attr($field['name']); ?>"
-            rows="<?php echo esc_attr($field['rows']); ?>"
-            type="<?php echo esc_attr($field['type']); ?>"
-            class="regular-text twint-field"
-            placeholder="<?php echo esc_attr($field['placeholder']); ?>">
+</div>
+<?php elseif ($field['type'] === 'textarea'): ?>
+    <textarea id="<?php echo esc_attr($field['name']); ?>"
+        name="<?php echo esc_attr($field['name']); ?>"
+        rows="<?php echo esc_attr($field['rows']); ?>"
+        type="<?php echo esc_attr($field['type']); ?>"
+        class="regular-text twint-field"
+        placeholder="<?php echo esc_attr($field['placeholder']); ?>">
                                     <?php echo $field['need_populate'] === true ? esc_html(get_option($field['name'])) : ''; ?>
                         </textarea>
-    <?php elseif ($field['type'] === 'checkbox'): ?>
-        <fieldset>
-            <legend class="screen-reader-text"><span><?php echo esc_html($field['label']); ?></span>
-            </legend>
-            <label for="woocommerce_cod_enabled">
-                <input class=""
-                    type="checkbox"
-                    name="<?php echo esc_attr($field['name']); ?>"
-                    id="<?php echo esc_attr($field['name']); ?>"
-                    <?php if ($field['need_populate'] === true): ?>
-                    <?php if (get_option($field['name']) === 'yes'): ?>
-                    checked
-                    <?php endif; ?>
-                    <?php endif; ?> />
-                <?php echo esc_html($field['label']); ?>
-            </label>
-        </fieldset>
-    <?php endif; ?>
+<?php elseif ($field['type'] === 'checkbox'): ?>
+    <fieldset>
+        <legend class="screen-reader-text"><span><?php echo esc_html($field['label']); ?></span>
+        </legend>
+        <label for="woocommerce_cod_enabled">
+            <input class=""
+                type="checkbox"
+                name="<?php echo esc_attr($field['name']); ?>"
+                id="<?php echo esc_attr($field['name']); ?>"
+                <?php if ($field['need_populate'] === true): ?>
+                <?php if (get_option($field['name']) === 'yes'): ?>
+                checked
+                <?php endif; ?>
+                <?php endif; ?> />
+            <?php echo esc_html($field['label']); ?>
+        </label>
+    </fieldset>
+<?php endif; ?>
 
-    <?php if ($field['help_text'] !== ''): ?>
-        <div style="margin-top: 5px;">
-            <small class="text-sm"><i><?php echo esc_html($field['help_text']); ?></i></small>
-        </div>
-    <?php endif; ?>
-    </td>
-    </tr>
-    <?php endforeach; ?>
-    </tbody>
-    </table>
+<?php if ($field['help_text'] !== ''): ?>
+    <div style="margin-top: 5px;">
+        <small class="text-sm"><i><?php echo esc_html($field['help_text']); ?></i></small>
+    </div>
+<?php endif; ?>
+</td>
+</tr>
+<?php endforeach; ?>
+</tbody>
+</table>
 </div>

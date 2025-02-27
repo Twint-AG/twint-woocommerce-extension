@@ -22,6 +22,7 @@ use WC_Logger_Interface;
 #[AsCommand(name: 'twint:cli')]
 class CliCommand extends Command
 {
+    public const MESSAGE = 'The TWINT command was successfully executed via the PHP CLI.';
     public const COMMAND = 'twint:cli';
 
     private WC_Logger_Interface $logger;
@@ -48,7 +49,7 @@ class CliCommand extends Command
 
         update_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION, 'Yes');
 
-        echo 'TWINT command (PHP CLI) is executable';
+        echo __(self::MESSAGE, 'twint-woocommerce-extension');
 
         return 0;
     }
