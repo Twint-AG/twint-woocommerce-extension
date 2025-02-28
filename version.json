@@ -10,6 +10,6 @@
   "sections": {
     "description": "TWINT Payment for WooCommerce",
     "installation": "Upload the ZIP file or install it directly from the admin panel.",
-    "changelog": "Version 0.0.1-dev: Enhance the warning message for PHP-CLI support in admin areas.</br>Version 1.2.2: Support NSS servers</br>Version 1.2.1: Fixing issue relative to modal display in checkout page when select other payment methods</br>Version 1.2.0: Scoped styling for admin UI to prevent conflict with WP Cookie Consent plugin.</br>Version 1.1.1: Apply scoped styling to the payment modal to prevent unintended overrides from themes.</br>Version 1.0.2: Improved security and bug fixes."
+    "changelog": "Version 0.0.1-dev: Enhance the warning message for PHP-CLI support in admin areas and improve security</br>Version 1.2.2: Support NSS servers</br>Version 1.2.1: Fixing issue relative to modal display in checkout page when select other payment methods</br>Version 1.2.0: Scoped styling for admin UI to prevent conflict with WP Cookie Consent plugin.</br>Version 1.1.1: Apply scoped styling to the payment modal to prevent unintended overrides from themes.</br>Version 1.0.2: Improved security and bug fixes."
   }
 }
