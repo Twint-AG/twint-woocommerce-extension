@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a6db024db56e3c0940bc5ee4441d58f",
+    "content-hash": "a6c16acebba3cf571a710016c89a82ec",
     "packages": [
         {
             "name": "azjezz/psl",
@@ -2081,22 +2081,22 @@
         },
         {
             "name": "sniccowp/php-scoper-wordpress-excludes",
-            "version": "6.7.1",
+            "version": "6.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/snicco/php-scoper-wordpress-excludes.git",
-                "reference": "d8e6b5fdc9e42300a8ab18b44b775836a7b52363"
+                "reference": "1e65b207d6f4753904774430ccfc06cb6bfa486e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/snicco/php-scoper-wordpress-excludes/zipball/d8e6b5fdc9e42300a8ab18b44b775836a7b52363",
-                "reference": "d8e6b5fdc9e42300a8ab18b44b775836a7b52363",
+                "url": "https://api.github.com/repos/snicco/php-scoper-wordpress-excludes/zipball/1e65b207d6f4753904774430ccfc06cb6bfa486e",
+                "reference": "1e65b207d6f4753904774430ccfc06cb6bfa486e",
                 "shasum": ""
             },
             "require-dev": {
                 "php": "^7.4",
                 "php-stubs/wordpress-globals": "0.2.0",
-                "php-stubs/wordpress-stubs": "6.7.1",
+                "php-stubs/wordpress-stubs": "6.7.2",
                 "sniccowp/php-scoper-excludes": "dev-master"
             },
             "type": "library",
@@ -2122,9 +2122,9 @@
             ],
             "support": {
                 "issues": "https://github.com/snicco/php-scoper-wordpress-excludes/issues",
-                "source": "https://github.com/snicco/php-scoper-wordpress-excludes/tree/6.7.1"
+                "source": "https://github.com/snicco/php-scoper-wordpress-excludes/tree/6.7.2"
             },
-            "time": "2024-11-25T00:31:50+00:00"
+            "time": "2025-02-06T00:29:24+00:00"
         },
         {
             "name": "symfony/console",
@@ -2987,8 +2987,14 @@
             "version": "1.6.0",
             "source": {
                 "type": "git",
-                "url": "https://git.nfq.asia/twint-ag/sdk",
+                "url": "https://github.com/Twint-AG/sdk.git",
                 "reference": "54725167186bd66d5d0525caf60d15c0a61d80cc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Twint-AG/sdk/zipball/54725167186bd66d5d0525caf60d15c0a61d80cc",
+                "reference": "54725167186bd66d5d0525caf60d15c0a61d80cc",
+                "shasum": ""
             },
             "require": {
                 "azjezz/psl": "^2.5.0 || ^3.0",
@@ -3042,13 +3048,7 @@
                     "Phpro\\SoapClient\\": "vendor-bundled/phpro/soap-client-minimal/src/Phpro/SoapClient"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Twint\\Sdk\\Tests\\Integration\\": "tests/integration",
-                    "Twint\\Sdk\\Tests\\Unit\\": "tests/unit",
-                    "Twint\\Sdk\\Tools\\": "tools/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3072,6 +3072,10 @@
                 "twint",
                 "twint.ch"
             ],
+            "support": {
+                "issues": "https://github.com/Twint-AG/sdk/issues",
+                "source": "https://github.com/Twint-AG/sdk/tree/1.6.0"
+            },
             "time": "2025-02-26T09:23:15+00:00"
         },
         {
