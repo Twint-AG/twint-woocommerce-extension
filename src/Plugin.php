@@ -14,6 +14,8 @@ use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 use Twint\Woo\Model\Method\ExpressCheckout;
 use Twint\Woo\Model\Method\RegularCheckout;
 use WC_Payment_Gateway;
+use function is_executable;
+use function shell_exec;
 
 class Plugin
 {
@@ -63,7 +65,7 @@ class Plugin
 
         $info['wp-server']['fields'][] = [
             'label' => __('TWINT command is executable: ', 'twint-woocommerce-extension'),
-            'value' => (string) $isExecutable,
+            'value' => $isExecutable ? 'Yes' : 'No',
             'debug' => '',
         ];
 
@@ -78,9 +80,9 @@ class Plugin
 
     public static function getCliInformation(): array
     {
-        $cliVersion = @shell_exec('php -r "echo PHP_VERSION;"');
-        $isExecutable = is_executable(self::abspath() . 'bin/console');
-        $cliInfo = @shell_exec('php ' . self::abspath() . 'bin/console ' . CliCommand::COMMAND);
+        $cliVersion = @shell_exec('php -r "echo PHP_VERSION;"') ?: 'Unknown';
+        $isExecutable = @is_executable(self::abspath() . 'bin/console') ?: false;
+        $cliInfo = @shell_exec('php ' . self::abspath() . 'bin/console ' . CliCommand::COMMAND) ?: 'Command failed';
 
         return [$cliVersion, $isExecutable, $cliInfo];
     }
