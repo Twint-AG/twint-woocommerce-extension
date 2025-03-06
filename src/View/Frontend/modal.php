@@ -9,7 +9,6 @@ use Twint\Woo\Plugin;
 <div id="twint-shadow-root"></div>
 <template id="twint-modal-template">
     <div id="twint-modal" style="display: none;" data-exist-label="<?php
-
                                                                     // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- need to match on translated value from core.
                                                                     echo esc_html__('View cart', 'woocommerce') ?>"
         data-exist-message="<?php echo esc_html__(
@@ -161,7 +160,6 @@ use Twint\Woo\Plugin;
         </div>
     </div>
 </template>
-
 <script>
     function attachShadowWithExternalStyle(modalId, cssPath) {
         var twintModal = document.getElementById(modalId)

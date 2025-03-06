@@ -85,21 +85,21 @@ class Modal
 
         $refinedApps = [
             'UBS TWINT' => 'bank-ubs',
-            'Raiffeisen TWINT' => 'bank-raiffeisen',
             'PostFinance TWINT' => 'bank-pf',
-            'ZKB TWINT' => 'bank-zkb',
+            'Raiffeisen TWINT' => 'bank-raiffeisen',
             'Credit Suisse TWINT' => 'bank-cs',
+            'ZKB TWINT' => 'bank-zkb',
             'BCV TWINT' => 'bank-bcv',
         ];
 
-        $app = '';
+        $apps = [];
         $else = '';
 
         foreach ($links as $link) {
             $icon = $refinedApps[$link['name']] ?? null;
             if ($icon) {
                 //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
-                $app .= '<img src="' . esc_url(Plugin::assets("/images/{$icon}.png")) . '" 
+                $apps[$link['name']] = '<img src="' . esc_url(Plugin::assets("/images/{$icon}.png")) . '" 
                     class="tw-shadow-2xl tw-w-64 tw-h-64 tw-rounded-2xl tw-mx-auto"
                     data-link="' . htmlentities($link['link']) . '"
                     alt="' . htmlentities($link['name']) . '">';
@@ -110,6 +110,8 @@ class Modal
             }
         }
 
+        $sortedApps = array_merge(array_intersect_key($refinedApps, $apps), $apps);
+
         return '
             <div id="twint-ios-container">
                 <div class="tw-my-6 tw-text-center">
@@ -117,7 +119,7 @@ class Modal
                 </div>
     
                 <div class="twint-app-container tw-w-3/4 tw-mx-auto tw-justify-center max-tw-w-screen-md tw-mx-auto tw-grid tw-grid-cols-3 tw-gap-4">
-                    ' . $app . '
+                    ' . implode('', $sortedApps) . '
                 </div>
                 
                 <select class="twint-select">
