@@ -96,7 +96,7 @@ class Plugin
 
         // Execute CLI command safely
         $cliInfo = 'Unknown';
-        if (function_exists('shell_exec') && $isExecutable) {
+        if (function_exists('shell_exec')) {
             $command = 'php ' . escapeshellarg($filePath) . ' ' . escapeshellarg(CliCommand::COMMAND);
             $output = @shell_exec($command);
             if ($output && trim($output) !== '') {

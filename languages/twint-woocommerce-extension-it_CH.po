@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: WooCommerce Twint Payment 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/twint-woocommerce-"
 "extension\n"
-"POT-Creation-Date: 2025-02-26T09:29:19+00:00\n"
-"PO-Revision-Date: 2025-02-26 16:36+0700\n"
+"POT-Creation-Date: 2025-03-06T14:26:36+00:00\n"
+"PO-Revision-Date: 2025-03-06 21:30+0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it_CH\n"
@@ -79,7 +79,7 @@ msgstr ""
 "UUIDv4."
 
 #: src/Api/Admin/StoreConfigurationAction.php:162
-#: src/Template/Admin/Setting/Tab/Credentials.php:47
+#: src/Template/Admin/Setting/Tab/Credentials.php:46
 msgid "Upload a certificate file (.p12)"
 msgstr "Carica un file del certificato (.p12)"
 
@@ -95,9 +95,10 @@ msgstr ""
 "Credenziali non valide. Ti preghiamo di ricontrollare: UUID del suo negozio, "
 "certificato e ambiente (modalità)"
 
-#: src/Command/CliCommand.php:52
+#: src/Command/CliCommand.php:51
+#: src/Template/Admin/Setting/Tab/Credentials.php:74
 msgid "The TWINT command was successfully executed via the PHP CLI."
-msgstr "Impossibile aprire il file di input."
+msgstr "Il comando TWINT è stato eseguito con successo tramite il PHP CLI."
 
 #: src/CronJob/MonitorPairingCronJob.php:49
 msgid "Every Minute"
@@ -167,45 +168,57 @@ msgstr ""
 msgid "This controls the title which the user sees during checkout."
 msgstr ""
 
-#: src/Model/Modal/Modal.php:116
+#: src/Model/Modal/Modal.php:118
 msgid "Choose your TWINT app:"
 msgstr "Scegli la tua app TWINT:"
 
-#: src/Model/Modal/Modal.php:124
+#: src/Model/Modal/Modal.php:126
 msgid "Other banks"
 msgstr "Altre banche"
+
+#: src/Plugin.php:61 src/View/Admin/credentials.php:15
+msgid "PHP CLI version ( >=8.1): "
+msgstr "Versione PHP CLI (>8.1): "
+
+#: src/Plugin.php:67 src/View/Admin/credentials.php:20
+msgid "TWINT command is executable: "
+msgstr "Il comando TWINT è eseguibile: "
+
+#: src/Plugin.php:73 src/View/Admin/credentials.php:25
+msgid "TWINT PHP CLI Command Execution Test: "
+msgstr "Test di esecuzione del comando TWINT PHP CLI: "
 
 #: src/Template/Admin/MetaBox/TransactionLogMeta.php:34
 #: src/View/Admin/transaction_log.php:45
 msgid "Transaction logs"
 msgstr "Log transazioni"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:21
+#: src/Template/Admin/Setting/Tab/Credentials.php:20
 msgid "Credentials"
 msgstr "Credenziali"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:29
+#: src/Template/Admin/Setting/Tab/Credentials.php:28
 msgid "Switch to test mode"
 msgstr "Passa alla modalità di prova"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:36
+#: src/Template/Admin/Setting/Tab/Credentials.php:35
 msgid "Store UUID"
 msgstr "UUID del suo negozio"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:37
+#: src/Template/Admin/Setting/Tab/Credentials.php:36
 msgid "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
 msgstr "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:48
+#: src/Template/Admin/Setting/Tab/Credentials.php:47
 msgid "Certificate file is required"
 msgstr "Il file del certificato è necessario"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:53
-#: src/Template/Admin/Setting/Tab/Credentials.php:55
+#: src/Template/Admin/Setting/Tab/Credentials.php:52
+#: src/Template/Admin/Setting/Tab/Credentials.php:54
 msgid "Certificate Password"
 msgstr "Password del certificato"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:56
+#: src/Template/Admin/Setting/Tab/Credentials.php:55
 msgid "Certificate password is required"
 msgstr "La password del certificato è necessaria"
 
@@ -231,18 +244,6 @@ msgstr ""
 "errato. Questa estensione si basa su PHP CLI per processi in background "
 "essenziali. Senza di esso, alcune funzionalità potrebbero non funzionare "
 "correttamente."
-
-#: src/View/Admin/credentials.php:15
-msgid "PHP CLI version ( >=8.1): "
-msgstr "Versione PHP CLI (>8.1): "
-
-#: src/View/Admin/credentials.php:20
-msgid "TWINT command is executable: "
-msgstr "Il comando TWINT è eseguibile: "
-
-#: src/View/Admin/credentials.php:25
-msgid "TWINT PHP CLI Command Execution Test: "
-msgstr "Test di esecuzione del comando TWINT PHP CLI: "
 
 #: src/View/Admin/credentials.php:49
 msgid "Certificate encrypted and stored."
@@ -289,7 +290,7 @@ msgstr "Azioni"
 msgid "View details"
 msgstr "Visualizza dettagli"
 
-#: src/View/Frontend/modal.php:15
+#: src/View/Frontend/modal.php:14
 msgid ""
 "You have existing products in the shopping cart. Please review your shopping "
 "cart before continue."
@@ -297,46 +298,46 @@ msgstr ""
 "Ci sono già prodotti nel carrello. Si prega di controllare il carrello prima "
 "di continuar."
 
-#: src/View/Frontend/modal.php:27
+#: src/View/Frontend/modal.php:26
 msgid "Cancel checkout"
 msgstr "Annulla il pagamento"
 
-#: src/View/Frontend/modal.php:28
+#: src/View/Frontend/modal.php:27
 msgid "Continue shopping"
 msgstr "Continua i tuoi acquisti"
 
-#: src/View/Frontend/modal.php:42
+#: src/View/Frontend/modal.php:41
 msgid "Payment did not succeed, please try another payment method."
 msgstr ""
 "Il pagamento non è riuscito, si prega di provare un altro metodo di "
 "pagamento."
 
-#: src/View/Frontend/modal.php:67
+#: src/View/Frontend/modal.php:66
 msgid "Copy code"
 msgstr "Copia il codice"
 
-#: src/View/Frontend/modal.php:68
+#: src/View/Frontend/modal.php:67
 msgid "Copied"
 msgstr "Copiato"
 
-#: src/View/Frontend/modal.php:104
+#: src/View/Frontend/modal.php:103
 msgid "Switch to TWINT app now"
 msgstr "Passa all’app TWINT"
 
-#: src/View/Frontend/modal.php:116
+#: src/View/Frontend/modal.php:115
 msgid "or"
 msgstr "oppure"
 
-#: src/View/Frontend/modal.php:123
+#: src/View/Frontend/modal.php:122
 msgid "Enter this code in your TWINT app:"
 msgstr "Inserisci questo codice nella tua app TWINT:"
 
-#: src/View/Frontend/modal.php:140
+#: src/View/Frontend/modal.php:139
 msgid "Scan this QR Code with your TWINT app to complete the checkout."
 msgstr ""
 "Scansiona questo codice QR con l’app TWINT per completare il check-out."
 
-#: src/View/Frontend/modal.php:152
+#: src/View/Frontend/modal.php:151
 msgid "Follow the instructions in the app to confirm your order."
 msgstr "Segui le istruzioni nell’app per confermare il tuo ordine."
 
