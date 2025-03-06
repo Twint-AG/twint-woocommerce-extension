@@ -80,9 +80,29 @@ class Plugin
 
     public static function getCliInformation(): array
     {
-        $cliVersion = @shell_exec('php -r "echo PHP_VERSION;"') ?: 'Unknown';
-        $isExecutable = @is_executable(self::abspath() . 'bin/console') ?: false;
-        $cliInfo = @shell_exec('php ' . self::abspath() . 'bin/console ' . CliCommand::COMMAND) ?: 'Command failed';
+        $cliVersion = 'Unknown';
+        $filePath = self::abspath() . 'bin/console';
+
+        // Get PHP CLI version safely
+        if (function_exists('shell_exec')) {
+            $output = @shell_exec('php -r "echo PHP_VERSION;"');
+            if ($output && trim($output) !== '') {
+                $cliVersion = trim($output);
+            }
+        }
+
+        // Check if bin/console is executable
+        $isExecutable = function_exists('is_executable') && file_exists($filePath) && @is_executable($filePath);
+
+        // Execute CLI command safely
+        $cliInfo = 'Unknown';
+        if (function_exists('shell_exec') && $isExecutable) {
+            $command = 'php ' . escapeshellarg($filePath) . ' ' . escapeshellarg(CliCommand::COMMAND);
+            $output = @shell_exec($command);
+            if ($output && trim($output) !== '') {
+                $cliInfo = trim($output);
+            }
+        }
 
         return [$cliVersion, $isExecutable, $cliInfo];
     }
