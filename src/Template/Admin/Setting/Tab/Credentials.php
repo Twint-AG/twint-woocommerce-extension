@@ -71,7 +71,11 @@ class Credentials extends TabItem
             $isExecutableFlag = $isExecutable ? 'passed' : 'error';
             $isExecutableText = $isExecutable ? 'Yes' : 'No';
 
-            $cliInfoFlag = ($cliInfo === __('The TWINT command was successfully executed via the PHP CLI.', 'twint-woocommerce-extension')) ? 'passed' : 'error';
+            $cliInfoFlag = 'error';
+            if ($cliInfo === 'The TWINT command was successfully executed via the PHP CLI.') {
+                $cliInfoFlag = 'passed';
+                $cliInfo = __('The TWINT command was successfully executed via the PHP CLI.', 'twint-woocommerce-extension');
+            }
         }
 
         $isShowedTheButtonUploadNewCert = false;

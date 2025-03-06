@@ -48,7 +48,7 @@ class CliCommand extends Command
 
         update_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION, 'Yes');
 
-        echo esc_html__('The TWINT command was successfully executed via the PHP CLI.', 'twint-woocommerce-extension');
+        echo 'The TWINT command was successfully executed via the PHP CLI.';
 
         return 0;
     }
