@@ -19,14 +19,6 @@ abstract class AbstractGateway extends WC_Payment_Gateway
 
     public $icon;
 
-    /**
-     * @var bool
-     */
-    public $has_fields = false;
-
-    /**
-     * @var string[]
-     */
     public $supports = ['refunds', 'products'];
 
     public $method_title;
@@ -42,15 +34,13 @@ abstract class AbstractGateway extends WC_Payment_Gateway
      */
     public $form_fields;
 
-    /**
-     * Payment gateway instructions.
-     */
-    protected string $instructions;
+    public string $instructions;
 
     protected mixed $logger;
 
     public function __construct()
     {
+        $this->has_fields = false;
         $this->logger = Plugin::di('logger');
     }
 
