@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a6c16acebba3cf571a710016c89a82ec",
+    "content-hash": "939ed8dda61f6e82e68d6e879d4c4664",
     "packages": [
         {
             "name": "azjezz/psl",
@@ -2984,17 +2984,11 @@
         },
         {
             "name": "twint-ag/sdk",
-            "version": "1.6.0",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Twint-AG/sdk.git",
-                "reference": "54725167186bd66d5d0525caf60d15c0a61d80cc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Twint-AG/sdk/zipball/54725167186bd66d5d0525caf60d15c0a61d80cc",
-                "reference": "54725167186bd66d5d0525caf60d15c0a61d80cc",
-                "shasum": ""
+                "url": "https://git.nfq.asia/twint-ag/sdk",
+                "reference": "0033892d923a1517bc56a7049c4d4676300556f5"
             },
             "require": {
                 "azjezz/psl": "^2.5.0 || ^3.0",
@@ -3024,7 +3018,7 @@
                 "php-soap/wsdl-reader": "^0.17.0 || ^0.18.0 || ^0.19.0 || ^0.20.0 || ^0.21.0 || ^0.22.0 || ^0.23.0 || ^0.24.0",
                 "php-standard-library/phpstan-extension": "^2.0.0",
                 "phpro/soap-client": "3.3.0 || 3.4.0",
-                "phpstan/phpstan": "^2.1.6",
+                "phpstan/phpstan": "^2.1.7",
                 "phpstan/phpstan-strict-rules": "^2.0.3",
                 "phpunit/phpunit": "^10.5.45",
                 "roave/better-reflection": "^6.25.0",
@@ -3048,7 +3042,13 @@
                     "Phpro\\SoapClient\\": "vendor-bundled/phpro/soap-client-minimal/src/Phpro/SoapClient"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Twint\\Sdk\\Tests\\Integration\\": "tests/integration",
+                    "Twint\\Sdk\\Tests\\Unit\\": "tests/unit",
+                    "Twint\\Sdk\\Tools\\": "tools/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -3072,11 +3072,7 @@
                 "twint",
                 "twint.ch"
             ],
-            "support": {
-                "issues": "https://github.com/Twint-AG/sdk/issues",
-                "source": "https://github.com/Twint-AG/sdk/tree/1.6.0"
-            },
-            "time": "2025-02-26T09:23:15+00:00"
+            "time": "2025-03-06T21:12:16+00:00"
         },
         {
             "name": "veewee/xml",

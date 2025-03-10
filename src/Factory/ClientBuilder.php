@@ -13,8 +13,12 @@ use Twint\Sdk\Factory\DefaultSoapEngineFactory;
 use Twint\Sdk\InvocationRecorder\InvocationRecordingClient;
 use Twint\Sdk\InvocationRecorder\Soap\MessageRecorder;
 use Twint\Sdk\InvocationRecorder\Soap\RecordingTransport;
+use Twint\Sdk\Io\FileWriterStack;
 use Twint\Sdk\Io\InMemoryStream;
+use Twint\Sdk\Io\TemporaryFileWriter;
+use Twint\Sdk\Io\TemporaryFileWriterGuesser;
 use Twint\Sdk\Value\Environment;
+use Twint\Sdk\Value\ExistingPath;
 use Twint\Sdk\Value\PlatformVersion;
 use Twint\Sdk\Value\PluginVersion;
 use Twint\Sdk\Value\ShopPlatform;
@@ -71,10 +75,12 @@ class ClientBuilder
             $passphrase = $this->getCrypto()->decrypt($certificate['passphrase']);
 
             if ($passphrase === '' || $passphrase === '0' || ($cert === '' || $cert === '0')) {
+                // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 throw new InvalidConfigException(InvalidConfigException::ERROR_INVALID_CERTIFICATE);
             }
             $messageRecorder = new MessageRecorder();
 
+            $uploadDir = wp_upload_dir();
             $client = new InvocationRecordingClient(
                 new Client(
                     CertificateContainer::fromPkcs12(new Pkcs12Certificate(new InMemoryStream($cert), $passphrase)),
@@ -87,6 +93,12 @@ class ClientBuilder
                     ),
                     new Version($version),
                     $environment,
+                    new FileWriterStack(
+                        [
+                            ...TemporaryFileWriterGuesser::createDefaultStack(),
+                            static fn () => new TemporaryFileWriter(new ExistingPath($uploadDir['path'])),
+                        ]
+                    ),
                     soapEngineFactory: new DefaultSoapEngineFactory(
                         wrapTransport: static fn (Transport $transport) => new RecordingTransport(
                             $transport,

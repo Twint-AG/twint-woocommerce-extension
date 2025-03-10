@@ -42,7 +42,7 @@
     "guzzlehttp/guzzle": "^7.0",
     "symfony/console": "*",
     "symfony/process": "*",
-    "twint-ag/sdk": "1.6.0",
+    "twint-ag/sdk": "1.6.1",
     "sniccowp/php-scoper-wordpress-excludes": "^6.6",
     "yahnis-elsts/plugin-update-checker": "^5.5"
   },
@@ -63,5 +63,11 @@
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "phpstan/extension-installer": true
     }
-  }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://git.nfq.asia/twint-ag/sdk"
+    }
+  ]
 }
