@@ -1,6 +1,11 @@
 # TWINT WooCommerce Extension Guide
 
 ## Installation
+### Requirement 
+1. PHP 8.1 for both web service (Apache) and CLI 
+2. Minimum Requirement for Shop-system versions: 
+ -  WooCommerce: 6.0 Wordpress: 5.9
+3. Please update to the latest plugin version on Github: https://github.com/Twint-AG/twint-woocommerce-extension/releases
 
 ### Download the plugin
 
@@ -62,3 +67,46 @@
 - Under the `Display Screens` section -> Choose the placement for displaying the `TWINT Express Checkout` button.
 
 <img src="./screenshots/twint-express-checkout-setting.png" alt="TWINT Expesss Checkout setting" width="900" height="auto">
+
+## Note: WooCommerce PHP CLI Warning Message Support Message
+
+If you encounter the following warning message while installing the TWINT plugin, please note that this does not indicate a malfunction. However, it may have a potential impact on the user experience. The following points outline possible improvements.
+
+####  Warning Message:
+
+> Warning: PHP CLI Not Available
+> PHP CLI (Command Line Interface) is missing or misconfigured. This extension relies on PHP CLI for essential background processes. Without it, some features may not function properly.
+
+
+#### Error message example: 
+
+
+### Possible Causes and Solutions:
+
+#### 1. PHP CLI Version Compatibility
+- Ensure that your PHP CLI version is **8.1.0 or above**.
+- Check PHP CLI version by running `php -v`
+
+#### 2. PHP CLI Path Configuration 
+- The process will invoke `php wp-content/plugins/twint-woocommerce-extension/bin/console `
+- Please ensure php has read permission on `wp-content/plugins/twint-woocommerce-extension/bin/console`
+
+### 3. Permission Setting
+- Ensure the TWINT command has execution permissions. 
+- Run command `php wp-content/plugins/twint-woocommerce-extension/bin/console twint:cli `
+  - Expected output: _“The TWINT command was successfully executed via the PHP CLI.”_
+
+### 4. Server or host related points
+The command above will be executed using the shell_exec function (with Symfony Process). Please verify that the host allows this function to run by performing the following checks:
+- `php -r "echo function_exists('shell_exec') ? 'true' : 'false';" `
+  - Expected output: `true` 
+
+or 
+- run `php -r "echo ini_get('disable_functions');" `
+  - Expected output: without `shell_exec` 
+
+
+
+
+
+
