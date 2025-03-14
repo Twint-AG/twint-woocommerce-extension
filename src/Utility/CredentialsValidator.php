@@ -10,8 +10,12 @@ use Twint\Sdk\Certificate\CertificateContainer;
 use Twint\Sdk\Certificate\Pkcs12Certificate;
 use Twint\Sdk\Client;
 use Twint\Sdk\Exception\SdkError;
+use Twint\Sdk\Io\FileWriterStack;
 use Twint\Sdk\Io\InMemoryStream;
+use Twint\Sdk\Io\TemporaryFileWriter;
+use Twint\Sdk\Io\TemporaryFileWriterGuesser;
 use Twint\Sdk\Value\Environment;
+use Twint\Sdk\Value\ExistingPath;
 use Twint\Sdk\Value\PlatformVersion;
 use Twint\Sdk\Value\PluginVersion;
 use Twint\Sdk\Value\ShopPlatform;
@@ -47,6 +51,8 @@ class CredentialsValidator implements CredentialValidatorInterface
                 return false;
             }
 
+            $uploadDir = wp_upload_dir();
+
             $client = new Client(
                 CertificateContainer::fromPkcs12(new Pkcs12Certificate(new InMemoryStream($cert), $passphrase)),
                 new ShopPluginInformation(
@@ -58,9 +64,15 @@ class CredentialsValidator implements CredentialValidatorInterface
                 ),
                 Version::latest(),
                 $testMode ? Environment::TESTING() : Environment::PRODUCTION(),
+                new FileWriterStack(
+                    [
+                        ...TemporaryFileWriterGuesser::createDefaultStack(),
+                        static fn () => [new TemporaryFileWriter(new ExistingPath($uploadDir['path']))],
+                    ]
+                )
             );
             $status = $client->checkSystemStatus();
-        } catch (Exception|SdkError $e) {
+        } catch (Exception | SdkError $e) {
             // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
             error_log($this->buildLogMessage($e));
             return false;
