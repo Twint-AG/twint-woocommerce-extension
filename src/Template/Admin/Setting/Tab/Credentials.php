@@ -22,40 +22,61 @@ class Credentials extends TabItem
 
     public static function fields(): array
     {
-        return [
+        $fields = [];
+
+        $flag = 0;
+        if (isset($_GET['showTwintEnvOptions'])) {
+            $flag = (int) $_GET['showTwintEnvOptions'] === 1 ? 1 : -1;
+        }
+
+        $testMode = get_option(TwintConstant::TEST_MODE) === 'yes';
+
+        if ($flag === 1 || $testMode) {
+            $fields = [
+                [
+                    'name' => TwintConstant::TEST_MODE,
+                    'label' => __('Switch to test mode', 'twint-woocommerce-extension'),
+                    'type' => 'checkbox',
+                    'help_text' => '',
+                    'need_populate' => true,
+                ],
+            ];
+        }
+
+        if ($flag === -1) {
+            $fields = [];
+        }
+
+        return array_merge(
+            $fields,
             [
-                'name' => TwintConstant::TEST_MODE,
-                'label' => __('Switch to test mode', 'twint-woocommerce-extension'),
-                'type' => 'checkbox',
-                'help_text' => '',
-                'need_populate' => true,
-            ],
-            [
-                'name' => TwintConstant::STORE_UUID,
-                'label' => __('Store UUID', 'twint-woocommerce-extension'),
-                'placeholder' => __('xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx', 'twint-woocommerce-extension'),
-                'type' => 'text',
-                'help_text' => '',
-                'need_populate' => true,
-            ],
-            [
-                'name' => TwintConstant::CERTIFICATE,
-                'label' => 'Certificate',
-                'type' => 'file',
-                'multiple' => false,
-                'placeholder' => __('Upload a certificate file (.p12)', 'twint-woocommerce-extension'),
-                'help_text' => __('Certificate file is required', 'twint-woocommerce-extension'),
-                'need_populate' => false,
-            ],
-            [
-                'name' => TwintConstant::CERTIFICATE_PASSWORD,
-                'label' => __('Certificate Password', 'twint-woocommerce-extension'),
-                'type' => 'password',
-                'placeholder' => __('Certificate Password', 'twint-woocommerce-extension'),
-                'help_text' => __('Certificate password is required', 'twint-woocommerce-extension'),
-                'need_populate' => false,
-            ],
-        ];
+                [
+                    'name' => TwintConstant::STORE_UUID,
+                    'label' => __('Store UUID', 'twint-woocommerce-extension'),
+                    'placeholder' => __('xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx', 'twint-woocommerce-extension'),
+                    'type' => 'text',
+                    'help_text' => '',
+                    'need_populate' => true,
+                ],
+                [
+                    'name' => TwintConstant::CERTIFICATE,
+                    'label' => 'Certificate',
+                    'type' => 'file',
+                    'multiple' => false,
+                    'placeholder' => __('Upload a certificate file (.p12)', 'twint-woocommerce-extension'),
+                    'help_text' => __('Certificate file is required', 'twint-woocommerce-extension'),
+                    'need_populate' => false,
+                ],
+                [
+                    'name' => TwintConstant::CERTIFICATE_PASSWORD,
+                    'label' => __('Certificate Password', 'twint-woocommerce-extension'),
+                    'type' => 'password',
+                    'placeholder' => __('Certificate Password', 'twint-woocommerce-extension'),
+                    'help_text' => __('Certificate password is required', 'twint-woocommerce-extension'),
+                    'need_populate' => false,
+                ],
+            ]
+        );
     }
 
     public static function getContents(array $data = []): string
