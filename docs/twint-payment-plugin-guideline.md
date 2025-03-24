@@ -40,11 +40,8 @@
 - Enter the `Store UUID`.
 - Under the `Certificate file` click `Choose file` and browse to the `*.p12` certificate file.
 - Enter the `Certificate password`.
-- The `Switch to Test Mode` checkbox lets you toggle between **Test** and **Production** environments:
-  - **Checked**: Connects to the test environment with test credentials for safe testing.
-  - **Unchecked**: Uses live credentials for real transactions.
 
-<img src="./screenshots/twint-credentials.png" alt="TWINT Credentials" width="900" height="auto">
+<img src="docs/screenshots/twint-credentials.png" alt="TWINT Credentials" width="900" height="auto">
 
 > 🚩 **Note:**
 >
