@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-03-06T14:26:36+00:00\n"
+"POT-Creation-Date: 2025-03-21T04:49:11+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: twint-woocommerce-extension\n"
@@ -74,7 +74,7 @@ msgid "Invalid Store UUID. Store UUID needs to be a UUIDv4."
 msgstr ""
 
 #: src/Api/Admin/StoreConfigurationAction.php:162
-#: src/Template/Admin/Setting/Tab/Credentials.php:46
+#: src/Template/Admin/Setting/Tab/Credentials.php:66
 msgid "Upload a certificate file (.p12)"
 msgstr ""
 
@@ -83,12 +83,7 @@ msgid "Settings have been saved successfully."
 msgstr ""
 
 #: src/Api/Admin/StoreConfigurationAction.php:194
-msgid "Invalid credentials. Please check again: Store UUID, certificate and environment (mode)"
-msgstr ""
-
-#: src/Command/CliCommand.php:51
-#: src/Template/Admin/Setting/Tab/Credentials.php:74
-msgid "The TWINT command was successfully executed via the PHP CLI."
+msgid "Invalid credentials. Please check again: Store UUID, certificate"
 msgstr ""
 
 #: src/CronJob/MonitorPairingCronJob.php:49
@@ -191,29 +186,33 @@ msgstr ""
 msgid "Credentials"
 msgstr ""
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:28
+#: src/Template/Admin/Setting/Tab/Credentials.php:38
 msgid "Switch to test mode"
 msgstr ""
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:35
+#: src/Template/Admin/Setting/Tab/Credentials.php:55
 msgid "Store UUID"
 msgstr ""
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:36
+#: src/Template/Admin/Setting/Tab/Credentials.php:56
 msgid "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
 msgstr ""
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:47
+#: src/Template/Admin/Setting/Tab/Credentials.php:67
 msgid "Certificate file is required"
 msgstr ""
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:52
-#: src/Template/Admin/Setting/Tab/Credentials.php:54
+#: src/Template/Admin/Setting/Tab/Credentials.php:72
+#: src/Template/Admin/Setting/Tab/Credentials.php:74
 msgid "Certificate Password"
 msgstr ""
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:55
+#: src/Template/Admin/Setting/Tab/Credentials.php:75
 msgid "Certificate password is required"
+msgstr ""
+
+#: src/Template/Admin/Setting/Tab/Credentials.php:98
+msgid "The TWINT command was successfully executed via the PHP CLI."
 msgstr ""
 
 #: src/Template/Admin/SettingsLayoutViewAdapter.php:101

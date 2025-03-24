@@ -191,7 +191,7 @@ class StoreConfigurationAction extends BaseAction
 
             $response['error_level'] = 'error';
             $response['error_type'] = 'validate_credentials';
-            $response['message'] = __('Invalid credentials. Please check again: Store UUID, certificate and environment (mode)', 'twint-woocommerce-extension');
+            $response['message'] = __('Invalid credentials. Please check again: Store UUID, certificate', 'twint-woocommerce-extension');
         }
 
         return $response;
