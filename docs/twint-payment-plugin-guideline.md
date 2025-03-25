@@ -41,7 +41,7 @@
 - Under the `Certificate file` click `Choose file` and browse to the `*.p12` certificate file.
 - Enter the `Certificate password`.
 
-<img src="docs/screenshots/twint-credentials.png" alt="TWINT Credentials" width="900" height="auto">
+<img src="./screenshots/twint-credentials.png" alt="TWINT Credentials" width="900" height="auto">
 
 > 🚩 **Note:**
 >
