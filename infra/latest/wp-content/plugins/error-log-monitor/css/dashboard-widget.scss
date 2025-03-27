@@ -1,0 +1,374 @@
+@charset "utf-8";
+
+//region Variables
+$codeFontFamily: Consolas, Monaco, monospace;
+$timestampColor: #72777c;
+
+$entryBorderColor: rgba(0, 0, 0, 0.06);
+$oddEntryBackground: #fafafa;
+
+$contextDarkBackground: rgba(0, 0, 0, 0.02);
+//$contextDarkBackground: rgba(0, 0, 0, 0.0);
+$contextBasePadding: 5px;
+$contextBaseColor: #555;
+$tableBorderColor: #ddd;
+
+$widgetPadding: 12px;
+$widgetTopMargin: 11px;
+
+$configSectionBottomMargin: 1em;
+//endregion
+
+#ws_php_error_log {
+	.elm-log-table {
+		table-layout: fixed;
+		overflow: hidden;
+		box-sizing: border-box;
+	}
+
+	.elm-stacktrace {
+
+	}
+
+	.elm-line-actions {
+		visibility: hidden;
+	}
+
+	tr:hover .elm-line-actions,
+	.elm-entry:hover .elm-line-actions {
+		visibility: visible;
+	}
+
+	.dashicons {
+		color: #82878c;
+	}
+
+	//region List-based log layout
+	.elm-wide-list {
+		position: relative;
+		margin: -$widgetTopMargin 0 -$widgetPadding 13px;
+		border-bottom: 1px solid #eee;
+
+		.elm-entry {
+			padding: 8px 0;
+			border-bottom: 1px solid $entryBorderColor;
+			margin: 0;
+			position: relative;
+
+			.elm-entry-body, .elm-entry-context-container {
+				padding: 0 $widgetPadding;
+			}
+
+			&:last-of-type {
+				border-bottom: none;
+			}
+		}
+
+		.elm-entry:nth-child(2n+1) {
+			background-color: $oddEntryBackground;
+		}
+
+		.elm-entry-metadata {
+			color: #72777c; //The same color as the timestamps in the activity widget.
+
+			display: flex;
+			align-items: center;
+
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+
+		.elm-line-actions {
+			float: right;
+		}
+
+		.elm-log-message {
+			color: #23282d;
+			margin: 2px 0;
+			font-size: 14px;
+		}
+
+		.elm-severity-bubble {
+			//TODO: Could also try putting this right before the message, inline with it.
+			display: inline-block;
+			border-radius: 9.5px;
+			background: blue;
+			height: 12px;
+			width: 12px;
+
+			margin-right: 0.4em;
+		}
+
+		//Colored bubbles for different severity levels.
+		.elm-level-fatal-error, .elm-level-catchable-fatal-error, .elm-level-recoverable-fatal-error, .elm-level-parse-error {
+			.elm-severity-bubble {
+				background: orangered;
+			}
+		}
+
+		.elm-level-warning {
+			.elm-severity-bubble {
+				background: orange;
+			}
+		}
+
+		.elm-level-notice, .elm-level-strict-standards, .elm-level-deprecated {
+			.elm-severity-bubble {
+				background: darkgrey;
+			}
+		}
+	}
+
+	//endregion
+
+	//region Context
+	.elm-entry-context-container {
+		//border-top: 1px solid $tableBorderColor;
+		//background: #ffffff;
+	}
+
+	$contextGroupLeftMargin: 1em;
+	$contextGroupVerticalMargin: 1em;
+
+	.elm-context-group {
+		margin-left: $contextGroupLeftMargin;
+		margin-bottom: $contextGroupVerticalMargin;
+
+		border-top: 1px solid $entryBorderColor;
+		color: $contextBaseColor;
+
+		&:first-child {
+			margin-top: $contextGroupVerticalMargin;
+		}
+
+		h3 {
+			$headingSpacing: 8px;
+			//margin: $headingSpacing 0;
+			margin: 0;
+			padding: $headingSpacing 0;
+
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+		}
+
+		.elm-stacktrace {
+			margin: 0;
+		}
+	}
+
+	.elm-context-group-content {
+		box-sizing: border-box;
+		width: 100%;
+
+		border: 1px solid #ddd;
+		border-radius: 3px;
+
+		&.elm-hide-mundane-items .elm-is-mundane {
+			display: none;
+		}
+	}
+
+	.elm-show-mundane-context {
+		color: $contextBaseColor;
+		//color: #666;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	.elm-collapsible-context-group {
+		h3 {
+			padding-left: $contextGroupLeftMargin / 2;
+			margin-left: -($contextGroupLeftMargin / 2);
+
+			cursor: pointer;
+			$toggleWidth: 12px;
+
+			&:before {
+				display: inline-block;
+
+				width: $toggleWidth;
+				margin-right: 0.4em;
+
+				content: "▼";
+				font-size: 10px;
+
+				//background: cornflowerblue;
+				color: #787c82;
+			}
+
+			&:hover {
+				//background: #f6f7f7;
+				&:before {
+					//color: #1d2327;
+				}
+			}
+		}
+	}
+
+	.elm-collapsible-context-group.elm-closed-context-group {
+		h3:before {
+			content: "▶";
+		}
+	}
+
+	.elm-closed-context-group .elm-context-group-content {
+		display: none;
+	}
+
+	.elm-context-group.elm-closed-context-group {
+		margin-bottom: 0;
+	}
+
+	table.elm-context-group-content {
+		border-spacing: 0;
+		$defaultRowBackground: white;
+
+		th, td {
+			padding: $contextBasePadding;
+			vertical-align: top;
+			border-top: 1px solid $tableBorderColor;
+		}
+
+		tr:first-child, &.elm-hide-mundane-items .elm-first-non-mundane-item {
+			td, th {
+				border-top: none;
+			}
+		}
+
+		tr {
+			background: $defaultRowBackground;
+		}
+
+		tr:nth-child(2n+1) {
+			background-color: $contextDarkBackground;
+		}
+
+		&.elm-hide-mundane-items {
+			tr {
+				background: $defaultRowBackground;
+			}
+
+			.elm-is-odd-visible-row {
+				background-color: $contextDarkBackground;
+			}
+		}
+	}
+
+	//endregion
+
+	//region Enhanced stack trace
+	table.elm-stacktrace {
+		border: none;
+		table-layout: fixed;
+
+		tr:first-child td {
+			padding-top: 0;
+		}
+
+		.elm-stack-frame-content {
+
+		}
+
+		.elm-stack-frame-index {
+			padding-right: 0;
+			color: #777;
+			font-family: $codeFontFamily;
+			width: 1.7em;
+
+			overflow: hidden;
+			white-space: nowrap;
+		}
+
+		.elm-function-call {
+			display: block;
+			font-family: $codeFontFamily;
+			overflow-x: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.elm-code-location {
+			display: block;
+			color: #777;
+		}
+
+		tr, td, th {
+			background: transparent !important;
+			border: none;
+			padding-bottom: 0;
+			overflow-wrap: break-word;
+			word-break: break-word;
+		}
+
+		tr > td:first-child {
+			padding-left: 0;
+		}
+	}
+
+	//endregion
+
+	//region Configuration screen
+	.elm-config-section-heading {
+		font-size: 1.2em;
+		margin-top: 20px;
+
+		&:first-of-type {
+			margin-top: 0;
+		}
+	}
+
+	.elm-ignored-messages, .elm-fixed-messages {
+		margin-bottom: $configSectionBottomMargin;
+	}
+
+	#elm-clear-ignored-messages, #elm-clear-fixed-messages {
+		margin-bottom: 8px;
+	}
+
+	#elm_regex_filter_text {
+		width: 100%;
+	}
+
+	#elm-group-visibility-options {
+		margin-bottom: $configSectionBottomMargin + 0.5em;
+	}
+
+	//endregion
+
+	//region "Upgrade to Pro" notices
+	@mixin widget-footer {
+		margin: 10px (-$widgetPadding) (-$widgetPadding) (-$widgetPadding);
+		padding: 8px $widgetPadding 10px $widgetPadding;
+
+		background: #fafafa;
+		border-top: 1px solid #ddd;
+	}
+
+	.elm-upgrade-to-pro-footer {
+		@include widget-footer;
+		border-top-color: #eee;
+
+		p {
+			margin-top: 0;
+		}
+
+		.elm-upgrade-notice-links {
+			color: #bbb;
+		}
+	}
+
+	.elm-pro-features {
+		list-style: disc inside;
+	}
+
+	#elm-pro-version-settings-section {
+		@include widget-footer;
+
+		p {
+			margin-bottom: 0;
+		}
+	}
+
+	//endregion
+}

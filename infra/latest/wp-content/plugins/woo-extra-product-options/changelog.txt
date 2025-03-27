@@ -1,0 +1,308 @@
+=== Changelog ===
+
+= 3.3.1 =
+* Added WooCommerce 9.6 compatibility.
+
+= 3.3.0 =
+* Added docket cache plugin compatibility.
+* Added new filter for remove object cache - 'thwepof_clear_cache_before_update'
+* Added WooCommerce 9.4 compatibility.
+* Added WordPress 6.7 compatibility.
+
+= 3.2.9 =
+* Added WooCommerce 9.3 compatibility.
+
+= 3.2.8 =
+* Added WooCommerce 9.2 compatibility.
+
+= 3.2.7 =
+* Added WooCommerce 9.1 compatibility.
+* Added WordPress 6.6 compatibility.
+
+= 3.2.6 =
+* Added WooCommerce 8.9 compatibility.
+* Added WordPress 6.5 compatibility.
+
+= 3.2.5 =
+* Resolved a critical issue causing a fatal error when the product object was unavailable.
+* Added WooCommerce 8.6 compatibility.
+
+= 3.2.4 =
+* Added WooCommerce 8.3 compatibility.
+* Added WordPress 6.4 compatibility.
+
+= 3.2.3 =
+* Added WooCommerce 8.2 compatibility.
+* Added compatibility check for the [wp&#95;is&#95;block&#95;theme](https://developer.wordpress.org/reference/functions/wp_is_block_theme/) function, which was introduced in WordPress version 5.9.0.
+
+= 3.2.2 =
+* Added WordPress 6.3 compatibility.
+* Added WooCommerce 8.0 compatibility.
+* Improved the Block themes compatibility.
+
+= 3.2.1 =
+* Added WooCommerce 7.8 compatibility.
+* Added compatibility with HPOS(High-Performance order storage).
+
+= 3.2.0 =
+* Added WooCommerce 7.5 compatibility.
+* Added WordPress 6.2 compatibility.
+* Improved quick view compatibility of Astra, OceanWP, and Flatsome themes.
+* Added compatibility with [Yith quick view](https://wordpress.org/plugins/yith-woocommerce-quick-view/) plugin.
+
+= 3.1.9 =
+* Added WooCommerce 7.2.1 compatibility.
+* Added compatibility with [WoodMart](https://woodmart.xtemos.com/) theme.
+
+= 3.1.8 =
+* Added WooCommerce 7.1.0 compatibility.
+* Added WordPress 6.1 compatibility.
+
+= 3.1.7 =
+* Added Twenty Twenty-Two theme compatibility.
+* Added WooCommerce 6.8.2 compatibility.
+
+= 3.1.6 =
+* Improved display of product title in admin area for conditional rule product list.
+
+= 3.1.5 =
+* Added WooCommerce 6.7.0 compatibility.
+
+= 3.1.4 =
+* Disabled the feedback form in the admin area.
+
+= 3.1.3 =
+* Added WooCommerce 6.5.1 compatibility.
+* Added WordPress 6.0 compatibility.
+
+= 3.1.2 =
+* Added new field type "Switch".
+* Added new field type "Separator".
+* Added WooCommerce 6.5.0 compatibility.
+
+= 3.1.1 =
+* Added new field type "Email".
+* Added new field type "URL".
+* Added new field type "Slider/Range".
+* Added WooCommerce 6.3.1 compatibility.
+* Added WordPress 5.9.2 compatibility.
+
+= 3.1.0 =
+* Added WooCommerce 6.1.1 compatibility.
+
+= 3.0.9 =
+* Added heading type property for Heading field type.
+* Modified the year range of date picker field type to -100:+10.
+* Added compatibility with Avada Theme builder.
+* Added WooCommerce 5.9.0 compatibility.
+
+= 3.0.8 =
+* Removed default value property from the password field.
+* Added compatibility with WPML plugin.
+* Added WooCommerce 5.7.1 compatibility.
+
+= 3.0.7 =
+* Improved the min, max length validation messages.
+* Added compatibility with Loco Translate plugin.
+* Added WooCommerce version - 5.5.2 compatibility.
+* Added WordPress 5.8 compatibility.
+
+= 3.0.6 =
+* Fixed issue of not showing the jQuery UI icon images.
+* Added min, max length property for the text field.
+* Added allowed HTML tags support in the section title.
+* Added WooCommerce version - 5.4.1 compatibility.
+* Added oxygen builder compatibility on the product page.
+
+= 3.0.5 =
+* Fixed broken style issue because of not supporting <br> tag for paragraph and heading field types.
+
+= 3.0.4 =
+* Added nonce check for form submission.
+* Fixed the issue of validating the Min/Max length value for textarea field input while the default value is greater than Max value or lesser than Min value.
+* Added WooCommerce version - 5.3.0 compatibility.
+* Defined user capabilities to all form actions for improved security.
+* Improved admin alerts while HTML tag entered in the field label.
+
+= 3.0.3 =
+* Issue of redirection to a blank section while deleting a section.
+* Fields not displayed while adding fields after settings reset using Reset to defaults button.
+* Date picker field display issues(WordPress theme - Avada) for the variable product type.
+* Color picker display view in the order details page for the Color picker field type.
+* Display style of the Color picker field value in the resend new order notification for the Color picker field type.
+* Added Toggle password visibility for viewing the password field value on the product page.
+* Added WooCommerce version - 5.2.2 compatibility.
+
+= 3.0.2 =
+* Added min,max,step property for the number field.
+* Added minlength property for the textarea field.
+* Added OceanWP theme and quick view compatibility.
+* Added colorpicker field type.
+* Added input masking feature for the text field type.
+* Added min,max feature for the checkbox.
+* Fixed Design issues in the wordpress default theme like Twenty Twentyone, Twenty Twenty etc.
+* Fixed Design issues in the theme Divi, Sydney, Astra, Hestia, Avada.
+* Fixed subscription compatibility in shop page.
+* WooCommerce 5.1.0 compatibility added.
+
+= 3.0.1 =
+* Fixed the issue of not opening edit screen when single quote is used with section label.
+* WooCommerce latest version compatibility added.
+
+= 3.0.0 =
+* Option to import/export plugin settings added.
+* Settings screen UI improved.
+* WooCommerce version 4.5.0 compatibility added.
+
+= 2.1.4 =
+* New option added to enable posting extra options via url parameter.
+* WooCommerce version 4.3.0 compatibility added.
+
+= 2.1.3 =
+* Added option to modify 'Add to Cart' button text.
+* Added option to manage display of extra fields in Cart, Checkout & Order details pages.
+* Fix for color picker issue in settings popup.
+* Fix for settings popup style issues.
+* Fix for datepicker style issue with flatsome theme.
+
+= 2.1.2 =
+* WooCommerce compatible version updated.
+
+= 2.1.1 =
+* Quickview compatibility improved to support various themes.
+
+= 2.1.0 =
+* Fix for the issue of undefined function call 'is_plugin_active()'.
+
+= 2.0.9 =
+* New filter to modify section title.
+* Quickview support added for various themes.
+* WooCommerce compatible version updated.
+* Missing string translation added for settings screens.
+
+= 2.0.8 =
+* New option added to set Product Tag based display rules for custom fields.
+* Product list loading performance improved in settings screen.
+* Fix for the issue of not showing settings popup ‘Save’ button when resized and changed the position.
+
+= 2.0.7 =
+* Fix for the issue of directly adding product to the cart when products with extra options adding to cart using storefront sticky header add to cart button.
+* WordPress version 5.3 compatibility added.
+
+= 2.0.6 =
+* Filter to modify plugin settings access capability.
+* Filter to show/hide custom meta data (extra options) in order details page.
+* Fix for settings popup display issue.
+
+= 2.0.5 =
+* Vertical display for Checkbox group and Radio button options added.
+* Translation issue fixed for WooCommerce provided texts. 
+
+= 2.0.4 =
+* WooCommerce compatible version updated.
+
+= 2.0.3 =
+* Validation classes added to input fields
+* Datepicker issue fixed.
+
+= 2.0.2 =
+* Tranalation file(.pot) added.
+* Fixed various theme style compatibility issues.
+
+= 2.0.1 =
+* Extra fields are added to cart items when cart prepared using order again option.
+
+= 2.0.0 =
+* New field types added (Checkbox Group, Date Picker, Heading, Paragraph).
+* New option to add sections.
+
+= 1.3.4 =
+* WooCommerce version 3.6.1 compatibility added.
+
+= 1.3.3 =
+* Improved loop add to cart link to match with theme style.
+
+= 1.3.2 =
+* Fix for WooCommerce latest version compatibility issues.
+
+= 1.3.1 =
+* New field types added (Hidden, radio, Checkbox, Textarea, Number, Telephone, Password).
+* WooCommerce tested up to version updated.
+
+= 1.3.0 =
+* Fix for the WooCommerce older version comatibility issue.
+
+= 1.2.9 =
+* Changes in hook parameters to support latest version of WooCommerce.
+* WooCommerce tested up to version updated.
+
+= 1.2.8 =
+* New filter to allow deactivated products also for conditional rules.
+
+= 1.2.7 =
+* Improved add to cart behavior to update the item quantity when same options selected instead of creating a new cart item.
+
+= 1.2.6 =
+* WooCommerce tested up to version updated.
+
+= 1.2.5 =
+* Fix for the parse error with older version of php(older than 5.3).
+
+= 1.2.4 =
+* Fix for the issue of not escaping special characters in order summary and details page.
+
+= 1.2.3 =
+* Replaced deprecated hooks.
+* Fix for the issue of not showing asterisk symbol for required fields. 
+
+= 1.2.2 =
+* Multisite support added.
+
+= 1.2.1 =
+* Fix for the memory issue while populating product list.
+
+= 1.2.0 =
+* Fix for the issue of displaying warning message when wrong conditions are set.
+
+= 1.1.9 =
+* Fix for the issue of incorrectly escaping apostrophes in select options.
+
+= 1.1.8 =
+* Fix for the issue of showing field key instead of field name in thank you page and order emails.
+
+= 1.1.7 =
+* Updated plugin to make it compatible with WooCommerce version 3.0.0
+* Fix for the issue of showing only the first option for select fields.
+
+= 1.1.6 =
+* Fix for form clearing issue after validation errors.
+
+= 1.1.5 =
+* Fix for serialize issue.
+
+= 1.1.4 =
+* Fix for conditiona rule issue.
+
+= 1.1.3 =
+* Fix for validation issue.
+
+= 1.1.2 =
+* Debug information removed.
+
+= 1.1.1 =
+* Fix for field display condition issue when parent category selected.
+* Added delete button for each conditions.
+
+= 1.1.0 =
+* New option to add display rules, display field(s) only for selected products and categories.
+
+= 1.0.1 =
+* Added an option to reset all the changes.
+* Added options to enable and disable extra product option(s).
+
+= 1.0.0 =
+* First Release
+* Feature to add extra product option(s).
+* Feature to edit extra product option(s).
+* Feature to remove extra product option(s).
+* Change the display order of extra product option(s).

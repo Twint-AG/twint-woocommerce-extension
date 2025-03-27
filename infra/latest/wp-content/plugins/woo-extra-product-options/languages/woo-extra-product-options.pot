@@ -1,0 +1,941 @@
+# Copyright (C) 2025 ThemeHigh
+# This file is distributed under the same license as the Extra product options For WooCommerce | Custom Product Addons and Fields plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Extra product options For WooCommerce | Custom Product Addons and Fields 3.3.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-extra-product-options\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-02-04T06:13:23+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: woo-extra-product-options\n"
+
+#. Plugin Name of the plugin
+#: woo-extra-product-options.php
+msgid "Extra product options For WooCommerce | Custom Product Addons and Fields"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: woo-extra-product-options.php
+msgid "https://www.themehigh.com"
+msgstr ""
+
+#. Description of the plugin
+#: woo-extra-product-options.php
+msgid "Add extra product options in product page."
+msgstr ""
+
+#. Author of the plugin
+#: woo-extra-product-options.php
+msgid "ThemeHigh"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:27
+#: admin/class-thwepof-admin-settings-pro.php:151
+msgid "Text"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:28
+#: admin/class-thwepof-admin-settings-pro.php:152
+msgid "Hidden"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:29
+#: admin/class-thwepof-admin-form-field.php:57
+#: admin/class-thwepof-admin-settings-pro.php:155
+msgid "Number"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:30
+#: admin/class-thwepof-admin-settings-pro.php:154
+msgid "Telephone"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:31
+#: admin/class-thwepof-admin-settings-pro.php:153
+msgid "Password"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:32
+#: admin/class-thwepof-admin-form-field.php:56
+#: admin/class-thwepof-admin-settings-pro.php:156
+msgid "Email"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:33
+msgid "Url"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:34
+#: admin/class-thwepof-admin-settings-pro.php:159
+msgid "Slider/Range"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:35
+#: admin/class-thwepof-admin-settings-pro.php:158
+msgid "Textarea"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:36
+#: admin/class-thwepof-admin-settings-pro.php:162
+msgid "Select"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:37
+#: admin/class-thwepof-admin-settings-pro.php:164
+msgid "Checkbox"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:38
+#: admin/class-thwepof-admin-settings-pro.php:165
+msgid "Checkbox Group"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:39
+msgid "Radio Button"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:40
+#: admin/class-thwepof-admin-settings-pro.php:166
+msgid "Date Picker"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:41
+msgid "Colorpicker"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:42
+#: admin/class-thwepof-admin-settings-pro.php:160
+msgid "Switch"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:43
+#: admin/class-thwepof-admin-settings-pro.php:174
+msgid "Heading"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:44
+msgid "Paragraph"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:45
+#: admin/class-thwepof-admin-settings-pro.php:177
+msgid "Separator"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:55
+#: admin/class-thwepof-admin-form-field.php:71
+msgid "Select validation"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:61
+msgid "Left of the field"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:62
+msgid "Above field"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:66
+#: admin/class-thwepof-admin-settings-general.php:331
+msgid "Name"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:67
+msgid "Field Type"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:68
+msgid "Default Value"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:69
+msgid "Options"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:69
+msgid "separate options with pipe(|)"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:70
+#: admin/class-thwepof-admin-settings-general.php:334
+msgid "Placeholder"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:71
+msgid "Validation"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:72
+msgid "Wrapper Class"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:72
+#: admin/class-thwepof-admin-form-field.php:73
+#: admin/class-thwepof-admin-form-field.php:94
+msgid "separate classes with comma"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:73
+msgid "Input Class"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:74
+msgid "Position"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:76
+msgid "Min. Length"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:76
+msgid "The minimum number of characters allowed"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:77
+msgid "Max. Length"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:77
+msgid "The maximum number of characters allowed"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:79
+msgid "Step. Value"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:79
+msgid "Specifies the legal number intervals"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:81
+msgid "Cols"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:81
+msgid "The visible width of a text area"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:82
+msgid "Rows"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:82
+msgid "The visible height of a text area"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:84
+msgid "Checked by default"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:86
+#: admin/class-thwepof-admin-settings-general.php:336
+#: includes/utils/class-thwepof-utils-field.php:353
+msgid "Required"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:87
+#: admin/class-thwepof-admin-settings-general.php:337
+msgid "Enabled"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:88
+msgid "Readonly"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:89
+msgid "Show view password Icon"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:91
+#: admin/class-thwepof-admin-settings-general.php:333
+msgid "Label"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:92
+msgid "Label Position"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:93
+msgid "Heading Type"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:94
+msgid "Label Class"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:96
+msgid "Input Masking Pattern"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:96
+msgid "Helps to ensure input to a predefined format like (999) 999-9999."
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:125
+msgid "Save Field"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:128
+#: admin/class-thwepof-admin-form-section.php:67
+msgid "Basic Info"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:132
+#: admin/class-thwepof-admin-form-section.php:71
+msgid "Display Styles"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:136
+#: admin/class-thwepof-admin-form-field.php:224
+#: admin/class-thwepof-admin-form-section.php:75
+#: admin/class-thwepof-admin-form-section.php:171
+msgid "Display Rules"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:164
+#: admin/class-thwepof-admin-form-section.php:104
+msgid "Save & Close"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:167
+#: admin/class-thwepof-admin-form-section.php:107
+msgid "Next"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:170
+#: admin/class-thwepof-admin-form-section.php:110
+msgid "Back"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:184
+#: admin/class-thwepof-admin-form-section.php:124
+msgid "Basic Details"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:198
+#: admin/class-thwepof-admin-form-section.php:153
+msgid "Display Settings"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:317
+#: admin/class-thwepof-admin-form-field.php:417
+msgid "Min. Value"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:318
+#: admin/class-thwepof-admin-form-field.php:418
+msgid "The minimum value allowed"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:321
+#: admin/class-thwepof-admin-form-field.php:421
+msgid "Max. Value"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:322
+#: admin/class-thwepof-admin-form-field.php:422
+msgid "The maximum value allowed"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:504
+#: admin/class-thwepof-admin-form-field.php:524
+msgid "Value"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:543
+msgid "Min. Selections"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:544
+msgid "The minimum checked item"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:547
+msgid "Max. Selections"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:548
+msgid "The maximum checked item"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:572
+msgid "Default Date"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:575
+msgid "Enter default date in the format {month} {dd}, {year}"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:597
+msgid "Default Color"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:618
+msgid "Heading Text"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-field.php:636
+msgid "Content"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-section.php:26
+msgid "Name/ID"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-section.php:27
+msgid "Display Position"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-section.php:29
+msgid "Display Order"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-section.php:30
+msgid "CSS Class"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-section.php:31
+msgid "Show section title in product page."
+msgstr ""
+
+#: admin/class-thwepof-admin-form-section.php:33
+msgid "Col-1 Width"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-section.php:34
+msgid "Col-2 Width"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-section.php:36
+msgid "Title"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-section.php:37
+msgid "Title Type"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-section.php:38
+msgid "Title Class"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-section.php:39
+msgid "Title Color"
+msgstr ""
+
+#: admin/class-thwepof-admin-form-section.php:64
+msgid "Save Section"
+msgstr ""
+
+#: admin/class-thwepof-admin-form.php:49
+msgid "Before Add To Cart Button"
+msgstr ""
+
+#: admin/class-thwepof-admin-form.php:50
+msgid "After Add To Cart Button"
+msgstr ""
+
+#: admin/class-thwepof-admin-form.php:291
+msgid "Show if all below conditions are met."
+msgstr ""
+
+#: admin/class-thwepof-admin-form.php:310
+#: includes/class-thwepof.php:213
+msgid "Product"
+msgstr ""
+
+#: admin/class-thwepof-admin-form.php:311
+#: includes/class-thwepof.php:214
+msgid "Category"
+msgstr ""
+
+#: admin/class-thwepof-admin-form.php:312
+#: includes/class-thwepof.php:210
+msgid "Tag"
+msgstr ""
+
+#: admin/class-thwepof-admin-form.php:318
+#: includes/class-thwepof.php:211
+msgid "Equals to/ In"
+msgstr ""
+
+#: admin/class-thwepof-admin-form.php:319
+#: includes/class-thwepof.php:212
+msgid "Not Equals to/ Not in"
+msgstr ""
+
+#: admin/class-thwepof-admin-form.php:349
+msgid "Click to select products"
+msgstr ""
+
+#: admin/class-thwepof-admin-form.php:362
+msgid "Click to select categories"
+msgstr ""
+
+#: admin/class-thwepof-admin-form.php:387
+msgid "Click to select tags"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:59
+msgid "Add to cart text"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:61
+msgid "Products having Extra Options"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:61
+#: admin/class-thwepof-admin-settings-advanced.php:67
+msgid "ex: Select options"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:64
+msgid "Simple Products"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:64
+msgid "ex: Add to cart"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:67
+msgid "Variable Products"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:69
+#: admin/class-thwepof-admin-settings-advanced.php:191
+msgid "Other Settings"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:71
+msgid "Hide custom fields in Cart Page"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:74
+msgid "Hide custom fields in Checkout page"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:77
+msgid "Hide custom fields in Order Details page"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:80
+msgid "Allow posting extra options as url parameters"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:108
+msgid "Settings successfully reset."
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:139
+#: admin/class-thwepof-admin-settings-general.php:571
+#: admin/class-thwepof-admin-settings-general.php:625
+msgid "Your changes were saved."
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:141
+#: admin/class-thwepof-admin-settings-advanced.php:346
+#: admin/class-thwepof-admin-settings-general.php:573
+#: admin/class-thwepof-admin-settings-general.php:627
+msgid "Your changes were not saved due to an error (or you made none!)."
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:173
+#: admin/class-thwepof-admin-settings-general.php:351
+msgid "Save changes"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:174
+msgid "Reset to default"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:184
+msgid "Modify Add to cart button text"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:232
+#: admin/class-thwepof-admin-settings-advanced.php:245
+msgid "Backup and Import Settings"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:234
+msgid "Plugin Settings Data"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:235
+msgid "You can transfer the saved settings data between different installs by copying the text inside the text box. To import data from another install, replace the data in the text box with the one from another install and click \"Import Settings\"."
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:253
+msgid "Import Settings"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:281
+msgid "The entered import settings data is invalid. Please try again with valid data."
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:293
+msgid "Your changes were not saved due to an error (or serialized data may compromised)."
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:302
+msgid "Failed to unserialize import settings data. Please check the data and try again."
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:309
+msgid "Imported settings data is not in the expected format. Please check the data and try again."
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:321
+msgid "Invalid settings detected. Ensure the data is valid and not corrupted!"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-advanced.php:343
+msgid "Your Settings Updated."
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:122
+msgid "Section removed successfully."
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:128
+msgid "Product fields successfully reset."
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:155
+#: includes/class-thwepof.php:220
+msgid "Edit Section"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:159
+msgid "Duplicate Section"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:166
+msgid "Delete Section"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:178
+msgid "Add new section"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:286
+#: admin/class-thwepof-admin-settings-general.php:289
+msgid "Yes"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:294
+#: includes/class-thwepof.php:217
+msgid "Edit Field"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:299
+msgid "Duplicate Field"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:306
+msgid "No custom fields found. Click on <b>Add field</b> button to create new fields."
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:332
+msgid "Type"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:335
+msgid "Validations"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:338
+msgid "Actions"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:345
+msgid "+ Add field"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:346
+msgid "Remove"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:347
+msgid "Enable"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:348
+msgid "Disable"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:352
+msgid "Reset to default options"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:410
+msgid "New section added successfully."
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:412
+msgid "New section not added due to an error."
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:436
+msgid "Section details updated successfully."
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:438
+msgid "Section details not updated due to an error."
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:466
+msgid "Section not removed due to an error."
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:576
+#: admin/class-thwepof-admin-settings-general.php:630
+msgid "Your changes were not saved due to an error."
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-general.php:591
+msgid "Your changes were not saved due to no fields found."
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-pro.php:83
+#: admin/class-thwepof-admin-settings-pro.php:350
+msgid "Get Pro"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-pro.php:84
+msgid "Try Demo"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-pro.php:157
+msgid "URL"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-pro.php:161
+msgid "Radio"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-pro.php:163
+msgid "Multiselect "
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-pro.php:167
+msgid "Time Picker"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-pro.php:168
+msgid "Date & Time Range Picker"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-pro.php:169
+msgid "Color Picker"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-pro.php:170
+msgid "Color Palette"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-pro.php:171
+msgid "Image Group"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-pro.php:172
+msgid "Product Group"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-pro.php:173
+msgid "File Upload"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-pro.php:175
+msgid "Paragraph/Label"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings-pro.php:176
+msgid "HTML"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings.php:32
+msgid "Product Options"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings.php:33
+msgid "Advanced Settings"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings.php:34
+msgid "Premium Features"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings.php:203
+msgid "We would love to hear from you?"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings.php:205
+msgid "We have a quick favor to ask. You have been our patron for the longest and would love to hear about your experience with us so far. Would you mind heading to WordPress and writing a quick review on our plugin? Review or not, we still love you!"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings.php:209
+msgid "Yes, today"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings.php:213
+msgid "Already, Did"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings.php:217
+msgid "Maybe later"
+msgstr ""
+
+#: admin/class-thwepof-admin-settings.php:221
+msgid "Nah, Never"
+msgstr ""
+
+#: includes/class-thwepof.php:154
+msgid "WooCommerce Extra Product Option"
+msgstr ""
+
+#: includes/class-thwepof.php:155
+msgid "Extra Product Option"
+msgstr ""
+
+#: includes/class-thwepof.php:218
+msgid "New Field"
+msgstr ""
+
+#: includes/class-thwepof.php:219
+msgid "New Section"
+msgstr ""
+
+#: includes/class-thwepof.php:447
+msgid "Quick Feedback"
+msgstr ""
+
+#: includes/class-thwepof.php:452
+#: includes/class-thwepof.php:483
+msgid "Get Support"
+msgstr ""
+
+#: includes/class-thwepof.php:456
+msgid "If you have a moment, please let us know why you want to deactivate this plugin"
+msgstr ""
+
+#: includes/class-thwepof.php:475
+msgid "This form is only for getting your valuable feedback. We do not collect your personal data. To know more read our "
+msgstr ""
+
+#: includes/class-thwepof.php:475
+msgid "Privacy Policy"
+msgstr ""
+
+#: includes/class-thwepof.php:479
+msgid "Skip & Deactivate"
+msgstr ""
+
+#: includes/class-thwepof.php:485
+msgid "Submit and Deactivate"
+msgstr ""
+
+#: includes/class-thwepof.php:486
+msgid "Cancel"
+msgstr ""
+
+#: includes/class-thwepof.php:708
+msgid "Deactivate and "
+msgstr ""
+
+#: includes/class-thwepof.php:710
+msgid "leave a review"
+msgstr ""
+
+#: includes/class-thwepof.php:714
+msgid "Upgraded"
+msgstr ""
+
+#: includes/class-thwepof.php:785
+msgid "Upgraded to premium."
+msgstr ""
+
+#: includes/class-thwepof.php:792
+msgid "A specific feature is missing"
+msgstr ""
+
+#: includes/class-thwepof.php:794
+msgid "Type in the feature"
+msgstr ""
+
+#: includes/class-thwepof.php:799
+msgid "Found an error in the plugin/ Plugin was not working"
+msgstr ""
+
+#: includes/class-thwepof.php:801
+msgid "Specify the issue"
+msgstr ""
+
+#: includes/class-thwepof.php:806
+msgid "It was hard to use"
+msgstr ""
+
+#: includes/class-thwepof.php:808
+msgid "How can we improve your experience?"
+msgstr ""
+
+#: includes/class-thwepof.php:813
+msgid "I found a better Plugin"
+msgstr ""
+
+#: includes/class-thwepof.php:815
+#: includes/class-thwepof.php:829
+msgid "Could you please mention the plugin?"
+msgstr ""
+
+#: includes/class-thwepof.php:827
+msgid "It’s a temporary deactivation - I’m troubleshooting an issue"
+msgstr ""
+
+#: includes/class-thwepof.php:834
+msgid "Not mentioned here"
+msgstr ""
+
+#: includes/class-thwepof.php:836
+msgid "Kindly tell us your reason, so that we can improve"
+msgstr ""
+
+#. translators: %s: field name
+#: public/class-thwepof-public.php:474
+msgid "%s is a required field."
+msgstr ""
+
+#. translators: %s: number field value
+#: public/class-thwepof-public.php:486
+msgid "%s is not a valid number."
+msgstr ""
+
+#. translators: %s: email field value
+#: public/class-thwepof-public.php:494
+msgid "%s is not a valid email address."
+msgstr ""
+
+#. translators: %d: minimum checked value
+#: public/class-thwepof-public.php:523
+msgid "Make at least %d selections."
+msgstr ""
+
+#. translators: %d: maximum checked value
+#: public/class-thwepof-public.php:527
+msgid "Number of selections exceeds maximum limit (%d)."
+msgstr ""
+
+#. translators: %d: maximum length of value
+#: public/class-thwepof-public.php:543
+msgid "The entered value exceeds the maximum length allowed for the field. The maximum number of characters allowed is %d."
+msgstr ""
+
+#. translators: %d: minimum lenght of value
+#: public/class-thwepof-public.php:547
+msgid "The entered value less than the minimum length required for the field. The minimum number of character required is %d."
+msgstr ""

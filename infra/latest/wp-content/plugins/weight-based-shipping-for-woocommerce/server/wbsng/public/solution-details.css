@@ -1,0 +1,77 @@
+@charset "UTF-8";
+.wbsng-shipments, .wbsng-shipments * {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  list-style: none;
+}
+
+.wbsng-shipments.wbsng-shipments {
+  font-size: small;
+}
+
+.wbsng-shipment-name::after {
+  content: ": ";
+}
+
+.wbsng-shipment-product {
+  display: flex;
+  white-space: pre-wrap;
+}
+
+.wbsng-shipment-product-name {
+  max-width: 20em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.wbsng-shipment-product-quantity::before {
+  content: " × ";
+}
+
+.wbsng-shipment-product-delim {
+  display: none;
+}
+
+.wbsng-shipment-detail {
+  padding-left: 1em;
+}
+
+.wbsng-shipments:not(:has(.wbsng-shipment + .wbsng-shipment)) {
+  display: none;
+}
+
+.wbsng-shipments--brief .wbsng-shipment {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 20em;
+}
+.wbsng-shipments--brief .wbsng-shipment-header {
+  display: inline;
+}
+.wbsng-shipments--brief .wbsng-shipment-name::after {
+  display: none;
+}
+.wbsng-shipments--brief .wbsng-shipment-detail {
+  display: inline;
+  padding: 0;
+}
+.wbsng-shipments--brief .wbsng-shipment-detail::before {
+  content: " for ";
+  display: inline;
+}
+.wbsng-shipments--brief .wbsng-shipment-products {
+  display: inline;
+}
+.wbsng-shipments--brief .wbsng-shipment-product {
+  display: inline;
+  white-space: nowrap;
+}
+.wbsng-shipments--brief .wbsng-shipment-product-quantity {
+  display: none;
+}
+.wbsng-shipments--brief .wbsng-shipment-product-delim {
+  display: inline;
+}

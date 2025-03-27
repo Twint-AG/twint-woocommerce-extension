@@ -1,0 +1,25 @@
+/*
+ Setup wizard styles
+ */
+
+.elm-sw-spinner {
+	float: none;
+	margin: 0 0;
+	vertical-align: bottom;
+}
+
+.elm-sw-multiline-code {
+	white-space: pre;
+	display: block;
+	width: -moz-fit-content;
+	width: fit-content;
+}
+
+#elm-sw-manual-instructions, #elm-sw-step-2 {
+	//Constrain text width to improve readability.
+	max-width: 50em;
+}
+
+.elm-sw-hidden {
+	display: none;
+}

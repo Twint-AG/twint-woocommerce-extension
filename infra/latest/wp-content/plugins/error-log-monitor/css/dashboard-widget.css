@@ -1,0 +1,223 @@
+@charset "UTF-8";
+#ws_php_error_log .elm-log-table {
+  table-layout: fixed;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+#ws_php_error_log .elm-line-actions {
+  visibility: hidden;
+}
+#ws_php_error_log tr:hover .elm-line-actions,
+#ws_php_error_log .elm-entry:hover .elm-line-actions {
+  visibility: visible;
+}
+#ws_php_error_log .dashicons {
+  color: #82878c;
+}
+#ws_php_error_log .elm-wide-list {
+  position: relative;
+  margin: -11px -12px 13px;
+  border-bottom: 1px solid #eee;
+}
+#ws_php_error_log .elm-wide-list .elm-entry {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  margin: 0;
+  position: relative;
+}
+#ws_php_error_log .elm-wide-list .elm-entry .elm-entry-body, #ws_php_error_log .elm-wide-list .elm-entry .elm-entry-context-container {
+  padding: 0 12px;
+}
+#ws_php_error_log .elm-wide-list .elm-entry:last-of-type {
+  border-bottom: none;
+}
+#ws_php_error_log .elm-wide-list .elm-entry:nth-child(2n+1) {
+  background-color: #fafafa;
+}
+#ws_php_error_log .elm-wide-list .elm-entry-metadata {
+  color: #72777c;
+  display: flex;
+  align-items: center;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+#ws_php_error_log .elm-wide-list .elm-line-actions {
+  float: right;
+}
+#ws_php_error_log .elm-wide-list .elm-log-message {
+  color: #23282d;
+  margin: 2px 0;
+  font-size: 14px;
+}
+#ws_php_error_log .elm-wide-list .elm-severity-bubble {
+  display: inline-block;
+  border-radius: 9.5px;
+  background: blue;
+  height: 12px;
+  width: 12px;
+  margin-right: 0.4em;
+}
+#ws_php_error_log .elm-wide-list .elm-level-fatal-error .elm-severity-bubble, #ws_php_error_log .elm-wide-list .elm-level-catchable-fatal-error .elm-severity-bubble, #ws_php_error_log .elm-wide-list .elm-level-recoverable-fatal-error .elm-severity-bubble, #ws_php_error_log .elm-wide-list .elm-level-parse-error .elm-severity-bubble {
+  background: orangered;
+}
+#ws_php_error_log .elm-wide-list .elm-level-warning .elm-severity-bubble {
+  background: orange;
+}
+#ws_php_error_log .elm-wide-list .elm-level-notice .elm-severity-bubble, #ws_php_error_log .elm-wide-list .elm-level-strict-standards .elm-severity-bubble, #ws_php_error_log .elm-wide-list .elm-level-deprecated .elm-severity-bubble {
+  background: darkgrey;
+}
+#ws_php_error_log .elm-context-group {
+  margin-left: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  color: #555;
+}
+#ws_php_error_log .elm-context-group h3 {
+  margin: 0;
+  padding: 8px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+#ws_php_error_log .elm-context-group .elm-stacktrace {
+  margin: 0;
+}
+#ws_php_error_log .elm-context-group-content {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+#ws_php_error_log .elm-context-group-content.elm-hide-mundane-items .elm-is-mundane {
+  display: none;
+}
+#ws_php_error_log .elm-show-mundane-context {
+  color: #555;
+}
+#ws_php_error_log .elm-show-mundane-context:hover {
+  text-decoration: underline;
+}
+#ws_php_error_log .elm-collapsible-context-group h3 {
+  padding-left: 0.5em;
+  margin-left: -0.5em;
+  cursor: pointer;
+}
+#ws_php_error_log .elm-collapsible-context-group h3:before {
+  display: inline-block;
+  width: 12px;
+  margin-right: 0.4em;
+  content: "▼";
+  font-size: 10px;
+  color: #787c82;
+}
+#ws_php_error_log .elm-collapsible-context-group.elm-closed-context-group h3:before {
+  content: "▶";
+}
+#ws_php_error_log .elm-closed-context-group .elm-context-group-content {
+  display: none;
+}
+#ws_php_error_log table.elm-context-group-content {
+  border-spacing: 0;
+}
+#ws_php_error_log table.elm-context-group-content th, #ws_php_error_log table.elm-context-group-content td {
+  padding: 5px;
+  vertical-align: top;
+  border-top: 1px solid #ddd;
+}
+#ws_php_error_log table.elm-context-group-content tr:first-child td, #ws_php_error_log table.elm-context-group-content tr:first-child th, #ws_php_error_log table.elm-context-group-content.elm-hide-mundane-items .elm-first-non-mundane-item td, #ws_php_error_log table.elm-context-group-content.elm-hide-mundane-items .elm-first-non-mundane-item th {
+  border-top: none;
+}
+#ws_php_error_log table.elm-context-group-content tr {
+  background: white;
+}
+#ws_php_error_log table.elm-context-group-content tr:nth-child(2n+1) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+#ws_php_error_log table.elm-context-group-content.elm-hide-mundane-items tr {
+  background: white;
+}
+#ws_php_error_log table.elm-context-group-content.elm-hide-mundane-items .elm-is-odd-visible-row {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+#ws_php_error_log table.elm-stacktrace {
+  border: none;
+  table-layout: fixed;
+}
+#ws_php_error_log table.elm-stacktrace tr:first-child td {
+  padding-top: 0;
+}
+#ws_php_error_log table.elm-stacktrace .elm-stack-frame-index {
+  padding-right: 0;
+  color: #777;
+  font-family: Consolas, Monaco, monospace;
+  width: 1.7em;
+  overflow: hidden;
+  white-space: nowrap;
+}
+#ws_php_error_log table.elm-stacktrace .elm-function-call {
+  display: block;
+  font-family: Consolas, Monaco, monospace;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+#ws_php_error_log table.elm-stacktrace .elm-code-location {
+  display: block;
+  color: #777;
+}
+#ws_php_error_log table.elm-stacktrace tr, #ws_php_error_log table.elm-stacktrace td, #ws_php_error_log table.elm-stacktrace th {
+  background: transparent !important;
+  border: none;
+  padding-bottom: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+#ws_php_error_log table.elm-stacktrace tr > td:first-child {
+  padding-left: 0;
+}
+#ws_php_error_log .elm-config-section-heading {
+  font-size: 1.2em;
+  margin-top: 20px;
+}
+#ws_php_error_log .elm-config-section-heading:first-of-type {
+  margin-top: 0;
+}
+#ws_php_error_log .elm-ignored-messages, #ws_php_error_log .elm-fixed-messages {
+  margin-bottom: 1em;
+}
+#ws_php_error_log #elm-clear-ignored-messages, #ws_php_error_log #elm-clear-fixed-messages {
+  margin-bottom: 8px;
+}
+#ws_php_error_log #elm_regex_filter_text {
+  width: 100%;
+}
+#ws_php_error_log #elm-group-visibility-options {
+  margin-bottom: 1.5em;
+}
+#ws_php_error_log .elm-upgrade-to-pro-footer {
+  margin: 10px -12px -12px -12px;
+  padding: 8px 12px 10px 12px;
+  background: #fafafa;
+  border-top: 1px solid #ddd;
+  border-top-color: #eee;
+}
+#ws_php_error_log .elm-upgrade-to-pro-footer p {
+  margin-top: 0;
+}
+#ws_php_error_log .elm-upgrade-to-pro-footer .elm-upgrade-notice-links {
+  color: #bbb;
+}
+#ws_php_error_log .elm-pro-features {
+  list-style: disc inside;
+}
+#ws_php_error_log #elm-pro-version-settings-section {
+  margin: 10px -12px -12px -12px;
+  padding: 8px 12px 10px 12px;
+  background: #fafafa;
+  border-top: 1px solid #ddd;
+}
+#ws_php_error_log #elm-pro-version-settings-section p {
+  margin-bottom: 0;
+}
+
+/*# sourceMappingURL=dashboard-widget.css.map */
