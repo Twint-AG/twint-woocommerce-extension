@@ -1,2 +1,0 @@
-<?php
-return ['x-generator'=>'GlotPress/4.0.1','translation-revision-date'=>'2023-10-17 09:53:05+0000','plural-forms'=>'nplurals=2; plural=n > 1;','project-id-version'=>'Plugins - Plugin Check (PCP) - Stable (latest release)','language'=>'fr','messages'=>['View in code editor'=>'Voir dans l’éditeur de code','Code Obfuscation tools are not permitted. Detected: %s'=>'Les outils d’obscurcissement du code ne sont pas autorisés. Détecté : %s','Plugin Check'=>'Plugin Check']];

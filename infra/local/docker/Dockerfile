@@ -1,8 +1,9 @@
-FROM wordpress:6.6.2-php8.1
+FROM wordpress:6.7.2-php8.4
 
 # Install required packages and PHP extensions
 RUN apt-get update && apt-get install -y \
     git \
+    vim \
     libxslt-dev \
     libxml2-dev \
     && docker-php-ext-install xsl soap
