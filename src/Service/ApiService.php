@@ -32,15 +32,15 @@ class ApiService
     }
 
     /**
-     * @param callable|null $buildLogCallback A callback function to build the log. It should accept two parameters.
+     * @param callable $buildLogCallback A callback function to build the log. It should accept two parameters.
      * @throws Throwable
      */
     public function call(
         InvocationRecordingClient $client,
         string                    $method,
         array                     $args,
+        callable                  $buildLogCallback,
         bool                      $save = true,
-        callable                  $buildLogCallback = null
     ): ApiResponse {
         if (!in_array($method, ['monitorOrder', 'monitorFastCheckOutCheckIn'], true)) {
             $save = true;
@@ -54,7 +54,7 @@ class ApiService
         } finally {
             $invocations = $client->flushInvocations();
 
-            $log = $this->log($returnValue ?? null, $method, $invocations, $save, $buildLogCallback);
+            $log = $this->log($returnValue ?? null, $method, $invocations, $buildLogCallback, $save);
         }
 
         return new ApiResponse($returnValue ?? null, $log);
@@ -68,8 +68,8 @@ class ApiService
         mixed    $returnValue,
         string   $method,
         array    $invocation,
+        callable $callback,
         bool     $save = true,
-        callable $callback = null
     ): TransactionLog {
         try {
             list($request, $response, $soapRequests, $soapResponses, $soapActions, $exception) = $this->parse(
@@ -88,9 +88,7 @@ class ApiService
                 'created_at' => gmdate('Y-m-d H:i:s'),
             ]);
 
-            if (is_callable($callback)) {
-                $log = $callback($log, $returnValue);
-            }
+            $log = $callback($log, $returnValue);
 
             if (!$exception && !$save) {
                 return $log;

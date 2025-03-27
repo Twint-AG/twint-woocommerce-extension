@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Twint\Woo\Exception;
 
 use RuntimeException;
-use Throwable;
 
 class InvalidConfigException extends RuntimeException
 {
@@ -21,8 +20,8 @@ class InvalidConfigException extends RuntimeException
 
     public const ERROR_INVALID_PASSPHRASE = 'Invalid passphrase';
 
-    public function __construct(string $message = 'Plugin Invalid configuration', int $code = 0, Throwable $previous = null)
+    public function __construct(string $message = 'Plugin Invalid configuration', int $code = 0)
     {
-        parent::__construct($message, $code, $previous);
+        parent::__construct($message, $code);
     }
 }

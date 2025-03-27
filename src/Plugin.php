@@ -14,7 +14,7 @@ use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 use Twint\Woo\Model\Method\ExpressCheckout;
 use Twint\Woo\Model\Method\RegularCheckout;
 use WC_Payment_Gateway;
-use function is_executable;
+use function is_readable;
 use function shell_exec;
 
 class Plugin
@@ -92,7 +92,7 @@ class Plugin
         }
 
         // Check if bin/console is executable
-        $isExecutable = function_exists('is_executable') && file_exists($filePath) && @is_executable($filePath);
+        $isExecutable = function_exists('is_readable') && file_exists($filePath) && @is_readable($filePath);
 
         // Execute CLI command safely
         $cliInfo = 'Unknown';

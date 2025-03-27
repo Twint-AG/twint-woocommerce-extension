@@ -18,6 +18,7 @@ use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Model\ApiResponse;
 use Twint\Woo\Model\Pairing;
+use Twint\Woo\Model\TransactionLog;
 use WC_Logger_Interface;
 use WC_Order;
 use WC_Order_Item_Shipping;
@@ -26,7 +27,7 @@ use WC_Shipping_Rate;
 /**
  * @method ClientBuilder getBuilder()
  * @method PairingService getPairingService()
- * @method getApi()
+ * @method ApiService getApi()
  */
 #[AllowDynamicProperties]
 class FastCheckoutCheckinService
@@ -126,7 +127,9 @@ class FastCheckoutCheckinService
                 Money::CHF((float) $order->get_total()),
                 new CustomerDataScopes(...CustomerDataScopes::all()),
                 $methods,
-            ]
+            ],
+            static fn (TransactionLog $log) => $log,
+            true
         );
     }
 }

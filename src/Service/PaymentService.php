@@ -54,13 +54,13 @@ class PaymentService
             return $this->getApi()->call($client, 'startOrder', [
                 new UnfiledMerchantTransactionReference($refId),
                 new Money($currency, (float) $order->get_total()),
-            ], true, static function (TransactionLog $log, mixed $return) use ($order) {
+            ], static function (TransactionLog $log, mixed $return) use ($order) {
                 if ($return instanceof Order) {
                     $log->setOrderId($order->get_id());
                 }
 
                 return $log;
-            });
+            }, true);
         } catch (Exception $e) {
             $this->logger->error('PaymentService::createOrder error' . PHP_EOL . $e->getMessage());
             throw $e;
@@ -86,11 +86,11 @@ class PaymentService
             new UnfiledMerchantTransactionReference($reversalId),
             new OrderId(new Uuid($pairing->getId())),
             new Money(Money::CHF, $amount),
-        ], true, static function (TransactionLog $log, mixed $return) use ($pairing, $order) {
+        ], static function (TransactionLog $log, mixed $return) use ($pairing, $order) {
             $log->setOrderId($order->get_id());
             $log->setPairingId($pairing->getId());
 
             return $log;
-        });
+        }, true);
     }
 }

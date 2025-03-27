@@ -173,13 +173,13 @@ class PairingService
             $client,
             'cancelOrder',
             [new OrderId(new Uuid($pairing->getId()))],
-            true,
             static function (TransactionLog $log) use ($pairing) {
                 $log->setPairingId($pairing->getId());
                 $log->setOrderId($pairing->getWcOrderId());
 
                 return $log;
-            }
+            },
+            true
         );
     }
 }
