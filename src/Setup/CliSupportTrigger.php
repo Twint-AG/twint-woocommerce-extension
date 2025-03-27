@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Setup;
 
-use Symfony\Component\Process\Process;
 use Throwable;
 use Twint\Woo\Command\CliCommand;
 use Twint\Woo\Plugin;
@@ -20,12 +19,14 @@ class CliSupportTrigger
     public function handle(): void
     {
         try {
-            $process = new Process(['php', Plugin::abspath() . 'bin/console', CliCommand::COMMAND]);
-            $process->setOptions([
-                'create_new_console' => true,
-            ]);
-            $process->disableOutput();
-            $process->start();
+            $logFile = escapeshellarg(sys_get_temp_dir() . '/cli_command.log');
+            $subCommand = escapeshellarg(Plugin::abspath() . 'bin/console');
+            $name = escapeshellarg(CliCommand::COMMAND);
+            $command = "php {$subCommand} {$name} > {$logFile} 2>&1 &";
+
+            if (function_exists('shell_exec')) {
+                shell_exec($command);
+            }
         } catch (Throwable $e) {
             $this->logger->error('Cannot start PHP process: ' . $e->getMessage());
         }

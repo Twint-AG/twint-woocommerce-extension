@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Twint\Woo\Service;
 
 use Exception;
-use Symfony\Component\Process\Process;
 use Throwable;
 use Twint\Sdk\Exception\CancellationFailed;
 use Twint\Sdk\InvocationRecorder\InvocationRecordingClient;
@@ -139,6 +138,7 @@ class MonitorService
             $client,
             'monitorFastCheckOutCheckIn',
             [PairingUuid::fromString($cloned->getId())],
+            static fn (TransactionLog $log) => $log,
             false
         );
 
@@ -234,12 +234,12 @@ class MonitorService
 
         return $this->getApi()->call($client, 'cancelFastCheckoutCheckIn', [
             PairingUuid::fromString($pairing->getId()),
-        ], true, static function (TransactionLog $log) use ($pairing) {
+        ], static function (TransactionLog $log) use ($pairing) {
             $log->setPairingId($pairing->getId());
             $log->setOrderId($pairing->getWcOrderId());
 
             return $log;
-        });
+        }, true);
     }
 
     /**
@@ -250,7 +250,13 @@ class MonitorService
         $client = $this->getBuilder()->build();
 
         try {
-            $res = $this->getApi()->call($client, 'monitorOrder', [new OrderId(new Uuid($pairing->getId()))], false);
+            $res = $this->getApi()->call(
+                $client,
+                'monitorOrder',
+                [new OrderId(new Uuid($pairing->getId()))],
+                static fn (TransactionLog $log) => $log,
+                false
+            );
         } catch (Throwable $e) {
             $this->logger->error('TWINT cannot get pairing status: ' . $e->getMessage());
             throw $e;
@@ -296,12 +302,12 @@ class MonitorService
                     $confirmRes = $this->getApi()->call($client, 'confirmOrder', [
                         new UnfiledMerchantTransactionReference((string) $pairing->getRefId()),
                         new Money(Money::CHF, $pairing->getAmount()),
-                    ], true, static function (TransactionLog $log) use ($pairing) {
+                    ], static function (TransactionLog $log) use ($pairing) {
                         $log->setOrderId($pairing->getWcOrderId());
                         $log->setPairingId($pairing->getId());
 
                         return $log;
-                    });
+                    }, true);
                 } catch (Throwable $e) {
                     $this->getRepository()->markAsFailed($pairing->getId());
                     throw $e;
@@ -364,19 +370,16 @@ class MonitorService
             return MonitoringStatus::fromPairing($pairing);
         }
 
-        if (!$pairing->isMonitoring()) {
+        if (!$pairing->isMonitoring() && function_exists('shell_exec')) {
             try {
-                $process = new Process([
-                    'php',
-                    Plugin::abspath() . 'bin/console',
-                    PollCommand::COMMAND,
-                    $pairing->getId(),
-                ]);
-                $process->setOptions([
-                    'create_new_console' => true,
-                ]);
-                $process->disableOutput();
-                $process->start();
+                $logFile = escapeshellarg(sys_get_temp_dir() . "/{$pairing->getId()}.log");
+                $command = escapeshellarg(Plugin::abspath() . 'bin/console');
+                $statement = escapeshellarg(PollCommand::COMMAND);
+                $id = escapeshellarg($pairing->getId());
+
+                $shellCommand = "php {$command}  {$statement} {$id} > {$logFile} 2>&1 &";
+
+                shell_exec($shellCommand);
             } catch (Throwable $e) {
                 $this->logger->error('TWINT error start monitor: ' . $e->getMessage());
                 throw $e;

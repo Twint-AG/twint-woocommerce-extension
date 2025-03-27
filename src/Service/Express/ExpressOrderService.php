@@ -248,11 +248,11 @@ class ExpressOrderService
             PairingUuid::fromString($pairing->getId()),
             new UnfiledMerchantTransactionReference($refId),
             new Money(TwintConstant::SUPPORTED_CURRENCY, (float) $order->get_total()),
-        ], true, static function (TransactionLog $log) use ($order) {
+        ], static function (TransactionLog $log) use ($order) {
             $log->setOrderId($order->get_id());
 
             return $log;
-        });
+        }, true);
 
         $newPairing = $this->getPairingService()->create($res, $order, true);
 
