@@ -67,7 +67,7 @@
 
 ## Note: WooCommerce PHP CLI Warning Message Support Message
 
-If you encounter the following warning message while installing the TWINT plugin, please note that this does not indicate a malfunction. However, it may have a potential impact on the user experience. The following points outline possible improvements.
+If you encounter the following warning message while installing the TWINT plugin, please note that this does not indicate a malfunction. However, it may have a potential impact on the user experience. The following points outline possible improvements and the **minimum requirements for PHP CLI settings**.
 
 ####  Warning Message:
 
