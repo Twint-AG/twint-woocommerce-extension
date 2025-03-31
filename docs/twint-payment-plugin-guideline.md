@@ -2,7 +2,7 @@
 
 ## Installation
 ### Requirement 
-1. PHP 8.1 for both web service (Apache) and CLI 
+1. PHP 8.1 for both web service (Apache) and CLI (please refer to section below: **Note: WooCommerce PHP CLI Warning Message and Minimum Requirement**)
 2. Minimum Requirement for Shop-system versions: 
  -  WooCommerce: 6.0 Wordpress: 5.9
 3. Please update to the latest plugin version on Github: https://github.com/Twint-AG/twint-woocommerce-extension/releases
@@ -28,6 +28,21 @@
 - `Plugin activated.` notification should be displayed
 
 <img src="./screenshots/twint-plugin-activated.png" alt="TWINT Plugin activated" width="900" height="auto">
+
+### Check for updates of the plugin
+- Go to the WooCommerce Admin Panel. 
+- Go to `Plugins -> Installed Plugins`
+- Click on `Check for updates`
+
+<img src="docs/screenshots/twint-check_for_updates.png" alt="TWINT Plugin activated" width="900" height="auto">
+
+- A message will pop up at the top of the page informing about the plugin status.
+
+<img src="docs/screenshots/twint-check_for_updates_2.png" alt="TWINT Plugin activated" width="900" height="auto">
+
+or
+
+<img src="docs/screenshots/twint-check_for_updates_3.png" alt="TWINT Plugin activated" width="900" height="auto">
 
 ## Configure the plugin
 
@@ -65,7 +80,7 @@
 
 <img src="./screenshots/twint-express-checkout-setting.png" alt="TWINT Expesss Checkout setting" width="900" height="auto">
 
-## Note: WooCommerce PHP CLI Warning Message Support Message
+## Note: WooCommerce PHP CLI Warning Message and Minimum Requirement
 
 If you encounter the following warning message while installing the TWINT plugin, please note that this does not indicate a malfunction. However, it may have a potential impact on the user experience. The following points outline possible improvements and the **minimum requirements for PHP CLI settings**.
 
@@ -74,7 +89,7 @@ If you encounter the following warning message while installing the TWINT plugin
 > Important: PHP CLI Not Available
 > 
 > PHP CLI (Command Line Interface) is missing or misconfigured. This extension relies on PHP CLI for essential background processes. Without it, the plug-in is not functional. Please refer to the Guide for troubleshooting and the minimum requirements for PHP CLI settings. 
-Guide: https://github.com/Twint-AG/twint-woocommerce-extension/blob/latest/docs/twint-payment-plugin-guideline.md#note-woocommerce-php-cli-warning-message-support-message
+> Guide: https://github.com/Twint-AG/twint-woocommerce-extension/blob/latest/docs/twint-payment-plugin-guideline.md#note-woocommerce-php-cli-warning-message-support-message
 
 
 
