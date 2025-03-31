@@ -71,8 +71,11 @@ If you encounter the following warning message while installing the TWINT plugin
 
 ####  Warning Message:
 
-> Warning: PHP CLI Not Available
-> PHP CLI (Command Line Interface) is missing or misconfigured. This extension relies on PHP CLI for essential background processes. Without it, some features may not function properly.
+> Important: PHP CLI Not Available
+> 
+> PHP CLI (Command Line Interface) is missing or misconfigured. This extension relies on PHP CLI for essential background processes. Without it, the plug-in is not functional. Please refer to the Guide for troubleshooting and the minimum requirements for PHP CLI settings. 
+Guide: https://github.com/Twint-AG/twint-woocommerce-extension/blob/latest/docs/twint-payment-plugin-guideline.md#note-woocommerce-php-cli-warning-message-support-message
+
 
 
 #### Error message example: 
