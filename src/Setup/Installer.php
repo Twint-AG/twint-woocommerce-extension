@@ -49,8 +49,10 @@ class Installer
             'enabled' => 'yes',
             'title' => 'TWINT',
         ];
+
         update_option('woocommerce_twint_regular_settings', $initData);
         update_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION, 'No');
+        update_option('twint_express_checkout_display_options', TwintConstant::DEFAULT_DISPLAYS);
     }
 
     public function folderExist($folder): bool|string

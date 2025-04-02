@@ -26,7 +26,7 @@ class Credentials extends TabItem
 
         $flag = 0;
         if (isset($_GET['showTwintEnvOptions'])) {
-            $flag = (int) $_GET['showTwintEnvOptions'] === 1 ? 1 : -1;
+            $flag = (int) in_array($_GET['showTwintEnvOptions'], [1, '1', 'yes', 'Yes'], true) !== 0 ? 1 : -1;
         }
 
         $testMode = get_option(TwintConstant::TEST_MODE) === 'yes';

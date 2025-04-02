@@ -46,6 +46,13 @@ class TwintConstant
 
     public const CONFIG_SCREEN_CART_FLYOUT = 'CART_FLYOUT';
 
+    public const DEFAULT_DISPLAYS = [
+        self::CONFIG_SCREEN_PDP,
+        self::CONFIG_SCREEN_PLP,
+        self::CONFIG_SCREEN_CART,
+        self::CONFIG_SCREEN_CART_FLYOUT,
+    ];
+
     public const PAIRING_TIMEOUT_REGULAR = 60 * 3; //10 minutes
 
     public const PAIRING_TIMEOUT_EXPRESS = 60 * 10; //10 minutes
