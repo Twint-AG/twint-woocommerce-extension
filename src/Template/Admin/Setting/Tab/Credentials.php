@@ -92,6 +92,7 @@ class Credentials extends TabItem
             $isExecutableFlag = $isExecutable ? 'passed' : 'error';
             $isExecutableText = $isExecutable ? 'Yes' : 'No';
             $shellExecAllowedText = $shellExecAllowed ? 'Yes' : 'No';
+            $shellExecAllowedFlag = $shellExecAllowed ? 'passed' : 'error';
 
             $cliInfoFlag = 'error';
             if ($cliInfo === 'The TWINT command was successfully executed via the PHP CLI.') {

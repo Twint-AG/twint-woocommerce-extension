@@ -3,7 +3,7 @@
 use Twint\Woo\Constant\TwintConstant;
 
 if (!$cliSupport) { ?>
-    <div class="woocommerce-message notice notice-warning">
+    <div class="woocommerce-message notice notice-error">
         <p>
             <strong><?php echo wp_kses_post(__('PHP CLI Not Available', 'twint-woocommerce-extension')); ?></strong> <br>
             <?php echo wp_kses_post(
@@ -16,7 +16,7 @@ if (!$cliSupport) { ?>
                 $cliVersion
             ); ?></li>
             <li data-status="<?php echo esc_html(
-                $cliVersionFlag
+                $shellExecAllowedFlag
             ) ?>"><?php echo wp_kses_post(__('Function `shell_exec` is allowed: ', 'twint-woocommerce-extension')) . esc_html(
                 $shellExecAllowedText
             ); ?></li>
