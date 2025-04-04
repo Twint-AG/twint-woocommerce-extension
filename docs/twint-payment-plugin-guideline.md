@@ -94,7 +94,7 @@ If you encounter the following warning message while installing the TWINT plugin
 
 
 #### Error message example: 
-<img src="./screenshots/cli-warning.png" alt="TWINT Checkout setting" width="900" height="auto">
+<img src="docs/screenshots/cli-warning.png" alt="TWINT Checkout setting" width="900" height="auto">
 
 ### Possible Causes and Solutions:
 
