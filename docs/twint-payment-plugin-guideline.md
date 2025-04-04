@@ -34,15 +34,15 @@
 - Go to `Plugins -> Installed Plugins`
 - Click on `Check for updates`
 
-<img src="docs/screenshots/twint-check_for_updates.png" alt="TWINT Plugin activated" width="900" height="auto">
+<img src="./screenshots/twint-check_for_updates.png" alt="TWINT Plugin activated" width="900" height="auto">
 
 - A message will pop up at the top of the page informing about the plugin status.
 
-<img src="docs/screenshots/twint-check_for_updates_2.png" alt="TWINT Plugin activated" width="900" height="auto">
+<img src="./screenshots/twint-check_for_updates_2.png" alt="TWINT Plugin activated" width="900" height="auto">
 
 or
 
-<img src="docs/screenshots/twint-check_for_updates_3.png" alt="TWINT Plugin activated" width="900" height="auto">
+<img src="./screenshots/twint-check_for_updates_3.png" alt="TWINT Plugin activated" width="900" height="auto">
 
 ## Configure the plugin
 
@@ -94,7 +94,7 @@ If you encounter the following warning message while installing the TWINT plugin
 
 
 #### Error message example: 
-<img src="docs/screenshots/cli-warning.png" alt="TWINT Checkout setting" width="900" height="auto">
+<img src="./screenshots/cli-warning.png" alt="TWINT Checkout setting" width="900" height="auto">
 
 ### Possible Causes and Solutions:
 
