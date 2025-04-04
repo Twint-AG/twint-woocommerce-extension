@@ -3,17 +3,22 @@
 use Twint\Woo\Constant\TwintConstant;
 
 if (!$cliSupport) { ?>
-    <div class="woocommerce-message notice notice-warning">
+    <div class="woocommerce-message notice notice-error">
         <p>
-            <?php echo wp_kses_post(__('<b>Warning</b>: PHP CLI Not Available', 'twint-woocommerce-extension')); ?> <br>
+            <strong><?php echo wp_kses_post(__('PHP CLI Not Available', 'twint-woocommerce-extension')); ?></strong> <br>
             <?php echo wp_kses_post(
-                __('PHP CLI (Command Line Interface) is missing or misconfigured. This extension relies on PHP CLI for essential background processes. Without it, some features may not function properly.', 'twint-woocommerce-extension')
+                __('PHP CLI (Command Line Interface) is missing or misconfigured. This extension relies on PHP CLI for essential background processes. Without it, the plug-in is not functional. Please refer to the Guide for troubleshooting and the minimum requirements for PHP CLI settings.', 'twint-woocommerce-extension')
             ); ?>
         <ul id="twint-cli-checks">
             <li data-status="<?php echo esc_html(
                 $cliVersionFlag
             ) ?>"><?php echo wp_kses_post(__('PHP CLI version ( >=8.1): ', 'twint-woocommerce-extension')) . esc_html(
                 $cliVersion
+            ); ?></li>
+            <li data-status="<?php echo esc_html(
+                $shellExecAllowedFlag
+            ) ?>"><?php echo wp_kses_post(__('Function `shell_exec` is allowed: ', 'twint-woocommerce-extension')) . esc_html(
+                $shellExecAllowedText
             ); ?></li>
             <li data-status="<?php echo esc_html(
                 $isExecutableFlag

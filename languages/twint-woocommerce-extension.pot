@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-03-21T04:49:11+00:00\n"
+"POT-Creation-Date: 2025-04-04T04:13:55+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: twint-woocommerce-extension\n"
@@ -169,11 +169,16 @@ msgstr ""
 
 #: src/Plugin.php:67
 #: src/View/Admin/credentials.php:20
-msgid "TWINT command is executable: "
+msgid "Function `shell_exec` is allowed: "
 msgstr ""
 
 #: src/Plugin.php:73
 #: src/View/Admin/credentials.php:25
+msgid "TWINT command is executable: "
+msgstr ""
+
+#: src/Plugin.php:79
+#: src/View/Admin/credentials.php:30
 msgid "TWINT PHP CLI Command Execution Test: "
 msgstr ""
 
@@ -211,7 +216,7 @@ msgstr ""
 msgid "Certificate password is required"
 msgstr ""
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:98
+#: src/Template/Admin/Setting/Tab/Credentials.php:99
 msgid "The TWINT command was successfully executed via the PHP CLI."
 msgstr ""
 
@@ -224,30 +229,30 @@ msgid "Settings"
 msgstr ""
 
 #: src/View/Admin/credentials.php:8
-msgid "<b>Warning</b>: PHP CLI Not Available"
+msgid "PHP CLI Not Available"
 msgstr ""
 
 #: src/View/Admin/credentials.php:10
-msgid "PHP CLI (Command Line Interface) is missing or misconfigured. This extension relies on PHP CLI for essential background processes. Without it, some features may not function properly."
-msgstr ""
-
-#: src/View/Admin/credentials.php:49
-msgid "Certificate encrypted and stored."
+msgid "PHP CLI (Command Line Interface) is missing or misconfigured. This extension relies on PHP CLI for essential background processes. Without it, the plug-in is not functional. Please refer to the Guide for troubleshooting and the minimum requirements for PHP CLI settings."
 msgstr ""
 
 #: src/View/Admin/credentials.php:54
+msgid "Certificate encrypted and stored."
+msgstr ""
+
+#: src/View/Admin/credentials.php:59
 msgid "Upload new certificate"
 msgstr ""
 
-#: src/View/Admin/credentials.php:61
+#: src/View/Admin/credentials.php:66
 msgid "Close"
 msgstr ""
 
-#: src/View/Admin/credentials.php:92
+#: src/View/Admin/credentials.php:97
 msgid "Invalid Store UUID. Store UUID needs to be a UUIDv4"
 msgstr ""
 
-#: src/View/Admin/credentials.php:103
+#: src/View/Admin/credentials.php:108
 msgid "Test"
 msgstr ""
 
