@@ -86,11 +86,12 @@ class Credentials extends TabItem
 
         $cliSupport = get_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION) === 'Yes';
         if (!$cliSupport) {
-            list($cliVersion, $isExecutable, $cliInfo) = Plugin::getCliInformation();
+            list($cliVersion, $isExecutable, $cliInfo, $shellExecAllowed) = Plugin::getCliInformation();
 
             $cliVersionFlag = version_compare($cliVersion, '8.1.0', '>') ? 'passed' : 'error';
             $isExecutableFlag = $isExecutable ? 'passed' : 'error';
             $isExecutableText = $isExecutable ? 'Yes' : 'No';
+            $shellExecAllowedText = $shellExecAllowed ? 'Yes' : 'No';
 
             $cliInfoFlag = 'error';
             if ($cliInfo === 'The TWINT command was successfully executed via the PHP CLI.') {

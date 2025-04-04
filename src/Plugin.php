@@ -55,11 +55,17 @@ class Plugin
 
     public static function addDebugInfo($info): array
     {
-        list($cliVersion, $isExecutable, $cliInfo) = self::getCliInformation();
+        list($cliVersion, $isExecutable, $cliInfo, $shellExecAllowed) = self::getCliInformation();
 
         $info['wp-server']['fields'][] = [
             'label' => __('PHP CLI version ( >=8.1): ', 'twint-woocommerce-extension'),
             'value' => $cliVersion,
+            'debug' => '',
+        ];
+
+        $info['wp-server']['fields'][] = [
+            'label' => __('Function `shell_exec` is allowed: ', 'twint-woocommerce-extension'),
+            'value' => $shellExecAllowed,
             'debug' => '',
         ];
 
@@ -96,7 +102,9 @@ class Plugin
 
         // Execute CLI command safely
         $cliInfo = 'Unknown';
+        $shellExecAllowed = false;
         if (function_exists('shell_exec')) {
+            $shellExecAllowed = true;
             $command = 'php ' . escapeshellarg($filePath) . ' ' . escapeshellarg(CliCommand::COMMAND);
             $output = @shell_exec($command);
             if ($output && trim($output) !== '') {
@@ -104,7 +112,7 @@ class Plugin
             }
         }
 
-        return [$cliVersion, $isExecutable, $cliInfo];
+        return [$cliVersion, $isExecutable, $cliInfo, $shellExecAllowed];
     }
 
     public static function createCustomWooCommerceStatus(): void

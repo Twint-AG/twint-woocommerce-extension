@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/twint-woocommerce-"
 "extension\n"
-"POT-Creation-Date: 2025-03-21T04:49:11+00:00\n"
-"PO-Revision-Date: 2025-03-21 11:52+0700\n"
+"POT-Creation-Date: 2025-04-04T04:13:55+00:00\n"
+"PO-Revision-Date: 2025-04-04 11:16+0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -170,10 +170,14 @@ msgid "PHP CLI version ( >=8.1): "
 msgstr "Version de PHP CLI (>8.1): "
 
 #: src/Plugin.php:67 src/View/Admin/credentials.php:20
+msgid "Function `shell_exec` is allowed: "
+msgstr "La fonction `shell_exec` est autorisée: "
+
+#: src/Plugin.php:73 src/View/Admin/credentials.php:25
 msgid "TWINT command is executable: "
 msgstr "La commande TWINT est exécutable: "
 
-#: src/Plugin.php:73 src/View/Admin/credentials.php:25
+#: src/Plugin.php:79 src/View/Admin/credentials.php:30
 msgid "TWINT PHP CLI Command Execution Test: "
 msgstr "Test d’exécution de la commande TWINT PHP CLI: "
 
@@ -211,7 +215,7 @@ msgstr "Mot de passe du certificat"
 msgid "Certificate password is required"
 msgstr "Le mot de passe du certificat est requis"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:98
+#: src/Template/Admin/Setting/Tab/Credentials.php:99
 msgid "The TWINT command was successfully executed via the PHP CLI."
 msgstr "La commande TWINT a été exécutée avec succès via le PHP CLI."
 
@@ -224,40 +228,42 @@ msgid "Settings"
 msgstr "Paramètres"
 
 #: src/View/Admin/credentials.php:8
-msgid "<b>Warning</b>: PHP CLI Not Available"
-msgstr "<b>Avertissement</b> : PHP CLI n’est pas disponible"
+msgid "PHP CLI Not Available"
+msgstr "PHP CLI n’est pas disponible"
 
 #: src/View/Admin/credentials.php:10
 msgid ""
 "PHP CLI (Command Line Interface) is missing or misconfigured. This extension "
-"relies on PHP CLI for essential background processes. Without it, some "
-"features may not function properly."
+"relies on PHP CLI for essential background processes. Without it, the plug-"
+"in is not functional. Please refer to the Guide for troubleshooting and the "
+"minimum requirements for PHP CLI settings."
 msgstr ""
-"PHP CLI (Interface de Ligne de Commande) est manquant ou mal configuré. "
-"Cette extension dépend de PHP CLI pour des processus d’arrière-plan "
-"essentiels. Sans elle, certaines fonctionnalités pourraient ne pas "
-"fonctionner correctement."
+"PHP CLI (Command Line Interface) est manquant ou mal configuré. Cette "
+"extension s’appuie sur PHP CLI pour les processus essentiels en arrière-"
+"plan. Sans elle, le plug-in n’est pas fonctionnel. Veuillez vous référer au "
+"guide pour le dépannage et les exigences minimales pour les paramètres de "
+"PHP CLI."
 
-#: src/View/Admin/credentials.php:49
+#: src/View/Admin/credentials.php:54
 msgid "Certificate encrypted and stored."
 msgstr "Certificat crypté et enregistré."
 
-#: src/View/Admin/credentials.php:54
+#: src/View/Admin/credentials.php:59
 msgid "Upload new certificate"
 msgstr "Télécharger un nouveau certificat"
 
-#: src/View/Admin/credentials.php:61
+#: src/View/Admin/credentials.php:66
 msgid "Close"
 msgstr "Fermer"
 
-#: src/View/Admin/credentials.php:92
+#: src/View/Admin/credentials.php:97
 #, fuzzy
 #| msgid "Invalid Store Uuid. Store Uuid needs to be a UUIDv4."
 msgid "Invalid Store UUID. Store UUID needs to be a UUIDv4"
 msgstr ""
 "UUID de votre commerce invalide. L’UUID de votre commerce doit être un UUIDv4"
 
-#: src/View/Admin/credentials.php:103
+#: src/View/Admin/credentials.php:108
 msgid "Test"
 msgstr ""
 
