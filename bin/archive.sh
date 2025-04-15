@@ -17,7 +17,7 @@ npm run build
 
 # Install composer dependencies for production
 rm -rf "${PWD}/vendor"
-composer install --no-dev --optimize-autoloader --prefer-dist
+composer install --no-dev --optimize-autoloader --prefer-dist --ignore-platform-reqs
 
 VERSION="${CI_COMMIT_TAG:-0.0.1-dev}"
 VERSION_DISPLAY="${CI_COMMIT_TAG:-$(git rev-parse --short=6 HEAD)}"
