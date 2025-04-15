@@ -8,6 +8,7 @@ use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
 use Automattic\WooCommerce\Utilities\OrderUtil;
 use Twint\Woo\Command\CliCommand;
+use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\ContainerFactory;
 use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
@@ -51,6 +52,17 @@ class Plugin
         });
 
         add_filter('debug_information', [self::class, 'addDebugInfo']);
+
+        add_action('admin_init', [self::class, 'adminAccessHook']);
+    }
+
+    public static function adminAccessHook()
+    {
+        $cliSupport = get_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION) === 'Yes';
+        if (!$cliSupport) {
+            $trigger = self::di('cli.trigger', false);
+            $trigger->handle();
+        }
     }
 
     public static function addDebugInfo($info): array
