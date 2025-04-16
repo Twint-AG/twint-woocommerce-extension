@@ -43,7 +43,7 @@ return [
     // For more see: https://github.com/humbug/php-scoper/blob/master/docs/configuration.md#prefix
     'prefix' => 'TwintWoo',
 
-    'php-version' => '8.1',
+    // 'php-version' => '8.1',
 
     // The base output directory for the prefixed files.
     // This will be overridden by the 'output-dir' command line option if present.
@@ -103,6 +103,17 @@ return [
 
             if (str_contains($filePath, '/psl/')) {
                 $contents = str_replace('use Psl;', 'use TwintWoo\\Psl;', $contents);
+            }
+
+            if (str_contains($filePath, '/phpseclib/') && str_ends_with($filePath, '.php')) {
+                $contents = str_replace("'phpseclib3", "'TwintWoo\\phpseclib3", $contents);
+                $contents = str_replace("'\\phpseclib3\\", "'TwintWoo\\phpseclib3\\", $contents);
+
+                $contents = str_replace("extension_loaded('bcmath')", 'true', $contents);       
+            }
+
+            if (str_ends_with($filePath, 'Normalizer.php')) {
+                $contents = str_replace('namespace {', 'namespace TwintWoo {', $contents);
             }
 
             if (str_ends_with($filePath, 'twint-ag/sdk/src/polyfill.php')) {

@@ -250,4 +250,9 @@ class ExpressCheckoutGateway extends AbstractGateway
 
         return [$service->checkin($order)];
     }
+
+    public function get_settings_url(): string
+    {
+        return admin_url('admin.php?page=wc-settings&tab=checkout&section=twint_express');
+    }
 }
