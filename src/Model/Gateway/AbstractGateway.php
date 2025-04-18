@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Woo\Model\Gateway;
 
 use Throwable;
+use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Model\ApiResponse;
 use Twint\Woo\Plugin;
 use Twint\Woo\Service\PaymentService;
@@ -109,5 +110,50 @@ abstract class AbstractGateway extends WC_Payment_Gateway
         $res = $service->reverseOrder($order, (float) $amount);
 
         return $res instanceof ApiResponse && $res->getReturn()->isSuccessful();
+    }
+
+    public function is_account_connected(): bool
+    {
+        return get_option(TwintConstant::FLAG_VALIDATED_CREDENTIAL_CONFIG) === TwintConstant::YES;
+    }
+
+    public function is_test_mode(): bool
+    {
+        return get_option(TwintConstant::TEST_MODE) === TwintConstant::YES;
+    }
+
+    public function is_dev_mode(): bool
+    {
+        return false;
+    }
+
+    public function is_onboarding_started(): bool
+    {
+        return true;
+    }
+
+    public function is_onboarding_completed(): bool
+    {
+        return get_option(TwintConstant::FLAG_VALIDATED_CREDENTIAL_CONFIG) === TwintConstant::YES;
+    }
+
+    public function is_test_mode_onboarding(): bool
+    {
+        return get_option(TwintConstant::TEST_MODE) === TwintConstant::YES;
+    }
+
+    public function get_settings_url(): string
+    {
+        return admin_url('admin.php?page=twint-payment-integration-settings');
+    }
+
+    public function get_connection_url(): string
+    {
+        return '';
+    }
+
+    public function get_recommended_payment_methods(string $country_code = ''): array
+    {
+        return [];
     }
 }
