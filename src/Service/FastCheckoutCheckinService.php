@@ -12,6 +12,7 @@ use Twint\Sdk\Value\ShippingMethod;
 use Twint\Sdk\Value\ShippingMethodId;
 use Twint\Sdk\Value\ShippingMethods;
 use Twint\Sdk\Value\Version;
+use Twint\Woo\Api\Frontend\ExpressCheckoutAction;
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
@@ -53,10 +54,13 @@ class FastCheckoutCheckinService
 
     /**
      * Express checkout only support for CH country
-     * @param mixed $packages
      */
-    public static function forceCountry($packages): array
+    public static function forceCountry(array $packages): array
     {
+        if (!str_contains($_SERVER['REQUEST_URI'], ExpressCheckoutAction::ROUTE)) {
+            return $packages;
+        }
+
         foreach ($packages as &$package) {
             $package['destination']['country'] = 'CH';
         }

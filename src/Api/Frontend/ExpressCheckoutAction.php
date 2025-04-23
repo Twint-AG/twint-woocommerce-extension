@@ -24,6 +24,8 @@ class ExpressCheckoutAction
     use LazyLoadTrait;
     use CartInitTrait;
 
+    public const ROUTE = '/express/checkout';
+
     protected static array $lazyLoads = ['monitor', 'service'];
 
     public function __construct(
@@ -37,7 +39,7 @@ class ExpressCheckoutAction
     protected function registerHooks(): void
     {
         add_action('rest_api_init', function () {
-            register_rest_route('twint/v1', '/express/checkout', [
+            register_rest_route('twint/v1', self::ROUTE, [
                 'methods' => 'POST',
                 'callback' => [$this, 'handle'],
                 'permission_callback' => '__return_true',
