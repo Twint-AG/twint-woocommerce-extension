@@ -56,10 +56,10 @@ class Plugin
         add_action('admin_init', [self::class, 'adminAccessHook']);
     }
 
-    public static function adminAccessHook()
+    public static function adminAccessHook(): void
     {
-        $cliSupport = get_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION) === 'Yes';
-        if (!$cliSupport) {
+        if (self::shouldCheckCli()) {
+            update_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION, 'No');
             $trigger = self::di('cli.trigger', false);
             $trigger->handle();
         }
@@ -301,5 +301,22 @@ class Plugin
 
         // from WP 6.5 only need this
         load_plugin_textdomain('twint-woocommerce-extension', false, plugin_dir_path(self::pluginFile()) . 'languages');
+    }
+
+    private static function shouldCheckCli(): bool
+    {
+        return self::isMainDashboard() || self::isTwintSettingPage();
+    }
+
+    private static function isMainDashboard(): bool
+    {
+        return !isset($_GET['page']) && basename($_SERVER['SCRIPT_NAME']) === 'index.php';
+    }
+
+    private static function isTwintSettingPage(): bool
+    {
+        $current_page = isset($_GET['page']) ? sanitize_text_field($_GET['page']) : '';
+
+        return $current_page === 'twint-woocommerce-extension';
     }
 }
