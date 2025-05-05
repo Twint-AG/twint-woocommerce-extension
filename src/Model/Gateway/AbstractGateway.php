@@ -35,7 +35,7 @@ abstract class AbstractGateway extends WC_Payment_Gateway
      */
     public $form_fields;
 
-    public string $instructions;
+    public string $instructions = '';
 
     protected mixed $logger;
 
