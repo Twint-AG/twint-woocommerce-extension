@@ -49,7 +49,11 @@ class ExpressButton
             $this->getSpinner()->registerHooks();
             $this->getModal()->registerHooks();
 
-            Plugin::enqueueScript('frontend-express', '/express.js');
+            Plugin::enqueueScript('frontend-express', '/express.js', true, static function () {
+                wp_localize_script('twint-woocommerce-extension-frontend-express', 'twintExpress', [
+                    'cartUrl' => wc_get_cart_url(),
+                ]);
+            });
 
             // Google Font
             wp_enqueue_style(

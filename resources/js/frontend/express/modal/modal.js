@@ -118,18 +118,22 @@ class Modal {
       if (!document.body.classList.contains('woocommerce-cart')) {
         jQuery(document.body).trigger('wc_fragment_refresh')
         jQuery(document.body).trigger('added_to_cart')
-        jQuery(document.body).trigger('removed_from_cart')
-        jQuery(document.body).trigger('wc-blocks_removed_from_cart')
         jQuery(document.body).trigger('wc-blocks_added_to_cart')
       }
-
-      // support WooCommerce Flying Cart
-      const cartTrigger = document.querySelector('.woofc-cart-trigger')
-      if (cartTrigger) {
-        cartTrigger.click()
-      }
     } catch (e) {
-      // Silence
+      console.error(e)
+    }
+  }
+
+  openMiniCart() {
+    const selectors = ['.wc-block-mini-cart__button', '.woofc-cart-trigger']
+
+    for (const selector of selectors) {
+      const $el = jQuery(selector)
+      if ($el.length) {
+        $el.trigger('click')
+        break
+      }
     }
   }
 

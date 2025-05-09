@@ -218,14 +218,19 @@ class Plugin
     /**
      * Utility function for enqueue JS files with dependencies and version
      * Only support for script files in /dist folder
+     * @param null|mixed $callback
      */
-    public static function enqueueScript(string $id, string $path, bool $useHook = true): void
+    public static function enqueueScript(string $id, string $path, bool $useHook = true, $callback = null): void
     {
-        $func = function () use ($id, $path) {
+        $func = function () use ($id, $path, $callback) {
             $name = "twint-woocommerce-extension-{$id}";
             $asset = require self::abspath() . 'dist' . str_replace('.js', '.asset.php', $path);
 
             wp_enqueue_script($name, Plugin::dist($path), $asset['dependencies'], $asset['version'], false);
+
+            if (is_callable($callback)) {
+                $callback();
+            }
         };
 
         // Hook into wp_enqueue_scripts or another relevant hook
