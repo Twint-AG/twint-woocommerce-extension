@@ -21,7 +21,7 @@ class CliSupportTrigger
     {
         try {
             update_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION, 'No');
-            
+
             $logFile = escapeshellarg(sys_get_temp_dir() . '/cli_command.log');
             $subCommand = escapeshellarg(Plugin::abspath() . 'bin/console');
             $name = escapeshellarg(CliCommand::COMMAND);

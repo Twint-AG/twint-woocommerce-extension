@@ -8,7 +8,6 @@ use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
 use Automattic\WooCommerce\Utilities\OrderUtil;
 use Twint\Woo\Command\CliCommand;
-use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\ContainerFactory;
 use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
@@ -290,12 +289,5 @@ class Plugin
 
         // from WP 6.5 only need this
         load_plugin_textdomain('twint-woocommerce-extension', false, plugin_dir_path(self::pluginFile()) . 'languages');
-    }
-
-    private static function isTwintSettingPage(): bool
-    {
-        $current_page = isset($_GET['page']) ? sanitize_text_field($_GET['page']) : '';
-
-        return $current_page === 'twint-woocommerce-extension';
     }
 }
