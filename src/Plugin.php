@@ -8,7 +8,6 @@ use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
 use Automattic\WooCommerce\Utilities\OrderUtil;
 use Twint\Woo\Command\CliCommand;
-use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\ContainerFactory;
 use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
@@ -52,17 +51,6 @@ class Plugin
         });
 
         add_filter('debug_information', [self::class, 'addDebugInfo']);
-
-        add_action('admin_init', [self::class, 'adminAccessHook']);
-    }
-
-    public static function adminAccessHook(): void
-    {
-        if (self::shouldCheckCli()) {
-            update_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION, 'No');
-            $trigger = self::di('cli.trigger', false);
-            $trigger->handle();
-        }
     }
 
     public static function addDebugInfo($info): array
@@ -301,22 +289,5 @@ class Plugin
 
         // from WP 6.5 only need this
         load_plugin_textdomain('twint-woocommerce-extension', false, plugin_dir_path(self::pluginFile()) . 'languages');
-    }
-
-    private static function shouldCheckCli(): bool
-    {
-        return self::isMainDashboard() || self::isTwintSettingPage();
-    }
-
-    private static function isMainDashboard(): bool
-    {
-        return !isset($_GET['page']) && basename($_SERVER['SCRIPT_NAME']) === 'index.php';
-    }
-
-    private static function isTwintSettingPage(): bool
-    {
-        $current_page = isset($_GET['page']) ? sanitize_text_field($_GET['page']) : '';
-
-        return $current_page === 'twint-woocommerce-extension';
     }
 }

@@ -5,13 +5,22 @@ declare(strict_types=1);
 use Rector\Config\RectorConfig;
 use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictConstructorRector;
 
-return RectorConfig::configure()
-    ->withPaths([
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->paths([
         __DIR__ . '/src',
-    ])
-    // uncomment to reach your current PHP version
-    // ->withPhpSets()
-    // register single rule
-    ->withRules([TypedPropertyFromStrictConstructorRector::class])
-    // here we can define, what prepared sets of rules will be applied
-    ->withPreparedSets(deadCode: true, codeQuality: true);
+    ]);
+
+    $rectorConfig->skip([
+        __DIR__ . '/src/Command/CliCommand.php',
+    ]);
+
+    $rectorConfig->rules([
+        TypedPropertyFromStrictConstructorRector::class,
+    ]);
+
+    // Define prepared sets of rules for dead code and code quality
+    $rectorConfig->sets([
+        \Rector\Set\ValueObject\SetList::DEAD_CODE,
+        \Rector\Set\ValueObject\SetList::CODE_QUALITY,
+    ]);
+};
