@@ -100,8 +100,9 @@ class ExpressCheckout {
       )
 
       messages.scrollIntoView({
-        behavior: 'smooth', // Enables smooth scrolling
-        block: 'start', // Aligns the element to the top of the viewport
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center',
       })
     }
   }

@@ -122,6 +122,12 @@ class Modal {
         jQuery(document.body).trigger('wc-blocks_removed_from_cart')
         jQuery(document.body).trigger('wc-blocks_added_to_cart')
       }
+
+      // support WooCommerce Flying Cart
+      const cartTrigger = document.querySelector('.woofc-cart-trigger')
+      if (cartTrigger) {
+        cartTrigger.click()
+      }
     } catch (e) {
       // Silence
     }
