@@ -10,10 +10,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 use Twint\Woo\Constant\TwintConstant;
-use Twint\Woo\Plugin;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Service\MonitorService;
-use WC_Logger_Interface;
 
 /**
  * @method PairingRepository getRepository()
@@ -24,13 +22,9 @@ class CliCommand extends Command
 {
     public const COMMAND = 'twint:cli';
 
-    private WC_Logger_Interface $logger;
-
     public function __construct(?string $name = null)
     {
         parent::__construct($name);
-
-        $this->logger = Plugin::di('logger', false);
     }
 
     protected function configure(): void
@@ -44,7 +38,10 @@ class CliCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->logger->info('CliCommand::execute is running');
+        if (version_compare(PHP_VERSION, '8.1.0', '<')) {
+            echo 'This command requires PHP 8.1 or higher. Current version: ' . PHP_VERSION;
+            return 1;
+        }
 
         update_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION, 'Yes');
 

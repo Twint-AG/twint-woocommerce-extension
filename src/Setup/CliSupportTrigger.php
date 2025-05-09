@@ -6,6 +6,7 @@ namespace Twint\Woo\Setup;
 
 use Throwable;
 use Twint\Woo\Command\CliCommand;
+use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Plugin;
 use WC_Logger_Interface;
 
@@ -19,6 +20,8 @@ class CliSupportTrigger
     public function handle(): void
     {
         try {
+            update_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION, 'No');
+            
             $logFile = escapeshellarg(sys_get_temp_dir() . '/cli_command.log');
             $subCommand = escapeshellarg(Plugin::abspath() . 'bin/console');
             $name = escapeshellarg(CliCommand::COMMAND);
