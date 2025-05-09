@@ -110,16 +110,17 @@ class ExpressCheckout {
   showMessageAndOpenMiniCart() {
     try {
       let data = ExpressCheckout.modal.getData()
-      let message = `<a href="/cart/" tabindex="1" class="button wc-forward wp-element-button">
+
+      let message = `<a href="${window.twintExpress.cartUrl}" tabindex="1" class="button wc-forward wp-element-button">
                       ${data.label}
                     </a>
                     ${data.message}`
 
       this.showMessage(message, 'woocommerce-info is-success')
 
-      jQuery('.wc-block-mini-cart__button ').click()
+      ExpressCheckout.modal.openMiniCart()
     } catch (e) {
-      console.error('Cannot show message box')
+      console.error('Cannot show message box', e)
     }
   }
 }
