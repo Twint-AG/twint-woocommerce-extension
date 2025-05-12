@@ -70,7 +70,7 @@ class ExpressCheckoutService
         }
 
         // Calculate totals
-        $order->calculate_totals();
+        $order->recalculate_coupons();
 
         // Add billing address
         $address = [
