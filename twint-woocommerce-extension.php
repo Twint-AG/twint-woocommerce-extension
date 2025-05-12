@@ -12,6 +12,7 @@
  * Domain Path: /languages
  * Copyright: © 2024 NFQ.
  * License: MIT
+ * Requires PHP: 8.1
  * WC requires at least: 6.0
  * WC tested up to: 9.3
  */
