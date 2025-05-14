@@ -117,7 +117,7 @@ class MonitorService
                     $this->getRepository()->markAsFailed($pairing->getId());
                 } catch (Throwable $e) {
                     $this->getRepository()->markAsFailed($pairing->getId());
-                    $this->logger->error($e->getMessage());
+                    $this->logger->error('TWINT MonitorService::monitor: ' . $e->getMessage());
                 }
             }
 

@@ -110,7 +110,7 @@ class ExpressOrderService
             return;
         }
 
-        list($methodTitle, $rate) = $this->getShippingInfo($pairing, $order);
+        [$methodTitle, $rate] = $this->getShippingInfo($pairing, $order);
 
         $shippingItems = $order->get_items('shipping');
         /** @var WC_Order_Item_Shipping $item */
@@ -156,7 +156,7 @@ class ExpressOrderService
     {
         $data = $pairing->getCustomerData();
 
-        list($contents, $cost) = $this->buildPackageContents($order);
+        [$contents, $cost] = $this->buildPackageContents($order);
 
         $package = [
             'contents' => $contents,
@@ -193,7 +193,8 @@ class ExpressOrderService
         }
 
         if ($method) {
-            $rates = $method->get_rates_for_package($package);
+            $method->calculate_shipping($package);
+            $rates = $method->rates;
 
             return [$method->get_method_title(), reset($rates)];
         }
