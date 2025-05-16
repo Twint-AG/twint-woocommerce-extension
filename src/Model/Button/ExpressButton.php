@@ -186,6 +186,11 @@ class ExpressButton
 
     public function renderExpressButtonInCartPage(string $html): string
     {
+        $total = (float) WC()->cart->get_total('edit');
+        if ($total <= 0) {
+            return $html;
+        }
+
         $html .= $this->getButton('cart');
 
         return $html . $this->renderOrSection();
@@ -193,6 +198,11 @@ class ExpressButton
 
     public function renderButtonInMiniCart(string $html): string
     {
+        $total = (float) WC()->cart->get_total('edit');
+        if ($total <= 0) {
+            return $html;
+        }
+
         return $html . $this->getButton('mini-cart dynamic');
     }
 
