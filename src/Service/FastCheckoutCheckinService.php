@@ -57,7 +57,9 @@ class FastCheckoutCheckinService
      */
     public static function forceCountry(array $packages): array
     {
-        if (!str_contains($_SERVER['REQUEST_URI'], ExpressCheckoutAction::ROUTE)) {
+        $requestUri = sanitize_text_field(wp_unslash($_SERVER['REQUEST_URI'] ?? ''));
+
+        if (!str_contains($requestUri, ExpressCheckoutAction::ROUTE)) {
             return $packages;
         }
 

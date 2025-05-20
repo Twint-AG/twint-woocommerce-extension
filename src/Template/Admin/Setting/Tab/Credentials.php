@@ -25,7 +25,10 @@ class Credentials extends TabItem
         $fields = [];
 
         $flag = 0;
+
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         if (isset($_GET['showTwintEnvOptions'])) {
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             $flag = (int) in_array($_GET['showTwintEnvOptions'], [1, '1', 'yes', 'Yes'], true) !== 0 ? 1 : -1;
         }
 
