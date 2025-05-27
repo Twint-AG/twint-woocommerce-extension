@@ -65,6 +65,10 @@ RUN git config --global --add safe.directory /var/www/html/wp-content/plugins/wo
 RUN rm -f composer.lock \
     && composer install --no-interaction 
 USER root
+
+# Copy source code of website
+RUN cp -a /usr/src/wordpress/. /var/www/html
+
 WORKDIR /var/www/html
 
 EXPOSE 80
