@@ -103,6 +103,7 @@ msgstr "Oppure"
 
 #: src/Model/Gateway/ExpressCheckoutGateway.php:54
 #: src/Model/Gateway/ExpressCheckoutGateway.php:55
+#: src/Service/ExpressCheckoutService.php:91
 #: src/Template/Admin/Setting/Tab/ExpressCheckout.php:18
 msgid "TWINT Express Checkout"
 msgstr "TWINT Express Checkout"
