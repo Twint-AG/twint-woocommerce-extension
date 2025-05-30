@@ -88,6 +88,7 @@ class ExpressCheckoutService
         $order->set_address($address, 'shipping');
 
         $order->set_payment_method(ExpressCheckoutGateway::UNIQUE_PAYMENT_ID);
+        $order->set_payment_method_title(__('TWINT Express Checkout', 'twint-woocommerce-extension'));
 
         // Set order status
         $order->set_status('checkout-draft');
