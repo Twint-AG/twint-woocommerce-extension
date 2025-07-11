@@ -152,16 +152,25 @@ class StatusRefresher {
     return this.onCancelled(response)
   }
 
+  isIOS() {
+    const ua = window.navigator.userAgent
+    const platform = window.navigator.platform
+    return (
+      /iPad|iPhone|iPod/.test(ua) ||
+      (platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+    )
+  }
+
   check(oneTime = false) {
     if (!oneTime && (this.stopped || this.processing)) return
 
     const self = this
     this.processing = true
 
-    const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), 3000) // 3 seconds timeout
+    let controller
+    let timeoutId
 
-    apiFetch({
+    let payload = {
       path: '/twint/v1/payment/status',
       method: 'POST',
       data: {
@@ -169,10 +178,18 @@ class StatusRefresher {
       },
       cache: 'no-store',
       parse: false,
-      signal: controller.signal,
-    })
+    }
+
+    if (this.isIOS() && typeof AbortController !== 'undefined') {
+      controller = new AbortController()
+      timeoutId = setTimeout(() => controller.abort(), 3000) // 3 seconds timeout
+
+      payload.signal = controller.signal
+    }
+
+    apiFetch(payload)
       .then((response) => {
-        clearTimeout(timeoutId)
+        if (timeoutId) clearTimeout(timeoutId)
         self.processing = false
 
         if (!response.ok) {
@@ -187,7 +204,7 @@ class StatusRefresher {
         !oneTime && self.onProcessing()
       })
       .catch((error) => {
-        clearTimeout(timeoutId)
+        if (timeoutId) clearTimeout(timeoutId)
         self.processing = false
 
         if (
