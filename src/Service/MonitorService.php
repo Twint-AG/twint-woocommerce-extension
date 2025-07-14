@@ -379,6 +379,10 @@ class MonitorService
 
                 $shellCommand = "php {$command}  {$statement} {$id} > {$logFile} 2>&1 &";
 
+                if (shell_exec('wp --info') !== null) {
+                    $shellCommand = "wp twint-poll {$id} --allow-root > {$logFile} 2>&1 &";
+                }
+
                 shell_exec($shellCommand);
             } catch (Throwable $e) {
                 $this->logger->error('TWINT error start monitor: ' . $e->getMessage());

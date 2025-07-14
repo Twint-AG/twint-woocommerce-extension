@@ -8,14 +8,17 @@ use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
 use Automattic\WooCommerce\Utilities\OrderUtil;
 use Twint\Woo\Command\CliCommand;
+use Twint\Woo\Command\Poll_Command;
 use Twint\Woo\Container\ContainerFactory;
 use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 use Twint\Woo\Model\Method\ExpressCheckout;
 use Twint\Woo\Model\Method\RegularCheckout;
 use WC_Payment_Gateway;
+use WP_CLI;
 use function is_readable;
 use function shell_exec;
+use const WP_CLI;
 
 class Plugin
 {
@@ -27,6 +30,8 @@ class Plugin
     public static function init(string $path): void
     {
         self::$pluginFile = $path;
+
+        self::registerCLI();
 
         // Twint Payments gateway class.
         add_action('plugins_loaded', [self::class, 'loaded'], 0);
@@ -51,6 +56,13 @@ class Plugin
         });
 
         add_filter('debug_information', [self::class, 'addDebugInfo']);
+    }
+
+    public static function registerCLI(): void
+    {
+        if (defined('WP_CLI') && WP_CLI) {
+            WP_CLI::add_command('twint-poll', [Poll_Command::class, 'poll']);
+        }
     }
 
     public static function addDebugInfo($info): array
