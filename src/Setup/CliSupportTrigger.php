@@ -19,6 +19,11 @@ class CliSupportTrigger
 
     public function handle(): void
     {
+        if (!function_exists('shell_exec')) {
+            update_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION, 'No');
+            return;
+        }
+
         try {
             update_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION, 'No');
 
@@ -27,9 +32,10 @@ class CliSupportTrigger
             $name = escapeshellarg(CliCommand::COMMAND);
             $command = "php {$subCommand} {$name} > {$logFile} 2>&1 &";
 
-            if (function_exists('shell_exec')) {
-                shell_exec($command);
-            }
+            // Note: We're not using WP-CLI here because there's no WP-CLI command registered for CliCommand
+            $this->logger->info('TWINT using PHP command for CLI support check');
+
+            shell_exec($command);
         } catch (Throwable $e) {
             $this->logger->error('Cannot start PHP process: ' . $e->getMessage());
         }

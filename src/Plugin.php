@@ -8,12 +8,14 @@ use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
 use Automattic\WooCommerce\Utilities\OrderUtil;
 use Twint\Woo\Command\CliCommand;
+use Twint\Woo\Command\WpCliPollCommand;
 use Twint\Woo\Container\ContainerFactory;
 use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 use Twint\Woo\Model\Method\ExpressCheckout;
 use Twint\Woo\Model\Method\RegularCheckout;
 use WC_Payment_Gateway;
+use WP_CLI;
 use function is_readable;
 use function shell_exec;
 
@@ -27,6 +29,8 @@ class Plugin
     public static function init(string $path): void
     {
         self::$pluginFile = $path;
+
+        self::registerCLI();
 
         // Twint Payments gateway class.
         add_action('plugins_loaded', [self::class, 'loaded'], 0);
@@ -53,9 +57,17 @@ class Plugin
         add_filter('debug_information', [self::class, 'addDebugInfo']);
     }
 
+    public static function registerCLI(): void
+    {
+        if (defined('WP_CLI') && WP_CLI) {
+            /** @phpstan-ignore-next-line */
+            WP_CLI::add_command('twint-poll', [WpCliPollCommand::class, 'poll']);
+        }
+    }
+
     public static function addDebugInfo($info): array
     {
-        list($cliVersion, $isExecutable, $cliInfo, $shellExecAllowed) = self::getCliInformation();
+        [$cliVersion, $isExecutable, $cliInfo, $shellExecAllowed] = self::getCliInformation();
 
         $info['wp-server']['fields'][] = [
             'label' => __('PHP CLI version ( >=8.1): ', 'twint-woocommerce-extension'),

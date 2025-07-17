@@ -373,11 +373,20 @@ class MonitorService
         if (!$pairing->isMonitoring() && function_exists('shell_exec')) {
             try {
                 $logFile = escapeshellarg(sys_get_temp_dir() . "/{$pairing->getId()}.log");
-                $command = escapeshellarg(Plugin::abspath() . 'bin/console');
-                $statement = escapeshellarg(PollCommand::COMMAND);
                 $id = escapeshellarg($pairing->getId());
 
-                $shellCommand = "php {$command}  {$statement} {$id} > {$logFile} 2>&1 &";
+                // Check if WP-CLI is available
+                if (shell_exec('wp --info') !== null) {
+                    // Use WP-CLI if available
+                    $shellCommand = "wp twint-poll {$id} --allow-root > {$logFile} 2>&1 &";
+                    $this->logger->info("TWINT using WP-CLI for polling {$id}");
+                } else {
+                    // Fallback to PHP command if WP-CLI is not available
+                    $command = escapeshellarg(Plugin::abspath() . 'bin/console');
+                    $statement = escapeshellarg(PollCommand::COMMAND);
+                    $shellCommand = "php {$command} {$statement} {$id} > {$logFile} 2>&1 &";
+                    $this->logger->info("TWINT using PHP command for polling (WP-CLI not available) {$id}");
+                }
 
                 shell_exec($shellCommand);
             } catch (Throwable $e) {

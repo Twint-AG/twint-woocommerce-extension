@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Twint\Woo\Api\Frontend;
 
 use Throwable;
-use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Service\ExpressCheckoutService;
@@ -82,10 +81,7 @@ class ExpressCheckoutAction
             ], 200);
         }
 
-        // Start monitoring in background
-        if (get_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION) === 'Yes') {
-            $this->getMonitor()->status($pairing);
-        }
+        $this->getMonitor()->status($pairing);
 
         return new WP_REST_Response([
             'pairing' => $pairing->getId(),
