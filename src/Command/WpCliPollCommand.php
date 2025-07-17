@@ -12,7 +12,7 @@ use Twint\Woo\Service\MonitorService;
 use WC_Logger_Interface;
 use WP_CLI;
 
-class Poll_Command
+class WpCliPollCommand
 {
     private PairingRepository $repository;
 
