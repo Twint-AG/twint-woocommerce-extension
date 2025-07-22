@@ -31,7 +31,7 @@ class ProductListingPageContext extends Context {
 
       if (btnAddToCart !== null) {
         const productId = btnAddToCart.attributes['data-product_id']?.value
-        const quantity = btnAddToCart.attributes['data-quantity']?.value
+        const quantity = btnAddToCart.attributes['data-quantity']?.value ?? 1
 
         return {
           quantity: quantity,
@@ -48,9 +48,16 @@ class ProductListingPageContext extends Context {
   }
 
   mapping(data) {
+    // Get the nonce from the button if it exists
+    const nonceInput = this.button
+      ? this.button.querySelector('input[name="fme_cpffw_nonce"]')
+      : null
+    const nonce = nonceInput ? nonceInput.value : ''
+
     return {
       quantity: data.quantityToAdd,
       id: data.productId,
+      fme_cpffw_nonce: nonce,
     }
   }
 }

@@ -53,6 +53,7 @@ class ExpressCheckoutAction
     {
         $this->initCartIfNeed();
 
+        $_REQUEST = array_merge($_REQUEST, $request->get_params());
         $full = $request->get_param('full') ?? false;
 
         if (!$full) {

@@ -10,6 +10,7 @@ use Throwable;
 use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
 use Twint\Woo\Model\Pairing;
 use WC_Cart;
+use WC_Checkout;
 use WC_Data_Exception;
 use WC_Order;
 use WP_REST_Request;
@@ -35,66 +36,47 @@ class ExpressCheckoutService
         // Get the current user
         $customerId = get_current_user_id();
 
-        // Create a new order
-        $order = wc_create_order([
+        // Prepare order data
+        $order_data = [
             'customer_id' => $customerId,
-        ]);
+            'payment_method' => ExpressCheckoutGateway::UNIQUE_PAYMENT_ID,
+            'payment_method_title' => __('TWINT Express Checkout', 'twint-woocommerce-extension'),
+            'status' => 'checkout-draft',
+            'currency' => 'CHF',
+            'billing' => [
+                'first_name' => 'First',
+                'last_name' => 'Last',
+                'email' => 'email@example.com',
+                'phone' => '1234567890',
+                'address_1' => '123 Main St',
+                'city' => 'City',
+                'state' => '',
+                'postcode' => '',
+                'country' => 'CH',
+            ],
+        ];
 
+        // Copy billing to shipping
+        $order_data['shipping'] = $order_data['billing'];
+
+        // Create order using WC_Checkout
+        $checkout = new WC_Checkout();
+        $order_id = $checkout->create_order($order_data);
+        $order = wc_get_order($order_id);
+
+        // Add custom meta data
         $order->update_meta_data('_wc_order_attribution_source_type', 'typein');
         $order->update_meta_data('_wc_order_attribution_utm_source', '(direct)');
 
-        $order->set_currency('CHF');
+        // Save the order with meta data
+        $order->save();
 
-        $cart = WC()->cart->get_cart();
-
-        foreach ($cart as $item) {
-            // Get the product
-            $product = $item['data'];
-            $quantity = $item['quantity'];
-
-            // Add the product to the order
-            $order->add_product($product, $quantity);
-        }
-
+        // Store shipping packages for later use
         self::$packages = $this->controller->get_shipping_packages();
 
-        // clear cart when trying EC for single product
         if (!$wholeCart) {
             WC()->cart->empty_cart();
         }
-
-        if (!empty($coupons = WC()->cart->get_coupons())) {
-            foreach ($coupons as $code => $coupon) {
-                $order->add_coupon($code);
-            }
-        }
-
-        // Calculate totals
-        $order->recalculate_coupons();
-
-        // Add billing address
-        $address = [
-            'first_name' => 'First',
-            'last_name' => 'Last',
-            'email' => 'email@example.com',
-            'phone' => '1234567890',
-            'address_1' => '123 Main St',
-            'city' => 'City',
-            'state' => '',
-            'postcode' => '',
-            'country' => 'CH',
-        ];
-        $order->set_address($address, 'billing');
-        $order->set_address($address, 'shipping');
-
-        $order->set_payment_method(ExpressCheckoutGateway::UNIQUE_PAYMENT_ID);
-        $order->set_payment_method_title(__('TWINT Express Checkout', 'twint-woocommerce-extension'));
-
-        // Set order status
-        $order->set_status('checkout-draft');
-
-        // Save the order
-        $order->save();
 
         return $this->handlePayment($order);
     }
@@ -132,18 +114,13 @@ class ExpressCheckoutService
 
     public function addToCart(WP_REST_Request $request): array
     {
-        $item = apply_filters(
-            'woocommerce_store_api_add_to_cart_data',
-            [
-                'id' => $request['id'],
-                'quantity' => $request['quantity'],
-                'variation' => $request['variation'],
-            ],
-            $request
-        );
-
         try {
-            $this->controller->add_to_cart($item);
+            $this->getCart()->add_to_cart(
+                $request['id'],
+                $request['quantity'],
+                $request['variation_id'],
+                $request['variation']
+            );
 
             return [
                 'success' => true,

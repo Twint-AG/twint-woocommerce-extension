@@ -40,6 +40,12 @@ class ExpressCheckout {
 
     const button = e.target.closest('.twint-button')
 
+    // Check if the closest add-to-cart button is disabled
+    const addToCartButton = document.querySelector('[name="add-to-cart"]')
+    if (addToCartButton && addToCartButton.disabled) {
+      return
+    }
+
     this.checkoutAction.handle(
       ContextFactory.getContext(button),
       this.onSuccessCallback.bind(this),
