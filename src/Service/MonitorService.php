@@ -108,7 +108,7 @@ class MonitorService
                     $this->getOrderService()->update($cloned);
                     $status->addExtra('order', $pairing->getWcOrderId());
 
-                    $this->logger->info('TWINT mark as paid');
+                    $this->logger->info("TWINT EC {$pairing->getId()} mark as paid");
                     $cloned->setStatus(Pairing::EXPRESS_STATUS_PAID);
                     $this->getRepository()->markAsPaid($pairing->getId());
                 } catch (PaymentException $e) {
@@ -160,9 +160,14 @@ class MonitorService
         $status = MonitoringStatus::STATUS_IN_PROGRESS;
         $finished = false;
 
-        if (!$cloned->hasDiffs($state)) {
+        $diffs = $cloned->hasDiffs($state);
+        $this->logger->info(
+            "TWINT EC {$pairing->getId()} {$cloned->getStatus()} {$cloned->getShippingMethod()}: diff: " . ($diffs ? 1 : 0)
+        );
+        if (!$diffs) {
             // Because cancelFastCheckoutCheckIn API return void then need monitor in next loop
             if ($state->pairingStatus()->__toString() === PairingStatus::PAIRING_IN_PROGRESS && $pairing->isTimedOut()) {
+                $this->logger->info("TWINT EC {$pairing->getId()} no diff, cancel it");
                 $cancellationRes = $this->cancelFastCheckoutCheckIn($cloned, $client);
                 $log = $cancellationRes->getLog();
                 $this->getLogRepository()->updatePartial($log, [
@@ -179,6 +184,7 @@ class MonitorService
 
         try {
             $cloned = $this->getPairingService()->updateForExpress($cloned, $state);
+            $this->logger->info("TWINT EC {$pairing->getId()} was updated");
         } catch (DatabaseException $e) {
             if ($e->getMessage() === TwintConstant::EXCEPTION_VERSION_CONFLICT) {
                 $this->logger->info("TWINT {$pairing->getId()} " . $e->getMessage());
@@ -203,7 +209,7 @@ class MonitorService
 
         // As paid
         if ($pairing->getCustomerData() === [] && $state->hasCustomerData()) {
-            $this->logger->info("TWINT paid {$pairing->getPairingStatus()} - {$cloned->getPairingStatus()}");
+            $this->logger->info("TWINT EC paid {$pairing->getPairingStatus()} - {$cloned->getPairingStatus()}");
             $status = MonitoringStatus::STATUS_PAID;
 
             return MonitoringStatus::fromValues(true, $status, [
@@ -214,7 +220,7 @@ class MonitorService
         // As cancelled
         if (!$pairing->getIsOrdering() && $pairing->getPairingStatus() !== PairingStatus::NO_PAIRING && $cloned->getPairingStatus() === PairingStatus::NO_PAIRING && !$state->hasCustomerData()) {
             $this->logger->info(
-                "TWINT mark as cancelled {$pairing->getPairingStatus()} - {$cloned->getPairingStatus()}"
+                "TWINT EC mark as cancelled {$pairing->getPairingStatus()} - {$cloned->getPairingStatus()}"
             );
 
             $this->getRepository()->markAsCancelled($pairing->getId());
@@ -277,9 +283,14 @@ class MonitorService
         /** @var Order $tOrder */
         $tOrder = $res->getReturn();
 
-        if ($pairing->hasDiffs($tOrder)) {
+        $hasDiff = $pairing->hasDiffs($tOrder);
+        $this->logger->info(
+            "TWINT {$pairing->getId()} {$pairing->getStatus()} {$pairing->getTransactionStatus()} diff: " . ($hasDiff ? 1 : 0)
+        );
+        if ($hasDiff) {
             try {
                 $pairing = $this->getPairingService()->update($pairing, $res);
+                $this->logger->info("TWINT {$pairing->getId()} was updated");
             } catch (DatabaseException $e) {
                 if ($e->getMessage() === TwintConstant::EXCEPTION_VERSION_CONFLICT) {
                     $this->logger->info("TWINT {$pairing->getId()} " . $e->getMessage());
@@ -297,7 +308,10 @@ class MonitorService
         }
 
         if ($tOrder->isPending()) {
+            $this->logger->info("TWINT {$pairing->getId()} still pending ");
             if ($tOrder->isConfirmationPending()) {
+                $this->logger->info("TWINT {$pairing->getId()} need confirm");
+
                 try {
                     $confirmRes = $this->getApi()->call($client, 'confirmOrder', [
                         new UnfiledMerchantTransactionReference((string) $pairing->getRefId()),
@@ -308,6 +322,7 @@ class MonitorService
 
                         return $log;
                     }, true);
+                    $this->logger->info("TWINT {$pairing->getId()} has been confirmed");
                 } catch (Throwable $e) {
                     $this->getRepository()->markAsFailed($pairing->getId());
                     throw $e;
@@ -317,6 +332,7 @@ class MonitorService
             }
 
             if ($orgPairing->isTimedOut()) {
+                $this->logger->info("TWINT {$pairing->getId()} was timed out");
                 $cancellationRes = $this->getPairingService()->cancelOrder($pairing, $client);
 
                 return $this->recursiveMonitor($orgPairing, $pairing, $client, $cancellationRes);
@@ -331,6 +347,7 @@ class MonitorService
          * - First time get status success
          */
         if (!$orgPairing->isCaptured() && $tOrder->isSuccessful() && !$orgPairing->isSuccessful()) {
+            $this->logger->info("TWINT {$pairing->getId()} paid");
             $order = wc_get_order($pairing->getWcOrderId());
 
             // Update order status after paid by TWINT application
@@ -351,12 +368,11 @@ class MonitorService
         }
 
         if ($tOrder->isFailure() && !$orgPairing->isFailure()) {
-            //            if (!$orgPairing->isCaptured()) {
-            //                $this->getOrderService()->cancelOrder($pairing);
-            //            }
-
+            $this->logger->info("TWINT {$pairing->getId()} failed");
             return MonitoringStatus::fromValues(true, MonitoringStatus::STATUS_CANCELLED);
         }
+
+        $this->logger->info("TWINT {$pairing->getId()} still in process");
 
         return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
     }
@@ -379,13 +395,17 @@ class MonitorService
                 if (shell_exec('wp --info') !== null) {
                     // Use WP-CLI if available
                     $shellCommand = "wp twint-poll {$id} --allow-root > {$logFile} 2>&1 &";
-                    $this->logger->info("TWINT using WP-CLI for polling {$id}");
+
+                    $this->logger->info('-----------------------');
+                    $this->logger->info("[WP-CLI] polling {$id}");
                 } else {
                     // Fallback to PHP command if WP-CLI is not available
                     $command = escapeshellarg(Plugin::abspath() . 'bin/console');
                     $statement = escapeshellarg(PollCommand::COMMAND);
                     $shellCommand = "php {$command} {$statement} {$id} > {$logFile} 2>&1 &";
-                    $this->logger->info("TWINT using PHP command for polling (WP-CLI not available) {$id}");
+
+                    $this->logger->info('-----------------------');
+                    $this->logger->info("[PHP-CLI] polling (WP-CLI not available) {$id}");
                 }
 
                 shell_exec($shellCommand);

@@ -256,6 +256,7 @@ class ExpressOrderService
         }, true);
 
         $newPairing = $this->getPairingService()->create($res, $order, true);
+        $this->logger->info("TWINT EC {$pairing->getId()} -> {$newPairing->getId()}");
 
         $success = $this->monitorPairing($newPairing);
         if (!$success) {
@@ -271,10 +272,6 @@ class ExpressOrderService
     protected function monitorPairing(Pairing $pairing): bool
     {
         do {
-            $this->logger->info(
-                "TWINT EC monitor: {$pairing->getId()} {$pairing->getStatus()} {$pairing->getTransactionStatus()} {$pairing->getPairingStatus()}"
-            );
-
             $status = $this->monitor->monitor($pairing);
             $pairing = $this->getPairingRepository()->get($pairing->getId());
         } while (!$status->finished());
