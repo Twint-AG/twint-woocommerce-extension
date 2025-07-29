@@ -3,12 +3,16 @@ import apiFetch from '@wordpress/api-fetch'
 
 class Action {
   static spinner
+  static processing = false
 
   constructor() {
     if (!Action.spinner) Action.spinner = new Spinner()
   }
 
   handle(context, onSuccessCallback, onFailureCallback) {
+    if (Action.processing) return
+
+    Action.processing = true
     Action.spinner.start()
 
     apiFetch({
@@ -19,6 +23,7 @@ class Action {
       parse: false,
     })
       .then((response) => {
+        Action.processing = false
         Action.spinner.stop()
         if (!response.ok) {
           throw new Error('Network response was not ok')
@@ -33,6 +38,7 @@ class Action {
         return onSuccessCallback(data)
       })
       .catch((error) => {
+        Action.processing = false
         Action.spinner.stop()
         console.error('Error:', error)
         onFailureCallback(error)

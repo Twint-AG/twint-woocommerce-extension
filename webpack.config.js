@@ -38,7 +38,7 @@ module.exports = {
     // Frontend JS
     checkout: '/resources/js/frontend/regular-checkout.js',
     'order-pay': '/resources/js/frontend/regular/order-pay.js',
-    express: '/resources/js/frontend/express/index.js',
+    express: '/resources/js/frontend/express/express.js',
     'legacy-regular': '/resources/js/frontend/regular/index.js',
 
     // Admin JS
