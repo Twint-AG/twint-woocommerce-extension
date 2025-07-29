@@ -94,8 +94,7 @@ class FastCheckoutCheckinService
             foreach ($package['rates'] as $rate) {
                 $order->remove_order_items('shipping');
                 $item = new WC_Order_Item_Shipping();
-                $item->set_method_id($rate->get_method_id()); // The shipping method ID (e.g., 'flat_rate')
-                $item->set_total($rate->get_cost());
+                $item->set_shipping_rate($rate);
 
                 $order->add_item($item);
                 $order->calculate_totals();
