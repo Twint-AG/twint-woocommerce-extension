@@ -91,7 +91,7 @@ class PairingService
         $pairing->setTransactionStatus($order->transactionStatus()->__toString());
 
         $this->logger->info(
-            "TWINT update: {$pairing->getId()} {$pairing->getVersion()} {$pairing->getPairingStatus()} {$pairing->getTransactionStatus()}"
+            "TWINT {$pairing->getId()} updated {$pairing->getVersion()} {$pairing->getPairingStatus()} {$pairing->getTransactionStatus()}"
         );
         return $this->getRepository()->update($pairing);
     }
@@ -135,7 +135,7 @@ class PairingService
         $pairing->setShippingMethodId($checkIn->shippingMethodId()?->__toString() ?? null);
         $pairing->setPairingStatus((string) $checkIn->pairingStatus());
 
-        $this->logger->info("TWINT update: {$pairing->getId()} {$pairing->getPairingStatus()}");
+        $this->logger->info("TWINT {$pairing->getId()}  updated {$pairing->getPairingStatus()}");
 
         return $this->getRepository()->save($pairing);
     }

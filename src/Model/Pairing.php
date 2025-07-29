@@ -279,7 +279,6 @@ class Pairing extends Entity
                 || ($this->getCustomerData() !== [] && !$target->hasCustomerData());
         }
 
-
         /** @var Order $target */
         return $this->getPairingStatus() !== ($target->pairingStatus()?->__toString() ?? '')
             || $this->getTransactionStatus() !== $target->transactionStatus()

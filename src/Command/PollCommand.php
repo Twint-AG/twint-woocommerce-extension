@@ -69,17 +69,21 @@ class PollCommand extends Command
         $output->writeln("Monitoring: <info>{$id}</info>");
         $this->logger->info("[TWINT] - Monitoring: {$id}");
 
-        while (!$pairing->isFinished()) {
-            $this->getRepository()
-                ->updateCheckedAt($pairing);
+        try {
+            while (!$pairing->isFinished()) {
+                $this->getRepository()
+                    ->updateCheckedAt($pairing);
 
-            $this->getMonitor()
-                ->monitor($pairing);
+                $this->getMonitor()
+                    ->monitor($pairing);
 
-            sleep($this->getInterval($pairing, $startedAt));
-            $pairing = $this->getRepository()
-                ->get($id);
-            ++$count;
+                sleep($this->getInterval($pairing, $startedAt));
+                $pairing = $this->getRepository()
+                    ->get($id);
+                ++$count;
+            }
+        } catch (Throwable $e) {
+            $this->logger->error("TWINT - Monitoring error: {$e->getMessage()}");
         }
 
         return 0;
