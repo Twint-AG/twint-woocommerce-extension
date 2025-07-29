@@ -1,7 +1,6 @@
 import apiFetch from '@wordpress/api-fetch'
 import IntervalHandler from './interval-handler'
 import Modal from '../modal'
-import ExpressCheckout from '../../index'
 
 class StatusRefresher {
   static EVENT_CANCELLED = 'cancelled'
