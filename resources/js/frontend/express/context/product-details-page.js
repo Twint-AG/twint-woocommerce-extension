@@ -12,7 +12,10 @@ class ProductDetailsPageContext extends Context {
       throw new Error('Cannot find product form')
     }
 
-    let data = Object.fromEntries(new FormData(form))
+    // Parse form data into a structured object
+    const formData = new FormData(form)
+    const data = this.parseFormData(formData)
+
     if (!data.product_id) {
       let addToCartBtn = form.querySelector('[name="add-to-cart"]')
       if (addToCartBtn) {
@@ -41,7 +44,28 @@ class ProductDetailsPageContext extends Context {
       id: data.variation_id ?? data.product_id,
       quantity: data.quantity,
       variation: variation,
+      ...data,
     }
+  }
+
+  /**
+   * Parse FormData into a structured object
+   * @param {FormData} formData - The form data to parse
+   * @return {Object} - Parsed data object
+   */
+  parseFormData(formData) {
+    return Array.from(formData.entries()).reduce((obj, [key, value]) => {
+      const cleanKey = key.replace('[]', '')
+
+      if (key.endsWith('[]')) {
+        obj[cleanKey] = obj[cleanKey] || []
+        obj[cleanKey].push(value)
+      } else {
+        obj[cleanKey] = value
+      }
+
+      return obj
+    }, {})
   }
 }
 
