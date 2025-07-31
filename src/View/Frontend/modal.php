@@ -61,7 +61,7 @@ use Twint\Woo\Plugin;
                                     <input id="qr-token"
                                         class="tw-bg-white"
                                         type="text"
-                                        value={pairingToken}
+                                        value=""
                                         disabled="disabled" />
                                 </div>
 
@@ -76,8 +76,7 @@ use Twint\Woo\Plugin;
                                 </div>
 
                                 <canvas id="qrcode" class="tw-text-center tw-items-center tw-justify-center tw-m-4
-                                    <?php echo esc_attr($this->getMdClasses('md:tw-flex')) ?>"
-                                    title={pairingToken}>
+                                    <?php echo esc_attr($this->getMdClasses('md:tw-flex')) ?>">
                                 </canvas>
                             </div>
                         </div>
@@ -88,9 +87,7 @@ use Twint\Woo\Plugin;
                             <div class="tw-flex tw-flex-1 tw-bg-white tw-p-4 tw-items-center tw-justify-center <?php echo esc_attr($this->getMdClasses(
                                 'md:tw-rounded-lg'
                             )) ?>">
-                                <span id="twint-amount">
-                                    {price}
-                                </span>
+                                <span id="twint-amount"></span>
                                 <?php echo wp_kses_post($qrPriceHtml); ?>
                             </div>
                             <div class="tw-flex tw-flex-1 tw-bg-white tw-p-4 tw-items-center tw-justify-center tw-uppercase tw-text-center <?php echo esc_attr($this->getMdClasses(
