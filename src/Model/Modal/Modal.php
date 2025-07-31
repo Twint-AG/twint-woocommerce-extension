@@ -49,6 +49,10 @@ class Modal
     public function render(): void
     {
         $this->getVariables();
+        $qrStyleCss = apply_filters('twint_checkout_qr_inline_css', '');
+        $qrHeaderHtml = apply_filters('twint_checkout_qr_header_html', '<!-- Optional QR header content -->');
+        $qrFooterHtml = apply_filters('twint_checkout_qr_footer_html', '<!-- Optional QR footer content -->');
+        $qrPriceHtml = apply_filters('twint_checkout_qr_price_html', '<!-- Optional QR price content -->');
 
         require Plugin::abspath() . 'src/View/Frontend/modal.php';
     }
