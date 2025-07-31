@@ -8,6 +8,10 @@ use Twint\Woo\Plugin;
 
 <div id="twint-shadow-root"></div>
 <template id="twint-modal-template">
+    <style>
+        <?php echo $qrStyleCss; ?>
+    </style>
+
     <div id="twint-modal" style="display: none;" data-exist-label="<?php
                                                                     // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- need to match on translated value from core.
                                                                     echo esc_html__('View cart', 'woocommerce') ?>"
@@ -44,6 +48,8 @@ use Twint\Woo\Plugin;
                 ) ?></div>
                 <div id="qr-modal-content" class="tw-text-20">
                     <input type="hidden" name="twint_wp_nonce" value={nonce} id="twint_wp_nonce" />
+                    <?php echo wp_kses_post($qrHeaderHtml); ?>
+
                     <div class="tw-flex tw-flex-col  tw-gap-4 tw-bg-gray-100 <?php echo esc_attr($this->getMdClasses('md:tw-flex-row')) ?>">
                         <div class="tw-flex tw-flex-1 tw-order-1 tw-bg-white tw-items-center tw-justify-center <?php echo esc_attr($this->getMdClasses(
                             'md:tw-flex md:tw-order-none md:tw-rounded-lg'
@@ -85,6 +91,7 @@ use Twint\Woo\Plugin;
                                 <span id="twint-amount">
                                     {price}
                                 </span>
+                                <?php echo wp_kses_post($qrPriceHtml); ?>
                             </div>
                             <div class="tw-flex tw-flex-1 tw-bg-white tw-p-4 tw-items-center tw-justify-center tw-uppercase tw-text-center <?php echo esc_attr($this->getMdClasses(
                                 'md:tw-rounded-lg'
@@ -155,6 +162,7 @@ use Twint\Woo\Plugin;
                             </div>
                         </div>
                     </div>
+                    <?php echo wp_kses_post($qrFooterHtml); ?>
                 </div>
             </div>
         </div>
