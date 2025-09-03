@@ -76,6 +76,7 @@ return [
     // For more see: https://github.com/humbug/php-scoper/blob/master/docs/configuration.md#patchers
     'exclude-files' => array_merge($excludedFiles, [
         'src/View/Admin/settings.php',
+        'src/View/Admin/diagnostics.php',
         'src/View/Frontend/paid.php',
         'src/View/Frontend/unpaid.php'
     ]),

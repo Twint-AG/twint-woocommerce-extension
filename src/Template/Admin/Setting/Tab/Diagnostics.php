@@ -1,0 +1,186 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Twint\Woo\Template\Admin\Setting\Tab;
+
+use Twint\Woo\Command\CliCommand;
+use Twint\Woo\Constant\TwintConstant;
+use Twint\Woo\Plugin;
+use Twint\Woo\Template\Admin\Setting\TabItem;
+
+class Diagnostics extends TabItem
+{
+    public static function getKey(): string
+    {
+        return '_' . str_replace('\\', '_', self::class);
+    }
+
+    public static function getLabel(): string
+    {
+        return __('Diagnostics', 'twint-woocommerce-extension');
+    }
+
+    public static function fields(): array
+    {
+        return [];
+    }
+
+    public static function getContents(array $data = []): string
+    {
+        $info = self::getInformation();
+
+        $trigger = Plugin::di('cli.trigger', false);
+        $trigger->handle();
+
+        // var_dump($info); die;
+
+        // $cliSupport = get_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION) === 'Yes';
+
+        // $cliVersionFlag = version_compare($cliVersion, '8.1.0', '>') ? 'passed' : 'error';
+        // $isExecutableFlag = $isExecutable ? 'passed' : 'error';
+        // $isExecutableText = $isExecutable ? 'Yes' : 'No';
+        // $shellExecAllowedText = $shellExecAllowed ? 'Yes' : 'No';
+        // $shellExecAllowedFlag = $shellExecAllowed ? 'passed' : 'error';
+
+        // $cliInfoFlag = 'error';
+        // if ($cliInfo === 'The TWINT command was successfully executed via the PHP CLI.') {
+        //     $cliInfoFlag = 'passed';
+        //     $cliInfo = __('The TWINT command was successfully executed via the PHP CLI.', 'twint-woocommerce-extension');
+        // }
+
+
+        ob_start();
+        require Plugin::abspath() . 'src/View/Admin/diagnostics.php';
+
+        return ob_get_clean();
+    }
+
+    public static function getInformation(): array
+    {
+        $info = [];
+
+        [$cliVersion, $isExecutable, $cliInfo, $shellExecAllowed] = self::getCliInformation();
+
+        $info[] = [
+            'label' => 'Plugin version:',
+            'value' => TwintConstant::PLUGIN_VERSION,
+            'valid' => true,
+        ];
+
+        $info[] = [
+            'label' => 'WooCommerce version:',
+            'value' => defined('WC_VERSION') ? WC_VERSION : 'Unknown',
+            'valid' => true,
+        ];
+
+        $info[] = [
+            'label' => 'Wordpress version:',
+            'value' => get_bloginfo('version'),
+            'valid' => true,
+        ];
+
+        $info[] = [
+            'label' => 'Plugin install source:',
+            'value' => TwintConstant::INSTALL_SOURCE,
+            'valid' => true,
+        ];
+
+        $info[] = [
+            'label' => 'PHP version ( >=8.1):',
+            'value' => PHP_VERSION,
+            'valid' => version_compare(PHP_VERSION, '8.1.0', '>'),
+        ];
+
+        $info[] = [
+            'label' => __('PHP CLI version ( >=8.1): ', 'twint-woocommerce-extension'),
+            'value' => $cliVersion,
+            'valid' => version_compare($cliVersion, '8.1.0', '>'),
+        ];
+
+        $info[] = [
+            'label' => __('Function `shell_exec` is allowed: ', 'twint-woocommerce-extension'),
+            'value' => $shellExecAllowed ? 'Yes' : 'No',
+            'valid' => (bool) $shellExecAllowed,
+        ];
+
+        $info[] = [
+            'label' => __('TWINT command is executable: ', 'twint-woocommerce-extension'),
+            'value' => $isExecutable ? 'Yes' : 'No',
+            'valid' => (bool) $isExecutable,
+        ];
+
+        $info[] = [
+            'label' => __('TWINT PHP CLI Command Execution Test: ', 'twint-woocommerce-extension'),
+            'value' => $cliInfo,
+            'valid' => (bool) $cliInfo,
+        ];
+
+
+        $wpCli = function_exists('shell_exec') && shell_exec('wp --info') !== null;
+        $info[] = [
+            'label' => 'WP-CLI is available:',
+            'value' => $wpCli ? 'Yes' : 'No',
+            'valid' => true,
+        ];
+
+        $cliSupport = get_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION) === 'Yes';
+        $info[] = [
+            'label' => 'PHP CLI flag:',
+            'value' => $cliSupport ? 'Yes' : 'No',
+            'valid' => $cliSupport,
+        ];
+
+        $validated = get_option(TwintConstant::FLAG_VALIDATED_CREDENTIAL_CONFIG) === TwintConstant::YES;
+        $info[] = [
+            'label' => 'Credentials is validated:',
+            'value' => $validated ? 'Yes' : 'No',
+            'valid' => $validated,
+        ];
+
+        $testMode = get_option(TwintConstant::TEST_MODE) === TwintConstant::YES;
+        $info[] = [
+            'label' => 'Credentials with test mode:',
+            'value' => $testMode ? 'Yes' : 'No',
+            'valid' => $testMode,
+        ];
+
+        return $info;
+    }
+
+    public static function getCliInformation(): array
+    {
+        $cliVersion = 'Unknown';
+        $filePath = Plugin::abspath() . 'bin/console';
+
+        // Get PHP CLI version safely
+        if (function_exists('shell_exec')) {
+            $output = @shell_exec('php -r "echo PHP_VERSION;"');
+            if ($output && trim($output) !== '') {
+                $cliVersion = trim($output);
+            }
+        }
+
+        // Check if bin/console is executable
+        $isExecutable = function_exists('is_readable') && file_exists($filePath) && @is_readable($filePath);
+
+        // Execute CLI command safely
+        $cliInfo = 'Unknown';
+        $shellExecAllowed = false;
+        if (function_exists('shell_exec')) {
+            $shellExecAllowed = true;
+            $command = 'php ' . escapeshellarg($filePath) . ' ' . escapeshellarg(CliCommand::COMMAND);
+            $output = @shell_exec($command);
+            if ($output && trim($output) !== '') {
+                $cliInfo = trim($output);
+            }
+        }
+
+        return [$cliVersion, $isExecutable, $cliInfo, $shellExecAllowed];
+    }
+
+    public static function allowSaveChanges(): bool
+    {
+        return false;
+    }
+}

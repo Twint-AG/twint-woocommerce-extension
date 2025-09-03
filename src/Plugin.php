@@ -7,17 +7,17 @@ namespace Twint\Woo;
 use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
 use Automattic\WooCommerce\Utilities\OrderUtil;
-use Twint\Woo\Command\CliCommand;
+use DateTimeImmutable;
+use Twint\Sdk\Diagnostics\Collector;
 use Twint\Woo\Command\WpCliPollCommand;
 use Twint\Woo\Container\ContainerFactory;
 use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 use Twint\Woo\Model\Method\ExpressCheckout;
 use Twint\Woo\Model\Method\RegularCheckout;
+use Twint\Woo\Template\Admin\Setting\Tab\Diagnostics;
 use WC_Payment_Gateway;
 use WP_CLI;
-use function is_readable;
-use function shell_exec;
 
 class Plugin
 {
@@ -54,77 +54,42 @@ class Plugin
             }
         });
 
-        add_filter('debug_information', [self::class, 'addDebugInfo']);
+        add_action('admin_post_twint_download_diagnostics', [self::class, 'twint_download_diagnostics_handler']);
+    }
+
+    public static function twint_download_diagnostics_handler()
+    {
+        if (
+            !isset($_POST['twint_download_diagnostics_nonce']) ||
+            !wp_verify_nonce($_POST['twint_download_diagnostics_nonce'], 'twint_download_diagnostics')
+        ) {
+            wp_die('Security check failed.');
+        }
+
+        $collector = Collector::withDefaults(new DateTimeImmutable());
+        $collector = $collector->includePath(WP_CONTENT_DIR . '/debug.log');
+
+        if (defined('WC_LOG_DIR') && WC_LOG_DIR) {
+            $collector = $collector
+                ->includePath(WC_LOG_DIR, static fn (string $path) => str_ends_with($path, '.log'));
+        }
+
+        $info = Diagnostics::getInformation();
+        foreach ($info as $item) {
+            $collector = $collector->includeInsight($item['label'], $item['value']);
+        }
+
+        $collector->collect(
+            fileNamePrefix: 'twint-woocommerce-diagnostics',
+            streamHandler: static fn ($data) => print ($data)
+        );
     }
 
     public static function registerCLI(): void
     {
         if (defined('WP_CLI') && WP_CLI) {
-            /** @phpstan-ignore-next-line */
-            WP_CLI::add_command('twint-poll', [WpCliPollCommand::class, 'poll']);
+            WP_CLI::add_command('twint-poll', WpCliPollCommand::class);
         }
-    }
-
-    public static function addDebugInfo($info): array
-    {
-        [$cliVersion, $isExecutable, $cliInfo, $shellExecAllowed] = self::getCliInformation();
-
-        $info['wp-server']['fields'][] = [
-            'label' => __('PHP CLI version ( >=8.1): ', 'twint-woocommerce-extension'),
-            'value' => $cliVersion,
-            'debug' => '',
-        ];
-
-        $info['wp-server']['fields'][] = [
-            'label' => __('Function `shell_exec` is allowed: ', 'twint-woocommerce-extension'),
-            'value' => $shellExecAllowed,
-            'debug' => '',
-        ];
-
-        $info['wp-server']['fields'][] = [
-            'label' => __('TWINT command is executable: ', 'twint-woocommerce-extension'),
-            'value' => $isExecutable ? 'Yes' : 'No',
-            'debug' => '',
-        ];
-
-        $info['wp-server']['fields'][] = [
-            'label' => __('TWINT PHP CLI Command Execution Test: ', 'twint-woocommerce-extension'),
-            'value' => $cliInfo,
-            'debug' => '',
-        ];
-
-        return $info;
-    }
-
-    public static function getCliInformation(): array
-    {
-        $cliVersion = 'Unknown';
-        $filePath = self::abspath() . 'bin/console';
-
-        // Get PHP CLI version safely
-        if (function_exists('shell_exec')) {
-            $output = @shell_exec('php -r "echo PHP_VERSION;"');
-            if ($output && trim($output) !== '') {
-                $cliVersion = trim($output);
-            }
-        }
-
-        // Check if bin/console is executable
-        $isExecutable = function_exists('is_readable') && file_exists($filePath) && @is_readable($filePath);
-
-        // Execute CLI command safely
-        $cliInfo = 'Unknown';
-        $shellExecAllowed = false;
-        if (function_exists('shell_exec')) {
-            $shellExecAllowed = true;
-            $command = 'php ' . escapeshellarg($filePath) . ' ' . escapeshellarg(CliCommand::COMMAND);
-            $output = @shell_exec($command);
-            if ($output && trim($output) !== '') {
-                $cliInfo = trim($output);
-            }
-        }
-
-        return [$cliVersion, $isExecutable, $cliInfo, $shellExecAllowed];
     }
 
     public static function createCustomWooCommerceStatus(): void
