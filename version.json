@@ -3,7 +3,7 @@
   "version": "0.0.1-dev",
   "download_url": "https://github.com/Twint-AG/twint-woocommerce-extension/releases/download/0.0.1-dev/twint-woocommerce-extension.zip",
   "requires": "5.9",
-  "tested": "6.7.1",
+  "tested": "6.8.2",
   "homepage": "https://www.twint.ch/",
   "author": "TWINT",
   "author_homepage": "https://www.twint.ch/",
