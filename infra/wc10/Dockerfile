@@ -1,4 +1,4 @@
-FROM wordpress:6.8.2-php8.4-fpm
+FROM wordpress:php8.4-fpm
 
 ARG TWINT_BRANCH=master
 ENV TWINT_BRANCH=$TWINT_BRANCH
