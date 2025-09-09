@@ -1,0 +1,4 @@
+wp-content/uploads/*
+wp-content/debug.log
+wp-content/languages/plugins/*.json
+wp-content/languages/*.json
