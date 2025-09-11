@@ -394,7 +394,7 @@ class MonitorService
                 // Check if WP-CLI is available
                 if (shell_exec('wp --info') !== null) {
                     // Use WP-CLI if available
-                    $shellCommand = "wp twint-poll {$id} --allow-root > {$logFile} 2>&1 &";
+                    $shellCommand = "wp twint-poll poll {$id} --allow-root > {$logFile} 2>&1 &";
 
                     $this->logger->info('-----------------------');
                     $this->logger->info("[WP-CLI] polling {$id}");

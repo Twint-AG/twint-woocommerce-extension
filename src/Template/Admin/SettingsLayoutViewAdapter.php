@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Twint\Woo\Template\Admin;
 
 use AllowDynamicProperties;
-use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Plugin;
 use Twint\Woo\Service\SettingService;
 use Twint\Woo\Template\Admin\Setting\Tab\Credentials;
+use Twint\Woo\Template\Admin\Setting\Tab\Diagnostics;
 use Twint\Woo\Template\Admin\Setting\Tab\ExpressCheckout;
 use Twint\Woo\Template\Admin\Setting\Tab\RegularCheckout;
 use Twint\Woo\Utility\CredentialsValidator;
@@ -37,6 +37,7 @@ class SettingsLayoutViewAdapter
     {
         return [
             [
+                'name' => '_Twint_Woo_Template_Admin_Setting_Tab_Credentials',
                 'key' => Credentials::getKey(),
                 'title' => Credentials::getLabel(),
             ],
@@ -49,6 +50,11 @@ class SettingsLayoutViewAdapter
                 'key' => ExpressCheckout::getKey(),
                 'title' => ExpressCheckout::getLabel(),
                 'directLink' => ExpressCheckout::directLink(),
+            ],
+            [
+                'name' => '_Twint_Woo_Template_Admin_Setting_Tab_Diagnostics',
+                'key' => Diagnostics::getKey(),
+                'title' => Diagnostics::getLabel(),
             ],
         ];
     }
@@ -64,9 +70,13 @@ class SettingsLayoutViewAdapter
                 continue;
             }
 
-            // Has tab content as activated item
+            $activatedTab = sanitize_text_field(
+                wp_unslash($_REQUEST['tab'] ?? '_Twint_Woo_Template_Admin_Setting_Tab_Credentials')
+            );
+            $class = $activatedTab === $tab['name'] ? 'nav-tab-active' : '';
+
             $html .= '<a href="' . admin_url() . 'admin.php?page=twint-payment-integration-settings&tab='
-                . $tab['key'] . '" class="nav-tab nav-tab nav-tab-active">'
+                . $tab['key'] . '" class="nav-tab nav-tab  ' . $class . ' ">'
                 . $tab['title'] . '</a>';
         }
 
@@ -75,45 +85,18 @@ class SettingsLayoutViewAdapter
 
     public function getTabContent(): string
     {
-        $validated = get_option(TwintConstant::FLAG_VALIDATED_CREDENTIAL_CONFIG);
+        $tab = sanitize_text_field(wp_unslash($_REQUEST['tab'] ?? '_Twint_Woo_Template_Admin_Setting_Tab_Credentials'));
+        switch ($tab) {
+            case '_Twint_Woo_Template_Admin_Setting_Tab_Credentials':
+                Credentials::setSettingService($this->settingService);
+                Credentials::setValidator($this->validator);
 
-        $this->data['flag_credentials'] = $validated;
-        $this->data['needHideCertificateUpload'] = $validated === TwintConstant::YES;
-        $this->data['status'] = $this->validateCredentials();
-        $this->data['fields'] = Credentials::fields();
+                return Credentials::getContents($this->data);
 
-        $nonce = wp_create_nonce('store_twint_settings');
-
-        $html = '';
-
-        // Check if nonce is not empty
-        if (!empty($nonce)) {
-            $html .= '<input type="hidden" name="nonce" id="twint_wp_nonce" value="' . $nonce . '">';
+            case '_Twint_Woo_Template_Admin_Setting_Tab_Diagnostics':
+                return Diagnostics::getContents($this->data);
         }
 
-        // Add the tab content
-        $html .= Credentials::getContents($this->data);
-
-        // If save changes is allowed, add the submit button
-        if (Credentials::allowSaveChanges()) {
-            $html .= '<p class="submit">';
-            $html .= '<button type="submit" id="js_twint_button_save" class="button button-primary">';
-            $html .= '<span class="button-text">' . __('Save changes', 'twint-woocommerce-extension') . '</span>';
-            $html .= '</button>';
-            $html .= '</p>';
-        }
-
-        return $html;
-    }
-
-    protected function validateCredentials(): bool
-    {
-        $certificateCheck = $this->settingService->getCertificate();
-
-        return $this->validator->validate(
-            $certificateCheck,
-            get_option(TwintConstant::STORE_UUID, ''),
-            get_option(TwintConstant::TEST_MODE) === TwintConstant::YES
-        );
+        return '';
     }
 }

@@ -183,7 +183,9 @@ class TwintIntegration
     {
         $link = sprintf(
             '<a href="%s">%s</a>',
-            esc_url('admin.php?page=twint-payment-integration-settings'),
+            esc_url(
+                'admin.php?page=twint-payment-integration-settings&tab=_Twint_Woo_Template_Admin_Setting_Tab_Credentials'
+            ),
             __('Settings', 'twint-woocommerce-extension')
         );
 

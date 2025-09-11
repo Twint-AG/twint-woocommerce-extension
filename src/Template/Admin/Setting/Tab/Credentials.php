@@ -6,10 +6,26 @@ namespace Twint\Woo\Template\Admin\Setting\Tab;
 
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Plugin;
+use Twint\Woo\Service\SettingService;
 use Twint\Woo\Template\Admin\Setting\TabItem;
+use Twint\Woo\Utility\CredentialsValidator;
 
 class Credentials extends TabItem
 {
+    private static SettingService       $settingService;
+
+    private static CredentialsValidator $validator;
+
+    public static function setSettingService(SettingService $service)
+    {
+        self::$settingService = $service;
+    }
+
+    public static function setValidator(CredentialsValidator $validator)
+    {
+        self::$validator = $validator;
+    }
+
     public static function getKey(): string
     {
         return '_' . str_replace('\\', '_', self::class);
@@ -84,26 +100,41 @@ class Credentials extends TabItem
 
     public static function getContents(array $data = []): string
     {
-        $cliSupport = get_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION) === 'Yes';
+        $validated = get_option(TwintConstant::FLAG_VALIDATED_CREDENTIAL_CONFIG);
 
+        $data['flag_credentials'] = $validated;
+        $data['needHideCertificateUpload'] = $validated === TwintConstant::YES;
+        $data['status'] = self::validateCredentials();
+        $data['fields'] = self::fields();
+
+        $nonce = wp_create_nonce('store_twint_settings');
+
+        $html = '';
+
+        // Check if nonce is not empty
+        if (!empty($nonce)) {
+            $html .= '<input type="hidden" name="nonce" id="twint_wp_nonce" value="' . $nonce . '">';
+        }
+
+        // Add the tab content
+        $html .= self::render($data);
+
+        // If save changes is allowed, add the submit button
+        if (self::allowSaveChanges()) {
+            $html .= '<p class="submit">';
+            $html .= '<button type="submit" id="js_twint_button_save" class="button button-primary">';
+            $html .= '<span class="button-text">' . __('Save changes', 'twint-woocommerce-extension') . '</span>';
+            $html .= '</button>';
+            $html .= '</p>';
+        }
+
+        return '<form method="post" action="" novalidate="novalidate" enctype="multipart/form-data" autocomplete="off">' . $html . '</form>';
+    }
+
+    public static function render(array $data = []): string
+    {
         $trigger = Plugin::di('cli.trigger', false);
         $trigger->handle();
-
-        if (!$cliSupport) {
-            list($cliVersion, $isExecutable, $cliInfo, $shellExecAllowed) = Plugin::getCliInformation();
-
-            $cliVersionFlag = version_compare($cliVersion, '8.1.0', '>') ? 'passed' : 'error';
-            $isExecutableFlag = $isExecutable ? 'passed' : 'error';
-            $isExecutableText = $isExecutable ? 'Yes' : 'No';
-            $shellExecAllowedText = $shellExecAllowed ? 'Yes' : 'No';
-            $shellExecAllowedFlag = $shellExecAllowed ? 'passed' : 'error';
-
-            $cliInfoFlag = 'error';
-            if ($cliInfo === 'The TWINT command was successfully executed via the PHP CLI.') {
-                $cliInfoFlag = 'passed';
-                $cliInfo = __('The TWINT command was successfully executed via the PHP CLI.', 'twint-woocommerce-extension');
-            }
-        }
 
         $isShowedTheButtonUploadNewCert = false;
 
@@ -116,5 +147,16 @@ class Credentials extends TabItem
     public static function allowSaveChanges(): bool
     {
         return true;
+    }
+
+    protected static function validateCredentials(): bool
+    {
+        $certificateCheck = self::$settingService->getCertificate();
+
+        return self::$validator->validate(
+            $certificateCheck,
+            get_option(TwintConstant::STORE_UUID, ''),
+            get_option(TwintConstant::TEST_MODE) === TwintConstant::YES
+        );
     }
 }

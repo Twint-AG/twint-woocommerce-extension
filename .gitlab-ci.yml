@@ -29,8 +29,9 @@ tests:
     # Setup PHP
     - spc --php-version "$PHP_VERSION" --extensions "bcmath, ctype, curl, dom, fileinfo, filter,gd, hash, iconv, intl, json, libxml, mbstring, openssl, pcre, pdo_mysql, simplexml, soap, sockets, sodium, xsl, tokenizer, xmlwriter, xsl, zlib, libxml"
 
+    - rm -rf composer.lock
     - composer config --global gitlab-token.git.nfq.asia $GITLAB_ACCESS_TOKEN
-    - composer install --prefer-dist --no-progress --no-interaction --ignore-platform-reqs
+    - composer install --no-progress --no-interaction
     - composer outdated --no-dev || true
 
     # Run coding standard
