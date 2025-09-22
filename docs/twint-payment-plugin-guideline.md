@@ -120,6 +120,13 @@ or
 - run `php -r "echo ini_get('disable_functions');" `
   - Expected output: without `shell_exec` 
 
+### 5. Diagnostics Download
+To help us diagnose the issue, please download the diagnostics file by the following steps:
+- Go to `TWINT -> Diagnostics`
+- Click on `Download Diagnostics`
+- Send the downloaded file to customer support. **DO NOT submit it to Github Issue** due to sensitive information.
+
+<img src="./screenshots/twint-diagnostics-download.png" alt="TWINT Diagnostics Download" width="900" height="auto">
 
 
 
