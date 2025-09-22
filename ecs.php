@@ -74,6 +74,11 @@ use Symplify\CodingStandard\Fixer\Spacing\MethodChainingNewlineFixer;
 
 return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->paths([__DIR__ . '/src']);
+    
+    $ecsConfig->skip([
+        __DIR__ . '/vendor',
+        __DIR__ . '/node_modules',
+    ]);
 
     $ecsConfig->rules(
         [
