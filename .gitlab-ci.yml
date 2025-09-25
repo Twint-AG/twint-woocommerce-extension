@@ -67,7 +67,7 @@ release:
   only:
     - tags
   stage: publish
-  image: alpine:3
+  image: alpine/git:latest
   extends: .base
   variables:
     GIT_DEPTH: 0
