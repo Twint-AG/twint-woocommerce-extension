@@ -25,15 +25,7 @@ final class AddReferenceIdColumnToPairingTable
         $column = 'ref_id';
 
         // Query to check if the column exists in the specified table
-        $exist = $this->db->get_var(
-            $this->db->prepare('
-                SELECT COUNT(*)
-                FROM INFORMATION_SCHEMA.COLUMNS
-                WHERE TABLE_NAME = %s
-                AND COLUMN_NAME = %s
-                AND TABLE_SCHEMA = %s
-            ', $tableName, $column, DB_NAME)
-        );
+        $exist = $this->db->get_var($this->db->prepare("SHOW COLUMNS FROM `{$tableName}` LIKE %s", $column));
 
         // Check the result and act accordingly
         if (!$exist) {
