@@ -25,7 +25,7 @@ final class AddReferenceIdColumnToPairingTable
         $column = 'ref_id';
 
         // Query to check if the column exists in the specified table
-        $exist = $this->db->get_var($wpdb->prepare("SHOW COLUMNS FROM `{$table}` LIKE %s", $column));
+        $exist = $this->db->get_var($wpdb->prepare("SHOW COLUMNS FROM `{$tableName}` LIKE %s", $column));
 
         // Check the result and act accordingly
         if (!$exist) {
