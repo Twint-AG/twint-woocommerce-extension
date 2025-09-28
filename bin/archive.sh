@@ -17,6 +17,7 @@ npm run build
 
 # Install composer dependencies for production
 rm -rf "${PWD}/vendor"
+composer config platform.php 8.1.0
 composer install --no-dev --optimize-autoloader --prefer-dist --ignore-platform-reqs
 
 VERSION="${CI_COMMIT_TAG:-0.0.1-dev}"
@@ -33,11 +34,25 @@ sed -i -e "s@0.0.1-dev@${VERSION_DISPLAY}@g" "${PWD}/twint-woocommerce-extension
 
 # Run PHP-Scoper
 composer global require humbug/php-scoper
-rm -rf "${ARCHIVE_BUILD_DIR}"
-composer global exec php-scoper -- add-prefix --working-dir "${PWD}" --output-dir "${ARCHIVE_BUILD_DIR}" --quiet
 
-# Dump autoloader for rewritten classes
+# Remove old build
+rm -rf "${ARCHIVE_BUILD_DIR}"
+
+# For PHP 8.1 to 8.3
+composer global exec php-scoper -- add-prefix --working-dir "${PWD}" --output-dir "${ARCHIVE_BUILD_DIR}" --quiet
 composer dump-autoload --working-dir "${ARCHIVE_BUILD_DIR}" --classmap-authoritative
+
+# Do the same for PHP 8.4
+composer config platform.php 8.4.0
+rm -rf vendor
+rm -rf composer.lock 
+mv composer84.lock composer.lock
+composer install --no-dev --optimize-autoloader --prefer-dist --ignore-platform-reqs
+
+composer global exec php-scoper -- add-prefix --working-dir "${PWD}" --output-dir "${ARCHIVE_BUILD_DIR}84" --quiet
+composer dump-autoload --working-dir "${ARCHIVE_BUILD_DIR}84" --classmap-authoritative
+
+mv "${ARCHIVE_BUILD_DIR}84/vendor" "${ARCHIVE_BUILD_DIR}/vendor84"
 
 # Create archive
 rm -f "${ARCHIVE_PATH}"

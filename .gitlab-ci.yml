@@ -29,7 +29,9 @@ tests:
     # Setup PHP
     - spc --php-version "$PHP_VERSION" --extensions "bcmath, ctype, curl, dom, fileinfo, filter,gd, hash, iconv, intl, json, libxml, mbstring, openssl, pcre, pdo_mysql, simplexml, soap, sockets, sodium, xsl, tokenizer, xmlwriter, xsl, zlib, libxml"
 
-    - rm -rf composer.lock
+    # use composer84.lock
+    - if [ "$PHP_VERSION" = "8.4" ]; then rm -f composer.lock && mv composer84.lock composer.lock; fi
+
     - composer config --global gitlab-token.git.nfq.asia $GITLAB_ACCESS_TOKEN
     - composer install --no-progress --no-interaction
     - composer outdated --no-dev || true
@@ -37,7 +39,7 @@ tests:
     # Run coding standard
     - vendor/bin/ecs --no-progress-bar
     - vendor/bin/rector process --dry-run
-    - vendor/bin/phpstan analyse --memory-limit=1024M
+    - vendor/bin/phpstan analyse --memory-limit=2048M
 
     - npm install
     - npm outdated --omit=dev || true
@@ -51,7 +53,7 @@ build-archive:
     - tags
   parallel:
     matrix:
-      - PHP_VERSION: [ "8.3" ] # Build on latest PHP version to have access to the latest PHP-scoper
+      - PHP_VERSION: [ "8.4" ] # Build on latest PHP version to have access to the latest PHP-scoper
   script:
     - apt-get update && apt-get install -qq zip
     - spc -U
