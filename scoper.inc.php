@@ -131,6 +131,10 @@ return [
                 $contents = str_replace('namespace {', 'namespace TwintWoo {', $contents);
             }
 
+            if (str_ends_with($filePath, 'Encoding.php')) {
+                $contents = str_replace(' \\Psl\\Default\\DefaultInterface', ' \\TwintWoo\\Psl\\Default\\DefaultInterface', $contents);
+            }
+
             if (str_ends_with($filePath, 'twint-ag/sdk/src/polyfill.php')) {
                 $contents = preg_replace('/\\\class_alias\(\'TwintWoo.*?\);$/m', '', $contents);
             }
