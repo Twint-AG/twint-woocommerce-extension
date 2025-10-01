@@ -95,11 +95,25 @@ return [
     'patchers' => [
         static function (string $filePath, string $prefix, string $contents): string {
             if (str_ends_with($filePath, 'bin/console')) {
-                return str_replace('vendor/autoload.php', 'vendor/scoper-autoload.php', $contents);
+                $replace = "
+                    if (PHP_VERSION_ID >= 80400) {
+                        require __DIR__ . '/../vendor84/autoload.php';
+                    } else {
+                        require __DIR__.'/../vendor/autoload.php';
+                    }
+                ";
+                return str_replace("require __DIR__ . '/../vendor/autoload.php';", $replace, $contents);
             }
 
             if (str_ends_with($filePath, 'twint-woocommerce-extension.php')) {
-                return str_replace('vendor/autoload.php', 'vendor/scoper-autoload.php', $contents);
+                $replace = "
+                    if (PHP_VERSION_ID >= 80400) {
+                        require __DIR__ . '/vendor84/autoload.php';
+                    } else {
+                        require __DIR__.'/vendor/autoload.php';
+                    }
+                ";
+                return str_replace("require __DIR__ . '/vendor/autoload.php';", $replace, $contents);
             }
 
             if (str_contains($filePath, '/psl/')) {
@@ -115,6 +129,10 @@ return [
 
             if (str_ends_with($filePath, 'Normalizer.php')) {
                 $contents = str_replace('namespace {', 'namespace TwintWoo {', $contents);
+            }
+
+            if (str_ends_with($filePath, 'Encoding.php')) {
+                $contents = str_replace(' \\Psl\\Default\\DefaultInterface', ' \\TwintWoo\\Psl\\Default\\DefaultInterface', $contents);
             }
 
             if (str_ends_with($filePath, 'twint-ag/sdk/src/polyfill.php')) {
