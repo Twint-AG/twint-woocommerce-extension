@@ -198,11 +198,6 @@ class ExpressButton
 
     public function renderButtonInMiniCart(string $html): string
     {
-        $total = (float) WC()->cart->get_total('edit');
-        if ($total <= 0) {
-            return $html;
-        }
-
         return $html . $this->getButton('mini-cart dynamic');
     }
 
