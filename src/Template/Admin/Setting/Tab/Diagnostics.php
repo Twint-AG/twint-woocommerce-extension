@@ -70,13 +70,13 @@ class Diagnostics extends TabItem
         ];
 
         $info[] = [
-            'label' => 'PHP version ( >=8.1):',
+            'label' => 'PHP version (8.1 or earlier):',
             'value' => PHP_VERSION,
             'valid' => version_compare(PHP_VERSION, '8.1.0', '>'),
         ];
 
         $info[] = [
-            'label' => __('PHP CLI version ( >=8.1): ', 'twint-woocommerce-extension'),
+            'label' => __('PHP CLI version (8.1 or earlier):', 'twint-woocommerce-extension'),
             'value' => $cliVersion,
             'valid' => version_compare($cliVersion, '8.1.0', '>'),
         ];
