@@ -128,6 +128,13 @@ class Diagnostics extends TabItem
             'valid' => $testMode,
         ];
 
+        $pluginsMerged = self::getPluginsWithActiveCheck();
+        $info[] = [
+            'label' => __('Plugins:', 'twint-woocommerce-extension'),
+            'value' => $pluginsMerged === [] ? 'None' : implode(', ', $pluginsMerged),
+            'valid' => true,
+        ];
+
         return $info;
     }
 
@@ -165,5 +172,73 @@ class Diagnostics extends TabItem
     public static function allowSaveChanges(): bool
     {
         return false;
+    }
+
+    /**
+     * Merge installed plugins into a single list and append a checkmark for enabled ones.
+     *
+     * Example label: "Plugin Name (vX.Y.Z) by Author (✓)" when enabled.
+     *
+     * @return array<int,string>
+     */
+    public static function getPluginsWithActiveCheck(): array
+    {
+        $installed = self::buildInstalledPluginsMap();
+
+        // Collect active plugins (site level)
+        $active = [];
+        $activeOption = get_option('active_plugins', []);
+        if (is_array($activeOption)) {
+            $active = $activeOption;
+        }
+
+        // Include network-activated plugins (multisite)
+        if (function_exists('is_multisite') && is_multisite()) {
+            $network = get_site_option('active_sitewide_plugins', []);
+            if (is_array($network)) {
+                $active = array_merge($active, array_keys($network));
+            }
+        }
+
+        // Turn active list into a set for quick lookup
+        $activeSet = array_fill_keys($active, true);
+
+        $result = [];
+        foreach ($installed as $path => $label) {
+            $result[] = isset($activeSet[$path]) ? ($label . ' (✓)') : $label;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Build a map of installed plugins keyed by their file path with enriched labels.
+     *
+     * @return array<string,string> [pluginFile => "Name (vX.Y.Z) by Author"]
+     */
+    private static function buildInstalledPluginsMap(): array
+    {
+        $installed = [];
+
+        if (function_exists('get_plugins')) {
+            $plugins = get_plugins();
+            if (is_array($plugins)) {
+                foreach ($plugins as $path => $data) {
+                    $name = $data['Name'] ?? $path;
+                    $version = $data['Version'] ?? '';
+                    $author = $data['Author'] ?? '';
+
+                    $labelParts = array_filter([
+                        $name,
+                        $version ? "(v{$version})" : '',
+                        $author ? "by {$author}" : '',
+                    ]);
+
+                    $installed[$path] = implode(' ', $labelParts);
+                }
+            }
+        }
+
+        return $installed;
     }
 }

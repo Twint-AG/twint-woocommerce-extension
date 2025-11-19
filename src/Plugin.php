@@ -69,6 +69,15 @@ class Plugin
         $collector = Collector::withDefaults(new DateTimeImmutable());
         $collector = $collector->includePath(WP_CONTENT_DIR . '/debug.log');
 
+        // Add PHP error log file if available
+        $phpErrorLog = ini_get('error_log');
+        if (
+            is_string($phpErrorLog) && $phpErrorLog !== '' && strtolower($phpErrorLog) !== 'syslog'
+            && @is_file($phpErrorLog) && @is_readable($phpErrorLog)
+        ) {
+            $collector = $collector->includePath($phpErrorLog);
+        }
+
         if (defined('WC_LOG_DIR') && WC_LOG_DIR) {
             $collector = $collector
                 ->includePath(WC_LOG_DIR, static fn (string $path) => str_ends_with($path, '.log'));
