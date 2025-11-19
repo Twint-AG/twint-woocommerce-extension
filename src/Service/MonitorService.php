@@ -350,18 +350,17 @@ class MonitorService
             $this->logger->info("TWINT {$pairing->getId()} paid");
             $order = wc_get_order($pairing->getWcOrderId());
 
-            // Update order status after paid by TWINT application
-            // AND Optionally, add an order note
-            $order->update_status(
-                AbstractGateway::getOrderStatusAfterPaid(),
-                'The order was marked as paid programmatically.'
-            );
-
             // Mark the order as paid (completed)
             $order->payment_complete($orgPairing->getId());
             $order->set_transaction_id($orgPairing->getId());
 
-            $order->add_order_note('The order was marked as paid programmatically.');
+            // Update order status after paid by TWINT application
+            // AND Optionally, add an order note
+            $order->update_status(
+                AbstractGateway::getOrderStatusAfterPaid(),
+                'TWINT Checkout: The order was marked as paid programmatically.'
+            );
+
             $order->save();
 
             return MonitoringStatus::fromValues(true, MonitoringStatus::STATUS_PAID);
