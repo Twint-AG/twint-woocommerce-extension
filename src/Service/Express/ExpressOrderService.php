@@ -72,7 +72,6 @@ class ExpressOrderService
 
         $order->payment_complete($new->getId());
 
-        $order->update_status('pending', 'TWINT Express Checkout', true);
         $order->update_status('processing', 'TWINT Express Checkout', true);
 
         @$this->cleanCart();

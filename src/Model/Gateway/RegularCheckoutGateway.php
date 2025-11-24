@@ -131,22 +131,6 @@ class RegularCheckoutGateway extends AbstractGateway
         Plugin::enqueueScript('store-legacy-checkout-modal', '/legacy-regular.js', false);
     }
 
-    /**
-     * Set up the status initial for the order first created.
-     * @param mixed $status
-     * @param mixed $orderId
-     * @param mixed $order
-     * @since 1.0.0
-     */
-    public function setCompleteOrderStatus($status, $orderId, $order): string
-    {
-        if ($order && static::UNIQUE_PAYMENT_ID === $order->get_payment_method()) {
-            $status = 'pending-payment';
-        }
-
-        return $status;
-    }
-
     public function addOrderPayButton($orderId): void
     {
         $order = wc_get_order($orderId);

@@ -351,8 +351,8 @@ class MonitorService
             $order = wc_get_order($pairing->getWcOrderId());
 
             // Mark the order as paid (completed)
-            $order->payment_complete($orgPairing->getId());
             $order->set_transaction_id($orgPairing->getId());
+            $order->payment_complete($orgPairing->getId());
 
             // Update order status after paid by TWINT application
             // AND Optionally, add an order note

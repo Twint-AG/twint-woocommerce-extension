@@ -220,22 +220,6 @@ class ExpressCheckoutGateway extends AbstractGateway
     }
 
     /**
-     * Set up the status initial for the order first created.
-     * @param mixed $status
-     * @param mixed $orderId
-     * @param mixed $order
-     * @since 1.0.0
-     */
-    public function setCompleteOrderStatus($status, $orderId, $order): string
-    {
-        if ($order && $this->id === $order->get_payment_method()) {
-            $status = 'processing';
-        }
-
-        return $status;
-    }
-
-    /**
      * @param mixed $order_id
      * @throws Throwable
      * @return array
@@ -245,8 +229,8 @@ class ExpressCheckoutGateway extends AbstractGateway
         /** @var FastCheckoutCheckinService $service */
         $service = Plugin::di('fast_checkout_checkin.service', false);
 
-
         $order = wc_get_order($order_id);
+        $order->set_status('pending-payment');
 
         return [$service->checkin($order)];
     }

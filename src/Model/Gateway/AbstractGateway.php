@@ -77,13 +77,13 @@ abstract class AbstractGateway extends WC_Payment_Gateway
      * Set up the status initial for the order first created.
      * @param mixed $status
      * @param mixed $orderId
-     * @param mixed $order
+     * @param \WC_Order $order
      * @since 1.0.0
      */
     public function setCompleteOrderStatus($status, $orderId, $order): string
     {
-        if ($order && static::UNIQUE_PAYMENT_ID === $order->get_payment_method()) {
-            $status = 'pending';
+        if ($order && static::UNIQUE_PAYMENT_ID === $order->get_payment_method() && empty($order->get_transaction_id())) {
+            $status = 'pending-payment';
         }
 
         return $status;
