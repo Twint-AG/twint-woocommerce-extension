@@ -70,9 +70,9 @@ class ExpressOrderService
 
         $new = $this->startOrder($order, $pairing);
 
+        $order->update_status('pending');
         $order->payment_complete($new->getId());
-
-        $order->update_status('processing', 'TWINT Express Checkout', true);
+        $order->add_order_note('TWINT Express Checkout');
 
         @$this->cleanCart();
     }

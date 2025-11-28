@@ -74,7 +74,7 @@ class ExpressCheckoutAction
         try {
             $pairing = $this->getService()->checkout($full);
         } catch (Throwable $e) {
-            $this->logger->error('TWINT Express Checkout error: ' . $e->getMessage());
+            $this->logger->error('TWINT Express Checkout error: ' . $e->getMessage(), $e->getTrace());
             return new WP_REST_Response([
                 'success' => false,
                 // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- need to match on translated value from core.

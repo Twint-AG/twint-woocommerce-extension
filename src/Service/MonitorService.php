@@ -26,7 +26,6 @@ use Twint\Woo\Exception\DatabaseException;
 use Twint\Woo\Exception\PaymentException;
 use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Model\ApiResponse;
-use Twint\Woo\Model\Gateway\AbstractGateway;
 use Twint\Woo\Model\Monitor\MonitoringStatus;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Model\TransactionLog;
@@ -356,10 +355,7 @@ class MonitorService
 
             // Update order status after paid by TWINT application
             // AND Optionally, add an order note
-            $order->update_status(
-                AbstractGateway::getOrderStatusAfterPaid(),
-                'TWINT Checkout: The order was marked as paid programmatically.'
-            );
+            $order->add_order_note('TWINT Checkout: The order was marked as paid programmatically.');
 
             $order->save();
 
