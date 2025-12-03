@@ -173,11 +173,7 @@ class Plugin
         // Test to see if WooCommerce is active (including network activated).
         $pluginPath = trailingslashit(WP_PLUGIN_DIR) . $plugin;
 
-        return in_array($pluginPath, wp_get_active_and_valid_plugins(), true) || in_array(
-            $pluginPath,
-            wp_get_active_network_plugins(),
-            true
-        );
+        return in_array($pluginPath, wp_get_active_and_valid_plugins(), true);
     }
 
     public static function di(string $container, bool $lazyLoad = true): mixed
