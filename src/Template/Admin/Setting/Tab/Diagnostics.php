@@ -82,6 +82,12 @@ class Diagnostics extends TabItem
         ];
 
         $info[] = [
+            'label' => __('PHP Executable (8.1 or earlier):', 'twint-woocommerce-extension'),
+            'value' => apply_filters('twint_poll_php_executable', 'php'),
+            'valid' => true,
+        ];
+
+        $info[] = [
             'label' => __('Function `shell_exec` is allowed: ', 'twint-woocommerce-extension'),
             'value' => $shellExecAllowed ? 'Yes' : 'No',
             'valid' => (bool) $shellExecAllowed,

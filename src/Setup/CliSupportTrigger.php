@@ -27,10 +27,11 @@ class CliSupportTrigger
         try {
             update_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION, 'No');
 
+            $phpExecutable = apply_filters('twint_poll_php_executable', 'php');
             $logFile = escapeshellarg(sys_get_temp_dir() . '/cli_command.log');
             $subCommand = escapeshellarg(Plugin::abspath() . 'bin/console');
             $name = escapeshellarg(CliCommand::COMMAND);
-            $command = "php {$subCommand} {$name} > {$logFile} 2>&1 &";
+            $command = "{$phpExecutable} {$subCommand} {$name} > {$logFile} 2>&1 &";
 
             // Note: We're not using WP-CLI here because there's no WP-CLI command registered for CliCommand
             $this->logger->info('TWINT using PHP command for CLI support check');
