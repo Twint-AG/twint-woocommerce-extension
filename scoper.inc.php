@@ -97,9 +97,9 @@ return [
             if (str_ends_with($filePath, 'bin/console')) {
                 $replace = "
                     if (PHP_VERSION_ID >= 80400) {
-                        require __DIR__ . '/../vendor84/autoload.php';
+                        require __DIR__ . '/../vendor84/scoper-autoload.php';
                     } else {
-                        require __DIR__.'/../vendor/autoload.php';
+                        require __DIR__.'/../vendor/scoper-autoload.php';
                     }
                 ";
                 return str_replace("require __DIR__ . '/../vendor/autoload.php';", $replace, $contents);
@@ -108,9 +108,9 @@ return [
             if (str_ends_with($filePath, 'twint-woocommerce-extension.php')) {
                 $replace = "
                     if (PHP_VERSION_ID >= 80400) {
-                        require __DIR__ . '/vendor84/autoload.php';
+                        require __DIR__ . '/vendor84/scoper-autoload.php';
                     } else {
-                        require __DIR__.'/vendor/autoload.php';
+                        require __DIR__.'/vendor/scoper-autoload.php';
                     }
                 ";
                 return str_replace("require __DIR__ . '/vendor/autoload.php';", $replace, $contents);

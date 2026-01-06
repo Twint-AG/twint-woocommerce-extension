@@ -7,6 +7,7 @@ namespace Twint\Woo\Service;
 use AllowDynamicProperties;
 use Exception;
 use Throwable;
+use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
 use Twint\Woo\Model\Pairing;
 use WC_Cart;
@@ -42,7 +43,7 @@ class ExpressCheckoutService
             'payment_method' => ExpressCheckoutGateway::UNIQUE_PAYMENT_ID,
             'payment_method_title' => __('TWINT Express Checkout', 'twint-woocommerce-extension'),
             'status' => 'checkout-draft',
-            'currency' => 'CHF',
+            'currency' => TwintConstant::SUPPORTED_CURRENCY,
             'billing' => [
                 'first_name' => 'First',
                 'last_name' => 'Last',

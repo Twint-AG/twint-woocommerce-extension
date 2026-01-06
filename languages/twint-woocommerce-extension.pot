@@ -221,6 +221,10 @@ msgstr ""
 msgid "The TWINT command was successfully executed via the PHP CLI."
 msgstr ""
 
+#: src/Template/Admin/SettingsLayoutViewAdapter.php:94
+msgid "TWINT is only available for shops with CHF as the base currency. Please change your WooCommerce currency settings to CHF."
+msgstr ""
+
 #: src/Template/Admin/SettingsLayoutViewAdapter.php:101
 msgid "Save changes"
 msgstr ""

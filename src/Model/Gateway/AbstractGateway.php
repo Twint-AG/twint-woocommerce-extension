@@ -17,7 +17,7 @@ abstract class AbstractGateway extends WC_Payment_Gateway
 {
     public const UNIQUE_PAYMENT_ID = 'twint_method';
 
-    public const SUPPORTED_CURRENCY = 'CHF';
+    public const SUPPORTED_CURRENCY = TwintConstant::SUPPORTED_CURRENCY;
 
     public $icon;
 
@@ -111,6 +111,15 @@ abstract class AbstractGateway extends WC_Payment_Gateway
         $res = $service->reverseOrder($order, (float) $amount);
 
         return $res instanceof ApiResponse && $res->getReturn()->isSuccessful();
+    }
+
+    public function is_available(): bool
+    {
+        if (!parent::is_available()) {
+            return false;
+        }
+
+        return get_woocommerce_currency() === self::SUPPORTED_CURRENCY;
     }
 
     public function is_account_connected(): bool

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Woo\Template\Admin;
 
 use AllowDynamicProperties;
+use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Plugin;
 use Twint\Woo\Service\SettingService;
 use Twint\Woo\Template\Admin\Setting\Tab\Credentials;
@@ -85,6 +86,17 @@ class SettingsLayoutViewAdapter
 
     public function getTabContent(): string
     {
+        $baseCurrency = get_option('woocommerce_currency');
+        if ($baseCurrency !== TwintConstant::SUPPORTED_CURRENCY) {
+            return sprintf(
+                '<div class="notice notice-warning inline"><p>%s</p></div>',
+                esc_html__(
+                    'TWINT is only available for shops with CHF as the base currency. Please change your WooCommerce currency settings to CHF.',
+                    'twint-woocommerce-extension'
+                )
+            );
+        }
+
         $tab = sanitize_text_field(wp_unslash($_REQUEST['tab'] ?? '_Twint_Woo_Template_Admin_Setting_Tab_Credentials'));
         switch ($tab) {
             case '_Twint_Woo_Template_Admin_Setting_Tab_Credentials':
