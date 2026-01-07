@@ -220,6 +220,10 @@ msgstr "Le mot de passe du certificat est requis"
 msgid "The TWINT command was successfully executed via the PHP CLI."
 msgstr "La commande TWINT a été exécutée avec succès via le PHP CLI."
 
+#: src/Template/Admin/SettingsLayoutViewAdapter.php:94
+msgid "TWINT is only available for shops with CHF as the base currency. Please change your WooCommerce currency settings to CHF."
+msgstr "TWINT n'est disponible que pour les boutiques dont la devise de base est le CHF. Veuillez modifier vos paramètres de devise WooCommerce pour le CHF."
+
 #: src/Template/Admin/SettingsLayoutViewAdapter.php:101
 msgid "Save changes"
 msgstr "Enregistrer les modifications"

@@ -10,6 +10,7 @@ use Automattic\WooCommerce\Utilities\OrderUtil;
 use DateTimeImmutable;
 use Twint\Sdk\Diagnostics\Collector;
 use Twint\Woo\Command\WpCliPollCommand;
+use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\ContainerFactory;
 use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
@@ -128,8 +129,8 @@ class Plugin
      */
     public static function addPaymentGateways(array $gateways): array
     {
-        $currency = get_woocommerce_currency();
-        if ($currency !== 'CHF') {
+        $currency = get_option('woocommerce_currency');
+        if ($currency !== TwintConstant::SUPPORTED_CURRENCY) {
             return $gateways;
         }
 
