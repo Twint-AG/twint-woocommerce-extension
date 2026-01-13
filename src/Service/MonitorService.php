@@ -395,9 +395,10 @@ class MonitorService
                     $this->logger->info("[WP-CLI] polling {$id}");
                 } else {
                     // Fallback to PHP command if WP-CLI is not available
+                    $phpExecutable = apply_filters('twint_poll_php_executable', 'php');
                     $command = escapeshellarg(Plugin::abspath() . 'bin/console');
                     $statement = escapeshellarg(PollCommand::COMMAND);
-                    $shellCommand = "php {$command} {$statement} {$id} > {$logFile} 2>&1 &";
+                    $shellCommand = "{$phpExecutable} {$command} {$statement} {$id} > {$logFile} 2>&1 &";
 
                     $this->logger->info('-----------------------');
                     $this->logger->info("[PHP-CLI] polling (WP-CLI not available) {$id}");
@@ -418,7 +419,7 @@ class MonitorService
         $client = $this->getBuilder()->build(Version::NEXT);
         if ($pairing->getIsExpress()) {
             try {
-                $this->cancelFastCheckoutCheckIn($pairing, $client);
+                $result = $this->cancelFastCheckoutCheckIn($pairing, $client);
                 $pairing->setStatus(Pairing::EXPRESS_STATUS_MERCHANT_CANCELLED);
                 $this->getRepository()->markAsMerchantCancelled($pairing->getId());
             } catch (CancellationFailed $e) {
