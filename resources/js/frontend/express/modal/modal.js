@@ -55,6 +55,8 @@ class Modal {
     }
 
     // Display
+    this.closeBtn.disabled = false
+    this.closeBtn.style.cursor = 'pointer'
     let span = this.closeBtn.querySelector('span')
     span.innerHTML = DOMPurify.sanitize(
       this.closeBtn.getAttribute('data-default'),
@@ -98,13 +100,20 @@ class Modal {
     this.statusRefresher.start()
   }
 
-  close() {
-    // Display
-    this.element.style.display = 'none'
+  async close() {
+    this.closeBtn.disabled = true
+    this.closeBtn.style.cursor = 'wait'
+    this.closeBtn.querySelector('span').innerHTML = DOMPurify.sanitize(
+      this.closeBtn.getAttribute('data-cancelling'),
+    )
 
     let callback = this.callbacks[Modal.EVENT_MODAL_CLOSED]
     if (callback) {
-      callback()
+      await callback()
+    }
+
+    if (this.isExpress()) {
+      this.element.style.display = 'none'
     }
   }
 

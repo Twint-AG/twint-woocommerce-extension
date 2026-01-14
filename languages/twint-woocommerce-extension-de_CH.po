@@ -307,6 +307,10 @@ msgstr "Bestellung abbrechen"
 msgid "Continue shopping"
 msgstr "Weiter einkaufen"
 
+#: src/View/Frontend/modal.php:28
+msgid "Cancelling..."
+msgstr "Wird abgebrochen..."
+
 #: src/View/Frontend/modal.php:41
 msgid "Payment did not succeed, please try another payment method."
 msgstr ""

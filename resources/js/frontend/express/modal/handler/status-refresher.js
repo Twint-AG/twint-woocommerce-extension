@@ -56,15 +56,15 @@ class StatusRefresher {
     this.onProcessing()
   }
 
-  onModalClosed() {
+  async onModalClosed() {
     this.stop()
 
     if (!this.finished) {
       const self = this
 
-      this.cancelPayment((data) => {
+      return await this.cancelPayment((data) => {
         if (data.success !== true) {
-          return self.check(true)
+          setTimeout(() => self.check(true), 500)
         }
       })
     }
@@ -73,7 +73,7 @@ class StatusRefresher {
   cancelPayment(callback) {
     this.processing = true
 
-    apiFetch({
+    return apiFetch({
       path: '/twint/v1/payment/cancel',
       method: 'POST',
       data: {
@@ -215,13 +215,14 @@ class StatusRefresher {
       })
   }
 
-  onRegularCheckoutCloseModal() {
+  async onRegularCheckoutCloseModal() {
     if (!this.finished) {
-      this.cancelPayment(function (data) {
+      const self = this
+      return await this.cancelPayment(function (data) {
         if (data.success === true) {
           location.reload()
         } else {
-          this.check(true)
+          setTimeout(() => self.check(true), 500)
         }
       })
     }
