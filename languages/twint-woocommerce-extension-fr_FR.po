@@ -312,6 +312,10 @@ msgstr "Annuler le check-out"
 msgid "Continue shopping"
 msgstr "Poursuivre les achats"
 
+#: src/View/Frontend/modal.php:28
+msgid "Cancelling..."
+msgstr "Annulation..."
+
 #: src/View/Frontend/modal.php:41
 msgid "Payment did not succeed, please try another payment method."
 msgstr ""

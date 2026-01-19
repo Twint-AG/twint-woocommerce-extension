@@ -28,7 +28,8 @@ use Twint\Woo\Plugin;
             )) ?>">
                 <button id="twint-close"
                     data-default="<?php echo esc_html__('Cancel checkout', 'twint-woocommerce-extension') ?>"
-                    data-success="<?php echo esc_html__('Continue shopping', 'twint-woocommerce-extension') ?>">
+                    data-success="<?php echo esc_html__('Continue shopping', 'twint-woocommerce-extension') ?>"
+                    data-cancelling="<?php echo esc_html__('Cancelling...', 'twint-woocommerce-extension') ?>">
                     <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1.40001 12.8078L0.692261 12.1L6.29226 6.50001L0.692261 0.900011L1.40001 0.192261L7.00001 5.79226L12.6 0.192261L13.3078 0.900011L7.70776 6.50001L13.3078 12.1L12.6 12.8078L7.00001 7.20776L1.40001 12.8078Z" fill="#1C1B1F"></path>
                     </svg>

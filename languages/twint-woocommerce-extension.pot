@@ -297,6 +297,10 @@ msgstr ""
 msgid "Continue shopping"
 msgstr ""
 
+#: src/View/Frontend/modal.php:28
+msgid "Cancelling..."
+msgstr ""
+
 #: src/View/Frontend/modal.php:41
 msgid "Payment did not succeed, please try another payment method."
 msgstr ""

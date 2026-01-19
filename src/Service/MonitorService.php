@@ -432,6 +432,12 @@ class MonitorService
             }
         } else {
             try {
+                $monitorResponse = $this->monitor($pairing);
+
+                if ($monitorResponse->finished()) {
+                    return false;
+                }
+
                 $res = $this->getPairingService()->cancelOrder($pairing, $client);
                 /** @var Order $order */
                 $order = $res->getReturn();
