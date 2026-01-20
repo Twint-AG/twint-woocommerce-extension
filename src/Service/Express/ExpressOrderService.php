@@ -255,7 +255,7 @@ class ExpressOrderService
         }, true);
 
         $newPairing = $this->getPairingService()->create($res, $order, true);
-        $this->logger->info("TWINT EC {$pairing->getId()} -> {$newPairing->getId()}");
+        $this->logger->info("TWINT ExpressOrderService::startOrder: EC {$pairing->getId()} -> {$newPairing->getId()}");
 
         $success = $this->monitorPairing($newPairing);
         if (!$success) {
@@ -275,7 +275,7 @@ class ExpressOrderService
             $pairing = $this->getPairingRepository()->get($pairing->getId());
         } while (!$status->finished());
 
-        $this->logger->info("TWINT EC monitor finished: {$pairing->getId()}");
+        $this->logger->info("TWINT ExpressOrderService::monitorPairing: EC monitor finished {$pairing->getId()}");
 
         return $status->paid();
     }

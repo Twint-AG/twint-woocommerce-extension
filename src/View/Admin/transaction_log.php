@@ -2,6 +2,9 @@
 
 use Twint\Woo\Model\TransactionLog;
 
+/** @var WC_Order $order */
+/** @var TransactionLog[] $logs */
+
 ?>
 <div class="twint-admin">
     <table class="content-table">
@@ -38,6 +41,19 @@ use Twint\Woo\Model\TransactionLog;
             <?php endforeach; ?>
         </tbody>
     </table>
+
+    <div style="margin-top: 20px; text-align: right;">
+        <?php
+        $downloadUrl = add_query_arg([
+    'action' => 'twint_download_order_diagnostics',
+            'order_id' => $order->get_id(),
+            'twint_download_order_diagnostics_nonce' => wp_create_nonce('twint_download_order_diagnostics'),
+], admin_url('admin-post.php'));
+?>
+        <a href="<?php echo esc_url($downloadUrl); ?>" class="button button-primary">
+            <?php _e('Download Diagnostics', 'twint-woocommerce-extension'); ?>
+        </a>
+    </div>
 
     <div class="modal twint-modal">
         <div class="modal-content" style="width: 70%;">

@@ -95,7 +95,9 @@ class StoreConfigurationAction extends BaseAction
                 $response = $this->checkConfiguration($testMode === TwintConstant::YES, $storeUuid, $storedCertificate);
             }
         } catch (Exception $exception) {
-            $this->logger->error('Error when saving setting ' . PHP_EOL . $exception->getMessage());
+            $this->logger->error(
+                'TWINT StoreConfigurationAction::saveSettings: error when saving setting ' . PHP_EOL . $exception->getMessage()
+            );
             $response['status'] = false;
             $response['error_level'] = 'error';
             $response['message'] = $exception->getMessage();

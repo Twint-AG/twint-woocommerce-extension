@@ -123,7 +123,7 @@ class FastCheckoutCheckinService
     {
         $client = $this->getBuilder()->build(Version::NEXT);
 
-        $this->logger->info("TWINT start EC {$order->get_id()}");
+        $this->logger->info("TWINT FastCheckoutCheckinService::callApi: start EC {$order->get_id()}");
 
         return $this->getApi()->call(
             $client,

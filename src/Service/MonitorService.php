@@ -82,7 +82,13 @@ class MonitorService
                 $this->monitor($pairing);
             } catch (Throwable $e) {
                 // Silent error to allow process handle next Pairings
-                $this->logger->error("TWINT cli error: {$pairing->getId()} {$pairing->getToken()} {$e->getMessage()}");
+                $this->logger->error(
+                    "TWINT MonitorService::monitors: cli error {$pairing->getId()} {$pairing->getToken()} {$e->getMessage()}",
+                    [
+                        'source' => 'twint-woocommerce-extension',
+                        'wc_order_id' => $pairing->getWcOrderId(),
+                    ]
+                );
             }
         }
     }
@@ -107,16 +113,27 @@ class MonitorService
                     $this->getOrderService()->update($cloned);
                     $status->addExtra('order', $pairing->getWcOrderId());
 
-                    $this->logger->info("TWINT EC {$pairing->getId()} mark as paid");
+                    $this->logger->info("TWINT MonitorService::monitor: EC {$pairing->getId()} mark as paid", [
+                        'source' => 'twint-woocommerce-extension',
+                        'wc_order_id' => $pairing->getWcOrderId(),
+                    ]);
+
                     $cloned->setStatus(Pairing::EXPRESS_STATUS_PAID);
                     $this->getRepository()->markAsPaid($pairing->getId());
                 } catch (PaymentException $e) {
-                    $this->logger->error('TWINT MonitorService::monitor: ' . $e->getMessage());
+                    $this->logger->error('TWINT MonitorService::monitor: ' . $e->getMessage(), [
+                        'source' => 'twint-woocommerce-extension',
+                        'wc_order_id' => $pairing->getWcOrderId(),
+                    ]);
+
                     $cloned->setStatus(Pairing::EXPRESS_STATUS_FAILED);
                     $this->getRepository()->markAsFailed($pairing->getId());
                 } catch (Throwable $e) {
                     $this->getRepository()->markAsFailed($pairing->getId());
-                    $this->logger->error('TWINT MonitorService::monitor: ' . $e->getMessage());
+                    $this->logger->error('TWINT MonitorService::monitor: ' . $e->getMessage(), [
+                        'source' => 'twint-woocommerce-extension',
+                        'wc_order_id' => $pairing->getWcOrderId(),
+                    ]);
                 }
             }
 
@@ -161,12 +178,24 @@ class MonitorService
 
         $diffs = $cloned->hasDiffs($state);
         $this->logger->info(
-            "TWINT EC {$pairing->getId()} {$cloned->getStatus()} {$cloned->getShippingMethod()}: diff: " . ($diffs ? 1 : 0)
+            "TWINT MonitorService::monitorExpressRecursive: EC {$pairing->getId()} {$cloned->getStatus()} {$cloned->getShippingMethod()}: diff: " . ($diffs ? 1 : 0),
+            [
+                'source' => 'twint-woocommerce-extension',
+                'wc_order_id' => $pairing->getWcOrderId(),
+            ]
         );
+
         if (!$diffs) {
             // Because cancelFastCheckoutCheckIn API return void then need monitor in next loop
             if ($state->pairingStatus()->__toString() === PairingStatus::PAIRING_IN_PROGRESS && $pairing->isTimedOut()) {
-                $this->logger->info("TWINT EC {$pairing->getId()} no diff, cancel it");
+                $this->logger->info(
+                    "TWINT MonitorService::monitorExpressRecursive: EC {$pairing->getId()} no diff, cancel it",
+                    [
+                        'source' => 'twint-woocommerce-extension',
+                        'wc_order_id' => $pairing->getWcOrderId(),
+                    ]
+                );
+
                 $cancellationRes = $this->cancelFastCheckoutCheckIn($cloned, $client);
                 $log = $cancellationRes->getLog();
                 $this->getLogRepository()->updatePartial($log, [
@@ -183,10 +212,20 @@ class MonitorService
 
         try {
             $cloned = $this->getPairingService()->updateForExpress($cloned, $state);
-            $this->logger->info("TWINT EC {$pairing->getId()} was updated");
+            $this->logger->info("TWINT MonitorService::monitorExpressRecursive: EC {$pairing->getId()} was updated", [
+                'source' => 'twint-woocommerce-extension',
+                'wc_order_id' => $pairing->getWcOrderId(),
+            ]);
         } catch (DatabaseException $e) {
             if ($e->getMessage() === TwintConstant::EXCEPTION_VERSION_CONFLICT) {
-                $this->logger->info("TWINT {$pairing->getId()} " . $e->getMessage());
+                $this->logger->info(
+                    "TWINT MonitorService::monitorExpressRecursive: {$pairing->getId()} " . $e->getMessage(),
+                    [
+                        'source' => 'twint-woocommerce-extension',
+                        'wc_order_id' => $pairing->getWcOrderId(),
+                    ]
+                );
+
 
                 return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
             }
@@ -208,7 +247,14 @@ class MonitorService
 
         // As paid
         if ($pairing->getCustomerData() === [] && $state->hasCustomerData()) {
-            $this->logger->info("TWINT EC paid {$pairing->getPairingStatus()} - {$cloned->getPairingStatus()}");
+            $this->logger->info(
+                "TWINT MonitorService::monitorExpressRecursive: EC paid {$pairing->getPairingStatus()} - {$cloned->getPairingStatus()}",
+                [
+                    'source' => 'twint-woocommerce-extension',
+                    'wc_order_id' => $pairing->getWcOrderId(),
+                ]
+            );
+
             $status = MonitoringStatus::STATUS_PAID;
 
             return MonitoringStatus::fromValues(true, $status, [
@@ -219,7 +265,11 @@ class MonitorService
         // As cancelled
         if (!$pairing->getIsOrdering() && $pairing->getPairingStatus() !== PairingStatus::NO_PAIRING && $cloned->getPairingStatus() === PairingStatus::NO_PAIRING && !$state->hasCustomerData()) {
             $this->logger->info(
-                "TWINT EC mark as cancelled {$pairing->getPairingStatus()} - {$cloned->getPairingStatus()}"
+                "TWINT MonitorService::monitorExpressRecursive: EC mark as cancelled {$pairing->getPairingStatus()} - {$cloned->getPairingStatus()}",
+                [
+                    'source' => 'twint-woocommerce-extension',
+                    'wc_order_id' => $pairing->getWcOrderId(),
+                ]
             );
 
             $this->getRepository()->markAsCancelled($pairing->getId());
@@ -235,7 +285,11 @@ class MonitorService
      */
     public function cancelFastCheckoutCheckIn(Pairing $pairing, InvocationRecordingClient $client): ApiResponse
     {
-        $this->logger->info("TWINT cancel EC: {$pairing->getId()}");
+        $this->logger->info("TWINT MonitorService::cancelFastCheckoutCheckIn: cancel EC {$pairing->getId()}", [
+            'source' => 'twint-woocommerce-extension',
+            'wc_order_id' => $pairing->getWcOrderId(),
+        ]);
+
 
         return $this->getApi()->call($client, 'cancelFastCheckoutCheckIn', [
             PairingUuid::fromString($pairing->getId()),
@@ -263,7 +317,14 @@ class MonitorService
                 false
             );
         } catch (Throwable $e) {
-            $this->logger->error('TWINT cannot get pairing status: ' . $e->getMessage());
+            $this->logger->error(
+                'TWINT MonitorService::monitorRegular: cannot get pairing status ' . $e->getMessage(),
+                [
+                    'source' => 'twint-woocommerce-extension',
+                    'wc_order_id' => $pairing->getWcOrderId(),
+                ]
+            );
+
             throw $e;
         }
 
@@ -284,15 +345,30 @@ class MonitorService
 
         $hasDiff = $pairing->hasDiffs($tOrder);
         $this->logger->info(
-            "TWINT {$pairing->getId()} {$pairing->getStatus()} {$pairing->getTransactionStatus()} diff: " . ($hasDiff ? 1 : 0)
+            "TWINT MonitorService::recursiveMonitor: {$pairing->getId()} {$pairing->getStatus()} {$pairing->getTransactionStatus()} diff: " . ($hasDiff ? 1 : 0),
+            [
+                'source' => 'twint-woocommerce-extension',
+                'wc_order_id' => $pairing->getWcOrderId(),
+            ]
         );
+
         if ($hasDiff) {
             try {
                 $pairing = $this->getPairingService()->update($pairing, $res);
-                $this->logger->info("TWINT {$pairing->getId()} was updated");
+                $this->logger->info("TWINT MonitorService::recursiveMonitor: {$pairing->getId()} was updated", [
+                    'source' => 'twint-woocommerce-extension',
+                    'wc_order_id' => $pairing->getWcOrderId(),
+                ]);
             } catch (DatabaseException $e) {
                 if ($e->getMessage() === TwintConstant::EXCEPTION_VERSION_CONFLICT) {
-                    $this->logger->info("TWINT {$pairing->getId()} " . $e->getMessage());
+                    $this->logger->info(
+                        "TWINT MonitorService::recursiveMonitor: {$pairing->getId()} " . $e->getMessage(),
+                        [
+                            'source' => 'twint-woocommerce-extension',
+                            'wc_order_id' => $pairing->getWcOrderId(),
+                        ]
+                    );
+
 
                     return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
                 }
@@ -307,9 +383,17 @@ class MonitorService
         }
 
         if ($tOrder->isPending()) {
-            $this->logger->info("TWINT {$pairing->getId()} still pending ");
+            $this->logger->info("TWINT MonitorService::recursiveMonitor: {$pairing->getId()} still pending", [
+                'source' => 'twint-woocommerce-extension',
+                'wc_order_id' => $pairing->getWcOrderId(),
+            ]);
+
             if ($tOrder->isConfirmationPending()) {
-                $this->logger->info("TWINT {$pairing->getId()} need confirm");
+                $this->logger->info("TWINT MonitorService::recursiveMonitor: {$pairing->getId()} need confirm", [
+                    'source' => 'twint-woocommerce-extension',
+                    'wc_order_id' => $pairing->getWcOrderId(),
+                ]);
+
 
                 try {
                     $confirmRes = $this->getApi()->call($client, 'confirmOrder', [
@@ -321,7 +405,13 @@ class MonitorService
 
                         return $log;
                     }, true);
-                    $this->logger->info("TWINT {$pairing->getId()} has been confirmed");
+                    $this->logger->info(
+                        "TWINT MonitorService::recursiveMonitor: {$pairing->getId()} has been confirmed",
+                        [
+                            'source' => 'twint-woocommerce-extension',
+                            'wc_order_id' => $pairing->getWcOrderId(),
+                        ]
+                    );
                 } catch (Throwable $e) {
                     $this->getRepository()->markAsFailed($pairing->getId());
                     throw $e;
@@ -331,7 +421,11 @@ class MonitorService
             }
 
             if ($orgPairing->isTimedOut()) {
-                $this->logger->info("TWINT {$pairing->getId()} was timed out");
+                $this->logger->info("TWINT MonitorService::recursiveMonitor: {$pairing->getId()} was timed out", [
+                    'source' => 'twint-woocommerce-extension',
+                    'wc_order_id' => $pairing->getWcOrderId(),
+                ]);
+
                 $cancellationRes = $this->getPairingService()->cancelOrder($pairing, $client);
 
                 return $this->recursiveMonitor($orgPairing, $pairing, $client, $cancellationRes);
@@ -346,7 +440,11 @@ class MonitorService
          * - First time get status success
          */
         if (!$orgPairing->isCaptured() && $tOrder->isSuccessful() && !$orgPairing->isSuccessful()) {
-            $this->logger->info("TWINT {$pairing->getId()} paid");
+            $this->logger->info("TWINT MonitorService::recursiveMonitor: {$pairing->getId()} paid", [
+                'source' => 'twint-woocommerce-extension',
+                'wc_order_id' => $pairing->getWcOrderId(),
+            ]);
+
             $order = wc_get_order($pairing->getWcOrderId());
 
             // Mark the order as paid (completed)
@@ -363,11 +461,19 @@ class MonitorService
         }
 
         if ($tOrder->isFailure() && !$orgPairing->isFailure()) {
-            $this->logger->info("TWINT {$pairing->getId()} failed");
+            $this->logger->info("TWINT MonitorService::recursiveMonitor: {$pairing->getId()} failed", [
+                'source' => 'twint-woocommerce-extension',
+                'wc_order_id' => $pairing->getWcOrderId(),
+            ]);
+
             return MonitoringStatus::fromValues(true, MonitoringStatus::STATUS_CANCELLED);
         }
 
-        $this->logger->info("TWINT {$pairing->getId()} still in process");
+        $this->logger->info("TWINT MonitorService::recursiveMonitor: {$pairing->getId()} still in process", [
+            'source' => 'twint-woocommerce-extension',
+            'wc_order_id' => $pairing->getWcOrderId(),
+        ]);
+
 
         return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
     }
@@ -391,8 +497,9 @@ class MonitorService
                     // Use WP-CLI if available
                     $shellCommand = "wp twint-poll poll {$id} --allow-root > {$logFile} 2>&1 &";
 
-                    $this->logger->info('-----------------------');
-                    $this->logger->info("[WP-CLI] polling {$id}");
+                    $this->logger->info("TWINT MonitorService::status: [WP-CLI] polling {$id}", [
+                        'source' => 'twint-woocommerce-extension',
+                    ]);
                 } else {
                     // Fallback to PHP command if WP-CLI is not available
                     $phpExecutable = apply_filters('twint_poll_php_executable', 'php');
@@ -400,13 +507,21 @@ class MonitorService
                     $statement = escapeshellarg(PollCommand::COMMAND);
                     $shellCommand = "{$phpExecutable} {$command} {$statement} {$id} > {$logFile} 2>&1 &";
 
-                    $this->logger->info('-----------------------');
-                    $this->logger->info("[PHP-CLI] polling (WP-CLI not available) {$id}");
+                    $this->logger->info(
+                        "TWINT MonitorService::status: [PHP-CLI] polling (WP-CLI not available) {$id}",
+                        [
+                            'source' => 'twint-woocommerce-extension',
+                        ]
+                    );
                 }
 
                 shell_exec($shellCommand);
             } catch (Throwable $e) {
-                $this->logger->error('TWINT error start monitor: ' . $e->getMessage());
+                $this->logger->error('TWINT MonitorService::status: error start monitor: ' . $e->getMessage(), [
+                    'source' => 'twint-woocommerce-extension',
+                    'wc_order_id' => $pairing->getWcOrderId(),
+                ]);
+
                 throw $e;
             }
         }
@@ -424,8 +539,13 @@ class MonitorService
                 $this->getRepository()->markAsMerchantCancelled($pairing->getId());
             } catch (CancellationFailed $e) {
                 $this->logger->error(
-                    "MonitorService::cancel TWINT cancel checkin failed {$pairing->getId()}" . $e->getMessage()
+                    "TWINT MonitorService::cancel: cancel checkin failed {$pairing->getId()}" . $e->getMessage(),
+                    [
+                        'source' => 'twint-woocommerce-extension',
+                        'wc_order_id' => $pairing->getWcOrderId(),
+                    ]
                 );
+
                 return false;
             } catch (Throwable $e) {
                 return false;
@@ -446,7 +566,11 @@ class MonitorService
 
                 return $order->transactionStatus()->equals(TransactionStatus::MERCHANT_ABORT());
             } catch (Throwable $e) {
-                $this->logger->error("PairingService::cancel: {$pairing->getId()}" . $e->getMessage());
+                $this->logger->error("TWINT MonitorService::cancel: {$pairing->getId()}" . $e->getMessage(), [
+                    'source' => 'twint-woocommerce-extension',
+                    'wc_order_id' => $pairing->getWcOrderId(),
+                ]);
+
                 return false;
             }
         }

@@ -63,7 +63,12 @@ class PairingRepository
 
             return $this->get($pairing->getId());
         } catch (Exception $e) {
-            $this->logger->error('TWINT PairingRepository::insert: ' . $e->getMessage());
+            $this->logger->error('TWINT PairingRepository::insert: ' . $e->getMessage(), [
+                'source' => 'twint-woocommerce-extension',
+                'pairing_id' => $pairing->getId(),
+                'wc_order_id' => $pairing->getWcOrderId(),
+            ]);
+
             throw $e;
         }
     }
@@ -121,7 +126,11 @@ class PairingRepository
             return $this->get($pairing->getId());
         } catch (Throwable $e) {
             if (!($e instanceof DatabaseException)) {
-                $this->logger->error('TWINT PairingRepository::update: ' . $e->getMessage());
+                $this->logger->error('TWINT PairingRepository::update: ' . $e->getMessage(), [
+                    'source' => 'twint-woocommerce-extension',
+                    'pairing_id' => $pairing->getId(),
+                    'wc_order_id' => $pairing->getWcOrderId(),
+                ]);
             }
 
             throw $e;

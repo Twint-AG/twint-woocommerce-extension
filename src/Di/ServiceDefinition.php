@@ -22,6 +22,7 @@ use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Repository\TransactionRepository;
 use Twint\Woo\Service\ApiService;
 use Twint\Woo\Service\AppsService;
+use Twint\Woo\Service\DiagnosticService;
 use Twint\Woo\Service\Express\ExpressOrderService;
 use Twint\Woo\Service\ExpressCheckoutService;
 use Twint\Woo\Service\FastCheckoutCheckinService;
@@ -137,6 +138,10 @@ class ServiceDefinition
                 $container->get('pairing.service'),
                 $container->get('api.service'),
                 $container->get('express_order.service'),
+            ),
+            'diagnostic.service' => static fn (ContainerInterface $container) => new DiagnosticService(
+                $container->get('pairing.repository', false),
+                $container->get('transaction.repository', false),
             ),
             'express_checkout.service' => static fn (ContainerInterface $container): ExpressCheckoutService => new ExpressCheckoutService(),
             'fast_checkout_checkin.service' => static fn (

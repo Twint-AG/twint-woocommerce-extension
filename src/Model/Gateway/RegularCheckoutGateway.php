@@ -207,7 +207,7 @@ class RegularCheckoutGateway extends AbstractGateway
                 'amount' => wc_price($order->get_total()),
             ];
         } catch (Exception $e) {
-            $this->logger->error('Twint RegularCheckoutGateway::process_payment ' . PHP_EOL . $e->getMessage(), [
+            $this->logger->error('TWINT RegularCheckoutGateway::process_payment: ' . PHP_EOL . $e->getMessage(), [
                 'orderID' => $order->get_id(),
                 'paymentMethod' => $order->get_payment_method(),
             ]);

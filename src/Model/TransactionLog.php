@@ -132,6 +132,23 @@ class TransactionLog extends Entity
         return $this->createdAt;
     }
 
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'pairing_id' => $this->getPairingId(),
+            'order_id' => $this->getOrderId(),
+            'soap_action' => $this->getSoapAction(),
+            'api_method' => $this->getApiMethod(),
+            'request' => $this->getRequest(),
+            'response' => $this->getResponse(),
+            'soap_request' => $this->getSoapRequest(),
+            'soap_response' => $this->getSoapResponse(),
+            'exception_text' => $this->getExceptionText(),
+            'created_at' => $this->getCreatedAt(),
+        ];
+    }
+
     protected function mapping(): array
     {
         return [

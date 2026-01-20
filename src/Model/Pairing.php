@@ -369,6 +369,26 @@ class Pairing extends Entity
         return $this;
     }
 
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'token' => $this->getToken(),
+            'wc_order_id' => $this->getWcOrderId(),
+            'amount' => $this->getAmount(),
+            'status' => $this->getStatus(),
+            'transaction_status' => $this->getTransactionStatus(),
+            'pairing_status' => $this->getPairingStatus(),
+            'is_ordering' => $this->getIsOrdering(),
+            'captured' => $this->isCaptured(),
+            'created_at' => $this->getCreatedAt(),
+            'updated_at' => $this->getUpdatedAt(),
+            'version' => $this->getVersion(),
+            'is_express' => $this->getIsExpress(),
+            'customer_data' => $this->getCustomerData(),
+        ];
+    }
+
     protected function mapping(): array
     {
         return [

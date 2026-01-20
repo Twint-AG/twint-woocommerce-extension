@@ -62,7 +62,11 @@ class PaymentService
                 return $log;
             }, true);
         } catch (Exception $e) {
-            $this->logger->error('PaymentService::createOrder error' . PHP_EOL . $e->getMessage());
+            $this->logger->error('TWINT PaymentService::createOrder: error' . PHP_EOL . $e->getMessage(), [
+                'source' => 'twint-woocommerce-extension',
+                'wc_order_id' => $order->get_id(),
+            ]);
+
             throw $e;
         }
     }
@@ -76,7 +80,11 @@ class PaymentService
 
         $pairing = $this->getRepository()->get((string) $order->get_transaction_id());
         if (!$pairing instanceof Pairing) {
-            $this->logger->error('Cannot refund due to non-exist pairing');
+            $this->logger->error('TWINT PaymentService::reverseOrder: cannot refund due to non-exist pairing', [
+                'source' => 'twint-woocommerce-extension',
+                'wc_order_id' => $order->get_id(),
+            ]);
+
             return null;
         }
 

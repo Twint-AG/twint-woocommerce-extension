@@ -67,7 +67,7 @@ class PollCommand extends Command
         $startedAt = new DateTime();
 
         $output->writeln("Monitoring: <info>{$id}</info>");
-        $this->logger->info("[TWINT] - Monitoring: {$id}");
+        $this->logger->info("TWINT PollCommand::execute: monitoring {$id}");
 
         try {
             while (!$pairing->isFinished()) {
@@ -83,7 +83,7 @@ class PollCommand extends Command
                 ++$count;
             }
         } catch (Throwable $e) {
-            $this->logger->error("TWINT - Monitoring error: {$e->getMessage()}");
+            $this->logger->error("TWINT PollCommand::execute: monitoring error: {$e->getMessage()}");
         }
 
         return 0;

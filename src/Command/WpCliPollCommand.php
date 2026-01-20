@@ -56,7 +56,7 @@ class WpCliPollCommand
         $startedAt = new DateTime();
 
         WP_CLI::log("Monitoring: {$id}");
-        $this->logger->info("[TWINT] - Monitoring: {$id}");
+        $this->logger->info("TWINT WpCliPollCommand::poll: monitoring {$id}");
 
         while (!$pairing->isFinished()) {
             $this->repository->updateCheckedAt($pairing);
