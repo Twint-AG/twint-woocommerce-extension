@@ -34,11 +34,11 @@ class CliSupportTrigger
             $command = "{$phpExecutable} {$subCommand} {$name} > {$logFile} 2>&1 &";
 
             // Note: We're not using WP-CLI here because there's no WP-CLI command registered for CliCommand
-            $this->logger->info('TWINT using PHP command for CLI support check');
+            $this->logger->info('TWINT CliSupportTrigger::handle: using PHP command for CLI support check');
 
             shell_exec($command);
         } catch (Throwable $e) {
-            $this->logger->error('Cannot start PHP process: ' . $e->getMessage());
+            $this->logger->error('TWINT CliSupportTrigger::handle: cannot start PHP process: ' . $e->getMessage());
         }
     }
 }

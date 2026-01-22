@@ -57,10 +57,10 @@ class MonitorPairingCronJob
      */
     public function run(): void
     {
-        $this->logger->info('twintCronJobRunning', ['Running twint cancel expired orders']);
+        $this->logger->info('TWINT MonitorPairingCronJob::run: running cancel expired orders');
 
         $this->getMonitor()->monitors();
 
-        $this->logger->info('twintCronJobDone');
+        $this->logger->info('TWINT MonitorPairingCronJob::run: done');
     }
 }

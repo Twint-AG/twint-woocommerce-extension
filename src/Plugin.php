@@ -7,8 +7,6 @@ namespace Twint\Woo;
 use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
 use Automattic\WooCommerce\Utilities\OrderUtil;
-use DateTimeImmutable;
-use Twint\Sdk\Diagnostics\Collector;
 use Twint\Woo\Command\WpCliPollCommand;
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\ContainerFactory;
@@ -16,7 +14,6 @@ use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 use Twint\Woo\Model\Method\ExpressCheckout;
 use Twint\Woo\Model\Method\RegularCheckout;
-use Twint\Woo\Template\Admin\Setting\Tab\Diagnostics;
 use WC_Payment_Gateway;
 use WP_CLI;
 
@@ -56,43 +53,20 @@ class Plugin
         });
 
         add_action('admin_post_twint_download_diagnostics', [self::class, 'twint_download_diagnostics_handler']);
+        add_action(
+            'admin_post_twint_download_order_diagnostics',
+            [self::class, 'twint_download_order_diagnostics_handler']
+        );
     }
 
     public static function twint_download_diagnostics_handler()
     {
-        if (
-            !isset($_POST['twint_download_diagnostics_nonce']) ||
-            !wp_verify_nonce($_POST['twint_download_diagnostics_nonce'], 'twint_download_diagnostics')
-        ) {
-            wp_die('Security check failed.');
-        }
+        self::di('diagnostic.service')->downloadGlobalDiagnostics();
+    }
 
-        $collector = Collector::withDefaults(new DateTimeImmutable());
-        $collector = $collector->includePath(WP_CONTENT_DIR . '/debug.log');
-
-        // Add PHP error log file if available
-        $phpErrorLog = ini_get('error_log');
-        if (
-            is_string($phpErrorLog) && $phpErrorLog !== '' && strtolower($phpErrorLog) !== 'syslog'
-            && @is_file($phpErrorLog) && @is_readable($phpErrorLog)
-        ) {
-            $collector = $collector->includePath($phpErrorLog);
-        }
-
-        if (defined('WC_LOG_DIR') && WC_LOG_DIR) {
-            $collector = $collector
-                ->includePath(WC_LOG_DIR, static fn (string $path) => str_ends_with($path, '.log'));
-        }
-
-        $info = Diagnostics::getInformation();
-        foreach ($info as $item) {
-            $collector = $collector->includeInsight($item['label'], $item['value']);
-        }
-
-        $collector->collect(
-            fileNamePrefix: 'twint-woocommerce-diagnostics',
-            streamHandler: static fn ($data) => print ($data)
-        );
+    public static function twint_download_order_diagnostics_handler()
+    {
+        self::di('diagnostic.service')->downloadOrderDiagnostics();
     }
 
     public static function registerCLI(): void

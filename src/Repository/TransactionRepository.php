@@ -35,7 +35,10 @@ class TransactionRepository
 
             return $reload ? $this->get($log->getId()) : $log;
         } catch (Exception $e) {
-            $this->logger->error('TWINT TransactionRepository::updatePartial: ' . $e->getMessage());
+            $this->logger->error('TWINT TransactionRepository::updatePartial: ' . $e->getMessage(), [
+                'source' => 'twint-woocommerce-extension',
+            ]);
+
             throw $e;
         }
     }
@@ -62,7 +65,10 @@ class TransactionRepository
 
             return $reload ? $this->get($log->getId()) : $log;
         } catch (Exception $e) {
-            $this->logger->error('TWINT TransactionRepository::update: ' . $e->getMessage());
+            $this->logger->error('TWINT TransactionRepository::update: ' . $e->getMessage(), [
+                'source' => 'twint-woocommerce-extension',
+            ]);
+
             throw $e;
         }
     }
@@ -105,7 +111,10 @@ class TransactionRepository
 
             return $reload ? $this->get($this->db->insert_id) : $log;
         } catch (Exception $e) {
-            $this->logger->error('TWINT TransactionRepository::insert: ' . $e->getMessage());
+            $this->logger->error('TWINT TransactionRepository::insert: ' . $e->getMessage(), [
+                'source' => 'twint-woocommerce-extension',
+            ]);
+
             throw $e;
         }
     }

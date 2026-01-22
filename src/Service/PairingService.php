@@ -91,8 +91,13 @@ class PairingService
         $pairing->setTransactionStatus($order->transactionStatus()->__toString());
 
         $this->logger->info(
-            "TWINT {$pairing->getId()} updated {$pairing->getVersion()} {$pairing->getPairingStatus()} {$pairing->getTransactionStatus()}"
+            "TWINT PairingService::update: {$pairing->getId()} updated {$pairing->getVersion()} {$pairing->getPairingStatus()} {$pairing->getTransactionStatus()}",
+            [
+                'source' => 'twint-woocommerce-extension',
+                'wc_order_id' => $pairing->getWcOrderId(),
+            ]
         );
+
         return $this->getRepository()->update($pairing);
     }
 
@@ -135,7 +140,14 @@ class PairingService
         $pairing->setShippingMethodId($checkIn->shippingMethodId()?->__toString() ?? null);
         $pairing->setPairingStatus((string) $checkIn->pairingStatus());
 
-        $this->logger->info("TWINT {$pairing->getId()}  updated {$pairing->getPairingStatus()}");
+        $this->logger->info(
+            "TWINT PairingService::updateForExpress: {$pairing->getId()} updated {$pairing->getPairingStatus()}",
+            [
+                'source' => 'twint-woocommerce-extension',
+                'wc_order_id' => $pairing->getWcOrderId(),
+            ]
+        );
+
 
         return $this->getRepository()->save($pairing);
     }
@@ -167,7 +179,11 @@ class PairingService
      */
     public function cancelOrder(Pairing $pairing, InvocationRecordingClient $client): ApiResponse
     {
-        $this->logger->info("TWINT cancel order: {$pairing->getId()}");
+        $this->logger->info("TWINT PairingService::cancelOrder: cancel order {$pairing->getId()}", [
+            'source' => 'twint-woocommerce-extension',
+            'wc_order_id' => $pairing->getWcOrderId(),
+        ]);
+
 
         return $this->getApi()->call(
             $client,
