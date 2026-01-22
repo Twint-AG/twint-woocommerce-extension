@@ -105,7 +105,7 @@ class ExpressOrderService
 
     private function updateShippingMethod(WC_Order $order, Pairing $pairing): void
     {
-        if ($pairing->getShippingMethod() === null || $pairing->getShippingMethod() === '' || $pairing->getShippingMethod() === '0') {
+        if (in_array($pairing->getShippingMethod(), [null, '', '0'], true)) {
             return;
         }
 

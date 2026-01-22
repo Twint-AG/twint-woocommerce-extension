@@ -82,8 +82,8 @@ class Diagnostics extends TabItem
         ];
 
         $info[] = [
-            'label' => __('PHP Executable (8.1 or earlier):', 'twint-woocommerce-extension'),
-            'value' => apply_filters('twint_poll_php_executable', 'php'),
+            'label' => __('PHP Executable path:', 'twint-woocommerce-extension'),
+            'value' => apply_filters('twint_poll_php_executable', Plugin::php()),
             'valid' => true,
         ];
 

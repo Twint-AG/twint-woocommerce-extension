@@ -61,7 +61,7 @@ class ClientBuilder
 
         $environment = $this->getSetting()->isTestMode() ? Environment::TESTING() : Environment::PRODUCTION();
         $storeUuid = $this->getSetting()->getStoreUuid();
-        if ($storeUuid === null || $storeUuid === '' || $storeUuid === '0') {
+        if (in_array($storeUuid, [null, '', '0'], true)) {
             throw new InvalidConfigException(esc_html(InvalidConfigException::ERROR_INVALID_STORE_UUID));
         }
 

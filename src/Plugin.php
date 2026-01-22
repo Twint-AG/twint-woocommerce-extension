@@ -7,6 +7,7 @@ namespace Twint\Woo;
 use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
 use Automattic\WooCommerce\Utilities\OrderUtil;
+use Symfony\Component\Process\PhpExecutableFinder;
 use Twint\Woo\Command\WpCliPollCommand;
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\ContainerFactory;
@@ -232,6 +233,16 @@ class Plugin
 
         // Return the full asset path
         return $localPath . $asset;
+    }
+
+    public static function php(): string
+    {
+        static $php;
+        if ($php === null) {
+            $php = (new PhpExecutableFinder())->find() ?: 'php';
+        }
+
+        return $php;
     }
 
     protected static function pluginFile(): string

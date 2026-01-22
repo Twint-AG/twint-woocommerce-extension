@@ -73,7 +73,10 @@ use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 use Symplify\CodingStandard\Fixer\Spacing\MethodChainingNewlineFixer;
 
 return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->paths([__DIR__ . '/src']);
+    $ecsConfig->paths([
+        __DIR__ . '/src',
+        __DIR__ . '/twint-woocommerce-extension.php',
+    ]);
 
     $ecsConfig->rules(
         [
@@ -88,7 +91,6 @@ return static function (ECSConfig $ecsConfig): void {
             BlankLineAfterOpeningTagFixer::class,
             CastSpacesFixer::class,
             SingleTraitInsertPerStatementFixer::class,
-            FunctionTypehintSpaceFixer::class,
             NoBlankLinesAfterClassOpeningFixer::class,
             NoSinglelineWhitespaceBeforeSemicolonsFixer::class,
             NoLeadingNamespaceWhitespaceFixer::class,
@@ -97,7 +99,6 @@ return static function (ECSConfig $ecsConfig): void {
             ReturnTypeDeclarationFixer::class,
             SpaceAfterSemicolonFixer::class,
             TernaryOperatorSpacesFixer::class,
-            LanguageConstructSpacingSniff::class,
             MethodArgumentSpaceFixer::class,
             UseArrowFunctionsFixer::class,
             NoSpacesAfterFunctionNameFixer::class,

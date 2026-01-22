@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ba42c6095c9a14c5602df266decc105a",
+    "content-hash": "fa14644f8cd632094e2b21725dff9d29",
     "packages": [
         {
             "name": "azjezz/psl",
@@ -3499,6 +3499,56 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "wp-cli/process",
+            "version": "v5.9.99",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wp-cli/process.git",
+                "reference": "f0aec5ca26a702d3157e3a19982b662521ac2b81"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wp-cli/process/zipball/f0aec5ca26a702d3157e3a19982b662521ac2b81",
+                "reference": "f0aec5ca26a702d3157e3a19982b662521ac2b81",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9|>=7.0.8"
+            },
+            "replace": {
+                "symfony/process": "^5.4.47"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Process\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Process Component",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/wp-cli/process/tree/v5.9.99"
+            },
+            "time": "2025-05-06T21:26:50+00:00"
         },
         {
             "name": "yahnis-elsts/plugin-update-checker",
@@ -7307,56 +7357,6 @@
                 "source": "https://github.com/wp-cli/php-cli-tools/tree/v0.12.6"
             },
             "time": "2025-09-11T12:43:04+00:00"
-        },
-        {
-            "name": "wp-cli/process",
-            "version": "v5.9.99",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/wp-cli/process.git",
-                "reference": "f0aec5ca26a702d3157e3a19982b662521ac2b81"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/process/zipball/f0aec5ca26a702d3157e3a19982b662521ac2b81",
-                "reference": "f0aec5ca26a702d3157e3a19982b662521ac2b81",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.5.9|>=7.0.8"
-            },
-            "replace": {
-                "symfony/process": "^5.4.47"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Process\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Process Component",
-            "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/wp-cli/process/tree/v5.9.99"
-            },
-            "time": "2025-05-06T21:26:50+00:00"
         },
         {
             "name": "wp-cli/rewrite-command",

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Plugin Name: TWINT Payment for WooCommerce
  * Plugin URI: https://twint.ch
@@ -20,6 +23,19 @@
 
 if (!defined('ABSPATH')) {
     exit;
+}
+
+if (!is_dir(__DIR__ . '/vendor') && !is_dir(__DIR__ . '/vendor84')) {
+    add_action('admin_notices', static function () {
+        $release_url = 'https://github.com/Twint-AG/twint-woocommerce-extension/releases';
+        $message = sprintf(
+            __('Please download the TWINT Extension plugin from the <a href="%s">releases</a> page.', 'twint-woocommerce-extension'),
+            esc_url($release_url)
+        );
+        printf('<div class="notice notice-error"><p>%s</p></div>', wp_kses_post($message));
+    });
+
+    return;
 }
 
 require __DIR__ . '/vendor/autoload.php';
