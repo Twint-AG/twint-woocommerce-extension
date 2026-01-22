@@ -385,7 +385,6 @@ class Pairing extends Entity
             'updated_at' => $this->getUpdatedAt(),
             'version' => $this->getVersion(),
             'is_express' => $this->getIsExpress(),
-            'customer_data' => $this->getCustomerData(),
         ];
     }
 
