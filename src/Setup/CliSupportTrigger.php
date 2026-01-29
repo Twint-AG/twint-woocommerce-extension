@@ -27,16 +27,18 @@ class CliSupportTrigger
         try {
             update_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION, 'No');
 
-            $phpExecutable = apply_filters('twint_poll_php_executable', 'php');
+            $phpExecutable = apply_filters('twint_poll_php_executable', Plugin::php());
             $logFile = escapeshellarg(sys_get_temp_dir() . '/cli_command.log');
             $subCommand = escapeshellarg(Plugin::abspath() . 'bin/console');
             $name = escapeshellarg(CliCommand::COMMAND);
-            $command = "{$phpExecutable} {$subCommand} {$name} > {$logFile} 2>&1 &";
+            $command = "{$phpExecutable} {$subCommand} {$name}";
 
             // Note: We're not using WP-CLI here because there's no WP-CLI command registered for CliCommand
             $this->logger->info('TWINT CliSupportTrigger::handle: using PHP command for CLI support check');
 
-            shell_exec($command);
+            $result = shell_exec($command);
+
+            $this->logger->info('TWINT CliSupportTrigger::handle: CLI support check result: ' . $result);
         } catch (Throwable $e) {
             $this->logger->error('TWINT CliSupportTrigger::handle: cannot start PHP process: ' . $e->getMessage());
         }

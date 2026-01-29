@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/twint-woocommerce-"
 "extension\n"
-"POT-Creation-Date: 2025-04-04T04:13:55+00:00\n"
+"POT-Creation-Date: 2026-01-26T05:14:34+00:00\n"
 "PO-Revision-Date: 2025-04-04 11:16+0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -39,7 +39,7 @@ msgid "TWINT"
 msgstr "TWINT"
 
 #: src/Api/Admin/GetTransactionLogAction.php:47
-#: src/View/Admin/transaction_log.php:10
+#: src/View/Admin/transaction_log.php:13
 msgid "Order ID"
 msgstr "ID de la commande"
 
@@ -63,27 +63,27 @@ msgstr "Demande"
 msgid "Response"
 msgstr "Réponse"
 
-#: src/Api/Admin/StoreConfigurationAction.php:85
-#: src/Api/Admin/StoreConfigurationAction.php:126
+#: src/Api/Admin/StoreConfigurationAction.php:87
+#: src/Api/Admin/StoreConfigurationAction.php:130
 msgid "Invalid password"
-msgstr ""
+msgstr "Mot de passe invalide"
 
-#: src/Api/Admin/StoreConfigurationAction.php:112
+#: src/Api/Admin/StoreConfigurationAction.php:116
 msgid "Invalid Store UUID. Store UUID needs to be a UUIDv4."
 msgstr ""
 "UUID de votre commerce invalide. L’UUID de votre commerce doit être un "
 "UUIDv4."
 
-#: src/Api/Admin/StoreConfigurationAction.php:162
-#: src/Template/Admin/Setting/Tab/Credentials.php:66
+#: src/Api/Admin/StoreConfigurationAction.php:166
+#: src/Template/Admin/Setting/Tab/Credentials.php:85
 msgid "Upload a certificate file (.p12)"
 msgstr "Télécharger un fichier de certificat (.p12)"
 
-#: src/Api/Admin/StoreConfigurationAction.php:183
+#: src/Api/Admin/StoreConfigurationAction.php:187
 msgid "Settings have been saved successfully."
-msgstr ""
+msgstr "Les paramètres ont été enregistrés avec succès."
 
-#: src/Api/Admin/StoreConfigurationAction.php:194
+#: src/Api/Admin/StoreConfigurationAction.php:198
 msgid "Invalid credentials. Please check again: Store UUID, certificate"
 msgstr ""
 "Identifiants invalides. Veuillez vérifier à nouveau: UUID de votre commerce, "
@@ -93,13 +93,13 @@ msgstr ""
 msgid "Every Minute"
 msgstr ""
 
-#: src/Model/Button/ExpressButton.php:178
+#: src/Model/Button/ExpressButton.php:182
 msgid "Or"
 msgstr "Ou"
 
 #: src/Model/Gateway/ExpressCheckoutGateway.php:54
 #: src/Model/Gateway/ExpressCheckoutGateway.php:55
-#: src/Service/ExpressCheckoutService.php:91
+#: src/Service/ExpressCheckoutService.php:44
 #: src/Template/Admin/Setting/Tab/ExpressCheckout.php:18
 msgid "TWINT Express Checkout"
 msgstr "TWINT Express Checkout"
@@ -158,117 +158,112 @@ msgstr ""
 msgid "This controls the title which the user sees during checkout."
 msgstr ""
 
-#: src/Model/Modal/Modal.php:118
+#: src/Model/Modal/Modal.php:122
 msgid "Choose your TWINT app:"
 msgstr "Choisissez votre app TWINT:"
 
-#: src/Model/Modal/Modal.php:126
+#: src/Model/Modal/Modal.php:130
 msgid "Other banks"
 msgstr "Autres banques"
 
-#: src/Plugin.php:61 src/View/Admin/credentials.php:15
-msgid "PHP CLI version ( >=8.1): "
-msgstr "Version de PHP CLI (>8.1): "
-
-#: src/Plugin.php:67 src/View/Admin/credentials.php:20
-msgid "Function `shell_exec` is allowed: "
-msgstr "La fonction `shell_exec` est autorisée: "
-
-#: src/Plugin.php:73 src/View/Admin/credentials.php:25
-msgid "TWINT command is executable: "
-msgstr "La commande TWINT est exécutable: "
-
-#: src/Plugin.php:79 src/View/Admin/credentials.php:30
-msgid "TWINT PHP CLI Command Execution Test: "
-msgstr "Test d’exécution de la commande TWINT PHP CLI: "
-
 #: src/Template/Admin/MetaBox/TransactionLogMeta.php:34
-#: src/View/Admin/transaction_log.php:45
+#: src/View/Admin/transaction_log.php:61
 msgid "Transaction logs"
 msgstr "Journal des transactions"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:20
+#: src/Template/Admin/Setting/Tab/Credentials.php:36
 msgid "Credentials"
 msgstr "Identifiants"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:38
+#: src/Template/Admin/Setting/Tab/Credentials.php:57
 msgid "Switch to test mode"
 msgstr "Passer en mode test"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:55
+#: src/Template/Admin/Setting/Tab/Credentials.php:74
 msgid "Store UUID"
 msgstr "UUID de votre commerce"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:56
+#: src/Template/Admin/Setting/Tab/Credentials.php:75
 msgid "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
 msgstr "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:67
+#: src/Template/Admin/Setting/Tab/Credentials.php:86
 msgid "Certificate file is required"
 msgstr "Le fichier de certificat est requis"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:72
-#: src/Template/Admin/Setting/Tab/Credentials.php:74
+#: src/Template/Admin/Setting/Tab/Credentials.php:91
+#: src/Template/Admin/Setting/Tab/Credentials.php:93
 msgid "Certificate Password"
 msgstr "Mot de passe du certificat"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:75
+#: src/Template/Admin/Setting/Tab/Credentials.php:94
 msgid "Certificate password is required"
 msgstr "Le mot de passe du certificat est requis"
 
-#: src/Template/Admin/Setting/Tab/Credentials.php:99
-msgid "The TWINT command was successfully executed via the PHP CLI."
-msgstr "La commande TWINT a été exécutée avec succès via le PHP CLI."
-
-#: src/Template/Admin/SettingsLayoutViewAdapter.php:94
-msgid "TWINT is only available for shops with CHF as the base currency. Please change your WooCommerce currency settings to CHF."
-msgstr "TWINT n'est disponible que pour les boutiques dont la devise de base est le CHF. Veuillez modifier vos paramètres de devise WooCommerce pour le CHF."
-
-#: src/Template/Admin/SettingsLayoutViewAdapter.php:101
+#: src/Template/Admin/Setting/Tab/Credentials.php:126
 msgid "Save changes"
 msgstr "Enregistrer les modifications"
 
-#: src/TwintIntegration.php:187
+#: src/Template/Admin/Setting/Tab/Diagnostics.php:21
+msgid "Diagnostics"
+msgstr ""
+
+#: src/Template/Admin/Setting/Tab/Diagnostics.php:79
+#, fuzzy
+msgid "PHP CLI version (8.1 or earlier):"
+msgstr "Version de PHP CLI (>8.1): "
+
+#: src/Template/Admin/Setting/Tab/Diagnostics.php:85
+msgid "PHP Executable path:"
+msgstr "Chemin de l'exécutable PHP :"
+
+#: src/Template/Admin/Setting/Tab/Diagnostics.php:91
+msgid "Function `shell_exec` is allowed: "
+msgstr "La fonction `shell_exec` est autorisée: "
+
+#: src/Template/Admin/Setting/Tab/Diagnostics.php:97
+msgid "TWINT command is executable: "
+msgstr "La commande TWINT est exécutable: "
+
+#: src/Template/Admin/Setting/Tab/Diagnostics.php:103
+msgid "TWINT PHP CLI Command Execution Test: "
+msgstr "Test d’exécution de la commande TWINT PHP CLI: "
+
+#: src/Template/Admin/Setting/Tab/Diagnostics.php:139
+msgid "Plugins:"
+msgstr ""
+
+#: src/Template/Admin/SettingsLayoutViewAdapter.php:93
+msgid ""
+"TWINT is only available for shops with CHF as the base currency. Please "
+"change your WooCommerce currency settings to CHF."
+msgstr ""
+"TWINT n'est disponible que pour les boutiques dont la devise de base est le "
+"CHF. Veuillez modifier vos paramètres de devise WooCommerce pour le CHF."
+
+#: src/TwintIntegration.php:189
 msgid "Settings"
 msgstr "Paramètres"
 
-#: src/View/Admin/credentials.php:8
-msgid "PHP CLI Not Available"
-msgstr "PHP CLI n’est pas disponible"
-
-#: src/View/Admin/credentials.php:10
-msgid ""
-"PHP CLI (Command Line Interface) is missing or misconfigured. This extension "
-"relies on PHP CLI for essential background processes. Without it, the plug-"
-"in is not functional. Please refer to the Guide for troubleshooting and the "
-"minimum requirements for PHP CLI settings."
-msgstr ""
-"PHP CLI (Command Line Interface) est manquant ou mal configuré. Cette "
-"extension s’appuie sur PHP CLI pour les processus essentiels en arrière-"
-"plan. Sans elle, le plug-in n’est pas fonctionnel. Veuillez vous référer au "
-"guide pour le dépannage et les exigences minimales pour les paramètres de "
-"PHP CLI."
-
-#: src/View/Admin/credentials.php:54
+#: src/View/Admin/credentials.php:22
 msgid "Certificate encrypted and stored."
 msgstr "Certificat crypté et enregistré."
 
-#: src/View/Admin/credentials.php:59
+#: src/View/Admin/credentials.php:27
 msgid "Upload new certificate"
 msgstr "Télécharger un nouveau certificat"
 
-#: src/View/Admin/credentials.php:66
+#: src/View/Admin/credentials.php:34
 msgid "Close"
 msgstr "Fermer"
 
-#: src/View/Admin/credentials.php:97
+#: src/View/Admin/credentials.php:65
 #, fuzzy
-#| msgid "Invalid Store Uuid. Store Uuid needs to be a UUIDv4."
 msgid "Invalid Store UUID. Store UUID needs to be a UUIDv4"
 msgstr ""
 "UUID de votre commerce invalide. L’UUID de votre commerce doit être un UUIDv4"
 
-#: src/View/Admin/credentials.php:108
+#: src/View/Admin/credentials.php:76
 msgid "Test"
 msgstr ""
 
@@ -276,27 +271,31 @@ msgstr ""
 msgid "Certificate validation successful"
 msgstr "Validation du certificat réussie"
 
-#: src/View/Admin/transaction_log.php:11
+#: src/View/Admin/transaction_log.php:14
 msgid "API method"
 msgstr "Méthode API"
 
-#: src/View/Admin/transaction_log.php:12
+#: src/View/Admin/transaction_log.php:15
 msgid "SOAP actions"
 msgstr "Action du SOAP"
 
-#: src/View/Admin/transaction_log.php:13
+#: src/View/Admin/transaction_log.php:16
 msgid "Created at"
 msgstr "Créée à"
 
-#: src/View/Admin/transaction_log.php:14
+#: src/View/Admin/transaction_log.php:17
 msgid "Actions"
 msgstr "Actes"
 
-#: src/View/Admin/transaction_log.php:34
+#: src/View/Admin/transaction_log.php:37
 msgid "View details"
 msgstr "Voir les détails"
 
-#: src/View/Frontend/modal.php:14
+#: src/View/Admin/transaction_log.php:54
+msgid "Download Diagnostics"
+msgstr ""
+
+#: src/View/Frontend/modal.php:18
 msgid ""
 "You have existing products in the shopping cart. Please review your shopping "
 "cart before continue."
@@ -304,48 +303,48 @@ msgstr ""
 "Votre panier contient déjà des produits. Veuillez vérifier votre panier "
 "avant de continuer."
 
-#: src/View/Frontend/modal.php:26
+#: src/View/Frontend/modal.php:30
 msgid "Cancel checkout"
 msgstr "Annuler le check-out"
 
-#: src/View/Frontend/modal.php:27
+#: src/View/Frontend/modal.php:31
 msgid "Continue shopping"
 msgstr "Poursuivre les achats"
 
-#: src/View/Frontend/modal.php:28
+#: src/View/Frontend/modal.php:32
 msgid "Cancelling..."
 msgstr "Annulation..."
 
-#: src/View/Frontend/modal.php:41
+#: src/View/Frontend/modal.php:46
 msgid "Payment did not succeed, please try another payment method."
 msgstr ""
 "Le paiement n’a pas abouti, veuillez essayer un autre mode de paiement."
 
-#: src/View/Frontend/modal.php:66
+#: src/View/Frontend/modal.php:73
 msgid "Copy code"
 msgstr "Copiez le code"
 
-#: src/View/Frontend/modal.php:67
+#: src/View/Frontend/modal.php:74
 msgid "Copied"
 msgstr "Copié"
 
-#: src/View/Frontend/modal.php:103
+#: src/View/Frontend/modal.php:108
 msgid "Switch to TWINT app now"
 msgstr "Passez à l’app TWINT maintenant"
 
-#: src/View/Frontend/modal.php:115
+#: src/View/Frontend/modal.php:120
 msgid "or"
 msgstr "ou"
 
-#: src/View/Frontend/modal.php:122
+#: src/View/Frontend/modal.php:127
 msgid "Enter this code in your TWINT app:"
 msgstr "Entrez ce code dans votre app TWINT:"
 
-#: src/View/Frontend/modal.php:139
+#: src/View/Frontend/modal.php:144
 msgid "Scan this QR Code with your TWINT app to complete the checkout."
 msgstr "Scannez ce code QR avec votre app TWINT pour terminer le paiement."
 
-#: src/View/Frontend/modal.php:151
+#: src/View/Frontend/modal.php:156
 msgid "Follow the instructions in the app to confirm your order."
 msgstr ""
 "Suivez les instructions dans l’application pour confirmer votre commande."
@@ -357,6 +356,33 @@ msgstr ""
 #: src/View/Frontend/unpaid.php:12
 msgid "Your order was cancelled."
 msgstr ""
+
+#: twint-woocommerce-extension.php:32
+#, php-format
+msgid ""
+"Please download the TWINT Extension plugin from the <a href=\"%s\">releases</"
+"a> page."
+msgstr ""
+"Veuillez télécharger le plugin d’extension TWINT à partir de la page des <a "
+"href=\"%s\">releases</a>."
+
+#~ msgid "The TWINT command was successfully executed via the PHP CLI."
+#~ msgstr "La commande TWINT a été exécutée avec succès via le PHP CLI."
+
+#~ msgid "PHP CLI Not Available"
+#~ msgstr "PHP CLI n’est pas disponible"
+
+#~ msgid ""
+#~ "PHP CLI (Command Line Interface) is missing or misconfigured. This "
+#~ "extension relies on PHP CLI for essential background processes. Without "
+#~ "it, the plug-in is not functional. Please refer to the Guide for "
+#~ "troubleshooting and the minimum requirements for PHP CLI settings."
+#~ msgstr ""
+#~ "PHP CLI (Command Line Interface) est manquant ou mal configuré. Cette "
+#~ "extension s’appuie sur PHP CLI pour les processus essentiels en arrière-"
+#~ "plan. Sans elle, le plug-in n’est pas fonctionnel. Veuillez vous référer "
+#~ "au guide pour le dépannage et les exigences minimales pour les paramètres "
+#~ "de PHP CLI."
 
 #, fuzzy
 #~| msgid "Certificate password is required"

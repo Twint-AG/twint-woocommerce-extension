@@ -294,10 +294,7 @@ class Pairing extends Entity
 
     public function getCustomerData(): array
     {
-        return $this->customerData === null || $this->customerData === '' || $this->customerData === '0' ? [] : json_decode(
-            $this->customerData,
-            true
-        );
+        return in_array($this->customerData, [null, '', '0'], true) ? [] : json_decode($this->customerData, true);
     }
 
     public function setCustomerData(?string $value): self
@@ -319,7 +316,7 @@ class Pairing extends Entity
 
     public function getShippingMethodId(): ?string
     {
-        if ($this->shippingMethodId === null || $this->shippingMethodId === '' || $this->shippingMethodId === '0') {
+        if (in_array($this->shippingMethodId, [null, '', '0'], true)) {
             return null;
         }
 
@@ -335,7 +332,7 @@ class Pairing extends Entity
 
     public function getShippingMethodInstanceId(): ?string
     {
-        if ($this->shippingMethodId === null || $this->shippingMethodId === '' || $this->shippingMethodId === '0') {
+        if (in_array($this->shippingMethodId, [null, '', '0'], true)) {
             return null;
         }
 

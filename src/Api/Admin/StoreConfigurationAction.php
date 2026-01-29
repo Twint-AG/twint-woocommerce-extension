@@ -27,7 +27,9 @@ class StoreConfigurationAction extends BaseAction
     use LazyLoadTrait;
 
     public const MAX_PASSWORD_LENGTH = 512;
+
     public const CERTIFICATE_FILE_SIZE = 128 * 1024;
+
     public const CERTIFICATE_FILE_TYPE = 'application/x-pkcs12';
 
     protected static array $lazyLoads = ['encryptor', 'validator', 'settingService', 'certificateHandler'];
@@ -69,7 +71,7 @@ class StoreConfigurationAction extends BaseAction
         $testMode = isset($_POST[TwintConstant::TEST_MODE]) && $_POST[TwintConstant::TEST_MODE] === 'on' ? TwintConstant::YES : TwintConstant::NO;
 
         try {
-            if ($password !== null && $password !== '' && $password !== '0') {
+            if (!in_array($password, [null, '', '0'], true)) {
                 $certificateContent = $this->getCertificateContent($file);
                 $certificate = $this->getCertificateHandler()->read($certificateContent, $password);
 

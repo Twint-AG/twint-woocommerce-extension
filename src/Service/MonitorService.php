@@ -502,7 +502,7 @@ class MonitorService
                     ]);
                 } else {
                     // Fallback to PHP command if WP-CLI is not available
-                    $phpExecutable = apply_filters('twint_poll_php_executable', 'php');
+                    $phpExecutable = apply_filters('twint_poll_php_executable', Plugin::php());
                     $command = escapeshellarg(Plugin::abspath() . 'bin/console');
                     $statement = escapeshellarg(PollCommand::COMMAND);
                     $shellCommand = "{$phpExecutable} {$command} {$statement} {$id} > {$logFile} 2>&1 &";
