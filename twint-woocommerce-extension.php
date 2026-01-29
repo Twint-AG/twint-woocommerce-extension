@@ -6,7 +6,7 @@ declare(strict_types=1);
  * Plugin Name: TWINT Payment for WooCommerce
  * Plugin URI: https://twint.ch
  * Description: TWINT Payment Plugin for WooCommerce
- * Version: 0.0.1-dev
+ * Version: 1.6.15
  * Author: TWINT
  * Author URI: https://twint.ch
  * Developer: TWINT
