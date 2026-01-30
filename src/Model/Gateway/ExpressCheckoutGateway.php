@@ -82,7 +82,7 @@ class ExpressCheckoutGateway extends AbstractGateway
         return apply_filters('woocommerce_twint_order_status_paid', 'processing');
     }
 
-    public static function removeExpressCheckoutPaymentMethodInCheckoutPage($available_gateways)
+    public static function removeExpressInCheckoutPage($available_gateways)
     {
         // We don't need to display Express Checkout option in payment methods available in Checkout page.
         if (is_checkout()) {
@@ -90,6 +90,43 @@ class ExpressCheckoutGateway extends AbstractGateway
         }
 
         return $available_gateways;
+    }
+
+    public static function disableExpressByRegistrationRequirement($available_gateways)
+    {
+        if (!WC()->checkout()->is_registration_required()) {
+            return $available_gateways;
+        }
+
+        if (is_user_logged_in()) {
+            return $available_gateways;
+        }
+
+        if (isset($available_gateways[self::UNIQUE_PAYMENT_ID])) {
+            unset($available_gateways[self::UNIQUE_PAYMENT_ID]);
+        }
+
+        return $available_gateways;
+    }
+
+    public function admin_options()
+    {
+        if (WC()->checkout()->is_registration_required()) {
+            $url = admin_url('admin.php?page=wc-settings&tab=account');
+            echo '<div class="notice notice-warning inline"><p>' . sprintf(
+                /* translators: %s: WooCommerce Settings URL */
+                esc_html__(
+                    'Customer need logged to see the Express Checkout button. You can change this setting in %s.',
+                    'twint-woocommerce-extension'
+                ),
+                '<a href="' . esc_url($url) . '">' . esc_html__(
+                    'WooCommerce Settings > Accounts & Privacy > Guest checkout',
+                    'twint-woocommerce-extension'
+                ) . '</a>'
+            ) . '</p></div>';
+        }
+
+        parent::admin_options();
     }
 
     /**
@@ -116,10 +153,8 @@ class ExpressCheckoutGateway extends AbstractGateway
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'saveConfigs']);
         add_filter('woocommerce_payment_complete_order_status', [$this, 'setCompleteOrderStatus'], 10, 3);
-        add_filter(
-            'woocommerce_available_payment_gateways',
-            [$this, 'removeExpressCheckoutPaymentMethodInCheckoutPage']
-        );
+        add_filter('woocommerce_available_payment_gateways', [$this, 'removeExpressInCheckoutPage']);
+        add_filter('woocommerce_available_payment_gateways', [$this, 'disableExpressByRegistrationRequirement']);
 
         if (!is_admin()) {
             FastCheckoutCheckinService::registerHooks();
