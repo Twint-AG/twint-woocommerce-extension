@@ -137,6 +137,7 @@ class Plugin
         );
 
         self::di('express.button', true);
+        self::di('monitor.cron', true);
     }
 
     public static function isPluginActivated(string $plugin): bool
