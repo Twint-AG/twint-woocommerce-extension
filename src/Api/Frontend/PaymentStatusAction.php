@@ -44,6 +44,8 @@ class PaymentStatusAction extends BaseAction
                 'permission_callback' => '__return_true',
             ]);
         });
+
+        $this->allowPublicAccessIfRouteMatches('/twint/v1/payment/status');
     }
 
     /**
@@ -65,7 +67,7 @@ class PaymentStatusAction extends BaseAction
         $pairing = $this->getRepository()->get($pairingId);
 
         if (!$pairing instanceof Pairing) {
-            throw new Exception('The pairing for the the order does not exist.');
+            throw new Exception('The pairing for the order does not exist.');
         }
 
         $status = $this->getService()->monitor($pairing);
