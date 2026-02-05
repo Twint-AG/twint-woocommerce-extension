@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: WooCommerce Twint Payment 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/twint-woocommerce-"
 "extension\n"
-"POT-Creation-Date: 2026-01-26T05:14:34+00:00\n"
+"POT-Creation-Date: 2026-01-30T03:12:21+00:00\n"
 "PO-Revision-Date: 2025-04-04 11:15+0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -107,40 +107,54 @@ msgstr "Oppure"
 msgid "TWINT Express Checkout"
 msgstr "TWINT Express Checkout"
 
-#: src/Model/Gateway/ExpressCheckoutGateway.php:102
+#. translators: %s: WooCommerce Settings URL
+#: src/Model/Gateway/ExpressCheckoutGateway.php:118
+#, php-format
+msgid ""
+"Customer need logged to see the Express Checkout button. You can change this "
+"setting in %s."
+msgstr ""
+"I clienti devono aver effettuato l’accesso per vedere il pulsante Express Checkout. Puoi modificare questa "
+"impostazione in %s."
+
+#: src/Model/Gateway/ExpressCheckoutGateway.php:122
+msgid "WooCommerce Settings > Accounts & Privacy > Guest checkout"
+msgstr "Impostazioni WooCommerce > Account e privacy > Checkout come ospite"
+
+#: src/Model/Gateway/ExpressCheckoutGateway.php:139
 #: src/Model/Gateway/RegularCheckoutGateway.php:86
 msgid "Enable/Disable"
 msgstr "Abilita/Disabilita"
 
-#: src/Model/Gateway/ExpressCheckoutGateway.php:104
+#: src/Model/Gateway/ExpressCheckoutGateway.php:141
 msgid "Enable TWINT Express Checkout"
 msgstr "Abilita TWINT Express Checkout"
 
-#: src/Model/Gateway/ExpressCheckoutGateway.php:133
+#: src/Model/Gateway/ExpressCheckoutGateway.php:168
 msgid "Cart page"
 msgstr "Pagina carrello"
 
-#: src/Model/Gateway/ExpressCheckoutGateway.php:134
+#: src/Model/Gateway/ExpressCheckoutGateway.php:169
 msgid "Mini Cart"
 msgstr "Carrello a comparsa"
 
-#: src/Model/Gateway/ExpressCheckoutGateway.php:135
+#: src/Model/Gateway/ExpressCheckoutGateway.php:170
 msgid "Product Detail Page"
 msgstr "Pagina dettagli prodotto"
 
-#: src/Model/Gateway/ExpressCheckoutGateway.php:136
+#: src/Model/Gateway/ExpressCheckoutGateway.php:171
 msgid "Product Listing Page"
 msgstr "Pagina elenco prodotti"
 
-#: src/Model/Gateway/ExpressCheckoutGateway.php:156
+#: src/Model/Gateway/ExpressCheckoutGateway.php:191
 msgid "Display Screens"
 msgstr "Schermate di visualizzazione"
 
-#: src/Model/Gateway/ExpressCheckoutGateway.php:179
+#: src/Model/Gateway/ExpressCheckoutGateway.php:214
 msgid "Button config"
 msgstr ""
 
-#: src/Model/Gateway/ExpressCheckoutGateway.php:185
+#: src/Model/Gateway/ExpressCheckoutGateway.php:220
 msgid "Button Preview"
 msgstr ""
 

@@ -13,6 +13,7 @@ use Twint\Woo\Api\Frontend\PaymentStatusAction;
 use Twint\Woo\Command\PollCommand;
 use Twint\Woo\Container\ContainerInterface;
 use Twint\Woo\Container\Lazy;
+use Twint\Woo\CronJob\MonitorPairingCronJob;
 use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Logger\NullLogger;
 use Twint\Woo\Model\Button\ExpressButton;
@@ -201,6 +202,10 @@ class ServiceDefinition
             'payment.modal' => static fn (ContainerInterface $container): Modal => new Modal($container->get(
                 'apps.service'
             )),
+            'monitor.cron' => static fn (ContainerInterface $container): MonitorPairingCronJob => new MonitorPairingCronJob(
+                $container->get('logger'),
+                $container->get('monitor.service'),
+            ),
         ];
     }
 }

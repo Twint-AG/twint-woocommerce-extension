@@ -46,6 +46,8 @@ class CancelPaymentAction extends BaseAction
                 'permission_callback' => '__return_true',
             ]);
         });
+
+        $this->allowPublicAccessIfRouteMatches('/twint/v1/payment/cancel');
     }
 
     /**
@@ -68,7 +70,7 @@ class CancelPaymentAction extends BaseAction
             ->get($pairingId);
 
         if (!$pairing instanceof Pairing) {
-            throw new Exception('The pairing for the the order does not exist.');
+            throw new Exception('The pairing for the order does not exist.');
         }
 
         return new WP_REST_Response([

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\DeadCode\Rector\StaticCall\RemoveParentCallWithoutParentRector;
 use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictConstructorRector;
 
 return static function (RectorConfig $rectorConfig): void {
@@ -12,6 +13,7 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->skip([
         __DIR__ . '/src/Command/CliCommand.php',
+        RemoveParentCallWithoutParentRector::class,
     ]);
 
     $rectorConfig->rules([
