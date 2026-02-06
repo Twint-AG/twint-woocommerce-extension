@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: WooCommerce Twint Payment 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/twint-woocommerce-"
 "extension\n"
-"POT-Creation-Date: 2026-01-30T03:12:21+00:00\n"
+"POT-Creation-Date: 2026-02-06T08:20:49+00:00\n"
 "PO-Revision-Date: 2025-04-04 11:15+0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -114,8 +114,8 @@ msgid ""
 "Customer need logged to see the Express Checkout button. You can change this "
 "setting in %s."
 msgstr ""
-"I clienti devono aver effettuato l’accesso per vedere il pulsante Express Checkout. Puoi modificare questa "
-"impostazione in %s."
+"I clienti devono aver effettuato l’accesso per vedere il pulsante Express "
+"Checkout. Puoi modificare questa impostazione in %s."
 
 #: src/Model/Gateway/ExpressCheckoutGateway.php:122
 msgid "WooCommerce Settings > Accounts & Privacy > Guest checkout"
@@ -221,6 +221,10 @@ msgstr "La password del certificato è necessaria"
 msgid "Save changes"
 msgstr "Salvare le modifiche"
 
+#: src/Template/Admin/Setting/Tab/Credentials.php:153
+msgid "The TWINT command was successfully executed via the PHP CLI."
+msgstr "Il comando TWINT è stato eseguito con successo tramite il PHP CLI."
+
 #: src/Template/Admin/Setting/Tab/Diagnostics.php:21
 msgid "Diagnostics"
 msgstr ""
@@ -235,14 +239,17 @@ msgid "PHP Executable path:"
 msgstr "Percorso dell'eseguibile PHP:"
 
 #: src/Template/Admin/Setting/Tab/Diagnostics.php:91
+#: src/View/Admin/credentials.php:20
 msgid "Function `shell_exec` is allowed: "
 msgstr "La funzione `shell_exec` è consentita: "
 
 #: src/Template/Admin/Setting/Tab/Diagnostics.php:97
+#: src/View/Admin/credentials.php:25
 msgid "TWINT command is executable: "
 msgstr "Il comando TWINT è eseguibile: "
 
 #: src/Template/Admin/Setting/Tab/Diagnostics.php:103
+#: src/View/Admin/credentials.php:30
 msgid "TWINT PHP CLI Command Execution Test: "
 msgstr "Test di esecuzione del comando TWINT PHP CLI: "
 
@@ -262,24 +269,49 @@ msgstr ""
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: src/View/Admin/credentials.php:22
+#: src/View/Admin/credentials.php:8
+msgid "PHP CLI Not Available"
+msgstr "PHP CLI non disponibile"
+
+#: src/View/Admin/credentials.php:10
+msgid ""
+"PHP CLI (Command Line Interface) is missing or misconfigured. This extension "
+"relies on PHP CLI for essential background processes. Without it, the plug-"
+"in is not functional. Please refer to the Guide for troubleshooting and the "
+"minimum requirements for PHP CLI settings."
+msgstr ""
+"PHP CLI (Command Line Interface) è mancante o mal configurato. Questa "
+"estensione si basa su PHP CLI per i processi in background essenziali. Senza "
+"di essa, il plug-in non funziona. Consultare la Guida per la risoluzione dei "
+"problemi e i requisiti minimi per le impostazioni di PHP CLI."
+
+#: src/View/Admin/credentials.php:15
+#, fuzzy
+msgid "PHP CLI version ( >=8.1): "
+msgstr "Versione PHP CLI (>8.1): "
+
+#: src/View/Admin/credentials.php:37
+msgid "See more"
+msgstr "Ulteriori informazioni"
+
+#: src/View/Admin/credentials.php:59
 msgid "Certificate encrypted and stored."
 msgstr "Certificato crittografato e archiviato."
 
-#: src/View/Admin/credentials.php:27
+#: src/View/Admin/credentials.php:64
 msgid "Upload new certificate"
 msgstr "Carica nuovo certificato"
 
-#: src/View/Admin/credentials.php:34
+#: src/View/Admin/credentials.php:71
 msgid "Close"
 msgstr "Chiudi"
 
-#: src/View/Admin/credentials.php:65
+#: src/View/Admin/credentials.php:102
 msgid "Invalid Store UUID. Store UUID needs to be a UUIDv4"
 msgstr ""
 "UUID del suo negozio non valido. L’UUID del suo negozio deve essere un UUIDv4"
 
-#: src/View/Admin/credentials.php:76
+#: src/View/Admin/credentials.php:113
 msgid "Test"
 msgstr ""
 
@@ -382,24 +414,6 @@ msgid ""
 msgstr ""
 "Si prega di scaricare il plugin TWINT Extension dalla pagina dei <a "
 "href=\"%s\">releases</a>."
-
-#~ msgid "The TWINT command was successfully executed via the PHP CLI."
-#~ msgstr "Il comando TWINT è stato eseguito con successo tramite il PHP CLI."
-
-#~ msgid "PHP CLI Not Available"
-#~ msgstr "PHP CLI non disponibile"
-
-#~ msgid ""
-#~ "PHP CLI (Command Line Interface) is missing or misconfigured. This "
-#~ "extension relies on PHP CLI for essential background processes. Without "
-#~ "it, the plug-in is not functional. Please refer to the Guide for "
-#~ "troubleshooting and the minimum requirements for PHP CLI settings."
-#~ msgstr ""
-#~ "PHP CLI (Command Line Interface) è mancante o mal configurato. Questa "
-#~ "estensione si basa su PHP CLI per i processi in background essenziali. "
-#~ "Senza di essa, il plug-in non funziona. Consultare la Guida per la "
-#~ "risoluzione dei problemi e i requisiti minimi per le impostazioni di PHP "
-#~ "CLI."
 
 #~ msgid "Function shell_exec is allowed: "
 #~ msgstr "La funzione shell_exec è consentita: "

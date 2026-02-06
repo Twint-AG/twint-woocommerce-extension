@@ -133,8 +133,26 @@ class Credentials extends TabItem
 
     public static function render(array $data = []): string
     {
+        $cliSupport = get_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION) === 'Yes';
+
         $trigger = Plugin::di('cli.trigger', false);
         $trigger->handle();
+
+        if (!$cliSupport) {
+            list($cliVersion, $isExecutable, $cliInfo, $shellExecAllowed) = Diagnostics::getCliInformation();
+
+            $cliVersionFlag = version_compare($cliVersion, '8.1.0', '>') ? 'passed' : 'error';
+            $isExecutableFlag = $isExecutable ? 'passed' : 'error';
+            $isExecutableText = $isExecutable ? 'Yes' : 'No';
+            $shellExecAllowedText = $shellExecAllowed ? 'Yes' : 'No';
+            $shellExecAllowedFlag = $shellExecAllowed ? 'passed' : 'error';
+
+            $cliInfoFlag = 'error';
+            if ($cliInfo === 'The TWINT command was successfully executed via the PHP CLI.') {
+                $cliInfoFlag = 'passed';
+                $cliInfo = __('The TWINT command was successfully executed via the PHP CLI.', 'twint-woocommerce-extension');
+            }
+        }
 
         $isShowedTheButtonUploadNewCert = false;
 
