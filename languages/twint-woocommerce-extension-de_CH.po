@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: WooCommerce Twint Payment 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/twint-woocommerce-"
 "extension\n"
-"POT-Creation-Date: 2026-01-30T03:12:21+00:00\n"
+"POT-Creation-Date: 2026-02-06T08:20:49+00:00\n"
 "PO-Revision-Date: 2025-04-04 11:15+0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -110,8 +110,8 @@ msgid ""
 "Customer need logged to see the Express Checkout button. You can change this "
 "setting in %s."
 msgstr ""
-"Kunden müssen angemeldet sein, um den Express Checkout Button zu sehen. Sie können diese "
-"Einstellung in %s ändern."
+"Kunden müssen angemeldet sein, um den Express Checkout Button zu sehen. Sie "
+"können diese Einstellung in %s ändern."
 
 #: src/Model/Gateway/ExpressCheckoutGateway.php:122
 msgid "WooCommerce Settings > Accounts & Privacy > Guest checkout"
@@ -217,6 +217,10 @@ msgstr "Zertifikatspasswort erforderlich"
 msgid "Save changes"
 msgstr "Änderungen speichern"
 
+#: src/Template/Admin/Setting/Tab/Credentials.php:153
+msgid "The TWINT command was successfully executed via the PHP CLI."
+msgstr "Der TWINT-Befehl wurde erfolgreich über die PHP-CLI ausgeführt."
+
 #: src/Template/Admin/Setting/Tab/Diagnostics.php:21
 msgid "Diagnostics"
 msgstr ""
@@ -231,14 +235,17 @@ msgid "PHP Executable path:"
 msgstr "PHP-Executable-Pfad:"
 
 #: src/Template/Admin/Setting/Tab/Diagnostics.php:91
+#: src/View/Admin/credentials.php:20
 msgid "Function `shell_exec` is allowed: "
 msgstr "Die Funktion `shell_exec` ist erlaubt: "
 
 #: src/Template/Admin/Setting/Tab/Diagnostics.php:97
+#: src/View/Admin/credentials.php:25
 msgid "TWINT command is executable: "
 msgstr "TWINT-Befehl ist ausführbar: "
 
 #: src/Template/Admin/Setting/Tab/Diagnostics.php:103
+#: src/View/Admin/credentials.php:30
 msgid "TWINT PHP CLI Command Execution Test: "
 msgstr "TWINT PHP-CLI-Befehlsausführungstest: "
 
@@ -258,23 +265,48 @@ msgstr ""
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: src/View/Admin/credentials.php:22
+#: src/View/Admin/credentials.php:8
+msgid "PHP CLI Not Available"
+msgstr "PHP CLI nicht verfügbar"
+
+#: src/View/Admin/credentials.php:10
+msgid ""
+"PHP CLI (Command Line Interface) is missing or misconfigured. This extension "
+"relies on PHP CLI for essential background processes. Without it, the plug-"
+"in is not functional. Please refer to the Guide for troubleshooting and the "
+"minimum requirements for PHP CLI settings."
+msgstr ""
+"PHP CLI (Command Line Interface) fehlt oder ist falsch konfiguriert. Diese "
+"Erweiterung ist für wichtige Hintergrundprozesse auf PHP CLI angewiesen. "
+"Ohne sie ist das Plug-in nicht funktionsfähig. Bitte lesen Sie den Leitfaden "
+"zur Fehlerbehebung und die Mindestanforderungen für PHP CLI-Einstellungen."
+
+#: src/View/Admin/credentials.php:15
+#, fuzzy
+msgid "PHP CLI version ( >=8.1): "
+msgstr "PHP-CLI-Version (>8.1): "
+
+#: src/View/Admin/credentials.php:37
+msgid "See more"
+msgstr "Mehr anzeigen"
+
+#: src/View/Admin/credentials.php:59
 msgid "Certificate encrypted and stored."
 msgstr "Zertifikat verschlüsselt und gespeichert."
 
-#: src/View/Admin/credentials.php:27
+#: src/View/Admin/credentials.php:64
 msgid "Upload new certificate"
 msgstr "Neues Zertifikat hochladen"
 
-#: src/View/Admin/credentials.php:34
+#: src/View/Admin/credentials.php:71
 msgid "Close"
 msgstr "Schließen"
 
-#: src/View/Admin/credentials.php:65
+#: src/View/Admin/credentials.php:102
 msgid "Invalid Store UUID. Store UUID needs to be a UUIDv4"
 msgstr "Ungültige UUID Ihres Stores. UUID Ihres Stores muss eine UUIDv4 sein"
 
-#: src/View/Admin/credentials.php:76
+#: src/View/Admin/credentials.php:113
 msgid "Test"
 msgstr ""
 
@@ -378,24 +410,6 @@ msgid ""
 msgstr ""
 "Bitte laden Sie das TWINT Extension Plugin von der <a href=\"%s\">Releases</"
 "a>-Seite herunter."
-
-#~ msgid "The TWINT command was successfully executed via the PHP CLI."
-#~ msgstr "Der TWINT-Befehl wurde erfolgreich über die PHP-CLI ausgeführt."
-
-#~ msgid "PHP CLI Not Available"
-#~ msgstr "PHP CLI nicht verfügbar"
-
-#~ msgid ""
-#~ "PHP CLI (Command Line Interface) is missing or misconfigured. This "
-#~ "extension relies on PHP CLI for essential background processes. Without "
-#~ "it, the plug-in is not functional. Please refer to the Guide for "
-#~ "troubleshooting and the minimum requirements for PHP CLI settings."
-#~ msgstr ""
-#~ "PHP CLI (Command Line Interface) fehlt oder ist falsch konfiguriert. "
-#~ "Diese Erweiterung ist für wichtige Hintergrundprozesse auf PHP CLI "
-#~ "angewiesen. Ohne sie ist das Plug-in nicht funktionsfähig. Bitte lesen "
-#~ "Sie den Leitfaden zur Fehlerbehebung und die Mindestanforderungen für PHP "
-#~ "CLI-Einstellungen."
 
 #, fuzzy
 #~| msgid "WooCommerce Twint Payment"
