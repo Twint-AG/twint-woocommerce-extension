@@ -174,7 +174,9 @@ abstract class AbstractGateway extends WC_Payment_Gateway
 
     public function get_icon()
     {
-        $icon_html = '<img class="" src="twint-logo-icon"' . esc_attr($this->get_icon_url()) . '" alt="Twint Checkout" />';
+        $icon_html = '<img class="" src="twint-logo-icon"' . esc_attr(
+            $this->get_icon_url()
+        ) . '" alt="Twint Checkout" />';
 
         return apply_filters('woocommerce_gateway_icon', $icon_html, $this->id);
     }
