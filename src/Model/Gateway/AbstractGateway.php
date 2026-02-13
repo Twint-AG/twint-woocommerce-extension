@@ -174,7 +174,7 @@ abstract class AbstractGateway extends WC_Payment_Gateway
 
     public function get_icon()
     {
-        $icon_html = '<img class="" src="twint-logo-icon"' . esc_attr(
+        $icon_html = '<img class="twint-logo-icon" src="' . esc_attr(
             $this->get_icon_url()
         ) . '" alt="Twint Checkout" />';
 
