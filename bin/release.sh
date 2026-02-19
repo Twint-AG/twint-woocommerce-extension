@@ -24,7 +24,7 @@ export GIT_COMMITTER_EMAIL="${RELEASE_BOT_EMAIL}"
 export GIT_AUTHOR_NAME="${RELEASE_BOT_NAME}"
 export GIT_AUTHOR_EMAIL="${RELEASE_BOT_EMAIL}"
 
-git commit -m "Prepare release of ${VERSION}" "${FILES[@]}"
+git commit --no-gpg-sign -m "Prepare release of ${VERSION}" "${FILES[@]}"
 git tag --no-sign -a "${VERSION}" -m "Tag ${VERSION}"
 
 # Reset release preparation commit
