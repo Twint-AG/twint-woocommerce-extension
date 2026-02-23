@@ -13,17 +13,20 @@ abstract class BaseAction
     }
 
     /**
-     * This is a public endpoint, so we don't care about the nonce.
-     * However, we can't change the permission_callback to return true,
-     * because that happens AFTER the nonce check.
-     * So we interfere here.
+     * Bypasses authentication errors for specific public endpoints.
+     *
+     * This interferes with `rest_authentication_errors` to allow public
+     * access even if other auth plugins (e.g., Application Passwords)
+     * return a WP_Error (like `invalid_username` or `rest_cookie_invalid_nonce`).
+     *
+     * Security: Safe because it strictly targets whitelisted TWINT routes.
+     * Endpoints still validate the `pairingId` UUID against the database
+     * before processing or returning any data.
      */
     protected function allowPublicAccessIfRouteMatches(string $targetRoute): void
     {
         add_filter('rest_authentication_errors', static function ($result) use ($targetRoute) {
-            if ($result === true || (is_wp_error(
-                $result
-            ) && $result->get_error_code() === 'rest_cookie_invalid_nonce')) {
+            if ($result === true || is_wp_error($result)) {
                 $currentRoute = $GLOBALS['wp']->query_vars['rest_route'] ?? null;
                 if ($currentRoute === $targetRoute) {
                     return true;

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Woo\Api\Frontend;
 
 use Throwable;
+use Twint\Woo\Api\BaseAction;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Service\ExpressCheckoutService;
@@ -12,13 +13,14 @@ use Twint\Woo\Service\MonitorService;
 use WC_Data_Exception;
 use WC_Logger_Interface;
 use WP_REST_Request;
+
 use WP_REST_Response;
 
 /**
  * @method MonitorService getMonitor()
  * @method ExpressCheckoutService getService()
  */
-class ExpressCheckoutAction
+class ExpressCheckoutAction extends BaseAction
 {
     use LazyLoadTrait;
     use CartInitTrait;
@@ -44,6 +46,8 @@ class ExpressCheckoutAction
                 'permission_callback' => '__return_true',
             ]);
         });
+
+        $this->allowPublicAccessIfRouteMatches('/twint/v1' . self::ROUTE);
     }
 
     /**
