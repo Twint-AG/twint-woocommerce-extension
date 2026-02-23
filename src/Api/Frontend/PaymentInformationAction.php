@@ -41,6 +41,8 @@ class PaymentInformationAction extends BaseAction
                 'permission_callback' => '__return_true',
             ]);
         });
+
+        $this->allowPublicAccessIfRouteMatches('/twint/v1/payment/information');
     }
 
     /**

@@ -2,10 +2,20 @@
 
 ## Installation
 ### Requirement 
-1. PHP 8.1 for both web service (Apache) and CLI (please refer to section below: **Note: WooCommerce PHP CLI Warning Message and Minimum Requirement**)
-2. Minimum Requirement for Shop-system versions: 
- -  WooCommerce: 6.0 Wordpress: 5.9
-3. Please update to the latest plugin version on Github: https://github.com/Twint-AG/twint-woocommerce-extension/releases
+1. PHP 8.1 or higher for both web service (Apache/Nginx) and CLI.
+2. Required PHP Extensions:
+   - `soap` (Essential for TWINT API communication)
+   - `intl` (Required for internationalization and SDK)
+   - `xsl`, `dom`, `xml` (Required for processing TWINT XML/SOAP data)
+   - `openssl` (Required for certificate handling and encryption)
+   - `curl` (Required for API requests)
+   - `mysqli` (Required for WordPress database connection)
+   - `bcmath` or `gmp` (Highly recommended for cryptographic operations)
+   - `mbstring` (Recommended for multi-byte string handling)
+3. Minimum Requirement for Shop-system versions: 
+   - WooCommerce: 6.0
+   - WordPress: 5.9
+4. Please update to the latest plugin version on GitHub: https://github.com/Twint-AG/twint-woocommerce-extension/releases
 
 ### Download the plugin
 
