@@ -44,8 +44,10 @@ use Twint\Woo\Plugin;
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 Plugin::init(__FILE__);
-$myUpdateChecker = PucFactory::buildUpdateChecker(
-    'https://raw.githubusercontent.com/Twint-AG/twint-woocommerce-extension/refs/heads/latest/version.json',
-    __FILE__,
-    'twint-woocommerce-extension'
-);
+if (class_exists(PucFactory::class)) {
+    $myUpdateChecker = PucFactory::buildUpdateChecker(
+        'https://raw.githubusercontent.com/Twint-AG/twint-woocommerce-extension/refs/heads/latest/version.json',
+        __FILE__,
+        'twint-woocommerce-extension'
+    );
+}
