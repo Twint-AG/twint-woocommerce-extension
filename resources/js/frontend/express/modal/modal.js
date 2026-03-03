@@ -114,7 +114,10 @@ class Modal {
 
     if (this.isExpress()) {
       this.element.style.display = 'none'
+      return
     }
+
+    setTimeout(() => window.location.reload(), 1000)
   }
 
   registerEvents() {
