@@ -1,7 +1,7 @@
 {
   "name": "TWINT Payment for WooCommerce",
-  "version": "0.0.1-dev",
-  "download_url": "https://github.com/Twint-AG/twint-woocommerce-extension/releases/download/0.0.1-dev/twint-woocommerce-extension.zip",
+  "version": "1.6.22",
+  "download_url": "https://github.com/Twint-AG/twint-woocommerce-extension/releases/download/1.6.22/twint-woocommerce-extension.zip",
   "requires": "5.9",
   "tested": "6.8.2",
   "homepage": "https://www.twint.ch/",
@@ -10,6 +10,6 @@
   "sections": {
     "description": "TWINT Payment for WooCommerce",
     "installation": "Upload the ZIP file or install it directly from the admin panel.",
-    "changelog": "Version 0.0.1-dev: Bug fixings</br>Version 1.2.7: Bug fixings and improvements</br>Version 1.2.4: Enhance the warning message for PHP-CLI support in admin areas and improve security</br>Version 1.2.2: Support NSS servers</br>Version 1.2.1: Fixing issue relative to modal display in checkout page when select other payment methods</br>Version 1.2.0: Scoped styling for admin UI to prevent conflict with WP Cookie Consent plugin.</br>Version 1.1.1: Apply scoped styling to the payment modal to prevent unintended overrides from themes.</br>Version 1.0.2: Improved security and bug fixes."
+    "changelog": "Version 1.6.22: Bug fixings</br>Version 1.2.7: Bug fixings and improvements</br>Version 1.2.4: Enhance the warning message for PHP-CLI support in admin areas and improve security</br>Version 1.2.2: Support NSS servers</br>Version 1.2.1: Fixing issue relative to modal display in checkout page when select other payment methods</br>Version 1.2.0: Scoped styling for admin UI to prevent conflict with WP Cookie Consent plugin.</br>Version 1.1.1: Apply scoped styling to the payment modal to prevent unintended overrides from themes.</br>Version 1.0.2: Improved security and bug fixes."
   }
 }
