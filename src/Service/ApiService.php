@@ -6,7 +6,6 @@ namespace Twint\Woo\Service;
 
 use Exception;
 use Throwable;
-use Twint\Sdk\Exception\ApiFailure;
 use Twint\Sdk\InvocationRecorder\InvocationRecordingClient;
 use Twint\Sdk\InvocationRecorder\Value\Invocation;
 use Twint\Woo\Container\Lazy;
@@ -109,7 +108,7 @@ class ApiService
         $request = wp_json_encode($invocations[0]->arguments());
         $exception = $invocations[0]->exception() ?? null;
 
-        if ($exception instanceof ApiFailure) {
+        if ($exception instanceof Throwable) {
             $exception = $exception->getMessage();
         }
 

@@ -116,7 +116,7 @@ return [
                 return str_replace("require __DIR__ . '/vendor/autoload.php';", $replace, $contents);
             }
 
-            if (str_contains($filePath, '/psl/')) {
+            if (str_contains(strtolower($filePath), '/psl/')) {
                 $contents = str_replace('use Psl;', 'use TwintWoo\\Psl;', $contents);
             }
 

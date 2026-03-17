@@ -41,7 +41,7 @@
     "ext-xsl": "*",
     "guzzlehttp/guzzle": "^7.0",
     "symfony/console": "^6.4",
-    "twint-ag/sdk": "^1.0",
+    "twint-ag/sdk": "^1.8.0",
     "sniccowp/php-scoper-wordpress-excludes": "^6.6",
     "yahnis-elsts/plugin-update-checker": "5.6",
     "maennchen/zipstream-php": ">=3.1.1",
