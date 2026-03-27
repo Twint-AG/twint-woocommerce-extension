@@ -103,10 +103,8 @@ final class CreatePairingTable
                     
             END;";
 
-        $showTrigger = "SHOW TRIGGERS where `TRIGGER` = 'before_update_twint_pairing'";
-        if ($this->db->query($showTrigger) === 0) {
-            $this->db->query($sql);
-        }
+        $this->db->query('DROP TRIGGER IF EXISTS `before_update_twint_pairing`');
+        $this->db->query($sql);
     }
 
     public function down(): void
