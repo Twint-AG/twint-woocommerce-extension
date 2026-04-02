@@ -190,7 +190,7 @@ class RegularCheckoutGateway extends AbstractGateway
                     $url
                 );
             } else {
-                $url = '';
+                $url = false;
             }
 
             return [
