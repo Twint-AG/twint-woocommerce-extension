@@ -78,7 +78,7 @@ return [
         'src/View/Admin/settings.php',
         'src/View/Admin/diagnostics.php',
         'src/View/Frontend/paid.php',
-        'src/View/Frontend/unpaid.php'
+        'src/View/Frontend/unpaid.php',
     ]),
 
     // PHP version (e.g. `'7.2'`) in which the PHP parser and printer will be configured into. This will affect what
@@ -120,11 +120,123 @@ return [
                 $contents = str_replace('use Psl;', 'use TwintWoo\\Psl;', $contents);
             }
 
+            if (str_ends_with($filePath, 'phpseclib/bcmath_compat/lib/bcmath.php')) {
+                // Wrap each bcmath polyfill function in its own function_exists() guard
+                // to prevent "Cannot redeclare" fatal errors when another plugin
+                // already polyfills some of these functions individually (e.g. bexio-connector).
+                // The original file wraps all functions under a single if(!function_exists('bcadd')) check.
+                return <<<'BCMATH'
+<?php
+
+use bcmath_compat\BCMath;
+
+if (!function_exists('bcadd')) {
+    function bcadd($left_operand, $right_operand, $scale = 0)
+    {
+        return BCMath::add($left_operand, $right_operand, $scale);
+    }
+}
+
+if (!function_exists('bccomp')) {
+    function bccomp($left_operand, $right_operand, $scale = 0)
+    {
+        return BCMath::comp($left_operand, $right_operand, $scale);
+    }
+}
+
+if (!function_exists('bcdiv')) {
+    function bcdiv($dividend, $divisor, $scale = 0)
+    {
+        return BCMath::div($dividend, $divisor, $scale);
+    }
+}
+
+if (!function_exists('bcmod')) {
+    function bcmod($dividend, $divisor, $scale = 0)
+    {
+        return BCMath::mod($dividend, $divisor, $scale);
+    }
+}
+
+if (!function_exists('bcmul')) {
+    function bcmul($dividend, $divisor, $scale = 0)
+    {
+        return BCMath::mul($dividend, $divisor, $scale);
+    }
+}
+
+if (!function_exists('bcpow')) {
+    function bcpow($base, $exponent, $scale = 0)
+    {
+        return BCMath::pow($base, $exponent, $scale);
+    }
+}
+
+if (!function_exists('bcpowmod')) {
+    function bcpowmod($base, $exponent, $modulus, $scale = 0)
+    {
+        return BCMath::powmod($base, $exponent, $modulus, $scale);
+    }
+}
+
+if (!function_exists('bcscale')) {
+    function bcscale($scale = null)
+    {
+        return BCMath::scale($scale);
+    }
+}
+
+if (!function_exists('bcsqrt')) {
+    function bcsqrt($operand, $scale = 0)
+    {
+        return BCMath::sqrt($operand, $scale);
+    }
+}
+
+if (!function_exists('bcsub')) {
+    function bcsub($left_operand, $right_operand, $scale = 0)
+    {
+        return BCMath::sub($left_operand, $right_operand, $scale);
+    }
+}
+
+if (!class_exists('Error')) {
+    class Error extends Exception
+    {
+    }
+
+    class ArithmeticError extends Error
+    {
+    }
+
+    class DivisionByZeroError extends ArithmeticError
+    {
+    }
+
+    class TypeError extends Error
+    {
+    }
+}
+
+if (!class_exists('ArgumentCountError')) {
+    class ArgumentCountError extends TypeError
+    {
+    }
+}
+
+if (!class_exists('ValueError')) {
+    class ValueError extends Error
+    {
+    }
+}
+BCMATH;
+            }
+
             if (str_contains($filePath, '/phpseclib/') && str_ends_with($filePath, '.php')) {
                 $contents = str_replace("'phpseclib3", "'TwintWoo\\phpseclib3", $contents);
                 $contents = str_replace("'\\phpseclib3\\", "'TwintWoo\\phpseclib3\\", $contents);
 
-                $contents = str_replace("extension_loaded('bcmath')", 'true', $contents);       
+                $contents = str_replace("extension_loaded('bcmath')", 'true', $contents);
             }
 
             if (str_ends_with($filePath, 'Normalizer.php')) {
