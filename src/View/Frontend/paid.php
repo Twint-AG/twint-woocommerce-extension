@@ -1,6 +1,6 @@
 <?php ?>
 <div class="flashbags">
-    <div role="alert" class="alert alert-success alert-has-icon">
+    <div role="alert" class="twint-alert twint-alert-success twint-alert-has-icon">
                     <span class="icon icon-checkmark-circle">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24"
                              height="24" viewBox="0 0 24 24">
@@ -10,8 +10,8 @@
                             </defs>
                             <use xlink:href="#icons-default-checkmark-circle" fill="#758CA3" fill-rule="evenodd"></use></svg>
                     </span>
-        <div class="alert-content-container">
-            <div class="alert-content">
+        <div class="twint-alert-content-container">
+            <div class="twint-alert-content">
                 <?php echo esc_html__('Your payment was successful', 'twint-woocommerce-extension') ?>
             </div>
         </div>
