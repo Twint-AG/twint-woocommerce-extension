@@ -96,8 +96,14 @@ return [
         static function (string $filePath, string $prefix, string $contents): string {
             if (str_ends_with($filePath, 'bin/console')) {
                 $replace = "
-                    if (PHP_VERSION_ID >= 80400) {
+                    if (PHP_VERSION_ID >= 80500) {
+                        require __DIR__ . '/../vendor85/scoper-autoload.php';
+                    } elseif (PHP_VERSION_ID >= 80400) {
                         require __DIR__ . '/../vendor84/scoper-autoload.php';
+                    } elseif (PHP_VERSION_ID >= 80300) {
+                        require __DIR__ . '/../vendor83/scoper-autoload.php';
+                    } elseif (PHP_VERSION_ID >= 80200) {
+                        require __DIR__ . '/../vendor82/scoper-autoload.php';
                     } else {
                         require __DIR__.'/../vendor/scoper-autoload.php';
                     }
@@ -107,8 +113,14 @@ return [
 
             if (str_ends_with($filePath, 'twint-woocommerce-extension.php')) {
                 $replace = "
-                    if (PHP_VERSION_ID >= 80400) {
+                    if (PHP_VERSION_ID >= 80500) {
+                        require __DIR__ . '/vendor85/scoper-autoload.php';
+                    } elseif (PHP_VERSION_ID >= 80400) {
                         require __DIR__ . '/vendor84/scoper-autoload.php';
+                    } elseif (PHP_VERSION_ID >= 80300) {
+                        require __DIR__ . '/vendor83/scoper-autoload.php';
+                    } elseif (PHP_VERSION_ID >= 80200) {
+                        require __DIR__ . '/vendor82/scoper-autoload.php';
                     } else {
                         require __DIR__.'/vendor/scoper-autoload.php';
                     }

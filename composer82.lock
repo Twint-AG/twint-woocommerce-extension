@@ -7,6 +7,85 @@
     "content-hash": "83d06e1a16495ac46448046694462179",
     "packages": [
         {
+            "name": "azjezz/psl",
+            "version": "3.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-standard-library/php-standard-library.git",
+                "reference": "78078f2c505473d2a28319ffe426b2a82ac76790"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-standard-library/php-standard-library/zipball/78078f2c505473d2a28319ffe426b2a82ac76790",
+                "reference": "78078f2c505473d2a28319ffe426b2a82ac76790",
+                "shasum": ""
+            },
+            "require": {
+                "ext-bcmath": "*",
+                "ext-intl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "ext-sodium": "*",
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
+                "revolt/event-loop": "^1.0.6"
+            },
+            "require-dev": {
+                "carthage-software/mago": "~0.13.1",
+                "php-coveralls/php-coveralls": "^2.7.0",
+                "php-standard-library/psalm-plugin": "^2.3.0",
+                "phpbench/phpbench": "^1.2.15",
+                "phpunit/phpunit": "^9.6.18",
+                "roave/infection-static-analysis-plugin": "^1.36.0",
+                "vimeo/psalm": "^6.0.0"
+            },
+            "suggest": {
+                "php-standard-library/phpstan-extension": "PHPStan integration",
+                "php-standard-library/psalm-plugin": "Psalm integration"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/hhvm/hsl",
+                    "name": "hhvm/hsl"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/bootstrap.php"
+                ],
+                "psr-4": {
+                    "Psl\\": "src/Psl"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "azjezz",
+                    "email": "azjezz@protonmail.com"
+                }
+            ],
+            "description": "PHP Standard Library",
+            "support": {
+                "issues": "https://github.com/php-standard-library/php-standard-library/issues",
+                "source": "https://github.com/php-standard-library/php-standard-library/tree/3.3.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/azjezz",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/veewee",
+                    "type": "github"
+                }
+            ],
+            "abandoned": "php-standard-library/php-standard-library",
+            "time": "2025-03-03T00:07:00+00:00"
+        },
+        {
             "name": "clue/stream-filter",
             "version": "v1.7.0",
             "source": {
@@ -797,31 +876,31 @@
         },
         {
             "name": "maennchen/zipstream-php",
-            "version": "3.2.2",
+            "version": "3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maennchen/ZipStream-PHP.git",
-                "reference": "77bebeb4c6c340bb3c11c843b2cffd8bbfde4d5e"
+                "reference": "aeadcf5c412332eb426c0f9b4485f6accba2a99f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maennchen/ZipStream-PHP/zipball/77bebeb4c6c340bb3c11c843b2cffd8bbfde4d5e",
-                "reference": "77bebeb4c6c340bb3c11c843b2cffd8bbfde4d5e",
+                "url": "https://api.github.com/repos/maennchen/ZipStream-PHP/zipball/aeadcf5c412332eb426c0f9b4485f6accba2a99f",
+                "reference": "aeadcf5c412332eb426c0f9b4485f6accba2a99f",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
                 "ext-zlib": "*",
-                "php-64bit": "^8.3"
+                "php-64bit": "^8.2"
             },
             "require-dev": {
                 "brianium/paratest": "^7.7",
                 "ext-zip": "*",
-                "friendsofphp/php-cs-fixer": "^3.86",
+                "friendsofphp/php-cs-fixer": "^3.16",
                 "guzzlehttp/guzzle": "^7.5",
                 "mikey179/vfsstream": "^1.6",
                 "php-coveralls/php-coveralls": "^2.5",
-                "phpunit/phpunit": "^12.0",
+                "phpunit/phpunit": "^11.0",
                 "vimeo/psalm": "^6.0"
             },
             "suggest": {
@@ -863,7 +942,7 @@
             ],
             "support": {
                 "issues": "https://github.com/maennchen/ZipStream-PHP/issues",
-                "source": "https://github.com/maennchen/ZipStream-PHP/tree/3.2.2"
+                "source": "https://github.com/maennchen/ZipStream-PHP/tree/3.1.2"
             },
             "funding": [
                 {
@@ -871,7 +950,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-04-11T18:38:28+00:00"
+            "time": "2025-01-27T12:07:53+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
@@ -1318,28 +1397,27 @@
         },
         {
             "name": "php-soap/engine",
-            "version": "2.19.0",
+            "version": "2.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-soap/engine.git",
-                "reference": "7887fc8392619bde1a4e54f52dee9956dfb9c19a"
+                "reference": "c19daa91254f64513c87bbafb257eb2da55cefca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-soap/engine/zipball/7887fc8392619bde1a4e54f52dee9956dfb9c19a",
-                "reference": "7887fc8392619bde1a4e54f52dee9956dfb9c19a",
+                "url": "https://api.github.com/repos/php-soap/engine/zipball/c19daa91254f64513c87bbafb257eb2da55cefca",
+                "reference": "c19daa91254f64513c87bbafb257eb2da55cefca",
                 "shasum": ""
             },
             "require": {
-                "php": "~8.3.0 || ~8.4.0 || ~8.5.0",
-                "php-soap/xml": "^1.9.0",
-                "php-standard-library/php-standard-library": "^3.0 || ^4.0 || ^5.0 || ^6.0"
+                "azjezz/psl": "^3.0",
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
+                "php-soap/xml": "^1.8.0"
             },
             "require-dev": {
-                "php-cs-fixer/shim": "^3.88",
                 "php-standard-library/psalm-plugin": "^2.2",
-                "phpunit/phpunit": "^12.3",
-                "vimeo/psalm": "^6.13"
+                "phpunit/phpunit": "^10.5",
+                "vimeo/psalm": "^5.26"
             },
             "type": "library",
             "autoload": {
@@ -1360,7 +1438,7 @@
             "description": "SOAP engine design",
             "support": {
                 "issues": "https://github.com/php-soap/engine/issues",
-                "source": "https://github.com/php-soap/engine/tree/2.19.0"
+                "source": "https://github.com/php-soap/engine/tree/2.15.0"
             },
             "funding": [
                 {
@@ -1368,37 +1446,35 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-03-19T07:33:27+00:00"
+            "time": "2025-01-03T09:16:20+00:00"
         },
         {
             "name": "php-soap/ext-soap-engine",
-            "version": "1.11.0",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-soap/ext-soap-engine.git",
-                "reference": "0286784fc76add38465d6b8816aef578f1dc039b"
+                "reference": "b11e1949f4654f27f997b6e2bb44c1bd14735340"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-soap/ext-soap-engine/zipball/0286784fc76add38465d6b8816aef578f1dc039b",
-                "reference": "0286784fc76add38465d6b8816aef578f1dc039b",
+                "url": "https://api.github.com/repos/php-soap/ext-soap-engine/zipball/b11e1949f4654f27f997b6e2bb44c1bd14735340",
+                "reference": "b11e1949f4654f27f997b6e2bb44c1bd14735340",
                 "shasum": ""
             },
             "require": {
+                "azjezz/psl": "^3.0",
                 "ext-dom": "*",
                 "ext-soap": "*",
-                "php": "~8.3.0 || ~8.4.0 || ~8.5.0",
-                "php-soap/engine": "^2.16",
-                "php-soap/wsdl": "^1.14",
-                "php-standard-library/php-standard-library": "^3.0 || ^4.0 || ^5.0 || ^6.0",
-                "symfony/options-resolver": "^5.4 || ^6.0 || ^7.0 || ^8.0"
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
+                "php-soap/engine": "^2.13",
+                "php-soap/wsdl": "^1.12",
+                "symfony/options-resolver": "^5.4 || ^6.0 || ^7.0"
             },
             "require-dev": {
-                "php-cs-fixer/shim": "~3.88",
-                "php-soap/engine-integration-tests": "^1.10",
-                "php-soap/xml": "^1.9",
-                "phpunit/phpunit": "~12.3",
-                "vimeo/psalm": "~6.13"
+                "php-soap/engine-integration-tests": "^1.9",
+                "php-soap/xml": "^1.8",
+                "phpunit/phpunit": "^10.0.19"
             },
             "type": "library",
             "autoload": {
@@ -1419,7 +1495,7 @@
             "description": "An ext-soap engine implementation",
             "support": {
                 "issues": "https://github.com/php-soap/ext-soap-engine/issues",
-                "source": "https://github.com/php-soap/ext-soap-engine/tree/1.11.0"
+                "source": "https://github.com/php-soap/ext-soap-engine/tree/1.7.0"
             },
             "funding": [
                 {
@@ -1427,37 +1503,36 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-03-19T08:12:52+00:00"
+            "time": "2024-10-25T08:37:25+00:00"
         },
         {
             "name": "php-soap/wsdl",
-            "version": "1.18.0",
+            "version": "1.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-soap/wsdl.git",
-                "reference": "bb38ff0c81f4a368f73cd40333ff9227b600f991"
+                "reference": "0c5a1afe7ab648c227ed23a612b8c69509a22eb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-soap/wsdl/zipball/bb38ff0c81f4a368f73cd40333ff9227b600f991",
-                "reference": "bb38ff0c81f4a368f73cd40333ff9227b600f991",
+                "url": "https://api.github.com/repos/php-soap/wsdl/zipball/0c5a1afe7ab648c227ed23a612b8c69509a22eb4",
+                "reference": "0c5a1afe7ab648c227ed23a612b8c69509a22eb4",
                 "shasum": ""
             },
             "require": {
+                "azjezz/psl": "^3.0",
                 "ext-dom": "*",
                 "league/uri": "^7.0",
                 "league/uri-components": "^7.0",
-                "php": "~8.3.0 || ~8.4.0 || ~8.5.0",
-                "php-soap/xml": "^1.9",
-                "php-standard-library/php-standard-library": "^3.0 || ^4.0 || ^5.0 || ^6.0",
-                "symfony/console": "^5.4 || ^6.0 || ^7.0 || ^8.0",
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
+                "php-soap/xml": "^1.8",
+                "symfony/console": "^5.4 || ^6.0 || ^7.0",
                 "veewee/xml": "~3.0"
             },
             "require-dev": {
-                "php-cs-fixer/shim": "^3.88",
-                "phpunit/phpunit": "^12.3",
+                "phpunit/phpunit": "^10.5",
                 "psalm/plugin-symfony": "^5.0",
-                "vimeo/psalm": "^6.13"
+                "vimeo/psalm": "^5.26.0"
             },
             "bin": [
                 "bin/wsdl"
@@ -1481,7 +1556,7 @@
             "description": "Deals with WSDLs",
             "support": {
                 "issues": "https://github.com/php-soap/wsdl/issues",
-                "source": "https://github.com/php-soap/wsdl/tree/1.18.0"
+                "source": "https://github.com/php-soap/wsdl/tree/1.13.0"
             },
             "funding": [
                 {
@@ -1489,31 +1564,29 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-03-19T07:55:03+00:00"
+            "time": "2025-01-24T10:35:01+00:00"
         },
         {
             "name": "php-soap/xml",
-            "version": "1.9.0",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-soap/xml.git",
-                "reference": "c7f702640b97bcd608ef6bc2d2300d20775f0191"
+                "reference": "7aa20a359f67b18dc3bdb0f52c9065cc54492bc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-soap/xml/zipball/c7f702640b97bcd608ef6bc2d2300d20775f0191",
-                "reference": "c7f702640b97bcd608ef6bc2d2300d20775f0191",
+                "url": "https://api.github.com/repos/php-soap/xml/zipball/7aa20a359f67b18dc3bdb0f52c9065cc54492bc3",
+                "reference": "7aa20a359f67b18dc3bdb0f52c9065cc54492bc3",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
-                "php": "~8.3.0 || ~8.4.0 || ~8.5.0",
-                "veewee/xml": "^3.4"
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
+                "veewee/xml": "^3.0"
             },
             "require-dev": {
-                "php-cs-fixer/shim": "^3.88",
-                "phpunit/phpunit": "~12.3",
-                "vimeo/psalm": "~6.13"
+                "phpunit/phpunit": "^10.0"
             },
             "type": "library",
             "autoload": {
@@ -1534,7 +1607,7 @@
             "description": "XML wrappers for SOAP",
             "support": {
                 "issues": "https://github.com/php-soap/xml/issues",
-                "source": "https://github.com/php-soap/xml/tree/1.9.0"
+                "source": "https://github.com/php-soap/xml/tree/1.8.0"
             },
             "funding": [
                 {
@@ -1542,270 +1615,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2025-10-20T09:03:44+00:00"
-        },
-        {
-            "name": "php-standard-library/php-standard-library",
-            "version": "6.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-standard-library/php-standard-library.git",
-                "reference": "b7d151cb1c21589cdde17a6adff50d3375de0919"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-standard-library/php-standard-library/zipball/b7d151cb1c21589cdde17a6adff50d3375de0919",
-                "reference": "b7d151cb1c21589cdde17a6adff50d3375de0919",
-                "shasum": ""
-            },
-            "require": {
-                "ext-bcmath": "*",
-                "ext-intl": "*",
-                "ext-json": "*",
-                "ext-mbstring": "*",
-                "ext-openssl": "*",
-                "ext-sodium": "*",
-                "php": "~8.4.0 || ~8.5.0",
-                "revolt/event-loop": "^1.0.8"
-            },
-            "conflict": {
-                "azjezz/psl": "*"
-            },
-            "replace": {
-                "php-standard-library/ansi": "self.version",
-                "php-standard-library/async": "self.version",
-                "php-standard-library/binary": "self.version",
-                "php-standard-library/cache": "self.version",
-                "php-standard-library/channel": "self.version",
-                "php-standard-library/cidr": "self.version",
-                "php-standard-library/class": "self.version",
-                "php-standard-library/collection": "self.version",
-                "php-standard-library/comparison": "self.version",
-                "php-standard-library/compression": "self.version",
-                "php-standard-library/crypto": "self.version",
-                "php-standard-library/data-structure": "self.version",
-                "php-standard-library/date-time": "self.version",
-                "php-standard-library/default": "self.version",
-                "php-standard-library/dict": "self.version",
-                "php-standard-library/either": "self.version",
-                "php-standard-library/encoding": "self.version",
-                "php-standard-library/env": "self.version",
-                "php-standard-library/file": "self.version",
-                "php-standard-library/filesystem": "self.version",
-                "php-standard-library/foundation": "self.version",
-                "php-standard-library/fun": "self.version",
-                "php-standard-library/graph": "self.version",
-                "php-standard-library/h2": "self.version",
-                "php-standard-library/hash": "self.version",
-                "php-standard-library/hpack": "self.version",
-                "php-standard-library/html": "self.version",
-                "php-standard-library/interface": "self.version",
-                "php-standard-library/interoperability": "self.version",
-                "php-standard-library/io": "self.version",
-                "php-standard-library/ip": "self.version",
-                "php-standard-library/iri": "self.version",
-                "php-standard-library/iter": "self.version",
-                "php-standard-library/json": "self.version",
-                "php-standard-library/locale": "self.version",
-                "php-standard-library/math": "self.version",
-                "php-standard-library/network": "self.version",
-                "php-standard-library/observer": "self.version",
-                "php-standard-library/option": "self.version",
-                "php-standard-library/os": "self.version",
-                "php-standard-library/password": "self.version",
-                "php-standard-library/process": "self.version",
-                "php-standard-library/promise": "self.version",
-                "php-standard-library/pseudo-random": "self.version",
-                "php-standard-library/punycode": "self.version",
-                "php-standard-library/random-sequence": "self.version",
-                "php-standard-library/range": "self.version",
-                "php-standard-library/regex": "self.version",
-                "php-standard-library/result": "self.version",
-                "php-standard-library/runtime": "self.version",
-                "php-standard-library/secure-random": "self.version",
-                "php-standard-library/shell": "self.version",
-                "php-standard-library/socks": "self.version",
-                "php-standard-library/str": "self.version",
-                "php-standard-library/tcp": "self.version",
-                "php-standard-library/terminal": "self.version",
-                "php-standard-library/tls": "self.version",
-                "php-standard-library/trait": "self.version",
-                "php-standard-library/tree": "self.version",
-                "php-standard-library/type": "self.version",
-                "php-standard-library/udp": "self.version",
-                "php-standard-library/unix": "self.version",
-                "php-standard-library/uri": "self.version",
-                "php-standard-library/url": "self.version",
-                "php-standard-library/vec": "self.version"
-            },
-            "require-dev": {
-                "carthage-software/mago": "^1.15.2",
-                "ext-brotli": "*",
-                "infection/infection": "^0.32.6",
-                "php-coveralls/php-coveralls": "^2.9.1",
-                "phpbench/phpbench": "^1.5.1",
-                "phpunit/phpunit": "^13.0.5"
-            },
-            "suggest": {
-                "php-standard-library/phpstan-extension": "PHPStan integration",
-                "php-standard-library/psalm-plugin": "Psalm integration"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-next": "6.1.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "packages/foundation/src/Psl/bootstrap.php",
-                    "packages/ansi/src/Psl/bootstrap.php",
-                    "packages/async/src/Psl/bootstrap.php",
-                    "packages/binary/src/Psl/bootstrap.php",
-                    "packages/cache/src/Psl/bootstrap.php",
-                    "packages/channel/src/Psl/bootstrap.php",
-                    "packages/class/src/Psl/bootstrap.php",
-                    "packages/comparison/src/Psl/bootstrap.php",
-                    "packages/compression/src/Psl/bootstrap.php",
-                    "packages/crypto/src/Psl/bootstrap.php",
-                    "packages/date-time/src/Psl/bootstrap.php",
-                    "packages/dict/src/Psl/bootstrap.php",
-                    "packages/encoding/src/Psl/bootstrap.php",
-                    "packages/env/src/Psl/bootstrap.php",
-                    "packages/file/src/Psl/bootstrap.php",
-                    "packages/filesystem/src/Psl/bootstrap.php",
-                    "packages/fun/src/Psl/bootstrap.php",
-                    "packages/graph/src/Psl/bootstrap.php",
-                    "packages/h2/src/Psl/bootstrap.php",
-                    "packages/hash/src/Psl/bootstrap.php",
-                    "packages/hpack/src/Psl/bootstrap.php",
-                    "packages/html/src/Psl/bootstrap.php",
-                    "packages/interface/src/Psl/bootstrap.php",
-                    "packages/io/src/Psl/bootstrap.php",
-                    "packages/iter/src/Psl/bootstrap.php",
-                    "packages/json/src/Psl/bootstrap.php",
-                    "packages/math/src/Psl/bootstrap.php",
-                    "packages/network/src/Psl/bootstrap.php",
-                    "packages/option/src/Psl/bootstrap.php",
-                    "packages/os/src/Psl/bootstrap.php",
-                    "packages/password/src/Psl/bootstrap.php",
-                    "packages/pseudo-random/src/Psl/bootstrap.php",
-                    "packages/punycode/src/Psl/bootstrap.php",
-                    "packages/range/src/Psl/bootstrap.php",
-                    "packages/regex/src/Psl/bootstrap.php",
-                    "packages/result/src/Psl/bootstrap.php",
-                    "packages/runtime/src/Psl/bootstrap.php",
-                    "packages/secure-random/src/Psl/bootstrap.php",
-                    "packages/shell/src/Psl/bootstrap.php",
-                    "packages/socks/src/Psl/bootstrap.php",
-                    "packages/str/src/Psl/bootstrap.php",
-                    "packages/tcp/src/Psl/bootstrap.php",
-                    "packages/terminal/src/Psl/bootstrap.php",
-                    "packages/tls/src/Psl/bootstrap.php",
-                    "packages/trait/src/Psl/bootstrap.php",
-                    "packages/tree/src/Psl/bootstrap.php",
-                    "packages/type/src/Psl/bootstrap.php",
-                    "packages/udp/src/Psl/bootstrap.php",
-                    "packages/unix/src/Psl/bootstrap.php",
-                    "packages/uri/src/Psl/bootstrap.php",
-                    "packages/url/src/Psl/bootstrap.php",
-                    "packages/iri/src/Psl/bootstrap.php",
-                    "packages/vec/src/Psl/bootstrap.php"
-                ],
-                "psr-4": {
-                    "Psl\\": "packages/foundation/src/Psl/",
-                    "Psl\\H2\\": "packages/h2/src/Psl/H2/",
-                    "Psl\\IO\\": "packages/io/src/Psl/IO/",
-                    "Psl\\IP\\": "packages/ip/src/Psl/IP/",
-                    "Psl\\OS\\": "packages/os/src/Psl/OS/",
-                    "Psl\\Env\\": "packages/env/src/Psl/Env/",
-                    "Psl\\Fun\\": "packages/fun/src/Psl/Fun/",
-                    "Psl\\IRI\\": "packages/iri/src/Psl/IRI/",
-                    "Psl\\Str\\": "packages/str/src/Psl/Str/",
-                    "Psl\\TCP\\": "packages/tcp/src/Psl/TCP/",
-                    "Psl\\TLS\\": "packages/tls/src/Psl/TLS/",
-                    "Psl\\UDP\\": "packages/udp/src/Psl/UDP/",
-                    "Psl\\URI\\": "packages/uri/src/Psl/URI/",
-                    "Psl\\URL\\": "packages/url/src/Psl/URL/",
-                    "Psl\\Vec\\": "packages/vec/src/Psl/Vec/",
-                    "Psl\\Ansi\\": "packages/ansi/src/Psl/Ansi/",
-                    "Psl\\CIDR\\": "packages/cidr/src/Psl/CIDR/",
-                    "Psl\\Dict\\": "packages/dict/src/Psl/Dict/",
-                    "Psl\\File\\": "packages/file/src/Psl/File/",
-                    "Psl\\Hash\\": "packages/hash/src/Psl/Hash/",
-                    "Psl\\Html\\": "packages/html/src/Psl/Html/",
-                    "Psl\\Iter\\": "packages/iter/src/Psl/Iter/",
-                    "Psl\\Json\\": "packages/json/src/Psl/Json/",
-                    "Psl\\Math\\": "packages/math/src/Psl/Math/",
-                    "Psl\\Tree\\": "packages/tree/src/Psl/Tree/",
-                    "Psl\\Type\\": "packages/type/src/Psl/Type/",
-                    "Psl\\Unix\\": "packages/unix/src/Psl/Unix/",
-                    "Psl\\Async\\": "packages/async/src/Psl/Async/",
-                    "Psl\\Cache\\": "packages/cache/src/Psl/Cache/",
-                    "Psl\\Class\\": "packages/class/src/Psl/Class/",
-                    "Psl\\Graph\\": "packages/graph/src/Psl/Graph/",
-                    "Psl\\HPACK\\": "packages/hpack/src/Psl/HPACK/",
-                    "Psl\\Range\\": "packages/range/src/Psl/Range/",
-                    "Psl\\Regex\\": "packages/regex/src/Psl/Regex/",
-                    "Psl\\Shell\\": "packages/shell/src/Psl/Shell/",
-                    "Psl\\Socks\\": "packages/socks/src/Psl/Socks/",
-                    "Psl\\Trait\\": "packages/trait/src/Psl/Trait/",
-                    "Psl\\Binary\\": "packages/binary/src/Psl/Binary/",
-                    "Psl\\Crypto\\": "packages/crypto/src/Psl/Crypto/",
-                    "Psl\\Either\\": "packages/either/src/Psl/Either/",
-                    "Psl\\Locale\\": "packages/locale/src/Psl/Locale/",
-                    "Psl\\Option\\": "packages/option/src/Psl/Option/",
-                    "Psl\\Result\\": "packages/result/src/Psl/Result/",
-                    "Psl\\Channel\\": "packages/channel/src/Psl/Channel/",
-                    "Psl\\Default\\": "packages/default/src/Psl/Default/",
-                    "Psl\\Network\\": "packages/network/src/Psl/Network/",
-                    "Psl\\Process\\": "packages/process/src/Psl/Process/",
-                    "Psl\\Promise\\": "packages/promise/src/Psl/Promise/",
-                    "Psl\\Runtime\\": "packages/runtime/src/Psl/Runtime/",
-                    "Psl\\DateTime\\": "packages/date-time/src/Psl/DateTime/",
-                    "Psl\\Encoding\\": "packages/encoding/src/Psl/Encoding/",
-                    "Psl\\Observer\\": "packages/observer/src/Psl/Observer/",
-                    "Psl\\Password\\": "packages/password/src/Psl/Password/",
-                    "Psl\\Punycode\\": "packages/punycode/src/Psl/Punycode/",
-                    "Psl\\Terminal\\": "packages/terminal/src/Psl/Terminal/",
-                    "Psl\\Interface\\": "packages/interface/src/Psl/Interface/",
-                    "Psl\\Collection\\": "packages/collection/src/Psl/Collection/",
-                    "Psl\\Comparison\\": "packages/comparison/src/Psl/Comparison/",
-                    "Psl\\Filesystem\\": "packages/filesystem/src/Psl/Filesystem/",
-                    "Psl\\Compression\\": "packages/compression/src/Psl/Compression/",
-                    "Psl\\PseudoRandom\\": "packages/pseudo-random/src/Psl/PseudoRandom/",
-                    "Psl\\SecureRandom\\": "packages/secure-random/src/Psl/SecureRandom/",
-                    "Psl\\DataStructure\\": "packages/data-structure/src/Psl/DataStructure/",
-                    "Psl\\RandomSequence\\": "packages/random-sequence/src/Psl/RandomSequence/",
-                    "Psl\\Interoperability\\": "packages/interoperability/src/Psl/Interoperability/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "azjezz",
-                    "email": "azjezz@protonmail.com"
-                }
-            ],
-            "description": "PHP Standard Library",
-            "support": {
-                "issues": "https://github.com/php-standard-library/php-standard-library/issues",
-                "source": "https://github.com/php-standard-library/php-standard-library/tree/6.1.1"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/azjezz",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/veewee",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-03-20T08:09:20+00:00"
+            "time": "2024-10-25T06:49:38+00:00"
         },
         {
             "name": "phpseclib/bcmath_compat",
@@ -2740,20 +2550,20 @@
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v8.0.8",
+            "version": "v7.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "b48bce0a70b914f6953dafbd10474df232ed4de8"
+                "reference": "2888fcdc4dc2fd5f7c7397be78631e8af12e02b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/b48bce0a70b914f6953dafbd10474df232ed4de8",
-                "reference": "b48bce0a70b914f6953dafbd10474df232ed4de8",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/2888fcdc4dc2fd5f7c7397be78631e8af12e02b4",
+                "reference": "2888fcdc4dc2fd5f7c7397be78631e8af12e02b4",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.4",
+                "php": ">=8.2",
                 "symfony/deprecation-contracts": "^2.5|^3"
             },
             "type": "library",
@@ -2787,7 +2597,7 @@
                 "options"
             ],
             "support": {
-                "source": "https://github.com/symfony/options-resolver/tree/v8.0.8"
+                "source": "https://github.com/symfony/options-resolver/tree/v7.4.8"
             },
             "funding": [
                 {
@@ -2807,7 +2617,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-30T15:14:47+00:00"
+            "time": "2026-03-24T13:12:05+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -3408,34 +3218,31 @@
         },
         {
             "name": "twint-ag/psl-compat",
-            "version": "2.0.0",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Twint-AG/psl-compat.git",
-                "reference": "97fc9ffdfb3567dbb89e7299777ff63a942cf127"
+                "reference": "9e44b4bbe7465a881c49ee95b2a09559e3d2184d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Twint-AG/psl-compat/zipball/97fc9ffdfb3567dbb89e7299777ff63a942cf127",
-                "reference": "97fc9ffdfb3567dbb89e7299777ff63a942cf127",
+                "url": "https://api.github.com/repos/Twint-AG/psl-compat/zipball/9e44b4bbe7465a881c49ee95b2a09559e3d2184d",
+                "reference": "9e44b4bbe7465a881c49ee95b2a09559e3d2184d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.3",
-                "php-standard-library/php-standard-library": "*"
+                "azjezz/psl": "*",
+                "php": ">=8.1 <8.3"
             },
             "conflict": {
-                "azjezz/psl": "*"
+                "php-standard-library/php-standard-library": "*"
             },
             "type": "metapackage",
             "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
             "support": {
-                "source": "https://github.com/Twint-AG/psl-compat/tree/v2.0.0"
+                "source": "https://github.com/Twint-AG/psl-compat/tree/v1.0.0"
             },
-            "time": "2026-04-15T09:40:45+00:00"
+            "time": "2026-04-15T09:31:17+00:00"
         },
         {
             "name": "twint-ag/sdk",
@@ -3554,37 +3361,34 @@
         },
         {
             "name": "veewee/xml",
-            "version": "3.6.0",
+            "version": "3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/veewee/xml.git",
-                "reference": "90d845fbf1176da58c4a12862a66bfa370b4c972"
+                "reference": "6ae6b154d64d427bf1b2840b40c23131eb1feba5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/veewee/xml/zipball/90d845fbf1176da58c4a12862a66bfa370b4c972",
-                "reference": "90d845fbf1176da58c4a12862a66bfa370b4c972",
+                "url": "https://api.github.com/repos/veewee/xml/zipball/6ae6b154d64d427bf1b2840b40c23131eb1feba5",
+                "reference": "6ae6b154d64d427bf1b2840b40c23131eb1feba5",
                 "shasum": ""
             },
             "require": {
+                "azjezz/psl": "^3.0",
                 "ext-dom": "*",
                 "ext-libxml": "*",
                 "ext-xml": "*",
                 "ext-xmlreader": "*",
                 "ext-xmlwriter": "*",
                 "ext-xsl": "*",
-                "php": "~8.3.0 || ~8.4.0 || ~8.5.0",
-                "php-standard-library/php-standard-library": "^3.0 || ~4.0 || ^5.0 || ^6.0",
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
                 "webmozart/assert": "^1.10"
             },
             "require-dev": {
-                "infection/infection": "^0.31.7",
-                "php-cs-fixer/shim": "~3.88",
                 "php-standard-library/psalm-plugin": "^2.2",
-                "phpunit/phpunit": "~12.3",
-                "symfony/finder": "^6.1 || ^7.0",
+                "symfony/finder": "^6.1",
                 "veewee/composer-run-parallel": "^1.0.0",
-                "vimeo/psalm": "~6.13"
+                "vimeo/psalm": "^5.4"
             },
             "type": "library",
             "autoload": {
@@ -3622,7 +3426,7 @@
             ],
             "support": {
                 "issues": "https://github.com/veewee/xml/issues",
-                "source": "https://github.com/veewee/xml/tree/3.6.0"
+                "source": "https://github.com/veewee/xml/tree/3.3.0"
             },
             "funding": [
                 {
@@ -3630,7 +3434,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-03-19T06:47:22+00:00"
+            "time": "2024-10-25T06:12:30+00:00"
         },
         {
             "name": "webimpress/safe-writer",
@@ -5696,23 +5500,23 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v8.0.8",
+            "version": "v7.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "8da41214757b87d97f181e3d14a4179286151007"
+                "reference": "e0be088d22278583a82da281886e8c3592fbf149"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/8da41214757b87d97f181e3d14a4179286151007",
-                "reference": "8da41214757b87d97f181e3d14a4179286151007",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/e0be088d22278583a82da281886e8c3592fbf149",
+                "reference": "e0be088d22278583a82da281886e8c3592fbf149",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.4"
+                "php": ">=8.2"
             },
             "require-dev": {
-                "symfony/filesystem": "^7.4|^8.0"
+                "symfony/filesystem": "^6.4|^7.0|^8.0"
             },
             "type": "library",
             "autoload": {
@@ -5740,7 +5544,7 @@
             "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/finder/tree/v8.0.8"
+                "source": "https://github.com/symfony/finder/tree/v7.4.8"
             },
             "funding": [
                 {
@@ -5760,7 +5564,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-30T15:14:47+00:00"
+            "time": "2026-03-24T13:12:05+00:00"
         },
         {
             "name": "symfony/polyfill-php73",

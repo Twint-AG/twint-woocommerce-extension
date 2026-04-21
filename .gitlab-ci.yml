@@ -21,16 +21,20 @@ tests:
     - tags
   parallel:
     matrix:
-      - PHP_VERSION: [ "8.1", "8.2", "8.3", "8.4" ]
+      - PHP_VERSION: [ "8.1", "8.2", "8.3", "8.4", "8.5" ]
   script:
     # Update spc (See https://github.com/shivammathur/spc for options)
     - spc -U
 
+    # Ensure `patch` is available for cweagans/composer-patches
+    - apt-get update && apt-get install -qq patch
+
     # Setup PHP
     - spc --php-version "$PHP_VERSION" --extensions "bcmath, ctype, curl, dom, fileinfo, filter,gd, hash, iconv, intl, json, libxml, mbstring, openssl, pcre, pdo_mysql, simplexml, soap, sockets, sodium, xsl, tokenizer, xmlwriter, xsl, zlib, libxml"
 
-    # use composer84.lock
-    - if [ "$PHP_VERSION" = "8.4" ]; then rm -f composer.lock && mv composer84.lock composer.lock; fi
+    # Pick the lock matching the target PHP version (e.g. 8.3 -> composer83.lock)
+    - PHP_SUFFIX="${PHP_VERSION//./}"
+    - cp "composer${PHP_SUFFIX}.lock" composer.lock
 
     - composer config --global gitlab-token.git.nfq.asia $GITLAB_ACCESS_TOKEN
     - composer install --no-progress --no-interaction
@@ -53,9 +57,9 @@ build-archive:
     - tags
   parallel:
     matrix:
-      - PHP_VERSION: [ "8.4" ] # Build on latest PHP version to have access to the latest PHP-scoper
+      - PHP_VERSION: [ "8.5" ] # Build on latest PHP version to have access to the latest PHP-scoper
   script:
-    - apt-get update && apt-get install -qq zip
+    - apt-get update && apt-get install -qq zip patch
     - spc -U
     - spc --php-version "$PHP_VERSION" --extensions "mbstring, curl, dom, fileinfo, gd, iconv, intl, json, xml, mbstring, pdo, phar, zip, sodium, pdo_mysql, bcmath, soap";
     - composer config --global gitlab-token.git.nfq.asia $GITLAB_ACCESS_TOKEN

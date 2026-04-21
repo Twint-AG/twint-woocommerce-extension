@@ -17,6 +17,7 @@ npm run build
 
 # Install composer dependencies for production
 rm -rf "${PWD}/vendor"
+cp composer81.lock composer.lock
 composer config platform.php 8.1.0
 composer install --no-dev --optimize-autoloader --prefer-dist --ignore-platform-reqs
 
@@ -38,21 +39,24 @@ composer global require humbug/php-scoper
 # Remove old build
 rm -rf "${ARCHIVE_BUILD_DIR}"
 
-# For PHP 8.1 to 8.3
+# For PHP 8.1 (baseline): scope to ${ARCHIVE_BUILD_DIR}/vendor
 composer global exec php-scoper -- add-prefix --working-dir "${PWD}" --output-dir "${ARCHIVE_BUILD_DIR}" --quiet
 composer dump-autoload --working-dir "${ARCHIVE_BUILD_DIR}" --classmap-authoritative
 
-# Do the same for PHP 8.4
-composer config platform.php 8.4.0
-rm -rf vendor
-rm -rf composer.lock 
-mv composer84.lock composer.lock
-composer install --no-dev --optimize-autoloader --prefer-dist --ignore-platform-reqs
+# For PHP 8.2, 8.3, 8.4, 8.5: scope each into vendor{82,83,84,85}
+for PHP_VERSION in 8.2 8.3 8.4 8.5; do
+  PHP_SUFFIX="${PHP_VERSION//./}"
+  composer config platform.php "${PHP_VERSION}.0"
+  rm -rf vendor
+  rm -f composer.lock
+  cp "composer${PHP_SUFFIX}.lock" composer.lock
+  composer install --no-dev --optimize-autoloader --prefer-dist --ignore-platform-reqs
 
-composer global exec php-scoper -- add-prefix --working-dir "${PWD}" --output-dir "${ARCHIVE_BUILD_DIR}84" --quiet
-composer dump-autoload --working-dir "${ARCHIVE_BUILD_DIR}84" --classmap-authoritative
+  composer global exec php-scoper -- add-prefix --working-dir "${PWD}" --output-dir "${ARCHIVE_BUILD_DIR}${PHP_SUFFIX}" --quiet
+  composer dump-autoload --working-dir "${ARCHIVE_BUILD_DIR}${PHP_SUFFIX}" --classmap-authoritative
 
-mv "${ARCHIVE_BUILD_DIR}84/vendor" "${ARCHIVE_BUILD_DIR}/vendor84"
+  mv "${ARCHIVE_BUILD_DIR}${PHP_SUFFIX}/vendor" "${ARCHIVE_BUILD_DIR}/vendor${PHP_SUFFIX}"
+done
 
 # Create archive
 rm -f "${ARCHIVE_PATH}"

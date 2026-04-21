@@ -143,7 +143,6 @@ class Plugin
     public static function isPluginActivated(string $plugin): bool
     {
         if (!function_exists('is_plugin_active')) {
-            // @phpstan-ignore-next-line
             include_once ABSPATH . 'wp-admin/includes/plugin.php';
         }
 
