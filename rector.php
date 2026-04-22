@@ -7,6 +7,8 @@ use Rector\DeadCode\Rector\StaticCall\RemoveParentCallWithoutParentRector;
 use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictConstructorRector;
 
 return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->disableParallel();
+
     $rectorConfig->paths([
         __DIR__ . '/src',
     ]);

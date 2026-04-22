@@ -25,7 +25,12 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-if (!is_dir(__DIR__ . '/vendor') && !is_dir(__DIR__ . '/vendor84')) {
+if (!is_dir(__DIR__ . '/vendor')
+    && !is_dir(__DIR__ . '/vendor82')
+    && !is_dir(__DIR__ . '/vendor83')
+    && !is_dir(__DIR__ . '/vendor84')
+    && !is_dir(__DIR__ . '/vendor85')
+) {
     add_action('admin_notices', static function () {
         $release_url = 'https://github.com/Twint-AG/twint-woocommerce-extension/releases';
         $message = sprintf(

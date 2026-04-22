@@ -73,7 +73,9 @@ class DiagnosticService
 
         $collector->collect(
             fileNamePrefix: 'twint-woocommerce-diagnostics',
-            streamHandler: static fn ($data) => print ($data)
+            streamHandler: static function ($data): void {
+                print $data;
+            }
         );
 
         exit; // Prevent any additional output
@@ -137,7 +139,9 @@ class DiagnosticService
 
         $collector->collect(
             fileNamePrefix: "twint-order-diagnostics-{$orderId}-{$timestamp}",
-            streamHandler: static fn ($data) => print ($data)
+            streamHandler: static function ($data): void {
+                print $data;
+            }
         );
 
         exit; // Prevent any additional output

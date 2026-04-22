@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Woo\Service;
 
 use Exception;
+use Twint\Sdk\Value\AlphanumericPairingToken;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Factory\ClientBuilder;
@@ -34,16 +35,17 @@ class AppsService
                 // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
                 '' : wp_unslash(sanitize_text_field($_SERVER['HTTP_USER_AGENT']));
             $device = $client->detectDevice(string()->assert($agent));
+            $pairingToken = AlphanumericPairingToken::fromString($token);
 
             if ($device->isAndroid()) {
-                $payLinks['android'] = 'intent://payment#Intent;action=ch.twint.action.TWINT_PAYMENT;scheme=twint;S.code=' . $token . ';S.startingOrigin=EXTERNAL_WEB_BROWSER;S.browser_fallback_url=;end';
+                $payLinks['android'] = (string) $client->getAndroidAppUrl($pairingToken);
             } elseif ($device->isIos()) {
                 $appList = [];
                 $apps = $client->getIosAppSchemes();
                 foreach ($apps as $app) {
                     $appList[] = [
                         'name' => $app->displayName(),
-                        'link' => $app->scheme() . 'applinks/?al_applink_data={"app_action_type":"TWINT_PAYMENT","extras": {"code": "' . $token . '"},"referer_app_link": {"target_url": "", "url": "", "app_name": "EXTERNAL_WEB_BROWSER"}, "version": "6.0"}',
+                        'link' => (string) $client->getIosAppUrl($app, $pairingToken),
                     ];
                 }
                 $payLinks['ios'] = $appList;
