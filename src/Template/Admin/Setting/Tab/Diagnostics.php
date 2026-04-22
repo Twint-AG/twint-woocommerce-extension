@@ -148,10 +148,11 @@ class Diagnostics extends TabItem
     {
         $cliVersion = 'Unknown';
         $filePath = Plugin::abspath() . 'bin/console';
+        $php = apply_filters('twint_poll_php_executable', Plugin::php());
 
         // Get PHP CLI version safely
         if (function_exists('shell_exec')) {
-            $output = @shell_exec('php -r "echo PHP_VERSION;"');
+            $output = @shell_exec(escapeshellarg($php) . ' -r "echo PHP_VERSION;"');
             if ($output && trim($output) !== '') {
                 $cliVersion = trim($output);
             }
@@ -165,7 +166,9 @@ class Diagnostics extends TabItem
         $shellExecAllowed = false;
         if (function_exists('shell_exec')) {
             $shellExecAllowed = true;
-            $command = 'php ' . escapeshellarg($filePath) . ' ' . escapeshellarg(CliCommand::COMMAND);
+            $command = escapeshellarg($php) . ' ' . escapeshellarg($filePath) . ' ' . escapeshellarg(
+                CliCommand::COMMAND
+            );
             $output = @shell_exec($command);
             if ($output && trim($output) !== '') {
                 $cliInfo = trim($output);
