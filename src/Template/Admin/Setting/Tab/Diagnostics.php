@@ -166,7 +166,9 @@ class Diagnostics extends TabItem
         $shellExecAllowed = false;
         if (function_exists('shell_exec')) {
             $shellExecAllowed = true;
-            $command = escapeshellarg($php) . ' ' . escapeshellarg($filePath) . ' ' . escapeshellarg(CliCommand::COMMAND);
+            $command = escapeshellarg($php) . ' ' . escapeshellarg($filePath) . ' ' . escapeshellarg(
+                CliCommand::COMMAND
+            );
             $output = @shell_exec($command);
             if ($output && trim($output) !== '') {
                 $cliInfo = trim($output);
