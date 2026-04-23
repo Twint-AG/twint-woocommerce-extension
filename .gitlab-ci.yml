@@ -26,9 +26,6 @@ tests:
     # Update spc (See https://github.com/shivammathur/spc for options)
     - spc -U
 
-    # Ensure `patch` is available for cweagans/composer-patches
-    - apt-get update && apt-get install -qq patch
-
     # Setup PHP
     - spc --php-version "$PHP_VERSION" --extensions "bcmath, ctype, curl, dom, fileinfo, filter,gd, hash, iconv, intl, json, libxml, mbstring, openssl, pcre, pdo_mysql, simplexml, soap, sockets, sodium, xsl, tokenizer, xmlwriter, xsl, zlib, libxml"
 
@@ -59,7 +56,7 @@ build-archive:
     matrix:
       - PHP_VERSION: [ "8.5" ] # Build on latest PHP version to have access to the latest PHP-scoper
   script:
-    - apt-get update && apt-get install -qq zip patch
+    - apt-get update && apt-get install -qq zip
     - spc -U
     - spc --php-version "$PHP_VERSION" --extensions "mbstring, curl, dom, fileinfo, gd, iconv, intl, json, xml, mbstring, pdo, phar, zip, sodium, pdo_mysql, bcmath, soap";
     - composer config --global gitlab-token.git.nfq.asia $GITLAB_ACCESS_TOKEN
