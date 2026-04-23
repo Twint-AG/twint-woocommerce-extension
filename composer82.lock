@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "83d06e1a16495ac46448046694462179",
+    "content-hash": "057f204ceb39bb0ec816607d533e3c9b",
     "packages": [
         {
             "name": "azjezz/psl",
@@ -3246,16 +3246,16 @@
         },
         {
             "name": "twint-ag/sdk",
-            "version": "1.8.0",
+            "version": "1.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Twint-AG/sdk.git",
-                "reference": "1795bccaa0bd1591eeead61d4ffaebdeec8bc109"
+                "reference": "6e6da46ed897d6455ee81eedfaaf71168af70832"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Twint-AG/sdk/zipball/1795bccaa0bd1591eeead61d4ffaebdeec8bc109",
-                "reference": "1795bccaa0bd1591eeead61d4ffaebdeec8bc109",
+                "url": "https://api.github.com/repos/Twint-AG/sdk/zipball/6e6da46ed897d6455ee81eedfaaf71168af70832",
+                "reference": "6e6da46ed897d6455ee81eedfaaf71168af70832",
                 "shasum": ""
             },
             "require": {
@@ -3292,27 +3292,27 @@
                 "beste/in-memory-cache": "^1.4.0",
                 "composer/semver": "^3.4.4",
                 "ext-xdebug": "*",
-                "http-interop/http-factory-guzzle": "^1.2",
+                "http-interop/http-factory-guzzle": "^1.2.1",
                 "laminas/laminas-code": "^4.16.0",
                 "maennchen/zipstream-php": "^3.1.1",
                 "nikic/php-parser": "^4.19.5 || ^5.0.0",
                 "php-soap/psr18-transport": "^1.6.0",
-                "php-soap/wsdl-reader": "^0.17.0 || ^0.18.0 || ^0.19.0 || ^0.20.0 || ^0.21.0 || ^0.22.0 || ^0.23.0 || ^0.24.0 || ^0.25.0 || ^0.26.0 || ^0.27.0 || ^0.28.0 || ^0.29.0 || ^0.30.0 || ^0.31.0",
-                "php-standard-library/phpstan-extension": "^2.0.2 || ^2.1.0",
+                "php-soap/wsdl-reader": "^0.17.0 || ^0.18.0 || ^0.19.0 || ^0.20.0 || ^0.21.0 || ^0.22.0 || ^0.23.0 || ^0.24.0 || ^0.25.0 || ^0.26.0 || ^0.27.0 || ^0.28.0 || ^0.29.0 || ^0.30.0 || ^0.31.0 || ^0.32.0",
+                "php-standard-library/phpstan-extension": "^2.0.4 || ^2.1.0",
                 "phpro/soap-client": "3.3.0 || 3.4.0 || 4.8.0",
-                "phpstan/phpstan": "^2.1.40",
+                "phpstan/phpstan": "^2.1.51",
                 "phpstan/phpstan-phpunit": "^2.0.16",
                 "phpstan/phpstan-strict-rules": "^2.0.10",
                 "phpunit/phpunit": "^10.5.63",
                 "roave/better-reflection": "^6.25.0",
                 "rregeer/phpunit-coverage-check": "^0.3.1",
-                "slevomat/coding-standard": "8.22.*",
+                "slevomat/coding-standard": "^8.28.1",
                 "symfony/clock": "^6.4.30",
-                "symfony/dotenv": "^6.4.30",
-                "symfony/event-dispatcher": "^6.4.32",
-                "symfony/filesystem": "^6.4.30",
-                "symfony/finder": "^6.4.33",
-                "symplify/easy-coding-standard": "^12.6.2",
+                "symfony/dotenv": "^6.4.36",
+                "symfony/event-dispatcher": "^6.4.36",
+                "symfony/filesystem": "^6.4.34",
+                "symfony/finder": "^6.4.34",
+                "symplify/easy-coding-standard": "^13.0.4",
                 "wiremock-php/wiremock-php": "dev-cloud-support as 2.39.0"
             },
             "suggest": {
@@ -3355,9 +3355,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Twint-AG/sdk/issues",
-                "source": "https://github.com/Twint-AG/sdk/tree/1.8.0"
+                "source": "https://github.com/Twint-AG/sdk/tree/1.8.2"
             },
-            "time": "2026-04-15T15:34:23+00:00"
+            "time": "2026-04-22T15:33:42+00:00"
         },
         {
             "name": "veewee/xml",
@@ -4203,54 +4203,6 @@
                 }
             ],
             "time": "2024-05-06T16:37:16+00:00"
-        },
-        {
-            "name": "cweagans/composer-patches",
-            "version": "1.7.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cweagans/composer-patches.git",
-                "reference": "e190d4466fe2b103a55467dfa83fc2fecfcaf2db"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cweagans/composer-patches/zipball/e190d4466fe2b103a55467dfa83fc2fecfcaf2db",
-                "reference": "e190d4466fe2b103a55467dfa83fc2fecfcaf2db",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.0 || ^2.0",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "composer/composer": "~1.0 || ~2.0",
-                "phpunit/phpunit": "~4.6"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "cweagans\\Composer\\Patches"
-            },
-            "autoload": {
-                "psr-4": {
-                    "cweagans\\Composer\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Cameron Eagans",
-                    "email": "me@cweagans.net"
-                }
-            ],
-            "description": "Provides a way to patch Composer packages.",
-            "support": {
-                "issues": "https://github.com/cweagans/composer-patches/issues",
-                "source": "https://github.com/cweagans/composer-patches/tree/1.7.3"
-            },
-            "time": "2022-12-20T22:53:13+00:00"
         },
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
