@@ -180,24 +180,13 @@ use Twint\Woo\Plugin;
             mode: 'open',
         })
 
+        // Use <link> element — works natively in Shadow DOM across all browsers including Firefox
+        var link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = cssPath
+        shadowRoot.appendChild(link)
+
         shadowRoot.appendChild(template.content)
-
-        // Create a style element
-        var style = document.createElement('style')
-
-        // Fetch external CSS as text and inject it
-        fetch(cssPath)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok')
-                }
-                return response.text()
-            })
-            .then((cssText) => {
-                style.textContent = cssText;
-                shadowRoot.appendChild(style)
-            })
-            .catch((error) => console.error('Failed to load CSS:', error))
 
         return shadowRoot;
     }
