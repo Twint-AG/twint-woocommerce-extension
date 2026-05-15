@@ -23,6 +23,8 @@ document.addEventListener('DOMContentLoaded', function () {
         )
 
         modal.show()
+
+        return false
       }
     },
   )
