@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: WooCommerce Twint Payment 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/twint-woocommerce-"
 "extension\n"
-"POT-Creation-Date: 2026-02-06T08:20:49+00:00\n"
+"POT-Creation-Date: 2026-05-18T08:36:50+00:00\n"
 "PO-Revision-Date: 2025-04-04 11:15+0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -229,31 +229,35 @@ msgstr "Il comando TWINT è stato eseguito con successo tramite il PHP CLI."
 msgid "Diagnostics"
 msgstr ""
 
-#: src/Template/Admin/Setting/Tab/Diagnostics.php:79
+#: src/Template/Admin/Setting/Tab/Diagnostics.php:80
+msgid "SOAP requirement:"
+msgstr "Requisito SOAP:"
+
+#: src/Template/Admin/Setting/Tab/Diagnostics.php:86
 #, fuzzy
 msgid "PHP CLI version (8.1 or earlier):"
 msgstr "Versione PHP CLI (>8.1): "
 
-#: src/Template/Admin/Setting/Tab/Diagnostics.php:85
+#: src/Template/Admin/Setting/Tab/Diagnostics.php:92
 msgid "PHP Executable path:"
 msgstr "Percorso dell'eseguibile PHP:"
 
-#: src/Template/Admin/Setting/Tab/Diagnostics.php:91
+#: src/Template/Admin/Setting/Tab/Diagnostics.php:98
 #: src/View/Admin/credentials.php:20
 msgid "Function `shell_exec` is allowed: "
 msgstr "La funzione `shell_exec` è consentita: "
 
-#: src/Template/Admin/Setting/Tab/Diagnostics.php:97
+#: src/Template/Admin/Setting/Tab/Diagnostics.php:104
 #: src/View/Admin/credentials.php:25
 msgid "TWINT command is executable: "
 msgstr "Il comando TWINT è eseguibile: "
 
-#: src/Template/Admin/Setting/Tab/Diagnostics.php:103
+#: src/Template/Admin/Setting/Tab/Diagnostics.php:110
 #: src/View/Admin/credentials.php:30
 msgid "TWINT PHP CLI Command Execution Test: "
 msgstr "Test di esecuzione del comando TWINT PHP CLI: "
 
-#: src/Template/Admin/Setting/Tab/Diagnostics.php:139
+#: src/Template/Admin/Setting/Tab/Diagnostics.php:146
 msgid "Plugins:"
 msgstr ""
 
@@ -290,28 +294,28 @@ msgstr ""
 msgid "PHP CLI version ( >=8.1): "
 msgstr "Versione PHP CLI (>8.1): "
 
-#: src/View/Admin/credentials.php:37
+#: src/View/Admin/credentials.php:39
 msgid "See more"
 msgstr "Ulteriori informazioni"
 
-#: src/View/Admin/credentials.php:59
+#: src/View/Admin/credentials.php:61
 msgid "Certificate encrypted and stored."
 msgstr "Certificato crittografato e archiviato."
 
-#: src/View/Admin/credentials.php:64
+#: src/View/Admin/credentials.php:66
 msgid "Upload new certificate"
 msgstr "Carica nuovo certificato"
 
-#: src/View/Admin/credentials.php:71
+#: src/View/Admin/credentials.php:73
 msgid "Close"
 msgstr "Chiudi"
 
-#: src/View/Admin/credentials.php:102
+#: src/View/Admin/credentials.php:104
 msgid "Invalid Store UUID. Store UUID needs to be a UUIDv4"
 msgstr ""
 "UUID del suo negozio non valido. L’UUID del suo negozio deve essere un UUIDv4"
 
-#: src/View/Admin/credentials.php:113
+#: src/View/Admin/credentials.php:115
 msgid "Test"
 msgstr ""
 
@@ -406,7 +410,7 @@ msgstr "Il tuo pagamento è andato a buon fine"
 msgid "Your order was cancelled."
 msgstr "Il tuo ordine è stato annullato."
 
-#: twint-woocommerce-extension.php:32
+#: twint-woocommerce-extension.php:37
 #, php-format
 msgid ""
 "Please download the TWINT Extension plugin from the <a href=\"%s\">releases</"

@@ -75,6 +75,13 @@ class Diagnostics extends TabItem
             'valid' => version_compare(PHP_VERSION, '8.1.0', '>'),
         ];
 
+        $soapAvailable = class_exists('SoapClient');
+        $info[] = [
+            'label' => __('SOAP requirement:', 'twint-woocommerce-extension'),
+            'value' => $soapAvailable ? 'Yes' : 'No',
+            'valid' => $soapAvailable,
+        ];
+
         $info[] = [
             'label' => __('PHP CLI version (8.1 or earlier):', 'twint-woocommerce-extension'),
             'value' => $cliVersion,
