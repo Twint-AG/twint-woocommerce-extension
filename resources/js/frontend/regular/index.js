@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
   jQuery('form.checkout').on(
     'checkout_place_order_success',
     function (type, data) {
-      if (data.result === 'success') {
+      if (data.result === 'success' && data.pairingId) {
         let modal = new Modal(
           window.twintShadowRoot,
           Modal.TYPE_REGULAR_CHECKOUT,
