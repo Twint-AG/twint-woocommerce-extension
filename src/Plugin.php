@@ -125,7 +125,7 @@ class Plugin
     {
         // Check for active plugins.
         if (!self::isPluginActivated('woocommerce/woocommerce.php') || !class_exists(WC_Payment_Gateway::class)) {
-            exit;
+            return;
         }
 
         self::loadTranslations();
@@ -149,7 +149,12 @@ class Plugin
         // Test to see if WooCommerce is active (including network activated).
         $pluginPath = trailingslashit(WP_PLUGIN_DIR) . $plugin;
 
-        return in_array($pluginPath, wp_get_active_and_valid_plugins(), true);
+        $active = wp_get_active_and_valid_plugins();
+        if (is_multisite() && function_exists('wp_get_active_network_plugins')) {
+            $active = array_merge($active, wp_get_active_network_plugins());
+        }
+
+        return in_array($pluginPath, $active, true);
     }
 
     public static function di(string $container, bool $lazyLoad = true): mixed
