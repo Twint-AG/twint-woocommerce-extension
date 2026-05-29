@@ -95,6 +95,13 @@ class RegularCheckoutGateway extends AbstractGateway
                 'desc_tip' => true,
                 'default' => __('TWINT', 'twint-woocommerce-extension'),
             ],
+            'description' => [
+                'title' => __('Description', 'twint-woocommerce-extension'),
+                'type' => 'textarea',
+                'description' => __('This controls the description which the user sees during checkout.', 'twint-woocommerce-extension'),
+                'desc_tip' => true,
+                'default' => __('Pay securely with TWINT.', 'twint-woocommerce-extension'),
+            ],
         ];
     }
 
