@@ -44,14 +44,22 @@ class Installer
 
     private function setDefaultConfigs(): void
     {
-        // Init setting for payment gateway
-        $initData = [
+        // Init setting for payment gateway, avoid wiping from updating.
+        $existing = get_option('woocommerce_twint_regular_settings', []);
+        if (!is_array($existing)) {
+            $existing = [];
+        }
+
+        $defaults = [
             'enabled' => 'yes',
             'title' => 'TWINT',
         ];
 
-        update_option('woocommerce_twint_regular_settings', $initData);
-        update_option('twint_express_checkout_display_options', TwintConstant::DEFAULT_DISPLAYS);
+        update_option('woocommerce_twint_regular_settings', array_merge($defaults, $existing));
+
+        if (get_option('twint_express_checkout_display_options') === false) {
+            update_option('twint_express_checkout_display_options', TwintConstant::DEFAULT_DISPLAYS);
+        }
     }
 
     public function folderExist($folder): bool|string
