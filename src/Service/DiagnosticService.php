@@ -54,9 +54,18 @@ class DiagnosticService
 
     public function downloadGlobalDiagnostics(): void
     {
+        if (!current_user_can('activate_plugins')) {
+            wp_die('You are not allowed to download diagnostics.', '', [
+                'response' => 403,
+            ]);
+        }
+
         if (
             !isset($_POST['twint_download_diagnostics_nonce']) ||
-            !wp_verify_nonce($_POST['twint_download_diagnostics_nonce'], 'twint_download_diagnostics')
+            !wp_verify_nonce(
+                sanitize_text_field(wp_unslash($_POST['twint_download_diagnostics_nonce'])),
+                'twint_download_diagnostics'
+            )
         ) {
             wp_die('Security check failed.');
         }
@@ -83,9 +92,18 @@ class DiagnosticService
 
     public function downloadOrderDiagnostics(): void
     {
+        if (!current_user_can('activate_plugins')) {
+            wp_die('You are not allowed to download diagnostics.', '', [
+                'response' => 403,
+            ]);
+        }
+
         if (
             !isset($_REQUEST['twint_download_order_diagnostics_nonce'], $_REQUEST['order_id']) ||
-            !wp_verify_nonce($_REQUEST['twint_download_order_diagnostics_nonce'], 'twint_download_order_diagnostics')
+            !wp_verify_nonce(
+                sanitize_text_field(wp_unslash($_REQUEST['twint_download_order_diagnostics_nonce'])),
+                'twint_download_order_diagnostics'
+            )
         ) {
             wp_die('Security check failed.');
         }
@@ -137,12 +155,21 @@ class DiagnosticService
         header('Pragma: no-cache');
         header('Expires: 0');
 
-        $collector->collect(
-            fileNamePrefix: "twint-order-diagnostics-{$orderId}-{$timestamp}",
-            streamHandler: static function ($data): void {
-                print $data;
+        try {
+            $collector->collect(
+                fileNamePrefix: "twint-order-diagnostics-{$orderId}-{$timestamp}",
+                streamHandler: static function ($data): void {
+                    print $data;
+                }
+            );
+        } finally {
+            if (file_exists($pairingFile)) {
+                wp_delete_file($pairingFile);
             }
-        );
+            if (file_exists($logFile)) {
+                wp_delete_file($logFile);
+            }
+        }
 
         exit; // Prevent any additional output
     }
