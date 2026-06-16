@@ -41,7 +41,7 @@ abstract class AbstractMethod extends AbstractPaymentMethodType
 
     public function get_payment_method_script_handles(): array
     {
-        $scriptAssetPath = Plugin::abspath() . 'assets/js/frontend/blocks.asset.php';
+        $scriptAssetPath = Plugin::abspath() . 'dist/checkout.asset.php';
         $scriptAsset = file_exists($scriptAssetPath)
             ? require ($scriptAssetPath)
             : [
