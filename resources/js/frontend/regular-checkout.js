@@ -1,10 +1,17 @@
 import { __ } from '@wordpress/i18n'
 import { registerPaymentMethod } from '@woocommerce/blocks-registry'
+import { getSetting } from '@woocommerce/settings'
+import { decodeEntities } from '@wordpress/html-entities'
 import { useEffect } from '@wordpress/element'
 import Modal from './express/modal/modal'
 import ModalContent from './express/modal/content'
 
-const label = __('TWINT', 'woocommerce-gateway-twint')
+const settings = getSetting('twint_regular_data', {})
+
+const label =
+  decodeEntities(settings.title) || __('TWINT', 'twint-woocommerce-extension')
+
+const description = decodeEntities(settings.description || '')
 
 /**
  * See https://github.com/woocommerce/woocommerce-blocks/blob/trunk/docs/third-party-developers/extensibility/checkout-payment-methods/payment-method-integration.md#payment-methods---registerpaymentmethod-options- * @param eventRegistration
@@ -45,7 +52,13 @@ const ModalTwintPayment = ({ eventRegistration, emitResponse }) => {
     emitResponse.responseTypes.SUCCESS,
   ])
 
-  return <></>
+  return description ? (
+    <div className='wc-block-components-payment-method-description'>
+      {description}
+    </div>
+  ) : (
+    <></>
+  )
 }
 
 const BlockEditorTwintComponent = () => {
