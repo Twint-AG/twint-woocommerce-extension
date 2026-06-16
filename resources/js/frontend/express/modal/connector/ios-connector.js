@@ -35,6 +35,10 @@ class IosConnector extends Connector {
     const select = event.target
     let link = select.options[select.selectedIndex].value
 
+    // Reset to the placeholder so re-selecting the same bank (e.g. after
+    // cancelling in the app and returning) fires `change` again.
+    select.selectedIndex = 0
+
     this.openAppBank(link)
   }
 
@@ -49,12 +53,10 @@ class IosConnector extends Connector {
       link = link.replace('--TOKEN--', this.token)
 
       try {
-        window.location.replace(link)
-
-        const checkLocation = setInterval(() => {
-          clearInterval(checkLocation)
-        }, 2000)
-      } catch (e) {}
+        window.location.href = link
+      } catch {
+        // Ignore navigation errors when launching the TWINT app scheme.
+      }
     }
   }
 }
