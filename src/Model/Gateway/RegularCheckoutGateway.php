@@ -175,7 +175,14 @@ class RegularCheckoutGateway extends AbstractGateway
 
             // Cancel all old pairings
             $client = Plugin::di('client.builder', false)->build();
-            $this->getPairingService()->cancelRemainingPairings((int) $order_id, $client);
+            $settledAsPaid = Plugin::di('monitor.service', false)->cancelRemainingPairings((int) $order_id, $client);
+
+            if ($settledAsPaid) {
+                return [
+                    'result' => 'success',
+                    'redirect' => $this->get_return_url($order),
+                ];
+            }
 
             $apiResponse = $this->getPaymentService()->createOrder($order);
             $pairing = $this->getPairingService()->create($apiResponse, $order);
