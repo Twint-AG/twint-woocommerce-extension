@@ -155,28 +155,6 @@ class PairingService
     /**
      * @throws Throwable
      */
-    public function cancelRemainingPairings(int $orderId, ?InvocationRecordingClient $client = null): void
-    {
-        $pairings = $this->getRepository()->findByWooOrderId($orderId);
-
-        /** @var Pairing $p */
-        foreach ($pairings as $p) {
-            if (!$p->isFinished() && $p->getStatus() !== Pairing::EXPRESS_STATUS_MERCHANT_CANCELLED) {
-                $res = $this->cancelOrder($p, $client);
-
-                $this->getRepository()->markAsMerchantCancelled($p->getId());
-
-                $log = $res->getLog();
-                $log->setPairingId($p->getId());
-                $log->setOrderId($p->getWcOrderId());
-                $this->getLogRepository()->save($log);
-            }
-        }
-    }
-
-    /**
-     * @throws Throwable
-     */
     public function cancelOrder(Pairing $pairing, InvocationRecordingClient $client): ApiResponse
     {
         $this->logger->info("TWINT PairingService::cancelOrder: cancel order {$pairing->getId()}", [

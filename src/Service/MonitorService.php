@@ -529,6 +529,79 @@ class MonitorService
         return MonitoringStatus::fromPairing($pairing);
     }
 
+    public function cancelRemainingPairings(int $orderId, InvocationRecordingClient $client): bool
+    {
+        $pairings = $this->getRepository()->findByWooOrderId($orderId);
+
+        $settledAsPaid = false;
+
+        /** @var Pairing $pairing */
+        foreach ($pairings as $pairing) {
+            if ($pairing->isFinished() || $pairing->getStatus() === Pairing::EXPRESS_STATUS_MERCHANT_CANCELLED) {
+                // Already settled before this call; the order is paid if this attempt succeeded.
+                $settledAsPaid = $settledAsPaid || $pairing->isSuccessful();
+
+                continue;
+            }
+
+            // Capture-first: settle an already-confirmed attempt instead of cancelling it.
+            try {
+                $status = $this->monitor($pairing);
+                if ($status->paid()) {
+                    $settledAsPaid = true;
+                    $this->logger->info(
+                        "TWINT MonitorService::cancelRemainingPairings: {$pairing->getId()} captured, skip cancel",
+                        [
+                            'source' => 'twint-woocommerce-extension',
+                            'wc_order_id' => $pairing->getWcOrderId(),
+                        ]
+                    );
+
+                    continue;
+                }
+
+                if ($status->finished()) {
+                    // Settled as cancelled/failed during monitoring: nothing left to cancel.
+                    continue;
+                }
+            } catch (Throwable $e) {
+                // Monitoring failed; fall through to cancellation to preserve previous behaviour.
+                $this->logger->error(
+                    "TWINT MonitorService::cancelRemainingPairings: monitor failed {$pairing->getId()} {$e->getMessage()}",
+                    [
+                        'source' => 'twint-woocommerce-extension',
+                        'wc_order_id' => $pairing->getWcOrderId(),
+                    ]
+                );
+            }
+
+            // Re-read the latest persisted state: monitoring may have captured/settled it.
+            $fresh = $this->getRepository()->get($pairing->getId());
+            if ($fresh instanceof Pairing
+                && ($fresh->isFinished()
+                    || $fresh->isSuccessful()
+                    || $fresh->isCaptured()
+                    || $fresh->getStatus() === Pairing::EXPRESS_STATUS_MERCHANT_CANCELLED)
+            ) {
+                $settledAsPaid = $settledAsPaid || $fresh->isSuccessful() || $fresh->isCaptured();
+
+                continue;
+            }
+
+            $toCancel = $fresh instanceof Pairing ? $fresh : $pairing;
+
+            $res = $this->getPairingService()->cancelOrder($toCancel, $client);
+            $this->getRepository()->markAsMerchantCancelled($toCancel->getId());
+
+            $log = $res->getLog();
+            $log->setPairingId($toCancel->getId());
+            $log->setOrderId($toCancel->getWcOrderId());
+            $this->getLogRepository()->save($log);
+        }
+
+        return $settledAsPaid;
+    }
+
     public function cancel(Pairing $pairing): bool
     {
         $client = $this->getBuilder()->build(Version::NEXT);
