@@ -61,7 +61,12 @@ echo "==> deploy started $(date -Is) | branch=$BRANCH | log=$LOG_FILE"
 #    archive.sh mutates files + needs a real .git for `git rev-parse`).
 BUILD_DIR="$DEVBOX_DIR/build"
 SRC="$BUILD_DIR/src"
-rm -rf "$BUILD_DIR"; mkdir -p "$BUILD_DIR"
+# The build runs as root, so leftover files can be root-owned (e.g. a build that
+# was killed before its chown-back). A plain rm as the invoking user then fails;
+# fall back to removing them from inside a root container.
+rm -rf "$BUILD_DIR" 2>/dev/null \
+  || docker run --rm -v "$DEVBOX_DIR:/d" woo-devbox-build rm -rf /d/build
+mkdir -p "$BUILD_DIR"
 git clone --local --no-hardlinks "$REPO_ROOT" "$SRC"
 git -C "$SRC" checkout "$BRANCH"
 
@@ -92,14 +97,17 @@ docker run --rm \
   -e GITLAB_TOKEN \
   -v "$SRC:/app" -w /app \
   woo-devbox-build bash -lc '
-    set -e
     # /app is a bind-mount owned by the host user, but we run as root — tell git
     # to trust it so archive.sh (git rev-parse for the version) does not abort
     # with "detected dubious ownership".
     git config --global --add safe.directory /app
     composer config --global http-basic."$GITLAB_HOST" "$GITLAB_USERNAME" "$GITLAB_TOKEN"
-    bin/archive.sh
-    chown -R "$HOST_UID:$HOST_GID" /app
+    # Run archive.sh, but ALWAYS chown output back to the host user afterward —
+    # even on failure — so a failed build never leaves root-owned files that the
+    # next run (as the host user) cannot clean up.
+    rc=0; bin/archive.sh || rc=$?
+    chown -R "$HOST_UID:$HOST_GID" /app || true
+    exit $rc
   '
 
 # shellcheck disable=SC2012
