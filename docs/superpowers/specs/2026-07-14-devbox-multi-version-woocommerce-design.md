@@ -34,6 +34,26 @@ The EC2 box already runs the Shopware devbox, which means:
   the Woo stack starts. `up.sh` verifies the shared network exists and fails with
   a clear message otherwise.
 
+### Confirmed deployment facts (from the live `twint-dev` box, 2026-07-14)
+
+Inspected on the running box; these pin the defaults above:
+
+| Fact | Value |
+|------|-------|
+| Shopware devbox path | `/home/ubuntu/twint-shopware-plugin` (devbox at `.../devbox`) |
+| Shared Traefik container | `devbox_proxy` (`traefik:v3.7`), publishing `:80`, `:443`, `127.0.0.1:8080` |
+| Shared Docker network | `devbox_web` → `PROXY_NETWORK` default confirmed |
+| Basic-auth middleware | `devbox-auth` (reference as `devbox-auth@docker`), user `twint` |
+| `DOMAIN_BASE` | `twint.dev.nfq-asia.com` (wildcard `*.` already resolves → box); Woo uses `wc1/wc2/wc3.twint.dev.nfq-asia.com` |
+| Let's Encrypt resolver | `le`, `ACME_EMAIL=ngoctai.tran@gradion.com` |
+| GitLab | host `git.nfq.asia`, user `taitran`, SDK `git.nfq.asia/twint-ag/sdk.git` |
+
+**Credentials are reused, not re-issued.** The Woo `.env` copies `GITLAB_TOKEN`,
+`GITLAB_USERNAME`, basic-auth creds, and `DOMAIN_BASE` from
+`/home/ubuntu/twint-shopware-plugin/devbox/.env`. Secrets live only in that
+gitignored `.env`; none are committed. The Woo repo is expected at
+`/home/ubuntu/twint-woocommerce-extension` on the box.
+
 ## Problem
 
 The `twint-woocommerce-extension` must be validated against multiple WordPress +
