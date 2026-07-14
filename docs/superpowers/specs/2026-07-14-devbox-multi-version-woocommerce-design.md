@@ -243,6 +243,11 @@ Steps:
    auth configured from `.env`:
    - run `bin/archive.sh` → produces `build/twint-woocommerce-extension.zip`
      carrying `vendor` + `vendor82`…`vendor85`.
+   - `deploy.sh` sets `CI_COMMIT_REF_SLUG` (from the branch name) before running
+     `archive.sh`, since the script references it unguarded under `set -u`;
+     `CI_COMMIT_TAG` is left unset so the version stays `0.0.1-dev`. `deploy.sh`
+     normalizes the produced `twint-woocommerce-extension-<slug>.zip` to a stable
+     path before installing.
 3. **Install into each instance** via WP-CLI:
    - `wp plugin install /path/to/twint-woocommerce-extension.zip --force --activate`
    - ensure WooCommerce is active (`wp plugin activate woocommerce`)
