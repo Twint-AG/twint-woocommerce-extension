@@ -70,10 +70,22 @@ git -C "$SRC" checkout "$BRANCH"
 echo "==> building build image"
 docker build -q -f "$DEVBOX_DIR/build.Dockerfile" -t woo-devbox-build "$DEVBOX_DIR"
 
-echo "==> building plugin ZIP in build container"
+# Cap the build container's resources. archive.sh (npm + composer x5 + php-scoper
+# x5) is heavy; on this shared box (Shopware devbox + 3 WordPress, 15G RAM, NO
+# swap) an unbounded build starves the host and takes SSH/Traefik down. Leave one
+# CPU and a memory ceiling for everything else. Overridable via .env.
+BUILD_MEM="${BUILD_MEM:-5g}"
+BUILD_CPUS="${BUILD_CPUS:-$(nproc --ignore=1 2>/dev/null || echo 2)}"
+echo "==> building plugin ZIP in build container (mem=$BUILD_MEM cpus=$BUILD_CPUS)"
+# Run as root, exactly like GitLab CI's build-archive job. Under a non-root UID,
+# archive.sh's php-scoper step silently drops psl function files (e.g.
+# Iter/apply.php) from the scoped vendor -> Fatal "Failed opening required
+# .../Psl/Iter/apply.php" at plugin load. After the build, chown the output back
+# to the invoking user so the next run's `rm -rf build/` (run as that user) works.
 docker run --rm \
-  -u "$(id -u):$(id -g)" \
-  -e HOME=/tmp/bh \
+  --memory="$BUILD_MEM" --memory-swap="$BUILD_MEM" --cpus="$BUILD_CPUS" \
+  -e HOME=/root -e COMPOSER_ALLOW_SUPERUSER=1 \
+  -e HOST_UID="$(id -u)" -e HOST_GID="$(id -g)" \
   -e CI_COMMIT_REF_SLUG="$SLUG" \
   -e GITLAB_HOST="$GITLAB_HOST" \
   -e GITLAB_USERNAME \
@@ -81,9 +93,9 @@ docker run --rm \
   -v "$SRC:/app" -w /app \
   woo-devbox-build bash -lc '
     set -e
-    mkdir -p /tmp/bh
     composer config --global http-basic."$GITLAB_HOST" "$GITLAB_USERNAME" "$GITLAB_TOKEN"
     bin/archive.sh
+    chown -R "$HOST_UID:$HOST_GID" /app
   '
 
 # shellcheck disable=SC2012
