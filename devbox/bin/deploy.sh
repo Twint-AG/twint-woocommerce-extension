@@ -57,63 +57,53 @@ LOG_FILE="$LOG_DIR/deploy-$(date +%Y%m%d-%H%M%S)-${SLUG}.log"
 exec > >(tee -a "$LOG_FILE") 2>&1
 echo "==> deploy started $(date -Is) | branch=$BRANCH | log=$LOG_FILE"
 
-# 1) Clean local clone of the current branch (keeps the live clone pristine;
-#    archive.sh mutates files + needs a real .git for `git rev-parse`).
+# 1) Build the build image (layer-cached, so this is fast after the first run).
 BUILD_DIR="$DEVBOX_DIR/build"
-SRC="$BUILD_DIR/src"
-# The build runs as root, so leftover files can be root-owned (e.g. a build that
-# was killed before its chown-back). A plain rm as the invoking user then fails;
-# fall back to removing them from inside a root container.
-rm -rf "$BUILD_DIR" 2>/dev/null \
-  || docker run --rm -v "$DEVBOX_DIR:/d" woo-devbox-build rm -rf /d/build
 mkdir -p "$BUILD_DIR"
-git clone --local --no-hardlinks "$REPO_ROOT" "$SRC"
-git -C "$SRC" checkout "$BRANCH"
-
-# 2) Build the build image, then run archive.sh inside it as the host user so
-#    output files are host-owned. Token is passed via env, never on argv.
+rm -f "$BUILD_DIR"/*.zip 2>/dev/null || true   # only ZIPs live here; host-owned
 echo "==> building build image"
 docker build -q -f "$DEVBOX_DIR/build.Dockerfile" -t woo-devbox-build "$DEVBOX_DIR"
 
-# Cap the build container's resources. archive.sh (npm + composer x5 + php-scoper
-# x5) is heavy; on this shared box (Shopware devbox + 3 WordPress, 15G RAM, NO
-# swap) an unbounded build starves the host and takes SSH/Traefik down. Leave one
-# CPU and a memory ceiling for everything else. Overridable via .env.
+# 2) Build the plugin ZIP. Everything heavy — a fresh clone, vendor, node_modules,
+#    and the 5x php-scoper pass — happens INSIDE the container's own filesystem
+#    (discarded with --rm). The source checkout is mounted READ-ONLY so the build
+#    can never dirty or leave root-owned files in it, and only the finished ZIP is
+#    written back to the host (BUILD_DIR), then chowned to the invoking user.
+#
+#    Runs as root, exactly like GitLab CI's build-archive job: under a non-root
+#    UID archive.sh's php-scoper step silently drops psl function files (e.g.
+#    Iter/apply.php) -> Fatal "Failed opening required .../Psl/Iter/apply.php" at
+#    plugin load.
+#
+#    Resource-capped: archive.sh (npm + composer x5 + php-scoper x5) is heavy and
+#    on this shared box (Shopware devbox + 3 WordPress, 15G RAM, NO swap) an
+#    unbounded build starves the host and takes SSH/Traefik down. Overridable via .env.
 BUILD_MEM="${BUILD_MEM:-5g}"
 BUILD_CPUS="${BUILD_CPUS:-$(nproc --ignore=1 2>/dev/null || echo 2)}"
 echo "==> building plugin ZIP in build container (mem=$BUILD_MEM cpus=$BUILD_CPUS)"
-# Run as root, exactly like GitLab CI's build-archive job. Under a non-root UID,
-# archive.sh's php-scoper step silently drops psl function files (e.g.
-# Iter/apply.php) from the scoped vendor -> Fatal "Failed opening required
-# .../Psl/Iter/apply.php" at plugin load. After the build, chown the output back
-# to the invoking user so the next run's `rm -rf build/` (run as that user) works.
 docker run --rm \
   --memory="$BUILD_MEM" --memory-swap="$BUILD_MEM" --cpus="$BUILD_CPUS" \
   -e HOME=/root -e COMPOSER_ALLOW_SUPERUSER=1 \
   -e HOST_UID="$(id -u)" -e HOST_GID="$(id -g)" \
-  -e CI_COMMIT_REF_SLUG="$SLUG" \
+  -e BRANCH="$BRANCH" -e CI_COMMIT_REF_SLUG="$SLUG" \
   -e GITLAB_HOST="$GITLAB_HOST" \
   -e GITLAB_USERNAME \
   -e GITLAB_TOKEN \
-  -v "$SRC:/app" -w /app \
+  -v "$REPO_ROOT:/repo:ro" \
+  -v "$BUILD_DIR:/out" \
   woo-devbox-build bash -lc '
-    # /app is a bind-mount owned by the host user, but we run as root — tell git
-    # to trust it so archive.sh (git rev-parse for the version) does not abort
-    # with "detected dubious ownership".
-    git config --global --add safe.directory /app
+    set -e
+    git config --global --add safe.directory "*"
+    git clone --no-hardlinks /repo /work
+    cd /work && git checkout "$BRANCH"
     composer config --global http-basic."$GITLAB_HOST" "$GITLAB_USERNAME" "$GITLAB_TOKEN"
-    # Run archive.sh, but ALWAYS chown output back to the host user afterward —
-    # even on failure — so a failed build never leaves root-owned files that the
-    # next run (as the host user) cannot clean up.
-    rc=0; bin/archive.sh || rc=$?
-    chown -R "$HOST_UID:$HOST_GID" /app || true
-    exit $rc
+    bin/archive.sh
+    cp build/twint-woocommerce-extension-*.zip /out/twint-woocommerce-extension.zip
+    chown "$HOST_UID:$HOST_GID" /out/twint-woocommerce-extension.zip
   '
 
-# shellcheck disable=SC2012
-ZIP="$(ls "$SRC"/build/twint-woocommerce-extension-*.zip 2>/dev/null | head -1)"
-if [ -z "$ZIP" ]; then echo "ERROR: build produced no ZIP" >&2; exit 1; fi
-cp "$ZIP" "$BUILD_DIR/twint-woocommerce-extension.zip"
+ZIP="$BUILD_DIR/twint-woocommerce-extension.zip"
+if [ ! -f "$ZIP" ]; then echo "ERROR: build produced no ZIP" >&2; exit 1; fi
 echo "==> built $(basename "$ZIP")"
 
 # 3) Install into every instance. A failure on one instance must not skip the
