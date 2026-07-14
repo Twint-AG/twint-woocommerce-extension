@@ -5,6 +5,8 @@ services:
     image: mysql:8
     container_name: wc-db
     restart: unless-stopped
+    mem_limit: 1g
+    command: ["--innodb-buffer-pool-size=256M"]
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_USER: ${DB_USER}
@@ -13,7 +15,7 @@ services:
       - "wc_db:/var/lib/mysql"
       - "./mysql-init:/docker-entrypoint-initdb.d:ro"
     networks:
-      - web
+      - internal
 
   wc1:
     build:
@@ -24,6 +26,7 @@ services:
     image: woo-devbox/wc1:${WC1_WP_TAG}
     container_name: wc1
     restart: unless-stopped
+    mem_limit: 768m
     depends_on: [wc-db]
     environment:
       WORDPRESS_DB_HOST: wc-db
@@ -51,6 +54,7 @@ services:
       - "traefik.http.routers.wc1-rest.priority=100"
     networks:
       - web
+      - internal
 
   wc2:
     build:
@@ -61,6 +65,7 @@ services:
     image: woo-devbox/wc2:${WC2_WP_TAG}
     container_name: wc2
     restart: unless-stopped
+    mem_limit: 768m
     depends_on: [wc-db]
     environment:
       WORDPRESS_DB_HOST: wc-db
@@ -86,6 +91,7 @@ services:
       - "traefik.http.routers.wc2-rest.priority=100"
     networks:
       - web
+      - internal
 
   wc3:
     build:
@@ -96,6 +102,7 @@ services:
     image: woo-devbox/wc3:${WC3_WP_TAG}
     container_name: wc3
     restart: unless-stopped
+    mem_limit: 768m
     depends_on: [wc-db]
     environment:
       WORDPRESS_DB_HOST: wc-db
@@ -121,6 +128,7 @@ services:
       - "traefik.http.routers.wc3-rest.priority=100"
     networks:
       - web
+      - internal
 
 volumes:
   wc_db:
@@ -132,3 +140,5 @@ networks:
   web:
     external: true
     name: ${PROXY_NETWORK:-devbox_web}
+  internal:
+    name: woo-internal

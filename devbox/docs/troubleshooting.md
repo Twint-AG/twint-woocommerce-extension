@@ -10,6 +10,7 @@
 | `deploy.sh` "build produced no ZIP" | `archive.sh` failed in the container | read `logs/deploy-*.log`; often a composer/npm error |
 | WP-CLI "Error establishing a database connection" | DB creds mismatch or first-init still running | wait; verify `.env` DB creds match what `wc-db` was created with (creds are baked on first init only) |
 | Basic-auth prompt on `/wp-json` | REST bypass router missing | confirm `wcN-rest` labels in `compose.yaml` |
+| wcN routers 503 / no cert | shared Traefik's `le` resolver or `devbox-auth` middleware name changed on the Shopware side | verify the Shopware devbox still defines resolver `le` and middleware `devbox-auth`; check `docker logs devbox_proxy` |
 
 Reset the shared DB creds: they are set only on **first** `wc_db` init. Changing
 `.env` DB creds later requires `docker volume rm woo-devbox_wc_db` (destroys all

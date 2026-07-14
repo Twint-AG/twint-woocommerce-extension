@@ -92,16 +92,27 @@ if [ -z "$ZIP" ]; then echo "ERROR: build produced no ZIP" >&2; exit 1; fi
 cp "$ZIP" "$BUILD_DIR/twint-woocommerce-extension.zip"
 echo "==> built $(basename "$ZIP")"
 
-# 3) Install into every instance.
+# 3) Install into every instance. A failure on one instance must not skip the
+#    others — the point of this tool is validating ALL three PHP versions in
+#    one run.
+failed=()
 for inst in "${INSTANCES[@]}"; do
   echo "==> [$inst] copying + installing plugin ZIP"
-  dc cp "$BUILD_DIR/twint-woocommerce-extension.zip" "$inst:/tmp/twint.zip"
-  wp_cli "$inst" plugin install /tmp/twint.zip --force --activate
-  wp_cli "$inst" plugin activate woocommerce || true
-  wp_cli "$inst" rewrite flush || true
-  wp_cli "$inst" cache flush || true
-  echo "==> [$inst] done"
+  if dc cp "$BUILD_DIR/twint-woocommerce-extension.zip" "$inst:/tmp/twint.zip" \
+     && wp_cli "$inst" plugin install /tmp/twint.zip --force --activate; then
+    wp_cli "$inst" plugin activate woocommerce || true
+    wp_cli "$inst" rewrite flush || true
+    wp_cli "$inst" cache flush || true
+    echo "==> [$inst] done"
+  else
+    echo "ERROR: [$inst] plugin install failed" >&2
+    failed+=("$inst")
+  fi
 done
 
+if [ "${#failed[@]}" -gt 0 ]; then
+  echo "==> deploy finished WITH FAILURES on: ${failed[*]} | log=$LOG_FILE" >&2
+  exit 1
+fi
 echo "==> all instances deployed from $BRANCH"
 echo "==> deploy finished $(date -Is) | log=$LOG_FILE"

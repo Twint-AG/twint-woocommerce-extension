@@ -9,6 +9,7 @@ Browser ─:443→ Traefik ──┬─ sw65/sw66/sw67.$DOMAIN_BASE  → Shopwar
                                     │
                          wc-db (MySQL 8: databases wc1, wc2, wc3)   [woo-devbox project]
 ```
+Shared network: `devbox_web`; proxy container: `devbox_proxy`.
 
 ## Why these choices
 

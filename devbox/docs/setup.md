@@ -12,6 +12,9 @@
   ```bash
   (cd /home/ubuntu/twint-shopware-plugin/devbox && bin/up.sh)
   ```
+- The box should have a few GB of free RAM for the added stack (MySQL + 3
+  WordPress instances); the `mem_limit`s in `compose.yaml` cap it at ~3.3G
+  total (1G DB + 768M x 3).
 
 ## Configure `.env`
 
