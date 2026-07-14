@@ -1,21 +1,24 @@
-# Throwaway build environment for bin/archive.sh: PHP CLI + composer + node 18 +
-# zip/git. archive.sh installs vendors with --ignore-platform-reqs, so runtime
-# PHP extensions are not required here.
+# Build environment for bin/archive.sh — replicates the GitLab CI `build-archive`
+# job so archive.sh produces the SAME working ZIP it produces in CI.
 #
-# Must run on a recent PHP: CI builds the archive on the latest PHP "to have
-# access to the latest PHP-scoper" (.gitlab-ci.yml). On PHP 8.1, composer caps
-# humbug/php-scoper at 0.18.x, whose older parser silently drops psl's
-# apply.php files from the scoped vendor -> Fatal "Failed opening required
-# .../Psl/Iter/apply.php" at plugin load. A newer PHP pulls a php-scoper whose
-# parser handles those files.
-FROM php:8.4-cli
+# Why this matters: archive.sh runs php-scoper over the full dependency set. In a
+# lean PHP env (e.g. php:8.x-cli missing intl/soap/gd/sodium/…), php-scoper drops
+# psl's apply.php files from the scoped vendor, causing a Fatal
+# "Failed opening required .../Psl/Iter/apply.php" when the plugin loads. CI does
+# NOT hit this because it builds on shivammathur/node:jammy with PHP 8.5 + a full
+# extension set (see .gitlab-ci.yml build-archive job). We mirror that exactly.
+#
+# spc is shivammathur's PHP switcher shipped in the image; `spc --php-version`
+# installs+activates that PHP with the requested extensions, persisted into this
+# image layer so the later `docker run ... bin/archive.sh` uses it.
+FROM shivammathur/node:jammy
+
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
 RUN set -eux; \
     apt-get update; \
-    apt-get install -y --no-install-recommends git unzip zip curl libzip-dev; \
-    docker-php-ext-install zip; \
-    curl -fsSL https://deb.nodesource.com/setup_18.x | bash -; \
-    apt-get install -y --no-install-recommends nodejs; \
-    curl -sS https://getcomposer.org/installer | php -- \
-      --install-dir=/usr/local/bin --filename=composer; \
-    apt-get clean; rm -rf /var/lib/apt/lists/*
+    apt-get install -y --no-install-recommends git unzip zip; \
+    rm -rf /var/lib/apt/lists/*; \
+    spc -U; \
+    spc --php-version 8.5 --extensions "mbstring, curl, dom, fileinfo, gd, iconv, intl, json, xml, pdo, phar, zip, sodium, pdo_mysql, bcmath, soap, xsl, tokenizer"; \
+    php -v
