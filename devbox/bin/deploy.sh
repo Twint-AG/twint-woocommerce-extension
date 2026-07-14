@@ -93,6 +93,10 @@ docker run --rm \
   -v "$SRC:/app" -w /app \
   woo-devbox-build bash -lc '
     set -e
+    # /app is a bind-mount owned by the host user, but we run as root — tell git
+    # to trust it so archive.sh (git rev-parse for the version) does not abort
+    # with "detected dubious ownership".
+    git config --global --add safe.directory /app
     composer config --global http-basic."$GITLAB_HOST" "$GITLAB_USERNAME" "$GITLAB_TOKEN"
     bin/archive.sh
     chown -R "$HOST_UID:$HOST_GID" /app
