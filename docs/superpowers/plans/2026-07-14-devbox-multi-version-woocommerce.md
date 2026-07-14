@@ -14,7 +14,7 @@
 - **Host is NOT fresh.** Docker is already installed; a Traefik (`devbox_proxy`) already owns `:80`/`:443`/`127.0.0.1:8080`. The Woo stack **publishes no host ports** and **runs no proxy of its own**.
 - **Shared network name:** `devbox_web` (confirmed live). Woo containers attach to it as `external`.
 - **Shared middleware / resolver:** reference `devbox-auth@docker` and `certresolver=le` — do not redefine them.
-- **Confirmed live values** (copy into `devbox/.env` on the box from `/home/ubuntu/twint-shopware-plugin/devbox/.env`): `DOMAIN_BASE=twint.dev.nfq-asia.com`, `GITLAB_USERNAME=taitran`, `GITLAB_TOKEN=<from Shopware .env>`, basic-auth `twint`/`TwintDev2026` (already in Traefik, not needed by Woo stack), GitLab host `git.nfq.asia`, SDK `git.nfq.asia/twint-ag/sdk.git`.
+- **Confirmed live values** (copy into `devbox/.env` on the box from `/home/ubuntu/twint-shopware-plugin/devbox/.env`): `DOMAIN_BASE=twint.dev.nfq-asia.com`, `GITLAB_USERNAME=taitran`, `GITLAB_TOKEN=<from Shopware .env>`, basic-auth `twint`/`<BASIC_AUTH_PW>` (already in Traefik, not needed by Woo stack), GitLab host `git.nfq.asia`, SDK `git.nfq.asia/twint-ag/sdk.git`.
 - **Instances:** `wc1` (WP 5.9 / PHP 8.1 / Woo 6.0.0), `wc2` (WP 6.6 / PHP 8.3 / Woo current), `wc3` (WP latest / PHP 8.4 / Woo latest). Image tags verified present on Docker Hub: `wordpress:5.9-php8.1-apache`, `wordpress:6.6-php8.3-apache`, `wordpress:php8.4-apache`, `mysql:8`.
 - **No secrets committed.** All secrets live only in the gitignored `devbox/.env` on the box.
 - **Repo origin:** `git@git.nfq.asia:twint-ag/twint-woocommerce-extension.git`. Work branch: `feature/devbox-multi-version-woocommerce`.
@@ -121,7 +121,7 @@ docs/superpowers/ export-ignore
 
 - [ ] **Step 5: Verify the SQL parses and env has no accidental secrets**
 
-Run: `grep -nE 'ZMhX|TwintDev2026' devbox/.env.example .gitattributes devbox/.gitignore devbox/mysql-init/create-databases.sql; echo "exit=$?"`
+Run: `grep -nE 'ZMhX|<BASIC_AUTH_PW>' devbox/.env.example .gitattributes devbox/.gitignore devbox/mysql-init/create-databases.sql; echo "exit=$?"`
 Expected: no matches (grep exit 1 → the `echo` prints `exit=1`), confirming no real secret leaked into committed files.
 
 - [ ] **Step 6: Commit**
@@ -1180,10 +1180,10 @@ Run:
 ssh twint-dev 'D=$(grep ^DOMAIN_BASE= /home/ubuntu/twint-woocommerce-extension/devbox/.env | cut -d= -f2)
 for i in wc1 wc2 wc3; do
   printf "%s -> " "$i.$D"
-  curl -s -o /dev/null -w "%{http_code}\n" -u twint:TwintDev2026 "https://$i.$D/wp-login.php"
+  curl -s -o /dev/null -w "%{http_code}\n" -u twint:<BASIC_AUTH_PW> "https://$i.$D/wp-login.php"
 done
 # Shopware still works:
-curl -s -o /dev/null -w "sw65 -> %{http_code}\n" -u twint:TwintDev2026 "https://sw65.$D" || true'
+curl -s -o /dev/null -w "sw65 -> %{http_code}\n" -u twint:<BASIC_AUTH_PW> "https://sw65.$D" || true'
 ```
 Expected: `wc1/wc2/wc3 -> 200` (valid LE cert, basic auth accepted), and the Shopware instance still responds — confirming coexistence.
 
