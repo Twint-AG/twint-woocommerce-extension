@@ -5,9 +5,9 @@ devbox's existing Traefik** (no second proxy, no port conflict):
 
 | Instance | URL | WordPress | PHP | WooCommerce |
 |----------|-----|-----------|-----|-------------|
-| `wc1` | `https://wc1.$DOMAIN_BASE` | 5.9 | 8.1 | 6.0.0 |
-| `wc2` | `https://wc2.$DOMAIN_BASE` | 6.6 | 8.3 | current |
-| `wc3` | `https://wc3.$DOMAIN_BASE` | latest | 8.4 | latest |
+| `wc1` | `https://wc1-$DOMAIN_BASE` | 5.9 | 8.1 | 6.0.0 |
+| `wc2` | `https://wc2-$DOMAIN_BASE` | 6.6 | 8.3 | current |
+| `wc3` | `https://wc3-$DOMAIN_BASE` | latest | 8.4 | latest |
 
 The TWINT plugin is built once (as the real release ZIP) and installed into all
 three, so one build validates every supported PHP.

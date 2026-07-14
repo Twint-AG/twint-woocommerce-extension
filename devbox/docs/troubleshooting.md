@@ -3,7 +3,7 @@
 | Symptom | Cause | Fix |
 |---------|-------|-----|
 | `up.sh` errors "shared proxy network 'devbox_web' not found" | Shopware devbox not running | `(cd /home/ubuntu/twint-shopware-plugin/devbox && bin/up.sh)` |
-| 404 from Traefik for `wcN.$DOMAIN_BASE` | container not on `devbox_web`, or label typo | `docker inspect wc1 --format '{{json .NetworkSettings.Networks}}'`; check `traefik.docker.network` label = `devbox_web` |
+| 404 from Traefik for `wcN-$DOMAIN_BASE` | container not on `devbox_web`, or label typo | `docker inspect wc1 --format '{{json .NetworkSettings.Networks}}'`; check `traefik.docker.network` label = `devbox_web` |
 | 502 / bad gateway | Apache not up yet, or DB not reachable | `bin/logs.sh wc1`; confirm `wc-db` healthy |
 | Redirect loop / mixed content | WP siteurl http vs https | re-run `bin/provision.sh wcN` (asserts https URL); check `WORDPRESS_CONFIG_EXTRA` present |
 | `deploy.sh` composer 401/403 | wrong `GITLAB_USERNAME`/`GITLAB_TOKEN` | copy the working values from the Shopware `.env` |

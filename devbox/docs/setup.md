@@ -44,5 +44,5 @@ bin/provision.sh all # WordPress core + WooCommerce + baseline
 bin/deploy.sh master # build + install the TWINT plugin on all three
 ```
 
-Then browse `https://wc1.$DOMAIN_BASE` (basic auth: the Shopware `BASIC_AUTH_USER`
+Then browse `https://wc1-$DOMAIN_BASE` (basic auth: the Shopware `BASIC_AUTH_USER`
 / `BASIC_AUTH_PASSWORD`). `wp-admin` login uses `WP_ADMIN_USER`/`WP_ADMIN_PASSWORD`.

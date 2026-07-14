@@ -13,7 +13,7 @@ load_env
 
 resolve_targets "${1:-all}"
 for inst in "${RESOLVED_TARGETS[@]}"; do
-  url="https://${inst}.${DOMAIN_BASE}"
+  url="https://${inst}-${DOMAIN_BASE}"
 
   echo "==> [$inst] waiting for database"
   db_ready=

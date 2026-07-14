@@ -3,9 +3,9 @@
 ```
                               (shared Shopware devbox proxy: devbox_proxy)
 Browser ─:443→ Traefik ──┬─ sw65/sw66/sw67.$DOMAIN_BASE  → Shopware instances
-   (:80 → :443)          ├─ wc1.$DOMAIN_BASE → wc1  (WP5.9 / PHP8.1 / Woo6.0)
-                         ├─ wc2.$DOMAIN_BASE → wc2  (WP6.6 / PHP8.3 / Woo current)
-                         └─ wc3.$DOMAIN_BASE → wc3  (WP latest / PHP8.4 / Woo latest)
+   (:80 → :443)          ├─ wc1-$DOMAIN_BASE → wc1  (WP5.9 / PHP8.1 / Woo6.0)
+                         ├─ wc2-$DOMAIN_BASE → wc2  (WP6.6 / PHP8.3 / Woo current)
+                         └─ wc3-$DOMAIN_BASE → wc3  (WP latest / PHP8.4 / Woo latest)
                                     │
                          wc-db (MySQL 8: databases wc1, wc2, wc3)   [woo-devbox project]
 ```
