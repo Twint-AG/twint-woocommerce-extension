@@ -1,0 +1,134 @@
+name: woo-devbox
+
+services:
+  wc-db:
+    image: mysql:8
+    container_name: wc-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - "wc_db:/var/lib/mysql"
+      - "./mysql-init:/docker-entrypoint-initdb.d:ro"
+    networks:
+      - web
+
+  wc1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        WP_TAG: ${WC1_WP_TAG}
+    image: woo-devbox/wc1:${WC1_WP_TAG}
+    container_name: wc1
+    restart: unless-stopped
+    depends_on: [wc-db]
+    environment:
+      WORDPRESS_DB_HOST: wc-db
+      WORDPRESS_DB_NAME: wc1
+      WORDPRESS_DB_USER: ${DB_USER}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+      WORDPRESS_CONFIG_EXTRA: |
+        if (isset($$_SERVER['HTTP_X_FORWARDED_PROTO']) && $$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') { $$_SERVER['HTTPS'] = 'on'; }
+    volumes:
+      - "wc1_html:/var/www/html"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=${PROXY_NETWORK}"
+      - "traefik.http.routers.wc1.rule=Host(`wc1.${DOMAIN_BASE}`)"
+      - "traefik.http.routers.wc1.entrypoints=websecure"
+      - "traefik.http.routers.wc1.tls.certresolver=le"
+      - "traefik.http.services.wc1.loadbalancer.server.port=80"
+      - "traefik.http.routers.wc1.middlewares=devbox-auth@docker"
+      # WooCommerce REST/Store API (/wp-json) authenticates itself — bypass basic
+      # auth via a higher-priority router (same backend, no middleware).
+      - "traefik.http.routers.wc1-rest.rule=Host(`wc1.${DOMAIN_BASE}`) && PathPrefix(`/wp-json`)"
+      - "traefik.http.routers.wc1-rest.entrypoints=websecure"
+      - "traefik.http.routers.wc1-rest.tls.certresolver=le"
+      - "traefik.http.routers.wc1-rest.service=wc1"
+      - "traefik.http.routers.wc1-rest.priority=100"
+    networks:
+      - web
+
+  wc2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        WP_TAG: ${WC2_WP_TAG}
+    image: woo-devbox/wc2:${WC2_WP_TAG}
+    container_name: wc2
+    restart: unless-stopped
+    depends_on: [wc-db]
+    environment:
+      WORDPRESS_DB_HOST: wc-db
+      WORDPRESS_DB_NAME: wc2
+      WORDPRESS_DB_USER: ${DB_USER}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+      WORDPRESS_CONFIG_EXTRA: |
+        if (isset($$_SERVER['HTTP_X_FORWARDED_PROTO']) && $$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') { $$_SERVER['HTTPS'] = 'on'; }
+    volumes:
+      - "wc2_html:/var/www/html"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=${PROXY_NETWORK}"
+      - "traefik.http.routers.wc2.rule=Host(`wc2.${DOMAIN_BASE}`)"
+      - "traefik.http.routers.wc2.entrypoints=websecure"
+      - "traefik.http.routers.wc2.tls.certresolver=le"
+      - "traefik.http.services.wc2.loadbalancer.server.port=80"
+      - "traefik.http.routers.wc2.middlewares=devbox-auth@docker"
+      - "traefik.http.routers.wc2-rest.rule=Host(`wc2.${DOMAIN_BASE}`) && PathPrefix(`/wp-json`)"
+      - "traefik.http.routers.wc2-rest.entrypoints=websecure"
+      - "traefik.http.routers.wc2-rest.tls.certresolver=le"
+      - "traefik.http.routers.wc2-rest.service=wc2"
+      - "traefik.http.routers.wc2-rest.priority=100"
+    networks:
+      - web
+
+  wc3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        WP_TAG: ${WC3_WP_TAG}
+    image: woo-devbox/wc3:${WC3_WP_TAG}
+    container_name: wc3
+    restart: unless-stopped
+    depends_on: [wc-db]
+    environment:
+      WORDPRESS_DB_HOST: wc-db
+      WORDPRESS_DB_NAME: wc3
+      WORDPRESS_DB_USER: ${DB_USER}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+      WORDPRESS_CONFIG_EXTRA: |
+        if (isset($$_SERVER['HTTP_X_FORWARDED_PROTO']) && $$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') { $$_SERVER['HTTPS'] = 'on'; }
+    volumes:
+      - "wc3_html:/var/www/html"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=${PROXY_NETWORK}"
+      - "traefik.http.routers.wc3.rule=Host(`wc3.${DOMAIN_BASE}`)"
+      - "traefik.http.routers.wc3.entrypoints=websecure"
+      - "traefik.http.routers.wc3.tls.certresolver=le"
+      - "traefik.http.services.wc3.loadbalancer.server.port=80"
+      - "traefik.http.routers.wc3.middlewares=devbox-auth@docker"
+      - "traefik.http.routers.wc3-rest.rule=Host(`wc3.${DOMAIN_BASE}`) && PathPrefix(`/wp-json`)"
+      - "traefik.http.routers.wc3-rest.entrypoints=websecure"
+      - "traefik.http.routers.wc3-rest.tls.certresolver=le"
+      - "traefik.http.routers.wc3-rest.service=wc3"
+      - "traefik.http.routers.wc3-rest.priority=100"
+    networks:
+      - web
+
+volumes:
+  wc_db:
+  wc1_html:
+  wc2_html:
+  wc3_html:
+
+networks:
+  web:
+    external: true
+    name: ${PROXY_NETWORK:-devbox_web}
