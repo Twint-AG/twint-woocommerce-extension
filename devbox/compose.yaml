@@ -37,6 +37,8 @@ services:
         if (isset($$_SERVER['HTTP_X_FORWARDED_PROTO']) && $$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') { $$_SERVER['HTTPS'] = 'on'; }
     volumes:
       - "wc1_html:/var/www/html"
+      # Route outgoing mail to the Mailpit catcher (must-use plugin, dev only).
+      - "./mail/mailpit.php:/var/www/html/wp-content/mu-plugins/mailpit.php:ro"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=${PROXY_NETWORK}"
@@ -76,6 +78,7 @@ services:
         if (isset($$_SERVER['HTTP_X_FORWARDED_PROTO']) && $$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') { $$_SERVER['HTTPS'] = 'on'; }
     volumes:
       - "wc2_html:/var/www/html"
+      - "./mail/mailpit.php:/var/www/html/wp-content/mu-plugins/mailpit.php:ro"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=${PROXY_NETWORK}"
@@ -113,6 +116,7 @@ services:
         if (isset($$_SERVER['HTTP_X_FORWARDED_PROTO']) && $$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') { $$_SERVER['HTTPS'] = 'on'; }
     volumes:
       - "wc3_html:/var/www/html"
+      - "./mail/mailpit.php:/var/www/html/wp-content/mu-plugins/mailpit.php:ro"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=${PROXY_NETWORK}"
