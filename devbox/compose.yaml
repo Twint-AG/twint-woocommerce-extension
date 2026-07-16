@@ -54,6 +54,14 @@ services:
       - "traefik.http.routers.wc1-rest.tls.certresolver=le"
       - "traefik.http.routers.wc1-rest.service=wc1"
       - "traefik.http.routers.wc1-rest.priority=100"
+      # Trusted (VPN/office) IPs skip basic auth: higher-priority router, same
+      # backend, no auth middleware. TRUSTED_IP_CIDR from .env (default
+      # 127.0.0.1/32 never matches an external client).
+      - "traefik.http.routers.wc1-vpn.rule=Host(`wc1-${DOMAIN_BASE}`) && ClientIP(`${TRUSTED_IP_CIDR:-127.0.0.1/32}`)"
+      - "traefik.http.routers.wc1-vpn.entrypoints=websecure"
+      - "traefik.http.routers.wc1-vpn.tls.certresolver=le"
+      - "traefik.http.routers.wc1-vpn.service=wc1"
+      - "traefik.http.routers.wc1-vpn.priority=200"
     networks:
       - web
       - internal
@@ -92,6 +100,11 @@ services:
       - "traefik.http.routers.wc2-rest.tls.certresolver=le"
       - "traefik.http.routers.wc2-rest.service=wc2"
       - "traefik.http.routers.wc2-rest.priority=100"
+      - "traefik.http.routers.wc2-vpn.rule=Host(`wc2-${DOMAIN_BASE}`) && ClientIP(`${TRUSTED_IP_CIDR:-127.0.0.1/32}`)"
+      - "traefik.http.routers.wc2-vpn.entrypoints=websecure"
+      - "traefik.http.routers.wc2-vpn.tls.certresolver=le"
+      - "traefik.http.routers.wc2-vpn.service=wc2"
+      - "traefik.http.routers.wc2-vpn.priority=200"
     networks:
       - web
       - internal
@@ -130,6 +143,11 @@ services:
       - "traefik.http.routers.wc3-rest.tls.certresolver=le"
       - "traefik.http.routers.wc3-rest.service=wc3"
       - "traefik.http.routers.wc3-rest.priority=100"
+      - "traefik.http.routers.wc3-vpn.rule=Host(`wc3-${DOMAIN_BASE}`) && ClientIP(`${TRUSTED_IP_CIDR:-127.0.0.1/32}`)"
+      - "traefik.http.routers.wc3-vpn.entrypoints=websecure"
+      - "traefik.http.routers.wc3-vpn.tls.certresolver=le"
+      - "traefik.http.routers.wc3-vpn.service=wc3"
+      - "traefik.http.routers.wc3-vpn.priority=200"
     networks:
       - web
       - internal
