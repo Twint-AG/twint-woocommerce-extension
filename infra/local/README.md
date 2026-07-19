@@ -83,9 +83,32 @@ Watch the logs (source `twint-woocommerce-extension`) while testing:
 5. **"I have paid"** — complete payment but block the auto-redirect, click the
    button, confirm it finalizes without a duplicate charge.
 
+## Working across branches
+
+This env is branch-agnostic: it live-mounts the plugin working tree, so it builds
+and runs whatever branch you have checked out. `composer install` and the webpack
+build run against that branch's `composer.json` / `package.json` — including a
+branch that pins a dev SDK (e.g. `dev-dev/v9` from `git.nfq.asia`, which needs
+`GITLAB_TOKEN` in `.env` + VPN).
+
+After **switching branches**, rebuild the mounted deps so `vendor/` and `dist/`
+match the new branch (they live in Docker volumes and would otherwise be stale):
+
+```bash
+git switch <branch>
+docker compose run --rm builder      # composer install + (npm ci if lockfile changed) + webpack build
+docker compose restart wc_latest     # re-provision against the fresh build
+```
+
+The builder always re-runs `composer install` and the webpack build; `npm ci`
+re-runs only when `package-lock.json` changed. For a completely clean slate
+(new DB + fresh deps): `docker compose down -v && docker compose up -d --build`.
+
 ## Notes
 
 - WordPress core and WooCommerce are **not** committed — they come from the
   official image + wp-cli. `infra/.gitignore` blocks re-committing core/deps.
 - The `builder` runs on PHP 8.1 (the floor) so resolved Composer deps work on
   both instances.
+- This folder is self-contained and independent of `devbox/` (the twint-dev
+  deploy). It can be merged to `master`; other branches then pick it up on rebase.

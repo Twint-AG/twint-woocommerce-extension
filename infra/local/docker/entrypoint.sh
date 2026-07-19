@@ -5,18 +5,25 @@ PLUGIN_DIR=/var/www/html/wp-content/plugins/twint-woocommerce-extension
 WP="wp --allow-root --path=/var/www/html"
 
 build() {
-  if [ ! -f "$PLUGIN_DIR/vendor/autoload.php" ]; then
-    echo "[twint] composer install…"
-    composer install -d "$PLUGIN_DIR" --no-interaction --prefer-dist --no-progress
+  # Always reconcile Composer deps to the CURRENT branch's composer.json/lock.
+  # (Fast when already up to date; correct when you switch branches.)
+  echo "[twint] composer install…"
+  composer install -d "$PLUGIN_DIR" --no-interaction --prefer-dist --no-progress
+
+  # npm ci is expensive → run it only when package-lock.json changed (e.g. a
+  # branch switch); the webpack build itself is cheap so always run it, which
+  # keeps dist/ matching the current branch's JS source.
+  local hashfile="$PLUGIN_DIR/node_modules/.pkg-lock-hash"
+  local want
+  want="$(sha1sum "$PLUGIN_DIR/package-lock.json" 2>/dev/null | cut -d' ' -f1)"
+  if [ ! -d "$PLUGIN_DIR/node_modules/.bin" ] || [ "$(cat "$hashfile" 2>/dev/null)" != "$want" ]; then
+    echo "[twint] npm ci…"
+    ( cd "$PLUGIN_DIR" && npm ci --no-audit --no-fund ) && printf '%s' "$want" > "$hashfile"
   else
-    echo "[twint] vendor present — skipping composer install"
+    echo "[twint] node_modules up to date — skipping npm ci"
   fi
-  if [ ! -f "$PLUGIN_DIR/dist/express.js" ]; then
-    echo "[twint] npm build…"
-    ( cd "$PLUGIN_DIR" && npm ci --no-audit --no-fund && npm run build )
-  else
-    echo "[twint] dist present — skipping npm build"
-  fi
+  echo "[twint] npm run build…"
+  ( cd "$PLUGIN_DIR" && npm run build )
 }
 
 provision() {
