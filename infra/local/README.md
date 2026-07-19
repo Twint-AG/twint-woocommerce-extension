@@ -91,7 +91,7 @@ Watch the logs (source `twint-woocommerce-extension`) while testing:
 ## Working across branches
 
 This env is branch-agnostic: it live-mounts the plugin working tree, so it builds
-and runs whatever branch you have checked out. `composer install` and the webpack
+and runs whatever branch you have checked out. `composer update` and the webpack
 build run against that branch's `composer.json` / `package.json` — including a
 branch that pins a dev SDK (e.g. `dev-dev/v9` from `git.nfq.asia`, which needs
 `GITLAB_TOKEN` in `.env` + VPN).
@@ -105,7 +105,7 @@ git switch <branch>
 docker compose restart wc_latest wc_oldest   # entrypoint re-runs composer + webpack per instance
 ```
 
-The entrypoint always re-runs `composer install` and the webpack build; `npm ci`
+The entrypoint always re-runs `composer update` and the webpack build; `npm ci`
 re-runs only when `package-lock.json` changed. For a completely clean slate
 (new DBs + fresh deps): `docker compose down -v && docker compose up -d --build`.
 
