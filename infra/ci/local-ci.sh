@@ -40,6 +40,8 @@ mkdir -p "$LOGS" "$ART"
 
 # Copy the repo into /work excluding heavy dirs — keeps each job isolated.
 COPY_SRC='mkdir -p /work && tar cf - -C /src --exclude=./.git --exclude=./vendor --exclude=./node_modules --exclude=./dist --exclude=./build . | tar xf - -C /work && cd /work'
+# Same, but KEEP .git — bin/archive.sh runs `git rev-parse` for the version string.
+COPY_SRC_GIT='mkdir -p /work && tar cf - -C /src --exclude=./vendor --exclude=./node_modules --exclude=./dist --exclude=./build . | tar xf - -C /work && cd /work && git config --global --add safe.directory /work'
 
 tests_script() {
   cat <<EOF
@@ -62,7 +64,7 @@ EOF
 archive_script() {
   cat <<EOF
 set -euo pipefail
-$COPY_SRC
+$COPY_SRC_GIT
 apt-get update -qq && apt-get install -y -qq zip >/dev/null
 spc -U
 spc --php-version 8.5 --extensions "$ARCHIVE_EXT"
