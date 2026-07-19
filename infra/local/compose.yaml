@@ -1,75 +1,107 @@
+name: twint-local
+
+x-wp-build: &wp-build
+  context: ./docker
+  dockerfile: Dockerfile
+
 services:
-  
-  nginx:
-    container_name: wp-proxy
-    image: nginx:latest
-    ports:
-      - "80:80"
-    volumes:
-      - ./docker/proxy.conf:/etc/nginx/nginx.conf:ro
-    depends_on:
-      - latest_wp
-      - oldest_wp
-  
-  latest_wp:
-    container_name: wp-latest
-    build:
-      context: ./docker
-      dockerfile: Dockerfile
-    restart: always
-    depends_on:
-      - mysql
-    extra_hosts:
-      - "latest.wordpress.local:127.0.0.1"
-    environment:
-      WORDPRESS_DB_HOST: mysql
-      WORDPRESS_DB_USER: root
-      WORDPRESS_DB_PASSWORD: rootpass
-      WORDPRESS_DB_NAME: fresh
-    volumes:
-      - ./../latest/wp-content/plugins:/var/www/html/wp-content/plugins
-      - ./../../:/var/www/html/wp-content/plugins/twint-woocommerce-extension
-      - vendor:/var/www/html/wp-content/plugins/twint-woocommerce-extension/vendor
-      - ./docker/latest.conf:/etc/apache2/sites-enabled/000-default.conf
-      - /var/www/html/wp-content/plugins/twint-woocommerce-extension/infra  
-  oldest_wp:
-    container_name: wp-oldest
-    build:
-      context: ./docker
-      dockerfile: Dockerfile59
-    restart: always
-    depends_on:
-      - mysql
-    extra_hosts:
-      - "oldest.wordpress.local:127.0.0.1"
-    environment:
-      WORDPRESS_DB_HOST: mysql
-      WORDPRESS_DB_USER: root
-      WORDPRESS_DB_PASSWORD: rootpass
-      WORDPRESS_DB_NAME: wpoldest
-    volumes:
-      - ./../latest/plugins:/var/www/html/wp-content/plugins
-      - ./../../:/var/www/html/wp-content/plugins/twint-woocommerce-extension
-      - vendorsecond:/var/www/html/wp-content/plugins/twint-woocommerce-extension/vendor
-      - ./docker/oldest.conf:/etc/apache2/sites-enabled/000-default.conf
-      - /var/www/html/wp-content/plugins/twint-woocommerce-extension/infra
-  
   mysql:
-    container_name: wp-db
-    image: mysql:latest
-    platform: linux/arm64
-    restart: always
-    ports:
-      - 3366:3306
+    image: mysql:8
+    container_name: twint-db
+    restart: unless-stopped
     environment:
-      MYSQL_DATABASE: exampledb
-      MYSQL_USER: exampleuser
-      MYSQL_PASSWORD: examplepass
-      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3366:3306"
     volumes:
-      - wp:/var/lib/mysql
+      - db:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${DB_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  builder:
+    build:
+      <<: *wp-build
+      args:
+        BASE_IMAGE: wordpress:5.9-php8.1
+    image: twint-local/wp:php81
+    container_name: twint-builder
+    environment:
+      TWINT_ROLE: builder
+      COMPOSER_AUTH: '{"http-basic":{"git.nfq.asia":{"username":"${GITLAB_USERNAME}","password":"${GITLAB_TOKEN}"}}}'
+    volumes:
+      - ../../:/var/www/html/wp-content/plugins/twint-woocommerce-extension
+      - vendor:/var/www/html/wp-content/plugins/twint-woocommerce-extension/vendor
+      - node_modules:/var/www/html/wp-content/plugins/twint-woocommerce-extension/node_modules
+
+  wc_latest:
+    build:
+      <<: *wp-build
+      args:
+        BASE_IMAGE: wordpress:php8.4
+    restart: unless-stopped
+    container_name: twint-wc-latest
+    depends_on:
+      mysql:
+        condition: service_healthy
+      builder:
+        condition: service_completed_successfully
+    ports:
+      - "8081:80"
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: ${DB_USER}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+      WORDPRESS_DB_NAME: wc_latest
+      WP_URL: http://localhost:8081
+      WP_TITLE: TWINT WC latest
+      WP_ADMIN_USER: ${WP_ADMIN_USER}
+      WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD}
+      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+      WOO_VERSION: ${WC_LATEST_WOO_VERSION:-}
+    volumes:
+      - wp_latest:/var/www/html/wp-content
+      - ../../:/var/www/html/wp-content/plugins/twint-woocommerce-extension
+      - vendor:/var/www/html/wp-content/plugins/twint-woocommerce-extension/vendor
+
+  wc_oldest:
+    build:
+      <<: *wp-build
+      args:
+        BASE_IMAGE: wordpress:5.9-php8.1
+    restart: unless-stopped
+    container_name: twint-wc-oldest
+    depends_on:
+      mysql:
+        condition: service_healthy
+      builder:
+        condition: service_completed_successfully
+    ports:
+      - "8082:80"
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: ${DB_USER}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+      WORDPRESS_DB_NAME: wc_oldest
+      WP_URL: http://localhost:8082
+      WP_TITLE: TWINT WC oldest
+      WP_ADMIN_USER: ${WP_ADMIN_USER}
+      WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD}
+      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+      WOO_VERSION: ${WC_OLDEST_WOO_VERSION:-}
+    volumes:
+      - wp_oldest:/var/www/html/wp-content
+      - ../../:/var/www/html/wp-content/plugins/twint-woocommerce-extension
+      - vendor:/var/www/html/wp-content/plugins/twint-woocommerce-extension/vendor
 
 volumes:
-  wp:
+  db:
   vendor:
-  vendorsecond:
+  node_modules:
+  wp_latest:
+  wp_oldest:
