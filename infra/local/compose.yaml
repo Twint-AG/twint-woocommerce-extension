@@ -60,7 +60,7 @@ services:
     environment:
       <<: *wp-env
       WORDPRESS_DB_NAME: wc_latest
-      WP_URL: http://localhost:8081
+      WP_URL: ${WC_LATEST_URL:-http://localhost:8081}
       WP_TITLE: TWINT WC latest
       WOO_VERSION: ${WC_LATEST_WOO_VERSION:-}
     volumes:
@@ -83,7 +83,7 @@ services:
     environment:
       <<: *wp-env
       WORDPRESS_DB_NAME: wc_oldest
-      WP_URL: http://localhost:8082
+      WP_URL: ${WC_OLDEST_URL:-http://localhost:8082}
       WP_TITLE: TWINT WC oldest
       WOO_VERSION: ${WC_OLDEST_WOO_VERSION:-}
     volumes:
