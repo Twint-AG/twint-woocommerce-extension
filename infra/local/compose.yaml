@@ -19,6 +19,9 @@ x-wp-common: &wp-common
     WP_ADMIN_USER: ${WP_ADMIN_USER}
     WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD}
     WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+    # Write themes/plugins/media directly (no FTP-credentials prompt in wp-admin).
+    WORDPRESS_CONFIG_EXTRA: |
+      define('FS_METHOD', 'direct');
     # Private SDK auth (dev-dev/v9 branch); harmless when unused (packagist SDK).
     COMPOSER_AUTH: '{"http-basic":{"git.nfq.asia":{"username":"${GITLAB_USERNAME}","password":"${GITLAB_TOKEN}"}}}'
 

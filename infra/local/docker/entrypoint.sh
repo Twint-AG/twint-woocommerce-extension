@@ -92,6 +92,12 @@ provision() {
 
   $WP rewrite structure '/%postname%/' --hard || true
   $WP rewrite flush --hard || true
+
+  # Root-run wp-cli (sample import, plugin installs) can leave root-owned files in
+  # uploads/, which blocks wp-admin (www-data) from writing there. Hand it back so
+  # theme/plugin/media installs work from the UI. (Not the bind-mounted plugin.)
+  chown -R www-data:www-data /var/www/html/wp-content/uploads 2>/dev/null || true
+
   echo "[twint] provision complete → $WP_URL"
 }
 
