@@ -36,6 +36,10 @@ Then open:
 - Storefront / admin: http://localhost:8081 and http://localhost:8082
 - `wp-admin` login: `WP_ADMIN_USER` / `WP_ADMIN_PASSWORD` from `.env` (default `admin`/`admin`)
 
+The store is provisioned ready for TWINT: **currency CHF**, country Switzerland
+(`CH:ZH`), the setup wizard skipped, and the bundled WooCommerce **sample
+products** imported (only when the catalog is empty).
+
 ## Enter TWINT credentials (manual)
 
 `wp-admin → TWINT → Credentials`: enter the Store UUID, upload the `.p12`, enter
