@@ -6,16 +6,20 @@ plugin (including the Express Checkout hosted-payment flow) locally.
 
 | Instance | URL | WordPress | PHP |
 |----------|-----|-----------|-----|
-| `wc_latest` | http://localhost:8081 | latest | 8.4 |
+| `wc_latest` | http://localhost:8081 | latest | 8.3 |
 | `wc_oldest` | http://localhost:8082 | 5.9 (min supported) | 8.1 |
+
+> `wc_latest` uses PHP **8.3**, the highest that satisfies both the master stable
+> SDK (deps cap at 8.3) and the `feat/hosted-payment` dev SDK (deps need ≥ 8.3).
 
 MySQL is exposed on `localhost:3366`.
 
 ## Prerequisites
 
 - Docker + Docker Compose.
-- **VPN access to `git.nfq.asia`** — the build pulls the TWINT SDK
-  (`twint-ag/sdk:dev-dev/v9`) via Composer.
+- **VPN + `GITLAB_TOKEN`** only if the checked-out branch pins the private dev SDK
+  (`twint-ag/sdk:dev-dev/v9` from `git.nfq.asia`, e.g. `feat/hosted-payment`).
+  Branches using the stable SDK from packagist (e.g. `master`) need neither.
 - TWINT **test** credentials (Store UUID + `.p12` certificate + password) to
   actually exercise a payment.
 
@@ -27,10 +31,10 @@ cp .env.example .env        # fill in GITLAB_USERNAME / GITLAB_TOKEN (SDK access
 docker compose up -d --build
 ```
 
-First boot order: `mysql` (healthcheck) → `builder` (runs `composer install` +
-`npm run build` once, into a shared `vendor` volume and the mounted `dist/`) →
-`wc_latest` / `wc_oldest`, which auto-install WordPress, install + activate
-WooCommerce, activate the TWINT plugin, and flush rewrites.
+On first boot, each instance builds its **own** `vendor/` (with its own PHP) +
+`node_modules/` + `dist/`, then auto-installs WordPress, installs + activates
+WooCommerce, activates the TWINT plugin, and flushes rewrites. Apache comes up
+immediately; the build + provisioning run in the background (watch the logs).
 
 Then open:
 - Storefront / admin: http://localhost:8081 and http://localhost:8082
@@ -50,15 +54,16 @@ enable TWINT Checkout and TWINT Express Checkout under their settings tabs.
 ## Everyday use
 
 - **Edit plugin PHP** → reflected immediately (source is bind-mounted).
-- **Edit plugin JS/SCSS** → rebuild assets: `docker compose run --rm builder`
-  (rewrites `dist/`). Or run `npm run build` on the host if you have Node.
+- **Edit plugin JS/SCSS** → rebuild assets: `docker compose restart wc_latest`
+  (the entrypoint re-runs the build). Or run `npm run build` on the host if you
+  have Node.
 - **wp-cli**: `docker compose exec wc_latest wp --allow-root <cmd>`
 - **Logs**: `docker compose logs -f wc_latest` — or in `wp-admin → WooCommerce →
   Status → Logs` (source `twint-woocommerce-extension`).
 - **Stop** (keeps data): `docker compose down`
 - **Reset everything** (drops DBs + built deps): `docker compose down -v`
-- **Force a clean rebuild of vendor**: `docker compose down`, then
-  `docker volume rm twint-local_vendor`, then `docker compose up -d --build`.
+- **Force a clean rebuild of one instance's vendor**: `docker compose down`, then
+  `docker volume rm twint-local_vendor_latest`, then `docker compose up -d`.
 
 ## Testing Express Checkout (the hosted-payment flow)
 
@@ -91,24 +96,32 @@ build run against that branch's `composer.json` / `package.json` — including a
 branch that pins a dev SDK (e.g. `dev-dev/v9` from `git.nfq.asia`, which needs
 `GITLAB_TOKEN` in `.env` + VPN).
 
-After **switching branches**, rebuild the mounted deps so `vendor/` and `dist/`
-match the new branch (they live in Docker volumes and would otherwise be stale):
+After **switching branches**, rebuild each instance's deps so `vendor/` and
+`dist/` match the new branch (they live in per-instance Docker volumes and would
+otherwise be stale):
 
 ```bash
 git switch <branch>
-docker compose run --rm builder      # composer install + (npm ci if lockfile changed) + webpack build
-docker compose restart wc_latest     # re-provision against the fresh build
+docker compose restart wc_latest wc_oldest   # entrypoint re-runs composer + webpack per instance
 ```
 
-The builder always re-runs `composer install` and the webpack build; `npm ci`
+The entrypoint always re-runs `composer install` and the webpack build; `npm ci`
 re-runs only when `package-lock.json` changed. For a completely clean slate
-(new DB + fresh deps): `docker compose down -v && docker compose up -d --build`.
+(new DBs + fresh deps): `docker compose down -v && docker compose up -d --build`.
+
+**PHP-version caveat:** each instance builds with its own PHP, so a branch whose
+locked deps require a different PHP than an instance provides will fail to build
+*there* (by design — it surfaces the real supported range). Example:
+`feat/hosted-payment` pins a dev SDK whose deps need **PHP ≥ 8.3**, so it builds
+on `wc_latest` (8.3) but **not** on `wc_oldest` (8.1) — test that feature on
+`wc_latest`. When a build fails, that instance still runs WordPress/WooCommerce;
+the TWINT plugin is simply left **deactivated** (no fatal), so the site stays up.
 
 ## Notes
 
 - WordPress core and WooCommerce are **not** committed — they come from the
   official image + wp-cli. `infra/.gitignore` blocks re-committing core/deps.
-- The `builder` runs on PHP 8.1 (the floor) so resolved Composer deps work on
-  both instances.
+- Each instance builds its **own** `vendor/` with its **own** PHP (a shared
+  vendor cannot be correct across two PHP versions).
 - This folder is self-contained and independent of `devbox/` (the twint-dev
   deploy). It can be merged to `master`; other branches then pick it up on rebase.

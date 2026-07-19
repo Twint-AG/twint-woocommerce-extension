@@ -4,17 +4,30 @@ set -euo pipefail
 PLUGIN_DIR=/var/www/html/wp-content/plugins/twint-woocommerce-extension
 WP="wp --allow-root --path=/var/www/html"
 
+# Build the plugin's deps with THIS instance's PHP, into this instance's own
+# vendor/ + node_modules/ + dist/ volumes. Always returns 0 — a build failure
+# (e.g. a branch whose deps need a newer PHP than this instance) must not crash
+# the container; the plugin's own vendor check keeps it inactive with a notice.
 build() {
-  # Always reconcile Composer deps to the CURRENT branch's composer.json/lock.
-  # (Fast when already up to date; correct when you switch branches.)
-  echo "[twint] composer install…"
-  composer install -d "$PLUGIN_DIR" --no-interaction --prefer-dist --no-progress
+  # `composer update` (not install): the repo ships per-PHP-version lockfiles
+  # (composer81.lock … composer85.lock) because deps like twint-ag/psl-compat
+  # differ by PHP, and there is no single shared composer.lock that is correct
+  # for every instance. Resolving fresh against composer.json for THIS instance's
+  # PHP picks the right versions and avoids a shared-lockfile race between
+  # instances. --no-dev: runtime only (scoper/rector/phpstan aren't needed here).
+  echo "[twint] composer update (PHP $(php -r 'echo PHP_VERSION;'))…"
+  if ! composer update -d "$PLUGIN_DIR" --no-interaction --prefer-dist --no-progress --no-dev; then
+    echo "[twint] composer update FAILED on this PHP — plugin will stay inactive on this instance"
+    return 0
+  fi
+  # Don't leave a composer.lock in the live-mounted source: the repo tracks
+  # per-PHP composerXX.lock (not a single lock) and we always resolve fresh, so a
+  # stray composer.lock would only dirty the working tree.
+  rm -f "$PLUGIN_DIR/composer.lock"
 
-  # npm ci is expensive → run it only when package-lock.json changed (e.g. a
-  # branch switch); the webpack build itself is cheap so always run it, which
-  # keeps dist/ matching the current branch's JS source.
-  local hashfile="$PLUGIN_DIR/node_modules/.pkg-lock-hash"
-  local want
+  # npm ci is expensive → only when package-lock.json changed (e.g. branch switch);
+  # the webpack build is cheap so always run it, keeping dist/ current.
+  local hashfile="$PLUGIN_DIR/node_modules/.pkg-lock-hash" want
   want="$(sha1sum "$PLUGIN_DIR/package-lock.json" 2>/dev/null | cut -d' ' -f1)"
   if [ ! -d "$PLUGIN_DIR/node_modules/.bin" ] || [ "$(cat "$hashfile" 2>/dev/null)" != "$want" ]; then
     echo "[twint] npm ci…"
@@ -23,14 +36,15 @@ build() {
     echo "[twint] node_modules up to date — skipping npm ci"
   fi
   echo "[twint] npm run build…"
-  ( cd "$PLUGIN_DIR" && npm run build )
+  ( cd "$PLUGIN_DIR" && npm run build ) || echo "[twint] npm run build failed"
+  return 0
 }
 
 provision() {
   echo "[twint] waiting for wp-config + database…"
   until [ -f /var/www/html/wp-config.php ]; do sleep 2; done
-  # Use PHP mysqli (WordPress's own driver) to test readiness — the mariadb CLI
-  # rejects MySQL 8's self-signed TLS cert, so `wp db check` is unreliable here.
+  # Use PHP mysqli (WordPress's own driver) — the mariadb CLI rejects MySQL 8's
+  # self-signed TLS cert, so `wp db check` is unreliable here.
   until php -r '$c=@mysqli_connect(getenv("WORDPRESS_DB_HOST"),getenv("WORDPRESS_DB_USER"),getenv("WORDPRESS_DB_PASSWORD"),getenv("WORDPRESS_DB_NAME")); exit($c?0:1);' >/dev/null 2>&1; do sleep 2; done
 
   if ! $WP core is-installed >/dev/null 2>&1; then
@@ -47,7 +61,15 @@ provision() {
     $WP plugin activate woocommerce || true
   fi
 
-  $WP plugin activate twint-woocommerce-extension || true
+  # Only activate TWINT when its deps built for this instance's PHP. vendor/ is a
+  # mounted volume (always a dir), so the plugin's own is_dir() guard can't stop a
+  # fatal on a missing autoload — gate activation on the actual autoload file.
+  if [ -f "$PLUGIN_DIR/vendor/autoload.php" ]; then
+    $WP plugin activate twint-woocommerce-extension || true
+  else
+    echo "[twint] vendor missing (build failed for this PHP) — leaving TWINT deactivated"
+    $WP plugin deactivate twint-woocommerce-extension >/dev/null 2>&1 || true
+  fi
 
   # Store defaults for TWINT: Swiss Francs / Switzerland, skip the setup wizard.
   $WP option update woocommerce_currency CHF || true
@@ -73,13 +95,7 @@ provision() {
   echo "[twint] provision complete → $WP_URL"
 }
 
-if [ "${TWINT_ROLE:-web}" = "builder" ]; then
-  build
-  echo "[twint] builder done"
-  exit 0
-fi
-
-# web role: the builder service already produced vendor/ + dist/.
-# Provision in the background once WP core + DB are ready, then serve.
-provision &
+# Build this instance's deps and provision in the background (build first so the
+# plugin can activate), then hand off to the stock wordpress entrypoint (apache).
+( build; provision ) &
 exec docker-entrypoint.sh "$@"

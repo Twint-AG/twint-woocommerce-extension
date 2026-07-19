@@ -4,6 +4,24 @@ x-wp-build: &wp-build
   context: ./docker
   dockerfile: Dockerfile
 
+# Shared bits for both WordPress instances. Each instance still builds its OWN
+# vendor/ with its OWN PHP (see per-instance volumes) — a shared vendor cannot be
+# correct across two PHP versions.
+x-wp-common: &wp-common
+  restart: unless-stopped
+  depends_on:
+    mysql:
+      condition: service_healthy
+  environment: &wp-env
+    WORDPRESS_DB_HOST: mysql
+    WORDPRESS_DB_USER: ${DB_USER}
+    WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+    WP_ADMIN_USER: ${WP_ADMIN_USER}
+    WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD}
+    WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+    # Private SDK auth (dev-dev/v9 branch); harmless when unused (packagist SDK).
+    COMPOSER_AUTH: '{"http-basic":{"git.nfq.asia":{"username":"${GITLAB_USERNAME}","password":"${GITLAB_TOKEN}"}}}'
+
 services:
   mysql:
     image: mysql:8
@@ -24,84 +42,59 @@ services:
       timeout: 5s
       retries: 20
 
-  builder:
-    build:
-      <<: *wp-build
-      args:
-        BASE_IMAGE: wordpress:5.9-php8.1
-    image: twint-local/wp:php81
-    container_name: twint-builder
-    environment:
-      TWINT_ROLE: builder
-      COMPOSER_AUTH: '{"http-basic":{"git.nfq.asia":{"username":"${GITLAB_USERNAME}","password":"${GITLAB_TOKEN}"}}}'
-    volumes:
-      - ../../:/var/www/html/wp-content/plugins/twint-woocommerce-extension
-      - vendor:/var/www/html/wp-content/plugins/twint-woocommerce-extension/vendor
-      - node_modules:/var/www/html/wp-content/plugins/twint-woocommerce-extension/node_modules
-
   wc_latest:
+    <<: *wp-common
     build:
       <<: *wp-build
       args:
-        BASE_IMAGE: wordpress:php8.4
-    restart: unless-stopped
+        # 8.3 is the highest PHP that satisfies BOTH the master stable SDK
+        # (deps cap at 8.3) and the feat/hosted-payment dev SDK (deps need >=8.3).
+        BASE_IMAGE: wordpress:php8.3
     container_name: twint-wc-latest
-    depends_on:
-      mysql:
-        condition: service_healthy
-      builder:
-        condition: service_completed_successfully
     ports:
       - "8081:80"
     environment:
-      WORDPRESS_DB_HOST: mysql
-      WORDPRESS_DB_USER: ${DB_USER}
-      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+      <<: *wp-env
       WORDPRESS_DB_NAME: wc_latest
       WP_URL: http://localhost:8081
       WP_TITLE: TWINT WC latest
-      WP_ADMIN_USER: ${WP_ADMIN_USER}
-      WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD}
-      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
       WOO_VERSION: ${WC_LATEST_WOO_VERSION:-}
     volumes:
       - wp_latest:/var/www/html/wp-content
       - ../../:/var/www/html/wp-content/plugins/twint-woocommerce-extension
-      - vendor:/var/www/html/wp-content/plugins/twint-woocommerce-extension/vendor
+      - vendor_latest:/var/www/html/wp-content/plugins/twint-woocommerce-extension/vendor
+      - node_modules_latest:/var/www/html/wp-content/plugins/twint-woocommerce-extension/node_modules
+      - dist_latest:/var/www/html/wp-content/plugins/twint-woocommerce-extension/dist
 
   wc_oldest:
+    <<: *wp-common
     build:
       <<: *wp-build
       args:
         BASE_IMAGE: wordpress:5.9-php8.1
-    restart: unless-stopped
     container_name: twint-wc-oldest
-    depends_on:
-      mysql:
-        condition: service_healthy
-      builder:
-        condition: service_completed_successfully
     ports:
       - "8082:80"
     environment:
-      WORDPRESS_DB_HOST: mysql
-      WORDPRESS_DB_USER: ${DB_USER}
-      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+      <<: *wp-env
       WORDPRESS_DB_NAME: wc_oldest
       WP_URL: http://localhost:8082
       WP_TITLE: TWINT WC oldest
-      WP_ADMIN_USER: ${WP_ADMIN_USER}
-      WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD}
-      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
       WOO_VERSION: ${WC_OLDEST_WOO_VERSION:-}
     volumes:
       - wp_oldest:/var/www/html/wp-content
       - ../../:/var/www/html/wp-content/plugins/twint-woocommerce-extension
-      - vendor:/var/www/html/wp-content/plugins/twint-woocommerce-extension/vendor
+      - vendor_oldest:/var/www/html/wp-content/plugins/twint-woocommerce-extension/vendor
+      - node_modules_oldest:/var/www/html/wp-content/plugins/twint-woocommerce-extension/node_modules
+      - dist_oldest:/var/www/html/wp-content/plugins/twint-woocommerce-extension/dist
 
 volumes:
   db:
-  vendor:
-  node_modules:
   wp_latest:
   wp_oldest:
+  vendor_latest:
+  vendor_oldest:
+  node_modules_latest:
+  node_modules_oldest:
+  dist_latest:
+  dist_oldest:
