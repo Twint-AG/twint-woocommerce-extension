@@ -22,7 +22,9 @@ build() {
 provision() {
   echo "[twint] waiting for wp-config + database…"
   until [ -f /var/www/html/wp-config.php ]; do sleep 2; done
-  until $WP db check >/dev/null 2>&1; do sleep 2; done
+  # Use PHP mysqli (WordPress's own driver) to test readiness — the mariadb CLI
+  # rejects MySQL 8's self-signed TLS cert, so `wp db check` is unreliable here.
+  until php -r '$c=@mysqli_connect(getenv("WORDPRESS_DB_HOST"),getenv("WORDPRESS_DB_USER"),getenv("WORDPRESS_DB_PASSWORD"),getenv("WORDPRESS_DB_NAME")); exit($c?0:1);' >/dev/null 2>&1; do sleep 2; done
 
   if ! $WP core is-installed >/dev/null 2>&1; then
     echo "[twint] installing WordPress…"
