@@ -41,6 +41,26 @@ provision() {
   fi
 
   $WP plugin activate twint-woocommerce-extension || true
+
+  # Store defaults for TWINT: Swiss Francs / Switzerland, skip the setup wizard.
+  $WP option update woocommerce_currency CHF || true
+  $WP option update woocommerce_default_country "CH:ZH" || true
+  $WP option update woocommerce_store_address "Bahnhofstrasse 1" || true
+  $WP option update woocommerce_store_city "Zurich" || true
+  $WP option update woocommerce_store_postcode "8001" || true
+  $WP option update woocommerce_currency_pos "left_space" || true
+  $WP option update woocommerce_onboarding_profile '{"skipped":true,"completed":true}' --format=json || true
+
+  # Sample WooCommerce products (only when the catalog is empty).
+  if [ "$($WP post list --post_type=product --format=count 2>/dev/null)" = "0" ]; then
+    SAMPLE=/var/www/html/wp-content/plugins/woocommerce/sample-data/sample_products.xml
+    if [ -f "$SAMPLE" ]; then
+      echo "[twint] importing sample products…"
+      $WP plugin install wordpress-importer --activate || true
+      $WP import "$SAMPLE" --authors=create || true
+    fi
+  fi
+
   $WP rewrite structure '/%postname%/' --hard || true
   $WP rewrite flush --hard || true
   echo "[twint] provision complete → $WP_URL"
