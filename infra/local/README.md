@@ -23,6 +23,18 @@ MySQL is exposed on `localhost:3366`.
 - TWINT **test** credentials (Store UUID + `.p12` certificate + password) to
   actually exercise a payment.
 
+## Hostname alias (required for TWINT)
+
+TWINT rejects `localhost` as a callback/redirect URL, so the instances are served
+under `.test` aliases. Add these to your `/etc/hosts` once:
+
+```bash
+echo "127.0.0.1 twint-local.test twint-oldest.test" | sudo tee -a /etc/hosts
+```
+
+The URLs are set via `WC_LATEST_URL` / `WC_OLDEST_URL` in `.env` — access the
+sites at **http://twint-local.test:8081** and **http://twint-oldest.test:8082**.
+
 ## Quickstart
 
 ```bash
