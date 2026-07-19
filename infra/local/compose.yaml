@@ -47,9 +47,10 @@ services:
     build:
       <<: *wp-build
       args:
-        # 8.3 is the highest PHP that satisfies BOTH the master stable SDK
-        # (deps cap at 8.3) and the feat/hosted-payment dev SDK (deps need >=8.3).
-        BASE_IMAGE: wordpress:php8.3
+        # Override in .env (WC_LATEST_IMAGE) to test another PHP, e.g.
+        # wordpress:php8.2 / :php8.4. Default 8.3 is the highest PHP that satisfies
+        # both the master stable SDK (deps <=8.3) and the dev SDK (deps >=8.3).
+        BASE_IMAGE: ${WC_LATEST_IMAGE:-wordpress:php8.3}
     container_name: twint-wc-latest
     ports:
       - "8081:80"
@@ -71,7 +72,8 @@ services:
     build:
       <<: *wp-build
       args:
-        BASE_IMAGE: wordpress:5.9-php8.1
+        # Override in .env (WC_OLDEST_IMAGE) to test another WP/PHP combo.
+        BASE_IMAGE: ${WC_OLDEST_IMAGE:-wordpress:5.9-php8.1}
     container_name: twint-wc-oldest
     ports:
       - "8082:80"

@@ -117,6 +117,33 @@ on `wc_latest` (8.3) but **not** on `wc_oldest` (8.1) — test that feature on
 `wc_latest`. When a build fails, that instance still runs WordPress/WooCommerce;
 the TWINT plugin is simply left **deactivated** (no fatal), so the site stays up.
 
+## Changing dependencies / PHP versions
+
+**Test another PHP (or WP) version** — set the base image in `.env` and rebuild:
+
+```bash
+# .env
+WC_LATEST_IMAGE=wordpress:php8.2      # default wordpress:php8.3
+WC_OLDEST_IMAGE=wordpress:5.9-php8.1
+```
+```bash
+docker compose up -d --build wc_latest
+```
+
+**After changing `composer.json`** — regenerate the per-PHP lockfiles the repo
+ships (`composer81.lock` … `composer85.lock`) and commit them:
+
+```bash
+infra/local/bin/relock.sh            # all versions 8.1–8.5
+infra/local/bin/relock.sh 8.3 8.4    # only specific versions
+git add composer8?.lock && git commit
+```
+
+Each lock is resolved on a **real PHP runtime of that version** in Docker (so the
+right per-PHP deps are picked, e.g. `psl-compat` 1.x on ≤8.2 vs 2.x on ≥8.3).
+Private-SDK auth comes from `.env`; extension platform reqs are ignored during
+resolution (they don't change which versions are selected).
+
 ## Notes
 
 - WordPress core and WooCommerce are **not** committed — they come from the
