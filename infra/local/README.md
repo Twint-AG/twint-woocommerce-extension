@@ -25,15 +25,19 @@ MySQL is exposed on `localhost:3366`.
 
 ## Hostname alias (required for TWINT)
 
-TWINT rejects `localhost` as a callback/redirect URL, so the instances are served
-under `.test` aliases. Add these to your `/etc/hosts` once:
+TWINT rejects a callback/redirect URL that is `localhost` **or** carries a
+non-standard `:port`. So `wc_latest` is served on **port 80** under a hostname
+alias (no port). Add these to your `/etc/hosts` once:
 
 ```bash
-echo "127.0.0.1 twint-local.test twint-oldest.test" | sudo tee -a /etc/hosts
+echo "127.0.0.1 latest.wordpress.local oldest.wordpress.local" | sudo tee -a /etc/hosts
 ```
 
-The URLs are set via `WC_LATEST_URL` / `WC_OLDEST_URL` in `.env` — access the
-sites at **http://twint-local.test:8081** and **http://twint-oldest.test:8082**.
+Access the main instance at **http://latest.wordpress.local** (port 80, TWINT-
+acceptable). URLs/ports are configurable via `WC_LATEST_URL`/`WC_LATEST_PORT` and
+`WC_OLDEST_URL`/`WC_OLDEST_PORT` in `.env`. `wc_oldest` keeps a `:port` (only one
+instance can own port 80); it can't run the EC dev SDK anyway, so it doesn't need
+a TWINT-clean URL — give it port 80 instead if you ever do.
 
 ## Quickstart
 
