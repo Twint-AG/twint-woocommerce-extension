@@ -1,1 +1,15 @@
 **/*.log
+
+# Never commit WordPress core, WooCommerce, or built deps into infra
+wp-admin/
+wp-includes/
+wp-content/
+woocommerce/
+vendor/
+node_modules/
+dist/
+
+# Local secrets / config
+.env
+*.p12
+.DS_Store

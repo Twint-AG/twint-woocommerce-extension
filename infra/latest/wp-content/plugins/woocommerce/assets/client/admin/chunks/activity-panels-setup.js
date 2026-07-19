@@ -1,1 +1,0 @@
-"use strict";(globalThis.webpackChunk_wcAdmin_webpackJsonp=globalThis.webpackChunk_wcAdmin_webpackJsonp||[]).push([[7844],{59325:(s,e,a)=>{a.r(e),a.d(e,{SetupTasksPanel:()=>p,default:()=>l});var c=a(96456),n=a(81514);const p=({query:s})=>(0,n.jsx)("div",{className:"woocommerce-setup-panel",children:(0,n.jsx)(c.TaskLists,{query:s})}),l=p}}]);
