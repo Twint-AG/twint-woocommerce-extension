@@ -1,29 +1,24 @@
-FROM wordpress:6.7.2-php8.4
+# syntax=docker/dockerfile:1
+ARG BASE_IMAGE=wordpress:php8.4
+FROM ${BASE_IMAGE}
 
-# Install required packages and PHP extensions
-RUN apt-get update && apt-get install -y \
-    git \
-    vim \
-    libxslt-dev \
-    libxml2-dev \
-    && docker-php-ext-install xsl soap
+# TWINT SDK PHP extensions (soap/intl/xsl) + build tooling (node, composer, wp-cli)
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
+        git unzip less default-mysql-client ca-certificates curl \
+        libxslt-dev libxml2-dev libicu-dev; \
+    docker-php-ext-install -j"$(nproc)" xsl soap intl; \
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash -; \
+    apt-get install -y --no-install-recommends nodejs; \
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer; \
+    curl -fsSL https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -o /usr/local/bin/wp; \
+    chmod +x /usr/local/bin/wp; \
+    apt-get clean; rm -rf /var/lib/apt/lists/*
 
-# Add Node.js repository and install Node.js & npm
-RUN apt-get install -y curl && \
-    curl -sL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y nodejs && \
-    npm install -g npm@latest
+COPY custom.ini "$PHP_INI_DIR/conf.d/zz-twint-dev.ini"
+COPY entrypoint.sh /usr/local/bin/twint-entrypoint.sh
+RUN chmod +x /usr/local/bin/twint-entrypoint.sh
 
-# Clean up to reduce image size
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Install Composer globally
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Confirm Composer installation
-RUN composer --version
-
-COPY custom.ini $PHP_INI_DIR/conf.d/
-
-# Set up WordPress (if required)
-COPY . /var/www/html
+ENTRYPOINT ["/usr/local/bin/twint-entrypoint.sh"]
+CMD ["apache2-foreground"]

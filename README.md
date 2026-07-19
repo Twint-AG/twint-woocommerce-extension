@@ -41,6 +41,22 @@ The module supports the following languages:
 
 Once the plugin is installed and configured, TWINT will appear as a payment option at checkout. Customers can choose to pay using TWINT via the full **Regular Checkout** process or through the quicker **Express Checkout** button.
 
+## Development
+
+Local development runs entirely in Docker — no host PHP/Node required.
+
+- **Local environment** — [`infra/local/README.md`](infra/local/README.md): two
+  WordPress + WooCommerce instances (latest + minimum supported) with the plugin
+  live-mounted and a CHF store + sample products provisioned automatically.
+  Quickstart: `cd infra/local && cp .env.example .env && docker compose up -d --build`
+  → http://localhost:8081 (and :8082).
+- **Run CI locally** — [`infra/ci/README.md`](infra/ci/README.md): reproduce the
+  GitLab `tests` (PHP 8.1–8.5) and `build-archive` jobs on your machine to verify
+  a branch before pushing: `infra/ci/local-ci.sh all`.
+- **Dependencies** — the repo ships per-PHP lockfiles (`composer81.lock` …
+  `composer85.lock`). After changing `composer.json`, regenerate and commit them
+  with `infra/local/bin/relock.sh`.
+
 ## Support
 
 For any issues or feature requests, submit a GitHub issue or contact our support team at [plugin@twint.ch](mailto:plugin@twint.ch).
