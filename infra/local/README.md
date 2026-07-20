@@ -23,21 +23,30 @@ MySQL is exposed on `localhost:3366`.
 - TWINT **test** credentials (Store UUID + `.p12` certificate + password) to
   actually exercise a payment.
 
-## Hostname alias (required for TWINT)
+## HTTPS + hostname (required for TWINT)
 
-TWINT rejects a callback/redirect URL that is `localhost` **or** carries a
-non-standard `:port`. So `wc_latest` is served on **port 80** under a hostname
-alias (no port). Add these to your `/etc/hosts` once:
+TWINT rejects a callback/redirect URL that is `localhost`, carries a non-standard
+`:port`, **or** is not `https`. So `wc_latest` is served as
+**`https://latest.wordpress.local`** via the `proxy` (Caddy on `:443`) using a
+locally-trusted **mkcert** certificate. One-time host setup:
 
 ```bash
+# 1. hostname alias
 echo "127.0.0.1 latest.wordpress.local oldest.wordpress.local" | sudo tee -a /etc/hosts
+
+# 2. trusted local cert (mkcert installs a local CA your browser trusts)
+brew install mkcert            # if not installed
+mkcert -install                # one-time: add the local CA to the trust store
+cd infra/local/certs && mkcert latest.wordpress.local && cd -
+
+# 3. start the TLS proxy
+docker compose -f infra/local/compose.yaml up -d proxy
 ```
 
-Access the main instance at **http://latest.wordpress.local** (port 80, TWINT-
-acceptable). URLs/ports are configurable via `WC_LATEST_URL`/`WC_LATEST_PORT` and
-`WC_OLDEST_URL`/`WC_OLDEST_PORT` in `.env`. `wc_oldest` keeps a `:port` (only one
-instance can own port 80); it can't run the EC dev SDK anyway, so it doesn't need
-a TWINT-clean URL — give it port 80 instead if you ever do.
+Then use **https://latest.wordpress.local** — no port, https, browser-trusted, and
+TWINT-acceptable. The redirect after payment returns here and finalizes (no tunnel
+needed). `certs/` is git-ignored. `wc_oldest` stays plain `http://…:8082` (it can't
+run the EC dev SDK, so it needs no TWINT-clean URL).
 
 ## Quickstart
 

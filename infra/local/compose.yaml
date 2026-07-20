@@ -62,7 +62,7 @@ services:
     environment:
       <<: *wp-env
       WORDPRESS_DB_NAME: wc_latest
-      WP_URL: ${WC_LATEST_URL:-http://latest.wordpress.local}
+      WP_URL: ${WC_LATEST_URL:-https://latest.wordpress.local}
       WP_TITLE: TWINT WC latest
       WOO_VERSION: ${WC_LATEST_WOO_VERSION:-}
     volumes:
@@ -94,6 +94,21 @@ services:
       - vendor_oldest:/var/www/html/wp-content/plugins/twint-woocommerce-extension/vendor
       - node_modules_oldest:/var/www/html/wp-content/plugins/twint-woocommerce-extension/node_modules
       - dist_oldest:/var/www/html/wp-content/plugins/twint-woocommerce-extension/dist
+
+  # TLS termination so wc_latest is https://latest.wordpress.local (no port),
+  # which TWINT accepts as a callback URL. Cert comes from mkcert (browser-trusted)
+  # in ./certs — generate it once (see README) before starting this service.
+  proxy:
+    image: caddy:2-alpine
+    container_name: twint-proxy
+    restart: unless-stopped
+    depends_on:
+      - wc_latest
+    ports:
+      - "443:443"
+    volumes:
+      - ./proxy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./certs:/certs:ro
 
 volumes:
   db:

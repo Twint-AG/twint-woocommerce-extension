@@ -54,6 +54,18 @@ provision() {
       --admin_email="$WP_ADMIN_EMAIL" --skip-email
   fi
 
+  # Keep the site URL in sync with WP_URL so `docker compose up` is always enough.
+  # A fresh install already uses WP_URL; this migrates an EXISTING volume (e.g. an
+  # old http:// install) to the current WP_URL (https:// behind the proxy) with no
+  # manual search-replace. Cheap no-op when they already match.
+  CURRENT_HOME="$($WP option get home 2>/dev/null || true)"
+  if [ -n "$CURRENT_HOME" ] && [ "$CURRENT_HOME" != "$WP_URL" ]; then
+    echo "[twint] migrating site URL $CURRENT_HOME → $WP_URL"
+    $WP search-replace "$CURRENT_HOME" "$WP_URL" --all-tables --skip-columns=guid || true
+    $WP option update home "$WP_URL" || true
+    $WP option update siteurl "$WP_URL" || true
+  fi
+
   if ! $WP plugin is-installed woocommerce >/dev/null 2>&1; then
     # shellcheck disable=SC2086 -- WOO_VERSION is an intentional optional flag
     $WP plugin install woocommerce ${WOO_VERSION:+--version="$WOO_VERSION"} --activate
@@ -92,6 +104,16 @@ provision() {
 
   $WP rewrite structure '/%postname%/' --hard || true
   $WP rewrite flush --hard || true
+
+  # Behind the TLS proxy, requests reach WP over http with X-Forwarded-Proto=https;
+  # tell WP it's https so it generates https URLs (no mixed content / redirect loop).
+  mkdir -p /var/www/html/wp-content/mu-plugins
+  cat > /var/www/html/wp-content/mu-plugins/twint-proxy-ssl.php <<'PHP'
+<?php
+if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+    $_SERVER['HTTPS'] = 'on';
+}
+PHP
 
   # Root-run wp-cli (sample import, plugin installs) can leave root-owned files in
   # uploads/, which blocks wp-admin (www-data) from writing there. Hand it back so

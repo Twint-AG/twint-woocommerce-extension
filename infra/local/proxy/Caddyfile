@@ -1,0 +1,16 @@
+# Local TLS termination for wc_latest so the site is https://latest.wordpress.local
+# (no port) — which TWINT accepts as a callback URL. Cert is provided by mkcert
+# (browser-trusted); Caddy does not attempt ACME.
+{
+	auto_https off
+	admin off
+}
+
+latest.wordpress.local:443 {
+	tls /certs/latest.wordpress.local.pem /certs/latest.wordpress.local-key.pem
+	reverse_proxy wc_latest:80 {
+		header_up Host {host}
+		header_up X-Forwarded-Proto https
+		header_up X-Forwarded-Host {host}
+	}
+}
