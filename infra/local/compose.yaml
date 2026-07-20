@@ -19,6 +19,9 @@ x-wp-common: &wp-common
     WP_ADMIN_USER: ${WP_ADMIN_USER}
     WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD}
     WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+    # Write themes/plugins/media directly (no FTP-credentials prompt in wp-admin).
+    WORDPRESS_CONFIG_EXTRA: |
+      define('FS_METHOD', 'direct');
     # Private SDK auth (dev-dev/v9 branch); harmless when unused (packagist SDK).
     COMPOSER_AUTH: '{"http-basic":{"git.nfq.asia":{"username":"${GITLAB_USERNAME}","password":"${GITLAB_TOKEN}"}}}'
 
@@ -53,11 +56,13 @@ services:
         BASE_IMAGE: ${WC_LATEST_IMAGE:-wordpress:php8.3}
     container_name: twint-wc-latest
     ports:
-      - "8081:80"
+      # Port 80 so the site URL carries no :port — TWINT rejects callback URLs
+      # with a non-standard port (and localhost). Override WC_LATEST_PORT in .env.
+      - "${WC_LATEST_PORT:-80}:80"
     environment:
       <<: *wp-env
       WORDPRESS_DB_NAME: wc_latest
-      WP_URL: http://localhost:8081
+      WP_URL: ${WC_LATEST_URL:-https://latest.wordpress.local}
       WP_TITLE: TWINT WC latest
       WOO_VERSION: ${WC_LATEST_WOO_VERSION:-}
     volumes:
@@ -76,11 +81,11 @@ services:
         BASE_IMAGE: ${WC_OLDEST_IMAGE:-wordpress:5.9-php8.1}
     container_name: twint-wc-oldest
     ports:
-      - "8082:80"
+      - "${WC_OLDEST_PORT:-8082}:80"
     environment:
       <<: *wp-env
       WORDPRESS_DB_NAME: wc_oldest
-      WP_URL: http://localhost:8082
+      WP_URL: ${WC_OLDEST_URL:-http://localhost:8082}
       WP_TITLE: TWINT WC oldest
       WOO_VERSION: ${WC_OLDEST_WOO_VERSION:-}
     volumes:
@@ -89,6 +94,21 @@ services:
       - vendor_oldest:/var/www/html/wp-content/plugins/twint-woocommerce-extension/vendor
       - node_modules_oldest:/var/www/html/wp-content/plugins/twint-woocommerce-extension/node_modules
       - dist_oldest:/var/www/html/wp-content/plugins/twint-woocommerce-extension/dist
+
+  # TLS termination so wc_latest is https://latest.wordpress.local (no port),
+  # which TWINT accepts as a callback URL. Cert comes from mkcert (browser-trusted)
+  # in ./certs — generate it once (see README) before starting this service.
+  proxy:
+    image: caddy:2-alpine
+    container_name: twint-proxy
+    restart: unless-stopped
+    depends_on:
+      - wc_latest
+    ports:
+      - "443:443"
+    volumes:
+      - ./proxy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./certs:/certs:ro
 
 volumes:
   db:
