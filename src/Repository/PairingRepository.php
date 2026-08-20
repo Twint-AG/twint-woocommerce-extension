@@ -217,4 +217,29 @@ class PairingRepository
     {
         return $this->updateStatus($id, Pairing::EXPRESS_STATUS_MERCHANT_CANCELLED);
     }
+
+    /**
+     * Acquire a short, per-pairing advisory lock so that only one worker
+     * (HTTP poll vs cron/CLI) runs confirmOrder for a pairing at a time.
+     * Non-blocking (timeout 0): returns false immediately if held elsewhere.
+     */
+    public function acquireConfirmLock(string $id): bool
+    {
+        return (int) $this->db->get_var(
+            $this->db->prepare('SELECT GET_LOCK(%s, 0)', $this->confirmLockName($id))
+        ) === 1;
+    }
+
+    public function releaseConfirmLock(string $id): void
+    {
+        $this->db->get_var(
+            $this->db->prepare('SELECT RELEASE_LOCK(%s)', $this->confirmLockName($id))
+        );
+    }
+
+    private function confirmLockName(string $id): string
+    {
+        // MySQL lock names are capped at 64 chars; 'twint_cfm_' (10) + uuid (36) = 46.
+        return 'twint_cfm_' . $id;
+    }
 }

@@ -7,6 +7,7 @@ namespace Twint\Woo\Service;
 use Exception;
 use Throwable;
 use Twint\Sdk\Exception\CancellationFailed;
+use Twint\Sdk\Exception\SdkError;
 use Twint\Sdk\InvocationRecorder\InvocationRecordingClient;
 use Twint\Sdk\Value\FastCheckoutCheckIn;
 use Twint\Sdk\Value\Money;
@@ -46,6 +47,8 @@ use WC_Logger_Interface;
 class MonitorService
 {
     use LazyLoadTrait;
+
+    private const CONFIRM_GRACE_SECONDS = 20;
 
     protected static array $lazyLoads = [
         'orderService',
@@ -395,7 +398,33 @@ class MonitorService
                 ]);
 
 
+                // Grace window: if a confirm for this pairing was dispatched very
+                // recently, do NOT hit TWINT again. The fast polls in between only
+                // READ status (monitorOrder); if the capture went through we will see
+                // SUCCESS. Only after the window may confirm be retried once more.
+                $inflightKey = 'twint_confirm_inflight_' . $pairing->getId();
+                if (get_transient($inflightKey)) {
+                    $this->logger->info(
+                        "TWINT MonitorService::recursiveMonitor: {$pairing->getId()} confirm in-flight, waiting",
+                        [
+                            'source' => 'twint-woocommerce-extension',
+                            'wc_order_id' => $pairing->getWcOrderId(),
+                        ]
+                    );
+
+                    return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
+                }
+
+                // Concurrency guard: only one worker (HTTP poll vs cron/CLI) may
+                // confirm a given pairing at a time. Non-blocking; the loser backs
+                // off immediately instead of issuing a duplicate confirm.
+                if (!$this->getRepository()->acquireConfirmLock($pairing->getId())) {
+                    return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
+                }
+
                 try {
+                    set_transient($inflightKey, time(), self::CONFIRM_GRACE_SECONDS);
+
                     $confirmRes = $this->getApi()->call($client, 'confirmOrder', [
                         new UnfiledMerchantTransactionReference((string) $pairing->getRefId()),
                         new Money(Money::CHF, $pairing->getAmount()),
@@ -405,6 +434,11 @@ class MonitorService
 
                         return $log;
                     }, true);
+
+                    // Definitive response received: clear the marker so the settle
+                    // step can proceed without waiting out the grace window.
+                    delete_transient($inflightKey);
+
                     $this->logger->info(
                         "TWINT MonitorService::recursiveMonitor: {$pairing->getId()} has been confirmed",
                         [
@@ -412,9 +446,37 @@ class MonitorService
                             'wc_order_id' => $pairing->getWcOrderId(),
                         ]
                     );
+                } catch (SdkError $e) {
+                    // Timeout / API rejection / IO: the capture is INCONCLUSIVE - it
+                    // may actually have succeeded. Keep the in-flight marker so the
+                    // fast polls do NOT re-issue confirm; they only read status and
+                    // settle to PAID once TWINT reflects it. Do NOT markAsFailed and
+                    // do NOT throw (would fall through to the unassigned $confirmRes).
+                    $this->logger->warning(
+                        "TWINT MonitorService::recursiveMonitor: {$pairing->getId()} confirm inconclusive " . $e->getMessage(),
+                        [
+                            'source' => 'twint-woocommerce-extension',
+                            'wc_order_id' => $pairing->getWcOrderId(),
+                        ]
+                    );
+
+                    return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
                 } catch (Throwable $e) {
-                    $this->getRepository()->markAsFailed($pairing->getId());
+                    // Non-SDK error = an unexpected bug on our side (DB, type error...).
+                    // Clear the marker, do NOT markAsFailed, log and rethrow so it stays
+                    // visible (the endpoint turns it into a soft IN_PROGRESS response).
+                    delete_transient($inflightKey);
+                    $this->logger->error(
+                        "TWINT MonitorService::recursiveMonitor: {$pairing->getId()} confirm unexpected error " . $e->getMessage(),
+                        [
+                            'source' => 'twint-woocommerce-extension',
+                            'wc_order_id' => $pairing->getWcOrderId(),
+                        ]
+                    );
+
                     throw $e;
+                } finally {
+                    $this->getRepository()->releaseConfirmLock($pairing->getId());
                 }
 
                 return $this->recursiveMonitor($orgPairing, $pairing, $client, $confirmRes);
