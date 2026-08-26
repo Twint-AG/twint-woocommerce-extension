@@ -110,8 +110,19 @@ class MonitorService
         if ($pairing->getIsExpress()) {
             $status = $this->monitorExpress($pairing, $cloned);
             if ($status->paid()) {
-                $this->getRepository()->markAsOrdering($pairing->getId());
+                // Only one worker may capture a pairing; the loser polls again.
+                if (!$this->getRepository()->acquireConfirmLock($pairing->getId())) {
+                    return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
+                }
+
                 try {
+                    // A sibling worker may have already settled it.
+                    $fresh = $this->getRepository()->get($pairing->getId());
+                    if ($fresh instanceof Pairing && ($fresh->isFinished() || $fresh->isSuccessful())) {
+                        return MonitoringStatus::fromPairing($fresh);
+                    }
+
+                    $this->getRepository()->markAsOrdering($pairing->getId());
                     $this->getOrderService()->setMonitor($this);
                     $this->getOrderService()->update($cloned);
                     $status->addExtra('order', $pairing->getWcOrderId());
@@ -124,6 +135,7 @@ class MonitorService
                     $cloned->setStatus(Pairing::EXPRESS_STATUS_PAID);
                     $this->getRepository()->markAsPaid($pairing->getId());
                 } catch (PaymentException $e) {
+                    // Real decline (e.g. insufficient balance).
                     $this->logger->error('TWINT MonitorService::monitor: ' . $e->getMessage(), [
                         'source' => 'twint-woocommerce-extension',
                         'wc_order_id' => $pairing->getWcOrderId(),
@@ -132,11 +144,23 @@ class MonitorService
                     $cloned->setStatus(Pairing::EXPRESS_STATUS_FAILED);
                     $this->getRepository()->markAsFailed($pairing->getId());
                 } catch (Throwable $e) {
-                    $this->getRepository()->markAsFailed($pairing->getId());
-                    $this->logger->error('TWINT MonitorService::monitor: ' . $e->getMessage(), [
-                        'source' => 'twint-woocommerce-extension',
-                        'wc_order_id' => $pairing->getWcOrderId(),
-                    ]);
+                    // Inconclusive (duplicate start / network): don't fail, keep polling.
+                    $this->logger->warning(
+                        "TWINT MonitorService::monitor: EC {$pairing->getId()} capture inconclusive " . $e->getMessage(),
+                        [
+                            'source' => 'twint-woocommerce-extension',
+                            'wc_order_id' => $pairing->getWcOrderId(),
+                        ]
+                    );
+
+                    $fresh = $this->getRepository()->get($pairing->getId());
+                    if ($fresh instanceof Pairing && ($fresh->isFinished() || $fresh->isSuccessful())) {
+                        return MonitoringStatus::fromPairing($fresh);
+                    }
+
+                    return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
+                } finally {
+                    $this->getRepository()->releaseConfirmLock($pairing->getId());
                 }
             }
 
