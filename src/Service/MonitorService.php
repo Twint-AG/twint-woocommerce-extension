@@ -109,7 +109,16 @@ class MonitorService
 
         if ($pairing->getIsExpress()) {
             $status = $this->monitorExpress($pairing, $cloned);
-            if ($status->paid()) {
+
+            // Re-drivable capture: fire whenever the customer has authorised (pairing has
+            // customer data) and it has not settled yet — not only on the one-shot paid
+            // edge. Recovers a pairing whose capturing worker died mid-flight (else the
+            // modal hangs on IN_PROGRESS forever). The lock keeps it single-writer and
+            // update() is resumable, so a retry never double-charges.
+            $readyToCapture = $status->paid()
+                || ($pairing->getCustomerData() !== [] && !$pairing->isFinished() && !$cloned->isFinished());
+
+            if ($readyToCapture) {
                 // Only one worker may capture a pairing; the loser polls again.
                 if (!$this->getRepository()->acquireConfirmLock($pairing->getId())) {
                     return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
@@ -158,7 +167,38 @@ class MonitorService
                         return MonitoringStatus::fromPairing($fresh);
                     }
 
-                    return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
+                    // Backstop: never hang the modal forever. Once the express pairing has
+                    // run past its timeout, settle it — but only fail if the capture did NOT
+                    // already succeed on a sub-order (money may have been taken).
+                    if ($pairing->isTimedOut()) {
+                        $captured = false;
+                        foreach ($this->getRepository()->findByWooOrderId($pairing->getWcOrderId()) as $sub) {
+                            if (!$sub->getIsExpress() && $sub->isSuccessful()) {
+                                $captured = true;
+                                break;
+                            }
+                        }
+
+                        if ($captured) {
+                            $this->logger->info("TWINT MonitorService::monitor: EC {$pairing->getId()} timed out but capture succeeded, mark as paid", [
+                                'source' => 'twint-woocommerce-extension',
+                                'wc_order_id' => $pairing->getWcOrderId(),
+                            ]);
+
+                            $cloned->setStatus(Pairing::EXPRESS_STATUS_PAID);
+                            $this->getRepository()->markAsPaid($pairing->getId());
+                        } else {
+                            $this->logger->error("TWINT MonitorService::monitor: EC {$pairing->getId()} capture timed out, mark as failed", [
+                                'source' => 'twint-woocommerce-extension',
+                                'wc_order_id' => $pairing->getWcOrderId(),
+                            ]);
+
+                            $cloned->setStatus(Pairing::EXPRESS_STATUS_FAILED);
+                            $this->getRepository()->markAsFailed($pairing->getId());
+                        }
+                    } else {
+                        return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
+                    }
                 } finally {
                     $this->getRepository()->releaseConfirmLock($pairing->getId());
                 }

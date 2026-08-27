@@ -240,6 +240,27 @@ class ExpressOrderService
      */
     private function startOrder(WC_Order $order, Pairing $pairing): Pairing
     {
+        // Resume an already-started sub-order instead of starting a new one, so a retried
+        // capture (previous worker died mid-flight) can never issue a second charge.
+        foreach ($this->getPairingRepository()->findByWooOrderId($order->get_id()) as $existing) {
+            if ($existing->getIsExpress()) {
+                continue;
+            }
+            if ($existing->isSuccessful()) {
+                return $existing;
+            }
+            if (!$existing->isFinished()) {
+                if ($this->monitorPairing($existing)) {
+                    return $existing;
+                }
+
+                throw new PaymentException('TWINT: resumed fast-checkout order did not settle as paid.');
+            }
+
+            // A finished-but-unsuccessful sub-order is a genuine failure.
+            throw new PaymentException('TWINT: previous fast-checkout order failed.');
+        }
+
         $client = $this->getBuilder()->build(Version::NEXT);
 
         $refId = $order->get_id() . '-' . wp_generate_password(4, false);
