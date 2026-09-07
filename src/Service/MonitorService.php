@@ -110,11 +110,8 @@ class MonitorService
         if ($pairing->getIsExpress()) {
             $status = $this->monitorExpress($pairing, $cloned);
 
-            // Re-drivable capture: fire whenever the customer has authorised (pairing has
-            // customer data) and it has not settled yet — not only on the one-shot paid
-            // edge. Recovers a pairing whose capturing worker died mid-flight (else the
-            // modal hangs on IN_PROGRESS forever). The lock keeps it single-writer and
-            // update() is resumable, so a retry never double-charges.
+            // Re-drivable: capture once the customer has authorised, not only on the paid
+            // edge, so a retry can recover a pairing whose worker died mid-capture.
             $readyToCapture = $status->paid()
                 || ($pairing->getCustomerData() !== [] && !$cloned->isFinished());
 
@@ -167,9 +164,8 @@ class MonitorService
                         return MonitoringStatus::fromPairing($fresh);
                     }
 
-                    // Backstop: never hang the modal forever. Once the express pairing has
-                    // run past its timeout, settle it — but only fail if the capture did NOT
-                    // already succeed on a sub-order (money may have been taken).
+                    // Timeout backstop: settle instead of hanging — but mark paid, not
+                    // failed, if the capture already went through on a sub-order.
                     if ($pairing->isTimedOut()) {
                         $captured = false;
                         foreach ($this->getRepository()->findByWooOrderId($pairing->getWcOrderId()) as $sub) {

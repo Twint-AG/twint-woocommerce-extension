@@ -240,8 +240,7 @@ class ExpressOrderService
      */
     private function startOrder(WC_Order $order, Pairing $pairing): Pairing
     {
-        // Resume an already-started sub-order instead of starting a new one, so a retried
-        // capture (previous worker died mid-flight) can never issue a second charge.
+        // Resume an existing sub-order rather than starting a new one, so a retry never charges twice.
         foreach ($this->getPairingRepository()->findByWooOrderId($order->get_id()) as $existing) {
             if ($existing->getIsExpress()) {
                 continue;
