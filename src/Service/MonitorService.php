@@ -116,7 +116,7 @@ class MonitorService
             // modal hangs on IN_PROGRESS forever). The lock keeps it single-writer and
             // update() is resumable, so a retry never double-charges.
             $readyToCapture = $status->paid()
-                || ($pairing->getCustomerData() !== [] && !$pairing->isFinished() && !$cloned->isFinished());
+                || ($pairing->getCustomerData() !== [] && !$cloned->isFinished());
 
             if ($readyToCapture) {
                 // Only one worker may capture a pairing; the loser polls again.
@@ -183,9 +183,9 @@ class MonitorService
                             $this->logger->info(
                                 "TWINT MonitorService::monitor: EC {$pairing->getId()} timed out but capture succeeded, mark as paid",
                                 [
-                                'source' => 'twint-woocommerce-extension',
-                                'wc_order_id' => $pairing->getWcOrderId(),
-                            ]
+                                    'source' => 'twint-woocommerce-extension',
+                                    'wc_order_id' => $pairing->getWcOrderId(),
+                                ]
                             );
 
                             $cloned->setStatus(Pairing::EXPRESS_STATUS_PAID);
@@ -194,9 +194,9 @@ class MonitorService
                             $this->logger->error(
                                 "TWINT MonitorService::monitor: EC {$pairing->getId()} capture timed out, mark as failed",
                                 [
-                                'source' => 'twint-woocommerce-extension',
-                                'wc_order_id' => $pairing->getWcOrderId(),
-                            ]
+                                    'source' => 'twint-woocommerce-extension',
+                                    'wc_order_id' => $pairing->getWcOrderId(),
+                                ]
                             );
 
                             $cloned->setStatus(Pairing::EXPRESS_STATUS_FAILED);
