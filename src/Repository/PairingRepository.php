@@ -232,9 +232,7 @@ class PairingRepository
 
     public function releaseConfirmLock(string $id): void
     {
-        $this->db->get_var(
-            $this->db->prepare('SELECT RELEASE_LOCK(%s)', $this->confirmLockName($id))
-        );
+        $this->db->get_var($this->db->prepare('SELECT RELEASE_LOCK(%s)', $this->confirmLockName($id)));
     }
 
     private function confirmLockName(string $id): string

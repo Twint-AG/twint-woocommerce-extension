@@ -180,18 +180,24 @@ class MonitorService
                         }
 
                         if ($captured) {
-                            $this->logger->info("TWINT MonitorService::monitor: EC {$pairing->getId()} timed out but capture succeeded, mark as paid", [
+                            $this->logger->info(
+                                "TWINT MonitorService::monitor: EC {$pairing->getId()} timed out but capture succeeded, mark as paid",
+                                [
                                 'source' => 'twint-woocommerce-extension',
                                 'wc_order_id' => $pairing->getWcOrderId(),
-                            ]);
+                            ]
+                            );
 
                             $cloned->setStatus(Pairing::EXPRESS_STATUS_PAID);
                             $this->getRepository()->markAsPaid($pairing->getId());
                         } else {
-                            $this->logger->error("TWINT MonitorService::monitor: EC {$pairing->getId()} capture timed out, mark as failed", [
+                            $this->logger->error(
+                                "TWINT MonitorService::monitor: EC {$pairing->getId()} capture timed out, mark as failed",
+                                [
                                 'source' => 'twint-woocommerce-extension',
                                 'wc_order_id' => $pairing->getWcOrderId(),
-                            ]);
+                            ]
+                            );
 
                             $cloned->setStatus(Pairing::EXPRESS_STATUS_FAILED);
                             $this->getRepository()->markAsFailed($pairing->getId());
