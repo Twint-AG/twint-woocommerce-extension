@@ -66,7 +66,11 @@ class ClientBuilder
         }
 
         $certificate = $this->getSetting()->getCertificate();
-        if ($certificate === null || $certificate === []) {
+        if ($certificate === null
+            || $certificate === []
+            || empty($certificate['certificate'])
+            || empty($certificate['passphrase'])
+        ) {
             throw new InvalidConfigException(esc_html(InvalidConfigException::ERROR_INVALID_CERTIFICATE));
         }
 
