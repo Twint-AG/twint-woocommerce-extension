@@ -73,8 +73,10 @@ class Modal {
     errorContent.style.display = 'none'
     pay.style.display = 'block'
 
-    //Show modal
-    this.element.style.display = 'flex'
+    //Show modal (native <dialog> top layer)
+    if (!this.element.open) {
+      this.element.showModal()
+    }
 
     //Connector
     this.connectors.forEach((connector) => {
@@ -113,7 +115,9 @@ class Modal {
     }
 
     if (this.isExpress()) {
-      this.element.style.display = 'none'
+      if (this.element.open) {
+        this.element.close()
+      }
       return
     }
 
@@ -122,6 +126,12 @@ class Modal {
 
   registerEvents() {
     this.closeBtn.addEventListener('click', this.close.bind(this))
+    // Escape on a <dialog> fires 'cancel' and would close it directly; route
+    // it through close() so the pairing is cancelled properly, not just hidden.
+    this.element.addEventListener('cancel', (e) => {
+      e.preventDefault()
+      this.close()
+    })
   }
 
   refreshMiniCart() {
