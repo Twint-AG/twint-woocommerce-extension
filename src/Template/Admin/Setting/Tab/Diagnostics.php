@@ -75,6 +75,15 @@ class Diagnostics extends TabItem
             'valid' => version_compare(PHP_VERSION, '8.1.0', '>'),
         ];
 
+        $opensslVersion = defined('OPENSSL_VERSION_TEXT') ? OPENSSL_VERSION_TEXT : 'unknown';
+        $isOpenSsl3 = defined('OPENSSL_VERSION_NUMBER') && OPENSSL_VERSION_NUMBER >= 0x30000000;
+        $info[] = [
+            'label' => __('OpenSSL version:', 'twint-woocommerce-extension'),
+            'value' => $opensslVersion
+                . ($isOpenSsl3 ? ' — ' . __('legacy .p12 certificates are auto-converted on upload', 'twint-woocommerce-extension') : ''),
+            'valid' => true,
+        ];
+
         $soapAvailable = class_exists('SoapClient');
         $info[] = [
             'label' => __('SOAP requirement:', 'twint-woocommerce-extension'),

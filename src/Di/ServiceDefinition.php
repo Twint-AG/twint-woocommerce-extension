@@ -41,6 +41,7 @@ use Twint\Woo\TwintIntegration;
 use Twint\Woo\Utility\CertificateHandler;
 use Twint\Woo\Utility\CredentialsValidator;
 use Twint\Woo\Utility\CryptoHandler;
+use Twint\Woo\Utility\LegacyPkcs12Converter;
 use wpdb;
 
 class ServiceDefinition
@@ -93,7 +94,7 @@ class ServiceDefinition
             'poll.command' => static fn (ContainerInterface $container) => new PollCommand(),
             //Handlers
             'crypto.handler' => static fn (ContainerInterface $container) => new CryptoHandler(),
-            'certificate.handler' => static fn (ContainerInterface $container) => new CertificateHandler(),
+            'certificate.handler' => static fn (ContainerInterface $container) => new CertificateHandler(new LegacyPkcs12Converter()),
             'credentials.validator' => static fn (ContainerInterface $container) => new Lazy(static fn () => new CredentialsValidator(
                 $container->get('crypto.handler')
             )),
