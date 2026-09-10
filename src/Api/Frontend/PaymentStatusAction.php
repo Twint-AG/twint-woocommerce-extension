@@ -9,6 +9,7 @@ use Throwable;
 use Twint\Woo\Api\BaseAction;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
+use Twint\Woo\Model\Monitor\MonitoringStatus;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Service\MonitorService;
@@ -70,7 +71,25 @@ class PaymentStatusAction extends BaseAction
             throw new Exception('The pairing for the order does not exist.');
         }
 
-        $status = $this->getService()->monitor($pairing);
+        try {
+            $status = $this->getService()->monitor($pairing);
+        } catch (Throwable $e) {
+            $this->logger->error(
+                'TWINT PaymentStatusAction::handle: monitor failed ' . $e->getMessage(),
+                [
+                    'source' => 'twint-woocommerce-extension',
+                    'wc_order_id' => $pairing->getWcOrderId(),
+                ]
+            );
+
+            // Do not surface a transient failure as HTTP 500. The client keeps
+            // polling and the pairing settles on a later poll (or via the cron).
+            return new WP_REST_Response([
+                'finish' => false,
+                'status' => MonitoringStatus::STATUS_IN_PROGRESS,
+                'extra' => [],
+            ], 200);
+        }
 
         $response = $status->toArray();
 

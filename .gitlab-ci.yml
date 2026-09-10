@@ -70,7 +70,9 @@ release:
   only:
     - tags
   stage: publish
-  image: alpine/git:latest
+  image:
+    name: alpine/git:latest
+    entrypoint: [""]
   extends: .base
   variables:
     GIT_DEPTH: 0

@@ -210,7 +210,13 @@ class StatusRefresher {
           error.name === 'AbortError' ||
           (error.code && error.code === 'fetch_error')
         ) {
-          self.check()
+          return self.check()
+        }
+
+        // Any other transient error (e.g. HTTP 500): keep polling instead of giving up
+        console.error('TWINT status poll error:', error)
+        if (!oneTime && !self.stopped && !self.finished) {
+          self.onProcessing()
         }
       })
   }

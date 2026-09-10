@@ -18,9 +18,16 @@
     border-bottom: solid 1px rgba(0, 0, 0, 0.25);
   }
 
-  &-logo {
+  // Logo lives on the element as class="twint-logo" (not id #twint-modal-logo),
+  // so the old `&-logo` (=> #twint-modal-logo) selector never matched and the
+  // logo was left unsized — on some themes it balloons and its tall white header
+  // covers the QR on desktop. Target the real element and bound its size.
+  .twint-logo {
     width: 139px;
     height: 53px;
+    max-width: 139px;
+    max-height: 53px;
+    object-fit: contain;
   }
 
   #twint-close {
