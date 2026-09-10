@@ -85,11 +85,11 @@ class LegacyPkcs12Converter
     /**
      * Convert a (possibly legacy) PKCS#12 blob to a modern-encoded one.
      *
-     * @param string $pkcs12     Raw .p12 file contents.
+     * @param string $pkcs12 Raw .p12 file contents.
      * @param string $passphrase Certificate passphrase.
-     * @return string|null       Modern .p12 contents, or null if conversion was
-     *                           not possible (wrong passphrase, subprocess
-     *                           unavailable, or not a valid PKCS#12 file).
+     * @return string|null Modern .p12 contents, or null if conversion was
+     *                     not possible (wrong passphrase, subprocess
+     *                     unavailable, or not a valid PKCS#12 file).
      */
     public function toModern(string $pkcs12, string $passphrase): ?string
     {

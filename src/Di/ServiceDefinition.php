@@ -94,7 +94,9 @@ class ServiceDefinition
             'poll.command' => static fn (ContainerInterface $container) => new PollCommand(),
             //Handlers
             'crypto.handler' => static fn (ContainerInterface $container) => new CryptoHandler(),
-            'certificate.handler' => static fn (ContainerInterface $container) => new CertificateHandler(new LegacyPkcs12Converter()),
+            'certificate.handler' => static fn (ContainerInterface $container) => new CertificateHandler(
+                new LegacyPkcs12Converter()
+            ),
             'credentials.validator' => static fn (ContainerInterface $container) => new Lazy(static fn () => new CredentialsValidator(
                 $container->get('crypto.handler')
             )),

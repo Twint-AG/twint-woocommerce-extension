@@ -40,19 +40,14 @@ class CertificateHandler
             }
 
             $codes = CertificateErrorMapper::getErrorCodes();
-            foreach ($e->getErrors() as $error) {
-                return $codes[$error] ?? static::ERROR_INVALID_UNKNOWN;
-            }
+            $error = $e->getErrors()[0];
 
-            return static::ERROR_INVALID_UNKNOWN;
+            return $codes[$error] ?? static::ERROR_INVALID_UNKNOWN;
         } catch (Exception $e) {
             return self::ERROR_INVALID_UNKNOWN;
         }
     }
 
-    /**
-     * @throws InvalidCertificate
-     */
     private function establishTrust(string $pkcs12, string $password): Pkcs12Certificate
     {
         return Pkcs12Certificate::establishTrust(new InMemoryStream($pkcs12), $password, new Clock());
