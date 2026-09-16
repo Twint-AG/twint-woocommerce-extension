@@ -43,6 +43,13 @@ class CredentialsValidator implements CredentialValidatorInterface
 
     public function validate(?array $certificate, string $storeUuid, bool $testMode): bool
     {
+        // Nothing has been stored yet (e.g. the certificate could not be read
+        // during onboarding). Bail out early instead of decrypting an empty
+        // string, which would throw a misleading "Invalid ciphertext data" error.
+        if ($certificate === null || empty($certificate['certificate']) || empty($certificate['passphrase'])) {
+            return false;
+        }
+
         try {
             $cert = $this->getCrypto()->decrypt($certificate['certificate'] ?? '');
             $passphrase = $this->getCrypto()->decrypt($certificate['passphrase'] ?? '');

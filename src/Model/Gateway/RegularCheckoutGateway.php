@@ -211,7 +211,10 @@ class RegularCheckoutGateway extends AbstractGateway
                 'result' => 'success',
                 'redirect' => $url,
                 // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- need to match on translated value from core.
-                'messages' => __('Thank you. Your order has been received.', 'woocommerce'),
+                'messages' => sprintf(
+                    '<div class="woocommerce-message" role="alert">%s</div>',
+                    esc_html__('Thank you. Your order has been received.', 'woocommerce')
+                ),
                 'thankyouUrl' => $this->get_return_url($order),
                 'pairingId' => $pairing->getId(),
                 'pairingToken' => $pairing->getToken(),
