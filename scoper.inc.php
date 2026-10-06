@@ -290,9 +290,14 @@ BCMATH;
         'Deprecated',
         'Override',
         'Stringable',
+        'ActionScheduler',
     ]),
     'exclude-functions' => [
         ...$wpFunctions,
+        'as_enqueue_async_action',
+        'as_schedule_single_action',
+        'as_get_scheduled_actions',
+        'as_unschedule_all_actions',
     ],
     'exclude-constants' => $wpConstants,
 

@@ -15,6 +15,7 @@ use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 use Twint\Woo\Model\Method\ExpressCheckout;
 use Twint\Woo\Model\Method\RegularCheckout;
+use Twint\Woo\Service\BackgroundMonitor;
 use WC_Payment_Gateway;
 use WP_CLI;
 
@@ -41,6 +42,7 @@ class Plugin
         add_action('woocommerce_blocks_loaded', [self::class, 'registerCheckoutBlocks']);
 
         register_activation_hook(self::pluginFile(), [TwintIntegration::class, 'install']);
+        register_deactivation_hook(self::pluginFile(), [BackgroundMonitor::class, 'deactivate']);
         register_deactivation_hook(self::pluginFile(), [TwintIntegration::class, 'uninstall']);
 
         add_action('init', [self::class, 'createCustomWooCommerceStatus']);
@@ -138,6 +140,7 @@ class Plugin
 
         self::di('express.button', true);
         self::di('monitor.cron', true);
+        BackgroundMonitor::register();
     }
 
     public static function isPluginActivated(string $plugin): bool

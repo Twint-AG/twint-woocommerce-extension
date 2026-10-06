@@ -38,6 +38,7 @@ tests:
     - composer outdated --no-dev || true
 
     # Run coding standard
+    - php -d disable_functions=shell_exec,exec,system,passthru,proc_open,popen tests/background-monitor.php
     - vendor/bin/ecs --no-progress-bar
     - vendor/bin/rector process --dry-run
     - vendor/bin/phpstan analyse --memory-limit=2048M

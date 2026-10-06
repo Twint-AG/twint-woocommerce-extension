@@ -4,43 +4,12 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Setup;
 
-use Throwable;
-use Twint\Woo\Command\CliCommand;
-use Twint\Woo\Constant\TwintConstant;
-use Twint\Woo\Plugin;
-use WC_Logger_Interface;
+use Twint\Woo\Service\BackgroundMonitor;
 
 class CliSupportTrigger
 {
-    public function __construct(
-        private WC_Logger_Interface $logger
-    ) {
-    }
-
     public function handle(): void
     {
-        if (!function_exists('shell_exec')) {
-            update_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION, 'No');
-            return;
-        }
-
-        try {
-            update_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION, 'No');
-
-            $phpExecutable = apply_filters('twint_poll_php_executable', Plugin::php());
-            $logFile = escapeshellarg(sys_get_temp_dir() . '/cli_command.log');
-            $subCommand = escapeshellarg(Plugin::abspath() . 'bin/console');
-            $name = escapeshellarg(CliCommand::COMMAND);
-            $command = "{$phpExecutable} {$subCommand} {$name}";
-
-            // Note: We're not using WP-CLI here because there's no WP-CLI command registered for CliCommand
-            $this->logger->info('TWINT CliSupportTrigger::handle: using PHP command for CLI support check');
-
-            $result = shell_exec($command);
-
-            $this->logger->info('TWINT CliSupportTrigger::handle: CLI support check result: ' . $result);
-        } catch (Throwable $e) {
-            $this->logger->error('TWINT CliSupportTrigger::handle: cannot start PHP process: ' . $e->getMessage());
-        }
+        BackgroundMonitor::requestHealthCheck();
     }
 }

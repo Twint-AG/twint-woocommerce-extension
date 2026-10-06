@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Woo\Service;
 
 use Exception;
+use RuntimeException;
 use Throwable;
 use Twint\Sdk\Exception\CancellationFailed;
 use Twint\Sdk\Exception\SdkError;
@@ -19,7 +20,6 @@ use Twint\Sdk\Value\TransactionStatus;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Uuid;
 use Twint\Sdk\Value\Version;
-use Twint\Woo\Command\PollCommand;
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
@@ -30,7 +30,6 @@ use Twint\Woo\Model\ApiResponse;
 use Twint\Woo\Model\Monitor\MonitoringStatus;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Model\TransactionLog;
-use Twint\Woo\Plugin;
 use Twint\Woo\Repository\PairingRepository;
 use Twint\Woo\Repository\TransactionRepository;
 use Twint\Woo\Service\Express\ExpressOrderService;
@@ -100,6 +99,28 @@ class MonitorService
      * @throws Throwable
      */
     public function monitor(Pairing $pairing): MonitoringStatus
+    {
+        $repository = $this->getRepository();
+        $id = $pairing->getId();
+        if (!$repository->acquireMonitorLock($id)) {
+            return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
+        }
+        try {
+            // Re-read after locking. A browser poll or worker may have settled it.
+            $fresh = $repository->get($id);
+            if (!$fresh instanceof Pairing) {
+                throw new RuntimeException('TWINT pairing does not exist.');
+            }
+            if (!$fresh->isFinished()) {
+                $repository->updateCheckedAt($fresh);
+            }
+            return $this->monitorLocked($fresh);
+        } finally {
+            $repository->releaseMonitorLock($id);
+        }
+    }
+
+    private function monitorLocked(Pairing $pairing): MonitoringStatus
     {
         if ($pairing->isFinished()) {
             return MonitoringStatus::fromPairing($pairing);
@@ -615,44 +636,7 @@ class MonitorService
             return MonitoringStatus::fromPairing($pairing);
         }
 
-        if (!$pairing->isMonitoring() && function_exists('shell_exec')) {
-            try {
-                $logFile = escapeshellarg(sys_get_temp_dir() . "/{$pairing->getId()}.log");
-                $id = escapeshellarg($pairing->getId());
-
-                // Check if WP-CLI is available
-                if (shell_exec('wp --info') !== null) {
-                    // Use WP-CLI if available
-                    $shellCommand = "wp twint-poll poll {$id} --allow-root > {$logFile} 2>&1 &";
-
-                    $this->logger->info("TWINT MonitorService::status: [WP-CLI] polling {$id}", [
-                        'source' => 'twint-woocommerce-extension',
-                    ]);
-                } else {
-                    // Fallback to PHP command if WP-CLI is not available
-                    $phpExecutable = apply_filters('twint_poll_php_executable', Plugin::php());
-                    $command = escapeshellarg(Plugin::abspath() . 'bin/console');
-                    $statement = escapeshellarg(PollCommand::COMMAND);
-                    $shellCommand = "{$phpExecutable} {$command} {$statement} {$id} > {$logFile} 2>&1 &";
-
-                    $this->logger->info(
-                        "TWINT MonitorService::status: [PHP-CLI] polling (WP-CLI not available) {$id}",
-                        [
-                            'source' => 'twint-woocommerce-extension',
-                        ]
-                    );
-                }
-
-                shell_exec($shellCommand);
-            } catch (Throwable $e) {
-                $this->logger->error('TWINT MonitorService::status: error start monitor: ' . $e->getMessage(), [
-                    'source' => 'twint-woocommerce-extension',
-                    'wc_order_id' => $pairing->getWcOrderId(),
-                ]);
-
-                throw $e;
-            }
-        }
+        BackgroundMonitor::enqueue($pairing->getId());
 
         return MonitoringStatus::fromPairing($pairing);
     }
