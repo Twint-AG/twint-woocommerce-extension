@@ -7,6 +7,8 @@ namespace Twint\Woo\CronJob;
 use Throwable;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
+use Twint\Woo\Plugin;
+use Twint\Woo\Service\BackgroundMonitor;
 use Twint\Woo\Service\MonitorService;
 use WC_Logger_Interface;
 
@@ -59,7 +61,9 @@ class MonitorPairingCronJob
     {
         $this->logger->info('TWINT MonitorPairingCronJob::run: running cancel expired orders');
 
-        $this->getMonitor()->monitors();
+        foreach (Plugin::di('pairing.repository', false)->loadInProcessPairings() as $pairing) {
+            BackgroundMonitor::enqueue($pairing->getId());
+        }
 
         $this->logger->info('TWINT MonitorPairingCronJob::run: done');
     }

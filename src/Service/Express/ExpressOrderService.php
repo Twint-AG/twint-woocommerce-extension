@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Service\Express;
 
+use RuntimeException;
 use Throwable;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\PairingUuid;
@@ -290,10 +291,11 @@ class ExpressOrderService
      */
     protected function monitorPairing(Pairing $pairing): bool
     {
-        do {
-            $status = $this->monitor->monitor($pairing);
-            $pairing = $this->getPairingRepository()->get($pairing->getId());
-        } while (!$status->finished());
+        $status = $this->monitor->monitor($pairing);
+        if (!$status->finished()) {
+            // Preserve pending state. A later payment check resumes confirmation.
+            throw new RuntimeException('TWINT payment confirmation is still pending.');
+        }
 
         $this->logger->info("TWINT ExpressOrderService::monitorPairing: EC monitor finished {$pairing->getId()}");
 

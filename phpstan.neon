@@ -5,6 +5,9 @@ parameters:
 
     treatPhpDocTypesAsCertain: false
 
+    scanFiles:
+        - tests/stubs/action-scheduler.php
+
     bootstrapFiles:
         - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
 

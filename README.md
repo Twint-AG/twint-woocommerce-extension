@@ -57,6 +57,29 @@ Local development runs entirely in Docker — no host PHP/Node required.
   `composer85.lock`). After changing `composer.json`, regenerate and commit them
   with `infra/local/bin/relock.sh`.
 
+## Background payment checks
+
+Payment monitoring uses WooCommerce's Action Scheduler. PHP CLI and shell
+commands are not required for these checks. Browser polling remains immediate;
+background jobs check pending payments again after 60 seconds. WP-Cron recovers
+pending pairings if a job is lost. WP-Cron and HTTP loopback requests must work.
+The Credentials and Diagnostics tabs show a separate HTTP worker health check.
+
+Legacy certificate conversion remains optional and requires `proc_open`.
+On hosts that disable it, convert legacy PKCS#12 certificates before upload.
+
+After installing Composer dependencies, run the isolated regression tests with:
+
+```sh
+php -d disable_functions=shell_exec,exec,system,passthru,proc_open,popen tests/background-monitor.php
+```
+
+The tests use fake scheduling, database, and API services. They cover retry
+preservation, terminal states, queue failures, stale data, lock release, recovery,
+and HTTP health reporting. They do not submit payments. Before release, also test
+Regular and Express Checkout in a TWINT test environment, including completion,
+cancellation, timeouts, and closing the browser before confirmation.
+
 ## Support
 
 For any issues or feature requests, submit a GitHub issue or contact our support team at [plugin@twint.ch](mailto:plugin@twint.ch).

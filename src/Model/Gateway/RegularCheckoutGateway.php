@@ -188,9 +188,7 @@ class RegularCheckoutGateway extends AbstractGateway
             $pairing = $this->getPairingService()->create($apiResponse, $order);
 
             // Start monitoring in background
-            if (get_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION) === 'Yes') {
-                Plugin::di('monitor.service', false)->status($pairing);
-            }
+            Plugin::di('monitor.service', false)->status($pairing);
 
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             if (isset($_GET['pay_for_order'])) {

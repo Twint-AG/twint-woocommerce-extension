@@ -81,7 +81,7 @@ class ServiceDefinition
 
                 return wc_get_logger();
             },
-            'cli.trigger' => static fn (ContainerInterface $ci) => new CliSupportTrigger($ci->get('logger')),
+            'cli.trigger' => static fn () => new CliSupportTrigger(),
             // Repositories
             'pairing.repository' => static fn (ContainerInterface $container) => new Lazy(
                 static fn () => new PairingRepository($container->get('db'), $container->get('logger'))

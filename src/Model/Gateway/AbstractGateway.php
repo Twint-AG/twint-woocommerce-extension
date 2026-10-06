@@ -8,6 +8,7 @@ use Throwable;
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Model\ApiResponse;
 use Twint\Woo\Plugin;
+use Twint\Woo\Service\BackgroundMonitor;
 use Twint\Woo\Service\PaymentService;
 use WC_Order;
 use WC_Payment_Gateway;
@@ -115,7 +116,7 @@ abstract class AbstractGateway extends WC_Payment_Gateway
 
     public function is_available(): bool
     {
-        if (!parent::is_available()) {
+        if (!BackgroundMonitor::available() || !parent::is_available()) {
             return false;
         }
 

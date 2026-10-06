@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Twint\Woo\Template\Admin\Setting\Tab;
 
-use Twint\Woo\Command\CliCommand;
 use Twint\Woo\Constant\TwintConstant;
+use Twint\Woo\CronJob\MonitorPairingCronJob;
 use Twint\Woo\Plugin;
+use Twint\Woo\Service\BackgroundMonitor;
 use Twint\Woo\Template\Admin\Setting\TabItem;
 
 class Diagnostics extends TabItem
@@ -43,7 +44,6 @@ class Diagnostics extends TabItem
     {
         $info = [];
 
-        [$cliVersion, $isExecutable, $cliInfo, $shellExecAllowed] = self::getCliInformation();
 
         $info[] = [
             'label' => 'Plugin version:',
@@ -70,9 +70,9 @@ class Diagnostics extends TabItem
         ];
 
         $info[] = [
-            'label' => 'PHP version (8.1 or earlier):',
+            'label' => 'PHP version (8.1 or later):',
             'value' => PHP_VERSION,
-            'valid' => version_compare(PHP_VERSION, '8.1.0', '>'),
+            'valid' => version_compare(PHP_VERSION, '8.1.0', '>='),
         ];
 
         $opensslVersion = defined('OPENSSL_VERSION_TEXT') ? OPENSSL_VERSION_TEXT : 'unknown';
@@ -91,49 +91,23 @@ class Diagnostics extends TabItem
             'valid' => $soapAvailable,
         ];
 
+        BackgroundMonitor::requestHealthCheck();
+        $health = BackgroundMonitor::health();
         $info[] = [
-            'label' => __('PHP CLI version (8.1 or earlier):', 'twint-woocommerce-extension'),
-            'value' => $cliVersion,
-            'valid' => version_compare($cliVersion, '8.1.0', '>'),
+            'label' => __('Background processing:', 'twint-woocommerce-extension'),
+            'value' => __('Action Scheduler', 'twint-woocommerce-extension'),
+            'valid' => BackgroundMonitor::available(),
         ];
-
         $info[] = [
-            'label' => __('PHP Executable path:', 'twint-woocommerce-extension'),
-            'value' => apply_filters('twint_poll_php_executable', Plugin::php()),
-            'valid' => true,
+            'label' => __('HTTP background execution test:', 'twint-woocommerce-extension'),
+            'value' => $health['message'],
+            'valid' => $health['valid'],
         ];
-
+        $scheduled = (bool) wp_next_scheduled(MonitorPairingCronJob::HOOK_NAME);
         $info[] = [
-            'label' => __('Function `shell_exec` is allowed: ', 'twint-woocommerce-extension'),
-            'value' => $shellExecAllowed ? 'Yes' : 'No',
-            'valid' => (bool) $shellExecAllowed,
-        ];
-
-        $info[] = [
-            'label' => __('TWINT command is executable: ', 'twint-woocommerce-extension'),
-            'value' => $isExecutable ? 'Yes' : 'No',
-            'valid' => (bool) $isExecutable,
-        ];
-
-        $info[] = [
-            'label' => __('TWINT PHP CLI Command Execution Test: ', 'twint-woocommerce-extension'),
-            'value' => $cliInfo,
-            'valid' => (bool) $cliInfo,
-        ];
-
-
-        $wpCli = function_exists('shell_exec') && shell_exec('wp --info') !== null;
-        $info[] = [
-            'label' => 'WP-CLI is available:',
-            'value' => $wpCli ? 'Yes' : 'No',
-            'valid' => true,
-        ];
-
-        $cliSupport = get_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION) === 'Yes';
-        $info[] = [
-            'label' => 'PHP CLI flag:',
-            'value' => $cliSupport ? 'Yes' : 'No',
-            'valid' => $cliSupport,
+            'label' => __('Recovery schedule:', 'twint-woocommerce-extension'),
+            'value' => $scheduled ? __('Scheduled', 'twint-woocommerce-extension') : __('Missing', 'twint-woocommerce-extension'),
+            'valid' => $scheduled,
         ];
 
         $validated = get_option(TwintConstant::FLAG_VALIDATED_CREDENTIAL_CONFIG) === TwintConstant::YES;
@@ -158,40 +132,6 @@ class Diagnostics extends TabItem
         ];
 
         return $info;
-    }
-
-    public static function getCliInformation(): array
-    {
-        $cliVersion = 'Unknown';
-        $filePath = Plugin::abspath() . 'bin/console';
-        $php = apply_filters('twint_poll_php_executable', Plugin::php());
-
-        // Get PHP CLI version safely
-        if (function_exists('shell_exec')) {
-            $output = @shell_exec(escapeshellarg($php) . ' -r "echo PHP_VERSION;"');
-            if ($output && trim($output) !== '') {
-                $cliVersion = trim($output);
-            }
-        }
-
-        // Check if bin/console is executable
-        $isExecutable = function_exists('is_readable') && file_exists($filePath) && @is_readable($filePath);
-
-        // Execute CLI command safely
-        $cliInfo = 'Unknown';
-        $shellExecAllowed = false;
-        if (function_exists('shell_exec')) {
-            $shellExecAllowed = true;
-            $command = escapeshellarg($php) . ' ' . escapeshellarg($filePath) . ' ' . escapeshellarg(
-                CliCommand::COMMAND
-            );
-            $output = @shell_exec($command);
-            if ($output && trim($output) !== '') {
-                $cliInfo = trim($output);
-            }
-        }
-
-        return [$cliVersion, $isExecutable, $cliInfo, $shellExecAllowed];
     }
 
     public static function allowSaveChanges(): bool

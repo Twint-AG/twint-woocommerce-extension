@@ -53,6 +53,7 @@ PHP_SUFFIX="\${PHP_VERSION//./}"
 cp "composer\${PHP_SUFFIX}.lock" composer.lock
 [ -n "\${GITLAB_TOKEN:-}" ] && composer config --global gitlab-token.git.nfq.asia "\$GITLAB_TOKEN"
 composer install --no-progress --no-interaction
+php -d disable_functions=shell_exec,exec,system,passthru,proc_open,popen tests/background-monitor.php
 vendor/bin/ecs --no-progress-bar
 vendor/bin/rector process --dry-run
 vendor/bin/phpstan analyse --memory-limit=2048M

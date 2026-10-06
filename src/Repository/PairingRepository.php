@@ -151,8 +151,9 @@ class PairingRepository
         $table = self::tableName();
 
         $query = $this->db->prepare(
-            "SELECT {$select} FROM {$table} WHERE status IN ( %s ) ORDER BY created_at ASC;",
-            implode(',', ['PAIRING_IN_PROGRESS', 'IN_PROGRESS'])
+            "SELECT {$select} FROM {$table} WHERE status IN (%s, %s) ORDER BY COALESCE(checked_at, created_at) ASC LIMIT 100;",
+            'PAIRING_IN_PROGRESS',
+            'IN_PROGRESS'
         );
 
         $results = $this->db->get_results($query);
@@ -233,6 +234,24 @@ class PairingRepository
     public function releaseConfirmLock(string $id): void
     {
         $this->db->get_var($this->db->prepare('SELECT RELEASE_LOCK(%s)', $this->confirmLockName($id)));
+    }
+
+    public function acquireMonitorLock(string $id): bool
+    {
+        return (int) $this->db->get_var(
+            $this->db->prepare('SELECT GET_LOCK(%s, 0)', $this->monitorLockName($id))
+        ) === 1;
+    }
+
+    public function releaseMonitorLock(string $id): void
+    {
+        $this->db->get_var($this->db->prepare('SELECT RELEASE_LOCK(%s)', $this->monitorLockName($id)));
+    }
+
+    private function monitorLockName(string $id): string
+    {
+        // Include the site table name. MySQL lock names must fit 64 characters.
+        return 'twint_mon_' . substr(hash('sha256', self::tableName() . ':' . $id), 0, 48);
     }
 
     private function confirmLockName(string $id): string

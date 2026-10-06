@@ -6,6 +6,7 @@ namespace Twint\Woo\Template\Admin\Setting\Tab;
 
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Plugin;
+use Twint\Woo\Service\BackgroundMonitor;
 use Twint\Woo\Service\SettingService;
 use Twint\Woo\Template\Admin\Setting\TabItem;
 use Twint\Woo\Utility\CredentialsValidator;
@@ -133,26 +134,8 @@ class Credentials extends TabItem
 
     public static function render(array $data = []): string
     {
-        $cliSupport = get_option(TwintConstant::CONFIG_CLI_SUPPORT_OPTION) === 'Yes';
-
-        $trigger = Plugin::di('cli.trigger', false);
-        $trigger->handle();
-
-        if (!$cliSupport) {
-            list($cliVersion, $isExecutable, $cliInfo, $shellExecAllowed) = Diagnostics::getCliInformation();
-
-            $cliVersionFlag = version_compare($cliVersion, '8.1.0', '>') ? 'passed' : 'error';
-            $isExecutableFlag = $isExecutable ? 'passed' : 'error';
-            $isExecutableText = $isExecutable ? 'Yes' : 'No';
-            $shellExecAllowedText = $shellExecAllowed ? 'Yes' : 'No';
-            $shellExecAllowedFlag = $shellExecAllowed ? 'passed' : 'error';
-
-            $cliInfoFlag = 'error';
-            if ($cliInfo === 'The TWINT command was successfully executed via the PHP CLI.') {
-                $cliInfoFlag = 'passed';
-                $cliInfo = __('The TWINT command was successfully executed via the PHP CLI.', 'twint-woocommerce-extension');
-            }
-        }
+        BackgroundMonitor::requestHealthCheck();
+        $backgroundHealth = BackgroundMonitor::health();
 
         $isShowedTheButtonUploadNewCert = false;
 
