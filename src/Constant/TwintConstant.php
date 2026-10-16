@@ -57,6 +57,18 @@ class TwintConstant
 
     public const PAIRING_TIMEOUT_EXPRESS = 60 * 10; //10 minutes
 
+    public const TWINT_DB_VERSION = 2; // 1 = original schema, 2 = lock_version + order_settled
+
+    public const ORDER_SETTLED_PENDING = 0;      // not yet checked
+
+    public const ORDER_SETTLED_DONE = 1;         // settled — order is paid
+
+    public const ORDER_SETTLED_NEEDS_REVIEW = 2; // TWINT captured but order in unexpected status (refunded, trash, etc.)
+
+    public const ORDER_SETTLED_SKIPPED = 3;      // no capture — benign skip (e.g. Express without sub-order)
+
+    public const ORDER_SETTLED_REOPENED = 4;     // order was cancelled (no refund) and auto-completed — check stock
+
     public const EXCEPTION_VERSION_CONFLICT = 'Version conflict detected. Update aborted.';
 
     public const SHIPPING_SEPARATOR = '++';

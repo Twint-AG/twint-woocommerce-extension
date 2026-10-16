@@ -2,12 +2,26 @@
 
 use Twint\Woo\Constant\TwintConstant;
 
-if (!$cliSupport) { ?>
+if ($cliNoticeLevel === 'warning') { ?>
+    <div class="woocommerce-message notice notice-warning" style="margin-top:12px">
+        <p>
+            <strong><?php echo wp_kses_post(__('PHP CLI not available – background checks run via WP-Cron', 'twint-woocommerce-extension')); ?></strong> <br>
+            <?php echo wp_kses_post(
+                __('TWINT payments work without PHP CLI. Payment status is checked by the browser while the customer waits and by WP-Cron about once per minute after the browser is closed. Without PHP CLI, background confirmation is slower.', 'twint-woocommerce-extension')
+            ); ?>
+            <?php if ($wpCronDisabled) { ?>
+                <br><strong><?php echo wp_kses_post(__('WP-Cron is disabled. Make sure a server cron job calls wp-cron.php every minute.', 'twint-woocommerce-extension')); ?></strong>
+            <?php } else { ?>
+                <br><?php echo wp_kses_post(__('Make sure WP-Cron runs reliably; on low-traffic sites, set up a server cron job that calls wp-cron.php every minute.', 'twint-woocommerce-extension')); ?>
+            <?php } ?>
+        </p>
+    </div>
+<?php } elseif ($cliNoticeLevel === 'error') { ?>
     <div class="woocommerce-message notice notice-error" style="margin-top:12px">
         <p>
             <strong><?php echo wp_kses_post(__('PHP CLI Not Available', 'twint-woocommerce-extension')); ?></strong> <br>
             <?php echo wp_kses_post(
-                __('PHP CLI (Command Line Interface) is missing or misconfigured. This extension relies on PHP CLI for essential background processes. Without it, the plug-in is not functional. Please refer to the Guide for troubleshooting and the minimum requirements for PHP CLI settings.', 'twint-woocommerce-extension')
+                __('PHP CLI (Command Line Interface) is missing or misconfigured, and the WP-Cron schedule is not active. Without either, payment status cannot be confirmed after the customer closes the browser. Please refer to the Guide for troubleshooting.', 'twint-woocommerce-extension')
             ); ?>
         <ul id="twint-cli-checks">
             <li data-status="<?php echo esc_html(
@@ -36,7 +50,7 @@ if (!$cliSupport) { ?>
                     'admin.php?page=twint-payment-integration-settings&tab=_Twint_Woo_Template_Admin_Setting_Tab_Diagnostics'
                 )
             ); ?>">
-                <?php echo esc_html(__('See more', 'twint-woocommerce-extension')); ?>
+                <?php echo esc_html(__('See diagnostics', 'twint-woocommerce-extension')); ?>
             </a>
         </p>
     </div>

@@ -262,8 +262,8 @@ msgstr ""
 msgid "PHP CLI Not Available"
 msgstr ""
 
-#: src/View/Admin/credentials.php:10
-msgid "PHP CLI (Command Line Interface) is missing or misconfigured. This extension relies on PHP CLI for essential background processes. Without it, the plug-in is not functional. Please refer to the Guide for troubleshooting and the minimum requirements for PHP CLI settings."
+#: src/View/Admin/credentials.php:24
+msgid "PHP CLI (Command Line Interface) is missing or misconfigured, and the WP-Cron schedule is not active. Without either, payment status cannot be confirmed after the customer closes the browser. Please refer to the Guide for troubleshooting."
 msgstr ""
 
 #: src/View/Admin/credentials.php:15
@@ -376,6 +376,48 @@ msgstr ""
 
 #: src/View/Frontend/unpaid.php:12
 msgid "Your order was cancelled."
+msgstr ""
+
+#: src/Plugin.php:347
+msgid "TWINT: A database trigger is causing errors. Please ask your hosting provider to run:"
+msgstr ""
+
+#: src/Plugin.php:355
+msgid "TWINT: Database migration could not complete. The plugin is running without optimistic locking. Please check that your database user has ALTER TABLE privilege."
+msgstr ""
+
+#: src/Plugin.php:381
+#, php-format
+msgid "TWINT: %d payment in the last 7 days was captured by TWINT but the WooCommerce order is in an unexpected status. Please review."
+msgid_plural "TWINT: %d payments in the last 7 days were captured by TWINT but the WooCommerce order is in an unexpected status. Please review."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Plugin.php:405
+#, php-format
+msgid "TWINT: %d cancelled order was reopened in the last 7 days because TWINT captured the payment. Please check stock and fulfillment."
+msgid_plural "TWINT: %d cancelled orders were reopened in the last 7 days because TWINT captured the payment. Please check stock and fulfillment."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/View/Admin/credentials.php:8
+msgid "PHP CLI not available – background checks run via WP-Cron"
+msgstr ""
+
+#: src/View/Admin/credentials.php:10
+msgid "TWINT payments work without PHP CLI. Payment status is checked by the browser while the customer waits and by WP-Cron about once per minute after the browser is closed. Without PHP CLI, background confirmation is slower."
+msgstr ""
+
+#: src/View/Admin/credentials.php:13
+msgid "WP-Cron is disabled. Make sure a server cron job calls wp-cron.php every minute."
+msgstr ""
+
+#: src/View/Admin/credentials.php:13
+msgid "Make sure WP-Cron runs reliably; on low-traffic sites, set up a server cron job that calls wp-cron.php every minute."
+msgstr ""
+
+#: src/View/Admin/credentials.php:51
+msgid "See diagnostics"
 msgstr ""
 
 #: twint-woocommerce-extension.php:37

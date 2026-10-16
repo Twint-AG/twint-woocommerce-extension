@@ -8,6 +8,7 @@ use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\CronJob\MonitorPairingCronJob;
+use Twint\Woo\Repository\PairingRepository;
 
 /**
  * @method CliSupportTrigger getTrigger()
@@ -33,6 +34,27 @@ class Installer
         $this->getTrigger()->handle();
 
         MonitorPairingCronJob::scheduleCronjob();
+
+        $this->finalizeDbVersion();
+    }
+
+    public function upgrade(): void
+    {
+        $this->upgradeSchema();
+    }
+
+    public function columnsReady(): bool
+    {
+        global $wpdb;
+
+        $cols = $wpdb->get_col($wpdb->prepare(
+            "SELECT COLUMN_NAME FROM information_schema.COLUMNS
+             WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = %s
+               AND COLUMN_NAME IN ('lock_version', 'order_settled')",
+            PairingRepository::tableName()
+        ));
+
+        return count($cols) === 2;
     }
 
     private function upgradeSchema(): void
@@ -40,6 +62,19 @@ class Installer
         foreach ($this->migrations as $migration) {
             $migration->up();
         }
+    }
+
+    private function finalizeDbVersion(): void
+    {
+        if ($this->columnsReady()) {
+            update_option('twint_db_version', TwintConstant::TWINT_DB_VERSION);
+            delete_option('twint_migration_failed');
+            delete_transient('twint_migration_retry_after');
+        }
+
+        global $wpdb;
+        $now = $wpdb->get_var('SELECT NOW()');
+        add_option('twint_upgraded_at', $now);
     }
 
     private function setDefaultConfigs(): void

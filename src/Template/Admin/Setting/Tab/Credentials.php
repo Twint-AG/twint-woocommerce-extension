@@ -138,6 +138,18 @@ class Credentials extends TabItem
         $trigger = Plugin::di('cli.trigger', false);
         $trigger->handle();
 
+        $cronLastRun = (int) get_option('twint_cron_last_run', 0);
+        $cronWatchSince = (int) get_option('twint_cron_watch_since', 0);
+        if ($cronWatchSince === 0) {
+            add_option('twint_cron_watch_since', time(), '', false);
+            $cronWatchSince = time();
+        }
+
+        $cronHealthy = ($cronLastRun > 0 && (time() - $cronLastRun) < 900);
+        $inGracePeriod = (time() - $cronWatchSince) < 900;
+        $wpCronDisabled = defined('DISABLE_WP_CRON') && DISABLE_WP_CRON;
+
+        $cliNoticeLevel = 'hidden';
         if (!$cliSupport) {
             list($cliVersion, $isExecutable, $cliInfo, $shellExecAllowed) = Diagnostics::getCliInformation();
 
@@ -151,6 +163,12 @@ class Credentials extends TabItem
             if ($cliInfo === 'The TWINT command was successfully executed via the PHP CLI.') {
                 $cliInfoFlag = 'passed';
                 $cliInfo = __('The TWINT command was successfully executed via the PHP CLI.', 'twint-woocommerce-extension');
+            }
+
+            if ($cronHealthy || $inGracePeriod) {
+                $cliNoticeLevel = 'warning';
+            } else {
+                $cliNoticeLevel = 'error';
             }
         }
 
