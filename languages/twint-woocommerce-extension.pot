@@ -94,6 +94,10 @@ msgstr ""
 msgid "Or"
 msgstr ""
 
+#: src/Model/Button/ExpressButton.php:184
+msgid "Express Checkout"
+msgstr ""
+
 #: src/Model/Gateway/ExpressCheckoutGateway.php:54
 #: src/Model/Gateway/ExpressCheckoutGateway.php:55
 #: src/Service/ExpressCheckoutService.php:44
