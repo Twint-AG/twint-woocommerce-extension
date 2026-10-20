@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Woo;
 
+use Twint\Woo\Api\BaseAction;
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
@@ -61,6 +62,8 @@ class TwintIntegration
 
     private function registerApiActions(): void
     {
+        BaseAction::registerNonceResponseFilter();
+
         // Admin
         Plugin::di('get_transaction_log.action', false);
         Plugin::di('store_configuration.action', false);
