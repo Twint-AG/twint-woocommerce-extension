@@ -64,6 +64,13 @@ class ExpressOrderService
         $this->getPairingRepository()->markAsOrdering($pairing->getId());
 
         $order = wc_get_order($pairing->getWcOrderId());
+        if (!$order) {
+            $this->logger->error("TWINT ExpressOrderService::update: order {$pairing->getWcOrderId()} not found (deleted draft?)", [
+                'source' => 'twint-woocommerce-extension',
+            ]);
+
+            throw new PaymentException("TWINT: order {$pairing->getWcOrderId()} no longer exists.");
+        }
 
         $this->updateAddress($order, $pairing);
         $this->updateShippingMethod($order, $pairing);
@@ -307,16 +314,5 @@ class ExpressOrderService
     {
         // @phpstan-ignore-next-line
         WC()?->cart?->empty_cart();
-    }
-
-    public function cancelOrder(Pairing $pairing): void
-    {
-        $order = wc_get_order($pairing->getWcOrderId());
-        $order->update_status('cancelled', 'Order cancelled programmatically.');
-
-        // Optionally, you can add an order note
-        $order->add_order_note('The order was cancelled via custom PHP code.');
-
-        $order->save();
     }
 }
