@@ -1,5 +1,8 @@
 import ModalContent from '../express/modal/content'
 import Modal from '../express/modal/modal'
+import registerTwintNonceMiddleware from '../twint-nonce-middleware'
+
+registerTwintNonceMiddleware()
 
 document.addEventListener('DOMContentLoaded', function () {
   jQuery('form.checkout').on(
