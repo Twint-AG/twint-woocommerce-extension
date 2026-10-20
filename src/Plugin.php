@@ -220,9 +220,6 @@ class Plugin
         return $localPath . $fileName;
     }
 
-    /**
-     * Plugin url.
-     */
     public static function pluginUrl(): string
     {
         return untrailingslashit(plugins_url('/', self::pluginFile()));

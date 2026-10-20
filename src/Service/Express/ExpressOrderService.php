@@ -25,6 +25,7 @@ use WC_Order;
 use WC_Order_Item_Product;
 use WC_Order_Item_Shipping;
 use WC_Product;
+use WC_Shipping_Rate;
 use WC_Shipping_Zone;
 use WC_Shipping_Zones;
 
@@ -65,9 +66,12 @@ class ExpressOrderService
 
         $order = wc_get_order($pairing->getWcOrderId());
         if (!$order) {
-            $this->logger->error("TWINT ExpressOrderService::update: order {$pairing->getWcOrderId()} not found (deleted draft?)", [
-                'source' => 'twint-woocommerce-extension',
-            ]);
+            $this->logger->error(
+                "TWINT ExpressOrderService::update: order {$pairing->getWcOrderId()} not found (deleted draft?)",
+                [
+                    'source' => 'twint-woocommerce-extension',
+                ]
+            );
 
             throw new PaymentException("TWINT: order {$pairing->getWcOrderId()} no longer exists.");
         }
@@ -85,22 +89,20 @@ class ExpressOrderService
             if ($rateData !== null) {
                 $expectedTotal = (float) $snapshot['base_total'] + (float) $rateData['amount'];
                 $actualTotal = (float) $order->get_total();
-                if (abs($expectedTotal - $actualTotal) > 0.01) {
-                    if (!$order->get_meta('_twint_mismatch_noted')) {
-                        $note = sprintf(
-                            /* translators: %1$.2f: expected total, %2$.2f: actual total */
-                            __('TWINT: Shipping/total differs from amount shown in TWINT app: expected CHF %1$.2f, actual CHF %2$.2f', 'twint-woocommerce-extension'),
-                            $expectedTotal,
-                            $actualTotal
-                        );
-                        $this->logger->warning("TWINT ExpressOrderService::update: {$note}", [
-                            'source' => 'twint-woocommerce-extension',
-                            'wc_order_id' => $order->get_id(),
-                        ]);
-                        $order->add_order_note($note);
-                        $order->update_meta_data('_twint_mismatch_noted', '1');
-                        $order->save();
-                    }
+                if (abs($expectedTotal - $actualTotal) > 0.01 && !$order->get_meta('_twint_mismatch_noted')) {
+                    $note = sprintf(
+                        /* translators: %1$.2f: expected total, %2$.2f: actual total */
+                        __('TWINT: Shipping/total differs from amount shown in TWINT app: expected CHF %1$.2f, actual CHF %2$.2f', 'twint-woocommerce-extension'),
+                        $expectedTotal,
+                        $actualTotal
+                    );
+                    $this->logger->warning("TWINT ExpressOrderService::update: {$note}", [
+                        'source' => 'twint-woocommerce-extension',
+                        'wc_order_id' => $order->get_id(),
+                    ]);
+                    $order->add_order_note($note);
+                    $order->update_meta_data('_twint_mismatch_noted', '1');
+                    $order->save();
                 }
             }
         }
@@ -148,7 +150,7 @@ class ExpressOrderService
 
         [$methodTitle, $rate] = $this->getShippingInfo($pairing, $order);
 
-        if (!($rate instanceof \WC_Shipping_Rate)) {
+        if (!($rate instanceof WC_Shipping_Rate)) {
             throw new PaymentException(sprintf(
                 'TWINT: no valid shipping rate for method %s on order %d',
                 $pairing->getShippingMethodId() . ':' . $pairing->getShippingMethodInstanceId(),
@@ -219,16 +221,22 @@ class ExpressOrderService
             }
 
             // Key not in snapshot — fall through to legacy recalculation
-            $this->logger->warning("TWINT ExpressOrderService::getShippingInfo: rate {$shippingMethodKey} not in snapshot for order {$order->get_id()}, falling back to recalculation", [
-                'source' => 'twint-woocommerce-extension',
-                'wc_order_id' => $order->get_id(),
-            ]);
+            $this->logger->warning(
+                "TWINT ExpressOrderService::getShippingInfo: rate {$shippingMethodKey} not in snapshot for order {$order->get_id()}, falling back to recalculation",
+                [
+                    'source' => 'twint-woocommerce-extension',
+                    'wc_order_id' => $order->get_id(),
+                ]
+            );
         } else {
             // No snapshot at all — pairing created before upgrade
-            $this->logger->warning("TWINT ExpressOrderService::getShippingInfo: no snapshot for order {$order->get_id()}, falling back to recalculation", [
-                'source' => 'twint-woocommerce-extension',
-                'wc_order_id' => $order->get_id(),
-            ]);
+            $this->logger->warning(
+                "TWINT ExpressOrderService::getShippingInfo: no snapshot for order {$order->get_id()}, falling back to recalculation",
+                [
+                    'source' => 'twint-woocommerce-extension',
+                    'wc_order_id' => $order->get_id(),
+                ]
+            );
         }
 
         return $this->getShippingInfoLegacy($pairing, $order);
@@ -237,7 +245,7 @@ class ExpressOrderService
     private function buildRateFromSnapshot(array $rateData): array
     {
         $rateId = $rateData['method_id'] . ':' . $rateData['instance_id'];
-        $rate = new \WC_Shipping_Rate(
+        $rate = new WC_Shipping_Rate(
             $rateId,
             $rateData['label'],
             $rateData['cost'],

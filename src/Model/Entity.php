@@ -6,7 +6,7 @@ namespace Twint\Woo\Model;
 
 abstract class Entity
 {
-    private bool $isNewRecord = true;
+    private bool $isNewRecord;
 
     public function __construct(bool $isNewRecord = true)
     {

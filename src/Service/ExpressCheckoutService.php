@@ -92,7 +92,7 @@ class ExpressCheckoutService
             throw new Exception('Payment gateway is not available');
         }
 
-        list($pairing) = $gatewayInstance->process_payment($order->get_id());
+        [$pairing] = $gatewayInstance->process_payment($order->get_id());
 
         return $pairing;
     }

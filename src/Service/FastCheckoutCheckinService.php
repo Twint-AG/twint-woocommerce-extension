@@ -124,9 +124,12 @@ class FastCheckoutCheckinService
                         'amount' => (string) $shippingAmount,
                     ];
                 } else {
-                    $this->logger->warning("TWINT FastCheckoutCheckinService: duplicate shipping key {$id}, using first rate", [
-                        'source' => 'twint-woocommerce-extension',
-                    ]);
+                    $this->logger->warning(
+                        "TWINT FastCheckoutCheckinService: duplicate shipping key {$id}, using first rate",
+                        [
+                            'source' => 'twint-woocommerce-extension',
+                        ]
+                    );
                 }
             }
         }

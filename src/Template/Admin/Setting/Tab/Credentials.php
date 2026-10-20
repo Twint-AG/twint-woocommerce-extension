@@ -139,7 +139,7 @@ class Credentials extends TabItem
         $trigger->handle();
 
         if (!$cliSupport) {
-            list($cliVersion, $isExecutable, $cliInfo, $shellExecAllowed) = Diagnostics::getCliInformation();
+            [$cliVersion, $isExecutable, $cliInfo, $shellExecAllowed] = Diagnostics::getCliInformation();
 
             $cliVersionFlag = version_compare($cliVersion, '8.1.0', '>') ? 'passed' : 'error';
             $isExecutableFlag = $isExecutable ? 'passed' : 'error';

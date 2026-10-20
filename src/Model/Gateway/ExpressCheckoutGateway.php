@@ -207,7 +207,7 @@ class ExpressCheckoutGateway extends AbstractGateway
 
     public function generate_button_express_checkout_html(): string
     {
-        //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+        // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
         return '
         <tr valign="top">
             <th scope="row" class="titledesc">
