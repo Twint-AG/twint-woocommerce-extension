@@ -75,6 +75,32 @@ class ExpressOrderService
         $this->updateAddress($order, $pairing);
         $this->updateShippingMethod($order, $pairing);
 
+        // Check for total mismatch vs check-in amount
+        $snapshot = $order->get_meta(TwintConstant::META_SHIPPING_RATES);
+        if (is_array($snapshot) && isset($snapshot['base_total'])) {
+            $shippingMethodKey = $pairing->getShippingMethodId()
+                . TwintConstant::SHIPPING_SEPARATOR
+                . $pairing->getShippingMethodInstanceId();
+            $rateData = $snapshot['rates'][$shippingMethodKey] ?? null;
+            if ($rateData !== null) {
+                $expectedTotal = (float) $snapshot['base_total'] + (float) $rateData['amount'];
+                $actualTotal = (float) $order->get_total();
+                if (abs($expectedTotal - $actualTotal) > 0.01) {
+                    $note = sprintf(
+                        /* translators: %1$s: expected total, %2$s: actual total */
+                        __('TWINT: Shipping/total differs from amount shown in TWINT app: expected CHF %1$.2f, actual CHF %2$.2f', 'twint-woocommerce-extension'),
+                        $expectedTotal,
+                        $actualTotal
+                    );
+                    $this->logger->warning("TWINT ExpressOrderService::update: {$note}", [
+                        'source' => 'twint-woocommerce-extension',
+                        'wc_order_id' => $order->get_id(),
+                    ]);
+                    $order->add_order_note($note);
+                }
+            }
+        }
+
         $new = $this->startOrder($order, $pairing);
 
         $order->update_status('pending');
@@ -118,6 +144,14 @@ class ExpressOrderService
 
         [$methodTitle, $rate] = $this->getShippingInfo($pairing, $order);
 
+        if (!($rate instanceof \WC_Shipping_Rate)) {
+            throw new PaymentException(sprintf(
+                'TWINT: no valid shipping rate for method %s on order %d',
+                $pairing->getShippingMethodId() . ':' . $pairing->getShippingMethodInstanceId(),
+                $order->get_id()
+            ));
+        }
+
         $shippingItems = $order->get_items('shipping');
         /** @var WC_Order_Item_Shipping $item */
         $item = reset($shippingItems);
@@ -155,11 +189,84 @@ class ExpressOrderService
     }
 
     /**
-     * Notes: bug in the Woo core of \WC_Shipping::load_shipping_methods method make the shipping calculation get wrong costs
-     * This method need to apply workaround solution
+     * Returns [label, WC_Shipping_Rate|false|null] for the selected shipping method.
+     *
+     * Primary path: reconstruct WC_Shipping_Rate from the snapshot saved at check-in
+     * (META_SHIPPING_RATES). This avoids calling calculate_shipping() in a background
+     * context where WC()->cart is not initialised, which fatals with third-party plugins.
+     *
+     * Fallback path: when no snapshot exists (pairing created before upgrade) or the
+     * selected rate key is absent from the snapshot, delegate to getShippingInfoLegacy()
+     * which initialises the WC cart/session before calling calculate_shipping().
      */
     protected function getShippingInfo(Pairing $pairing, WC_Order $order): array
     {
+        $snapshot = $order->get_meta(TwintConstant::META_SHIPPING_RATES);
+
+        if (is_array($snapshot) && !empty($snapshot['rates'])) {
+            $shippingMethodKey = $pairing->getShippingMethodId()
+                . TwintConstant::SHIPPING_SEPARATOR
+                . $pairing->getShippingMethodInstanceId();
+
+            $rateData = $snapshot['rates'][$shippingMethodKey] ?? null;
+
+            if ($rateData !== null) {
+                return $this->buildRateFromSnapshot($rateData);
+            }
+
+            // Key not in snapshot — fall through to legacy recalculation
+            $this->logger->warning("TWINT ExpressOrderService::getShippingInfo: rate {$shippingMethodKey} not in snapshot for order {$order->get_id()}, falling back to recalculation", [
+                'source' => 'twint-woocommerce-extension',
+                'wc_order_id' => $order->get_id(),
+            ]);
+        } else {
+            // No snapshot at all — pairing created before upgrade
+            $this->logger->warning("TWINT ExpressOrderService::getShippingInfo: no snapshot for order {$order->get_id()}, falling back to recalculation", [
+                'source' => 'twint-woocommerce-extension',
+                'wc_order_id' => $order->get_id(),
+            ]);
+        }
+
+        return $this->getShippingInfoLegacy($pairing, $order);
+    }
+
+    private function buildRateFromSnapshot(array $rateData): array
+    {
+        $rateId = $rateData['method_id'] . ':' . $rateData['instance_id'];
+        $rate = new \WC_Shipping_Rate(
+            $rateId,
+            $rateData['label'],
+            $rateData['cost'],
+            $rateData['taxes'] ?? [],
+            $rateData['method_id']
+        );
+        $rate->set_instance_id((int) $rateData['instance_id']);
+
+        if (!empty($rateData['meta_data'])) {
+            foreach ($rateData['meta_data'] as $key => $value) {
+                $rate->add_meta_data($key, $value);
+            }
+        }
+
+        return [$rateData['label'], $rate];
+    }
+
+    /**
+     * Fallback for pairings without snapshot or missing key.
+     * Initialises WC cart/session so shipping plugins that access WC()->cart don't fatal.
+     *
+     * Notes: bug in the Woo core of \WC_Shipping::load_shipping_methods method make the shipping calculation get wrong costs
+     * This method need to apply workaround solution
+     */
+    private function getShippingInfoLegacy(Pairing $pairing, WC_Order $order): array
+    {
+        $wc = WC();
+        if (!$wc->cart) {
+            $wc->frontend_includes();
+            $wc->initialize_session();
+            $wc->initialize_cart();
+        }
+
         $data = $pairing->getCustomerData();
 
         [$contents, $cost] = $this->buildPackageContents($order);
@@ -181,7 +288,6 @@ class ExpressOrderService
         $methods = [];
         $method = null;
 
-        // Get all shipping methods
         $zone = WC_Shipping_Zones::get_zone_matching_package($package);
         if ($zone instanceof WC_Shipping_Zone) {
             $rawMethods = $zone->get_shipping_methods(true);
@@ -205,7 +311,6 @@ class ExpressOrderService
             return [$method->get_method_title(), reset($rates)];
         }
 
-        // If method not found, return the original method ID
         return [$pairing->getShippingMethodId(), null];
     }
 
