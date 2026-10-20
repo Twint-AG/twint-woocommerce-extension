@@ -128,6 +128,11 @@ class ExpressButton
 
     private function getButton(string $additionalClasses = ''): string
     {
+        $label = apply_filters(
+            'twint_express_button_label',
+            __('Express Checkout', 'twint-woocommerce-extension')
+        );
+
         //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
         return '
             <button type="submit" class="twint twint-button ' . $additionalClasses . '">
@@ -136,9 +141,9 @@ class ExpressButton
             //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
             Plugin::assets(
                 '/images/express.svg'
-            ) . '" alt="Express Checkout">
+            ) . '" alt="' . esc_attr($label) . '">
                 </span>
-                <span class="twint twint-label">Express Checkout</span>
+                <span class="twint twint-label">' . esc_html($label) . '</span>
             </button>
         ';
     }
