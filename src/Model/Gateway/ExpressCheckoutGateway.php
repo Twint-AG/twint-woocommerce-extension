@@ -265,7 +265,6 @@ class ExpressCheckoutGateway extends AbstractGateway
         $service = Plugin::di('fast_checkout_checkin.service', false);
 
         $order = wc_get_order($order_id);
-        $order->set_status('pending-payment');
 
         return [$service->checkin($order)];
     }
