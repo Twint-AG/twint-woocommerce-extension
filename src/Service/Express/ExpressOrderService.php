@@ -86,17 +86,21 @@ class ExpressOrderService
                 $expectedTotal = (float) $snapshot['base_total'] + (float) $rateData['amount'];
                 $actualTotal = (float) $order->get_total();
                 if (abs($expectedTotal - $actualTotal) > 0.01) {
-                    $note = sprintf(
-                        /* translators: %1$s: expected total, %2$s: actual total */
-                        __('TWINT: Shipping/total differs from amount shown in TWINT app: expected CHF %1$.2f, actual CHF %2$.2f', 'twint-woocommerce-extension'),
-                        $expectedTotal,
-                        $actualTotal
-                    );
-                    $this->logger->warning("TWINT ExpressOrderService::update: {$note}", [
-                        'source' => 'twint-woocommerce-extension',
-                        'wc_order_id' => $order->get_id(),
-                    ]);
-                    $order->add_order_note($note);
+                    if (!$order->get_meta('_twint_mismatch_noted')) {
+                        $note = sprintf(
+                            /* translators: %1$.2f: expected total, %2$.2f: actual total */
+                            __('TWINT: Shipping/total differs from amount shown in TWINT app: expected CHF %1$.2f, actual CHF %2$.2f', 'twint-woocommerce-extension'),
+                            $expectedTotal,
+                            $actualTotal
+                        );
+                        $this->logger->warning("TWINT ExpressOrderService::update: {$note}", [
+                            'source' => 'twint-woocommerce-extension',
+                            'wc_order_id' => $order->get_id(),
+                        ]);
+                        $order->add_order_note($note);
+                        $order->update_meta_data('_twint_mismatch_noted', '1');
+                        $order->save();
+                    }
                 }
             }
         }

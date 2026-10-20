@@ -52,7 +52,11 @@ abstract class BaseAction
      */
     public static function registerNonceResponseFilter(): void
     {
-        add_filter('rest_post_dispatch', static function (WP_REST_Response $response, $server, WP_REST_Request $request) {
+        add_filter('rest_post_dispatch', static function ($response, $server, WP_REST_Request $request) {
+            if (!$response instanceof WP_REST_Response) {
+                return $response;
+            }
+
             $route = $request->get_route();
             if (!str_starts_with($route, '/twint/v1/')) {
                 return $response;
