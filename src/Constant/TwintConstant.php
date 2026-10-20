@@ -61,6 +61,8 @@ class TwintConstant
 
     public const SHIPPING_SEPARATOR = '++';
 
+    public const META_SHIPPING_RATES = '_twint_shipping_rates';
+
     public static function installSource(): InstallSource
     {
         return new InstallSource(self::INSTALL_SOURCE);
