@@ -50,6 +50,7 @@ class ExpressButton
             Plugin::enqueueScript('frontend-express', '/express.js', true, static function () {
                 wp_localize_script('twint-woocommerce-extension-frontend-express', 'twintExpress', [
                     'cartUrl' => wc_get_cart_url(),
+                    'nonce' => wp_create_nonce(TwintConstant::NONCE_ACTION),
                 ]);
             });
         }

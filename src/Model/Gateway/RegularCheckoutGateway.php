@@ -130,6 +130,18 @@ class RegularCheckoutGateway extends AbstractGateway
             }
         });
 
+        add_action('wp_enqueue_scripts', static function () {
+            if (!is_checkout() && !is_wc_endpoint_url('order-pay')) {
+                return;
+            }
+
+            wp_add_inline_script(
+                'wp-api-fetch',
+                'window.twintNonce = ' . wp_json_encode(wp_create_nonce(TwintConstant::NONCE_ACTION)) . ';',
+                'before'
+            );
+        });
+
         $this->modal->registerHooks();
     }
 

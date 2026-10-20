@@ -63,6 +63,10 @@ class TwintConstant
 
     public const META_SHIPPING_RATES = '_twint_shipping_rates';
 
+    public const NONCE_ACTION = 'woocommerce-twint-express';
+
+    public const NONCE_HEADER = 'X-TWINT-Nonce';
+
     public static function installSource(): InstallSource
     {
         return new InstallSource(self::INSTALL_SOURCE);
