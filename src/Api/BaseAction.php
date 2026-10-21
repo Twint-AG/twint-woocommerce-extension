@@ -11,15 +11,6 @@ use WP_REST_Response;
 abstract class BaseAction
 {
     /**
-     * Reject unauthenticated admin-ajax requests.
-     * Used by wp_ajax_nopriv_* hooks in admin actions.
-     */
-    public function requireLogin(): void
-    {
-        wp_send_json_error(['message' => 'Authentication required.'], 401);
-    }
-
-    /**
      * Register response filters for TWINT REST routes.
      *
      * - Attaches a fresh X-TWINT-Nonce to every TWINT response (including errors).
@@ -69,6 +60,17 @@ abstract class BaseAction
 
             return $response;
         }, 10, 3);
+    }
+
+    /**
+     * Reject unauthenticated admin-ajax requests.
+     * Used by wp_ajax_nopriv_* hooks in admin actions.
+     */
+    public function requireLogin(): void
+    {
+        wp_send_json_error([
+            'message' => 'Authentication required.',
+        ], 401);
     }
 
     /**
