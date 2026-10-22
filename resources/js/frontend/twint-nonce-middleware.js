@@ -16,20 +16,37 @@ function getNonce() {
 /**
  * Normalize a non-2xx error: if caller wants raw Response, throw it as-is.
  * Otherwise parse JSON body and throw the parsed object (apiFetch default).
+ *
+ * Exception: rest_cookie_invalid_nonce is ALWAYS rejected as the parsed body,
+ * even for parse:false callers. @wordpress/api-fetch only refreshes the wp_rest
+ * nonce (admin-ajax.php?action=rest-nonce) and replays the request when the
+ * rejection carries error.code === 'rest_cookie_invalid_nonce'. A raw Response
+ * has no .code, so without this the refresh never happens and polling 403s
+ * forever (e.g. after "Create an account" at checkout). The replay uses the
+ * caller's original options, so parse:false callers still get a raw Response
+ * on success.
  */
-function rejectLikeFetch(response, callerWantsRaw) {
+async function rejectLikeFetch(response, callerWantsRaw) {
+  let body = null
+  try {
+    body = await response.clone().json()
+  } catch {
+    // Non-JSON body
+  }
+
+  if (body && body.code === 'rest_cookie_invalid_nonce') {
+    throw body
+  }
+
   if (callerWantsRaw) {
     throw response
   }
 
-  return response
-    .json()
-    .catch(() => {
-      throw response
-    })
-    .then((body) => {
-      throw body
-    })
+  if (body) {
+    throw body
+  }
+
+  throw response
 }
 
 const twintNonceMiddleware = (options, next) => {
