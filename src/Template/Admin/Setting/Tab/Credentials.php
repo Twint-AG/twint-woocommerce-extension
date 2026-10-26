@@ -165,11 +165,7 @@ class Credentials extends TabItem
                 $cliInfo = __('The TWINT command was successfully executed via the PHP CLI.', 'twint-woocommerce-extension');
             }
 
-            if ($cronHealthy || $inGracePeriod) {
-                $cliNoticeLevel = 'warning';
-            } else {
-                $cliNoticeLevel = 'error';
-            }
+            $cliNoticeLevel = $cronHealthy || $inGracePeriod ? 'warning' : 'error';
         }
 
         $isShowedTheButtonUploadNewCert = false;
