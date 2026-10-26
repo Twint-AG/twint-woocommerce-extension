@@ -73,7 +73,7 @@ class ServiceDefinition
                 new AddReferenceIdColumnToPairingTable($container->get('db')),
             ],
 
-            //Logger
+            // Logger
             'logger' => static function (ContainerInterface $container) {
                 if (!function_exists('wc_get_logger')) {
                     return new NullLogger();
@@ -90,9 +90,9 @@ class ServiceDefinition
                 $container->get('db'),
                 $container->get('logger')
             ),
-            //Commands
+            // Commands
             'poll.command' => static fn (ContainerInterface $container) => new PollCommand(),
-            //Handlers
+            // Handlers
             'crypto.handler' => static fn (ContainerInterface $container) => new CryptoHandler(),
             'certificate.handler' => static fn (ContainerInterface $container) => new CertificateHandler(
                 new LegacyPkcs12Converter()

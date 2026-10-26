@@ -3,7 +3,7 @@
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Plugin;
 
-//phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+// phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
 ?>
 
 <div id="twint-shadow-root"></div>
@@ -110,7 +110,7 @@ use Twint\Woo\Plugin;
                                     </div>
                                 <?php } ?>
 
-                                <?php //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The HTML is safe and intended for raw output.
+                                <?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The HTML is safe and intended for raw output.
                                 echo $this->getIosHtml() ?>
                                 <div class="tw-text-center <?php echo esc_attr($this->getMdClasses('md:tw-hidden')) ?>">
                                     <div class="or-section tw-hidden tw-items-center tw-justify-center tw-mx-4">

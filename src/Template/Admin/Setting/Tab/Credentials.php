@@ -151,7 +151,7 @@ class Credentials extends TabItem
 
         $cliNoticeLevel = 'hidden';
         if (!$cliSupport) {
-            list($cliVersion, $isExecutable, $cliInfo, $shellExecAllowed) = Diagnostics::getCliInformation();
+            [$cliVersion, $isExecutable, $cliInfo, $shellExecAllowed] = Diagnostics::getCliInformation();
 
             $cliVersionFlag = version_compare($cliVersion, '8.1.0', '>') ? 'passed' : 'error';
             $isExecutableFlag = $isExecutable ? 'passed' : 'error';
@@ -165,11 +165,7 @@ class Credentials extends TabItem
                 $cliInfo = __('The TWINT command was successfully executed via the PHP CLI.', 'twint-woocommerce-extension');
             }
 
-            if ($cronHealthy || $inGracePeriod) {
-                $cliNoticeLevel = 'warning';
-            } else {
-                $cliNoticeLevel = 'error';
-            }
+            $cliNoticeLevel = $cronHealthy || $inGracePeriod ? 'warning' : 'error';
         }
 
         $isShowedTheButtonUploadNewCert = false;

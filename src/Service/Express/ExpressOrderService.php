@@ -88,12 +88,15 @@ class ExpressOrderService
             $order->add_order_note(sprintf(
                 'TWINT captured payment (sub-order %s) while order was "%s". '
                 . 'It will be settled by the background reconciliation.',
-                $new->getId(), $order->get_status()
+                $new->getId(),
+                $order->get_status()
             ));
             $this->logger->error(
                 "TWINT ExpressOrderService::update: order {$order->get_id()} status "
                 . "changed to '{$order->get_status()}' during capture, deferring to sweep",
-                ['source' => 'twint-woocommerce-extension']
+                [
+                    'source' => 'twint-woocommerce-extension',
+                ]
             );
             @$this->cleanCart();
             return;

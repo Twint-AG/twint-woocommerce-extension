@@ -102,7 +102,7 @@ class Modal
         foreach ($links as $link) {
             $icon = $refinedApps[$link['name']] ?? null;
             if ($icon) {
-                //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+                // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
                 $apps[$link['name']] = '<img src="' . esc_url(Plugin::assets("/images/{$icon}.png")) . '" 
                     class="tw-shadow-2xl tw-w-64 tw-h-64 tw-rounded-2xl tw-mx-auto"
                     data-link="' . htmlentities($link['link']) . '"

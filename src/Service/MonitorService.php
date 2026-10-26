@@ -612,7 +612,7 @@ class MonitorService
     /**
      * Idempotent order settlement. Safe to call multiple times.
      *
-     * @param Pairing     $pairing       The pairing that triggered settlement.
+     * @param Pairing $pairing The pairing that triggered settlement.
      * @param string|null $transactionId Override transaction ID. For Express
      *                                   reconciliation, pass the sub-order's ID
      *                                   (not the EC pairing's UUID).
@@ -654,7 +654,9 @@ class MonitorService
                 $this->logger->error(
                     "TWINT settleOrder: order {$pairing->getWcOrderId()} in status "
                     . "'{$order->get_status()}' — payment captured, needs manual review",
-                    ['source' => 'twint-woocommerce-extension']
+                    [
+                        'source' => 'twint-woocommerce-extension',
+                    ]
                 );
                 delete_transient('twint_needs_review_count');
                 return false;
@@ -671,7 +673,9 @@ class MonitorService
                 );
                 $this->logger->error(
                     "TWINT settleOrder: order {$pairing->getWcOrderId()} cancelled with refund — needs manual review",
-                    ['source' => 'twint-woocommerce-extension']
+                    [
+                        'source' => 'twint-woocommerce-extension',
+                    ]
                 );
                 delete_transient('twint_needs_review_count');
                 return false;
@@ -716,7 +720,9 @@ class MonitorService
                 $this->logger->error(
                     "TWINT settleOrder: order {$pairing->getWcOrderId()} still unpaid "
                     . "after payment_complete(), was '{$originalStatus}'. Marked NEEDS_REVIEW.",
-                    ['source' => 'twint-woocommerce-extension']
+                    [
+                        'source' => 'twint-woocommerce-extension',
+                    ]
                 );
                 delete_transient('twint_needs_review_count');
                 return false;
@@ -725,16 +731,15 @@ class MonitorService
             $order->add_order_note('TWINT Checkout: The order was marked as paid programmatically.');
 
             if ($wasReopened) {
-                $this->getRepository()->markOrderSettled(
-                    $pairing->getId(),
-                    TwintConstant::ORDER_SETTLED_REOPENED
-                );
+                $this->getRepository()->markOrderSettled($pairing->getId(), TwintConstant::ORDER_SETTLED_REOPENED);
                 $order->add_order_note(
                     'TWINT: this order was cancelled but has been reopened because TWINT captured the payment. Please check stock and fulfillment.'
                 );
                 $this->logger->error(
                     "TWINT settleOrder: order {$pairing->getWcOrderId()} reopened from cancelled — check stock",
-                    ['source' => 'twint-woocommerce-extension']
+                    [
+                        'source' => 'twint-woocommerce-extension',
+                    ]
                 );
                 delete_transient('twint_reopened_count');
             } else {
@@ -758,13 +763,17 @@ class MonitorService
                     $this->logger->info(
                         "TWINT reconciliation: settled order {$pairing->getWcOrderId()} "
                         . "for regular pairing {$pairing->getId()}",
-                        ['source' => 'twint-woocommerce-extension']
+                        [
+                            'source' => 'twint-woocommerce-extension',
+                        ]
                     );
                 }
             } catch (Throwable $e) {
                 $this->logger->error(
                     "TWINT reconciliation: regular {$pairing->getId()} " . $e->getMessage(),
-                    ['source' => 'twint-woocommerce-extension']
+                    [
+                        'source' => 'twint-woocommerce-extension',
+                    ]
                 );
             }
         }
@@ -795,7 +804,9 @@ class MonitorService
                     );
                     $this->logger->info(
                         "TWINT reconciliation: express {$pairing->getId()} has no successful sub-order, skipping",
-                        ['source' => 'twint-woocommerce-extension']
+                        [
+                            'source' => 'twint-woocommerce-extension',
+                        ]
                     );
                     continue;
                 }
@@ -805,13 +816,17 @@ class MonitorService
                     $this->logger->info(
                         "TWINT reconciliation: settled order {$pairing->getWcOrderId()} "
                         . "for express pairing {$pairing->getId()}",
-                        ['source' => 'twint-woocommerce-extension']
+                        [
+                            'source' => 'twint-woocommerce-extension',
+                        ]
                     );
                 }
             } catch (Throwable $e) {
                 $this->logger->error(
                     "TWINT reconciliation: express {$pairing->getId()} " . $e->getMessage(),
-                    ['source' => 'twint-woocommerce-extension']
+                    [
+                        'source' => 'twint-woocommerce-extension',
+                    ]
                 );
             }
         }

@@ -53,9 +53,9 @@ class TwintConstant
         self::CONFIG_SCREEN_CART_FLYOUT,
     ];
 
-    public const PAIRING_TIMEOUT_REGULAR = 60 * 3; //10 minutes
+    public const PAIRING_TIMEOUT_REGULAR = 60 * 3; // 10 minutes
 
-    public const PAIRING_TIMEOUT_EXPRESS = 60 * 10; //10 minutes
+    public const PAIRING_TIMEOUT_EXPRESS = 60 * 10; // 10 minutes
 
     public const TWINT_DB_VERSION = 2; // 1 = original schema, 2 = lock_version + order_settled
 

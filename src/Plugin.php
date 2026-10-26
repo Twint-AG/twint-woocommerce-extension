@@ -230,9 +230,6 @@ class Plugin
         return $localPath . $fileName;
     }
 
-    /**
-     * Plugin url.
-     */
     public static function pluginUrl(): string
     {
         return untrailingslashit(plugins_url('/', self::pluginFile()));
@@ -344,7 +341,10 @@ class Plugin
             // Trigger DEFINER error (1449)
             if (get_option('twint_trigger_definer_error', false)) {
                 echo '<div class="notice notice-error"><p>';
-                echo esc_html__('TWINT: A database trigger is causing errors. Please ask your hosting provider to run:', 'twint-woocommerce-extension');
+                echo esc_html__(
+                    'TWINT: A database trigger is causing errors. Please ask your hosting provider to run:',
+                    'twint-woocommerce-extension'
+                );
                 echo ' <code>DROP TRIGGER IF EXISTS before_update_twint_pairing</code>';
                 echo '</p></div>';
             }
@@ -352,7 +352,10 @@ class Plugin
             // Migration failed
             if (get_option('twint_migration_failed', false)) {
                 echo '<div class="notice notice-warning"><p>';
-                echo esc_html__('TWINT: Database migration could not complete. The plugin is running without optimistic locking. Please check that your database user has ALTER TABLE privilege.', 'twint-woocommerce-extension');
+                echo esc_html__(
+                    'TWINT: Database migration could not complete. The plugin is running without optimistic locking. Please check that your database user has ALTER TABLE privilege.',
+                    'twint-woocommerce-extension'
+                );
                 echo '</p></div>';
             }
 
@@ -368,8 +371,8 @@ class Plugin
                 if ($reviewCount === false) {
                     $reviewCount = (int) $wpdb->get_var(
                         "SELECT COUNT(*) FROM {$table}
-                         WHERE order_settled = " . TwintConstant::ORDER_SETTLED_NEEDS_REVIEW . "
-                           AND created_at > DATE_SUB(NOW(), INTERVAL 7 DAY)"
+                         WHERE order_settled = " . TwintConstant::ORDER_SETTLED_NEEDS_REVIEW . '
+                           AND created_at > DATE_SUB(NOW(), INTERVAL 7 DAY)'
                     );
                     set_transient('twint_needs_review_count', $reviewCount, HOUR_IN_SECONDS);
                 }
@@ -393,8 +396,8 @@ class Plugin
                 if ($reopenedCount === false) {
                     $reopenedCount = (int) $wpdb->get_var(
                         "SELECT COUNT(*) FROM {$table}
-                         WHERE order_settled = " . TwintConstant::ORDER_SETTLED_REOPENED . "
-                           AND created_at > DATE_SUB(NOW(), INTERVAL 7 DAY)"
+                         WHERE order_settled = " . TwintConstant::ORDER_SETTLED_REOPENED . '
+                           AND created_at > DATE_SUB(NOW(), INTERVAL 7 DAY)'
                     );
                     set_transient('twint_reopened_count', $reopenedCount, HOUR_IN_SECONDS);
                 }
