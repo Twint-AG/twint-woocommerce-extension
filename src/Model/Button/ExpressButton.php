@@ -122,18 +122,18 @@ class ExpressButton
 
     public function addToNonBlockMiniCart(): void
     {
-        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The HTML is safe and intended for raw output.
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The HTML is safe and intended for raw output.
         echo $this->getButton('mini-cart dynamic');
     }
 
     private function getButton(string $additionalClasses = ''): string
     {
-        //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+        // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
         return '
             <button type="submit" class="twint twint-button ' . $additionalClasses . '">
                 <span class="twint twint-icon-block">
                     <img class="twint twint-icon" src="' .
-            //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+            // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
             Plugin::assets(
                 '/images/express.svg'
             ) . '" alt="Express Checkout">
@@ -145,7 +145,7 @@ class ExpressButton
 
     public function addToLegacyCartPage(): void
     {
-        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The HTML is safe and intended for raw output.
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The HTML is safe and intended for raw output.
         echo $this->getButton('cart') . $this->renderOrSection();
     }
 
@@ -177,7 +177,7 @@ class ExpressButton
 
     public function renderButton(): void
     {
-        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The HTML is safe and intended for raw output.
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The HTML is safe and intended for raw output.
         echo $this->getButton('PDP');
     }
 
@@ -195,7 +195,7 @@ class ExpressButton
         // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- need to match on translated value from core.
         $text = __('Add to cart', 'woocommerce');
         if (!$buttonInserted && str_contains($html, $text)) {
-            $html = str_replace('</a>', "</a> {$button}", $html);
+            return str_replace('</a>', "</a> {$button}", $html);
         }
 
         return $html;

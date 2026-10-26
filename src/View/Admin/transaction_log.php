@@ -4,7 +4,6 @@ use Twint\Woo\Model\TransactionLog;
 
 /** @var WC_Order $order */
 /** @var TransactionLog[] $logs */
-
 ?>
 <div class="twint-admin">
     <table class="content-table">
@@ -20,14 +19,14 @@ use Twint\Woo\Model\TransactionLog;
         <tbody>
             <?php
             /** @var TransactionLog $log */
-            foreach ($logs as $log): ?>
+            foreach ($logs as $log) { ?>
                 <tr <?php echo empty($log->getExceptionText()) ? '' : 'class="log-error"' ?>>
                     <td><?php echo esc_html($log->getOrderId()) ?></td>
                     <td><?php echo esc_html($log->getApiMethod()); ?></td>
                     <td>
-                        <?php foreach ($log->getSoapAction(true) as $action): ?>
+                        <?php foreach ($log->getSoapAction(true) as $action) { ?>
                             <span class="twint-tag"><?php echo esc_html($action); ?></span>
-                        <?php endforeach; ?>
+                        <?php } ?>
                     </td>
                     <td><?php echo esc_html(gmdate('Y-m-d H:i:s', strtotime($log->getCreatedAt()))); ?></td>
                     <td>
@@ -38,7 +37,7 @@ use Twint\Woo\Model\TransactionLog;
                         </a>
                     </td>
                 </tr>
-            <?php endforeach; ?>
+            <?php } ?>
         </tbody>
     </table>
 

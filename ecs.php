@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use PHP_CodeSniffer\Standards\Squiz\Sniffs\Commenting\DocCommentAlignmentSniff;
-use PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\LanguageConstructSpacingSniff;
 use PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\SuperfluousWhitespaceSniff;
 use PhpCsFixer\Fixer\Alias\ModernizeStrposFixer;
 use PhpCsFixer\Fixer\AttributeNotation\AttributeEmptyParenthesesFixer;
@@ -67,77 +66,69 @@ use SlevomatCodingStandard\Sniffs\Attributes\DisallowAttributesJoiningSniff;
 use SlevomatCodingStandard\Sniffs\Attributes\DisallowMultipleAttributesPerLineSniff;
 use SlevomatCodingStandard\Sniffs\Attributes\RequireAttributeAfterDocCommentSniff;
 use SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff;
+use Symplify\CodingStandard\Fixer\Spacing\MethodChainingNewlineFixer;
 use Symplify\CodingStandard\Fixer\Spacing\StandaloneLinePromotedPropertyFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
-use Symplify\CodingStandard\Fixer\Spacing\MethodChainingNewlineFixer;
 
-return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->paths([
+return ECSConfig::configure()
+    ->withPaths([
         __DIR__ . '/src',
         __DIR__ . '/twint-woocommerce-extension.php',
-    ]);
-
-    $ecsConfig->rules(
-        [
-            NoUnusedImportsFixer::class,
-            OrderedImportsFixer::class,
-            FullyQualifiedStrictTypesFixer::class,
-            GlobalNamespaceImportFixer::class,
-            NoLeadingImportSlashFixer::class,
-            StaticLambdaFixer::class,
-            ReferenceUsedNamesOnlySniff::class,
-            StandaloneLinePromotedPropertyFixer::class,
-            BlankLineAfterOpeningTagFixer::class,
-            CastSpacesFixer::class,
-            SingleTraitInsertPerStatementFixer::class,
-            NoBlankLinesAfterClassOpeningFixer::class,
-            NoSinglelineWhitespaceBeforeSemicolonsFixer::class,
-            NoLeadingNamespaceWhitespaceFixer::class,
-            NoSpacesAroundOffsetFixer::class,
-            NoWhitespaceInBlankLineFixer::class,
-            ReturnTypeDeclarationFixer::class,
-            SpaceAfterSemicolonFixer::class,
-            TernaryOperatorSpacesFixer::class,
-            MethodArgumentSpaceFixer::class,
-            UseArrowFunctionsFixer::class,
-            NoSpacesAfterFunctionNameFixer::class,
-            ModernizeStrposFixer::class,
-            ModernizeTypesCastingFixer::class,
-            FunctionDeclarationFixer::class,
-            MethodChainingIndentationFixer::class,
-            SingleQuoteFixer::class,
-            StrictComparisonFixer::class
-        ]
-    );
-
-    $ecsConfig->skip([
+    ])
+    ->withRules([
+        NoUnusedImportsFixer::class,
+        OrderedImportsFixer::class,
+        FullyQualifiedStrictTypesFixer::class,
+        GlobalNamespaceImportFixer::class,
+        NoLeadingImportSlashFixer::class,
+        StaticLambdaFixer::class,
+        ReferenceUsedNamesOnlySniff::class,
+        StandaloneLinePromotedPropertyFixer::class,
+        BlankLineAfterOpeningTagFixer::class,
+        CastSpacesFixer::class,
+        SingleTraitInsertPerStatementFixer::class,
+        NoBlankLinesAfterClassOpeningFixer::class,
+        NoSinglelineWhitespaceBeforeSemicolonsFixer::class,
+        NoLeadingNamespaceWhitespaceFixer::class,
+        NoSpacesAroundOffsetFixer::class,
+        NoWhitespaceInBlankLineFixer::class,
+        ReturnTypeDeclarationFixer::class,
+        SpaceAfterSemicolonFixer::class,
+        TernaryOperatorSpacesFixer::class,
+        MethodArgumentSpaceFixer::class,
+        UseArrowFunctionsFixer::class,
+        NoSpacesAfterFunctionNameFixer::class,
+        ModernizeStrposFixer::class,
+        ModernizeTypesCastingFixer::class,
+        FunctionDeclarationFixer::class,
+        MethodChainingIndentationFixer::class,
+        SingleQuoteFixer::class,
+        StrictComparisonFixer::class,
+    ])
+    ->withSkip([
         MethodChainingNewlineFixer::class,
-        PhpCsFixer\Fixer\FunctionNotation\FunctionTypehintSpaceFixer::class
-    ]);
-
-    $ecsConfig->ruleWithConfiguration(ClassAttributesSeparationFixer::class, [
+        FunctionTypehintSpaceFixer::class,
+    ])
+    ->withConfiguredRule(ClassAttributesSeparationFixer::class, [
         'elements' => [
             'property' => 'one',
             'method' => 'one',
         ],
-    ]);
-    $ecsConfig->ruleWithConfiguration(ConcatSpaceFixer::class, [
+    ])
+    ->withConfiguredRule(ConcatSpaceFixer::class, [
         'spacing' => 'one',
-    ]);
-
-    $ecsConfig->ruleWithConfiguration(SuperfluousWhitespaceSniff::class, [
+    ])
+    ->withConfiguredRule(SuperfluousWhitespaceSniff::class, [
         'ignoreBlankLines' => false,
-    ]);
-    $ecsConfig->ruleWithConfiguration(BinaryOperatorSpacesFixer::class, [
+    ])
+    ->withConfiguredRule(BinaryOperatorSpacesFixer::class, [
         'operators' => [
             '=>' => 'single_space',
             '=' => 'single_space',
         ],
-    ]);
-
-    $ecsConfig->sets([
-        SetList::PHPUNIT,
+    ])
+    ->withSets([
         SetList::CLEAN_CODE,
         SetList::ARRAY,
         SetList::DOCBLOCK,
@@ -145,11 +136,9 @@ return static function (ECSConfig $ecsConfig): void {
         SetList::COMMENTS,
         SetList::CONTROL_STRUCTURES,
         SetList::SYMPLIFY,
-        SetList::STRICT,
         SetList::PSR_12,
-    ]);
-
-    $ecsConfig->ruleWithConfiguration(OrderedClassElementsFixer::class, [
+    ])
+    ->withConfiguredRule(OrderedClassElementsFixer::class, [
         'order' => [
             'use_trait',
             'constant',
@@ -160,10 +149,9 @@ return static function (ECSConfig $ecsConfig): void {
             'magic',
             'method',
         ],
-    ]);
-
+    ])
     // PHPUnit
-    $ecsConfig->rules([
+    ->withRules([
         PhpUnitConstructFixer::class,
         PhpUnitDataProviderNameFixer::class,
         PhpUnitDataProviderReturnTypeFixer::class,
@@ -177,47 +165,38 @@ return static function (ECSConfig $ecsConfig): void {
         PhpUnitMockShortWillReturnFixer::class,
         PhpUnitNamespacedFixer::class,
         PhpUnitStrictFixer::class,
-    ]);
-
-    $ecsConfig->ruleWithConfiguration(PhpUnitTestCaseStaticMethodCallsFixer::class, [
+    ])
+    ->withConfiguredRule(PhpUnitTestCaseStaticMethodCallsFixer::class, [
         'call_type' => 'self',
-    ]);
-
+    ])
     // Doc blocks
-    $ecsConfig->rules(
-        [
-            PhpdocSingleLineVarSpacingFixer::class,
-            PhpdocIndentFixer::class,
-            PhpdocOrderFixer::class,
-            PhpdocParamOrderFixer::class,
-            PhpdocOrderByValueFixer::class,
-            DocCommentAlignmentSniff::class,
-            PhpdocNoUselessInheritdocFixer::class,
-            PhpdocAddMissingParamAnnotationFixer::class,
-            PhpdocTagTypeFixer::class
-        ]
-    );
-    $ecsConfig->ruleWithConfiguration(GeneralPhpdocAnnotationRemoveFixer::class, [
+    ->withRules([
+        PhpdocSingleLineVarSpacingFixer::class,
+        PhpdocIndentFixer::class,
+        PhpdocOrderFixer::class,
+        PhpdocParamOrderFixer::class,
+        PhpdocOrderByValueFixer::class,
+        DocCommentAlignmentSniff::class,
+        PhpdocNoUselessInheritdocFixer::class,
+        PhpdocAddMissingParamAnnotationFixer::class,
+        PhpdocTagTypeFixer::class,
+    ])
+    ->withConfiguredRule(GeneralPhpdocAnnotationRemoveFixer::class, [
         'annotations' => ['author', 'package', 'category'],
-    ]);
-    $ecsConfig->ruleWithConfiguration(PhpdocAlignFixer::class, [
+    ])
+    ->withConfiguredRule(PhpdocAlignFixer::class, [
         'align' => 'left',
-    ]);
-
+    ])
     // Attributes
-    $ecsConfig->rules(
-        [
-            ClassAttributesSeparationFixer::class,
-            AttributeEmptyParenthesesFixer::class,
-            RequireAttributeAfterDocCommentSniff::class,
-            DisallowMultipleAttributesPerLineSniff::class,
-            DisallowAttributesJoiningSniff::class,
-            AttributeAndTargetSpacingSniff::class,
-        ]
-    );
-    $ecsConfig->ruleWithConfiguration(AttributesOrderSniff::class, [
+    ->withRules([
+        ClassAttributesSeparationFixer::class,
+        AttributeEmptyParenthesesFixer::class,
+        RequireAttributeAfterDocCommentSniff::class,
+        DisallowMultipleAttributesPerLineSniff::class,
+        DisallowAttributesJoiningSniff::class,
+        AttributeAndTargetSpacingSniff::class,
+    ])
+    ->withConfiguredRule(AttributesOrderSniff::class, [
         'orderAlphabetically' => true,
-    ]);
-
-    $ecsConfig->cacheDirectory('/tmp/ecs/src');
-};
+    ])
+    ->withCache('/tmp/ecs/src');

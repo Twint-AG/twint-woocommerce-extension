@@ -19,8 +19,6 @@ declare(strict_types=1);
  * WC requires at least: 6.0
  * WC tested up to: 11.0
  */
-
-
 if (!defined('ABSPATH')) {
     exit;
 }

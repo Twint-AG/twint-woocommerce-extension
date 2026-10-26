@@ -71,7 +71,7 @@ class ApiService
         bool     $save = true,
     ): TransactionLog {
         try {
-            list($request, $response, $soapRequests, $soapResponses, $soapActions, $exception) = $this->parse(
+            [$request, $response, $soapRequests, $soapResponses, $soapActions, $exception] = $this->parse(
                 $invocation
             );
 

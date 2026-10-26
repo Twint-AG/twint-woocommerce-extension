@@ -230,9 +230,6 @@ class Plugin
         return $localPath . $fileName;
     }
 
-    /**
-     * Plugin url.
-     */
     public static function pluginUrl(): string
     {
         return untrailingslashit(plugins_url('/', self::pluginFile()));
@@ -368,8 +365,8 @@ class Plugin
                 if ($reviewCount === false) {
                     $reviewCount = (int) $wpdb->get_var(
                         "SELECT COUNT(*) FROM {$table}
-                         WHERE order_settled = " . TwintConstant::ORDER_SETTLED_NEEDS_REVIEW . "
-                           AND created_at > DATE_SUB(NOW(), INTERVAL 7 DAY)"
+                         WHERE order_settled = " . TwintConstant::ORDER_SETTLED_NEEDS_REVIEW . '
+                           AND created_at > DATE_SUB(NOW(), INTERVAL 7 DAY)'
                     );
                     set_transient('twint_needs_review_count', $reviewCount, HOUR_IN_SECONDS);
                 }
@@ -393,8 +390,8 @@ class Plugin
                 if ($reopenedCount === false) {
                     $reopenedCount = (int) $wpdb->get_var(
                         "SELECT COUNT(*) FROM {$table}
-                         WHERE order_settled = " . TwintConstant::ORDER_SETTLED_REOPENED . "
-                           AND created_at > DATE_SUB(NOW(), INTERVAL 7 DAY)"
+                         WHERE order_settled = " . TwintConstant::ORDER_SETTLED_REOPENED . '
+                           AND created_at > DATE_SUB(NOW(), INTERVAL 7 DAY)'
                     );
                     set_transient('twint_reopened_count', $reopenedCount, HOUR_IN_SECONDS);
                 }

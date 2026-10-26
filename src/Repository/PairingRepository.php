@@ -31,6 +31,18 @@ class PairingRepository
     }
 
     /**
+     * Build a lock name scoped to this database + table prefix.
+     * GET_LOCK names are server-global; without a scope prefix, shops on
+     * the same MySQL server would collide.
+     */
+    public static function scopedLockName(string $suffix): string
+    {
+        // md5 prefix (8 chars) + '_' + suffix → max 64 chars.
+        $scope = substr(md5(DB_NAME . self::tableName()), 0, 8);
+        return substr($scope . '_' . $suffix, 0, 64);
+    }
+
+    /**
      * @throws Throwable
      */
     public function save(Pairing $pairing): Pairing
@@ -141,7 +153,9 @@ class PairingRepository
                 'captured' => $pairing->isCaptured(),
             ];
 
-            $where = ['id' => $pairing->getId()];
+            $where = [
+                'id' => $pairing->getId(),
+            ];
 
             if ($this->isSchemaReady()) {
                 $data['lock_version'] = $pairing->getLockVersion() + 1;
@@ -163,7 +177,9 @@ class PairingRepository
                     $this->logger->error(
                         'TWINT: trigger DEFINER error — ask hosting to run: '
                         . 'DROP TRIGGER IF EXISTS before_update_twint_pairing',
-                        ['source' => 'twint-woocommerce-extension']
+                        [
+                            'source' => 'twint-woocommerce-extension',
+                        ]
                     );
                 }
 
@@ -282,7 +298,9 @@ class PairingRepository
             $this->logger->info(
                 "TWINT updateStatus: transition to '{$status}' blocked for pairing {$id} "
                 . '(already in terminal status)',
-                ['source' => 'twint-woocommerce-extension']
+                [
+                    'source' => 'twint-woocommerce-extension',
+                ]
             );
         }
 
@@ -337,18 +355,6 @@ class PairingRepository
     public function releaseLock(string $name): void
     {
         $this->db->get_var($this->db->prepare('SELECT RELEASE_LOCK(%s)', $name));
-    }
-
-    /**
-     * Build a lock name scoped to this database + table prefix.
-     * GET_LOCK names are server-global; without a scope prefix, shops on
-     * the same MySQL server would collide.
-     */
-    public static function scopedLockName(string $suffix): string
-    {
-        // md5 prefix (8 chars) + '_' + suffix → max 64 chars.
-        $scope = substr(md5(DB_NAME . self::tableName()), 0, 8);
-        return substr($scope . '_' . $suffix, 0, 64);
     }
 
     /**
@@ -419,8 +425,8 @@ class PairingRepository
     /**
      * Mark a pairing as settled so the reconciliation sweep skips it.
      *
-     * @param string $id    Pairing ID
-     * @param int    $value ORDER_SETTLED_DONE (1), _NEEDS_REVIEW (2), _SKIPPED (3), or _REOPENED (4)
+     * @param string $id Pairing ID
+     * @param int $value ORDER_SETTLED_DONE (1), _NEEDS_REVIEW (2), _SKIPPED (3), or _REOPENED (4)
      */
     public function markOrderSettled(string $id, int $value = TwintConstant::ORDER_SETTLED_DONE): void
     {

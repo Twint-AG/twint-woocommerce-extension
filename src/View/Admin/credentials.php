@@ -59,9 +59,9 @@ if ($cliNoticeLevel === 'warning') { ?>
 <div class="twint-admin">
     <table class=" form-table twint-table-setting" role="presentation">
         <tbody>
-            <?php foreach ($data['fields'] as $field): ?>
-                <?php if ($isShowedTheButtonUploadNewCert === false): ?>
-                    <?php if ($field['name'] === 'plugin_twint_settings_certificate'): ?>
+            <?php foreach ($data['fields'] as $field) { ?>
+                <?php if ($isShowedTheButtonUploadNewCert === false) { ?>
+                    <?php if ($field['name'] === 'plugin_twint_settings_certificate') { ?>
                         <?php $isShowedTheButtonUploadNewCert = true; ?>
 
                         <tr class="">
@@ -90,8 +90,8 @@ if ($cliNoticeLevel === 'warning') { ?>
                                 </div>
                             </td>
                         </tr>
-                    <?php endif; ?>
-                <?php endif; ?>
+                    <?php } ?>
+                <?php } ?>
                 <tr class="<?php echo esc_attr($field['name']); ?> <?php echo (in_array(
                     $field['name'],
                     ['plugin_twint_settings_certificate', 'plugin_twint_settings_certificate_password'],
@@ -103,33 +103,33 @@ if ($cliNoticeLevel === 'warning') { ?>
                         </label>
                     </th>
                     <td>
-                        <?php if ($field['type'] === 'text' || $field['type'] === 'password'): ?>
+                        <?php if ($field['type'] === 'text' || $field['type'] === 'password') { ?>
                             <input name="<?php echo esc_attr($field['type']); ?>" type="<?php echo esc_attr($field['type']); ?>"
                                 id="<?php echo esc_attr($field['name']); ?>"
                                 aria-describedby="tagline-description"
-                                <?php if ($field['need_populate'] === true): ?>
+                                <?php if ($field['need_populate'] === true) { ?>
                                 value="<?php echo esc_attr(get_option($field['name'])); ?>"
-                                <?php endif; ?>
+                                <?php } ?>
                                 placeholder="<?php echo esc_attr($field['placeholder']); ?>"
                                 class="regular-text" />
                             <div class="notify-box notify-error tw-hidden"
                                 id="<?php echo esc_attr('error-state_' . $field['name']); ?>">
-                                <?php if ($field['name'] === TwintConstant::STORE_UUID): ?>
+                                <?php if ($field['name'] === TwintConstant::STORE_UUID) { ?>
                                     <?php echo esc_html(__('Invalid Store UUID. Store UUID needs to be a UUIDv4', 'twint-woocommerce-extension')); ?>
-                                <?php endif; ?>
+                                <?php } ?>
                             </div>
-                        <?php elseif ($field['type'] === 'file'): ?>
+                        <?php } elseif ($field['type'] === 'file') { ?>
                             <input class="twint-file-upload"
                                 name="<?php echo esc_attr($field['name']); ?>"
                                 type="<?php echo esc_attr($field['type']); ?>"
                                 placeholder="<?php echo esc_attr($field['placeholder']); ?>" /
                                 <div class="notify-box notify-error tw-hidden"
                                 id="<?php echo esc_attr('error-state_' . $field['name']); ?>">
-                            <?php if ($field['name'] === TwintConstant::STORE_UUID): ?>
+                            <?php if ($field['name'] === TwintConstant::STORE_UUID) { ?>
                                 <?php echo esc_html(__('Test', 'twint-woocommerce-extension')); ?>
-                            <?php endif; ?>
+                            <?php } ?>
 </div>
-<?php elseif ($field['type'] === 'textarea'): ?>
+<?php } elseif ($field['type'] === 'textarea') { ?>
     <textarea id="<?php echo esc_attr($field['name']); ?>"
         name="<?php echo esc_attr($field['name']); ?>"
         rows="<?php echo esc_attr($field['rows']); ?>"
@@ -138,7 +138,7 @@ if ($cliNoticeLevel === 'warning') { ?>
         placeholder="<?php echo esc_attr($field['placeholder']); ?>">
                                     <?php echo $field['need_populate'] === true ? esc_html(get_option($field['name'])) : ''; ?>
                         </textarea>
-<?php elseif ($field['type'] === 'checkbox'): ?>
+<?php } elseif ($field['type'] === 'checkbox') { ?>
     <fieldset>
         <legend class="screen-reader-text"><span><?php echo esc_html($field['label']); ?></span>
         </legend>
@@ -147,24 +147,24 @@ if ($cliNoticeLevel === 'warning') { ?>
                 type="checkbox"
                 name="<?php echo esc_attr($field['name']); ?>"
                 id="<?php echo esc_attr($field['name']); ?>"
-                <?php if ($field['need_populate'] === true): ?>
-                <?php if (get_option($field['name']) === 'yes'): ?>
+                <?php if ($field['need_populate'] === true) { ?>
+                <?php if (get_option($field['name']) === 'yes') { ?>
                 checked
-                <?php endif; ?>
-                <?php endif; ?> />
+                <?php } ?>
+                <?php } ?> />
             <?php echo esc_html($field['label']); ?>
         </label>
     </fieldset>
-<?php endif; ?>
+<?php } ?>
 
-<?php if ($field['help_text'] !== ''): ?>
+<?php if ($field['help_text'] !== '') { ?>
     <div style="margin-top: 5px;">
         <small class="text-sm"><i><?php echo esc_html($field['help_text']); ?></i></small>
     </div>
-<?php endif; ?>
+<?php } ?>
 </td>
 </tr>
-<?php endforeach; ?>
+<?php } ?>
 </tbody>
 </table>
 </div>
