@@ -5,14 +5,20 @@ use Twint\Woo\Constant\TwintConstant;
 if ($cliNoticeLevel === 'warning') { ?>
     <div class="woocommerce-message notice notice-warning" style="margin-top:12px">
         <p>
-            <strong><?php echo wp_kses_post(__('PHP CLI not available – background checks run via WP-Cron', 'twint-woocommerce-extension')); ?></strong> <br>
+            <strong><?php echo wp_kses_post(
+                __('PHP CLI not available – background checks run via WP-Cron', 'twint-woocommerce-extension')
+            ); ?></strong> <br>
             <?php echo wp_kses_post(
                 __('TWINT payments work without PHP CLI. Payment status is checked by the browser while the customer waits and by WP-Cron about once per minute after the browser is closed. Without PHP CLI, background confirmation is slower.', 'twint-woocommerce-extension')
             ); ?>
             <?php if ($wpCronDisabled) { ?>
-                <br><strong><?php echo wp_kses_post(__('WP-Cron is disabled. Make sure a server cron job calls wp-cron.php every minute.', 'twint-woocommerce-extension')); ?></strong>
+                <br><strong><?php echo wp_kses_post(
+                    __('WP-Cron is disabled. Make sure a server cron job calls wp-cron.php every minute.', 'twint-woocommerce-extension')
+                ); ?></strong>
             <?php } else { ?>
-                <br><?php echo wp_kses_post(__('Make sure WP-Cron runs reliably; on low-traffic sites, set up a server cron job that calls wp-cron.php every minute.', 'twint-woocommerce-extension')); ?>
+                <br><?php echo wp_kses_post(
+                    __('Make sure WP-Cron runs reliably; on low-traffic sites, set up a server cron job that calls wp-cron.php every minute.', 'twint-woocommerce-extension')
+                ); ?>
             <?php } ?>
         </p>
     </div>

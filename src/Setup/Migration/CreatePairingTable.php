@@ -53,9 +53,7 @@ final class CreatePairingTable
             return; // both columns already exist
         }
 
-        $this->db->query(
-            "ALTER TABLE `{$table}` " . implode(', ', $toAdd)
-        );
+        $this->db->query("ALTER TABLE `{$table}` " . implode(', ', $toAdd));
 
         if (!empty($this->db->last_error)) {
             error_log('TWINT: could not add columns: ' . $this->db->last_error);

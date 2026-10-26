@@ -347,9 +347,7 @@ class PairingRepository
 
     public function acquireLock(string $name): bool
     {
-        return (int) $this->db->get_var(
-            $this->db->prepare('SELECT GET_LOCK(%s, 0)', $name)
-        ) === 1;
+        return (int) $this->db->get_var($this->db->prepare('SELECT GET_LOCK(%s, 0)', $name)) === 1;
     }
 
     public function releaseLock(string $name): void
@@ -441,11 +439,7 @@ class PairingRepository
         $guard = $value === TwintConstant::ORDER_SETTLED_DONE ? ' AND order_settled = 0' : '';
 
         $this->db->query(
-            $this->db->prepare(
-                "UPDATE {$table} SET order_settled = %d WHERE id = %s{$guard}",
-                $value,
-                $id
-            )
+            $this->db->prepare("UPDATE {$table} SET order_settled = %d WHERE id = %s{$guard}", $value, $id)
         );
     }
 }

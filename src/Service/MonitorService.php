@@ -731,10 +731,7 @@ class MonitorService
             $order->add_order_note('TWINT Checkout: The order was marked as paid programmatically.');
 
             if ($wasReopened) {
-                $this->getRepository()->markOrderSettled(
-                    $pairing->getId(),
-                    TwintConstant::ORDER_SETTLED_REOPENED
-                );
+                $this->getRepository()->markOrderSettled($pairing->getId(), TwintConstant::ORDER_SETTLED_REOPENED);
                 $order->add_order_note(
                     'TWINT: this order was cancelled but has been reopened because TWINT captured the payment. Please check stock and fulfillment.'
                 );
