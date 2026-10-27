@@ -64,8 +64,18 @@ class StoreConfigurationAction extends BaseAction
         $file = $_FILES[TwintConstant::CERTIFICATE] ?? null;
         // phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- crypto secret; sanitize_text_field corrupts it
+        $postedPassword = wp_unslash($_POST[TwintConstant::CERTIFICATE_PASSWORD] ?? '');
+        if (!is_string($postedPassword)) {
+            $this->sendErrorResponse(
+                __('Invalid password', 'twint-woocommerce-extension'),
+                'upload_cert'
+            );
+            return;
+        }
+
         $password = $this->getPassword(
-            sanitize_text_field(wp_unslash($_POST[TwintConstant::CERTIFICATE_PASSWORD] ?? '')),
+            $postedPassword,
             !empty($storedCertificate) && $file === null
         );
         $testMode = isset($_POST[TwintConstant::TEST_MODE]) && $_POST[TwintConstant::TEST_MODE] === 'on' ? TwintConstant::YES : TwintConstant::NO;
@@ -74,6 +84,19 @@ class StoreConfigurationAction extends BaseAction
             if (!in_array($password, [null, '', '0'], true)) {
                 $certificateContent = $this->getCertificateContent($file);
                 $certificate = $this->getCertificateHandler()->read($certificateContent, $password);
+
+                // Trim fallback: sanitize_text_field() used to trim whitespace
+                // implicitly. Retry only on passphrase error to avoid unnecessary
+                // subprocess cost (CertificateHandler::read may spawn a legacy
+                // conversion subprocess on each call).
+                // 'ERROR_INVALID_PASSPHRASE' is the constant NAME returned by
+                // CertificateErrorMapper (array_flip of InvalidCertificate constants).
+                if ($certificate === 'ERROR_INVALID_PASSPHRASE' && trim($password) !== $password) {
+                    $retry = $this->getCertificateHandler()->read($certificateContent, trim($password));
+                    if ($retry instanceof Pkcs12Certificate) {
+                        $certificate = $retry;
+                    }
+                }
 
                 if ($certificate instanceof Pkcs12Certificate) {
                     $certificateResult = [
