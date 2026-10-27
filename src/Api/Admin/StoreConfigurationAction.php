@@ -86,12 +86,9 @@ class StoreConfigurationAction extends BaseAction
                 $certificate = $this->getCertificateHandler()->read($certificateContent, $password);
 
                 // Trim fallback: sanitize_text_field() used to trim whitespace
-                // implicitly. Retry only on passphrase error to avoid unnecessary
-                // subprocess cost (CertificateHandler::read may spawn a legacy
-                // conversion subprocess on each call).
-                // 'ERROR_INVALID_PASSPHRASE' is the constant NAME returned by
-                // CertificateErrorMapper (array_flip of InvalidCertificate constants).
-                if ($certificate === 'ERROR_INVALID_PASSPHRASE' && trim($password) !== $password) {
+                // implicitly. Retry when the passphrase has surrounding whitespace
+                // so merchants who paste with accidental spaces are not broken.
+                if (!$certificate instanceof Pkcs12Certificate && trim($password) !== $password) {
                     $retry = $this->getCertificateHandler()->read($certificateContent, trim($password));
                     if ($retry instanceof Pkcs12Certificate) {
                         $certificate = $retry;
