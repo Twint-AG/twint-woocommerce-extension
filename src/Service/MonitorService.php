@@ -636,10 +636,20 @@ class MonitorService
 
             // Settle whitelist: aligned with WooCommerce's
             // woocommerce_valid_order_statuses_for_payment_complete default
-            // (on-hold, pending, failed, cancelled) plus the plugin's custom status.
+            // (on-hold, pending, failed, cancelled) plus the plugin's custom status,
+            // plus 'checkout-draft' (Express orders stay in draft until capture).
+            // Draft is not valid for payment_complete(), so it is moved to
+            // 'pending' below before completing.
             $raw = RegularCheckoutGateway::getOrderStatusAfterFirstTimeCreatedOrder();
             $customStatus = str_starts_with($raw, 'wc-') ? substr($raw, 3) : $raw;
-            $settleable = array_unique(['pending', $customStatus, 'failed', 'on-hold', 'cancelled']);
+            $settleable = array_unique([
+                'checkout-draft',
+                'pending',
+                $customStatus,
+                'failed',
+                'on-hold',
+                'cancelled',
+            ]);
 
             if (!$order->has_status($settleable)) {
                 // Status outside whitelist (e.g. refunded, trash, custom).
