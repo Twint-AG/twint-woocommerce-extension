@@ -50,6 +50,7 @@ class ExpressButton
             Plugin::enqueueScript('frontend-express', '/express.js', true, static function () {
                 wp_localize_script('twint-woocommerce-extension-frontend-express', 'twintExpress', [
                     'cartUrl' => wc_get_cart_url(),
+                    'nonce' => wp_create_nonce(TwintConstant::NONCE_ACTION),
                 ]);
             });
         }
@@ -128,6 +129,8 @@ class ExpressButton
 
     private function getButton(string $additionalClasses = ''): string
     {
+        $label = apply_filters('twint_express_button_label', __('Express Checkout', 'twint-woocommerce-extension'));
+
         // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
         return '
             <button type="submit" class="twint twint-button ' . $additionalClasses . '">
@@ -136,9 +139,9 @@ class ExpressButton
             // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
             Plugin::assets(
                 '/images/express.svg'
-            ) . '" alt="Express Checkout">
+            ) . '" alt="' . esc_attr($label) . '">
                 </span>
-                <span class="twint twint-label">Express Checkout</span>
+                <span class="twint twint-label">' . esc_html($label) . '</span>
             </button>
         ';
     }

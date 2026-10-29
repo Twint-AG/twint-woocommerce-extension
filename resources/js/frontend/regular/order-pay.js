@@ -1,6 +1,9 @@
 import ModalContent from '../express/modal/content'
 import Modal from '../express/modal/modal'
 import apiFetch from '@wordpress/api-fetch'
+import registerTwintNonceMiddleware from '../twint-nonce-middleware'
+
+registerTwintNonceMiddleware()
 
 class TwintOrderPay {
   render(data) {

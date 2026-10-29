@@ -4,6 +4,9 @@ import ModalContent from './modal/content'
 import Action from './checkout/action'
 import ContextFactory from './context/factory'
 import DOMPurify from 'dompurify'
+import registerTwintNonceMiddleware from '../twint-nonce-middleware'
+
+registerTwintNonceMiddleware()
 
 class ExpressCheckout {
   // Singleton instance

@@ -88,6 +88,10 @@ class FastCheckoutCheckinService
         $base = $order->get_total();
 
         $options = [];
+        $snapshot = [
+            'base_total' => (string) $base,
+            'rates' => [],
+        ];
 
         foreach (ExpressCheckoutService::$packages as $package) {
             /** @var WC_Shipping_Rate $rate */
@@ -100,14 +104,37 @@ class FastCheckoutCheckinService
                 $order->calculate_totals();
 
                 $id = $rate->get_method_id() . TwintConstant::SHIPPING_SEPARATOR . $rate->get_instance_id();
+                $shippingAmount = (float) wc_format_decimal(max($order->get_total() - $base, 0));
 
                 $options[] = new ShippingMethod(
                     new ShippingMethodId($id),
                     $rate->get_label(),
-                    Money::CHF((float) wc_format_decimal(max($order->get_total() - $base, 0)))
+                    Money::CHF($shippingAmount)
                 );
+
+                // First rate per key wins (multi-package: same key = ambiguous for TWINT)
+                if (!isset($snapshot['rates'][$id])) {
+                    $snapshot['rates'][$id] = [
+                        'label' => $rate->get_label(),
+                        'cost' => $rate->get_cost(),
+                        'taxes' => $rate->get_taxes(),
+                        'meta_data' => $rate->get_meta_data(),
+                        'method_id' => $rate->get_method_id(),
+                        'instance_id' => $rate->get_instance_id(),
+                        'amount' => (string) $shippingAmount,
+                    ];
+                } else {
+                    $this->logger->warning(
+                        "TWINT FastCheckoutCheckinService: duplicate shipping key {$id}, using first rate",
+                        [
+                            'source' => 'twint-woocommerce-extension',
+                        ]
+                    );
+                }
             }
         }
+
+        $order->update_meta_data(TwintConstant::META_SHIPPING_RATES, $snapshot);
 
         $order->remove_order_items('shipping');
         $order->calculate_totals();

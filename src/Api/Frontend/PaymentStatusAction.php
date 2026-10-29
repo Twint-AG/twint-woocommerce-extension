@@ -42,11 +42,9 @@ class PaymentStatusAction extends BaseAction
             register_rest_route('twint/v1', '/payment/status', [
                 'methods' => 'POST',
                 'callback' => [$this, 'handle'],
-                'permission_callback' => '__return_true',
+                'permission_callback' => [$this, 'verifyTwintNonce'],
             ]);
         });
-
-        $this->allowPublicAccessIfRouteMatches('/twint/v1/payment/status');
     }
 
     /**

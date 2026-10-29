@@ -45,12 +45,12 @@ class ExpressCheckoutService
             'status' => 'checkout-draft',
             'currency' => TwintConstant::SUPPORTED_CURRENCY,
             'billing' => [
-                'first_name' => 'First',
-                'last_name' => 'Last',
-                'email' => 'email@example.com',
-                'phone' => '1234567890',
-                'address_1' => '123 Main St',
-                'city' => 'City',
+                'first_name' => '',
+                'last_name' => '',
+                'email' => '',
+                'phone' => '',
+                'address_1' => '',
+                'city' => '',
                 'state' => '',
                 'postcode' => '',
                 'country' => 'CH',
@@ -65,11 +65,7 @@ class ExpressCheckoutService
         $order_id = $checkout->create_order($order_data);
         $order = wc_get_order($order_id);
 
-        // Add custom meta data
-        $order->update_meta_data('_wc_order_attribution_source_type', 'typein');
-        $order->update_meta_data('_wc_order_attribution_utm_source', '(direct)');
-
-        // Save the order with meta data
+        // Save the order
         $order->save();
 
         // Store shipping packages for later use
