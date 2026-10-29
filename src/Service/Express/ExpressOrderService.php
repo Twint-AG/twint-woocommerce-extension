@@ -14,6 +14,7 @@ use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
 use Twint\Woo\Exception\PaymentException;
 use Twint\Woo\Factory\ClientBuilder;
+use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Model\TransactionLog;
 use Twint\Woo\Repository\PairingRepository;
@@ -65,10 +66,42 @@ class ExpressOrderService
 
         $order = wc_get_order($pairing->getWcOrderId());
 
+        // Already settled (by a concurrent worker or the reconciliation sweep).
+        if ($order->is_paid()) {
+            return;
+        }
+
         $this->updateAddress($order, $pairing);
         $this->updateShippingMethod($order, $pairing);
 
         $new = $this->startOrder($order, $pairing);
+
+        // N2 Proposal C: re-read order after startOrder (which can take tens of
+        // seconds). If status changed during capture (e.g. merchant cancelled),
+        // skip payment_complete and let the sweep handle it with full policy.
+        // 'checkout-draft' is an expected status: Express orders stay in draft
+        // until capture (abandoned EC orders must not surface as pending).
+        $order = wc_get_order($order->get_id());
+        $raw = RegularCheckoutGateway::getOrderStatusAfterFirstTimeCreatedOrder();
+        $customStatus = str_starts_with($raw, 'wc-') ? substr($raw, 3) : $raw;
+        $expected = array_unique(['checkout-draft', 'pending', 'pending-payment', $customStatus]);
+        if ($this->getPairingRepository()->isSchemaReady() && !$order->has_status($expected)) {
+            $order->add_order_note(sprintf(
+                'TWINT captured payment (sub-order %s) while order was "%s". '
+                . 'It will be settled by the background reconciliation.',
+                $new->getId(),
+                $order->get_status()
+            ));
+            $this->logger->error(
+                "TWINT ExpressOrderService::update: order {$order->get_id()} status "
+                . "changed to '{$order->get_status()}' during capture, deferring to sweep",
+                [
+                    'source' => 'twint-woocommerce-extension',
+                ]
+            );
+            @$this->cleanCart();
+            return;
+        }
 
         $order->update_status('pending');
         $order->payment_complete($new->getId());

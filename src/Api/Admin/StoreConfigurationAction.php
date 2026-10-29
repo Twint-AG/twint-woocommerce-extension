@@ -48,7 +48,7 @@ class StoreConfigurationAction extends BaseAction
     public function saveSettings(): void
     {
         if (!isset($_REQUEST['nonce']) || !wp_verify_nonce(
-            //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             wp_unslash($_REQUEST['nonce']),
             'store_twint_settings'
         )) {

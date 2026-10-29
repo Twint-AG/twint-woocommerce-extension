@@ -11,10 +11,13 @@ use Symfony\Component\Process\PhpExecutableFinder;
 use Twint\Woo\Command\WpCliPollCommand;
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\ContainerFactory;
+use Twint\Woo\CronJob\MonitorPairingCronJob;
 use Twint\Woo\Model\Gateway\ExpressCheckoutGateway;
 use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 use Twint\Woo\Model\Method\ExpressCheckout;
 use Twint\Woo\Model\Method\RegularCheckout;
+use Twint\Woo\Repository\PairingRepository;
+use Twint\Woo\Setup\Installer;
 use WC_Payment_Gateway;
 use WP_CLI;
 
@@ -128,6 +131,11 @@ class Plugin
             return;
         }
 
+        self::maybeDropBrokenTrigger();
+        self::maybeUpgradeSchema();
+
+        self::registerAdminNotices();
+
         self::loadTranslations();
 
         $instance = self::di('twint.integration', true);
@@ -138,6 +146,9 @@ class Plugin
 
         self::di('express.button', true);
         self::di('monitor.cron', true);
+
+        // Self-healing: re-schedule cron if event was lost (DB migration, clone, etc.)
+        MonitorPairingCronJob::scheduleCronjob();
     }
 
     public static function isPluginActivated(string $plugin): bool
@@ -220,9 +231,6 @@ class Plugin
         return $localPath . $fileName;
     }
 
-    /**
-     * Plugin url.
-     */
     public static function pluginUrl(): string
     {
         return untrailingslashit(plugins_url('/', self::pluginFile()));
@@ -267,5 +275,186 @@ class Plugin
 
         // from WP 6.5 only need this
         load_plugin_textdomain('twint-woocommerce-extension', false, plugin_dir_path(self::pluginFile()) . 'languages');
+    }
+
+    /**
+     * Drop the legacy trigger once PairingRepository::update() has hit MySQL error 1449
+     * (trigger DEFINER user no longer exists). Every UPDATE on the pairing table fails
+     * while that trigger exists, so this must not depend on the schema migration:
+     * maybeUpgradeSchema() returns early once twint_db_version is current, which happens
+     * when the trigger survived an earlier migration (DROP not permitted, rollback to 1.7.x
+     * and upgrade again, DB restored from an old dump) and its DEFINER was deleted later.
+     *
+     * Costs one autoloaded get_option() per request when the flag is not set. A failed DROP
+     * (e.g. no TRIGGER privilege) is retried at most once per hour; the admin notice keeps
+     * telling the merchant to ask the host to drop it.
+     */
+    private static function maybeDropBrokenTrigger(): void
+    {
+        if (!get_option('twint_trigger_definer_error', false)
+            || get_transient('twint_trigger_drop_retry_after')
+        ) {
+            return;
+        }
+
+        try {
+            global $wpdb;
+            // Judge by the DROP result, not by information_schema.TRIGGERS: a DB user without
+            // the TRIGGER privilege cannot see the trigger there, so a lookup would report it
+            // gone while it still breaks every UPDATE. DROP ... IF EXISTS returns false only
+            // when it was refused.
+            if ($wpdb->query('DROP TRIGGER IF EXISTS `before_update_twint_pairing`') !== false) {
+                delete_option('twint_trigger_definer_error');
+
+                return;
+            }
+        } catch (\Throwable $e) {
+            error_log('TWINT trigger cleanup error: ' . $e->getMessage());
+        }
+
+        set_transient('twint_trigger_drop_retry_after', '1', HOUR_IN_SECONDS);
+    }
+
+    private static function maybeUpgradeSchema(): void
+    {
+        if ((int) get_option('twint_db_version', 0) >= TwintConstant::TWINT_DB_VERSION) {
+            return;
+        }
+        if (get_transient('twint_migration_retry_after')) {
+            return;
+        }
+
+        try {
+            /** @var PairingRepository $repo */
+            $repo = self::di('pairing.repository', false);
+            $lock = PairingRepository::scopedLockName('migrate');
+            if (!$repo->acquireLock($lock)) {
+                return; // another request is migrating
+            }
+
+            try {
+                // @phpstan-ignore greaterOrEqual.alwaysFalse
+                if ((int) get_option('twint_db_version', 0) >= TwintConstant::TWINT_DB_VERSION) {
+                    return; // re-check after acquiring lock
+                }
+
+                /** @var Installer $installer */
+                $installer = self::di('installer', false);
+                $installer->upgrade();
+
+                global $wpdb;
+
+                // Set upgrade timestamp once, regardless of ALTER outcome.
+                $now = $wpdb->get_var('SELECT NOW()');
+                add_option('twint_upgraded_at', $now);
+
+                if ($installer->columnsReady()) {
+                    update_option('twint_db_version', TwintConstant::TWINT_DB_VERSION);
+                    delete_option('twint_migration_failed');
+                    delete_transient('twint_migration_retry_after');
+                } else {
+                    set_transient('twint_migration_retry_after', '1', HOUR_IN_SECONDS);
+                    update_option('twint_migration_failed', true);
+                }
+            } finally {
+                $repo->releaseLock($lock);
+            }
+        } catch (\Throwable $e) {
+            error_log('TWINT migration error: ' . $e->getMessage());
+            set_transient('twint_migration_retry_after', '1', HOUR_IN_SECONDS);
+            update_option('twint_migration_failed', true);
+        }
+    }
+
+    private static function registerAdminNotices(): void
+    {
+        if (!is_admin()) {
+            return;
+        }
+
+        add_action('admin_notices', static function () {
+            if (!current_user_can('manage_woocommerce')) {
+                return;
+            }
+
+            // Trigger DEFINER error (1449)
+            if (get_option('twint_trigger_definer_error', false)) {
+                echo '<div class="notice notice-error"><p>';
+                echo esc_html__(
+                    'TWINT: A database trigger is causing errors. Please ask your hosting provider to run:',
+                    'twint-woocommerce-extension'
+                );
+                echo ' <code>DROP TRIGGER IF EXISTS before_update_twint_pairing</code>';
+                echo '</p></div>';
+            }
+
+            // Migration failed
+            if (get_option('twint_migration_failed', false)) {
+                echo '<div class="notice notice-warning"><p>';
+                echo esc_html__(
+                    'TWINT: Database migration could not complete. The plugin is running without optimistic locking. Please check that your database user has ALTER TABLE privilege.',
+                    'twint-woocommerce-extension'
+                );
+                echo '</p></div>';
+            }
+
+            // Guard: schema-dependent queries only when columns exist
+            /** @var PairingRepository $repo */
+            $repo = Plugin::di('pairing.repository', false);
+            if ($repo->isSchemaReady()) {
+                global $wpdb;
+                $table = PairingRepository::tableName();
+
+                // Orders needing review (TWINT captured but unexpected status)
+                $reviewCount = get_transient('twint_needs_review_count');
+                if ($reviewCount === false) {
+                    $reviewCount = (int) $wpdb->get_var(
+                        "SELECT COUNT(*) FROM {$table}
+                         WHERE order_settled = " . TwintConstant::ORDER_SETTLED_NEEDS_REVIEW . '
+                           AND created_at > DATE_SUB(NOW(), INTERVAL 7 DAY)'
+                    );
+                    set_transient('twint_needs_review_count', $reviewCount, HOUR_IN_SECONDS);
+                }
+                if ($reviewCount > 0) {
+                    echo '<div class="notice notice-error"><p>';
+                    echo esc_html(sprintf(
+                        /* translators: %d = number of orders needing review */
+                        _n(
+                            'TWINT: %d payment in the last 7 days was captured by TWINT but the WooCommerce order is in an unexpected status. Please review.',
+                            'TWINT: %d payments in the last 7 days were captured by TWINT but the WooCommerce order is in an unexpected status. Please review.',
+                            $reviewCount,
+                            'twint-woocommerce-extension'
+                        ),
+                        $reviewCount
+                    ));
+                    echo '</p></div>';
+                }
+
+                // Reopened cancelled orders (TWINT captured, order was cancelled without refund)
+                $reopenedCount = get_transient('twint_reopened_count');
+                if ($reopenedCount === false) {
+                    $reopenedCount = (int) $wpdb->get_var(
+                        "SELECT COUNT(*) FROM {$table}
+                         WHERE order_settled = " . TwintConstant::ORDER_SETTLED_REOPENED . '
+                           AND created_at > DATE_SUB(NOW(), INTERVAL 7 DAY)'
+                    );
+                    set_transient('twint_reopened_count', $reopenedCount, HOUR_IN_SECONDS);
+                }
+                if ($reopenedCount > 0) {
+                    echo '<div class="notice notice-warning"><p>';
+                    echo esc_html(sprintf(
+                        /* translators: %d = number of reopened orders */
+                        _n(
+                            'TWINT: %d cancelled order was reopened in the last 7 days because TWINT captured the payment. Please check stock and fulfillment.',
+                            'TWINT: %d cancelled orders were reopened in the last 7 days because TWINT captured the payment. Please check stock and fulfillment.',
+                            $reopenedCount,
+                            'twint-woocommerce-extension'
+                        ),
+                        $reopenedCount
+                    ));
+                    echo '</p></div>';
+                }
+            }
+        });
     }
 }

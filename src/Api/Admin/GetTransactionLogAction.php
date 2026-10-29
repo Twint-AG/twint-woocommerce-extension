@@ -82,7 +82,7 @@ class GetTransactionLogAction extends BaseAction
                 </div>
             </div>
         </div>
-        <?php foreach ($log->getSoapRequest(true) as $index => $request): ?>
+        <?php foreach ($log->getSoapRequest(true) as $index => $request) { ?>
         <div class="components-surface components-card woocommerce-store-alerts is-alert-update"
              style="margin: 20px 0;">
             <div class="">
@@ -104,7 +104,7 @@ class GetTransactionLogAction extends BaseAction
                 </div>
             </div>
         </div>
-    <?php endforeach;
+    <?php }
         $result = ob_get_contents();
         ob_end_clean();
 

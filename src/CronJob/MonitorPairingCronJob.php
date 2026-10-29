@@ -57,6 +57,8 @@ class MonitorPairingCronJob
      */
     public function run(): void
     {
+        update_option('twint_cron_last_run', time(), false);
+
         $this->logger->info('TWINT MonitorPairingCronJob::run: running cancel expired orders');
 
         $this->getMonitor()->monitors();

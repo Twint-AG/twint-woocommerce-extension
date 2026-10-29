@@ -56,6 +56,10 @@ class Pairing extends Entity
 
     protected int $version;
 
+    protected int $lockVersion = 0;
+
+    protected bool $orderSettled = false;
+
     protected string $createdAt;
 
     protected ?string $updatedAt;
@@ -63,6 +67,11 @@ class Pairing extends Entity
     public function getVersion(): int
     {
         return $this->version;
+    }
+
+    public function getLockVersion(): int
+    {
+        return $this->lockVersion;
     }
 
     public function setVersion(int $version): self
@@ -424,6 +433,14 @@ class Pairing extends Entity
             'version' => [
                 'version',
                 static fn ($value) => (int) $value,
+            ],
+            'lock_version' => [
+                'lockVersion',
+                static fn ($value) => (int) $value,
+            ],
+            'order_settled' => [
+                'orderSettled',
+                static fn ($value) => (bool) $value,
             ],
             'is_express' => [
                 'isExpress',
