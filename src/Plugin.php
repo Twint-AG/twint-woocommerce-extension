@@ -299,14 +299,11 @@ class Plugin
 
         try {
             global $wpdb;
-            $wpdb->query('DROP TRIGGER IF EXISTS `before_update_twint_pairing`');
-            $remaining = $wpdb->get_var($wpdb->prepare(
-                'SELECT COUNT(*) FROM information_schema.TRIGGERS
-                 WHERE TRIGGER_SCHEMA = DATABASE() AND TRIGGER_NAME = %s',
-                'before_update_twint_pairing'
-            ));
-            // null = the check itself failed; keep the flag rather than guess.
-            if ($remaining !== null && (int) $remaining === 0) {
+            // Judge by the DROP result, not by information_schema.TRIGGERS: a DB user without
+            // the TRIGGER privilege cannot see the trigger there, so a lookup would report it
+            // gone while it still breaks every UPDATE. DROP ... IF EXISTS returns false only
+            // when it was refused.
+            if ($wpdb->query('DROP TRIGGER IF EXISTS `before_update_twint_pairing`') !== false) {
                 delete_option('twint_trigger_definer_error');
 
                 return;
