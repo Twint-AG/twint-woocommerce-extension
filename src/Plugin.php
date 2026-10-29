@@ -131,6 +131,7 @@ class Plugin
             return;
         }
 
+        self::maybeDropBrokenTrigger();
         self::maybeUpgradeSchema();
 
         self::registerAdminNotices();
@@ -274,6 +275,47 @@ class Plugin
 
         // from WP 6.5 only need this
         load_plugin_textdomain('twint-woocommerce-extension', false, plugin_dir_path(self::pluginFile()) . 'languages');
+    }
+
+    /**
+     * Drop the legacy trigger once PairingRepository::update() has hit MySQL error 1449
+     * (trigger DEFINER user no longer exists). Every UPDATE on the pairing table fails
+     * while that trigger exists, so this must not depend on the schema migration:
+     * maybeUpgradeSchema() returns early once twint_db_version is current, which happens
+     * when the trigger survived an earlier migration (DROP not permitted, rollback to 1.7.x
+     * and upgrade again, DB restored from an old dump) and its DEFINER was deleted later.
+     *
+     * Costs one autoloaded get_option() per request when the flag is not set. A failed DROP
+     * (e.g. no TRIGGER privilege) is retried at most once per hour; the admin notice keeps
+     * telling the merchant to ask the host to drop it.
+     */
+    private static function maybeDropBrokenTrigger(): void
+    {
+        if (!get_option('twint_trigger_definer_error', false)
+            || get_transient('twint_trigger_drop_retry_after')
+        ) {
+            return;
+        }
+
+        try {
+            global $wpdb;
+            $wpdb->query('DROP TRIGGER IF EXISTS `before_update_twint_pairing`');
+            $remaining = $wpdb->get_var($wpdb->prepare(
+                'SELECT COUNT(*) FROM information_schema.TRIGGERS
+                 WHERE TRIGGER_SCHEMA = DATABASE() AND TRIGGER_NAME = %s',
+                'before_update_twint_pairing'
+            ));
+            // null = the check itself failed; keep the flag rather than guess.
+            if ($remaining !== null && (int) $remaining === 0) {
+                delete_option('twint_trigger_definer_error');
+
+                return;
+            }
+        } catch (\Throwable $e) {
+            error_log('TWINT trigger cleanup error: ' . $e->getMessage());
+        }
+
+        set_transient('twint_trigger_drop_retry_after', '1', HOUR_IN_SECONDS);
     }
 
     private static function maybeUpgradeSchema(): void
