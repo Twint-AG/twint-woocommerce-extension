@@ -7,7 +7,7 @@ Requires PHP: 8.1
 Stable tag: 0.0.1-dev
 License: MIT
 License URI: https://opensource.org/licenses/MIT
-Text Domain: twint-payment-extension
+Text Domain: twint-woocommerce-extension
 Domain Path: /languages
 
 A seamless payment integration for WooCommerce, enabling TWINT Express Checkout for fast, secure transactions.
