@@ -28,8 +28,8 @@ Features include:
 
 * SELECT, INSERT, UPDATE, DELETE: always.
 * CREATE: on first installation, to create the plugin tables.
-* ALTER: when upgrading, to add the `lock_version` and `order_settled` columns. Without it the plugin keeps working without locking and automatic reconciliation, shows an admin notice and retries every hour.
-* TRIGGER: not required. It is only used to remove the trigger created by version 1.7.12 and earlier.
+* ALTER: when upgrading, to add the `lock_version` and `order_settled` columns. Without it the plugin keeps working and re-checks unfinished transactions, but without optimistic locking and without automatically completing orders whose payment was captured but not recorded; it shows an admin notice and retries every hour.
+* TRIGGER: not required. It is only used to remove the trigger created by version 1.7.12 and earlier; if it is missing, that trigger stays and is harmless unless its MySQL user is deleted (see the admin notices below).
 
 = Do multilingual shops (WPML, Polylang) need any configuration? =
 
@@ -83,11 +83,11 @@ Automatic reconciliation only covers transactions created after the upgrade. Che
 
 **Database and payment reliability**
 
-* The MySQL TRIGGER privilege is no longer required. The `before_update_twint_pairing` trigger is no longer created; on upgrade it is dropped once the schema migration has completed (requires the ALTER and TRIGGER privileges).
-* Concurrent updates now use optimistic locking on two new columns, `lock_version` and `order_settled`, added automatically on upgrade (requires the ALTER privilege). The migration runs on the first request after the plugin is updated, without reactivation, and is retried every hour if it fails.
+* The MySQL TRIGGER privilege is no longer required. The `before_update_twint_pairing` trigger is no longer created. On upgrade, an existing trigger is removed after the schema migration has completed, if the database user is allowed to drop triggers. Otherwise it stays in place; it is compatible with the new locking and needs no action.
+* Concurrent updates now use optimistic locking on a new `lock_version` column; a second new column, `order_settled`, records which payments have been reconciled with their order. Both are added automatically on upgrade (requires the ALTER privilege). The migration runs on the first request after the plugin is updated, without reactivation, and is retried every hour if it fails. Until it has completed, an admin notice is shown, optimistic locking is off and orders whose payment was captured but not recorded are not completed automatically; re-checking unfinished transactions with TWINT keeps working.
 * Payment states only move forward: a pairing that has reached a final state can no longer be overwritten.
 * Marking a WooCommerce order as paid is idempotent and locked per order, so the browser, the CLI poller and WP-Cron can no longer process the same payment twice.
-* Automatic reconciliation: WP-Cron re-checks unfinished TWINT transactions (created after the upgrade, last 48 hours) and completes orders that TWINT has confirmed but that were not marked as paid (last 24 hours, up to 50 per run).
+* Automatic reconciliation: WP-Cron re-checks unfinished TWINT transactions (created after the upgrade, last 48 hours, up to 50 per run) and completes orders that TWINT has confirmed but that were not marked as paid (last 24 hours, up to 50 per run).
 * If TWINT captured a payment but the order is in an unexpected status (refunded, trashed, custom), the order is not changed automatically: an order note is added and an admin notice asks for review.
 * A cancelled order (without refund) whose payment TWINT captured is reopened and marked as paid, with an admin notice to check stock and fulfilment.
 * If the legacy trigger is broken (its MySQL DEFINER user was deleted, error 1449), the plugin drops it automatically on the next request. If the database user may not drop triggers, the plugin retries hourly and an admin notice shows the SQL command to send to the hosting provider.
