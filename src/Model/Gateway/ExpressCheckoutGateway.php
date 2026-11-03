@@ -207,7 +207,7 @@ class ExpressCheckoutGateway extends AbstractGateway
 
     public function generate_button_express_checkout_html(): string
     {
-        //phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+        // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
         return '
         <tr valign="top">
             <th scope="row" class="titledesc">
@@ -265,7 +265,6 @@ class ExpressCheckoutGateway extends AbstractGateway
         $service = Plugin::di('fast_checkout_checkin.service', false);
 
         $order = wc_get_order($order_id);
-        $order->set_status('pending-payment');
 
         return [$service->checkin($order)];
     }

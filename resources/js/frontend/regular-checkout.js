@@ -5,6 +5,9 @@ import { decodeEntities } from '@wordpress/html-entities'
 import { useEffect } from '@wordpress/element'
 import Modal from './express/modal/modal'
 import ModalContent from './express/modal/content'
+import registerTwintNonceMiddleware from './twint-nonce-middleware'
+
+registerTwintNonceMiddleware()
 
 const settings = getSetting('twint_regular_data', {})
 

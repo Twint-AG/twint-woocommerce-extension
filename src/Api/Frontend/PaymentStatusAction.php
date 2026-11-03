@@ -42,11 +42,9 @@ class PaymentStatusAction extends BaseAction
             register_rest_route('twint/v1', '/payment/status', [
                 'methods' => 'POST',
                 'callback' => [$this, 'handle'],
-                'permission_callback' => '__return_true',
+                'permission_callback' => [$this, 'verifyTwintNonce'],
             ]);
         });
-
-        $this->allowPublicAccessIfRouteMatches('/twint/v1/payment/status');
     }
 
     /**
@@ -72,6 +70,7 @@ class PaymentStatusAction extends BaseAction
         }
 
         try {
+            set_transient('twint_http_poll_' . $pairing->getId(), 1, 15);
             $status = $this->getService()->monitor($pairing);
         } catch (Throwable $e) {
             $this->logger->error(

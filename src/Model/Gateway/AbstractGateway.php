@@ -84,7 +84,7 @@ abstract class AbstractGateway extends WC_Payment_Gateway
     public function setCompleteOrderStatus($status, $orderId, $order): string
     {
         if ($order && static::UNIQUE_PAYMENT_ID === $order->get_payment_method() && empty($order->get_transaction_id())) {
-            $status = 'pending-payment';
+            return 'pending-payment';
         }
 
         return $status;

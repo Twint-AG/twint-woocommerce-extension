@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Woo;
 
+use Twint\Woo\Api\BaseAction;
 use Twint\Woo\Constant\TwintConstant;
 use Twint\Woo\Container\Lazy;
 use Twint\Woo\Container\LazyLoadTrait;
@@ -61,11 +62,13 @@ class TwintIntegration
 
     private function registerApiActions(): void
     {
+        BaseAction::registerNonceResponseFilter();
+
         // Admin
         Plugin::di('get_transaction_log.action', false);
         Plugin::di('store_configuration.action', false);
 
-        //Frontend
+        // Frontend
         Plugin::di('payment_status.action', false);
         Plugin::di('express_checkout.action', false);
         Plugin::di('payment_cancel.action', false);
@@ -123,7 +126,7 @@ class TwintIntegration
         }
 
         if (!$template) {
-            $template = $_template;
+            return $_template;
         }
 
         return $template;

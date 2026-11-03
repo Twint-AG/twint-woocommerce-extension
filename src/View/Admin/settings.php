@@ -7,14 +7,14 @@
 
         <nav class="nav-tab-wrapper woo-nav-tab-wrapper">
             <?php
-            //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The HTML is safe and intended for raw output.
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The HTML is safe and intended for raw output.
             echo $this->getTabHtml($tabs)
 ?>
         </nav>
 
         <div class="tab-content">
             <?php
-//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The HTML is safe and intended for raw output.
+// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The HTML is safe and intended for raw output.
 echo $this->getTabContent()
 ?>
         </div>

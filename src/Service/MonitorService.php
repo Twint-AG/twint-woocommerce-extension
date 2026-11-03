@@ -27,6 +27,7 @@ use Twint\Woo\Exception\DatabaseException;
 use Twint\Woo\Exception\PaymentException;
 use Twint\Woo\Factory\ClientBuilder;
 use Twint\Woo\Model\ApiResponse;
+use Twint\Woo\Model\Gateway\RegularCheckoutGateway;
 use Twint\Woo\Model\Monitor\MonitoringStatus;
 use Twint\Woo\Model\Pairing;
 use Twint\Woo\Model\TransactionLog;
@@ -81,6 +82,11 @@ class MonitorService
 
         /** @var Pairing $pairing */
         foreach ($pairings as $pairing) {
+            // Skip pairings actively being polled by browser (transient set by PaymentStatusAction)
+            if (get_transient('twint_http_poll_' . $pairing->getId())) {
+                continue;
+            }
+
             try {
                 $this->monitor($pairing);
             } catch (Throwable $e) {
@@ -93,6 +99,14 @@ class MonitorService
                     ]
                 );
             }
+        }
+
+        // Reconciliation sweep: settle orders whose process died between
+        // pairing terminal status and payment_complete().
+        // Covers both Regular (SUCCESS) and Express (PAID) orphans.
+        // Requires v2 schema (order_settled column) — no sweep in legacy mode (Y3).
+        if ($this->getRepository()->isSchemaReady()) {
+            $this->settleOrphanedPairings();
         }
     }
 
@@ -140,6 +154,10 @@ class MonitorService
 
                     $cloned->setStatus(Pairing::EXPRESS_STATUS_PAID);
                     $this->getRepository()->markAsPaid($pairing->getId());
+                    $order = wc_get_order($pairing->getWcOrderId());
+                    if ($order && $order->is_paid()) {
+                        $this->getRepository()->markOrderSettled($pairing->getId());
+                    }
                 } catch (PaymentException $e) {
                     // Real decline (e.g. insufficient balance).
                     $this->logger->error('TWINT MonitorService::monitor: ' . $e->getMessage(), [
@@ -562,28 +580,13 @@ class MonitorService
             return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
         }
 
-        /**
-         * Only process as paid when:
-         * - Did not process before (captured)
-         * - First time get status success
-         */
-        if (!$orgPairing->isCaptured() && $tOrder->isSuccessful() && !$orgPairing->isSuccessful()) {
+        if ($tOrder->isSuccessful() && !$pairing->isCaptured()) {
             $this->logger->info("TWINT MonitorService::recursiveMonitor: {$pairing->getId()} paid", [
                 'source' => 'twint-woocommerce-extension',
                 'wc_order_id' => $pairing->getWcOrderId(),
             ]);
 
-            $order = wc_get_order($pairing->getWcOrderId());
-
-            // Mark the order as paid (completed)
-            $order->set_transaction_id($orgPairing->getId());
-            $order->payment_complete($orgPairing->getId());
-
-            // Update order status after paid by TWINT application
-            // AND Optionally, add an order note
-            $order->add_order_note('TWINT Checkout: The order was marked as paid programmatically.');
-
-            $order->save();
+            $this->settleOrder($pairing);
 
             return MonitoringStatus::fromValues(true, MonitoringStatus::STATUS_PAID);
         }
@@ -604,6 +607,239 @@ class MonitorService
 
 
         return MonitoringStatus::fromValues(false, MonitoringStatus::STATUS_IN_PROGRESS);
+    }
+
+    /**
+     * Idempotent order settlement. Safe to call multiple times.
+     *
+     * @param Pairing $pairing The pairing that triggered settlement.
+     * @param string|null $transactionId Override transaction ID. For Express
+     *                                   reconciliation, pass the sub-order's ID
+     *                                   (not the EC pairing's UUID).
+     */
+    private function settleOrder(Pairing $pairing, ?string $transactionId = null): bool
+    {
+        $txId = $transactionId ?? $pairing->getId();
+        $lock = PairingRepository::scopedLockName('stl_' . $pairing->getWcOrderId());
+        if (!$this->getRepository()->acquireLock($lock)) {
+            return false;
+        }
+
+        try {
+            // Re-read order inside lock for current state
+            $order = wc_get_order($pairing->getWcOrderId());
+            if (!$order || $order->is_paid()) {
+                // Already settled — mark so sweep skips next time
+                $this->getRepository()->markOrderSettled($pairing->getId());
+                return true;
+            }
+
+            // Settle whitelist: aligned with WooCommerce's
+            // woocommerce_valid_order_statuses_for_payment_complete default
+            // (on-hold, pending, failed, cancelled) plus the plugin's custom status,
+            // plus 'checkout-draft' (Express orders stay in draft until capture).
+            // Draft is not valid for payment_complete(), so it is moved to
+            // 'pending' below before completing.
+            $raw = RegularCheckoutGateway::getOrderStatusAfterFirstTimeCreatedOrder();
+            $customStatus = str_starts_with($raw, 'wc-') ? substr($raw, 3) : $raw;
+            $settleable = array_unique([
+                'checkout-draft',
+                'pending',
+                $customStatus,
+                'failed',
+                'on-hold',
+                'cancelled',
+            ]);
+
+            if (!$order->has_status($settleable)) {
+                // Status outside whitelist (e.g. refunded, trash, custom).
+                $this->getRepository()->markOrderSettled(
+                    $pairing->getId(),
+                    TwintConstant::ORDER_SETTLED_NEEDS_REVIEW
+                );
+                $order->add_order_note(sprintf(
+                    'TWINT: payment was captured but order is in status "%s". Manual review required.',
+                    $order->get_status()
+                ));
+                $this->logger->error(
+                    "TWINT settleOrder: order {$pairing->getWcOrderId()} in status "
+                    . "'{$order->get_status()}' — payment captured, needs manual review",
+                    [
+                        'source' => 'twint-woocommerce-extension',
+                    ]
+                );
+                delete_transient('twint_needs_review_count');
+                return false;
+            }
+
+            // Cancelled with refund → do NOT auto-complete.
+            if ($order->has_status('cancelled') && $order->get_total_refunded() > 0) {
+                $this->getRepository()->markOrderSettled(
+                    $pairing->getId(),
+                    TwintConstant::ORDER_SETTLED_NEEDS_REVIEW
+                );
+                $order->add_order_note(
+                    'TWINT: payment was captured but order was cancelled and has a refund. Manual review required.'
+                );
+                $this->logger->error(
+                    "TWINT settleOrder: order {$pairing->getWcOrderId()} cancelled with refund — needs manual review",
+                    [
+                        'source' => 'twint-woocommerce-extension',
+                    ]
+                );
+                delete_transient('twint_needs_review_count');
+                return false;
+            }
+
+            // Track cancelled orders being reopened
+            $wasReopened = $order->has_status('cancelled');
+
+            // Transition to 'pending' if current status is not in the list
+            // that payment_complete() accepts. Read via the same filter so it
+            // stays in sync with WooCommerce and third-party plugins.
+            $originalStatus = $order->get_status();
+            $validForComplete = apply_filters(
+                'woocommerce_valid_order_statuses_for_payment_complete',
+                ['on-hold', 'pending', 'failed', 'cancelled'],
+                $order
+            );
+            if (!$order->has_status($validForComplete)) {
+                $order->set_status('pending');
+                $order->save();
+            }
+
+            $order->set_transaction_id($txId);
+            $order->payment_complete($txId);
+
+            // Defensive: verify the order actually transitioned to paid.
+            $order = wc_get_order($pairing->getWcOrderId());
+            if (!$order) {
+                return false;
+            }
+            if (!$order->is_paid()) {
+                // Mark NEEDS_REVIEW to stop sweep retrying every minute (N1 fix).
+                $this->getRepository()->markOrderSettled(
+                    $pairing->getId(),
+                    TwintConstant::ORDER_SETTLED_NEEDS_REVIEW
+                );
+                $order->add_order_note(sprintf(
+                    'TWINT: payment_complete() failed. Order was "%s"%s. Manual review required.',
+                    $originalStatus,
+                    $originalStatus !== $order->get_status() ? ' (transitioned to pending)' : ''
+                ));
+                $this->logger->error(
+                    "TWINT settleOrder: order {$pairing->getWcOrderId()} still unpaid "
+                    . "after payment_complete(), was '{$originalStatus}'. Marked NEEDS_REVIEW.",
+                    [
+                        'source' => 'twint-woocommerce-extension',
+                    ]
+                );
+                delete_transient('twint_needs_review_count');
+                return false;
+            }
+
+            $order->add_order_note('TWINT Checkout: The order was marked as paid programmatically.');
+
+            if ($wasReopened) {
+                $this->getRepository()->markOrderSettled($pairing->getId(), TwintConstant::ORDER_SETTLED_REOPENED);
+                $order->add_order_note(
+                    'TWINT: this order was cancelled but has been reopened because TWINT captured the payment. Please check stock and fulfillment.'
+                );
+                $this->logger->error(
+                    "TWINT settleOrder: order {$pairing->getWcOrderId()} reopened from cancelled — check stock",
+                    [
+                        'source' => 'twint-woocommerce-extension',
+                    ]
+                );
+                delete_transient('twint_reopened_count');
+            } else {
+                $this->getRepository()->markOrderSettled($pairing->getId());
+            }
+
+            return true;
+        } finally {
+            $this->getRepository()->releaseLock($lock);
+        }
+    }
+
+    private function settleOrphanedPairings(): void
+    {
+        // Regular checkout: SUCCESS pairings whose order may not be paid
+        $regularPairings = $this->getRepository()->loadUnsettledRegularPairings();
+        foreach ($regularPairings as $pairing) {
+            try {
+                $settled = $this->settleOrder($pairing);
+                if ($settled) {
+                    $this->logger->info(
+                        "TWINT reconciliation: settled order {$pairing->getWcOrderId()} "
+                        . "for regular pairing {$pairing->getId()}",
+                        [
+                            'source' => 'twint-woocommerce-extension',
+                        ]
+                    );
+                }
+            } catch (Throwable $e) {
+                $this->logger->error(
+                    "TWINT reconciliation: regular {$pairing->getId()} " . $e->getMessage(),
+                    [
+                        'source' => 'twint-woocommerce-extension',
+                    ]
+                );
+            }
+        }
+
+        // Express checkout: PAID pairings (via timeout backstop) whose order may not be paid
+        $expressPairings = $this->getRepository()->loadUnsettledExpressPairings();
+        foreach ($expressPairings as $pairing) {
+            try {
+                $order = wc_get_order($pairing->getWcOrderId());
+                if ($order && $order->is_paid()) {
+                    $this->getRepository()->markOrderSettled($pairing->getId());
+                    continue;
+                }
+
+                // Find the sub-order's transaction ID for Express settlement
+                $subOrderId = null;
+                foreach ($this->getRepository()->findByWooOrderId($pairing->getWcOrderId()) as $sub) {
+                    if (!$sub->getIsExpress() && $sub->isSuccessful()) {
+                        $subOrderId = $sub->getId();
+                        break;
+                    }
+                }
+
+                if ($subOrderId === null) {
+                    $this->getRepository()->markOrderSettled(
+                        $pairing->getId(),
+                        TwintConstant::ORDER_SETTLED_SKIPPED
+                    );
+                    $this->logger->info(
+                        "TWINT reconciliation: express {$pairing->getId()} has no successful sub-order, skipping",
+                        [
+                            'source' => 'twint-woocommerce-extension',
+                        ]
+                    );
+                    continue;
+                }
+
+                $settled = $this->settleOrder($pairing, $subOrderId);
+                if ($settled) {
+                    $this->logger->info(
+                        "TWINT reconciliation: settled order {$pairing->getWcOrderId()} "
+                        . "for express pairing {$pairing->getId()}",
+                        [
+                            'source' => 'twint-woocommerce-extension',
+                        ]
+                    );
+                }
+            } catch (Throwable $e) {
+                $this->logger->error(
+                    "TWINT reconciliation: express {$pairing->getId()} " . $e->getMessage(),
+                    [
+                        'source' => 'twint-woocommerce-extension',
+                    ]
+                );
+            }
+        }
     }
 
     /**
