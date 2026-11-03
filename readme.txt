@@ -74,7 +74,7 @@ Automatic reconciliation only covers transactions created after the upgrade. Che
 
 == Changelog ==
 
-= 1.7.13 =
+= 1.8.0 =
 
 **Breaking changes for custom integrations**
 
@@ -115,5 +115,5 @@ Automatic reconciliation only covers transactions created after the upgrade. Che
 
 == Upgrade Notice ==
 
-= 1.7.13 =
+= 1.8.0 =
 Requires the ALTER database privilege for the automatic migration; TRIGGER is no longer required. Custom code calling the twint/v1 REST routes must send the X-TWINT-Nonce header. Update outside peak hours.
