@@ -309,7 +309,7 @@ msgstr "Neues Zertifikat hochladen"
 
 #: src/View/Admin/credentials.php:73
 msgid "Close"
-msgstr "Schließen"
+msgstr "Schliessen"
 
 #: src/View/Admin/credentials.php:104
 msgid "Invalid Store UUID. Store UUID needs to be a UUIDv4"

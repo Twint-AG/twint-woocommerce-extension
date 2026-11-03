@@ -287,7 +287,7 @@ msgid ""
 msgstr ""
 "PHP CLI (Command Line Interface) fehlt oder ist falsch konfiguriert, und der "
 "WP-Cron-Zeitplan ist nicht aktiv. Ohne beides kann der Zahlungsstatus nach "
-"dem Schließen des Browsers nicht bestätigt werden. Bitte lesen Sie die "
+"dem Schliessen des Browsers nicht bestätigt werden. Bitte lesen Sie die "
 "Anleitung zur Fehlerbehebung."
 
 #: src/View/Admin/credentials.php:15
@@ -309,7 +309,7 @@ msgstr "Neues Zertifikat hochladen"
 
 #: src/View/Admin/credentials.php:73
 msgid "Close"
-msgstr "Schließen"
+msgstr "Schliessen"
 
 #: src/View/Admin/credentials.php:104
 msgid "Invalid Store UUID. Store UUID needs to be a UUIDv4"
