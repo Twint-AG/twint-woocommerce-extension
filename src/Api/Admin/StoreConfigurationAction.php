@@ -67,17 +67,11 @@ class StoreConfigurationAction extends BaseAction
         // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- crypto secret; sanitize_text_field corrupts it
         $postedPassword = wp_unslash($_POST[TwintConstant::CERTIFICATE_PASSWORD] ?? '');
         if (!is_string($postedPassword)) {
-            $this->sendErrorResponse(
-                __('Invalid password', 'twint-woocommerce-extension'),
-                'upload_cert'
-            );
+            $this->sendErrorResponse(__('Invalid password', 'twint-woocommerce-extension'), 'upload_cert');
             return;
         }
 
-        $password = $this->getPassword(
-            $postedPassword,
-            !empty($storedCertificate) && $file === null
-        );
+        $password = $this->getPassword($postedPassword, !empty($storedCertificate) && $file === null);
         $testMode = isset($_POST[TwintConstant::TEST_MODE]) && $_POST[TwintConstant::TEST_MODE] === 'on' ? TwintConstant::YES : TwintConstant::NO;
 
         try {
