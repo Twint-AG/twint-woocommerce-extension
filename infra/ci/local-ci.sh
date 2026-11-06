@@ -38,6 +38,11 @@ GITLAB_TOKEN=""
 
 mkdir -p "$LOGS" "$ART"
 
+# Refresh the floating CI image so a stale local copy (unpatched Node) is not reused.
+pull_image() {
+  docker pull -q "$IMAGE" >/dev/null || echo "  WARN  could not pull $IMAGE, using local copy"
+}
+
 # Copy the repo into /work excluding heavy dirs — keeps each job isolated.
 COPY_SRC='mkdir -p /work && tar cf - -C /src --exclude=./.git --exclude=./vendor --exclude=./node_modules --exclude=./dist --exclude=./build . | tar xf - -C /work && cd /work'
 # Same, but KEEP .git — bin/archive.sh runs `git rev-parse` for the version string.
@@ -85,6 +90,7 @@ run_one_test() {
 }
 
 cmd_tests() {
+  pull_image
   local versions=("$@")
   [ ${#versions[@]} -eq 0 ] && versions=("${ALL_VERSIONS[@]}")
   echo "== tests: ${versions[*]} (logs in infra/ci/logs/) =="
@@ -104,6 +110,7 @@ cmd_tests() {
 }
 
 cmd_archive() {
+  pull_image
   echo "== build-archive (PHP 8.5) -> infra/ci/artifacts/ =="
   if docker run --rm \
       -e GITLAB_TOKEN="$GITLAB_TOKEN" \

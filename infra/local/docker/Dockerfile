@@ -9,7 +9,7 @@ RUN set -eux; \
         git unzip less default-mysql-client ca-certificates curl \
         libxslt-dev libxml2-dev libicu-dev; \
     docker-php-ext-install -j"$(nproc)" xsl soap intl; \
-    curl -fsSL https://deb.nodesource.com/setup_20.x | bash -; \
+    curl -fsSL https://deb.nodesource.com/setup_24.x | bash -; \
     apt-get install -y --no-install-recommends nodejs; \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer; \
     curl -fsSL https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -o /usr/local/bin/wp; \

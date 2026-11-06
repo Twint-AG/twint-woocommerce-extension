@@ -62,7 +62,7 @@ BUILD_DIR="$DEVBOX_DIR/build"
 mkdir -p "$BUILD_DIR"
 rm -f "$BUILD_DIR"/*.zip 2>/dev/null || true   # only ZIPs live here; host-owned
 echo "==> building build image"
-docker build -q -f "$DEVBOX_DIR/build.Dockerfile" -t woo-devbox-build "$DEVBOX_DIR"
+docker build --pull -q -f "$DEVBOX_DIR/build.Dockerfile" -t woo-devbox-build "$DEVBOX_DIR"
 
 # 2) Build the plugin ZIP. Everything heavy — a fresh clone, vendor, node_modules,
 #    and the 5x php-scoper pass — happens INSIDE the container's own filesystem
