@@ -64,16 +64,30 @@ class StoreConfigurationAction extends BaseAction
         $file = $_FILES[TwintConstant::CERTIFICATE] ?? null;
         // phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
-        $password = $this->getPassword(
-            sanitize_text_field(wp_unslash($_POST[TwintConstant::CERTIFICATE_PASSWORD] ?? '')),
-            !empty($storedCertificate) && $file === null
-        );
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- crypto secret; sanitize_text_field corrupts it
+        $postedPassword = wp_unslash($_POST[TwintConstant::CERTIFICATE_PASSWORD] ?? '');
+        if (!is_string($postedPassword)) {
+            $this->sendErrorResponse(__('Invalid password', 'twint-woocommerce-extension'), 'upload_cert');
+            return;
+        }
+
+        $password = $this->getPassword($postedPassword, !empty($storedCertificate) && $file === null);
         $testMode = isset($_POST[TwintConstant::TEST_MODE]) && $_POST[TwintConstant::TEST_MODE] === 'on' ? TwintConstant::YES : TwintConstant::NO;
 
         try {
             if (!in_array($password, [null, '', '0'], true)) {
                 $certificateContent = $this->getCertificateContent($file);
                 $certificate = $this->getCertificateHandler()->read($certificateContent, $password);
+
+                // Trim fallback: sanitize_text_field() used to trim whitespace
+                // implicitly. Retry when the passphrase has surrounding whitespace
+                // so merchants who paste with accidental spaces are not broken.
+                if (!$certificate instanceof Pkcs12Certificate && trim($password) !== $password) {
+                    $retry = $this->getCertificateHandler()->read($certificateContent, trim($password));
+                    if ($retry instanceof Pkcs12Certificate) {
+                        $certificate = $retry;
+                    }
+                }
 
                 if ($certificate instanceof Pkcs12Certificate) {
                     $certificateResult = [
